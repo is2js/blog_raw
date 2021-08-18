@@ -4,13 +4,15 @@ title: Education
 permalink: /education/
 ---
 
-### 데이터엔지니어로서의 역량 강화
+### 데이터엔지니어로서의 역량
 
 #### Data Engineer란?
 
 <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210814231919112.png" alt="image-20210814231919112" style="zoom:50%;" />
 <p>
+
 출저 : Youtube-indiflex
+<br>
 
 #### 프로젝트
 
