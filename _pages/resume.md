@@ -4,38 +4,35 @@ title: Resume
 permalink: /resume/
 ---
 
-# 이력서
-
 ###### 기본정보
 
-| Photo                                                                | Future                                                                                                                                        |
-| -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| ![](https://raw.github.com/rhiokim/resume/master/photos/rhiokim.jpg) | ![](https://raw.github.com/rhiokim/resume/master/photos/picasso.jpg) + ![](https://raw.github.com/rhiokim/resume/master/photos/beethoven.jpg) |
-| Name                                                                 | 홍길동                                                                                                                                        |
-| - Chinese                                                            | 金良洹                                                                                                                                        |
-| - English                                                            | Rhio Kim                                                                                                                                      |
-| Age                                                                  | 20                                                                                                                                            |
-| Birth Day                                                            | YYYY.MM.DD                                                                                                                                    |
-| Email                                                                | my.email@gmail.com                                                                                                                            |
-| Mobile                                                               | xxx-xxxx-xxxx                                                                                                                                 |
+| Photo                                                                | Future                                                                                                                                      |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![](https://raw.github.com/rhiokim/resume/master/photos/rhiokim.jpg) | ![](https://raw.github.com/rhiokim/resume/master/photos/picasso.jpg) ![](https://raw.github.com/rhiokim/resume/master/photos/beethoven.jpg) |
+| Name                                                                 | 조재성                                                                                                                                      |
+| - Chinese                                                            | 趙在聖                                                                                                                                      |
+| - English                                                            | ChoJaeSeong                                                                                                                                 |
+| Age                                                                  | 1987                                                                                                                                        |
+| Birth Day                                                            | 1987.12.18                                                                                                                                  |
+| Email                                                                | tingstyle1@gmail.com                                                                                                                        |
+| Mobile                                                               | xxx-46xx-62xx                                                                                                                               |
 
 ###### 신상정보
 
-| Profile    | Content                                       |
-| ---------- | --------------------------------------------- |
-| Address    | 서울 강남구 역삼동 123-12 아파트 304층 3041호 |
-| Mobile     | xxx-xxxx-xxxx                                 |
-| Married    | 기혼 or 미혼                                  |
-| Family     | 1남 2녀                                       |
-| Blood type | RH+ A                                         |
-| Religion   | 없음                                          |
+| Profile    | Content       |
+| ---------- | ------------- |
+| Address    | 서울시 관악구 |
+| Married    | 미혼          |
+| Family     | 2남 1녀       |
+| Blood type | RH+ O         |
+| Religion   | 없음          |
 
 ###### 학력정보
 
-| Level       | School Name    | Major            | Start   | End     | Status    | 최종학력 |
-| ----------- | -------------- | ---------------- | ------- | ------- | --------- | -------- |
-| University  | xx University  | Computer Science | YYYY.MM | YYYY.MM | graduated | 최종     |
-| High School | xx High School |                  | YYYY.MM | YYYY.MM | graduated |
+| Level       | School Name         | Major           | Start   | End     | Status    | 최종학력 |
+| ----------- | ------------------- | --------------- | ------- | ------- | --------- | -------- |
+| University  | DongShin University | Korean Medicine | YYYY.MM | YYYY.MM | graduated | 최종     |
+| High School | NamHae High School  |                 | YYYY.MM | YYYY.MM | graduated |
 
 ### 직장이력
 
