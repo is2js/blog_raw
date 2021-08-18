@@ -8,11 +8,9 @@ permalink: /education/
 
 #### Data Engineer란?
 
-<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210814231919112.png" alt="image-20210814231919112" style="zoom:50%;" />
-<p>
-
-출저 : Youtube-indiflex
-<br>
+- Data관련 직군
+  ![](https://raw.githubusercontent.com/is3js/screenshots/main/image-20210814231919112.png)
+  출저 : Youtube-indiflex
 
 #### 프로젝트
 
