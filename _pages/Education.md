@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Edu&Competency
-permalink: /resume/
+title: Education
+permalink: /education/
 ---
 
 ![](https://postfiles.pstatic.net/data32/2008/5/20/189/%BF%AA%B7%AE%BA%F9%BB%EA3_james_0723.jpg?type=w2)
