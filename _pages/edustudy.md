@@ -14,12 +14,24 @@ permalink: /edu_study/
 
 #### 프로젝트
 
-1. EDA 및 시각화 패키지
+1. Python & PostgreSQL Coding Project
+
+   - 로또 앱
+   - 영화관리
+
+2. EDA 및 시각화 패키지
+
    - Cho Package : `numpy`, `pandas`, `matplotlib`, `seaborn`
-2. Flask 프로젝트들
+
+3. 나만의 데이터분석 노트(Update)
+
+   1. ㅇㅇ
+   2. ㅇㅇ
+
+4. Flask 프로젝트들
    - 게시판 : `Docker`, `MongoDB`, `Flask`, `JQuery`
-   - 질답 :
-3. FastAPI 프로젝트
+   - 질답앱 :
+5. FastAPI 프로젝트
    - API :
 
 #### Python 심화
@@ -57,6 +69,7 @@ permalink: /edu_study/
 1. Docker 기본 문법[노트, 출저-Indiflex]
 2. Docker & Ncloud[노트, 출저-SSAC]
 3. Linux 기본[노트, 출저-Indiflex]
+4. PowerShell vs BashShell 다빈도 명렁어 정리[노트, 출저-드림코딩]
 
 #### Frontend
 
