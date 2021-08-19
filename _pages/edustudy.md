@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Education
-permalink: /education/
+title: Edu&Study
+permalink: /edu_study/
 ---
 
 ### 데이터엔지니어로서의 역량
