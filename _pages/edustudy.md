@@ -43,17 +43,21 @@ permalink: /edu_study/
 
 #### DataAnalyst
 
+1. DS스쿨 - DL반 수료
+2. DS스쿨 - ML반 수료
+3. FastCampus - 논문작성을 위한 R 통계 수료
+
+#### Data Engineer
+
 1. DS스쿨 - Pandas 데이터분석반 수료
-2. DS스쿨 - DL반 수료
-3. DS스쿨 - ML반 수료
-4. FastCampus - 전처리CAMP 수료
-5. FastCampus - 논문작성을 위한 R 통계 수료
+2. FastCampus - 전처리CAMP 수료
+3. DataCamp - Data Engineering for Everyone 수료
 
 #### SQL
 
 1. DAP시험공부[노트, 출저-강의]
 2. SQL로 데이터 분석[노트, 출저-책]
-3. SQL로 코호트 분석[노트, 출저-class101]
+3. SQL, Bigquery를 이용한 코호트 분석[노트, 출저-class101]
 4. MySQL 심화[노트, 출저-SSAC]
 5. Postgresql for DataEngineer[노트, 출저-itversity]
 6. Postgr&Python course[노트, 출저-udemy]
