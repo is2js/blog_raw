@@ -28,24 +28,37 @@ permalink: /edu_study/
    1. ㅇㅇ
    2. ㅇㅇ
 
-4. Flask 프로젝트들
+4. 데이터 분석 프로젝트
+
+   1. 논문작성을 위한 구글설문지 분석후 ROC커브 작성 [노트]
+   2. DL논문 작성을 위한 image전처리, DL, ROC커브 작성 [노트]
+   3. 관심기업 과제와 유사한 데이터 분석 프로젝트
+   4. inflearn Pipeline
+   5. 멋쟁이사자 X Naver 연계 프로그램 - clovar API이용 프로젝트
+
+5. Flask 프로젝트
    - 게시판 : `Docker`, `MongoDB`, `Flask`, `JQuery`
    - 질답앱 :
-5. FastAPI 프로젝트
+6. FastAPI 프로젝
    - API :
 
-#### Python 심화
+#### Pythonic(Algorithm, PEP 등)
 
-1. 알고리즘 패러다임[노트, 출저-Codeit]
+1. 알고리즘 패러다임 및 level 1~3 문제풀이 [노트, 출저-Codeit]
 2. 알고리즘 자료구조[노트, 출저-프로그래머스]
 3. 알고리즘 연습문제 풀이[노트, 출저-프로그래머스]
-4. 심화 문법 및 활용[노트, 출저-FastCampus]
+4. 중급 문법 및 활용 [노트, 출저-FastCampus]
+5. PEP 등 Pythonic한 Coding[노트, 출저-[프로그래머스](https://programmers.co.kr/learn/courses/4008)]
 
 #### DataAnalyst
 
 1. DS스쿨 - DL반 수료
 2. DS스쿨 - ML반 수료
 3. FastCampus - 논문작성을 위한 R 통계 수료
+4. DL을 활용한 독성약재감별 논문작성
+   - 논문
+   - 논문 작성을 위한 설문지 분석후 ROC커브 작성 [노트]
+   - 관련 프로젝트 in 고려대 [노트, 프로젝트]
 
 #### Data Engineer
 
@@ -66,7 +79,7 @@ permalink: /edu_study/
 #### SQLAlchemy
 
 1. 2.0과 이전버전 비교 및 튜토리얼[노트, 출저-Youtube]
-2. SQLAlchemy 심화 튜토리얼[노트, 출저-다양함]
+2. SQLAlchemy - pandas 비교 튜토리얼[노트]
 
 #### Infra
 
