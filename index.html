@@ -94,9 +94,14 @@ window.onload = wrap_img;
 <!-- gits의 배경과, 블로그에 배정된 글자색이 겹쳐서 색을 바꿈. -->
 <!-- 문제는.. 폰트때문에...네모게이지가 이상하게 출력 + 반영형 적용안됨... -->
 <style type="text/css">
+  /* 글자색 겹친 것 해결 */
   td.blob-code {
     /* font-size: 12px; */
     color: wheat !important;
+  }
+  /* gits만 폭이 넘어가버린 것 수정 */
+  div#gist111350415.git {
+    max-width: 100% !important;
   }
 </style>
 
