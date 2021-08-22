@@ -30,9 +30,10 @@ permalink: /edu_study/
 
 4. 데이터 분석 프로젝트
 
-   1. 논문작성을 위한 구글설문지 분석후 ROC커브 작성 [노트]
+   1. 논문작성을 위한 한의학 박사들의 설문지 분석후 ROC커브 작성 [노트]
    2. DL논문 작성을 위한 image전처리, DL, ROC커브 작성 [노트]
-   3. 관심기업 과제와 유사한 데이터 분석 프로젝트
+   3. 관심기업 과제와 유사한 데이터 분석 프로젝트 [노트]
+      - 관심기업 과제 pandas to SQL
    4. inflearn Pipeline
    5. 멋쟁이사자 X Naver 연계 프로그램 - clovar API이용 프로젝트
 
@@ -55,10 +56,15 @@ permalink: /edu_study/
 1. DS스쿨 - DL반 수료
 2. DS스쿨 - ML반 수료
 3. FastCampus - 논문작성을 위한 R 통계 수료
-4. DL을 활용한 독성약재감별 논문작성
+4. DL(cnn)을 활용한 독성약재감별 논문작성
    - 논문
    - 논문 작성을 위한 설문지 분석후 ROC커브 작성 [노트]
    - 관련 프로젝트 in 고려대 [노트, 프로젝트]
+5. penguin package를 활용한 통계분석 정리[노트]
+6. 고려대 빅데이터 청년인재 수료
+   - NLP
+   - Vision
+   - ML, DL
 
 #### Data Engineer
 
@@ -68,13 +74,14 @@ permalink: /edu_study/
 
 #### SQL
 
-1. DAP시험공부[노트, 출저-강의]
+1. DAP 시험공부[노트, 출저-강의]
 2. SQL로 데이터 분석[노트, 출저-책]
 3. SQL, Bigquery를 이용한 코호트 분석[노트, 출저-class101]
 4. MySQL 심화[노트, 출저-SSAC]
-5. Postgresql for DataEngineer[노트, 출저-itversity]
-6. Postgr&Python course[노트, 출저-udemy]
-7. SQL vs Pandas 비교정리[노트, 출저-조재성]
+5. Postgresql tutorial 4hour[노트, 출저-[FreeCodeCamp](https://www.youtube.com/watch?v=qw--VYLpxG4&feature=youtu.be)]
+6. Postgresql for DataEngineer[노트, 출저-itversity]
+7. Postgr&Python course[노트, 출저-udemy]
+8. SQL vs Pandas 비교정리[노트, 출저-조재성]
 
 #### SQLAlchemy
 
