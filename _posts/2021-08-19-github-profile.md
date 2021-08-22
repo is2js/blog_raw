@@ -126,7 +126,7 @@ shields.io를 통해 기술스택, 연락처 등의 스택아이콘 가져온다
 
    - Highlights부분에 뱃지 생김
 
-     ![image-20210820203845103](C:/Users/is2js/AppData/Roaming/Typora/typora-user-images/image-20210820203845103.png)
+     ![image-20210822202248713](https://raw.githubusercontent.com/is3js/screenshots/main/image-20210822202248713.png)
 
 ### 학생 PRO
 
