@@ -43,13 +43,13 @@ permalink: /edu_study/
 6. FastAPI 프로젝
    - API :
 
-#### Pythonic(Algorithm, PEP 등)
+#### Pythonic
 
 1. 알고리즘 패러다임 및 level 1~3 문제풀이 [노트, 출저-Codeit]
 2. 알고리즘 자료구조[노트, 출저-프로그래머스]
 3. 알고리즘 연습문제 풀이[노트, 출저-프로그래머스]
 4. 중급 문법 및 활용 [노트, 출저-FastCampus]
-5. PEP 등 Pythonic한 Coding[노트, 출저-[프로그래머스](https://programmers.co.kr/learn/courses/4008)]
+5. PEP 준수하며 Pythonic하게 코딩하기 [노트, 출저-[프로그래머스](https://programmers.co.kr/learn/courses/4008)]
 
 #### DataAnalyst
 
@@ -75,12 +75,12 @@ permalink: /edu_study/
 #### SQL
 
 1. DAP 시험공부[노트, 출저-강의]
-2. SQL로 데이터 분석[노트, 출저-책]
+2. SQL 데이터 분석[노트, 출저-책]
 3. SQL, Bigquery를 이용한 코호트 분석[노트, 출저-class101]
 4. MySQL 심화[노트, 출저-SSAC]
 5. Postgresql tutorial 4hour[노트, 출저-[FreeCodeCamp](https://www.youtube.com/watch?v=qw--VYLpxG4&feature=youtu.be)]
 6. Postgresql for DataEngineer[노트, 출저-itversity]
-7. Postgr&Python course[노트, 출저-udemy]
+7. Postgrsql &Python course[노트, 출저-udemy]
 8. SQL vs Pandas 비교정리[노트, 출저-조재성]
 
 #### SQLAlchemy
