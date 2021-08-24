@@ -13,13 +13,16 @@ permalink: /edu_study/
   출저 : Youtube-indiflex
 
 #### 프로젝트
+0. 진료도우미 프로젝트
+   - Ipywidget으로 만든 한방 진료기록부 
+   - Ipywidget으로 만든 환자 티칭지
 
 1. Python & PostgreSQL Coding Project
 
    - 로또 앱
    - 영화관리
 
-2. EDA 및 시각화 패키지
+2. EDA 패키지 만들어보기
 
    - Cho Package : `numpy`, `pandas`, `matplotlib`, `seaborn`
 
