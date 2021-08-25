@@ -22,28 +22,29 @@ permalink: /edu_study/
    - 로또 앱
    - 영화관리
 
-2. EDA 패키지 만들어보기
+2. 데이터 수집 프로젝트
+   - 사람인 공고 수집 크롤링 프로젝트
+   - 크롤링 심화 프로젝트 
 
-   - Cho Package : `numpy`, `pandas`, `matplotlib`, `seaborn`
+3. 데이터 분석 프로젝트
 
-3. 나만의 데이터분석 노트(Update)
+   1. 나만의 데이터분석 노트(Update)
+   2. 나만의 데이터분석(EDA) 패키지
+      -Cho Package : `numpy`, `pandas`, `matplotlib`, `seaborn`
 
-   1. ㅇㅇ
-   2. ㅇㅇ
-
-4. 데이터 분석 프로젝트
-
-   1. 논문작성을 위한 한의학 박사들의 설문지 분석후 ROC커브 작성 [노트]
-   2. DL논문 작성을 위한 image전처리, DL, ROC커브 작성 [노트]
-   3. 관심기업 과제와 유사한 데이터 분석 프로젝트 [노트]
+   3. 논문작성을 위한 한의학 박사들의 설문지 분석후 ROC커브 작성 [노트]
+   4. DL논문 작성을 위한 image전처리, DL, ROC커브 작성 [노트]
+   5. 관심기업 과제와 유사한 데이터 분석 프로젝트 [노트]
       - 관심기업 과제 pandas to SQL
-   4. inflearn Pipeline
-   5. 멋쟁이사자 X Naver 연계 프로그램 - clovar API이용 프로젝트
+   6. inflearn Pipeline
 
-5. Flask 프로젝트
+   7. 멋쟁이사자 X Naver 연계 프로그램 - clovar API이용 프로젝트
+
+4. Flask 프로젝트
    - 게시판 : `Docker`, `MongoDB`, `Flask`, `JQuery`
    - 질답앱 :
-6. FastAPI 프로젝
+
+5. FastAPI 프로젝트
    - API :
 
 #### Pythonic
