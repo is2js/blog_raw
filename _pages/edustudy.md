@@ -52,7 +52,7 @@ permalink: /edu_study/
 1. 알고리즘 패러다임 및 level 1~3 문제풀이 [노트, 출저-Codeit]
 2. 알고리즘 자료구조[노트, 출저-프로그래머스]
 3. 알고리즘 연습문제 풀이[노트, 출저-프로그래머스]
-4. 중급 문법 및 활용 [노트, 출저-FastCampus]
+4. Python 중급 문법 및 활용[[저장소](https://github.com/is2js/python_advanced)]
 5. PEP 준수하며 Pythonic하게 코딩하기 [노트, 출저-[프로그래머스](https://programmers.co.kr/learn/courses/4008)]
 
 #### DataAnalyst
