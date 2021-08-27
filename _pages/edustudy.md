@@ -13,25 +13,26 @@ permalink: /edu_study/
   출저 : Youtube-indiflex
 
 #### 프로젝트
-0. Ipywidget를 활용한 진료보조프로그램들
-   - 한방병원 진료기록부 
-   - 초진기록지
-   - 환자 티칭 프로그램
+1. python를 활용한 진료보조프로그램들
+   - 한방병원 진료기록부(`ipywidget`, `panel`)
+   - 초진기록지(`ipywidget`)
+   - 환자 티칭 프로그램(`ipywidget`)
+   - 동료선생님들 거주지역 확진자수 알림(`flask`, `GCP`, `jandi`)
 
-1 Class를 활용한 
+2. Class를 활용한 
    - CLI blog (CRUD)
    - NLP 분석 Packages
 
-1. Python & PostgreSQL 를 활용한
+3. Python & PostgreSQL 를 활용한
 
    - 로또 앱
    - 영화관리
 
-2. 데이터 수집 프로젝트
+4. 데이터 수집 프로젝트
    - 사람인 공고 수집 크롤링 프로젝트
    - 크롤링 심화 프로젝트 
 
-3. 데이터 분석 프로젝트
+5. 데이터 분석 프로젝트
 
    1. 나만의 데이터분석 노트(Update)
    2. 나만의 데이터분석(EDA) 패키지
@@ -45,11 +46,13 @@ permalink: /edu_study/
 
    7. 멋쟁이사자 X Naver 연계 프로그램 - clovar API이용 프로젝트
 
-4. Flask 프로젝트
+6. Flask 프로젝트
    - 게시판 : `Docker`, `MongoDB`, `Flask`, `JQuery`
    - 질답앱 :
+   - 대쉬보드
+   - 메모플랫폼 만들기
 
-5. FastAPI 프로젝트
+7. FastAPI 프로젝트
    - API :
 
 #### Algorithm & Pythonic
@@ -102,10 +105,14 @@ permalink: /edu_study/
 
 #### Infra
 
-1. Docker 기본 문법[노트, 출저-Indiflex]
-2. Docker & Ncloud[노트, 출저-SSAC]
-3. Linux 기본[노트, 출저-Indiflex]
-4. PowerShell vs BashShell 다빈도 명렁어 정리[노트, 출저-드림코딩]
+1. PowerShell vs BashShell 다빈도 명렁어 정리[노트, 
+2. Docker 기본 문법[노트, 출저-Indiflex]
+3. Docker & Ncloud[노트, 출저-SSAC]
+4. Linux 기본[노트, 출저-Indiflex]
+출저-드림코딩]
+5. git 기본
+6. git flow
+
 
 #### Frontend
 
