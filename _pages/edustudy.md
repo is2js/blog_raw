@@ -13,11 +13,16 @@ permalink: /edu_study/
   출저 : Youtube-indiflex
 
 #### 프로젝트
-0. 진료도우미 프로젝트
-   - Ipywidget으로 만든 한방 진료기록부 
-   - Ipywidget으로 만든 환자 티칭지
+0. Ipywidget를 활용한 진료보조프로그램들
+   - 한방병원 진료기록부 
+   - 초진기록지
+   - 환자 티칭 프로그램
 
-1. Python & PostgreSQL Coding Project
+1 Class를 활용한 
+   - CLI blog (CRUD)
+   - NLP 분석 Packages
+
+1. Python & PostgreSQL 를 활용한
 
    - 로또 앱
    - 영화관리
@@ -47,13 +52,15 @@ permalink: /edu_study/
 5. FastAPI 프로젝트
    - API :
 
-#### Pythonic
+#### Algorithm & Pythonic
 
-1. 알고리즘 패러다임 및 level 1~3 문제풀이 [노트, 출저-Codeit]
-2. 알고리즘 자료구조[노트, 출저-프로그래머스]
-3. 알고리즘 연습문제 풀이[노트, 출저-프로그래머스]
-4. Python 중급 문법 및 활용[[저장소](https://github.com/is2js/python_advanced)]
-5. PEP 준수하며 Pythonic하게 코딩하기 [노트, 출저-[프로그래머스](https://programmers.co.kr/learn/courses/4008)]
+1. 알고리즘 패러다임 및 연습문제 풀이 [[저장소]()], 출저-Codeit]
+2. 알고리즘 자료구조 및 연습문제 풀이[노트, 출저-프로그래머스]
+3. 알고리즘 고득점 kit  연습문제 풀이[노트, 출저-프로그래머스]
+4. Pythonic Python 및 연습문제 풀이[노트, 출저-[프로그래머스](https://programmers.co.kr/learn/courses/4008)]
+5. Python 고급 [[저장소](https://github.com/is2js/python_advanced)]
+
+
 
 #### DataAnalyst
 
@@ -74,7 +81,8 @@ permalink: /edu_study/
 
 1. DS스쿨 - Pandas 데이터분석반 수료
 2. FastCampus - 전처리CAMP 수료
-3. DataCamp - Data Engineering for Everyone 수료
+3. Udemy - The Complete Python & PostgreSQL Developer Course 수료
+4. DataCamp - Data Engineering for Everyone 수료
 
 #### SQL
 
