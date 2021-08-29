@@ -50,7 +50,7 @@ permalink: /edu_study/
    - 게시판 : `Docker`, `MongoDB`, `Flask`, `JQuery`
    - 질답앱 :
    - 대쉬보드
-   - 메모플랫폼 만들기
+   - like finterest 메모대쉬보드
 
 7. FastAPI 프로젝트
    - API :
