@@ -25,7 +25,6 @@ permalink: /edu_study/
 
 3. Python & PostgreSQL 를 활용한
 
-   - 로또 앱
    - 영화관리
 
 4. 데이터 수집 프로젝트
@@ -87,9 +86,9 @@ permalink: /edu_study/
 3. Udemy - The Complete Python & PostgreSQL Developer Course 수료
 4. DataCamp - Data Engineering for Everyone 수료
 
-#### SQL
+#### DB & SQL
 
-1. DAP 시험공부[노트, 출저-강의]
+1. DAP자격대비 데이터 모델링 스터디[노트, 출저-데이터와사람들]
 2. SQL 데이터 분석[노트, 출저-책]
 3. SQL, Bigquery를 이용한 코호트 분석[노트, 출저-class101]
 4. MySQL 심화[노트, 출저-SSAC]
