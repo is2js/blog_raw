@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>알고리즘 문제 풀기용 array 연습 (python) | DE&amp;KMD(데엔한)</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="알고리즘 문제 풀기용 array 연습 (python)" />
+<meta name="author" content="Jaeseong Cho" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="python input으로 배열을 받아보는 연습 노트" />
+<meta property="og:description" content="python input으로 배열을 받아보는 연습 노트" />
+<link rel="canonical" href="https://is2js.github.io/blog_raw/boj/python/array/2021/08/12/python_%EB%B0%B0%EC%97%B4_%EC%97%B0%EC%8A%B5.html" />
+<meta property="og:url" content="https://is2js.github.io/blog_raw/boj/python/array/2021/08/12/python_%EB%B0%B0%EC%97%B4_%EC%97%B0%EC%8A%B5.html" />
+<meta property="og:site_name" content="DE&amp;KMD(데엔한)" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-08-12T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-08-12T00:00:00-05:00","url":"https://is2js.github.io/blog_raw/boj/python/array/2021/08/12/python_%EB%B0%B0%EC%97%B4_%EC%97%B0%EC%8A%B5.html","@type":"BlogPosting","headline":"알고리즘 문제 풀기용 array 연습 (python)","dateModified":"2021-08-12T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://is2js.github.io/blog_raw/boj/python/array/2021/08/12/python_%EB%B0%B0%EC%97%B4_%EC%97%B0%EC%8A%B5.html"},"author":{"@type":"Person","name":"Jaeseong Cho"},"description":"python input으로 배열을 받아보는 연습 노트","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog_raw/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://is2js.github.io/blog_raw/feed.xml" title="DE&amp;KMD(데엔한)" /><link rel="shortcut icon" type="image/x-icon" href="/blog_raw/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog_raw/">DE&amp;KMD(데엔한)</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog_raw/about/">About Me</a><a class="page-link" href="/blog_raw/edu_study/">Edu&amp;Study</a><a class="page-link" href="/blog_raw/mygit/">MyGit</a><a class="page-link" href="/blog_raw/resume/">Resume</a><a class="page-link" href="/blog_raw/search/">Search</a><a class="page-link" href="/blog_raw/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">알고리즘 문제 풀기용 array 연습 (python)</h1><p class="page-description">python input으로 배열을 받아보는 연습 노트</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-08-12T00:00:00-05:00" itemprop="datePublished">
+        Aug 12, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Jaeseong Cho</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      10 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog_raw/categories/#boj">boj</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog_raw/categories/#python">python</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog_raw/categories/#array">array</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/is2js/blog_raw/tree/master/_notebooks/2021-08-12-python_배열_연습.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/blog_raw/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/is2js/blog_raw/master?filepath=_notebooks%2F2021-08-12-python_%EB%B0%B0%EC%97%B4_%EC%97%B0%EC%8A%B5.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog_raw/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/is2js/blog_raw/blob/master/_notebooks/2021-08-12-python_배열_연습.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog_raw/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#input-array">input array </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#1차원-list">1차원 list </a></li>
+<li class="toc-entry toc-h3"><a href="#2차원(구분자O)">2차원(구분자O) </a></li>
+<li class="toc-entry toc-h3"><a href="#2차원-구분자X-(숫자로-1character씩만-차지)">2차원 구분자X (숫자로 1character씩만 차지) </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#선언-array">선언 array </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#2차원-응용-by-range">2차원 응용 by range </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#1부터-순서대로-채운-(N,N)행렬">1부터 순서대로 채운 (N,N)행렬 </a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-08-12-python_배열_연습.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="input-array">
+<a class="anchor" href="#input-array" aria-hidden="true"><span class="octicon octicon-link"></span></a>input array<a class="anchor-link" href="#input-array"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="1차원-list">
+<a class="anchor" href="#1%EC%B0%A8%EC%9B%90-list" aria-hidden="true"><span class="octicon octicon-link"></span></a>1차원 list<a class="anchor-link" href="#1%EC%B0%A8%EC%9B%90-list"> </a>
+</h3>
+<pre><code>10 5
+1 10 4 9 2 3 8 5 7 6</code></pre>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">input</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="c1"># 1개는 안된다. 튜플 언패킹시에만 따로 받아진다!!</span>
+<span class="n">c</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">input</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>10 5
+&lt;map object at 0x000001F38F7937C0&gt;
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">arr</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">input</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="p">)</span>
+<span class="n">arr</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[1, 10, 4, 9, 2, 3, 8, 5, 7, 6]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="2차원(구분자O)">
+<a class="anchor" href="#2%EC%B0%A8%EC%9B%90(%EA%B5%AC%EB%B6%84%EC%9E%90O)" aria-hidden="true"><span class="octicon octicon-link"></span></a>2차원(구분자O)<a class="anchor-link" href="#2%EC%B0%A8%EC%9B%90(%EA%B5%AC%EB%B6%84%EC%9E%90O)"> </a>
+</h3>
+<pre><code>9
+0 0 0 1 1 1 -1 -1 -1
+0 0 0 1 1 1 -1 -1 -1
+0 0 0 1 1 1 -1 -1 -1
+1 1 1 0 0 0 0 0 0
+1 1 1 0 0 0 0 0 0
+1 1 1 0 0 0 0 0 0
+0 1 -1 0 1 -1 0 1 -1
+0 -1 1 0 1 -1 0 1 -1
+0 1 -1 1 0 -1 0 1 -1</code></pre>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># - 행수만큼 list comp를 돌리고, </span>
+<span class="c1"># - 그 행의 내부요소들은 1줄을 split -&gt; map(int, ) -&gt; list 까지 만든다.</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="c1"># paper = [ for i in range(N)]</span>
+<span class="n">paper</span> <span class="o">=</span> <span class="p">[</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">input</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">paper</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[[0, 0, 0, 1, 1, 1, -1, -1, -1],
+ [0, 0, 0, 1, 1, 1, -1, -1, -1],
+ [0, 0, 0, 1, 1, 1, -1, -1, -1],
+ [1, 1, 1, 0, 0, 0, 0, 0, 0],
+ [1, 1, 1, 0, 0, 0, 0, 0, 0],
+ [1, 1, 1, 0, 0, 0, 0, 0, 0],
+ [0, 1, -1, 0, 1, -1, 0, 1, -1],
+ [0, -1, 1, 0, 1, -1, 0, 1, -1],
+ [0, 1, -1, 1, 0, -1, 0, 1, -1]]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="2차원-구분자X-(숫자로-1character씩만-차지)">
+<a class="anchor" href="#2%EC%B0%A8%EC%9B%90-%EA%B5%AC%EB%B6%84%EC%9E%90X-(%EC%88%AB%EC%9E%90%EB%A1%9C-1character%EC%94%A9%EB%A7%8C-%EC%B0%A8%EC%A7%80)" aria-hidden="true"><span class="octicon octicon-link"></span></a>2차원 구분자X (숫자로 1character씩만 차지)<a class="anchor-link" href="#2%EC%B0%A8%EC%9B%90-%EA%B5%AC%EB%B6%84%EC%9E%90X-(%EC%88%AB%EC%9E%90%EB%A1%9C-1character%EC%94%A9%EB%A7%8C-%EC%B0%A8%EC%A7%80)"> </a>
+</h3>
+<ul>
+<li>문자열(no split) -&gt; map(1글자를 1글자int로) -&gt; list(1글자들을 열로)</li>
+</ul>
+
+<pre><code>3 3
+011
+111
+110</code></pre>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="s1">'1019'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>['1', '0', '1', '9']</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="s1">'1019'</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[1, 0, 1, 9]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># - split대신 list('문자열') -&gt; 1글자씩 list</span>
+<span class="c1"># - split대신 list( map(int, '문자열')) -&gt; 숫자1개씩 list</span>
+<span class="c1"># -- map(int, '문자열')은 문자열을 하나씩 쪼개받아서 int를씌운다.</span>
+<span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">input</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="c1"># map은 튜플로 할당 받을 수 있다. but 1개 변수에 할당시는 맵객체다.</span>
+<span class="c1"># MIRO = [ for i in range(N) ]</span>
+<span class="c1"># 열은 갯수는 M대신  split이 아닌 문자열-&gt;map-&gt;list -&gt; list(map(())으로 쪼개서 받았다.</span>
+<span class="n">MIRO</span> <span class="o">=</span> <span class="p">[</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">input</span><span class="p">()))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="p">]</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">MIRO</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[[0, 1, 1], [1, 1, 1], [1, 1, 0]]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="선언-array">
+<a class="anchor" href="#%EC%84%A0%EC%96%B8-array" aria-hidden="true"><span class="octicon octicon-link"></span></a>선언 array<a class="anchor-link" href="#%EC%84%A0%EC%96%B8-array"> </a>
+</h2>
+<ul>
+<li>input으로 받아서 쪼개서 열을 만들지말고, 이번에는 직접 선언해보자.</li>
+<li>numpy를 지원하지 않을 때, 리스트로 만드는 n차원 배열이다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">INIT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="c1"># 각 행렬 요소의 초기화 값이다.</span>
+
+<span class="n">W</span> <span class="o">=</span> <span class="n">row</span> <span class="o">=</span> <span class="n">N</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">column</span> <span class="o">=</span> <span class="n">M</span> 
+<span class="n">C</span> <span class="o">=</span> <span class="n">channel</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">batch</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="c1"># 1차원 array : 초기화값이 요소 상태로 list comp </span>
+<span class="n">D1</span> <span class="o">=</span> <span class="p">[</span> <span class="n">INIT</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">W</span><span class="p">)]</span> <span class="c1"># 1차원은 행길이만큼 list comp + [] X -&gt; 행길이만큼 요소롤 복제하도록 list comp + 요소</span>
+<span class="c1"># D1 = [ INIT ] * N # 요소복제의 2번째 방법, list든 str든 곱하면 extend된다.</span>
+<span class="c1"># - but 내부 list comp 요소 + 외부 [] 그만큼 곱은 주의한다. id가 동일한놈들이 복사된다.</span>
+
+<span class="c1"># 2차원 array : 행[]들 먼저 행길이만큼 list comp돌고 , 내부 1row를 요소 list comp </span>
+<span class="c1"># D2 = [ [] for _ in range(H)]</span>
+<span class="n">D2</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span> <span class="n">INIT</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>  <span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">H</span><span class="p">)]</span>
+
+<span class="c1"># 3차원 array : 2차원 밖에  [[]]행렬 갯수만큼 list comp 해줌.</span>
+<span class="n">D3</span> <span class="o">=</span> <span class="p">[[[</span> <span class="p">[</span> <span class="n">INIT</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>  <span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">H</span><span class="p">)]]</span>     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">C</span><span class="p">)]</span>
+
+<span class="c1"># 3차원 array : 2차원 밖에  [[]]행렬 갯수만큼 list comp 해줌.</span>
+<span class="n">D4</span> <span class="o">=</span> <span class="p">[[[[</span> <span class="p">[</span> <span class="n">INIT</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>  <span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">H</span><span class="p">)]]</span>     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">C</span><span class="p">)]</span>          <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">D1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">D2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">D3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">D4</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[-1, -1, -1]
+[[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]]
+[[[[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]]], [[[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]]], [[[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]]]]
+[[[[[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]]], [[[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]]], [[[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]]]], [[[[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]]], [[[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]]], [[[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]]]], [[[[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]]], [[[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]]], [[[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]]]]]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="2차원-응용-by-range">
+<a class="anchor" href="#2%EC%B0%A8%EC%9B%90-%EC%9D%91%EC%9A%A9-by-range" aria-hidden="true"><span class="octicon octicon-link"></span></a>2차원 응용 by range<a class="anchor-link" href="#2%EC%B0%A8%EC%9B%90-%EC%9D%91%EC%9A%A9-by-range"> </a>
+</h3>
+<ul>
+<li>INIT값이 아닌 1부터 순서대로 채운 N*N 행렬<ul>
+<li>
+<strong>range( , , 열길이)</strong>를 이용한다. N씩 건너뛰어서 가니까...</li>
+<li>시작은 1부터 <code>n(n-1) + 2</code> 로 1부터 n-1까지의 합으로 간다?</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="1부터-순서대로-채운-(N,N)행렬">
+<a class="anchor" href="#1%EB%B6%80%ED%84%B0-%EC%88%9C%EC%84%9C%EB%8C%80%EB%A1%9C-%EC%B1%84%EC%9A%B4-(N,N)%ED%96%89%EB%A0%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>1부터 순서대로 채운 (N,N)행렬<a class="anchor-link" href="#1%EB%B6%80%ED%84%B0-%EC%88%9C%EC%84%9C%EB%8C%80%EB%A1%9C-%EC%B1%84%EC%9A%B4-(N,N)%ED%96%89%EB%A0%AC"> </a>
+</h4>
+<ol>
+<li>
+<p>각행의 첫째항을 등차수열(column : N개) 를 이용해서 만들어준다.</p>
+<ul>
+<li>1부터 N의 등차수열 range(1, , N)과  끝값은 N번째항 뽑은 것 + 1 을 넣어준다</li>
+<li>An = a1 + (n-1)d = 1 + n(n-1) -&gt;    range(   , n*n-1 + 1,   )</li>
+</ul>
+</li>
+<li>
+<p>각 행렬의 첫째항부터 1씩 증가하여 N개를 채운 행list를 완성한다.</p>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># - 일단 1 ~ n*(n-1)/2 에서 마지막항의 의미는 그냥 찍어보면 모른다.</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1
+7
+13
+19
+25
+31
+32
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># - for문 안의 i가 1에서부터 **등차(k)수열**이 되어버림.</span>
+<span class="c1"># 1부터, 등차가 n이면, n열짜리 행1개를 건너띈 다음 행 첫째항이 된다.</span>
+<span class="c1"># 열의 갯수N을 등차로 하여 일반항을 잡고, 행 N개를 가야하므로</span>
+<span class="c1"># An = 1 + (n-1)*d = n*(n-1) + 1 이 된다.</span>
+<span class="c1"># 등차수열 range(1, ,n)이 n번째항 까지는 가야하므로,  n번째항+1을 넣어준 것이다.</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s2">"&lt;&lt;&lt; 1시작, N열(등차), N행까지 채워주는 행렬의 각 행 첫째항입니다."</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1 &lt;&lt;&lt; 1시작, N열(등차), N행까지 채워주는 행렬의 각 행 첫째항입니다.
+7 &lt;&lt;&lt; 1시작, N열(등차), N행까지 채워주는 행렬의 각 행 첫째항입니다.
+13 &lt;&lt;&lt; 1시작, N열(등차), N행까지 채워주는 행렬의 각 행 첫째항입니다.
+19 &lt;&lt;&lt; 1시작, N열(등차), N행까지 채워주는 행렬의 각 행 첫째항입니다.
+25 &lt;&lt;&lt; 1시작, N열(등차), N행까지 채워주는 행렬의 각 행 첫째항입니다.
+31 &lt;&lt;&lt; 1시작, N열(등차), N행까지 채워주는 행렬의 각 행 첫째항입니다.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 2중 list comp는 요소만 노출할 경우, 1차원 행렬밖에 </span>
+<span class="c1"># - list로 만들경우, 각 요소들이 list로..</span>
+<span class="c1"># - 행단위로 묵어서는 못만든다 -&gt; result = [] for문 이용</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="c1"># 첫째항 i, 등차1 의 수열을 1~n항까지 listcomp로 모으기</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">([</span> <span class="n">i</span><span class="o">+</span><span class="p">(</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">1</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)])</span>
+
+<span class="n">result</span>
+    
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[[1, 2, 3, 4, 5],
+ [6, 7, 8, 9, 10],
+ [11, 12, 13, 14, 15],
+ [16, 17, 18, 19, 20],
+ [21, 22, 23, 24, 25]]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> <span class="c1"># 행마다 돌면서 row에접근후 인덱싱..</span>
+
+<span class="p">[</span> <span class="n">row</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">paper</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">7</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[[0, 0], [0, 0], [1, -1]]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">check_valid</span><span class="p">(</span><span class="n">matrix</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"dict상태&gt;&gt;&gt;"</span><span class="p">,</span> <span class="n">count_dict</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"1개짜리 돌입. matrix &gt;&gt;&gt;"</span><span class="p">,</span> <span class="n">matrix</span><span class="p">)</span>
+        <span class="c1"># 1개짜리라면..  넣고 +1</span>
+        <span class="n">count_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">count_dict</span><span class="p">[</span><span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+=</span><span class="mi">1</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    
+    <span class="n">paper_0_0</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">flag</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">paper_0_0</span> <span class="o">!=</span> <span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]:</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">break</span>
+    <span class="k">if</span> <span class="n">flag</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"다른게 나왔다. N/3으로 한번더.. 총 9개... 대상 matrix : "</span><span class="p">,</span><span class="n">matrix</span> <span class="p">)</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+        
+        <span class="c1"># 3x3중 1x1 -&gt; 열 3구간 다 </span>
+        <span class="n">check_valid</span><span class="p">([</span> <span class="n">row</span><span class="p">[:</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">[:</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">]])</span>
+        <span class="n">check_valid</span><span class="p">([</span> <span class="n">row</span><span class="p">[</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">:(</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">[:</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">]])</span>
+        <span class="n">check_valid</span><span class="p">([</span> <span class="n">row</span><span class="p">[(</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">:]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">[:</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">]])</span>
+        <span class="c1"># 3x3중 2x2</span>
+        <span class="n">check_valid</span><span class="p">([</span> <span class="n">row</span><span class="p">[:</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">[</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">:(</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">]])</span>
+        <span class="n">check_valid</span><span class="p">([</span> <span class="n">row</span><span class="p">[</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">:(</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">[</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">:(</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">]])</span>
+        <span class="n">check_valid</span><span class="p">([</span> <span class="n">row</span><span class="p">[(</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">:]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">[</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">:(</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">]])</span>
+        <span class="c1"># 3x3중 3x3</span>
+        <span class="n">check_valid</span><span class="p">([</span> <span class="n">row</span><span class="p">[:</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">[(</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">:]])</span>
+        <span class="n">check_valid</span><span class="p">([</span> <span class="n">row</span><span class="p">[</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">:(</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">[(</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">:]])</span>
+        <span class="n">check_valid</span><span class="p">([</span> <span class="n">row</span><span class="p">[(</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">:]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">[(</span><span class="n">N</span><span class="o">//</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">:]])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"다 똑같다 통과, dict에 넣고 저장후 return True로 종료 matrix:"</span><span class="p">,</span> <span class="n">matrix</span><span class="p">)</span>
+        <span class="n">count_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">paper_0_0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">count_dict</span><span class="p">[</span><span class="n">paper_0_0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+
+
+<span class="n">count_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">check_valid</span><span class="p">(</span><span class="n">paper</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>dict상태&gt;&gt;&gt; {}
+다른게 나왔다. N/3으로 한번더.. 총 9개... 대상 matrix :  [[0, 0, 0, 1, 1, 1, -1, -1, -1], [0, 0, 0, 1, 1, 1, -1, -1, -1], [0, 0, 0, 1, 1, 1, -1, -1, -1], [1, 1, 1, 0, 0, 0, 0, 0, 0], [1, 1, 1, 0, 0, 0, 0, 0, 0], [1, 1, 1, 0, 0, 0, 0, 0, 0], [0, 1, -1, 0, 1, -1, 0, 1, -1], [0, -1, 1, 0, 1, -1, 0, 1, -1], [0, 1, -1, 1, 0, -1, 0, 1, -1]]
+dict상태&gt;&gt;&gt; {}
+다 똑같다 통과, dict에 넣고 저장후 return True로 종료 matrix: [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+dict상태&gt;&gt;&gt; {0: 1}
+다 똑같다 통과, dict에 넣고 저장후 return True로 종료 matrix: [[1, 1, 1], [1, 1, 1], [1, 1, 1]]
+dict상태&gt;&gt;&gt; {0: 1, 1: 1}
+다 똑같다 통과, dict에 넣고 저장후 return True로 종료 matrix: [[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]]
+dict상태&gt;&gt;&gt; {0: 1, 1: 1, -1: 1}
+다 똑같다 통과, dict에 넣고 저장후 return True로 종료 matrix: [[1, 1, 1], [1, 1, 1], [1, 1, 1]]
+dict상태&gt;&gt;&gt; {0: 1, 1: 2, -1: 1}
+다 똑같다 통과, dict에 넣고 저장후 return True로 종료 matrix: [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+dict상태&gt;&gt;&gt; {0: 2, 1: 2, -1: 1}
+다 똑같다 통과, dict에 넣고 저장후 return True로 종료 matrix: [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+dict상태&gt;&gt;&gt; {0: 3, 1: 2, -1: 1}
+다른게 나왔다. N/3으로 한번더.. 총 9개... 대상 matrix :  [[0, 1, -1], [0, -1, 1], [0, 1, -1]]
+dict상태&gt;&gt;&gt; {0: 3, 1: 2, -1: 1}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[0]]
+dict상태&gt;&gt;&gt; {0: 4, 1: 2, -1: 1}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[1]]
+dict상태&gt;&gt;&gt; {0: 4, 1: 3, -1: 1}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[-1]]
+dict상태&gt;&gt;&gt; {0: 4, 1: 3, -1: 2}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[0]]
+dict상태&gt;&gt;&gt; {0: 5, 1: 3, -1: 2}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[-1]]
+dict상태&gt;&gt;&gt; {0: 5, 1: 3, -1: 3}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[1]]
+dict상태&gt;&gt;&gt; {0: 5, 1: 4, -1: 3}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[0]]
+dict상태&gt;&gt;&gt; {0: 6, 1: 4, -1: 3}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[1]]
+dict상태&gt;&gt;&gt; {0: 6, 1: 5, -1: 3}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[-1]]
+dict상태&gt;&gt;&gt; {0: 6, 1: 5, -1: 4}
+다른게 나왔다. N/3으로 한번더.. 총 9개... 대상 matrix :  [[0, 1, -1], [0, 1, -1], [1, 0, -1]]
+dict상태&gt;&gt;&gt; {0: 6, 1: 5, -1: 4}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[0]]
+dict상태&gt;&gt;&gt; {0: 7, 1: 5, -1: 4}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[1]]
+dict상태&gt;&gt;&gt; {0: 7, 1: 6, -1: 4}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[-1]]
+dict상태&gt;&gt;&gt; {0: 7, 1: 6, -1: 5}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[0]]
+dict상태&gt;&gt;&gt; {0: 8, 1: 6, -1: 5}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[1]]
+dict상태&gt;&gt;&gt; {0: 8, 1: 7, -1: 5}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[-1]]
+dict상태&gt;&gt;&gt; {0: 8, 1: 7, -1: 6}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[1]]
+dict상태&gt;&gt;&gt; {0: 8, 1: 8, -1: 6}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[0]]
+dict상태&gt;&gt;&gt; {0: 9, 1: 8, -1: 6}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[-1]]
+dict상태&gt;&gt;&gt; {0: 9, 1: 8, -1: 7}
+다른게 나왔다. N/3으로 한번더.. 총 9개... 대상 matrix :  [[0, 1, -1], [0, 1, -1], [0, 1, -1]]
+dict상태&gt;&gt;&gt; {0: 9, 1: 8, -1: 7}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[0]]
+dict상태&gt;&gt;&gt; {0: 10, 1: 8, -1: 7}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[1]]
+dict상태&gt;&gt;&gt; {0: 10, 1: 9, -1: 7}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[-1]]
+dict상태&gt;&gt;&gt; {0: 10, 1: 9, -1: 8}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[0]]
+dict상태&gt;&gt;&gt; {0: 11, 1: 9, -1: 8}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[1]]
+dict상태&gt;&gt;&gt; {0: 11, 1: 10, -1: 8}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[-1]]
+dict상태&gt;&gt;&gt; {0: 11, 1: 10, -1: 9}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[0]]
+dict상태&gt;&gt;&gt; {0: 12, 1: 10, -1: 9}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[1]]
+dict상태&gt;&gt;&gt; {0: 12, 1: 11, -1: 9}
+1개짜리 돌입. matrix &gt;&gt;&gt; [[-1]]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">count_dict</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>10 12 11
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances 
+<script src="https://utteranc.es/client.js"
+        repo="is2js/blog_raw"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script> -->
+
+<div id="disqus_thread"></div>
+<script>
+  /**
+   *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+   *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+  /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+  (function () {
+    // DON'T EDIT BELOW THIS LINE
+    var d = document,
+      s = d.createElement('script');
+    s.src = 'https://is2js-blog-raw.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript
+  >Please enable JavaScript to view the
+  <a href="https://disqus.com/?ref_noscript"
+    >comments powered by Disqus.</a
+  ></noscript
+>
+<a class="u-url" href="/blog_raw/boj/python/array/2021/08/12/python_%EB%B0%B0%EC%97%B4_%EC%97%B0%EC%8A%B5.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog_raw/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog_raw/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog_raw/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/fastai" title="fastai"><svg class="svg-icon grey"><use xlink:href="/blog_raw/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/blog_raw/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
