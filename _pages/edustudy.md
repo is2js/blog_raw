@@ -56,10 +56,10 @@ permalink: /edu_study/
 
 #### Algorithm & Pythonic
 
+1. Pythonic Python 정리 및 회고 [[노트](https://is2js.github.io/blog_raw/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4/python/algorithm/2021/08/11/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4_python_pythonic.html), 출저-[프로그래머스](https://programmers.co.kr/learn/courses/4008)]
 1. 알고리즘 패러다임 및 연습문제 풀이 [[저장소]()], 출저-Codeit]
 2. 알고리즘 자료구조 및 연습문제 풀이[노트, 출저-프로그래머스]
 3. 알고리즘 고득점 kit  연습문제 풀이[노트, 출저-프로그래머스]
-4. Pythonic Python 및 연습문제 풀이[노트, 출저-[프로그래머스](https://programmers.co.kr/learn/courses/4008)]
 5. Python 고급 [[저장소](https://github.com/is2js/python_advanced)]
 
 
