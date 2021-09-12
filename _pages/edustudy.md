@@ -81,6 +81,7 @@ permalink: /edu_study/
 
 #### Data Engineer
 
+
 1. DS스쿨 - Pandas 데이터분석반 수료
 2. FastCampus - 전처리CAMP 수료
 3. Udemy - The Complete Python & PostgreSQL Developer Course 수료
@@ -104,6 +105,7 @@ permalink: /edu_study/
 
 #### Infra
 
+0. 운영체제 공부[ 노트, 출저 - 정보처리기사 및 유튜브 ]
 1. PowerShell vs BashShell 다빈도 명렁어 정리[노트, 
 2. Docker 기본 문법[노트, 출저-Indiflex]
 3. Docker & Ncloud[노트, 출저-SSAC]
