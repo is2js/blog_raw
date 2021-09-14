@@ -138,7 +138,14 @@ window.onload = wrap_img;
 
   <div class="post-content e-content" itemprop="articleBody">
     <ul class="section-nav">
-<li class="toc-entry toc-h1"><a href="#참고">참고 </a>
+<li class="toc-entry toc-h2"><a href="#참고">참고 </a></li>
+<li class="toc-entry toc-h2"><a href="#input.txt를-이용한-local-풀이-구조">input.txt를 이용한 local 풀이 구조 </a>
+<ul>
+<li class="toc-entry toc-h6"><a href="##"># </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#print(N)">print(N) </a></li>
+<li class="toc-entry toc-h1"><a href="#print(data)">print(data) </a>
 <ul>
 <li class="toc-entry toc-h2"><a href="#공백-기준-데이터-입력받기(map,-int,-input.split-)">공백 기준 데이터 입력받기(map, int, input.split ) </a></li>
 <li class="toc-entry toc-h2"><a href="#시간을-더-빠르게--데이터-입력받기(sys-모듈)">시간을 더 빠르게  데이터 입력받기(sys 모듈) </a></li>
@@ -162,14 +169,49 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="참고">
+<h2 id="참고">
 <a class="anchor" href="#%EC%B0%B8%EA%B3%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고<a class="anchor-link" href="#%EC%B0%B8%EA%B3%A0"> </a>
-</h1>
+</h2>
 <ul>
 <li>
 <a href="https://paris-in-the-rain.tistory.com/72">블로그</a> </li>
 <li>그외 백준 공식 레퍼런스</li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="input.txt를-이용한-local-풀이-구조">
+<a class="anchor" href="#input.txt%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-local-%ED%92%80%EC%9D%B4-%EA%B5%AC%EC%A1%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>input.txt를 이용한 local 풀이 구조<a class="anchor-link" href="#input.txt%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-local-%ED%92%80%EC%9D%B4-%EA%B5%AC%EC%A1%B0"> </a>
+</h2>
+<ul>
+<li>
+<p>폴더</p>
+<ul>
+<li>input.txt</li>
+<li>xxx.py</li>
+</ul>
+<p>```python
+################ Input From input.txt ################
+import sys</p>
+</li>
+</ul>
+<p>sys.stdin = open("./input.txt", "rt")</p>
+<h6 id="#">
+<a class="anchor" href="##" aria-hidden="true"><span class="octicon octicon-link"></span></a>#<a class="anchor-link" href="##"> </a>
+</h6>
+<p>N = int(input())</p>
+<h1 id="print(N)">
+<a class="anchor" href="#print(N)" aria-hidden="true"><span class="octicon octicon-link"></span></a>print(N)<a class="anchor-link" href="#print(N)"> </a>
+</h1>
+<p>data = list(map(int, input().split()))</p>
+<h1 id="print(data)">
+<a class="anchor" href="#print(data)" aria-hidden="true"><span class="octicon octicon-link"></span></a>print(data)<a class="anchor-link" href="#print(data)"> </a>
+</h1>
+<p>```</p>
 
 </div>
 </div>
