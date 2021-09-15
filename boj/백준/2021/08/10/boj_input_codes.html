@@ -139,22 +139,13 @@ window.onload = wrap_img;
   <div class="post-content e-content" itemprop="articleBody">
     <ul class="section-nav">
 <li class="toc-entry toc-h2"><a href="#참고">참고 </a></li>
-<li class="toc-entry toc-h2"><a href="#input.txt를-이용한-local-풀이-구조">input.txt를 이용한 local 풀이 구조 </a>
-<ul>
-<li class="toc-entry toc-h6"><a href="##"># </a></li>
-</ul>
-</li>
-<li class="toc-entry toc-h1"><a href="#print(N)">print(N) </a></li>
-<li class="toc-entry toc-h1"><a href="#print(data)">print(data) </a>
-<ul>
+<li class="toc-entry toc-h2"><a href="#input.txt를-이용한-local-풀이-구조">input.txt를 이용한 local 풀이 구조 </a></li>
 <li class="toc-entry toc-h2"><a href="#공백-기준-데이터-입력받기(map,-int,-input.split-)">공백 기준 데이터 입력받기(map, int, input.split ) </a></li>
 <li class="toc-entry toc-h2"><a href="#시간을-더-빠르게--데이터-입력받기(sys-모듈)">시간을 더 빠르게  데이터 입력받기(sys 모듈) </a></li>
 <li class="toc-entry toc-h2"><a href="#공백기준-출력시-*(사용시언패킹)으로">공백기준 출력시 *(사용시언패킹)으로 </a></li>
 <li class="toc-entry toc-h2"><a href="#N-x-M-크기의-이차원-리스트-초기화-및-입력받기">N x M 크기의 이차원 리스트 초기화 및 입력받기 </a>
 <ul>
 <li class="toc-entry toc-h3"><a href="#재귀함수에서-콜스택-제한(재귀한도)-풀어주기">재귀함수에서 콜스택 제한(재귀한도) 풀어주기 </a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul><!--
@@ -188,34 +179,40 @@ window.onload = wrap_img;
 <a class="anchor" href="#input.txt%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-local-%ED%92%80%EC%9D%B4-%EA%B5%AC%EC%A1%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>input.txt를 이용한 local 풀이 구조<a class="anchor-link" href="#input.txt%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-local-%ED%92%80%EC%9D%B4-%EA%B5%AC%EC%A1%B0"> </a>
 </h2>
 <ul>
-<li>
-<p>폴더</p>
-<ul>
+<li>폴더<ul>
 <li>input.txt</li>
 <li>xxx.py</li>
 </ul>
-<p>```python
-################ Input From input.txt ################
-import sys</p>
 </li>
 </ul>
-<p>sys.stdin = open("./input.txt", "rt")</p>
-<h6 id="#">
-<a class="anchor" href="##" aria-hidden="true"><span class="octicon octicon-link"></span></a>#<a class="anchor-link" href="##"> </a>
-</h6>
-<p>N = int(input())</p>
-<h1 id="print(N)">
-<a class="anchor" href="#print(N)" aria-hidden="true"><span class="octicon octicon-link"></span></a>print(N)<a class="anchor-link" href="#print(N)"> </a>
-</h1>
-<p>data = list(map(int, input().split()))</p>
-<h1 id="print(data)">
-<a class="anchor" href="#print(data)" aria-hidden="true"><span class="octicon octicon-link"></span></a>print(data)<a class="anchor-link" href="#print(data)"> </a>
-</h1>
-<p>```</p>
 
 </div>
 </div>
 </div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">stdin</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"./input.txt"</span><span class="p">,</span> <span class="s2">"rt"</span><span class="p">)</span>
+<span class="c1">######################################################</span>
+<span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
+<span class="c1"># print(N)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">input</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span>
+<span class="c1"># print(data)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
