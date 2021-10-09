@@ -23,17 +23,12 @@ permalink: /edu_study/
    - CLI blog (CRUD)
    - NLP 분석 Packages
 
-3. Python & PostgreSQL 를 활용한
-
-   - 영화관리
-
-4. 데이터 수집 프로젝트
-   - 사람인 공고 수집 크롤링 프로젝트
+3.   - 사람인 공고 수집 크롤링 프로젝트
    - 크롤링 심화 프로젝트 
 
-5. 데이터 분석 프로젝트
+4. 데이터 분석 프로젝트
 
-   1. 나만의 데이터분석 노트(Update)
+   1. 나만의 데이터분석 노트 gitbook(Updating~)
    2. 나만의 데이터분석(EDA) 패키지
       -Cho Package : `numpy`, `pandas`, `matplotlib`, `seaborn`
 
@@ -91,12 +86,13 @@ permalink: /edu_study/
 
 1. DAP자격대비 데이터 모델링 스터디[노트, 출저-데이터와사람들]
 2. SQL 데이터 분석[노트, 출저-책]
-3. SQL, Bigquery를 이용한 코호트 분석[노트, 출저-class101]
+3. SQL, Bigquery를 이용한 코호트 분석[노트, 출저-탈잉]
 4. MySQL 심화[노트, 출저-SSAC]
 5. Postgresql tutorial 4hour[노트, 출저-[FreeCodeCamp](https://www.youtube.com/watch?v=qw--VYLpxG4&feature=youtu.be)]
 6. Postgresql for DataEngineer[노트, 출저-itversity]
 7. Postgrsql &Python course[노트, 출저-udemy]
 8. SQL vs Pandas 비교정리[노트, 출저-조재성]
+9. mongoDB for 데이터수집[노트, 출저-멋쟁이사자처럼, 그외]
 
 #### SQLAlchemy
 
