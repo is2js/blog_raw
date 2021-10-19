@@ -194,11 +194,8 @@ function initSearch() {
   
             var resultLink = document.createElement('a');
             resultLink.classList.add('search-result');
-            //console.log(`doc`, doc);
-            // console.log(`doc.url`, doc.url);
-            // url: 'blog.chojaseong.com/boj/python/array/2021/08/12/python_%EB%B0%B0%EC%97%B4_%EC%97%B0%EC%8A%B5.html', 
-            // relUrl: '/boj/python/array/2021/08/12/python_%EB%B0%B0%EC%97%B4_%EC%97%B0%EC%8A%B5.html', 
-            // 클릭시url: https://blog.chojaeseong.com/search/blog.chojaseong.com/boj/python/array/2021/08/12/python_%EB%B0%B0%EC%97%B4_%EC%97%B0%EC%8A%B5.html
+            // a태그에 http:// 등이 없어서, 상대주소로 걸려서  커스텀도메인 + 다시 또 풀경로가 상대주소처럼 붙음..
+            // -> href에 https://를 명시해주면, 상대주소가 아니라 절대주소로 인식되어 그 주소로만 간다.
             resultLink.setAttribute('href', "https://" + doc.url);
             //resultLink.setAttribute('target', "_blank");
 

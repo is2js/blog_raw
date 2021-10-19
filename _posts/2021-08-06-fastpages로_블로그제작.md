@@ -34,24 +34,24 @@ title: fastpages를 이용한 블로그 제작
 
 
        ```
-
+    
        Publick key
-
+    
        ```
        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCGIVY8FQf9x1Y52HUUJmpAyOfrzH96K4QtGb7
-
+    
        ```
-
+    
      - `2.`도 컨트롤+클릭해서 `1.`에서 생성한 ssh key를 붙혀넣어 **Action secret key를 만든다.**
-
+    
        - actions secrets 부분에 `New repository secret`을 클릭해서 붙혀넣음.
          - Name : **`SSH_DEPLOY_KEY`**
          - Value : `SSH RSA 4096 private key 복붙`
-
+    
      - `3.` 도 컨트롤+클릭해서 **fastpages-blog**의 **Deploy (public) key**를 생성해야한다. `Add deploy key`클릭
-
+    
        - 여기서는 생성한 ssh RSA 4096 key중에 밑에 있는 publick key를 사용한다.
-
+    
          - Title : **`fastpages-blog`**
          - Key : `SSH RSA 4096 public key 복붙`
          - **[O]** Allow write acess
@@ -129,7 +129,7 @@ title: fastpages를 이용한 블로그 제작
   title: An Example Markdown Post
   ---
   # Example Markdown Post
-
+  
   ## Basic setup
   ```
 
@@ -334,10 +334,10 @@ title: fastpages를 이용한 블로그 제작
      // 비동기 작업을 위해 async function 선언
      const initRepo = async () =>{
              const _username = 'is2js'
-
+     
              // 추가할 dom선택
              const repoUl = document.getElementById("repos")
-
+     
              // headers 설명 : 깃허브에 요청할 형식 지정
              let response = await fetch('https://api.github.com/users/is2js/repos',
              {headers:{
@@ -346,19 +346,19 @@ title: fastpages를 이용한 블로그 제작
              const repoJson = await response.json()
              // repo받아온 내용 확인
              // console.log(repoJson);
-
+     
              // json내용을 map을 이용해 각 dom을 만들고 추가
              repoJson.map((repos)=>{
                  let h2Element = document.createElement("h2")
                  h2Element.textContent = repos.name
-
+     
                  let pElementDesc = document.createElement("p")
                  pElementDesc.textContent = "레포설명 : " + repos.description
-
+     
                  let aElementURL = document.createElement("a")
                  aElementURL.href = repos.svn_url
                  aElementURL.textContent = repos.svn_url
-
+     
                  //각 요소를 <div id="repos">에 추가
                  repoUl.append(h2Element)
                  repoUl.append(pElementDesc)
@@ -421,7 +421,7 @@ title: fastpages를 이용한 블로그 제작
      }
      return s;
    };
-
+   
    // 비동기 작업을 위해 async function 선언
    const initRepo = async () => {
      // 추가할 dom선택
@@ -440,25 +440,25 @@ title: fastpages를 이용한 블로그 제작
      const repoJson = await response.json();
      // repo받아온 내용 확인
      // console.log(repoJson);
-
+   
      // json내용을 map을 이용해 각 dom을 만들고 추가
      // repoLanguage 함수의 비동기 작업을 위한 async function선언
      repoJson.map(async (repos) => {
        let h2Element = document.createElement('h2');
        h2Element.textContent = repos.name;
-
+   
        let pElementDesc = document.createElement('p');
        pElementDesc.textContent = '레포설명 : ' + repos.description;
-
+   
        let aElementURL = document.createElement('a');
        aElementURL.href = repos.svn_url;
        aElementURL.textContent = repos.svn_url;
-
+   
        //사용한 언어 불러오기
        let language = await repoLanguage(repos.name);
        let strongElementLang = document.createElement('strong');
        strongElementLang.textContent = '사용언어 : ' + language.toString();
-
+   
        //각 요소를 <div id="repos">에 추가
        repoUl.append(h2Element);
        //사용언어부분 추가
@@ -501,3 +501,97 @@ title: fastpages를 이용한 블로그 제작
 - `images/`
 
   - 사진, favicon
+
+
+
+
+
+
+
+
+
+## 커스텀
+
+### 커스텀 도메인을 붙이는 조건
+
+- 내 블로그는 `is2js.github.io`는 아니지만, **github의 네임서버가 `is2js.github.io.`**가 작동하는 것 같았다. (뒤에 . 있음)
+  - 원래는 리눅스서버의 공인ip주소를 적어줘야한다.
+  - 하지만, github는 따로 ip주소를 제공하지 않으므로, **`[git_id].github.io.`**를 적어두고 **해당폴더에서 설정과정을 추가한다.**
+
+
+
+1. 가비아 DNS관리 페이지로 간다
+   - `dns.gabia.com`
+2. **`blog`라는 서브도메인에다가 `CNAME` & `[github_id].github.io.`**로 레코드를 추가한다.
+   ![image-20211019215952095](https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019215952095.png)
+
+3. **해당 fastpage 깃폴더 -> `settings` > `pages`**로 이동한다.
+   - custom domain 부분에 
+     **dns에 등록한 서브도메인 `blog`.chojaseong.com**을 적어준다.
+   - 어떠한 확인과정이 있는데, 여기서 **dns에 적어둔 `[git_id.github.io.]`에다가 `현재깃폴더 배포ip`를 배정시켜주는 작업을 하는 듯 싶다**
+     ![image-20211019220124680](https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019220124680.png)
+
+
+
+4. 밑에 https도 되도록 체크해준다.
+   ![image-20211019220326376](https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019220326376.png)
+
+
+
+
+
+5. **LOCAL 블로그폴더의 root에 `CNAME`**이라는 파일을 만들고, 내부에 **커스텀 도메인의 url만 적어준다.**
+   ![image-20211019220434023](https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019220434023.png)![image-20211019204541811](https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019204541811.png)
+   ![image-20211019204550751](https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019204550751.png)
+
+   `CNAME`
+
+   ```
+   blog.chojaeseong.com
+   ```
+
+   
+
+6. **root폴더의 `_config.yml`속 `url` 과 `baseurl`을 수정**한다.
+
+   - url: `"https://is2js.github.io"` -**> `"blog.chojaeseong.com"`**
+   - baseurl: `"/blog_raw"` **-> `""`**
+     - **아~ fastpage가 `git_id.github.io`**아름의 레포가 아닌데도 page로 배포된 이유는
+       - url을 git_id.github.io
+       - **baseurl을 `/레포명`**으로 가지고 있어서 기 때문이구나.
+     - 하지만, 커스텀도메인에서는
+       - `레포명까지 풀로 포함`되서 github가  해당 `커스텀도메인`에 배포해준다.
+         - 그로 인해 baseurl은 사라진다.(빈문자열)
+
+   
+
+   ![image-20211019203841219](https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019203841219.png)
+   ![image-20211019203834922](https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019203834922.png)
+
+   
+
+7. **`_action_files`폴더 속 `settings.ini`파일에도 baseurl이 있으니 수정해준다.**
+   - 지워서 빈칸 남겨놓기
+     ![image-20211019204104925](https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019204104925.png)
+
+
+
+6. **커스텀도메인으로 접속하는 순간부터, `search 결과`의 link들이.. `상대주소화`되어 있어서,  `도메인/search + 도메인/풀/주소.html `**형식으로  잇슈가 있음. 
+   ![image-20211019210628051](https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019210628051.png)
+
+   - **`search.js`에서 만들어주는 a태그의 주소에 `https://`**를 붙혀서 **`절대주소`화 시켜** 뒤에 붙지않고 바로 접속되게 한다.
+
+   `search.js`
+
+   ```javascript
+   var resultLink = document.createElement('a');
+   resultLink.classList.add('search-result');
+   // a태그에 http:// 등이 없어서, 상대주소로 걸려서  커스텀도메인 + 다시 또 풀경로가 상대주소처럼 붙음..
+   // -> href에 https://를 명시해주면, 상대주소가 아니라 절대주소로 인식되어 그 주소로만 간다.
+   resultLink.setAttribute('href', "https://" + doc.url);
+   //resultLink.setAttribute('target', "_blank");
+   ```
+
+   ![image-20211019213723958](https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019213723958.png)
+   ![image-20211019214443633](https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019214443633.png)
+
