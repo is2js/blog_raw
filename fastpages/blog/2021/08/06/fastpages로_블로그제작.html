@@ -93,7 +93,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      7 min read
+      8 min read
     
 </span></p>
 
@@ -141,6 +141,11 @@ window.onload = wrap_img;
 </ul>
 </li>
 <li class="toc-entry toc-h2"><a href="#구조">구조</a></li>
+<li class="toc-entry toc-h2"><a href="#커스텀">커스텀</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#커스텀-도메인을-붙이는-조건">커스텀 도메인을 붙이는 조건</a></li>
+</ul>
+</li>
 </ul><h2 id="1-fastpages-만들기">
 <a class="anchor" href="#1-fastpages-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>1 fastpages 만들기</h2>
 
@@ -193,7 +198,7 @@ window.onload = wrap_img;
 
             <div class="language-plaintext highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCGIVY8FQf9x1Y52HUUJmpAyOfrzH96K4QtGb7
-
+    
 </code></pre></div>            </div>
           </li>
           <li>
@@ -342,7 +347,7 @@ categories: [markdown]
 title: An Example Markdown Post
 ---
 # Example Markdown Post
-
+  
 ## Basic setup
 </code></pre></div>    </div>
   </li>
@@ -678,10 +683,10 @@ or
 <span class="c1">// 비동기 작업을 위해 async function 선언</span>
 <span class="kd">const</span> <span class="nx">initRepo</span> <span class="o">=</span> <span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span><span class="p">{</span>
         <span class="kd">const</span> <span class="nx">_username</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">is2js</span><span class="dl">'</span>
-
+     
         <span class="c1">// 추가할 dom선택</span>
         <span class="kd">const</span> <span class="nx">repoUl</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">repos</span><span class="dl">"</span><span class="p">)</span>
-
+     
         <span class="c1">// headers 설명 : 깃허브에 요청할 형식 지정</span>
         <span class="kd">let</span> <span class="nx">response</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">fetch</span><span class="p">(</span><span class="dl">'</span><span class="s1">https://api.github.com/users/is2js/repos</span><span class="dl">'</span><span class="p">,</span>
         <span class="p">{</span><span class="na">headers</span><span class="p">:{</span>
@@ -690,19 +695,19 @@ or
         <span class="kd">const</span> <span class="nx">repoJson</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">()</span>
         <span class="c1">// repo받아온 내용 확인</span>
         <span class="c1">// console.log(repoJson);</span>
-
+     
         <span class="c1">// json내용을 map을 이용해 각 dom을 만들고 추가</span>
         <span class="nx">repoJson</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">repos</span><span class="p">)</span><span class="o">=&gt;</span><span class="p">{</span>
             <span class="kd">let</span> <span class="nx">h2Element</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">"</span><span class="s2">h2</span><span class="dl">"</span><span class="p">)</span>
             <span class="nx">h2Element</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">repos</span><span class="p">.</span><span class="nx">name</span>
-
+     
             <span class="kd">let</span> <span class="nx">pElementDesc</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">"</span><span class="s2">p</span><span class="dl">"</span><span class="p">)</span>
             <span class="nx">pElementDesc</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">레포설명 : </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">repos</span><span class="p">.</span><span class="nx">description</span>
-
+     
             <span class="kd">let</span> <span class="nx">aElementURL</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">"</span><span class="s2">a</span><span class="dl">"</span><span class="p">)</span>
             <span class="nx">aElementURL</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="nx">repos</span><span class="p">.</span><span class="nx">svn_url</span>
             <span class="nx">aElementURL</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">repos</span><span class="p">.</span><span class="nx">svn_url</span>
-
+     
             <span class="c1">//각 요소를 &lt;div id="repos"&gt;에 추가</span>
             <span class="nx">repoUl</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">h2Element</span><span class="p">)</span>
             <span class="nx">repoUl</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">pElementDesc</span><span class="p">)</span>
@@ -785,7 +790,7 @@ or
   <span class="p">}</span>
   <span class="k">return</span> <span class="nx">s</span><span class="p">;</span>
 <span class="p">};</span>
-
+   
 <span class="c1">// 비동기 작업을 위해 async function 선언</span>
 <span class="kd">const</span> <span class="nx">initRepo</span> <span class="o">=</span> <span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="c1">// 추가할 dom선택</span>
@@ -804,25 +809,25 @@ or
   <span class="kd">const</span> <span class="nx">repoJson</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
   <span class="c1">// repo받아온 내용 확인</span>
   <span class="c1">// console.log(repoJson);</span>
-
+   
   <span class="c1">// json내용을 map을 이용해 각 dom을 만들고 추가</span>
   <span class="c1">// repoLanguage 함수의 비동기 작업을 위한 async function선언</span>
   <span class="nx">repoJson</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="k">async</span> <span class="p">(</span><span class="nx">repos</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
     <span class="kd">let</span> <span class="nx">h2Element</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">'</span><span class="s1">h2</span><span class="dl">'</span><span class="p">);</span>
     <span class="nx">h2Element</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">repos</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
-
+   
     <span class="kd">let</span> <span class="nx">pElementDesc</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">'</span><span class="s1">p</span><span class="dl">'</span><span class="p">);</span>
     <span class="nx">pElementDesc</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">레포설명 : </span><span class="dl">'</span> <span class="o">+</span> <span class="nx">repos</span><span class="p">.</span><span class="nx">description</span><span class="p">;</span>
-
+   
     <span class="kd">let</span> <span class="nx">aElementURL</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">);</span>
     <span class="nx">aElementURL</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="nx">repos</span><span class="p">.</span><span class="nx">svn_url</span><span class="p">;</span>
     <span class="nx">aElementURL</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">repos</span><span class="p">.</span><span class="nx">svn_url</span><span class="p">;</span>
-
+   
     <span class="c1">//사용한 언어 불러오기</span>
     <span class="kd">let</span> <span class="nx">language</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">repoLanguage</span><span class="p">(</span><span class="nx">repos</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
     <span class="kd">let</span> <span class="nx">strongElementLang</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">'</span><span class="s1">strong</span><span class="dl">'</span><span class="p">);</span>
     <span class="nx">strongElementLang</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">사용언어 : </span><span class="dl">'</span> <span class="o">+</span> <span class="nx">language</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
-
+   
     <span class="c1">//각 요소를 &lt;div id="repos"&gt;에 추가</span>
     <span class="nx">repoUl</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">h2Element</span><span class="p">);</span>
     <span class="c1">//사용언어부분 추가</span>
@@ -893,6 +898,124 @@ or
     </ul>
   </li>
 </ul>
+
+<h2 id="커스텀">
+<a class="anchor" href="#%EC%BB%A4%EC%8A%A4%ED%85%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>커스텀</h2>
+
+<h3 id="커스텀-도메인을-붙이는-조건">
+<a class="anchor" href="#%EC%BB%A4%EC%8A%A4%ED%85%80-%EB%8F%84%EB%A9%94%EC%9D%B8%EC%9D%84-%EB%B6%99%EC%9D%B4%EB%8A%94-%EC%A1%B0%EA%B1%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>커스텀 도메인을 붙이는 조건</h3>
+
+<ul>
+  <li>내 블로그는 <code class="language-plaintext highlighter-rouge">is2js.github.io</code>는 아니지만, <strong>github의 네임서버가 <code class="language-plaintext highlighter-rouge">is2js.github.io.</code></strong>가 작동하는 것 같았다. (뒤에 . 있음)
+    <ul>
+      <li>원래는 리눅스서버의 공인ip주소를 적어줘야한다.</li>
+      <li>하지만, github는 따로 ip주소를 제공하지 않으므로, <strong><code class="language-plaintext highlighter-rouge">[git_id].github.io.</code></strong>를 적어두고 <strong>해당폴더에서 설정과정을 추가한다.</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>가비아 DNS관리 페이지로 간다
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">dns.gabia.com</code></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">blog</code>라는 서브도메인에다가 <code class="language-plaintext highlighter-rouge">CNAME</code> &amp; <code class="language-plaintext highlighter-rouge">[github_id].github.io.</code></strong>로 레코드를 추가한다.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019215952095.png" alt="image-20211019215952095"></p>
+  </li>
+  <li>
+<strong>해당 fastpage 깃폴더 -&gt; <code class="language-plaintext highlighter-rouge">settings</code> &gt; <code class="language-plaintext highlighter-rouge">pages</code></strong>로 이동한다.
+    <ul>
+      <li>custom domain 부분에 
+<strong>dns에 등록한 서브도메인 <code class="language-plaintext highlighter-rouge">blog</code>.chojaseong.com</strong>을 적어준다.</li>
+      <li>어떠한 확인과정이 있는데, 여기서 <strong>dns에 적어둔 <code class="language-plaintext highlighter-rouge">[git_id.github.io.]</code>에다가 <code class="language-plaintext highlighter-rouge">현재깃폴더 배포ip</code>를 배정시켜주는 작업을 하는 듯 싶다</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019220124680.png" alt="image-20211019220124680">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>밑에 https도 되도록 체크해준다.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019220326376.png" alt="image-20211019220326376"></p>
+  </li>
+  <li>
+    <p><strong>LOCAL 블로그폴더의 root에 <code class="language-plaintext highlighter-rouge">CNAME</code></strong>이라는 파일을 만들고, 내부에 <strong>커스텀 도메인의 url만 적어준다.</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019220434023.png" alt="image-20211019220434023"><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019204541811.png" alt="image-20211019204541811">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019204550751.png" alt="image-20211019204550751"></p>
+
+    <p><code class="language-plaintext highlighter-rouge">CNAME</code></p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>blog.chojaeseong.com
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>root폴더의 <code class="language-plaintext highlighter-rouge">_config.yml</code>속 <code class="language-plaintext highlighter-rouge">url</code> 과 <code class="language-plaintext highlighter-rouge">baseurl</code>을 수정</strong>한다.</p>
+
+    <ul>
+      <li>url: <code class="language-plaintext highlighter-rouge">"https://is2js.github.io"</code> -<strong>&gt; <code class="language-plaintext highlighter-rouge">"blog.chojaeseong.com"</code></strong>
+</li>
+      <li>baseurl: <code class="language-plaintext highlighter-rouge">"/blog_raw"</code> <strong>-&gt; <code class="language-plaintext highlighter-rouge">""</code></strong>
+        <ul>
+          <li>
+<strong>아~ fastpage가 <code class="language-plaintext highlighter-rouge">git_id.github.io</code></strong>아름의 레포가 아닌데도 page로 배포된 이유는
+            <ul>
+              <li>url을 git_id.github.io</li>
+              <li>
+<strong>baseurl을 <code class="language-plaintext highlighter-rouge">/레포명</code></strong>으로 가지고 있어서 기 때문이구나.</li>
+            </ul>
+          </li>
+          <li>하지만, 커스텀도메인에서는
+            <ul>
+              <li>
+<code class="language-plaintext highlighter-rouge">레포명까지 풀로 포함</code>되서 github가  해당 <code class="language-plaintext highlighter-rouge">커스텀도메인</code>에 배포해준다.
+                <ul>
+                  <li>그로 인해 baseurl은 사라진다.(빈문자열)</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019203841219.png" alt="image-20211019203841219">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019203834922.png" alt="image-20211019203834922"></p>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">_action_files</code>폴더 속 <code class="language-plaintext highlighter-rouge">settings.ini</code>파일에도 baseurl이 있으니 수정해준다.</strong>
+    <ul>
+      <li>지워서 빈칸 남겨놓기
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019204104925.png" alt="image-20211019204104925">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>커스텀도메인으로 접속하는 순간부터, <code class="language-plaintext highlighter-rouge">search 결과</code>의 link들이.. <code class="language-plaintext highlighter-rouge">상대주소화</code>되어 있어서,  <code class="language-plaintext highlighter-rouge">도메인/search + 도메인/풀/주소.html </code></strong>형식으로  잇슈가 있음. 
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019210628051.png" alt="image-20211019210628051"></p>
+
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">search.js</code>에서 만들어주는 a태그의 주소에 <code class="language-plaintext highlighter-rouge">https://</code></strong>를 붙혀서 <strong><code class="language-plaintext highlighter-rouge">절대주소</code>화 시켜</strong> 뒤에 붙지않고 바로 접속되게 한다.</li>
+    </ul>
+
+    <p><code class="language-plaintext highlighter-rouge">search.js</code></p>
+
+    <div class="language-javascript highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">resultLink</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">resultLink</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="dl">'</span><span class="s1">search-result</span><span class="dl">'</span><span class="p">);</span>
+<span class="c1">// a태그에 http:// 등이 없어서, 상대주소로 걸려서  커스텀도메인 + 다시 또 풀경로가 상대주소처럼 붙음..</span>
+<span class="c1">// -&gt; href에 https://를 명시해주면, 상대주소가 아니라 절대주소로 인식되어 그 주소로만 간다.</span>
+<span class="nx">resultLink</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="dl">'</span><span class="s1">href</span><span class="dl">'</span><span class="p">,</span> <span class="dl">"</span><span class="s2">https://</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+<span class="c1">//resultLink.setAttribute('target', "_blank");</span>
+</code></pre></div>    </div>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019213723958.png" alt="image-20211019213723958">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019214443633.png" alt="image-20211019214443633"></p>
+  </li>
+</ol>
+
 
   </div><a class="u-url" href="/fastpages/blog/2021/08/06/fastpages%EB%A1%9C_%EB%B8%94%EB%A1%9C%EA%B7%B8%EC%A0%9C%EC%9E%91.html" hidden></a>
 </article>
