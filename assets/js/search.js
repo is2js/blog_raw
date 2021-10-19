@@ -190,7 +190,11 @@ function initSearch() {
   
             var resultLink = document.createElement('a');
             resultLink.classList.add('search-result');
+            console.log(`doc`, doc);
+            console.log(`doc.url`, doc.url);
             resultLink.setAttribute('href', doc.url);
+            resultLink.setAttribute('target', "_blank");
+
             resultsListItem.appendChild(resultLink);
   
             var resultTitle = document.createElement('div');
