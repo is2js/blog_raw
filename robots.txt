@@ -1,1 +1,1 @@
-Sitemap: blog.chojaseong.com/sitemap.xml
+Sitemap: blog.chojaeseong.com/sitemap.xml

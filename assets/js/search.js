@@ -192,8 +192,11 @@ function initSearch() {
             resultLink.classList.add('search-result');
             console.log(`doc`, doc);
             console.log(`doc.url`, doc.url);
+            // url: 'blog.chojaseong.com/boj/python/array/2021/08/12/python_%EB%B0%B0%EC%97%B4_%EC%97%B0%EC%8A%B5.html', 
+            // relUrl: '/boj/python/array/2021/08/12/python_%EB%B0%B0%EC%97%B4_%EC%97%B0%EC%8A%B5.html', 
+            // 클릭시url: https://blog.chojaeseong.com/search/blog.chojaseong.com/boj/python/array/2021/08/12/python_%EB%B0%B0%EC%97%B4_%EC%97%B0%EC%8A%B5.html
             resultLink.setAttribute('href', doc.url);
-            resultLink.setAttribute('target', "_blank");
+            //resultLink.setAttribute('target', "_blank");
 
             resultsListItem.appendChild(resultLink);
   
