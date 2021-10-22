@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>python 코딩테스트용 모듈 정리 | DE&amp;KMD(데엔한)</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="python 코딩테스트용 모듈 정리" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="python 코딩테스트용 모듈 및 주의점 정리" />
+<meta property="og:description" content="python 코딩테스트용 모듈 및 주의점 정리" />
+<link rel="canonical" href="blog.chojaeseong.com/python/module/algorithm/2021/10/22/python_%EB%AA%A8%EB%93%88%EC%A0%95%EB%A6%AC.html" />
+<meta property="og:url" content="blog.chojaeseong.com/python/module/algorithm/2021/10/22/python_%EB%AA%A8%EB%93%88%EC%A0%95%EB%A6%AC.html" />
+<meta property="og:site_name" content="DE&amp;KMD(데엔한)" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-10-22T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-10-22T00:00:00-05:00","url":"blog.chojaeseong.com/python/module/algorithm/2021/10/22/python_%EB%AA%A8%EB%93%88%EC%A0%95%EB%A6%AC.html","@type":"BlogPosting","headline":"python 코딩테스트용 모듈 정리","dateModified":"2021-10-22T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/python/module/algorithm/2021/10/22/python_%EB%AA%A8%EB%93%88%EC%A0%95%EB%A6%AC.html"},"description":"python 코딩테스트용 모듈 및 주의점 정리","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="DE&amp;KMD(데엔한)" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">DE&amp;KMD(데엔한)</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/edu_study/">Edu&amp;Study</a><a class="page-link" href="/mygit/">MyGit</a><a class="page-link" href="/resume/">Resume</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">python 코딩테스트용 모듈 정리</h1><p class="page-description">python 코딩테스트용 모듈 및 주의점 정리</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-10-22T00:00:00-05:00" itemprop="datePublished">
+        Oct 22, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#python">python</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#module">module</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#algorithm">algorithm</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#표준라이브러리-6가지">표준라이브러리 6가지</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#내장함수">내장함수</a></li>
+<li class="toc-entry toc-h4"><a href="#itertools">itertools</a></li>
+<li class="toc-entry toc-h4"><a href="#heapq">heapq</a></li>
+<li class="toc-entry toc-h4"><a href="#bisect">bisect</a></li>
+<li class="toc-entry toc-h4"><a href="#collections">collections</a></li>
+<li class="toc-entry toc-h4"><a href="#math">math</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#그외">그외</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#map-split-sorted">map, split, sorted</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#주의점">주의점</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#input말고">input말고</a></li>
+<li class="toc-entry toc-h4"><a href="#재귀풀기">재귀풀기</a></li>
+<li class="toc-entry toc-h4"><a href="#pypy">Pypy</a></li>
+</ul>
+</li>
+</ul><ul>
+  <li>참고
+    <ul>
+      <li><a href="https://velog.io/@koyo/python-docs-6">벨로그</a></li>
+      <li><a href="https://justkode.kr/python/pygorithm-2">justkode</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="표준라이브러리-6가지">
+<a class="anchor" href="#%ED%91%9C%EC%A4%80%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC-6%EA%B0%80%EC%A7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>표준라이브러리 6가지</h3>
+
+<h4 id="내장함수">
+<a class="anchor" href="#%EB%82%B4%EC%9E%A5%ED%95%A8%EC%88%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>내장함수</h4>
+
+<ul>
+  <li>
+    <p>sum, min, max, <strong>eval</strong>, sorted(key=, reverse=)</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">result</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="s">"(3 + 5) * 7"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="itertools">
+<a class="anchor" href="#itertools" aria-hidden="true"><span class="octicon octicon-link"></span></a>itertools</h4>
+
+<p>반복되는 형태의 데이터를 처리하는 기능을 제공, 순열과 조합 라이브러리르 제공</p>
+
+<ul>
+  <li>
+    <p>permutations(r개의 데이터를 뽑아 나열하는 모든 경우(순열))</p>
+  </li>
+  <li>
+    <p>combinations(r개의 데이터를 뽑아 순서를 고려하지 않고 나열하는 모든 경우(조합))</p>
+  </li>
+  <li>
+    <p>products(r개의 데이터를 뽑아 일렬로 나열하는 모든 경우(순열)를 계산한다. 다만 원소를 중복하여 뽑는다.)</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
+  
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="s">'A'</span><span class="p">,</span> <span class="s">'B'</span><span class="p">,</span> <span class="s">'C'</span><span class="p">]</span> <span class="c1"># 데이터 준비
+</span><span class="n">result</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span> <span class="c1"># 2개를 뽑는 모든 순열 구하기(중복 허용)
+</span>  
+<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="c1"># [('A', 'A'), ('A', 'B'), ('A', 'C'), ('B', 'A'), ('B', 'B'), ('B', 'C'), ('C', 'A'), ('C', 'B'), ('C', 'C')]
+</span></code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="heapq">
+<a class="anchor" href="#heapq" aria-hidden="true"><span class="octicon octicon-link"></span></a>heapq</h4>
+
+<p>힙을 활용한 우선순위 큐 기능을 구현할 때 사용되며, O(NlogN)에 오름차순 정렬을 제공한다.
+PriorityQueue 라이브러리가 따로 있지만, heapq가 더 빠르게 동작한다.</p>
+
+<ul>
+  <li>PriorityQueue를 리스트나 힙으로 구현할 수 있지만
+    <ul>
+      <li>리스트는 삽입 <code class="language-plaintext highlighter-rouge">O(1)</code> 삭제 <code class="language-plaintext highlighter-rouge">O(N)</code> 의 복잡도를 가지지만,</li>
+      <li>힙은 삽입 <code class="language-plaintext highlighter-rouge">O(logN)</code> 삭제 <code class="language-plaintext highlighter-rouge">O(logN)</code> 의 복잡도를 가진다.
+        <ul>
+          <li>그래서 <strong>우선순위 큐는 보통 힙으로 구현</strong>하고, 시간복잡도도 힙으로 구현한 시간복잡도를 사용한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>heapq.heappush() : 원소 삽입</li>
+  <li>heapq.heappop() : 원소 꺼내기</li>
+  <li><strong>heapq.heapify()</strong></li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">heapq</span>
+
+<span class="k">def</span> <span class="nf">heapsort</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+	<span class="n">h</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># 모든 원소를 차례대로 힙에 삽입
+</span>    <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+    	<span class="n">heapq</span><span class="p">.</span><span class="n">heappush</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="c1"># 힙에 삽입된 모든 원소를 차례대로 꺼내어 담기
+</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">h</span><span class="p">)):</span>
+        <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">heapq</span><span class="p">.</span><span class="n">heappop</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">result</span>
+    
+<span class="n">result</span> <span class="o">=</span> <span class="n">heapsort</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="c1"># [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+</span></code></pre></div></div>
+
+<ul>
+  <li>
+<strong>히피파이를 이용한 힙정렬</strong>
+    <ul>
+      <li>기존에 있는 list 객체로 <strong>힙 정렬</strong> 만들기</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">heapq</span>
+
+<span class="n">h</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">heapq</span><span class="p">.</span><span class="n">heapify</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>	<span class="c1"># 파라미터로 list 객체를 받는다.
+</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+	<span class="k">print</span><span class="p">(</span><span class="o">-</span><span class="n">heapq</span><span class="p">.</span><span class="n">heappop</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>	<span class="c1"># 작은 값부터 출력된다.
+</span></code></pre></div></div>
+
+<h4 id="bisect">
+<a class="anchor" href="#bisect" aria-hidden="true"><span class="octicon octicon-link"></span></a>bisect</h4>
+
+<ul>
+  <li>이진 탐색을 쉽게 구현할 수 있도록 bisect 라이브러리를 제공함<strong>. ‘정렬된 배열’에서 특정한 원소를 찾아야 할 때 매우 효과적</strong>이다.  <strong>O(logN)</strong>에 정렬된 배열에 맞는 위치를 찾아준다.</li>
+  <li>
+<strong>‘정렬된 리스트’에서 특정 범위에 속하는 원소의 개수를 구하는데 효과적</strong>이다.
+    <ul>
+      <li>bisect_left(a, x) : 정렬된 순서를 유지하면서 리스트 a에서 데이터 x를 삽입할 가장 왼쪽 인덱스를 찾는 메서드</li>
+      <li>bisect_right(a, x) : 정렬된 순서를 유지하면서 리스트 a에서 데이터 x를 삽입할 가장 오른쪽 인덱스를 찾는 메서드</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">bisect</code> 모듈은 <strong>이미 정렬되어 있는 <code class="language-plaintext highlighter-rouge">list</code>의 정렬 상태를 유지하기 위해</strong> 사용되는 모듈입니다. 이를 이용해서, 기존에 있는 <code class="language-plaintext highlighter-rouge">list</code>의 정렬 상태를 유지 할 수 있고, 이를 응용해서 <code class="language-plaintext highlighter-rouge">Binary Search</code> 또한 구현할 수 있습니다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bisect</span> <span class="kn">import</span> <span class="n">bisect_left</span><span class="p">,</span> <span class="n">bisect_right</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mi">4</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">bisect_left</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span> <span class="c1"># 2
+</span><span class="k">print</span><span class="p">(</span><span class="n">bisect_right</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span> <span class="c1"># 4
+</span></code></pre></div></div>
+
+<p><strong>정렬된 리스트’에서<code class="language-plaintext highlighter-rouge"> 특정 범위(시작과 끝)</code>에 속하는 원소의 개수를 구하는데 효과적</strong>이다.</p>
+
+<ul>
+  <li>left는 같아도 젤 <strong>왼쪽 index(포함)</strong>, right는 같아도 젤 <strong>오른쪽index(미포함, 들어가야하는 자리)</strong>를 반환하므로 <strong>시작과 끝 index를  알 수 있다.</strong>
+</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bisect</span> <span class="kn">import</span> <span class="n">bisect_left</span><span class="p">,</span> <span class="n">bisect_right</span>
+
+<span class="c1"># 값이 [left_value, right_value]인 데이터의 개수를 반환하는 함수
+</span><span class="k">def</span> <span class="nf">count_by_range</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">left_value</span><span class="p">,</span> <span class="n">right_value</span><span class="p">):</span>
+    <span class="n">right_index</span> <span class="o">=</span> <span class="n">bisect_right</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">right_value</span><span class="p">)</span>
+    <span class="n">left_index</span> <span class="o">=</span> <span class="n">bissect_left</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">left_value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">right_index</span> <span class="o">-</span> <span class="n">left_index</span>
+    
+<span class="c1"># 리스트 선언
+</span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+
+<span class="c1"># 값이 4인 데이터 개수 출력
+</span><span class="k">print</span><span class="p">(</span><span class="n">count_by_range</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span> <span class="c1"># 2
+</span>
+<span class="c1"># 값이 [-1, 3] 범위에 있는 데이터 개수 출력
+</span><span class="k">print</span><span class="p">(</span><span class="n">count_by_range</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="c1"># 6
+</span></code></pre></div></div>
+
+<ul>
+  <li>
+    <p>lgN으로 정렬까지 해주는 <strong>bisect.insort( )</strong>도 있다.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">bisect</code> 모듈은 <strong>이미 정렬되어 있는 <code class="language-plaintext highlighter-rouge">list</code>의 정렬 상태를 유지하기 위해</strong> 사용되는 모듈입니다. 이를 이용해서, 기존에 있는 <code class="language-plaintext highlighter-rouge">list</code>의 정렬 상태를 유지 할 수 있고, 이를 응용해서 <code class="language-plaintext highlighter-rouge">Binary Search</code> 또한 구현할 수 있습니다.</p>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 1. 삽입 되어야 하는 index 찾기
+</span>
+<span class="kn">import</span> <span class="nn">bisect</span>
+<span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">bisect</span><span class="p">.</span><span class="n">bisect_left</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>   <span class="c1"># 6이 들어가야 하는 Index인 6을 반환
+</span><span class="k">print</span><span class="p">(</span><span class="n">bisect</span><span class="p">.</span><span class="n">bisect_right</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>  <span class="c1"># arr에 6이 없기 때문에 위와 똑같은 값을 반환한다.
+</span>
+<span class="k">print</span><span class="p">(</span><span class="n">bisect</span><span class="p">.</span><span class="n">bisect_left</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>   <span class="c1"># 중복 되는 값 제일 왼쪽, 2를 반환한다.
+</span><span class="k">print</span><span class="p">(</span><span class="n">bisect</span><span class="p">.</span><span class="n">bisect_right</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>  <span class="c1"># 중복 되는 값 제일 오른쪽 + 1, 4를 반환한다.
+</span>
+<span class="n">bisect</span><span class="p">.</span><span class="n">insort_left</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># 중복 되는 값 왼쪽에 삽입
+</span><span class="n">bisect</span><span class="p">.</span><span class="n">insort_right</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="c1"># 중복 되는 값 오른쪽에 삽입
+</span>
+<span class="k">print</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#2. Binary Search 구현
+</span><span class="kn">from</span> <span class="nn">bisect</span> <span class="kn">import</span> <span class="n">bisect_left</span> 
+<span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+  
+<span class="k">def</span> <span class="nf">bs</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span> 
+    <span class="n">i</span> <span class="o">=</span> <span class="n">bisect_left</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>             <span class="c1"># 들어가야 하는 '제일 왼쪽' index 반환
+</span>    <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">x</span><span class="p">:</span>   <span class="c1"># 들어가야 하는 index가
+</span>        <span class="k">return</span> <span class="n">i</span>                        <span class="c1"># 마지막 index + 1 이라면, arr에 x가 없는 것
+</span>    <span class="k">else</span><span class="p">:</span>                               <span class="c1"># arr[i] == x가 아니라면, arr에 x가 없는 것
+</span>        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+  
+<span class="n">a</span>  <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span> 
+<span class="n">x</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">bs</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">res</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> 
+    <span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s">"는 없습니다!"</span><span class="p">)</span> 
+<span class="k">else</span><span class="p">:</span> 
+    <span class="k">print</span><span class="p">(</span><span class="s">"첫번째"</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="s">"가 등장한 위치는"</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span> 
+</code></pre></div></div>
+
+<h4 id="collections">
+<a class="anchor" href="#collections" aria-hidden="true"><span class="octicon octicon-link"></span></a>collections</h4>
+
+<p>덱(deque), 카운터(Counter) 등의 유용한 자료구조를 포함하고 있는 라이브러리</p>
+
+<ul>
+  <li>
+    <p>deque</p>
+
+    <ul>
+      <li>파이썬에서는 일반적으로 deque를 활용해 큐를 구현한다.</li>
+      <li>Queue 라이브러리 있지만 일반적인 큐 자료구조를 구현하는 라이브러리는 아니다.</li>
+      <li>리스트와 다르게 인덱싱, 슬라이싱 등의 기능은 사용할 수 없다.</li>
+      <li>데이터의 시작이나 끝부분에 데이터를 삽입하는데 효과적이다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211022221823791.png" alt="image-20211022221823791"></p>
+  </li>
+  <li>
+    <p>Counter
+등장 횟수를 세는 기능을 제공한다.
+iterable 객체가 주어졌을 때, 해당 객체 내부 원소가 몇 번 등장했는지 알려준다.</p>
+  </li>
+</ul>
+
+<h4 id="math">
+<a class="anchor" href="#math" aria-hidden="true"><span class="octicon octicon-link"></span></a>math</h4>
+
+<p>수학적 기능을 제공하는 라이브러리</p>
+
+<p>자주 사용되는 수학적인 기능을 포함하고 있는 라이브러리
+팩토리얼, 제곱근, 최대공약수(GCD) 등을 계산해주는 기능을 포함</p>
+
+<ul>
+  <li>종류
+    <ul>
+      <li><strong>math.factorial() : 팩토리얼</strong></li>
+      <li>math.sqrt() : 제곱근</li>
+      <li><strong>math.gcd() : 최대공약수</strong></li>
+      <li>math.pi : 파이</li>
+      <li><strong>math.e : 자연상수</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">math</span><span class="p">.</span><span class="n">factorial</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span> <span class="c1"># 120
+</span>
+<span class="k">print</span><span class="p">(</span><span class="n">math</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">7</span><span class="p">))</span> <span class="c1"># 2.6457513110645907
+</span>
+<span class="k">print</span><span class="p">(</span><span class="n">math</span><span class="p">.</span><span class="n">gcd</span><span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="mi">14</span><span class="p">))</span> <span class="c1"># 7
+</span>
+<span class="k">print</span><span class="p">(</span><span class="n">math</span><span class="p">.</span><span class="n">pi</span><span class="p">)</span> <span class="c1"># 3.141592653589793
+</span>
+<span class="k">print</span><span class="p">(</span><span class="n">math</span><span class="p">.</span><span class="n">e</span><span class="p">)</span> <span class="c1"># 2.718281828459045
+</span></code></pre></div></div>
+
+<p><img src="https://blog.kakaocdn.net/dn/Xfqh5/btq2OpcSoDK/JRVCXkke0Ir11go3ec9AWk/img.png" alt="img"></p>
+
+<h3 id="그외">
+<a class="anchor" href="#%EA%B7%B8%EC%99%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>그외</h3>
+
+<h4 id="map-split-sorted">
+<a class="anchor" href="#map-split-sorted" aria-hidden="true"><span class="octicon octicon-link"></span></a>map, split, sorted</h4>
+
+<h3 id="주의점">
+<a class="anchor" href="#%EC%A3%BC%EC%9D%98%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>주의점</h3>
+
+<h4 id="input말고">
+<a class="anchor" href="#input%EB%A7%90%EA%B3%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>input말고</h4>
+
+<ul>
+  <li>뭐 어느정도로 더 빠르고 느리냐는, 코딩 테스트 문제푸는 수준에서 다룰만한 내용이 아니므로 넘어가도록 하고, 직관적으로만 느꼈던 것은, <strong>input()</strong> 으로 코드를 제출할 시, 시간초과가 뜨지만, <strong>sys.stdin.readline()</strong> 으로 제출할 시 정답이 뜨더라는 것이다. 이와 비슷한 이슈는 이미 이전부터 있었다.</li>
+</ul>
+
+<p>한편, 나는 입출력을 지금까지 이런 방식으로 했다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">().</span><span class="n">split</span><span class="p">()]</span>  
+<span class="c1"># a = [1, 2, 3, 4 ,5]
+</span></code></pre></div></div>
+
+<p>하지만, 이 방법보다 다음 방법이 더 권장된다. (위와 같은 이유로)</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>  <span class="n">a</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">()))</span><span class="c1"># a = [1, 2, 3, 4, 5]
+</span></code></pre></div></div>
+
+<h4 id="재귀풀기">
+<a class="anchor" href="#%EC%9E%AC%EA%B7%80%ED%92%80%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>재귀풀기</h4>
+
+<ul>
+  <li>
+    <p>이전에 문제풀다가 말한 적이 있는데, 특히 자주접하는 DFS, BFS 문제의 경우 그렇다.</p>
+
+    <p>파이썬의 재귀 허용 깊이의 기본치가 c 보다 약한건지, c 로 짠 DFS, BFS의 경우 문제 없이 돌아가지만, 파이썬으로 돌리면 런타임 오류가 뜨는 경우가 있다. 그래서 다음과 같이 재귀 허용 깊이를 수동으로 늘려주는 코드를, 코드 상단에 적어줘야 한다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>  <span class="n">sys</span><span class="p">.</span><span class="n">setrecursionlimit</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">8</span><span class="p">)</span> <span class="c1"># 10^8 까지 늘림.
+</span></code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="pypy">
+<a class="anchor" href="#pypy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pypy</h4>
+
+<ul>
+  <li>
+    <p>PyPy 가 뭔지 찾아보니, 쉽게말해 파이썬 보다 몇 배 더 빠른 개선된 파이썬이라고 생각하면 된다.</p>
+
+    <p>좀 더 자세히 말하면, Python3 는 내부적으로는 C로 짜여져있는데 (이 이유 때문에 Python2 보다 빠르다.), 이를 C가 아니라 Python으로 다시 짠 것이다. 당연히 느릴 것 같은데, 의외로 빠르단다. 자세한 내용은 <a href="https://namu.wiki/w/PyPy">나무위키</a> 참고.</p>
+
+    <p>때문에, 일반적으로 Python3 보다 PyPy로 제출해서 내는게 더 안전한 듯 하다. (빠르다는 의미에서)</p>
+
+    <p>한편, PyPy에서는 <code class="language-plaintext highlighter-rouge">sys.setrecursionlimit(10**8)</code> 이 안먹는다. 즉 임의로 재귀 호출 깊이를 설정할 수 없다는 것에 주의해야 한다.</p>
+
+    <p>파이썬으로 문제푸는 게 편한점도 많지만 아직 어색하고, 이런 자잘한 리스크가 많은 듯 하다.
+이후 또 뭔가 발견하면 남겨놔야겠다.</p>
+  </li>
+</ul>
+
+  </div><a class="u-url" href="/python/module/algorithm/2021/10/22/python_%EB%AA%A8%EB%93%88%EC%A0%95%EB%A6%AC.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
