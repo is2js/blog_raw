@@ -4,8 +4,6 @@ title: Resume
 permalink: /resume/
 ---
 
-## 공사중입니다...(template) 제시한 정보는 github.com/is2js
-
 ###### 기본정보
 
 | Photo                                                                | Future                                                                                                                                      |

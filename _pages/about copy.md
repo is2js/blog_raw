@@ -3,7 +3,7 @@ layout: page
 title: About Me
 permalink: /about/
 ---
-## 공사중(template)입니다. 자세한 정보는 github.com/is2js
+
 > 기술의 교육 기회를 누구나 차등없이 받을 수 있게 대중화, 보편화, 시스템화 하는 것
 
 우리는 교육 특권의 대중화, 고급 IT 기술의 상용화를 도모합니다.

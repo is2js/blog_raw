@@ -3,7 +3,7 @@ layout: page
 title: Edu&Study
 permalink: /edu_study/
 ---
-
+## 공사중입니다(template).. 자세한 정보는 github.com/is2js
 ### 데이터엔지니어로서의 역량
 
 #### Data Engineer란?
