@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>win10에서 Terminal + vscode + Wsl2 + Pyenv작업환경 구성 | DE&amp;KMD(데엔한)</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="win10에서 Terminal + vscode + Wsl2 + Pyenv작업환경 구성" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="windows10에서 wsl2를 이용한 python 개발환경 구성하기" />
+<meta property="og:description" content="windows10에서 wsl2를 이용한 python 개발환경 구성하기" />
+<link rel="canonical" href="blog.chojaeseong.com/windows/configuration/2021/10/15/%EC%84%B8%ED%8C%851_%EC%9C%88%EB%8F%84%EC%9A%B0_choco_terminal_wsl2_python.html" />
+<meta property="og:url" content="blog.chojaeseong.com/windows/configuration/2021/10/15/%EC%84%B8%ED%8C%851_%EC%9C%88%EB%8F%84%EC%9A%B0_choco_terminal_wsl2_python.html" />
+<meta property="og:site_name" content="DE&amp;KMD(데엔한)" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-10-15T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-10-15T00:00:00-05:00","url":"blog.chojaeseong.com/windows/configuration/2021/10/15/%EC%84%B8%ED%8C%851_%EC%9C%88%EB%8F%84%EC%9A%B0_choco_terminal_wsl2_python.html","@type":"BlogPosting","headline":"win10에서 Terminal + vscode + Wsl2 + Pyenv작업환경 구성","dateModified":"2021-10-15T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/windows/configuration/2021/10/15/%EC%84%B8%ED%8C%851_%EC%9C%88%EB%8F%84%EC%9A%B0_choco_terminal_wsl2_python.html"},"description":"windows10에서 wsl2를 이용한 python 개발환경 구성하기","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="DE&amp;KMD(데엔한)" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/">DE&amp;KMD(데엔한)</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+<a class="page-link" href="/about/">About Me</a><a class="page-link" href="/edu_study/">Edu&amp;Study</a><a class="page-link" href="/mygit/">MyGit</a><a class="page-link" href="/resume/">Resume</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a>
+</div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">win10에서 Terminal + vscode + Wsl2 + Pyenv작업환경 구성</h1>
+<p class="page-description">windows10에서 wsl2를 이용한 python 개발환경 구성하기</p>
+<p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-10-15T00:00:00-05:00" itemprop="datePublished">
+        Oct 15, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      11 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i> 
+      
+        <a class="category-tags-link" href="/categories/#windows">windows</a>
+         
+      
+        <a class="category-tags-link" href="/categories/#configuration">configuration</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h3">
+<a href="#chocolately%EB%A1%9C-%EC%B4%88%EA%B8%B0-%EC%84%A4%EC%B9%98">chocolately로 초기 설치</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#window-terminal-%EB%8B%A8%EC%B6%95%ED%82%A4-%EC%84%A4%EC%A0%95">Window Terminal 단축키 설정</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3">
+<a href="#window-terminal-%EB%B0%8F-wsl2-zsh-%EC%84%B8%ED%8C%85">Window Terminal 및 wsl2 zsh 세팅</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#zsh-syntax-highlighting">zsh-syntax-highlighting</a></li>
+<li class="toc-entry toc-h6"><a href="#zsh-autosuggestions">zsh-autosuggestions</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3">
+<a href="#wsl2-%EA%B3%84%EC%A0%95-%EB%B0%8F-%ED%8F%B4%EB%8D%94-%EC%84%A4%EC%A0%95-in-win10">wsl2 계정 및 폴더 설정 in win10</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#%ED%95%AD%EC%83%81-%ED%8A%B9%EC%A0%95%EC%9C%A0%EC%A0%80%EB%A1%9C-wsl2-%EC%A7%84%EC%9E%85">항상 특정유저로 wsl2 진입</a></li>
+<li class="toc-entry toc-h4"><a href="#%EC%9C%88%EB%8F%84%EC%9A%B0-%ED%83%90%EC%83%89%EA%B8%B0%EC%97%90-wsl2%EA%B2%BD%EB%A1%9C-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%EB%A1%9C-%EB%A7%8C%EB%93%A4%EA%B8%B0">윈도우 탐색기에 wsl2경로 네트워크로 만들기</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3">
+<a href="#wsl2-ubuntu-%EA%B8%B0%EB%B3%B8%EC%84%A4%EC%A0%95">wsl2 ubuntu 기본설정</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#%EC%9C%A0%EC%A0%80%EA%B3%84%EC%A0%95%EC%97%90-root%EA%B6%8C%ED%95%9C%EB%B6%80%EC%97%AC-%ED%8C%8C%EC%9D%BC3%EA%B0%9C-%EC%88%98%EC%A0%95">유저계정에 root권한부여 (파일3개 수정)</a></li>
+<li class="toc-entry toc-h4"><a href="#python-python3-%EB%A7%A4%ED%95%91">python-&gt;python3 매핑</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3">
+<a href="#python-%EA%B0%80%EC%83%81%ED%99%98%EA%B2%BD-%EC%84%A4%EC%A0%95">python 가상환경 설정</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#pip3--pyenv%EA%B2%A9%EB%A6%AC%EB%90%9C-python-%EC%84%A4%EC%B9%98">pip3 &amp; pyenv(격리된 python) 설치</a></li>
+<li class="toc-entry toc-h4"><a href="#virtualenv--pyenv-virtualenvwrapper%EA%B2%A9%EB%A6%AC%EB%90%9C-python%EC%9C%BC%EB%A1%9C-%EA%B0%80%EC%83%81%ED%99%98%EA%B2%BD-%EC%83%9D%EC%84%B1-%EC%84%A4%EC%B9%98">virtualenv &amp; pyenv-virtualenvwrapper(격리된 python으로 가상환경 생성) 설치</a></li>
+<li class="toc-entry toc-h4"><a href="#%EC%B0%B8%EA%B3%A0-path-%EA%B4%80%EB%A0%A8-%ED%99%95%EC%9D%B8%ED%95%B4%EB%B3%B4%EA%B8%B0">참고) path 관련 확인해보기</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="chocolately로-초기-설치">
+<a class="anchor" href="#chocolately%EB%A1%9C-%EC%B4%88%EA%B8%B0-%EC%84%A4%EC%B9%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>chocolately로 초기 설치</h3>
+
+<ol>
+  <li>
+    <p>관리자권한 powershell</p>
+
+    <ul>
+      <li>초코랫리 겟스타트 -&gt; 인스톨 코드 복붙</li>
+      <li>경고떠도됨. 관리자권한으로 다시 껐다 키기</li>
+    </ul>
+  </li>
+  <li>
+    <p>find pakage에서 <strong>terminal</strong> 검색후 설치</p>
+
+    <blockquote>
+      <p>choco install microsoft-windows-terminal</p>
+    </blockquote>
+  </li>
+  <li>
+    <p><strong>python</strong> 3 검색후 3.9 설치</p>
+
+    <blockquote>
+      <p>choco install python3</p>
+    </blockquote>
+  </li>
+  <li>
+    <p><strong>vscode</strong> 설치</p>
+
+    <blockquote>
+      <p>choco install vscode</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>git 설치</p>
+
+    <blockquote>
+      <p>choco install git</p>
+
+      <blockquote>
+        <p>git config –global user.name “2js”</p>
+
+        <p>git config –global user.email “1@gmail”</p>
+      </blockquote>
+    </blockquote>
+  </li>
+  <li>
+    <p>wsl2 설치 -&gt; <strong>재부팅후 한번 더 실행</strong> (-y -f ??)</p>
+
+    <blockquote>
+      <p>choco install wsl2 -y -f</p>
+    </blockquote>
+
+    <ul>
+      <li>
+        <p><a href="https://askubuntu.com/questions/1264102/wsl-2-wont-run-ubuntu-error-0x80370102">참고사이트</a></p>
+      </li>
+      <li>
+        <p>참고) 정식 가이드로 설치시 해주는 다운로드전 설정</p>
+
+        <blockquote>
+          <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+<span class="c"># WSL 활성화</span>
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+<span class="c"># VM platform 활성화</span>
+</code></pre></div>          </div>
+        </blockquote>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>관리자 권한으로 윈도우 가상화해주기 for wsl2</strong></p>
+
+    <blockquote>
+      <p>Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All</p>
+
+      <p>bcdedit /set hypervisorlaunchtype auto</p>
+    </blockquote>
+  </li>
+  <li>
+    <p><strong>AMD CPU SVM mode 설정 in Bios</strong> for ubuntu 실행</p>
+
+    <ul>
+      <li>
+        <p>del 로 bios 진입</p>
+      </li>
+      <li>
+        <p>advanced 진입(F7)</p>
+      </li>
+      <li>
+        <p>OC(Overclock) 진입</p>
+      </li>
+      <li>
+        <p>advanced cpu configuration 진입</p>
+      </li>
+      <li>
+        <p><strong>SVM node: Enable</strong></p>
+
+        <ul>
+          <li>우측상단 X로 저장후 종료하기</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>wsl2용 ubuntu1804 설치 -&gt; <strong>ms store에서 설치(choco는 update안된 버전이라고함)</strong></p>
+
+    <ul>
+      <li>msstore 사용시 ms계정 요구함
+        <ul>
+          <li>~@hanmail.ent  / ~54</li>
+        </ul>
+      </li>
+      <li>설치 -&gt; 시작</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">wsl</code>명령어로 우분투 진입
+    <ul>
+      <li>default 계정 및 비번 설정
+        <ul>
+          <li>is2js /</li>
+          <li>~213</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>항상 <code class="language-plaintext highlighter-rouge">wsl</code>접속으로 /mnt된 곳이 아니라 <code class="language-plaintext highlighter-rouge">cd ~</code> (linux 홈폴더)를 한 상태에서 <code class="language-plaintext highlighter-rouge">code ~/.zshrc</code> 등의 설정을 하자.</strong></li>
+</ol>
+
+<h4 id="window-terminal-단축키-설정">
+<a class="anchor" href="#window-terminal-%EB%8B%A8%EC%B6%95%ED%82%A4-%EC%84%A4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>Window Terminal 단축키 설정</h4>
+
+<ul>
+  <li>
+    <p>vscode와 비슷하게 추가 매핑해준다.</p>
+
+    <ul>
+      <li>actions 부분에 추가해주면 된다.</li>
+    </ul>
+
+    <div class="language-json highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="w">          </span><span class="p">{</span><span class="w">
+              </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"find"</span><span class="p">,</span><span class="w">
+              </span><span class="err">//</span><span class="w"> </span><span class="err">검색키</span><span class="w"> </span><span class="err">매핑</span><span class="w">
+              </span><span class="err">//</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+shift+f"</span><span class="p">,</span><span class="w">
+              </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+shift+f"</span><span class="w">
+          </span><span class="p">}</span><span class="err">,</span><span class="w">
+          </span><span class="err">//</span><span class="w"> </span><span class="err">수직분할</span><span class="w"> </span><span class="err">매핑(추가)</span><span class="w">
+          </span><span class="err">//</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"splitPane"</span><span class="p">,</span><span class="w"> </span><span class="nl">"split"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vertical"</span><span class="p">,</span><span class="w"> </span><span class="nl">"splitMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"duplicate"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alt+shift+plus"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w">
+          </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"splitPane"</span><span class="p">,</span><span class="w"> </span><span class="nl">"split"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vertical"</span><span class="p">,</span><span class="w"> </span><span class="nl">"splitMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"duplicate"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+</span><span class="se">\\</span><span class="s2">"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w">
+          </span><span class="err">//</span><span class="w"> </span><span class="err">수평분할</span><span class="w"> </span><span class="err">매핑(추가)</span><span class="w">
+          </span><span class="err">//</span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"splitPane"</span><span class="p">,</span><span class="w"> </span><span class="nl">"split"</span><span class="p">:</span><span class="w"> </span><span class="s2">"horizontal"</span><span class="p">,</span><span class="w"> </span><span class="nl">"splitMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"duplicate"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alt+shift+-"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w">
+          </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"splitPane"</span><span class="p">,</span><span class="w"> </span><span class="nl">"split"</span><span class="p">:</span><span class="w"> </span><span class="s2">"horizontal"</span><span class="p">,</span><span class="w"> </span><span class="nl">"splitMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"duplicate"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alt+shift+0"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w">
+          </span><span class="err">//</span><span class="w"> </span><span class="err">탭</span><span class="w"> </span><span class="err">끄기</span><span class="w"> </span><span class="err">매핑(추가)</span><span class="w">
+          </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w">  </span><span class="s2">"closePane"</span><span class="p">,</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+w"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w">
+          </span><span class="err">//</span><span class="w"> </span><span class="err">포커스key</span><span class="w"> </span><span class="err">매핑(추가)</span><span class="w">
+          </span><span class="err">//</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"moveFocus"</span><span class="p">,</span><span class="w"> </span><span class="nl">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"down"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alt+down"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w"> 
+          </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"moveFocus"</span><span class="p">,</span><span class="w"> </span><span class="nl">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"down"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+alt+down"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w"> 
+          </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"moveFocus"</span><span class="p">,</span><span class="w"> </span><span class="nl">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"left"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+alt+left"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w"> 
+          </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"moveFocus"</span><span class="p">,</span><span class="w"> </span><span class="nl">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"right"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+alt+right"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w"> 
+          </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"moveFocus"</span><span class="p">,</span><span class="w"> </span><span class="nl">"direction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"up"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+alt+up"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w">
+    
+          </span><span class="err">//</span><span class="w"> </span><span class="err">창이동</span><span class="w"> </span><span class="err">단축키</span><span class="w"> </span><span class="err">매핑(추가)</span><span class="w">
+          </span><span class="err">//</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"switchToTab"</span><span class="p">,</span><span class="w"> </span><span class="nl">"index"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+alt+1"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w">
+          </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"switchToTab"</span><span class="p">,</span><span class="w"> </span><span class="nl">"index"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+1"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w">
+          </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"switchToTab"</span><span class="p">,</span><span class="w"> </span><span class="nl">"index"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+2"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w">
+          </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"switchToTab"</span><span class="p">,</span><span class="w"> </span><span class="nl">"index"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+3"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w">
+          </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"switchToTab"</span><span class="p">,</span><span class="w"> </span><span class="nl">"index"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+4"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w">
+          </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"switchToTab"</span><span class="p">,</span><span class="w"> </span><span class="nl">"index"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+5"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w">
+          </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"switchToTab"</span><span class="p">,</span><span class="w"> </span><span class="nl">"index"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+6"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w">
+          </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"switchToTab"</span><span class="p">,</span><span class="w"> </span><span class="nl">"index"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+7"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w">
+          </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"switchToTab"</span><span class="p">,</span><span class="w"> </span><span class="nl">"index"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+8"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w">
+          </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"switchToTab"</span><span class="p">,</span><span class="w"> </span><span class="nl">"index"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+9"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w">
+          </span><span class="err">//</span><span class="w"> </span><span class="err">Rename</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="err">tab</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="s2">"Foo"</span><span class="w">
+          </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"renameTab"</span><span class="p">,</span><span class="w"> </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"server"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"f1"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w">
+          </span><span class="p">{</span><span class="w"> </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"renameTab"</span><span class="p">,</span><span class="w"> </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jupyter"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nl">"keys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"f2"</span><span class="w"> </span><span class="p">}</span><span class="err">,</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="window-terminal-및-wsl2-zsh-세팅">
+<a class="anchor" href="#window-terminal-%EB%B0%8F-wsl2-zsh-%EC%84%B8%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>Window Terminal 및 wsl2 zsh 세팅</h3>
+
+<ol>
+  <li>
+    <p>터미널에서 설정(ctrl+,) &gt; json파일열기 &gt; ubuntu이름을 wsl2로 바꾸고</p>
+
+    <ul>
+      <li>wsl2(ubuntu)의 guid를 복사해서 &gt; <code class="language-plaintext highlighter-rouge">defaultProfile</code> key에 넣어 <strong>기본 프로필로 설정</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>Fira code설치후, WindowTerminal 및 vscode-editor + vscode terminal font 변경해주기</p>
+
+    <ul>
+      <li>
+        <p><a href="https://github.com/tonsky/FiraCode">깃허브</a> &gt; zip파일 다운후 압축풀고 &gt; ttf 다 설치</p>
+
+        <ul>
+          <li>
+            <p>Terminal : <strong>없던 <code class="language-plaintext highlighter-rouge">defaults</code>속 <code class="language-plaintext highlighter-rouge">fontFace</code>속성을 넣어서 폰트를 설정해준다.</strong></p>
+          </li>
+          <li>
+            <p>Vscode : font 검색후, 맨앞에 <strong><code class="language-plaintext highlighter-rouge">"Fira code"</code> 추가</strong> 후 전체복사</p>
+
+            <ul>
+              <li>
+                <p>terminal font 검색 후 복붙</p>
+
+                <blockquote>
+                  <p>“Fira code”, Consolas, ‘Courier New’, monospace</p>
+                </blockquote>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>zsh설치(<strong>zsh는 root로 설치</strong>)</p>
+
+    <blockquote>
+      <p>sudo apt update &amp;&amp; upgrade</p>
+
+      <p>sudo apt install zsh</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>oh my zsh(zsh) 설치 (<strong>ohmyzsh부터는 user로 설치?!</strong>)</p>
+
+    <ul>
+      <li>
+        <p><a href="https://github.com/ohmyzsh/ohmyzsh">github</a> 들어가서 curl로 설치 명령어 날리기</p>
+
+        <blockquote>
+          <p>sh -c “$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)”</p>
+        </blockquote>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>ohmyzsh 플러그인 2개(자동완성, 하이라이팅) 설치</p>
+
+    <blockquote>
+      <h6 id="zsh-syntax-highlighting">
+<a class="anchor" href="#zsh-syntax-highlighting" aria-hidden="true"><span class="octicon octicon-link"></span></a>zsh-syntax-highlighting</h6>
+
+      <p>git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting</p>
+
+      <h6 id="zsh-autosuggestions">
+<a class="anchor" href="#zsh-autosuggestions" aria-hidden="true"><span class="octicon octicon-link"></span></a>zsh-autosuggestions</h6>
+
+      <p>git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions</p>
+    </blockquote>
+
+    <ul>
+      <li>
+        <p>.zshrc에 기입해주기</p>
+
+        <blockquote>
+          <p>code ~/.zshrc</p>
+
+          <blockquote>
+            <p>plugin 검색</p>
+
+            <p>plugins=(git) 에 공백으로 추가 해주기</p>
+
+            <p>plugins=(git zsh-syntax-highlighting zsh-autosuggestions)</p>
+          </blockquote>
+
+          <p>나와서</p>
+
+          <p>source ~/.zshrc</p>
+        </blockquote>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>p10k(ohmyzsh의 테마) 설치</p>
+
+    <ul>
+      <li>
+        <p><a href="https://github.com/romkatv/powerlevel10k">깃허브</a> 에서 ohmyzsh 클릭 후 ohmyzsh 하위폴더로 clone시켜주기</p>
+
+        <blockquote>
+          <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git clone <span class="nt">--depth</span><span class="o">=</span>1 https://github.com/romkatv/powerlevel10k.git <span class="k">${</span><span class="nv">ZSH_CUSTOM</span><span class="k">:-</span><span class="nv">$HOME</span><span class="p">/.oh-my-zsh/custom</span><span class="k">}</span>/themes/powerlevel10k
+</code></pre></div>          </div>
+        </blockquote>
+      </li>
+      <li>
+        <p><strong>p10k를 zsh의 테마로 설정해주기</strong></p>
+
+        <blockquote>
+          <blockquote>
+            <p>code ~/.zshrc</p>
+          </blockquote>
+
+          <p>theme검색후  ZSH_THEME=”robbyrussell”를</p>
+
+          <blockquote>
+            <p>ZSH_THEME=”powerlevel10k/powerlevel10k”</p>
+          </blockquote>
+
+          <p>로 변경</p>
+
+          <blockquote>
+            <p>source ~/.zshrc</p>
+          </blockquote>
+        </blockquote>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">p10k configure </code>설정이 시작됨</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">ls -al</code> 등이 파일명 배경색 직접 변경하기</p>
+
+    <blockquote>
+      <p>cd ~</p>
+
+      <blockquote>
+        <p>code ~/.zshrc</p>
+      </blockquote>
+
+      <blockquote>
+        <p># change filname background color</p>
+
+        <p>LS_COLORS=”ow=01;36;40” &amp;&amp; export LS_COLORS</p>
+      </blockquote>
+
+      <p>위 내용 추가</p>
+
+      <blockquote>
+        <p>source ~/.zshrc</p>
+      </blockquote>
+    </blockquote>
+  </li>
+  <li>
+    <p>Win-terminal 테마 생성 및 설정해주기</p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">terminalsplash.com</code>에 들어가서 고른다.</p>
+
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">VS code theme</code>를 찾음. 아직 json내부에서 <code class="language-plaintext highlighter-rouge">"name"</code>이 없는 상태.</li>
+        </ul>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">"profiles"</code> 밑에 <code class="language-plaintext highlighter-rouge">"schemes"</code>에 **name을 추가해주면서 ** custom theme를 등록해야한다.</p>
+
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">schemes </code>에 등록한 뒤, <code class="language-plaintext highlighter-rouge">colorScheme</code>로 사용된다</li>
+        </ul>
+
+        <div class="language-json highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="w">      </span><span class="nl">"schemes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        		
+  		</span><span class="p">{</span><span class="w">
+  			</span><span class="nl">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"VScode"</span><span class="p">,</span><span class="w">
+  			</span><span class="nl">"background"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"#232323"</span><span class="p">,</span><span class="w">
+  			</span><span class="nl">"black"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"#000000"</span><span class="p">,</span><span class="w">
+  			</span><span class="nl">"blue"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"#579BD5"</span><span class="p">,</span><span class="w">
+  			</span><span class="nl">"brightBlack"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"#797979"</span><span class="p">,</span><span class="w">
+  			</span><span class="nl">"brightBlue"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"#9BDBFE"</span><span class="p">,</span><span class="w">
+  			</span><span class="nl">"brightCyan"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"#2BC4E2"</span><span class="p">,</span><span class="w">
+  			</span><span class="nl">"brightGreen"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"#1AD69C"</span><span class="p">,</span><span class="w">
+  			</span><span class="nl">"brightPurple"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"#DF89DD"</span><span class="p">,</span><span class="w">
+  			</span><span class="nl">"brightRed"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"#F6645D"</span><span class="p">,</span><span class="w">
+  			</span><span class="nl">"brightWhite"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"#EAEAEA"</span><span class="p">,</span><span class="w">
+  			</span><span class="nl">"brightYellow"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"#F6F353"</span><span class="p">,</span><span class="w">
+  			</span><span class="nl">"cyan"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"#00B6D6"</span><span class="p">,</span><span class="w">
+  			</span><span class="nl">"foreground"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"#D3D3D3"</span><span class="p">,</span><span class="w">
+  			</span><span class="nl">"green"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"#3FC48A"</span><span class="p">,</span><span class="w">
+  			</span><span class="nl">"purple"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"#CA5BC8"</span><span class="p">,</span><span class="w">
+  			</span><span class="nl">"red"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"#D8473F"</span><span class="p">,</span><span class="w">
+  			</span><span class="nl">"white"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"#EAEAEA"</span><span class="p">,</span><span class="w">
+  			</span><span class="nl">"yellow"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"#D7BA7D"</span><span class="w">
+  		</span><span class="p">},</span><span class="w">
+        		
+  	</span><span class="p">]</span><span class="err">,</span><span class="w">
+</span></code></pre></div>        </div>
+      </li>
+      <li>
+        <p>wsl2(ubuntu)와 win-terminal or <strong>terminal 전에 colorScheme</strong>으로 지정해준다.</p>
+
+        <div class="language-json highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="w">  		    </span><span class="p">{</span><span class="w">
+                  </span><span class="nl">"guid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}"</span><span class="p">,</span><span class="w">
+                  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wsl2"</span><span class="p">,</span><span class="w">
+                  </span><span class="nl">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Windows.Terminal.Wsl"</span><span class="p">,</span><span class="w">
+  				</span><span class="nl">"colorScheme"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"VScode"</span><span class="p">,</span><span class="w">
+              </span><span class="p">}</span><span class="err">,</span><span class="w">
+              </span><span class="p">{</span><span class="w">
+                  </span><span class="err">//</span><span class="w"> </span><span class="err">Make</span><span class="w"> </span><span class="err">changes</span><span class="w"> </span><span class="err">here</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">the</span><span class="w"> </span><span class="err">powershell.exe</span><span class="w"> </span><span class="err">profile.</span><span class="w">
+                  </span><span class="nl">"guid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{61c54bbd-c2c6-5271-96e7-009a87ff44bf}"</span><span class="p">,</span><span class="w">
+                  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Windows PowerShell"</span><span class="p">,</span><span class="w">
+                  </span><span class="nl">"commandline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"powershell.exe"</span><span class="p">,</span><span class="w">
+                  </span><span class="nl">"hidden"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  				</span><span class="nl">"colorScheme"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"VScode"</span><span class="p">,</span><span class="w">
+              </span><span class="p">}</span><span class="err">,</span><span class="w">
+</span></code></pre></div>        </div>
+
+        <div class="language-json highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="w">      </span><span class="nl">"profiles"</span><span class="p">:</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"defaults"</span><span class="p">:</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+              </span><span class="err">//</span><span class="w"> </span><span class="err">Put</span><span class="w"> </span><span class="err">settings</span><span class="w"> </span><span class="err">here</span><span class="w"> </span><span class="err">that</span><span class="w"> </span><span class="err">you</span><span class="w"> </span><span class="err">want</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">apply</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">all</span><span class="w"> </span><span class="err">profiles.</span><span class="w">
+  			</span><span class="nl">"fontFace"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Fira Code"</span><span class="p">,</span><span class="w">
+  			</span><span class="nl">"colorScheme"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"VScode"</span><span class="p">,</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+</span></code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="wsl2-계정-및-폴더-설정-in-win10">
+<a class="anchor" href="#wsl2-%EA%B3%84%EC%A0%95-%EB%B0%8F-%ED%8F%B4%EB%8D%94-%EC%84%A4%EC%A0%95-in-win10" aria-hidden="true"><span class="octicon octicon-link"></span></a>wsl2 계정 및 폴더 설정 in win10</h3>
+
+<h4 id="항상-특정유저로-wsl2-진입">
+<a class="anchor" href="#%ED%95%AD%EC%83%81-%ED%8A%B9%EC%A0%95%EC%9C%A0%EC%A0%80%EB%A1%9C-wsl2-%EC%A7%84%EC%9E%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>항상 특정유저로 wsl2 진입</h4>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">/etc/wsl.conf</code> 없으면 생성</p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>vi /etc/wsl.confg
+</code></pre></div>    </div>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="o">[</span>user]
+  <span class="nv">default</span><span class="o">=</span>is2js
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="윈도우-탐색기에-wsl2경로-네트워크로-만들기">
+<a class="anchor" href="#%EC%9C%88%EB%8F%84%EC%9A%B0-%ED%83%90%EC%83%89%EA%B8%B0%EC%97%90-wsl2%EA%B2%BD%EB%A1%9C-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%EB%A1%9C-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>윈도우 탐색기에 wsl2경로 네트워크로 만들기</h4>
+
+<ul>
+  <li>
+<strong>윈도우(\)탐색기 창</strong>에서는 <code class="language-plaintext highlighter-rouge">\\wsl$</code> 로 우분투로 접속가능하다.
+    <ul>
+      <li>
+<strong>config등 경로</strong>에서는 <code class="language-plaintext highlighter-rouge">//wsl$</code>의 슬래쉬로 사용된다.</li>
+      <li>참고) 윈도우탐색기상 <strong><code class="language-plaintext highlighter-rouge">wt -d .</code>을 통해, 현재경로에서 <code class="language-plaintext highlighter-rouge">윈도우 터미널 열기</code></strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li><strong><code class="language-plaintext highlighter-rouge">wsl 쉘</code> 킨 상태로 연결유지</strong></li>
+  <li>
+<code class="language-plaintext highlighter-rouge">탐색기</code> &gt; <code class="language-plaintext highlighter-rouge">내PC</code>  우클릭 &gt; <code class="language-plaintext highlighter-rouge">네트워크 위치 추가</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">사용자 지정 네트워크 위치 선택</code></li>
+      <li>[인터넷 또는 네트워크주소]  부분에 <strong><code class="language-plaintext highlighter-rouge">\\wsl$</code>입력후 <code class="language-plaintext highlighter-rouge">찾아보기</code></strong>
+</li>
+      <li>원하는 경로선택하기 : <code class="language-plaintext highlighter-rouge">우분투/home/is2js/workspace/</code>
+</li>
+      <li>원하는 이름 입력 : <code class="language-plaintext highlighter-rouge">is2js_workspace</code>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001225221185.png" alt="image-20211001225221185">
+</li>
+    </ul>
+  </li>
+  <li>여기서 들어간 뒤 <code class="language-plaintext highlighter-rouge">wt -d .</code>로 윈도우 터미널(wsl)을 열면 될듯?</li>
+</ol>
+
+<h3 id="wsl2-ubuntu-기본설정">
+<a class="anchor" href="#wsl2-ubuntu-%EA%B8%B0%EB%B3%B8%EC%84%A4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>wsl2 ubuntu 기본설정</h3>
+
+<ul>
+  <li><a href="https://studyforus.tistory.com/223">루트 계정 비밀번호 초기화참고 블로그</a></li>
+  <li>
+<a href="https://jcil.co.kr/24">유저계정을 root 화시키기 참고 블로그</a>
+    <ul>
+      <li><a href="https://extrememanual.net/10697">usermod -aG sudo [계정명]으로만 주기</a></li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p>openssl 설치</p>
+
+    <blockquote>
+      <p>sudo apt install openssl</p>
+    </blockquote>
+  </li>
+  <li>
+    <p><strong>root의 기본 비밀번호 초기화</strong></p>
+
+    <blockquote>
+      <p>sudo passwd root</p>
+    </blockquote>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">#</code> : 관리자</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">$</code> : 일반유저</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="유저계정에-root권한부여-파일3개-수정">
+<a class="anchor" href="#%EC%9C%A0%EC%A0%80%EA%B3%84%EC%A0%95%EC%97%90-root%EA%B6%8C%ED%95%9C%EB%B6%80%EC%97%AC-%ED%8C%8C%EC%9D%BC3%EA%B0%9C-%EC%88%98%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>유저계정에 root권한부여 (파일3개 수정)</h4>
+
+<ol>
+  <li>
+    <p><strong>root계정으로 권한설정파일에 유저계정-&gt; root권한부여</strong></p>
+
+    <blockquote>
+      <p>su</p>
+
+      <p>vi /etc/sudoers</p>
+    </blockquote>
+
+    <ul>
+      <li>
+        <p>아래 root쪽에 내 계정도 추가하기</p>
+
+        <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c"># User privilege specification</span>
+  root    <span class="nv">ALL</span><span class="o">=(</span>ALL:ALL<span class="o">)</span> ALL
+  is2js   <span class="nv">ALL</span><span class="o">=(</span>ALL:ALL<span class="o">)</span> ALL
+</code></pre></div>        </div>
+      </li>
+    </ul>
+
+    <blockquote>
+      <p>wq! (readonly떠서 강제로 저장후 종료)</p>
+    </blockquote>
+  </li>
+  <li>
+    <p><strong>root계정으로 비밀번호설정파일에 유저계정-&gt; root권한부여</strong></p>
+
+    <ul>
+      <li>root항목처럼, <code class="language-plaintext highlighter-rouge">root:x:0:0:root:</code>/~f로 시작하는 부분에서
+        <ul>
+          <li>앞쪽0 : uid</li>
+          <li>뒤쪽0: gid
+            <ul>
+              <li>관리자라면 둘다 0임.</li>
+              <li><strong>나는 뒤쪽 그룹id만 0으로줌.</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <blockquote>
+      <p>vi /etc/passwd</p>
+
+      <p>wq!</p>
+    </blockquote>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c">#is2js:x:1002?:1002?:,,,:/home/is2js:/usr/bin/zsh</span>
+ is2js:x:1002?:0:,,,:/home/is2js:/usr/bin/zsh
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>root계정으로 그룹설정파일에 유저계정-&gt; root권한부여</strong></p>
+
+    <ul>
+      <li>
+        <p>root가 대장인 0그룹에 <strong>추가를 해주면됨</strong></p>
+
+        <blockquote>
+          <p>vi /etc/group</p>
+
+          <p>wq!</p>
+        </blockquote>
+
+        <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c">#root:x:0:</span>
+  root:x:0:is2js
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>zsh 권한 에러시</p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nb">sudo chown</span> <span class="nt">-R</span> <span class="k">${</span><span class="nv">LOGNAME</span><span class="k">}</span>:staff <span class="nv">$HOME</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>wsl2-ubuntu 시작계정 설정하기</strong></p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">powershell</code> 에서</p>
+
+        <div class="language-powershell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="nf">ubuntu</span><span class="p">[</span><span class="mi">1804</span><span class="p">]</span><span class="w"> </span><span class="nf">config</span><span class="w"> </span><span class="nt">--default-user</span><span class="w"> </span><span class="p">[</span><span class="kt">is2js</span><span class="p">]</span><span class="w">
+</span></code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>wsl2-ubuntu <strong>시작폴더 설정</strong>하기 in <code class="language-plaintext highlighter-rouge">WindowTerminal</code></p>
+
+    <ul>
+      <li>
+        <p>터미널의 wsl프로필에다가 옵션을 추가해줌</p>
+
+        <ul>
+          <li><a href="https://myskan.tistory.com/124">출저</a></li>
+        </ul>
+
+        <div class="language-json highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="nl">"startingDirectory"</span><span class="p">:</span><span class="s2">"</span><span class="se">\\\\</span><span class="s2">wsl$</span><span class="se">\\</span><span class="s2">Ubuntu-[20.04]</span><span class="se">\\</span><span class="s2">home</span><span class="se">\\</span><span class="s2">[myskan]"</span><span class="w">
+</span></code></pre></div>        </div>
+
+        <div class="language-json highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="nl">"guid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}"</span><span class="err">,</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wsl2"</span><span class="err">,</span><span class="w">
+  </span><span class="nl">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Windows.Terminal.Wsl"</span><span class="err">,</span><span class="w">
+  </span><span class="nl">"colorScheme"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"VScode"</span><span class="err">,</span><span class="w">
+  </span><span class="nl">"startingDirectory"</span><span class="p">:</span><span class="s2">"</span><span class="se">\\\\</span><span class="s2">wsl$</span><span class="se">\\</span><span class="s2">Ubuntu-18.04</span><span class="se">\\</span><span class="s2">home</span><span class="se">\\</span><span class="s2">is2js"</span><span class="err">,</span><span class="w">
+</span></code></pre></div>        </div>
+      </li>
+      <li>
+        <p>참고</p>
+
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">\\wsl$</code>  : 탐색기에서 우분투 폴더라도 바로 가기</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="python-python3-매핑">
+<a class="anchor" href="#python-python3-%EB%A7%A4%ED%95%91" aria-hidden="true"><span class="octicon octicon-link"></span></a>python-&gt;python3 매핑</h4>
+
+<ul>
+  <li><a href="https://codechacha.com/ko/change-python-version/">참고블로그</a></li>
+  <li><a href="https://seongkyun.github.io/others/2019/05/09/ubuntu_python/">더 좋은 블로그</a></li>
+</ul>
+
+<ol>
+  <li>
+    <p>Alternatives는 <strong>기본 커맨드의 심볼릭 링크를 관리</strong>해주는 리눅스 프로그램입니다. 데비안 계열의 리눅스(<strong>우분투)에서는 <code class="language-plaintext highlighter-rouge">update-alternatives</code>가 제공</strong>됩니다.</p>
+  </li>
+  <li>
+    <p>우분투(Ubuntu)를 설치하면 python path가 2.7로 설정되어 있습니다.</p>
+
+    <ul>
+      <li>리눅스의 <code class="language-plaintext highlighter-rouge">Alternatives</code>를 이용하면 python 버전을 쉽게 변경하고 관리할 수 있습니다.</li>
+    </ul>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ which python
+    
+ /usr/bin/python
+</code></pre></div>    </div>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">python</code>은 <code class="language-plaintext highlighter-rouge">/usr/bin/python</code>의 링크인데</strong></li>
+    </ul>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ <span class="nb">ls</span> <span class="nt">-al</span> /usr/bin/ | <span class="nb">grep </span>python
+    
+ lrwxrwxrwx  1 root   root           9 Apr 16  2018 python -&gt; python2.7
+ lrwxrwxrwx  1 root   root          16 Apr 16  2018 python-config -&gt; python2.7-config
+ lrwxrwxrwx  1 root   root           9 Apr 16  2018 python2 -&gt; python2.7
+ lrwxrwxrwx  1 root   root          16 Apr 16  2018 python2-config -&gt; python2.7-config
+ <span class="nt">-rwxr-xr-x</span>  1 root   root     3633000 Feb 28  2021 python2.7
+ lrwxrwxrwx  1 root   root          33 Feb 28  2021 python2.7-config -&gt; x86_64-linux-gnu-python2.7-config
+ lrwxrwxrwx  1 root   root           9 Oct 25  2018 python3 -&gt; python3.6
+</code></pre></div>    </div>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ <span class="nb">ls</span> <span class="nt">-al</span> /usr/bin/python
+    
+ lrwxrwxrwx 1 root root 9 Apr 16  2018 /usr/bin/python -&gt; python2.7
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">/usr/bin/python</code> 역시 실행파일이 아닌  <code class="language-plaintext highlighter-rouge">/usr/bin/python2.7</code>의 링크이다.</strong></p>
+      </li>
+      <li>
+        <p>**즉 **</p>
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">/usr/bin/python2.7</code> -&gt; <code class="language-plaintext highlighter-rouge">/usr/bin/python</code>  -&gt; <code class="language-plaintext highlighter-rouge">python</code>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">--config python</code>로 <code class="language-plaintext highlighter-rouge">python</code>에 걸려있는 링크를 확인한다.</strong></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>update-alternatives <span class="nt">--config</span> python
+    
+ <span class="o">[</span><span class="nb">sudo</span><span class="o">]</span> password <span class="k">for </span>is2js:
+ update-alternatives: error: no alternatives <span class="k">for </span>python
+</code></pre></div>    </div>
+
+    <ul>
+      <li>alternatives가 없다고 뜨면, 설정을 해줘야한다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">--install [symbolic link path(버전을 제외한 공통 경로)] python [real path(버전명시 경로)] [우선순위number]</code>로  여러버전을 등록한다.</strong></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c">#sudo update-alternatives --install /usr/bin/python(버전제외 공통 경로) python(명령어=링크) /usr/bin/python3(버전명시 경로) 10(우선순위)</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p><del>python2.7 등록</del></p>
+
+        <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>update-alternatives <span class="nt">--install</span> /usr/bin/python python /usr/bin/python2.7 2
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>python3.6 등록</p>
+
+        <ul>
+          <li><strong>3.6 한개만 등록하고 해당 버전을 선택안해도 python -&gt; python3.6이 걸리도록 하면 된다.</strong></li>
+        </ul>
+
+        <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>update-alternatives <span class="nt">--install</span> /usr/bin/python python /usr/bin/python3.6 1
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>(만약 2개이상 버전 등록했다면) 다시 한번 <strong><code class="language-plaintext highlighter-rouge">--config python</code>으로 등록된 버전</strong> 확인 및 <strong>선택</strong></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>update-alternatives <span class="nt">--config</span> python
+    
+ There are 2 choices <span class="k">for </span>the alternative python <span class="o">(</span>providing /usr/bin/python<span class="o">)</span><span class="nb">.</span>
+    
+   Selection    Path                Priority   Status
+ <span class="nt">------------------------------------------------------------</span>
+ <span class="k">*</span> 0            /usr/bin/python2.7   2         auto mode
+   1            /usr/bin/python2.7   2         manual mode
+   2            /usr/bin/python3.6   1         manual mode
+    
+ Press &lt;enter&gt; to keep the current choice[<span class="k">*</span><span class="o">]</span>, or <span class="nb">type </span>selection number:
+    
+    
+ 2
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>**버전을 선택해주면, <code class="language-plaintext highlighter-rouge">python</code>의 링크가 특정버전으로 옮겨져있다. **</p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ python <span class="nt">-V</span>
+ Python 3.6.9
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>pip도 설정해준다.</strong></p>
+
+    <ul>
+      <li><strong>1개만 등록하면 pip -&gt; pip3가 될 것이다.</strong></li>
+    </ul>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ <span class="nb">sudo </span>update-alternatives <span class="nt">--config</span> pip
+    
+ update-alternatives: error: no alternatives <span class="k">for </span>pip
+</code></pre></div>    </div>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ <span class="nb">sudo </span>update-alternatives <span class="nt">--install</span> /usr/bin/pip pip /usr/bin/pip3 1
+    
+ update-alternatives: using /usr/bin/pip3 to provide /usr/bin/pip <span class="o">(</span>pip<span class="o">)</span> <span class="k">in </span>auto mode
+ update-alternatives: warning: not replacing /usr/bin/pip with a lin
+</code></pre></div>    </div>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ pip <span class="nt">-V</span>
+    
+ pip 9.0.1 from /usr/lib/python3/dist-packages <span class="o">(</span>python 3.6<span class="o">)</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<ul>
+  <li><strong>1개만 alternative를 등록해서 python, pip를 default로 3버전으로 지정해주자.</strong></li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># pip3 install</span>
+<span class="nb">sudo </span>apt-get update
+<span class="nb">sudo </span>apt-get <span class="nb">install</span> <span class="nt">-y</span> python3-pip
+pip3 <span class="nt">--version</span>
+
+<span class="c"># python3, pip3 alternatives command</span>
+<span class="nb">sudo </span>update-alternatives <span class="nt">--install</span> /usr/bin/python python /usr/bin/python3 10
+<span class="nb">sudo </span>update-alternatives <span class="nt">--install</span> /usr/bin/pip pip /usr/bin/pip3 1
+</code></pre></div></div>
+
+<h3 id="python-가상환경-설정">
+<a class="anchor" href="#python-%EA%B0%80%EC%83%81%ED%99%98%EA%B2%BD-%EC%84%A4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>python 가상환경 설정</h3>
+
+<h4 id="pip3--pyenv격리된-python-설치">
+<a class="anchor" href="#pip3--pyenv%EA%B2%A9%EB%A6%AC%EB%90%9C-python-%EC%84%A4%EC%B9%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>pip3 &amp; pyenv(격리된 python) 설치</h4>
+
+<ol>
+  <li>
+    <p>python3-pip 설치</p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nb">sudo </span>apt update <span class="o">&amp;&amp;</span> upgrade
+    
+ <span class="nb">sudo </span>apt <span class="nb">install </span>python3-pip
+    
+ pip3 <span class="nt">-V</span>
+ pip3 <span class="nt">--version</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>pyenv 설치</p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> curl https://pyenv.run | bash
+</code></pre></div>    </div>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> WARNING: seems you still have not added 'pyenv' to the load path.
+    
+    
+ # See the README for instructions on how to set up
+ # your shell environment for Pyenv.
+    
+ # Load pyenv-virtualenv automatically by adding
+ # the following to ~/.bashrc:
+    
+ eval "$(pyenv virtualenv-init -)"
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p>clone한 pyenv디렉토리를 zshrc에 환경변수(<code class="language-plaintext highlighter-rouge">PYENV_ROOT</code>)로  직접지정해줘야한다.</p>
+
+        <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nb">cd</span> ~ <span class="c"># wsl로 정상적으로 열릴려면, /mnt/상태에서 vscode를 열면 안된다.</span>
+        
+  code ~/.zshrc
+</code></pre></div>        </div>
+
+        <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nb">source</span> ~/.zshrc
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>pyenv사용전, 에러를 일으키는 미설치 패키지 다 설치하기</p>
+
+        <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nb">sudo </span>apt-get <span class="nb">install</span> <span class="nt">-y</span> make build-essential libssl-dev zlib1g-dev libbz2-dev <span class="se">\</span>
+  libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev <span class="se">\</span>
+  xz-utils tk-dev
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>pyenv 사용법</p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c"># 설치가능한 python list 확인하기</span>
+ pyenv <span class="nb">install</span> <span class="nt">--list</span>
+    
+ <span class="c"># 원하는 python 버전 설치</span>
+ pyenv <span class="nb">install</span> <span class="o">[</span>파이썬버전]
+    
+ <span class="c"># 설치된 파이썬 버전 확인</span>
+ pyenv versions
+    
+ <span class="c"># 가상환경 만들기</span>
+ pyenv virtualenvs <span class="o">[</span>파이썬버전] <span class="o">[</span>가상환경명]
+    
+ <span class="c"># 가상환경 시작하기</span>
+ pyenv activate <span class="o">[</span>가상환경명]
+    
+ <span class="c"># 가상환경 끝내기</span>
+ pyenv deactivate
+    
+ <span class="c"># 가상환경 목록 확인</span>
+ pyenv virtualenvs
+    
+ <span class="c"># 가상환경 삭제하기</span>
+ pyenv uninstall <span class="o">[</span>가상환경명]
+    
+ <span class="c">### 실사용</span>
+ pyenv versions
+    
+ pyenv <span class="nb">install </span>3.8.6
+    
+ pyenv global 3.8.6 <span class="c"># 3.8.6을 pyenv 기본 python으로 지정</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>python 저장위치
+        <ul>
+          <li>root -&gt; <code class="language-plaintext highlighter-rouge">/root</code> 가 홈폴더
+            <ul>
+              <li>유저의 경우 -&gt; <code class="language-plaintext highlighter-rouge">/home/유저명</code>이 홈폴더</li>
+            </ul>
+          </li>
+          <li>
+<code class="language-plaintext highlighter-rouge">~/.pyenv/</code> 라는 곳에 <code class="language-plaintext highlighter-rouge">versions/</code>폴더에 설치된다.
+            <ul>
+              <li>github다.</li>
+            </ul>
+          </li>
+          <li>virtualenvwrapper에서도 <code class="language-plaintext highlighter-rouge">~/.pyenv/versions/3.8</code>에서 자동완성후 <code class="language-plaintext highlighter-rouge">/3.8.6/bin/python</code>을 이용한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="virtualenv--pyenv-virtualenvwrapper격리된-python으로-가상환경-생성-설치">
+<a class="anchor" href="#virtualenv--pyenv-virtualenvwrapper%EA%B2%A9%EB%A6%AC%EB%90%9C-python%EC%9C%BC%EB%A1%9C-%EA%B0%80%EC%83%81%ED%99%98%EA%B2%BD-%EC%83%9D%EC%84%B1-%EC%84%A4%EC%B9%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>virtualenv &amp; pyenv-virtualenvwrapper(격리된 python으로 가상환경 생성) 설치</h4>
+
+<ol>
+  <li>
+    <p><strong>pip3로 <code class="language-plaintext highlighter-rouge">virtualenv</code> <code class="language-plaintext highlighter-rouge">virtualenvwrapper</code> 2개 패키지 설치</strong></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> pip <span class="nb">install </span>virtualenv virtualenvwrapper
+ pip3 <span class="nb">install </span>virtualenv virtualenvwrapper
+    
+ <span class="c">#에러나므로 --upgrade까지</span>
+ pip <span class="nb">install</span> <span class="nt">--upgrade</span> virtualenvwrapper
+ pip3 <span class="nb">install</span> <span class="nt">--upgrade</span> virtualenvwrapper
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>virtualenvwrapper</strong> 설정</p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c"># virtualenv 설정</span>
+ <span class="nb">export </span><span class="nv">WORKON_HOME</span><span class="o">=</span>~/.virtualenvs
+ <span class="nb">export </span><span class="nv">VIRTUALENVWRAPPER_PYTHON</span><span class="o">=</span>/usr/bin/python <span class="c"># /usr/bin/python3</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>pyenv-virtualenvwrapper 설치</strong></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> git clone https://github.com/pyenv/pyenv-virtualenvwrapper.git <span class="si">$(</span>pyenv root<span class="si">)</span>/plugins/pyenv-virtualenvwrapper
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p>pyenv설정 추가 수정</p>
+
+        <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c"># pyenv clone후 경로 직접 지정</span>
+  <span class="nb">export </span><span class="nv">PYENV_ROOT</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.pyenv"</span>
+  <span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"</span><span class="nv">$PYENV_ROOT</span><span class="s2">/bin:</span><span class="nv">$PATH</span><span class="s2">"</span>
+  <span class="k">if </span><span class="nb">command</span> <span class="nt">-v</span> pyenv 1&gt;/dev/null 2&gt;&amp;1<span class="p">;</span> <span class="k">then
+    </span><span class="nb">eval</span> <span class="s2">"</span><span class="si">$(</span>pyenv init -<span class="si">)</span><span class="s2">"</span>
+  <span class="k">fi
+        
+  </span>pyenv virtualenvwrapper_lazy  <span class="c">#에러나서 주석처리했다가 다시 풀어줌</span>
+</code></pre></div>        </div>
+
+        <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  source ~/.zshrc
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>virtualenv 추가 설정</p>
+
+        <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c"># virtualenv 설정</span>
+  <span class="nb">export </span><span class="nv">WORKON_HOME</span><span class="o">=</span>~/.virtualenvs
+  <span class="nb">export </span><span class="nv">VIRTUALENVWRAPPER_PYTHON</span><span class="o">=</span>/usr/bin/python
+  <span class="c">#source /usr/local/bin/virtualenvwrapper.sh</span>
+  <span class="nb">source</span> ~/.local/bin/virtualenvwrapper.sh
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>실사용</p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> pyenv <span class="nb">install </span>3.8.6
+ pyenv versions
+ <span class="c">#~/.pyenv/versions/ 에 격리된 파이썬들 버전명의 폴더에 설치됨.</span>
+ pyenv global 3.8.6          
+ pyenv versions
+    
+ mkvirtualenv goglekaap
+ which python
+ <span class="c">#/home/is2js/.virtualenvs/goglekaap/bin/python</span>
+    
+ deactivate
+    
+ workon
+ <span class="c"># goglegkaap</span>
+ rmvirtualenv goglekaap
+    
+ <span class="c"># pyenv로 만든 python버전을 지정해서 가상환경 생성</span>
+ mkvirtualenv <span class="nt">-p</span> ~/.pyenv/versions/3.8.6/bin/python goglekaap
+    
+ lsvirtualenv <span class="c"># workon이랑 동일한 듯.</span>
+</code></pre></div>    </div>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c"># pyenv</span>
+ pyenv <span class="nb">install</span> <span class="o">[</span>version] <span class="c"># Python 버전 설치</span>
+ pyenv versions <span class="c"># 현재 설치된 Python 버전 목록</span>
+ pyenv global <span class="o">[</span>version] <span class="c"># 전역 Python 버전 변경</span>
+    
+ <span class="c">#virtualenv wrapper</span>
+ mkvirtualenv <span class="o">[</span>project name] <span class="c"># 프로젝트를 위해 virtualenv 생성</span>
+ workon <span class="o">[</span>project name] <span class="c"># virtualenv 활성화</span>
+ deactivate <span class="c"># virtualenv 비활성화</span>
+ setvirtualenvproject <span class="c"># 현재 디렉토리를 프로젝트의 Home 디렉토리로 설정하기</span>
+ rmvirtualenv <span class="o">[</span>project name] <span class="c"># virtualenv 삭제</span>
+ lsvirtualenv <span class="c"># virtualenv 목록</span>
+    
+    
+ mkvirtualenv <span class="o">[</span>가상환경이름]
+ mkvirtualenv <span class="o">[</span><span class="nt">-p</span> ~/.pyenv/versions/3.8.6/bin/python] <span class="o">[</span>tester<span class="o">(</span>가상환경이름<span class="o">)]</span>
+ <span class="c">#가상환경이름으로 가상환경을 만들어준다. mkvirtualenv test -p [python-path]로 python 버전을 지정해 줄 수 있다.</span>
+    
+ rmvirtualenv <span class="o">[</span> 가상환경이름]
+ <span class="c">#해당 가상환경을 지운다.</span>
+    
+ workon <span class="o">[</span>가상환경이름]
+ <span class="c">#해당 가상환경으로 진입한다.</span>
+    
+ setvirtualenvproject
+ <span class="c"># &lt;가상환경 진입상태 by workon&gt;에서 프로젝트 디렉토리로 이동 후, 해당 커맨드를 치면 디렉토리&lt;--&gt; 가상환경이 맵핑된다. 그러면 workon커맨드를 치는것 만으로 해당 디렉토리에 이동까지 시켜준다. 아주좋다.</span>
+    
+ cdproject
+ <span class="c">#setvirtualenvproject를 했을 경우, 현재 어디에 있든 해당 커맨드로 프로젝트 디렉토리에 이동이 가능하다.</span>
+ <span class="c"># 예를 들어, 아무폴더에서 workon [가상환경] -&gt; cdproject</span>
+    
+ deactivate
+ <span class="c">#가상환경에서 빠져나온다.</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="참고-path-관련-확인해보기">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0-path-%EA%B4%80%EB%A0%A8-%ED%99%95%EC%9D%B8%ED%95%B4%EB%B3%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고) path 관련 확인해보기</h4>
+
+<p><strong>python 설치(PATH) 확인</strong></p>
+
+<ul>
+  <li>linux에서는 <code class="language-plaintext highlighter-rouge">python + tab</code>, <code class="language-plaintext highlighter-rouge">python3 + tab</code>을 통해 깔린 버전을 간접적으로 파악 가능
+    <ul>
+      <li>python3로 자동완성된다면.. python3만 깔린 것
+        <ul>
+          <li>앞으로 모든 명령어 앞에 python<code class="language-plaintext highlighter-rouge">+3</code>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">python3 --help</code>
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">-m [모듈명]</code> : mod로서, <strong>library모듈</strong>을 script로 실행시키는 옵션
+        <ul>
+          <li>pip, flask, venv 등에서 쓰임. 물론 패키지가 깔린상태여야함.</li>
+          <li><code class="language-plaintext highlighter-rouge">python3 -m venv [가상환경명]</code></li>
+        </ul>
+      </li>
+      <li>
+<code class="language-plaintext highlighter-rouge">-V</code> : 버전확인</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">-c " python코드 "</code> : python코드를 바로 커맨드라인에서 실행함</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>win10 환경변수 path로 설치확인</strong></p>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">win+s</code> 에서  <code class="language-plaintext highlighter-rouge">환경 변수</code>검색 &gt; <strong><code class="language-plaintext highlighter-rouge">시스템 환경 변수 편집</code></strong></p>
+  </li>
+  <li>
+    <p>고급탭 &gt; <strong><code class="language-plaintext highlighter-rouge">환경변수N</code> &gt; 사용자 변수 or 시스템 변수</strong></p>
+
+    <ul>
+      <li>나는 초콜렛리로 설치하였더니 <code class="language-plaintext highlighter-rouge">시스템 변수</code>탭에 <code class="language-plaintext highlighter-rouge">Path</code>에 설치됨.
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">C:\Python39\Scripts\</code> : 스크립트 폴더를 더블클릭해서 가보기</li>
+          <li><code class="language-plaintext highlighter-rouge">C:\Python39\</code></li>
+        </ul>
+      </li>
+      <li>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210926221252849.png" alt="image-20210926221252849">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210926221506408.png" alt="image-20210926221506408">
+</li>
+    </ul>
+  </li>
+</ol>
+
+<p><strong>win10 or wsl2 python os모듈로 확인</strong></p>
+
+<ol>
+  <li>
+    <p>import os</p>
+  </li>
+  <li>
+    <p>os.environ (dict)</p>
+
+    <ul>
+      <li>
+        <p>os.environ.get(‘SHELL’) for <code class="language-plaintext highlighter-rouge">wsl2</code></p>
+
+        <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'SHELL'</span><span class="p">)</span>
+  <span class="s">'/usr/bin/zsh'</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<p><strong>python path로 실행가능한 python script만들기(앞에 python3 안달아도됨)</strong></p>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">which python3</code> 후 경로를 복사해놓는다.</p>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">/usr/bin/python3</code></li>
+    </ul>
+  </li>
+  <li>
+    <p>python 파일의 가장 위에 <code class="language-plaintext highlighter-rouge">#!</code> + <code class="language-plaintext highlighter-rouge">python경로</code>를 입력한 뒤, python 코드를 작성하면된다.</p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">code calculate.py</code></p>
+
+        <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">#!/usr/bin/python3
+</span>        
+  <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span>
+        
+  <span class="k">print</span><span class="p">(</span><span class="n">add</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span> 
+</code></pre></div>        </div>
+
+        <ul>
+          <li>결과물은 print만 되도록한다.(bash실행이라서?)</li>
+        </ul>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">sudo chmod +x calculate.py</code></p>
+      </li>
+      <li>
+        <p><strong>실행시 calculate.py가 아니라 ./calculate.py로 실행시킨다.</strong></p>
+
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">./calculate.py</code></li>
+          <li>에러 뜨면 <code class="language-plaintext highlighter-rouge">sed -i 's/\r$//' calculate.py</code> 실행후 다시 실행</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+  </div>
+<a class="u-url" href="/windows/configuration/2021/10/15/%EC%84%B8%ED%8C%851_%EC%9C%88%EB%8F%84%EC%9A%B0_choco_terminal_wsl2_python.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links">
+<ul class="social-media-list">
+<li><a rel="me" href="https://github.com/is2js" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li>
+<li><a rel="me" href="https://twitter.com/fastdotai" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
