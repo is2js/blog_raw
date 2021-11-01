@@ -1,9 +1,9 @@
 ---
 toc: true
 layout: post
-categories: [windows, configuration]
-title: win10에서 Terminal + vscode + Wsl2 + Pyenv작업환경 구성: 
 description: windows10에서 wsl2를 이용한 python 개발환경 구성하기
+categories: [windows, configuration]
+title: win10에서 Terminal + vscode + Wsl2 + Pyenv작업환경 구성
 ---
 
 ### chocolately로 초기 설치
