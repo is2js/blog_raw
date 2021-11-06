@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>프로필) github index, badge 등 생성하여 꾸미기 | DE&amp;KMD(데엔한)</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="프로필) github index, badge 등 생성하여 꾸미기" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="github의 인덱스와, gitblog의 index.html을 꾸미는 법 공부하기" />
+<meta property="og:description" content="github의 인덱스와, gitblog의 index.html을 꾸미는 법 공부하기" />
+<link rel="canonical" href="blog.chojaeseong.com/fastpages/github/2021/08/19/github-profile.html" />
+<meta property="og:url" content="blog.chojaeseong.com/fastpages/github/2021/08/19/github-profile.html" />
+<meta property="og:site_name" content="DE&amp;KMD(데엔한)" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-08-19T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-08-19T00:00:00-05:00","url":"blog.chojaeseong.com/fastpages/github/2021/08/19/github-profile.html","@type":"BlogPosting","headline":"프로필) github index, badge 등 생성하여 꾸미기","dateModified":"2021-08-19T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/fastpages/github/2021/08/19/github-profile.html"},"description":"github의 인덱스와, gitblog의 index.html을 꾸미는 법 공부하기","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="DE&amp;KMD(데엔한)" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">DE&amp;KMD(데엔한)</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/edu_study/">Edu&amp;Study</a><a class="page-link" href="/mygit/">MyGit</a><a class="page-link" href="/resume/">Resume</a><a class="page-link" href="/resume/">Resume</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">프로필) github index, badge 등 생성하여 꾸미기</h1><p class="page-description">github의 인덱스와, gitblog의 index.html을 꾸미는 법 공부하기</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-08-19T00:00:00-05:00" itemprop="datePublished">
+        Aug 19, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      1 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#fastpages">fastpages</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#github">github</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#참고사이트">참고사이트</a></li>
+<li class="toc-entry toc-h2"><a href="#github_id-이름으로-repo-생성">github_id 이름으로 repo 생성</a></li>
+<li class="toc-entry toc-h2"><a href="#capsule-render로-headerfooter-작성">capsule-render로 header/footer 작성</a></li>
+<li class="toc-entry toc-h2"><a href="#sheildsio로-기술-스택-badge작성">sheilds.io로 기술 스택 badge작성</a></li>
+<li class="toc-entry toc-h2"><a href="#productive-box로-커밋시각-통계gist-노출pinned하기">productive-box로 커밋시각 통계(gist) 노출(pinned)하기</a></li>
+<li class="toc-entry toc-h2"><a href="#깃허브-프로필-뱃지-얻기">깃허브 프로필 뱃지 얻기</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#github-developer-program">Github Developer program</a></li>
+<li class="toc-entry toc-h3"><a href="#학생-pro">학생 PRO</a></li>
+<li class="toc-entry toc-h3"><a href="#북극곰-202002월">북극곰 2020.02월</a></li>
+</ul>
+</li>
+</ul><h2 id="참고사이트">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0%EC%82%AC%EC%9D%B4%ED%8A%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고사이트</h2>
+
+<ul>
+  <li>참고 사이트
+    <ul>
+      <li>https://velog.io/@woo0_hooo/Github-github-profile-%EA%B0%84%EC%A7%80%EB%82%98%EA%B2%8C-%EA%BE%B8%EB%AF%B8%EA%B8%B0</li>
+      <li>https://butter-shower.tistory.com/142</li>
+      <li>https://velog.io/@colorful-stars/Github-%ED%94%84%EB%A1%9C%ED%95%84-%EA%BE%B8%EB%AF%B8%EA%B8%B0</li>
+      <li>http://blog.cowkite.com/blog/2102241544/</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="github_id-이름으로-repo-생성">
+<a class="anchor" href="#github_id-%EC%9D%B4%EB%A6%84%EC%9C%BC%EB%A1%9C-repo-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>github_id 이름으로 repo 생성</h2>
+
+<ol>
+  <li>
+    <p>github ID와 동일한 이름으로 repo만들기 + add Readme</p>
+
+    <ul>
+      <li>
+        <p>local에 clone하여 환경 세팅하자.
+<code class="language-plaintext highlighter-rouge">C:/jupyter_blog/</code> + <code class="language-plaintext highlighter-rouge">is2js</code></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210819202218848.png" alt="image-20210819202218848"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="capsule-render로-headerfooter-작성">
+<a class="anchor" href="#capsule-render%EB%A1%9C-headerfooter-%EC%9E%91%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>capsule-render로 header/footer 작성</h2>
+
+<ol>
+  <li>
+    <p>typora에서 미리보기를 활용하여 header footer를 작성한다.</p>
+
+    <ul>
+      <li>
+        <p>각 옵션 목록 : https://github.com/kyechan99/capsule-render</p>
+      </li>
+      <li>
+        <p>default(변경하면됨)</p>
+
+        <div class="language-markdown highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="p">![</span><span class="nv">header</span><span class="p">](</span><span class="sx">https://capsule-render.vercel.app/api?type=waving&amp;color=f6ebe1&amp;height=150&amp;section=header&amp;text=Data</span> Engineer and KMD&amp;fontSize=50&amp;fontColor=152447&amp;desc=데이터 엔지니어를 꿈꾸는 한의사, 조재성입니다.&amp;descAlignY=80)
+
+<span class="p">![</span><span class="nv">footer</span><span class="p">](</span><span class="sx">https://capsule-render.vercel.app/api?type=rect&amp;color=152447&amp;height=20&amp;section=footer</span><span class="p">)</span>
+</code></pre></div>        </div>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210819204503883.png" alt="image-20210819204503883"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="sheildsio로-기술-스택-badge작성">
+<a class="anchor" href="#sheildsio%EB%A1%9C-%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D-badge%EC%9E%91%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>sheilds.io로 기술 스택 badge작성</h2>
+
+<p>shields.io를 통해 기술스택, 연락처 등의 스택아이콘 가져온다.</p>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">a태그 &gt; img태그 </code></p>
+  </li>
+  <li>
+    <p>a태그는 링크주소를 / img는 badge를 여기를 통해서 편하게 가져온다.</p>
+
+    <ul>
+      <li>각 뱃지 목록 : https://github.com/alexandresanlim/Badges4-README.md-Profile</li>
+    </ul>
+
+    <div class="language-markdown highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nt">&lt;p</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+    <span class="nv">&lt;a href="mailto:tingstyle1@gmail.com"&gt;&lt;img src="https://img.shields.io/badge/Gmail-d14836?style=flat-square&amp;logo=Gmail&amp;logoColor=white&amp;link=tingstyle1@gmail.com"/&gt;&lt;/a&gt;</span>&amp;nbsp
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://www.facebook.com/tingstyle1"</span><span class="nt">&gt;&lt;img</span> <span class="na">src=</span><span class="s">"https://img.shields.io/badge/Facebook-1877F2?style=flat-square&amp;logo=facebook&amp;logoColor=white"</span><span class="nt">/&gt;&lt;/a&gt;</span>&amp;nbsp
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://www.github.com/is2js"</span><span class="nt">&gt;&lt;img</span> <span class="na">src=</span><span class="s">"https://img.shields.io/badge/GitHub-100000?style=flat-square&amp;logo=github&amp;logoColor=white"</span><span class="nt">/&gt;&lt;/a&gt;</span>&amp;nbsp 
+<span class="nt">&lt;/p&gt;</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="productive-box로-커밋시각-통계gist-노출pinned하기">
+<a class="anchor" href="#productive-box%EB%A1%9C-%EC%BB%A4%EB%B0%8B%EC%8B%9C%EA%B0%81-%ED%86%B5%EA%B3%84gist-%EB%85%B8%EC%B6%9Cpinned%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>productive-box로 커밋시각 통계(gist) 노출(pinned)하기</h2>
+
+<ul>
+  <li>참고 : http://blog.cowkite.com/blog/2102241544/</li>
+</ul>
+
+<ol>
+  <li>
+    <p><a href="https://gist.github.com/">gist.github.com</a>에 public으로 신규 <strong><code class="language-plaintext highlighter-rouge">public</code>으로 바꾼 gist를</strong> 생성
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210820200806703.png" alt="image-20210820200806703"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210820200610811.png" alt="image-20210820200610811"></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/settings/tokens/new">github토큰 생성 페이지</a>로 가서 <code class="language-plaintext highlighter-rouge">repo</code>, <code class="language-plaintext highlighter-rouge">gist</code>를 포함한 scope를 설정한 뒤, 발급받은 토큰을 잘 챙겨둔다.</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>QQQghp_ysd0aOZbgsOJ3rOTAhj4QQQw4su6rrfPp1oc7WrQQQ
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><a href="https://github.com/maxam2017/productive-box">productive-box</a> repository를 fork한다.</p>
+
+    <ul>
+      <li>
+        <p>우측 상단의 <code class="language-plaintext highlighter-rouge">Fork</code> 버튼을 누르면 된다.</p>
+      </li>
+      <li>
+        <p>fork 된 나의 repository의 <strong>Actions</strong> 탭에서 <code class="language-plaintext highlighter-rouge">enabled</code> 버튼을 눌러 Action을 활성화한다</p>
+      </li>
+      <li>
+        <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>.github/workflow/Schedule.yml
+</code></pre></div>        </div>
+
+        <p>파일을 수정하여 <strong>환경변수를 작성</strong>해준다</p>
+
+        <ul>
+          <li>
+            <p><strong>uses</strong>: <strong>is2js</strong>/productive-box@master : 내github아이디로 바꿔준다?</p>
+
+            <ul>
+              <li>maxam2017 -&gt; 내 아이디로</li>
+            </ul>
+          </li>
+          <li>
+<strong>GIST_ID</strong>: <em>사전 작업의 1번 step</em>에서 생성된 gist의 id (gist URL은 <code class="language-plaintext highlighter-rouge">gist.github.com//</code>로 생성되기 때문에 주소창을 보면 된다.)
+            <ul>
+              <li><code class="language-plaintext highlighter-rouge">042e89789d6054e9b372e755e75f09f5</code></li>
+            </ul>
+          </li>
+          <li>
+<strong>TIMEZONE</strong>: 타임존을 적어준다. <code class="language-plaintext highlighter-rouge">Asia/Seoul</code> 형식으로 적어주면 된다.
+            <ul>
+              <li>cf) cron : 분시일월주
+                <ul>
+                  <li>cron예제 : https://ponyozzang.tistory.com/402</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>해당레포 &gt; Settings 탭 &gt; Secrets에 접속한 뒤 New repository secret 버튼을 클릭하여 환경변수를 설정해준다.</p>
+
+    <ul>
+      <li>
+        <p><strong>GH_TOKEN</strong>: <em>사전 작업의 2번 step</em>에서 발급받은 토큰</p>
+
+        <ul>
+          <li>토큰은 github &gt; secrets &gt; 환경변수에서 설정해주면, workflows.config.yaml을 그것을 이용한다.</li>
+        </ul>
+
+        <div class="language-yaml highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="na">env</span><span class="pi">:</span>
+  <span class="na">GH_TOKEN</span><span class="pi">:</span> <span class="s">$</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210820201930495.png" alt="image-20210820201930495"></p>
+  </li>
+  <li>
+    <p>gist를 내 프로필 pinn에 고정시킨다.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210820202055897.png" alt="image-20210820202055897"><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210820202646694.png" alt="image-20210820202646694"></p>
+  </li>
+  <li>
+    <p>내 블로그에 embed시킨다.</p>
+
+    <ul>
+      <li>아래 코드에서 gist주소만 복사해서 <code class="language-plaintext highlighter-rouge">gist_id.js</code>를 넣어주면 됨.</li>
+    </ul>
+
+    <script src="%5Bgist%EC%A3%BC%EC%86%8C%5D.js"></script>
+  </li>
+</ol>
+
+<h2 id="깃허브-프로필-뱃지-얻기">
+<a class="anchor" href="#%EA%B9%83%ED%97%88%EB%B8%8C-%ED%94%84%EB%A1%9C%ED%95%84-%EB%B1%83%EC%A7%80-%EC%96%BB%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>깃허브 프로필 뱃지 얻기</h2>
+
+<h3 id="github-developer-program">
+<a class="anchor" href="#github-developer-program" aria-hidden="true"><span class="octicon octicon-link"></span></a>Github Developer program</h3>
+
+<ol>
+  <li>
+    <p>https://developer.github.com/program/ 사이트에서 등록한다.</p>
+
+    <ul>
+      <li>
+        <p>2가지만 추가로 채워주면 된다.</p>
+      </li>
+      <li>
+        <p>Highlights부분에 뱃지 생김</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210822202248713.png" alt="image-20210822202248713"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="학생-pro">
+<a class="anchor" href="#%ED%95%99%EC%83%9D-pro" aria-hidden="true"><span class="octicon octicon-link"></span></a>학생 PRO</h3>
+
+<ul>
+  <li>유효한 date를 포함하는, 학생증 찍어서 증명하는 부분이 생겨 나는 포기함.</li>
+</ul>
+
+<ol>
+  <li>
+    <p><a href="https://education.github.com/">https://education.github.com</a> 접속후 Student Developer Pack 클릭</p>
+  </li>
+  <li>
+    <p>Get pack &gt; Get Student benefits &gt; 아래쪽 학교인증</p>
+
+    <ul>
+      <li>
+        <p>github에 학교계정으로 email을 등록하고 와야한다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210820205641913.png" alt="image-20210820205641913"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>마지막에 plan을 <code class="language-plaintext highlighter-rouge">Github Pro</code>로 적어주면 된다.</p>
+  </li>
+  <li>
+    <p>증명서를 내라고한다. 나는.. 졸업해서 그냥 생략..</p>
+  </li>
+</ol>
+
+<h3 id="북극곰-202002월">
+<a class="anchor" href="#%EB%B6%81%EA%B7%B9%EA%B3%B0-202002%EC%9B%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>북극곰 2020.02월</h3>
+
+<ul>
+  <li>나는 우연히 그 때 만들어뒀나보다.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210820204453873.png" alt="image-20210820204453873">
+</li>
+</ul>
+
+  </div><a class="u-url" href="/fastpages/github/2021/08/19/github-profile.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
