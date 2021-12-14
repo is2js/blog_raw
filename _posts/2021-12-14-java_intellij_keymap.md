@@ -3,14 +3,10 @@ toc: true
 layout: post
 description: 우테코 4기 프리코스를 거치며 정리한 intellij 및 협업 세팅
 
-categories: [java, intellij]
+categories: [프리코스,java, intellij]
 title: vscode keymap을 적용한 intellij 세팅 및 프리코스 협업 세팅
 ---
 
-
-- 참고
-  - [벨로그](https://velog.io/@koyo/python-docs-6)
-  - [justkode](https://justkode.kr/python/pygorithm-2)
 
 ### vscode keymap 관련 플러그인 설치
 
