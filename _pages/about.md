@@ -3,67 +3,69 @@ layout: page
 title: About Me
 permalink: /about/
 ---
-## 공사중(template)입니다. 자세한 정보는 github.com/is2js
-> 기술의 교육 기회를 누구나 차등없이 받을 수 있게 대중화, 보편화, 시스템화 하는 것
+<!-- 헤더 -->
 
-우리는 교육 특권의 대중화, 고급 IT 기술의 상용화를 도모합니다.
-또한 지역적 특성을 극복하고 ICT 지식에 대한 갈급함을 해소할 수 있도록 노력하고 있는
-ICT 연구 및 (코딩)교육 기관이며 다양한 사회 공헌 활동을 하고 있습니다.
+![header](https://capsule-render.vercel.app/api?type=waving&color=f6ebe1&height=150&section=header&text=DataEngineer%20and%20K.M.D&fontSize=50&fontColor=152447&desc=백엔드,%20데이터%20엔지니어를%20꿈꾸는%20한의사,%20조재성입니다.&descAlignY=80)
 
-## About us
+##  <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="23px"> Hi! I'm Jaeseong Cho ![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fis2js.github.io%2Fblog_raw&count_bg=152447&title_bg=f6ebe1&icon_color=%23E1DFDF&title=%EB%B0%A9%EB%AC%B8%EC%9E%90+%EC%88%98&edge_flat=false)
 
-### 바울랩
+#### 🌱 I’m currently learning about below in  [`git`](https://blog.chojaeseong.com/categories/#git), `python3.8+`, (pytest), [`pyenv`](https://blog.chojaeseong.com/categories/#configuration) on `Wsl2` with `VScode`
+- **Backend** with `flask` (, fastapi)
+- (Pipeline and Infra with airflow, PySpark in) `Docker` on `Ncloud` or `GCP` (or AWS)
+- **DataScience/DataAnalysis** with `Pandas`, `NLP` by (TF2.0 and) `Keras`
+- **SQL** <-> **SQLAlchemy** with `PostgreSQL`, `MySQL`, `SQLAlchemy` on `Docker` (or Bigquery) 
+- **My blog**
+  - https://blog.chojaeseong.com/ (opened) 
+  - https://nittaku.tistory.com (closed)
 
-Paul Lab
-바울랩은 제주도에 위치한 ICT 연구 및 (코딩)교육 기관으로 연구원, 학원, 출판사를 함께 운영하고 있습니다.
+#### 👨‍⚕️ I'm Korean Medicine Doctor
+- Worked at [CY](http://www.cyhani.com/) and Gangnam [Mokhuri](https://www.mokhuri.com/) Oriental Hospitals as KMD
 
-진취적인 청년들이 경제적으로도 여유를 가지며 하고 싶은 연구를 할 수 있는 '연구의 場', 연구의 경험과 결과를 열정과 책임으로 교육하는 '교육의 場', 이로 인한 이익과 지식을 사회를 위하여 나누는 '나눔의 場'으로 회사와 학생, 사회의 상생을 도모합니다.
+#### ✒ My Git and Algorithm Problem Solving Tier(백준)
 
-### WeNiv(위니브)
+<p align="center">
+  <a href="#">
+    <!--   graywhite or nord theme -->
+      <img src="https://github-readme-stats.vercel.app/api?username=is2js&theme=graywhite&show_icons=true" height="150px">
+  </a>
+  <a href="#">
+    <img src="http://mazassumnida.wtf/api/v2/generate_badge?boj=tingstyle1&cache=c" height="150px">
+  </a>
+</p>
 
-위니브는 "기술의 교육 기회를 누구나 차등 없이 받을 수 있게 대중화, 보편화, 시스템화 하는 것"에 설립 취지를 가지고 있습니다.
+#### 🏷 Certificates/Papers
+- **Certificate**
+    - **2022.02~ M.S. candidate (Statistics/Bioinformatics)**
+    - 2021.02 General training(`일반수련의`)
+    - 2020.02 B.S. in Korean Oriental Medicine(`한의사`)
+    - 2019.09 Engineer Information Processing(`정보처리기사`)
+    - 2019.04 Sqld(`SQL 개발자`), Adsp(데이터분석 준 전문가)
+    
+- **Paper**
+    - **Identification of Toxic Herbs Using Deep Learning** with Focus on the Sinomenium Acutum, Aristolochiae Manshuriensis Caulis, Akebiae Caulis [Accepted: 2019. 12](https://www.mdpi.com/2076-3417/9/24/5456)
+#### 🚴‍♂️ Experiences/Studies 
+<!-- - **Experience** -->
+- **2021.11 ~ 2022.11) 🪐 우테코 4기 백엔드 [프리코스](https://github.com/is2js/woowa_precourse) 후 선발**
+- 2021.09 ~ 11) 🦁 [멋쟁이사자처럼](https://projectlion.io/courses/technology/naver) X Ncloud and Clova를 활용한 인공지능 서비스 과정-[수료증](https://raw.githubusercontent.com/is3js/screenshots/main/image-20211104162738975.png)
+- 2019.07 ~ 09) Kdata(한국데이터산업진흥원) X [빅데이터 청년인재](https://dataonair.or.kr/bigjob/)-빅데이터 기반의 지능정보 시스템 개발 과정-수료증
+- 2019.02 ~ 03) [서울대학교 의과대학 SNU BioInformatics Lab](http://www.snubi.org/) Intern
+- 2018.03 ~ 2020.02) [한국지도자육성장학재단](https://www.kosffl.or.kr/) 장학생 선발(Kosffl Club)
+- 2018.12) 대한한의학회 한의대 미래인재육성 프로젝트 장학생 대상-[기사](https://www.akomnews.com/bbs/board.php?bo_table=news&wr_id=27990) 
+- 2011.08 ~ 2013.05) 💪 육군 병장 제대(작전병; Don't need mouse to me)
 
-지역 기반 ICT 대안 교육 플랫폼, 유료와 무료 ICT 영상 콘텐츠를 제작하며, 지역 교육 기회의 불평등, 접근성의 한계 등 기존 교육의 한계를 극복하기 위한 다양한 시도를 하고 있습니다.
+#### ✨ Awards
+- 동신대학교 한의학과 최우수 졸업(수석졸업)
+- 대한한의학회 한의대 미래인재육성 프로젝트 장학생(대상)
+- 빅데이터 청년인재 전체 장려상(고려대내 2위)
+- 동신대학교 창업동아리 경진대회 최우수상(1위)
 
-또한 지역 혁신을 위한 사회 공헌 활동을 지속적으로 진행 중에 있으며 대표적으로 "선선하다 프로젝트", "We 드림(We Dream)" 프로젝트를 제주에서 진행 중에 있습 니다.
 
-선선하다 프로젝트는 각 학교 ICT 분야를 선도하고 있는 학생을 초청하여 무료로 ICT 교육, 교재 지원, 동영상 강의 지원을 통해, 학생이 학생을 가르치도록 독려하는 비영리 프로젝트이며 We드림은 가정 형편이 어려우신 분들을 위해 매년 100명을 선발하여 온라인 강좌를 제공하는 프로젝트입니다.
 
-### 제주코딩베이스캠프
+<!-- 연락처 -->
+<h2 align="center">👋 Contanct Me!  </h2>
 
-제주코딩베이스캠프는 제주에서 가장 큰 ICT 교육 행사로 카카오, 구름, 제주산학 융합원 등 기업 및 지자체와 함께 진행하고 있습니다. 13기까지 진행된 이 행사는 경쟁률 10:1에 약 400여 명이 참여하였고 도내뿐만 아니라 도외에서도 주목받고 있는 무료 캠프입니다.
-
-또한 인프런, Edwith, 구름, 유튜브, 에듀캐스트 등의 교육 플랫폼에서 35개의 동영상 강좌를 제공하고 있으며 21년 2월 총 30,000명 이상의 수강생이 제주코딩베이스캠프의 강좌를 수강하고 있습니다.
-
-수료증 제도를 통한 나노디그리 시스템이 도입되어 있고, 수료를 한 학생에게는 취업 매칭, 콘텐츠 공동제작의 기회를 제공하고 있습니다.
-
-CEO
-
-ceo
-"디딤돌, 전환점이 되어 드리겠습니다."
-이호준
-Lee hojun
-금오공과대학교 컴퓨터공학 (학사)
-아주대학교 정보통신대학원 정보보호 (석사)
-정보통신장교 ((서버)정비장교, (임시)CERT과장 등)
-삼성전자 주니어소프트웨어 아카데미 프로그래밍 강사
-한국공학기술연구원 팀장
-신한금융그룹 신한데이터시스템 정보보안 담당
-Python Bootcamp 外 다수 IT 서적 출간
-제주지방경찰청, 제주대학교 外 다수 기업, 공공기관, 대학 강의
-現 주식회사 위니브 대표
-現 바울랩아이시티기술연구원 대표
-現 바울랩아이씨티컴퓨터학원 대표
-現 사도출판 대표
-現 제주코딩베이스캠프 운영진
-現 Google Developer Group JEJU Organizer
-現 제주스타트업협회 부회장
-Wenivs
-
-us1us2us3us4us5us6
-CONTACT
-
-010-5044-2903
-paul-lab@naver.com
-제주특별자치도 제주시 동광로 137 대동빌딩 4층
-바울랩은 연구원과 출판사를 병행 운영하기에 학원에 인원이 상주하지 않으니 방문상담시에는 꼭 상담 예약을 해주세요.
+<p align="center">
+    <a href="mailto:tingstyle1@gmail.com"><img src="https://img.shields.io/badge/Gmail-d14836?style=flat-square&logo=Gmail&logoColor=white&link=tingstyle1@gmail.com"/></a>&nbsp
+    <a href="https://www.facebook.com/realtingstyle"><img src="https://img.shields.io/badge/Facebook-1877F2?style=flat-square&logo=facebook&logoColor=white"/></a>
+    <a href="https://www.github.com/is2js"><img src="https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white"/></a>
+</p>
