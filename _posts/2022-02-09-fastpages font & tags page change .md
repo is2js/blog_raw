@@ -83,5 +83,94 @@ image: "images/posts/blog.png"
     pre, code { font-family: 'Spoqa Han Sans Neo', "Menlo", "Inconsolata", "Consolas", "Roboto Mono", "Ubuntu Mono", "Liberation Mono", "Courier New", monospace; font-size: 0.9375em; border: 1px solid #f9f2f4; border-radius: 3px; background-color: #f9f2f4; color:#E53A40;}
     ```
 
-5. style.css.map 파일에서 highlight소스를 한번 빼보자.
-     - `"_sass/minima/fastpages-dracula-highlight.scss"`
+### tags.html 수정하기
+
+1. 예전 블로그의 css를 가져와 적용할 준비를 한다.
+    `style.css`
+    ```css
+    /** 예전 블로그에서 쓰던 tag모음 + 각 개별tag적용 css  */
+    .entry-meta {
+        font-size: 12px;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: #152447; }
+    .entry-meta a {
+        color: #152447; }
+    .entry-meta .vcard:before {
+        content: " by "; }
+      
+    .entry-meta .tag {
+        display: inline-block;
+        margin: 4px;
+        color: #fff;
+        border-radius: 3px;
+        background-color: rgba(162, 162, 162, 0.8); }
+
+    /*my) 상단 태그들 모음 tag1 shap(#) */
+    .entry-meta .tag span {
+        float: left;
+        padding: 6px 6px;
+        color: #152447;
+        font-family: inherit;
+        /* background-color: #ffffff; */
+    }
+    /*my) 상단 태그들의 tag2 name(태그명) 색*/
+    .entry-meta .tag .tag-name {
+      color: #ffffff;
+        background-color: #152447;
+        border-radius: 0 3px 3px 0;
+        /*3px 이상 오그리면, 하이퍼링크랑 막 난리남.*/
+    }
+    .entry-meta .tag:hover {
+        background-color: rgba(136, 136, 136, 0.8); }
+    .entry-meta .entry-reading-time {
+        float: right; }
+        
+
+    .inline-list {
+        list-style: none;
+        margin-left: 0;
+        padding-left: 0; 
+    }
+    .inline-list li {
+        list-style-type: none;
+        display: inline; 
+    }
+
+    /* 추가) 각 제목들도 tag 작은모양처럼*/
+    .eachtag {
+      color: #ffffff;
+        background-color: #152447;
+        border-radius: 0 3px 3px 0;
+    }
+
+    ```
+
+2. tags.html코드를 수정한다.
+    - ul태그에 `entry-meta inline-list` 속성을 추가한다
+    - 그외 tag, tag-name, eachtag 등의 속성을 이용해서 꾸민다.
+    ```html
+    <ul class="entry-meta inline-list">
+    {% for category in categories %}
+      <li ><a class="tag" href="#{{ category }}"> 
+        <span># </span>
+        <span class="tag-name">{{ category }}</span></a>
+      </li>
+    {% endfor %}
+    </ul>
+
+    {% for category in categories %}
+        <h4 id ="{{ category }}">
+          <span class="eachtag tag-name">&nbsp;#&nbsp;{{ category }}&nbsp;&nbsp;</span></li>
+        </h4>
+        <a name="{{ category | slugize }}"></a>
+        {% for post in site.categories[category] %}
+          {% if post.hide != true %}
+          {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+          <article class="archive-item">
+            <p class="post-meta post-meta-title"><a class="page-meta" href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a>  • {{ post.date | date: date_format }}</p>
+          </article>
+          {% endif %}
+        {% endfor %}
+    {% endfor %}
+    ```
