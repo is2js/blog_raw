@@ -15,17 +15,18 @@ image: "images/posts/blog.png"
 1. **`_config.yml`에서 `show_image: false -> true`로 변경**
 
 2. `미리캔버스`를 검색해서 템플릿으로 생성할 이미지 만들기
-  - 생성 목록
-    - algo.png
-    - blog.png
-    - config.png
-    - data.png
-    - default.png
-    - git.png
-    - java.png
-    - python.png
-    - sql.png
-    - wootech.png
+    - [참고 블로그](https://lovefashionandfreedom.tistory.com/87)
+    - 생성 목록
+        - algo.png
+        - blog.png
+        - config.png
+        - data.png
+        - default.png
+        - git.png
+        - java.png
+        - python.png
+        - sql.png
+        - wootech.png
 
 3. **최상단 `images폴더 > posts폴더`에 이미지들 넣어두기**
 
