@@ -566,6 +566,13 @@ p code { font-size: 19px; }
 }
 
 
+/* 추가) 각 제목들도 tag 작은모양처럼*/
+.eachtag {
+	color: #ffffff;
+    background-color: #152447;
+    border-radius: 0 3px 3px 0;
+}
+
 
 
 
