@@ -36,9 +36,10 @@ image: "images/posts/blog.png"
         font-family:'Spoqa Han Sans Neo', normal!important; 
       }
       /* font2 제목 글자는 선플라워  */
-      h1, h2, h3, h4, h5, h6{
+      h1, h2, h3, h4, h5, h6, tag-name {
         font-family:"Sunflower", normal!important; 
-      } 
+        color: #152447;
+      }
         ```
 
 
