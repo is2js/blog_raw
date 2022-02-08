@@ -8,7 +8,7 @@
 
 title: 돌범의 기술블로그
 
-description: An easy to use blogging platform with support for Jupyter Notebooks.
+description: fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록
 github_username: is2js
 # you can comment the below line out if your repo name is not different than your baseurl
 github_repo: "blog_raw"
@@ -52,7 +52,7 @@ use_math: true
 show_description: true
 
 # Set this to true to display image previews on home page, if they exist
-show_image: false
+# show_image: false
 show_image: true
 
 # Set this to true to turn on annotations with hypothes.is (https://web.hypothes.is/)
@@ -122,7 +122,7 @@ kramdown:
 
 # to limit size of xml as it can grow quite large.
 feed:
-  posts_limit: 5 #default posts_limit: 10
+  posts_limit: 10 #default posts_limit: 10
   excerpt_only: true
   
 exclude:
