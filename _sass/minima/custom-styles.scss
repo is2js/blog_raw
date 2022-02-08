@@ -49,9 +49,11 @@
 .inline-list {
     list-style: none;
     margin-left: 0;
-    padding-left: 0; }
+    padding-left: 0; 
+}
 .inline-list li {
     list-style-type: none;
-    display: inline; }
+    display: inline; 
+}
 // If you want to turn off dark background for syntax highlighting, comment or delete the below line.
 //@import "minima/fastpages-dracula-highlight"; 
