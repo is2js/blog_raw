@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      1 min read
+      2 min read
     
 </span></p>
 
@@ -122,6 +122,7 @@ window.onload = wrap_img;
     <h3>📜 제목으로 보기</h3>
     <ul class="section-nav">
 <li class="toc-entry toc-h3"><a href="#font-바꾸기">font 바꾸기</a></li>
+<li class="toc-entry toc-h3"><a href="#tagshtml-수정하기">tags.html 수정하기</a></li>
 </ul><h3 id="font-바꾸기">
 <a class="anchor" href="#font-%EB%B0%94%EA%BE%B8%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>font 바꾸기</h3>
 
@@ -204,10 +205,84 @@ window.onload = wrap_img;
 <div class="highlight"><pre class="highlight"><code> <span class="nt">pre</span><span class="o">,</span> <span class="nt">code</span> <span class="p">{</span> <span class="nl">font-family</span><span class="p">:</span> <span class="s2">'Spoqa Han Sans Neo'</span><span class="p">,</span> <span class="s1">"Menlo"</span><span class="p">,</span> <span class="s1">"Inconsolata"</span><span class="p">,</span> <span class="s1">"Consolas"</span><span class="p">,</span> <span class="s1">"Roboto Mono"</span><span class="p">,</span> <span class="s1">"Ubuntu Mono"</span><span class="p">,</span> <span class="s1">"Liberation Mono"</span><span class="p">,</span> <span class="s1">"Courier New"</span><span class="p">,</span> <span class="nb">monospace</span><span class="p">;</span> <span class="nl">font-size</span><span class="p">:</span> <span class="m">0.9375em</span><span class="p">;</span> <span class="nl">border</span><span class="p">:</span> <span class="m">1px</span> <span class="nb">solid</span> <span class="m">#f9f2f4</span><span class="p">;</span> <span class="nl">border-radius</span><span class="p">:</span> <span class="m">3px</span><span class="p">;</span> <span class="nl">background-color</span><span class="p">:</span> <span class="m">#f9f2f4</span><span class="p">;</span> <span class="nl">color</span><span class="p">:</span><span class="m">#E53A40</span><span class="p">;}</span>
 </code></pre></div>    </div>
   </li>
-  <li>style.css.map 파일에서 highlight소스를 한번 빼보자.
+</ol>
+
+<h3 id="tagshtml-수정하기">
+<a class="anchor" href="#tagshtml-%EC%88%98%EC%A0%95%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>tags.html 수정하기</h3>
+
+<ol>
+  <li>예전 블로그의 css를 가져와 적용할 준비를 한다.
+ <code class="language-plaintext highlighter-rouge">style.css</code>
+    <div class="language-css highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c">/** 예전 블로그에서 쓰던 tag모음 + 각 개별tag적용 css  */</span>
+ <span class="nc">.entry-meta</span> <span class="p">{</span>
+     <span class="nl">font-size</span><span class="p">:</span> <span class="m">12px</span><span class="p">;</span>
+     <span class="nl">font-size</span><span class="p">:</span> <span class="m">0.75rem</span><span class="p">;</span>
+     <span class="nl">text-transform</span><span class="p">:</span> <span class="nb">uppercase</span><span class="p">;</span>
+     <span class="nl">color</span><span class="p">:</span> <span class="m">#152447</span><span class="p">;</span> <span class="p">}</span>
+ <span class="nc">.entry-meta</span> <span class="nt">a</span> <span class="p">{</span>
+     <span class="nl">color</span><span class="p">:</span> <span class="m">#152447</span><span class="p">;</span> <span class="p">}</span>
+ <span class="nc">.entry-meta</span> <span class="nc">.vcard</span><span class="nd">:before</span> <span class="p">{</span>
+     <span class="nl">content</span><span class="p">:</span> <span class="s1">" by "</span><span class="p">;</span> <span class="p">}</span>
+      
+ <span class="nc">.entry-meta</span> <span class="nc">.tag</span> <span class="p">{</span>
+     <span class="nl">display</span><span class="p">:</span> <span class="n">inline-block</span><span class="p">;</span>
+     <span class="nl">margin</span><span class="p">:</span> <span class="m">4px</span><span class="p">;</span>
+     <span class="nl">color</span><span class="p">:</span> <span class="m">#fff</span><span class="p">;</span>
+     <span class="nl">border-radius</span><span class="p">:</span> <span class="m">3px</span><span class="p">;</span>
+     <span class="nl">background-color</span><span class="p">:</span> <span class="n">rgba</span><span class="p">(</span><span class="m">162</span><span class="p">,</span> <span class="m">162</span><span class="p">,</span> <span class="m">162</span><span class="p">,</span> <span class="m">0.8</span><span class="p">);</span> <span class="p">}</span>
+
+ <span class="c">/*my) 상단 태그들 모음 tag1 shap(#) */</span>
+ <span class="nc">.entry-meta</span> <span class="nc">.tag</span> <span class="nt">span</span> <span class="p">{</span>
+     <span class="nl">float</span><span class="p">:</span> <span class="nb">left</span><span class="p">;</span>
+     <span class="nl">padding</span><span class="p">:</span> <span class="m">6px</span> <span class="m">6px</span><span class="p">;</span>
+     <span class="nl">color</span><span class="p">:</span> <span class="m">#152447</span><span class="p">;</span>
+     <span class="nl">font-family</span><span class="p">:</span> <span class="nb">inherit</span><span class="p">;</span>
+     <span class="c">/* background-color: #ffffff; */</span>
+ <span class="p">}</span>
+ <span class="c">/*my) 상단 태그들의 tag2 name(태그명) 색*/</span>
+ <span class="nc">.entry-meta</span> <span class="nc">.tag</span> <span class="nc">.tag-name</span> <span class="p">{</span>
+   <span class="nl">color</span><span class="p">:</span> <span class="m">#ffffff</span><span class="p">;</span>
+     <span class="nl">background-color</span><span class="p">:</span> <span class="m">#152447</span><span class="p">;</span>
+     <span class="nl">border-radius</span><span class="p">:</span> <span class="m">0</span> <span class="m">3px</span> <span class="m">3px</span> <span class="m">0</span><span class="p">;</span>
+     <span class="c">/*3px 이상 오그리면, 하이퍼링크랑 막 난리남.*/</span>
+ <span class="p">}</span>
+ <span class="nc">.entry-meta</span> <span class="nc">.tag</span><span class="nd">:hover</span> <span class="p">{</span>
+     <span class="nl">background-color</span><span class="p">:</span> <span class="n">rgba</span><span class="p">(</span><span class="m">136</span><span class="p">,</span> <span class="m">136</span><span class="p">,</span> <span class="m">136</span><span class="p">,</span> <span class="m">0.8</span><span class="p">);</span> <span class="p">}</span>
+ <span class="nc">.entry-meta</span> <span class="nc">.entry-reading-time</span> <span class="p">{</span>
+     <span class="nl">float</span><span class="p">:</span> <span class="nb">right</span><span class="p">;</span> <span class="p">}</span>
+        
+
+ <span class="nc">.inline-list</span> <span class="p">{</span>
+     <span class="nl">list-style</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>
+     <span class="nl">margin-left</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+     <span class="nl">padding-left</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span> 
+ <span class="p">}</span>
+ <span class="nc">.inline-list</span> <span class="nt">li</span> <span class="p">{</span>
+     <span class="nl">list-style-type</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>
+     <span class="nl">display</span><span class="p">:</span> <span class="nb">inline</span><span class="p">;</span> 
+ <span class="p">}</span>
+
+ <span class="c">/* 추가) 각 제목들도 tag 작은모양처럼*/</span>
+ <span class="nc">.eachtag</span> <span class="p">{</span>
+   <span class="nl">color</span><span class="p">:</span> <span class="m">#ffffff</span><span class="p">;</span>
+     <span class="nl">background-color</span><span class="p">:</span> <span class="m">#152447</span><span class="p">;</span>
+     <span class="nl">border-radius</span><span class="p">:</span> <span class="m">0</span> <span class="m">3px</span> <span class="m">3px</span> <span class="m">0</span><span class="p">;</span>
+ <span class="p">}</span>
+
+</code></pre></div>    </div>
+  </li>
+  <li>tags.html코드를 수정한다.
     <ul>
-      <li><code class="language-plaintext highlighter-rouge">"_sass/minima/fastpages-dracula-highlight.scss"</code></li>
+      <li>ul태그에 <code class="language-plaintext highlighter-rouge">entry-meta inline-list</code> 속성을 추가한다</li>
+      <li>그외 tag, tag-name, eachtag 등의 속성을 이용해서 꾸민다.
+ ```html</li>
     </ul>
+    <ul class="entry-meta inline-list">
+    
+ </ul>
+
+    <p>```</p>
   </li>
 </ol>
 
