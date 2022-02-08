@@ -28,8 +28,7 @@ search_exclude: true
 
   {% for category in categories %}
       <h3 id ="{{ category }}">
-        <span>  # </span>
-        <span class="eachtag tag-name"> {{ category }}  </span></li>
+        <span class="eachtag tag-name">&nbsp;#&nbsp;{{ category }}&nbsp;&nbsp;</span></li>
       </h3>
       <a name="{{ category | slugize }}"></a>
       {% for post in site.categories[category] %}
