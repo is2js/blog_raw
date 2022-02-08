@@ -20,8 +20,9 @@ search_exclude: true
     <!-- <li ><a href="#{{ category }}">{{ category }}</a></li> -->
     <li ><a class="tag" href="#{{ category }}"> 
       <!-- <span>#</span>  -->
-      <i class="fas fa-tags category-tags-icon"></i>
-      <span class="tag-name">{{ category }}</span></a></li>
+      <span> <i class="fas fa-tags category-tags-icon"></i> </span>
+      <span class="tag-name">{{ category }}</span></a>
+    </li>
   {% endfor %}
   </ul>
 
