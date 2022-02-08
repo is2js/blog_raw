@@ -157,27 +157,27 @@ a {
 /* a태그의 가상클래스도 같이 리셋 */
 a:link {
 	text-decoration: none;
-	color: #0f9034;
+	color: #152447;
   }
   a:visited {
 	text-decoration: none;
-	color: #0f9034;
+	color: #152447;
   }
   /* 누른상태 */
   a:active {
 	text-decoration: none;
-	color: #0f9034;
+	color: #152447;
   }
   /* 갖다덴 상태 */
   a:hover {
 	text-decoration: none;
-	color: #0f9034;
+	color: #152447;
   }
-  
+
 a { color: #152447; text-decoration: none; }
 a:visited { color: #152447; }
 
-a:hover { color: #828282; text-decoration: underline; }
+a:hover { color: #313266; text-decoration: underline; }
 
 .social-media-list a:hover, .pagination a:hover { text-decoration: none; }
 
@@ -567,3 +567,47 @@ p code { font-size: 19px; }
 }
 
 
+
+
+
+/* 한국인이 폰트 커스텀한 코드 ===start===============================================================
+블로그 주소: https://anarinsk.github.io/lostineconomics-v2-1/coding-tool/web-tool/2020/03/07/blogging-with-fastpages.html
+코드 주소: https://github.com/anarinsk/lostineconomics-v2-1/blob/master/_sass/minima/custom-styles.scss */
+
+/* font loading  */
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic');
+@import url('https://fonts.googleapis.com/css?family=Sunflower:500');
+
+/* make non-headings slightly lighter */
+.post-content p, .post-content li {   
+	font-family: "Nanum Gothic";
+	font-size: 15px;
+	color: #515151;
+	font-weight: 400;
+}
+
+.post img {
+display: block;
+border:1px solid #021a40;
+vertical-align: top;
+margin-left: auto;
+margin-right: auto;
+}
+
+/* font  */
+h1, h2, h3, h4, h5, h6{
+font-family:"Sunflower", normal; 
+}
+
+/* inline code size (minima/fastpages-dracula-highlight.css) */
+p code{
+font-size: 13px;
+}
+
+/* mathjax options // Not working  */
+.MathJax_Display, /* MathJax 2 */
+mjx-container     /* MathJax 3 */
+{ text-align: left!important; }
+
+
+/* 한국인이 폰트 커스텀한 코드 ===start=============================================================== */
