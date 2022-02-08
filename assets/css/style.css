@@ -149,9 +149,32 @@ li > ul, li > ol { margin-bottom: 0; }
 h1, h2, h3, h4, h5, h6 { font-weight: 400; }
 
 /** Links */
-/** 폰트 색 (링크 색)  */
+/** 폰트 색 (링크 색) -> 이것만 바꾼다고 변경안됨.. */
+/* 모든 a태그 프로퍼티들을 리셋 */
+a {
+	all: unset;
+}
+/* a태그의 가상클래스도 같이 리셋 */
+a:link {
+	text-decoration: none;
+	color: #0f9034;
+  }
+  a:visited {
+	text-decoration: none;
+	color: #0f9034;
+  }
+  /* 누른상태 */
+  a:active {
+	text-decoration: none;
+	color: #0f9034;
+  }
+  /* 갖다덴 상태 */
+  a:hover {
+	text-decoration: none;
+	color: #0f9034;
+  }
+  
 a { color: #152447; text-decoration: none; }
-
 a:visited { color: #152447; }
 
 a:hover { color: #828282; text-decoration: underline; }
