@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>기본2) vscode를 활용해서 git 심화내용 학습하기 | Returning Student</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="기본2) vscode를 활용해서 git 심화내용 학습하기" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="git의 심화내용을 vscode 활용 2 part, 개념 1 part 나누어 학습" />
+<meta property="og:description" content="git의 심화내용을 vscode 활용 2 part, 개념 1 part 나누어 학습" />
+<link rel="canonical" href="blog.chojaeseong.com/git/2021/10/16/%EA%B9%832_%EA%B9%83%EA%B8%B0%EB%B3%B8(vscode)_%EA%B9%83%EC%8B%AC%ED%99%941(vscode)_%EA%B9%83%EC%8B%AC%ED%99%942(%EA%B0%9C%EB%85%90).html" />
+<meta property="og:url" content="blog.chojaeseong.com/git/2021/10/16/%EA%B9%832_%EA%B9%83%EA%B8%B0%EB%B3%B8(vscode)_%EA%B9%83%EC%8B%AC%ED%99%941(vscode)_%EA%B9%83%EC%8B%AC%ED%99%942(%EA%B0%9C%EB%85%90).html" />
+<meta property="og:site_name" content="Returning Student" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/git.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-10-16T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-10-16T00:00:00-05:00","url":"blog.chojaeseong.com/git/2021/10/16/%EA%B9%832_%EA%B9%83%EA%B8%B0%EB%B3%B8(vscode)_%EA%B9%83%EC%8B%AC%ED%99%941(vscode)_%EA%B9%83%EC%8B%AC%ED%99%942(%EA%B0%9C%EB%85%90).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/git.png","headline":"기본2) vscode를 활용해서 git 심화내용 학습하기","dateModified":"2021-10-16T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/git/2021/10/16/%EA%B9%832_%EA%B9%83%EA%B8%B0%EB%B3%B8(vscode)_%EA%B9%83%EC%8B%AC%ED%99%941(vscode)_%EA%B9%83%EC%8B%AC%ED%99%942(%EA%B0%9C%EB%85%90).html"},"description":"git의 심화내용을 vscode 활용 2 part, 개념 1 part 나누어 학습","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="Returning Student" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Returning Student</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/mygit/">MyGit</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">기본2) vscode를 활용해서 git 심화내용 학습하기</h1><p class="page-description">git의 심화내용을 vscode 활용 2 part, 개념 1 part 나누어 학습</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-10-16T00:00:00-05:00" itemprop="datePublished">
+        Oct 16, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      11 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#git">git</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#깃-기본-with-vscode">깃 기본 with vscode</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#extension-2개-설치">extension 2개 설치</a></li>
+<li class="toc-entry toc-h3"><a href="#gitignore-팔레트커맨드">gitignore (팔레트커맨드)</a></li>
+<li class="toc-entry toc-h3"><a href="#add-remote팔레트커맨드">add remote(팔레트커맨드)</a></li>
+<li class="toc-entry toc-h3"><a href="#add-commit-and-push-in-commits">add, commit, and push in commits</a></li>
+<li class="toc-entry toc-h3"><a href="#pull명령어-및-이질적인-프로젝트-병합-허용allow-unrelated-histories">pull(명령어) 및 이질적인 프로젝트 병합 허용(–allow-unrelated-histories)</a></li>
+<li class="toc-entry toc-h3"><a href="#push">push</a></li>
+<li class="toc-entry toc-h3"><a href="#개념-branch-실무-많이">[개념] branch (실무 많이)</a></li>
+<li class="toc-entry toc-h3"><a href="#실습-branch명령어">[실습] branch(명령어)</a></li>
+<li class="toc-entry toc-h3"><a href="#git-merge-와-fastforwad">git merge 와 fastforwad</a></li>
+<li class="toc-entry toc-h3"><a href="#topic-branch작업용브랜치--main에-merge후-삭제-git-merge-no-ff--git-branch--d">topic branch(작업용브랜치)  main에 merge후 삭제: git merge –no-ff / git branch -d</a></li>
+<li class="toc-entry toc-h3"><a href="#git-탭에서-브랜치-변경후-개별커밋들-확인">git 탭에서 브랜치 변경후 개별커밋들 확인</a></li>
+<li class="toc-entry toc-h3"><a href="#중요-topic-branch에서---다른topic이-merge된-main-의-파일-1개만-받아오고-싶다면-git-checkout--p">[중요] topic branch에서   [다른topic이 merge된 main] 의 파일 1개만 받아오고 싶다면: git checkout -p</a></li>
+<li class="toc-entry toc-h3"><a href="#직전-commit의-메시지-변경-git-commit-amend">직전 commit의 메시지 변경: git commit –amend</a></li>
+<li class="toc-entry toc-h3"><a href="#head포함-n번째에-commit-합치기or삭제-등-commit-history-조절-git-rebase--i-head숫자---fixup-or-squash">HEAD포함 n번째[에] commit 합치기or삭제 등 commit history 조절: git rebase -i HEAD~[숫자] -&gt; fixup or squash</a></li>
+<li class="toc-entry toc-h3"><a href="#이미해버린-commit-취소는-직전head로-돌아가면서-취소-git-reset-hard-head">이미해버린 commit 취소는 직전HEAD로 돌아가면서 취소: git reset –hard HEAD~</a></li>
+<li class="toc-entry toc-h3"><a href="#addstaging-취소는-아직commit안됬으므로-commit전-head로-돌아가면서-취소---or-git-reset-head">add(staging) 취소는 아직commit안됬으므로 commit전 HEAD로 돌아가면서 취소: - or git reset HEAD</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#깃-심화1-with-vscode">깃 심화1 with vscode</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#merge는-항상-명령어로-no-ff를-붙여-커밋을-남기자">merge는 항상 명령어로 –no-ff를 붙여 커밋을 남기자</a></li>
+<li class="toc-entry toc-h3"><a href="#merge후-topic-branch는-삭제-git-branch--d">merge후 topic branch는 삭제: git branch -d</a></li>
+<li class="toc-entry toc-h3"><a href="#tag-확인-및-생성-in-main브랜치git-tag-v001">tag 확인 및 생성 in main브랜치:git tag [v0.0.1]</a></li>
+<li class="toc-entry toc-h3"><a href="#tag는-commit과-별개로-따로-push-git-push-origin-tag버전">tag는 commit과 별개로 따로 push: git push origin [tag(=버전)]</a></li>
+<li class="toc-entry toc-h3"><a href="#code수정-후-commit-push-끝난-뒤-따로-tag-따고---push">code수정 후 commit-&gt;push 끝난 뒤, 따로 tag 따고 -&gt; push</a></li>
+<li class="toc-entry toc-h3"><a href="#tag는-과감하게-돌아가기-git-reset-hard-태그">tag는 과감하게 돌아가기: git reset –hard [태그]</a></li>
+<li class="toc-entry toc-h3"><a href="#reset-tag이후에도-localremote-tag-따로-삭제-git-tag--d-태그--git-push-origin--d-태그">reset tag이후에도 local+remote tag 따로 삭제: git tag -d 태그 / git push origin -d 태그</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#깃-심화2-with-개념위주">깃 심화2 with 개념위주</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#실수로-다른브랜치에-커밋or코드의존성때문에-다른사람-커밋이-필요할-때-git-cherry-pick-으로-특정커밋만-똑-가져올-때">실수로 다른브랜치에 커밋or코드의존성때문에 다른사람 커밋이 필요할 때: git cherry-pick 으로 특정커밋만 똑! 가져올 때</a></li>
+<li class="toc-entry toc-h3"><a href="#git-reset-총정리add취소-commit취소">git reset 총정리(add취소, commit취소)</a></li>
+<li class="toc-entry toc-h3"><a href="#head와--숫자">HEAD와 ^, ~숫자</a></li>
+<li class="toc-entry toc-h3"><a href="#다시git-reset-head-살펴보기with-돌아가서-자연스럽게-취소">다시git reset HEAD 살펴보기with 돌아가서 자연스럽게 취소</a></li>
+<li class="toc-entry toc-h3"><a href="#작업중에-다른작업요청시-commit도-reset도-애매한-임시저장-git-stash">작업중에 다른작업요청시 commit도 reset도 애매한 임시저장: git stash</a></li>
+<li class="toc-entry toc-h3"><a href="#마지막-커밋-변경내용추가-메세지변경-git-commit-amend">마지막 커밋 변경(내용추가, 메세지변경): git commit –amend</a></li>
+<li class="toc-entry toc-h3"><a href="#merge말고-1줄로-합치는데-상대주는놈branch-위에-올려서-합칠-때git-rebase-">merge말고 1줄로 합치는데, 상대주는놈branch 위에 올려서 합칠 때:git rebase </a></li>
+<li class="toc-entry toc-h3"><a href="#merge-vs-rebase">merge vs rebase</a></li>
+<li class="toc-entry toc-h3"><a href="#커밋-합침-삭제-등-커밋-히스토리-조절-git-rebase--i">커밋 합침, 삭제 등 커밋 히스토리 조절: git rebase -i</a></li>
+<li class="toc-entry toc-h3"><a href="#pull받은이후-rebase로-커밋해쉬가-바뀌었다면-어쩔수-없이-git-push-force">pull받은이후 rebase로 커밋해쉬가 바뀌었다면? 어쩔수 없이 git push –force</a></li>
+<li class="toc-entry toc-h3"><a href="#alias">alias</a></li>
+</ul>
+</li>
+</ul><ul>
+  <li>Reference
+    <ul>
+      <li><a href="https://www.youtube.com/channel/UCNbp-JsE2BUZMwPaC6J8ApQ">memi dev</a></li>
+      <li><a href="https://www.youtube.com/channel/UC2nkWbaJt1KQDi2r2XclzTQ">얄팍한 코딩사전</a></li>
+      <li><a href="https://www.youtube.com/channel/UCO1RNdbf-2x-pzc8ZxHKNZA">kaist 전산학부학생회</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="깃-기본-with-vscode">
+<a class="anchor" href="#%EA%B9%83-%EA%B8%B0%EB%B3%B8-with-vscode" aria-hidden="true"><span class="octicon octicon-link"></span></a>깃 기본 with vscode</h2>
+
+<h3 id="extension-2개-설치">
+<a class="anchor" href="#extension-2%EA%B0%9C-%EC%84%A4%EC%B9%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>extension 2개 설치</h3>
+
+<ol>
+  <li>git extension pack</li>
+</ol>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">git extension pack</code> 검색후 설치</li>
+  <li>gitlens와 gitignore가 동시에 설치되어진다.</li>
+  <li>왼쪽메뉴에 소스제어 를 클릭하면, gitlens가 통합되서 나온다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210504205923102.png" alt="image-20210504205923102">
+</li>
+  <li>
+    <p>설정 &gt; <code class="language-plaintext highlighter-rouge">git enable</code>이 활성화 되어있는지 확인한다.</p>
+  </li>
+  <li>
+    <p>gitlens layout 수정</p>
+
+    <ul>
+      <li>gitlens를 왼쪽메뉴에 따로 보이게 되었는데, 설명서를 읽으니 <code class="language-plaintext highlighter-rouge">gitlens.setViewsLayout</code> 검색 &gt; <code class="language-plaintext highlighter-rouge">default</code>로 클릭해야 <strong>source control탭에서 통합해서 볼 수 있다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210505205146803.png" alt="image-20210505205146803">
+</li>
+    </ul>
+  </li>
+  <li>_git history는 팔레트에서 git log를 검색해서 사용</li>
+</ul>
+
+<ol>
+  <li>markdown all in one</li>
+</ol>
+
+<p><code class="language-plaintext highlighter-rouge">markdown all in one</code>검색 후 설치</p>
+
+<h3 id="gitignore-팔레트커맨드">
+<a class="anchor" href="#gitignore-%ED%8C%94%EB%A0%88%ED%8A%B8%EC%BB%A4%EB%A7%A8%EB%93%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>gitignore (팔레트커맨드)</h3>
+
+<ul>
+  <li>
+<strong>add전</strong>에 설치된 <strong>gitignore</strong>를 <strong>사용</strong>하기 위해서<strong>ctrl+shift+p(모든 명령어, 팔레트)</strong>에서 <code class="language-plaintext highlighter-rouge">gitignore</code>를 검색하여, <strong><code class="language-plaintext highlighter-rouge">add ignore</code></strong>를 클릭
+    <ul>
+      <li>이후 <strong><code class="language-plaintext highlighter-rouge">python</code> 을 검색</strong>해서 선택 -&gt; <strong>파이썬을 제외시키는게 아니라 python관련 불필요 파일들이 등록이 된다.</strong>
+</li>
+      <li>create <code class="language-plaintext highlighter-rouge">.gitignore</code>가 생성되었다고 뜬다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>소스제어에서, gitignore도 뜨는데, [파일열기]버튼이 따로 있다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210504213410000.png" alt="image-20210504213410000"></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">python</code>프로젝트를 선택하더라도 <strong><code class="language-plaintext highlighter-rouge">.vscode/</code>폴더</strong>를 맨끝에 추가해준다.</p>
+
+    <ul>
+      <li>.vscode로 달아도 되지만, 폴더라서 마지막에 슬래쉬도 넣어준다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210504214645218.png" alt="image-20210504214645218"></p>
+  </li>
+</ul>
+
+<h3 id="add-remote팔레트커맨드">
+<a class="anchor" href="#add-remote%ED%8C%94%EB%A0%88%ED%8A%B8%EC%BB%A4%EB%A7%A8%EB%93%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>add remote(팔레트커맨드)</h3>
+
+<ol>
+  <li>
+    <p>빈repo를 생성</p>
+
+    <ul>
+      <li><strong>readme파일만 체크해서 생성( 첨부터 push안되게 충돌내기 위함. )</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">&gt; add remote</code> 후 repo 선택</p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">주의</code> [remote name]: <code class="language-plaintext highlighter-rouge">origin</code>으로 기본적으로 설정한다!!!</strong></p>
+      </li>
+      <li>
+        <p>참고) <code class="language-plaintext highlighter-rouge">add remote</code>를 2개 했다면? <code class="language-plaintext highlighter-rouge">git remote</code> + <code class="language-plaintext highlighter-rouge">remove [remote name]</code></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">git config --list</code>로 연결된 원격레포의 주소 확인하기</p>
+  </li>
+</ol>
+
+<h3 id="add-commit-and-push-in-commits">
+<a class="anchor" href="#add-commit-and-push-in-commits" aria-hidden="true"><span class="octicon octicon-link"></span></a>add, commit, and push in commits</h3>
+
+<ul>
+  <li>
+    <p>U 파일들에서, <code class="language-plaintext highlighter-rouge">+</code>버튼을 눌러 <strong>add</strong>시키면, <code class="language-plaintext highlighter-rouge">staging된 변경사항</code>으로 이동한다.</p>
+  </li>
+  <li>
+    <p><strong>commit</strong>은 상단의 [소스제어]에서 <code class="language-plaintext highlighter-rouge">체크</code>버튼으로 <strong>staging된 변경사항을 한번에 다 commit시킨다.</strong></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">[commits] </code>탭</strong> push를 클릭했다.</p>
+
+    <ul>
+      <li>해당 repo에서 push내역을 확인</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012224716917.png" alt="image-20211012224716917"></p>
+  </li>
+</ul>
+
+<h3 id="pull명령어-및-이질적인-프로젝트-병합-허용allow-unrelated-histories">
+<a class="anchor" href="#pull%EB%AA%85%EB%A0%B9%EC%96%B4-%EB%B0%8F-%EC%9D%B4%EC%A7%88%EC%A0%81%EC%9D%B8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%B3%91%ED%95%A9-%ED%97%88%EC%9A%A9allow-unrelated-histories" aria-hidden="true"><span class="octicon octicon-link"></span></a>pull(명령어) 및 이질적인 프로젝트 병합 허용(–allow-unrelated-histories)</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git pull origin main
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>현재 remote가 빈 레포가 아니므로, push가 바로 안됨</p>
+
+    <ul>
+      <li>
+        <p>readme.md가 있기 때문에 pull당겨와서 충돌해결하고 해야함.</p>
+
+        <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  fatal: refusing to merge unrelated histories
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>이건 뭔짓을 하더라도 안됨. <strong>따로 설정하면서 pull</strong>을 해줘야한다.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git pull origin main <span class="nt">--allow-unrelated-histories</span>
+</code></pre></div></div>
+
+<h3 id="push">
+<a class="anchor" href="#push" aria-hidden="true"><span class="octicon octicon-link"></span></a>push</h3>
+
+<ul>
+  <li>
+    <p>갑자기 commits탭에서 사라져서.. 그냥</p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">vscode 작업표시줄을 클릭하여 push</code></strong></p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">F1(팔레트)열고 git push검색해서 push</code></strong></p>
+
+        <p>해도 됨</p>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012225716315.png" alt="image-20211012225716315"></p>
+  </li>
+</ul>
+
+<h3 id="개념-branch-실무-많이">
+<a class="anchor" href="#%EA%B0%9C%EB%85%90-branch-%EC%8B%A4%EB%AC%B4-%EB%A7%8E%EC%9D%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>[개념] branch (실무 많이)</h3>
+
+<ol>
+  <li>
+<code class="language-plaintext highlighter-rouge">main</code>은 항상 <code class="language-plaintext highlighter-rouge">deploy상태</code>로 유지</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">topic branch</code> = <code class="language-plaintext highlighter-rouge">수정용 브랜치</code> = push해서 PR하는 브랜치
+    <ul>
+      <li>
+<strong>push를 자주해서 날라가는 것을 방지</strong>하자.</li>
+      <li><strong>검토후 merged(PR)후에 바로 삭제하는 브랜치</strong></li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">develop branch</code>는 삭제안한다.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">main</code>브랜치는 항상 최신으로 유지하므로 <code class="language-plaintext highlighter-rouge">각 기능별 브랜치</code>는  main에서 딴다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210505003509762.png" alt="image-20210505003509762" style="zoom: 67%;">
+</li>
+</ol>
+
+<h3 id="실습-branch명령어">
+<a class="anchor" href="#%EC%8B%A4%EC%8A%B5-branch%EB%AA%85%EB%A0%B9%EC%96%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>[실습] branch(명령어)</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210505003749969.png" alt="image-20210505003749969"></p>
+
+<ul>
+  <li>
+<strong>from-br없이 브랜치를</strong> 따면, <code class="language-plaintext highlighter-rouge">현재 브랜치</code>에서 따는 것이므로 <strong><code class="language-plaintext highlighter-rouge">git branch</code>명령어를 확인하고 따자.</strong>
+    <ul>
+      <li>git branch <code class="language-plaintext highlighter-rouge">new-br</code> <code class="language-plaintext highlighter-rouge">from-br</code>
+</li>
+      <li>git branch
+        <ul>
+          <li>git branch <code class="language-plaintext highlighter-rouge">new-br</code>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">-</code>로 직전브랜치를 checkout할 수 있다.</strong></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">checkout -b</code> [new-br] [from-br]</strong>로 <strong>생성하면서 동시에 브랜치를 변경</strong>하게 되므로 <strong>가장 자주 쓴다</strong>.</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git branch testbr main
+  git branch
+  * main
+    testbr
+    
+  git checkout testbr
+  Switched to branch 'testbr'
+    
+  git branch
+    main
+  * testbr
+    
+  git checkout - 
+  Switched to branch 'main'
+  Your branch is up to date with 'origin/main'.
+    
+  git branch
+  * main
+    testbr
+      
+  git checkout -b work main
+  Switched to a new branch 'work'
+    
+  git branch
+    main
+    testbr
+  * work
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="git-merge-와-fastforwad">
+<a class="anchor" href="#git-merge-%EC%99%80-fastforwad" aria-hidden="true"><span class="octicon octicon-link"></span></a>git merge 와 fastforwad</h3>
+
+<ul>
+  <li><a href="https://yuja-kong.tistory.com/entry/Git-branch-%EB%B3%91%ED%95%A9%ED%95%98%EA%B8%B0-merge-fast-forward%EC%99%80-merge-commit%EC%9D%98-%EC%B0%A8%EC%9D%B4%EC%A0%90">그림 출저</a></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012235425670.png" alt="image-20211012235425670">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012235500471.png" alt="image-20211012235500471">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012235529831.png" alt="image-20211012235529831"></p>
+
+<ul>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">merge commit</code></strong>은 서로 다른 상태의 브랜치를 병합해서 새로운 commit을 만드는 경우이고</p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">fast forward</code></strong>는 <strong>동일 내용이 포함되는 브랜치</strong>일 경우 <strong>브랜치 이동만으로 병합해서 따로 commit을 생성하지 않는 경우</strong>입니다.</p>
+  </li>
+</ul>
+
+<h3 id="topic-branch작업용브랜치--main에-merge후-삭제-git-merge-no-ff--git-branch--d">
+<a class="anchor" href="#topic-branch%EC%9E%91%EC%97%85%EC%9A%A9%EB%B8%8C%EB%9E%9C%EC%B9%98--main%EC%97%90-merge%ED%9B%84-%EC%82%AD%EC%A0%9C-git-merge-no-ff--git-branch--d" aria-hidden="true"><span class="octicon octicon-link"></span></a>topic branch(작업용브랜치)  main에 merge후 삭제: git merge –no-ff / git branch -d</h3>
+
+<ul>
+  <li>
+    <p>현재 브런치 목록</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>    main
+    testbr
+  * work
+    remotes/origin/main
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">work</code>를 토픽브랜치라 가정하고 파일 <code class="language-plaintext highlighter-rouge">work.py</code>생성 후 커밋</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">main</code>으로 돌아오면 당연히 파일이 없음.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">main</code>에서 merge했다는 커밋을 남기면서(<code class="language-plaintext highlighter-rouge">--no-ff</code>)  <code class="language-plaintext highlighter-rouge">work</code>브랜치를 받아오자.</p>
+
+    <ul>
+      <li>파일의 변화가 차이밖에 없는 경우. HEAD만 이동시키는 merge는 커밋이 발생안하고 앞으로 이동만 -&gt;  <code class="language-plaintext highlighter-rouge">fast  forward</code>가 발생하는데, 여기서는 직접 merge 메세지도 남긴다.</li>
+    </ul>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git merge <span class="nt">--no-ff</span> work
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>merge의 log확인을 <code class="language-plaintext highlighter-rouge">git history</code>라는 익스텐션으로 해보자.</strong></p>
+
+    <ul>
+      <li>
+        <p>나는 git graph라는 익스텐션도 보인다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211014235222467.png" alt="image-20211014235222467"></p>
+
+        <ul>
+          <li>
+            <p>git history
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211014235337124.png" alt="image-20211014235337124"></p>
+          </li>
+          <li>
+            <p>git graph</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211014235350860.png" alt="image-20211014235350860"></p>
+          </li>
+          <li>
+            <p>git log –oneline –graph 의 명령어</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211014235602708.png" alt="image-20211014235602708"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>merge확인후 <strong>topic branch삭제</strong></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git branch <span class="nt">-d</span> work
+ Deleted branch work <span class="o">(</span>was cbf2765<span class="o">)</span><span class="nb">.</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="git-탭에서-브랜치-변경후-개별커밋들-확인">
+<a class="anchor" href="#git-%ED%83%AD%EC%97%90%EC%84%9C-%EB%B8%8C%EB%9E%9C%EC%B9%98-%EB%B3%80%EA%B2%BD%ED%9B%84-%EA%B0%9C%EB%B3%84%EC%BB%A4%EB%B0%8B%EB%93%A4-%ED%99%95%EC%9D%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>git 탭에서 브랜치 변경후 개별커밋들 확인</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211015000149964.png" alt="image-20211015000149964"></p>
+
+<ol>
+  <li>
+    <p>해당브랜치 화살표누르면 switch (checkout 됨)</p>
+  </li>
+  <li>
+    <p><strong>왼쪽 화살표를 누르면, 각 브랜치마다 커밋 목록이 보인다.</strong></p>
+
+    <ul>
+      <li><strong>브랜치 생성이전 main브랜치 커밋이 그대로 보이는 듯함.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211015000405590.png" alt="image-20211015000405590">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211015000648926.png" alt="image-20211015000648926"></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">testbr</code>에서만 파일 생성후 커밋해보자.</p>
+
+    <ul>
+      <li>testbr이 위로 올라왔다.
+        <ul>
+          <li>branch 생성이후부터 달라진 커밋 차이가 난다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211015001328774.png" alt="image-20211015001328774">
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="중요-topic-branch에서---다른topic이-merge된-main-의-파일-1개만-받아오고-싶다면-git-checkout--p">
+<a class="anchor" href="#%EC%A4%91%EC%9A%94-topic-branch%EC%97%90%EC%84%9C---%EB%8B%A4%EB%A5%B8topic%EC%9D%B4-merge%EB%90%9C-main-%EC%9D%98-%ED%8C%8C%EC%9D%BC-1%EA%B0%9C%EB%A7%8C-%EB%B0%9B%EC%95%84%EC%98%A4%EA%B3%A0-%EC%8B%B6%EB%8B%A4%EB%A9%B4-git-checkout--p" aria-hidden="true"><span class="octicon octicon-link"></span></a>[중요] topic branch에서   [다른topic이 merge된 main] 의 파일 1개만 받아오고 싶다면: git checkout -p</h3>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">testbr</code>에서   <code class="language-plaintext highlighter-rouge">main</code>속 work.py를 가져오고 싶다면</p>
+
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">git checkout -p</code></strong> [가져올브랜치명] [가져올파일명]을 이용한다.
+        <ul>
+          <li>wsl2에서 안되서 windows 상태에서 하니깐 됬음.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>​	1. <code class="language-plaintext highlighter-rouge">git checkout -p main work</code> + <code class="language-plaintext highlighter-rouge">y</code> 로  main브랜치의 work.py를 가지고 온다.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>❯  git checkout <span class="nt">-p</span> main work.py
+
+diff <span class="nt">--git</span> b/work.py a/work.py
+new file mode 100644
+index 0000000..e69de29
+
+<span class="o">(</span>1/1<span class="o">)</span> Apply addition to index and worktree <span class="o">[</span>y,n,q,a,d,?]? y
+</code></pre></div></div>
+
+<ol>
+  <li>현재 상태를 보면 <strong>add까진 된체 로 온다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211015004734881.png" alt="image-20211015004734881">
+    <ul>
+      <li>add전후 살펴보는 <code class="language-plaintext highlighter-rouge">git status</code>로 봐도, 이미 Add는 되어있다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211015004808921.png" alt="image-20211015004808921">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211015005024857.png" alt="image-20211015005024857">
+</li>
+    </ul>
+  </li>
+  <li>work.py에 내용을 조금 넣어주고 commit하자.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211015004904377.png" alt="image-20211015004904377">
+</li>
+</ol>
+
+<h3 id="직전-commit의-메시지-변경-git-commit-amend">
+<a class="anchor" href="#%EC%A7%81%EC%A0%84-commit%EC%9D%98-%EB%A9%94%EC%8B%9C%EC%A7%80-%EB%B3%80%EA%B2%BD-git-commit-amend" aria-hidden="true"><span class="octicon octicon-link"></span></a>직전 commit의 메시지 변경: git commit –amend</h3>
+
+<ol>
+  <li>
+<code class="language-plaintext highlighter-rouge">git commit --amend</code>를 치면, 직전 commit에 대한 메세지 수정사항이 editor 로 열린다.</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit --amend
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p><strong>메세지를 저장하면 자동으로 반영</strong>되어진다.</p>
+  </li>
+  <li>
+    <p>참고</p>
+
+    <ul>
+      <li>
+<strong>마지막 커밋A에 일부만 빠졌다?</strong>
+        <ul>
+          <li>3을 빼고 1,2만 add 및 커밋한 상태</li>
+          <li><strong><code class="language-plaintext highlighter-rouge">3을 git add</code>한 뒤 <code class="language-plaintext highlighter-rouge">git commit --amend</code></strong></li>
+        </ul>
+      </li>
+      <li>
+<strong>그냥 커밋메세지만 변경</strong>
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">git commit --amend -m "메세지"</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="head포함-n번째에-commit-합치기or삭제-등-commit-history-조절-git-rebase--i-head숫자---fixup-or-squash">
+<a class="anchor" href="#head%ED%8F%AC%ED%95%A8-n%EB%B2%88%EC%A7%B8%EC%97%90-commit-%ED%95%A9%EC%B9%98%EA%B8%B0or%EC%82%AD%EC%A0%9C-%EB%93%B1-commit-history-%EC%A1%B0%EC%A0%88-git-rebase--i-head%EC%88%AB%EC%9E%90---fixup-or-squash" aria-hidden="true"><span class="octicon octicon-link"></span></a>HEAD포함 n번째[에] commit 합치기or삭제 등 commit history 조절: git rebase -i HEAD~[숫자] -&gt; fixup or squash</h3>
+
+<ul>
+  <li>
+<strong>HEAD~</strong> = <strong>HEAD~1</strong>
+    <ul>
+      <li>HEAD포함 HEAD1개 전
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">~1</code> = <code class="language-plaintext highlighter-rouge">HEAD^</code> : 헤드의 부모, 헤드의 1개전</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>rebase는 명령어로 하는게 더 빠르고 쉽다.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210505210227153.png" alt="image-20210505210227153"></p>
+
+<ul>
+  <li>commit 1개당 1개의 의미를 가져야하나, <strong>의미가 없는 커밋들을 하나로 합칠</strong> 때 , <code class="language-plaintext highlighter-rouge">git rebase -i HEAD~</code> + <code class="language-plaintext highlighter-rouge">[합칠 커밋갯수]</code> 이후에
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">fixup</code>: (귀찮아서) <code class="language-plaintext highlighter-rouge">HEAD포함</code> n번째커밋<code class="language-plaintext highlighter-rouge">에</code> 커밋합치면서 <code class="language-plaintext highlighter-rouge">n번째 커밋명</code>으로  커밋합침</strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">squash</code>: (새로운커밋명을 위해) <code class="language-plaintext highlighter-rouge">HEAD포함</code> n번째커밋<code class="language-plaintext highlighter-rouge">에</code> 커밋합치면서 + <code class="language-plaintext highlighter-rouge">새로운 커밋명</code>으로 합침</strong></li>
+      <li><strong>그외 reword(= amend), drop 등: 사용안한다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p>커밋을 1111,222,3333333,4444,55555 5개를 새로 만들자
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211017013823583.png" alt="image-20211017013823583"></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">git rebase -i HEAD~[head포함 합칠 커밋갯수 &amp; head에서 뒤로 2칸 간 곳에서 합쳐짐.]</code></strong>을 커맨드로 입력한다.</p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git rebase <span class="nt">-i</span> HEAD~2
+</code></pre></div>    </div>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211017023334598.png" alt="image-20211017023334598"></p>
+
+    <ul>
+      <li>여기서 커밋메시지 같은 <code class="language-plaintext highlighter-rouge">git-rebase-todo</code> 메세지에서 <strong><code class="language-plaintext highlighter-rouge">pick</code>대신 <code class="language-plaintext highlighter-rouge">fixup</code>을 적어서 뭉개자.</strong>
+        <ul>
+          <li>최근커밋인 5555(HEAD)를 fixup으로 뭉개서 저장시키면 된다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211017023433229.png" alt="image-20211017023433229">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211017023443757.png" alt="image-20211017023443757">
+</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><strong>따로 뭔가 뜨지 않으면 <code class="language-plaintext highlighter-rouge">.git &gt; rebase-merge &gt; git-rebase-todo</code>를 클릭한다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211017020441390.png" alt="image-20211017020441390"></p>
+  </li>
+  <li>
+    <p>도착지(HEAD포함 n번째 커밋)는 선택지가 없다.</p>
+
+    <ul>
+      <li>
+        <p>최근 것이며 뭉개지는 HEAD는 선택지가 있다.</p>
+
+        <ul>
+          <li>
+            <p>여기서 <code class="language-plaintext highlighter-rouge">fixup</code>을 선택하면, <strong>귀찮게 새로운 커밋메세지를 작성안하고 n번째 커밋명을 이용하게 된다.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211017021919308.png" alt="image-20211017021919308">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211017022107109.png" alt="image-20211017022107109"></p>
+          </li>
+          <li>
+            <p><code class="language-plaintext highlighter-rouge">start rebase</code>를 해서 커밋을 합친다.</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>이제 444 -&gt;333으로</p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> git rebase <span class="nt">-i</span>
+</code></pre></div>    </div>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211017023813902.png" alt="image-20211017023813902"></p>
+
+    <p>최근 것(아래 것)을 <strong>pick to <code class="language-plaintext highlighter-rouge">squash</code>로 변경해보자.</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>과거커밋으로 합</strong>치는데 <strong>커밋메세지는 새로작성한다는 것이다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211017023856342.png" alt="image-20211017023856342"></p>
+      </li>
+      <li>
+        <p>맨 위에 커밋메세지를 적으면 적용된다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211017023934918.png" alt="image-20211017023934918">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211017023943718.png" alt="image-20211017023943718"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="이미해버린-commit-취소는-직전head로-돌아가면서-취소-git-reset-hard-head">
+<a class="anchor" href="#%EC%9D%B4%EB%AF%B8%ED%95%B4%EB%B2%84%EB%A6%B0-commit-%EC%B7%A8%EC%86%8C%EB%8A%94-%EC%A7%81%EC%A0%84head%EB%A1%9C-%EB%8F%8C%EC%95%84%EA%B0%80%EB%A9%B4%EC%84%9C-%EC%B7%A8%EC%86%8C-git-reset-hard-head" aria-hidden="true"><span class="octicon octicon-link"></span></a>이미해버린 commit 취소는 직전HEAD로 돌아가면서 취소: git reset –hard HEAD~</h3>
+
+<ul>
+  <li>reset은 <strong>해당커밋</strong>까지가면서 자연스럽게 삭제한다.</li>
+</ul>
+
+<ol>
+  <li>
+    <p>head의 부모로 가면서, head는 삭제
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211018014043041.png" alt="image-20211018014043041"></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git reset <span class="nt">--hard</span> HEAD~HEAD is now at 3460720 Merge branch <span class="s1">'testbr'</span> of https://github.com/is2js/git-ssac into testbr
+</code></pre></div>    </div>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211018014057536.png" alt="image-20211018014057536"></p>
+  </li>
+</ol>
+
+<h3 id="addstaging-취소는-아직commit안됬으므로-commit전-head로-돌아가면서-취소---or-git-reset-head">
+<a class="anchor" href="#addstaging-%EC%B7%A8%EC%86%8C%EB%8A%94-%EC%95%84%EC%A7%81commit%EC%95%88%EB%90%AC%EC%9C%BC%EB%AF%80%EB%A1%9C-commit%EC%A0%84-head%EB%A1%9C-%EB%8F%8C%EC%95%84%EA%B0%80%EB%A9%B4%EC%84%9C-%EC%B7%A8%EC%86%8C---or-git-reset-head" aria-hidden="true"><span class="octicon octicon-link"></span></a>add(staging) 취소는 아직commit안됬으므로 commit전 HEAD로 돌아가면서 취소: <code class="language-plaintext highlighter-rouge">-</code> or git reset HEAD</h3>
+
+<ul>
+  <li>
+    <p>git extension으로 는 그냥 <code class="language-plaintext highlighter-rouge">-</code>버튼을 누르면 add가 취소됨
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210506233547359.png" alt="image-20210506233547359"></p>
+  </li>
+  <li>
+    <p>명령어로는 <strong><code class="language-plaintext highlighter-rouge">git reset HEAD</code></strong>로서</p>
+
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">--hard</code>없이 code를 살린체</strong> 최근HEAD로 돌아가면 -&gt; <code class="language-plaintext highlighter-rouge">add취소가 자동</code>으로</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211023000434343.png" alt="image-20211023000434343"></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git reset HEAD <span class="c"># HEAD 대문자여야함.</span>
+</code></pre></div>    </div>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211023000445814.png" alt="image-20211023000445814"></p>
+  </li>
+</ul>
+
+<h2 id="깃-심화1-with-vscode">
+<a class="anchor" href="#%EA%B9%83-%EC%8B%AC%ED%99%941-with-vscode" aria-hidden="true"><span class="octicon octicon-link"></span></a>깃 심화1 with vscode</h2>
+
+<p>###</p>
+
+<ul>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">git tag</code>는 <code class="language-plaintext highlighter-rouge">release</code>의 의미를 가지므로 <code class="language-plaintext highlighter-rouge">main</code>에서  딴다.</strong>
+    <ul>
+      <li>tag
+        <ul>
+          <li>혼자 = 커밋의 합 = 강의 n화</li>
+          <li>협업 = <strong>topic -&gt; main에서 merge후에 main에서 <code class="language-plaintext highlighter-rouge">배포버전</code>으로서 tag를 딴다.</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="merge는-항상-명령어로-no-ff를-붙여-커밋을-남기자">
+<a class="anchor" href="#merge%EB%8A%94-%ED%95%AD%EC%83%81-%EB%AA%85%EB%A0%B9%EC%96%B4%EB%A1%9C-no-ff%EB%A5%BC-%EB%B6%99%EC%97%AC-%EC%BB%A4%EB%B0%8B%EC%9D%84-%EB%82%A8%EA%B8%B0%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>merge는 항상 명령어로 –no-ff를 붙여 커밋을 남기자</h3>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">--no-ff</code>를 붙이면 fastfoward = 커밋없이 head위치만 바꾸는 것을 안하고 <strong>항상 merge커밋을 남긴다.</strong>
+    <ul>
+      <li><strong>conflict나면, Accept incoming후  <code class="language-plaintext highlighter-rouge">git commit</code>만 입력해주면 메세지 완성되어있음.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">main</code>브랜치로 넘어가기</p>
+  </li>
+  <li>
+    <p>명령어로 merge하기</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git merge --no-ff testbr
+ Merge made by the 'recursive' strategy.
+  hello.py  | 3 +++
+  testbr.py | 0
+  work.py   | 1 +
+  3 files changed, 4 insertions(+)
+  create mode 100644 testbr.py
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="merge후-topic-branch는-삭제-git-branch--d">
+<a class="anchor" href="#merge%ED%9B%84-topic-branch%EB%8A%94-%EC%82%AD%EC%A0%9C-git-branch--d" aria-hidden="true"><span class="octicon octicon-link"></span></a>merge후 topic branch는 삭제: git branch -d</h3>
+
+<ol>
+  <li>
+    <p><strong>merge가 되었다면, topic 브랜치 삭제하기!!</strong></p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> git branch -d testbr
+    
+ Deleted branch testbr (was 74296bb).
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p><strong>만약, fully merge가 안되었다고 뜨면? 대문자 <code class="language-plaintext highlighter-rouge">-D</code></strong>로 강제 삭제해준다.</p>
+
+        <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git branch -D testbr
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="tag-확인-및-생성-in-main브랜치git-tag-v001">
+<a class="anchor" href="#tag-%ED%99%95%EC%9D%B8-%EB%B0%8F-%EC%83%9D%EC%84%B1-in-main%EB%B8%8C%EB%9E%9C%EC%B9%98git-tag-v001" aria-hidden="true"><span class="octicon octicon-link"></span></a>tag 확인 및 생성 in main브랜치:git tag [v0.0.1]</h3>
+
+<ul>
+  <li>tag는 <strong>release될 <code class="language-plaintext highlighter-rouge">main</code>브랜치</strong>에서 작성한다.</li>
+  <li>tag는 <strong>release단위 = 배포단위로 생성</strong>한다.</li>
+  <li>tag는 <strong>소스코드를 push를 해놓은 상태에서 -&gt; tag를 local에서 따고 -&gt;tag를 push한다.</strong>
+</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>❯ git tag
+
+❯ git tag v0.0.1
+
+❯ git tag
+
+v0.0.1
+<span class="o">(</span>END<span class="o">)</span>
+</code></pre></div></div>
+
+<h3 id="tag는-commit과-별개로-따로-push-git-push-origin-tag버전">
+<a class="anchor" href="#tag%EB%8A%94-commit%EA%B3%BC-%EB%B3%84%EA%B0%9C%EB%A1%9C-%EB%94%B0%EB%A1%9C-push-git-push-origin-tag%EB%B2%84%EC%A0%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>tag는 commit과 별개로 따로 push: git push origin [tag(=버전)]</h3>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">git push origin [태그명=버전명]</code></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git push origin v0.0.1
+ Total 0 <span class="o">(</span>delta 0<span class="o">)</span>, reused 0 <span class="o">(</span>delta 0<span class="o">)</span>
+ To https://github.com/is2js/git-ssac.git
+  <span class="k">*</span> <span class="o">[</span>new tag]         v0.0.1 -&gt; v0.0.1
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>git repo에, tag가 생긴 것을 우측사이드에서 확인가능
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211019003006735.png" alt="image-20211019003006735"></p>
+  </li>
+</ol>
+
+<h3 id="code수정-후-commit-push-끝난-뒤-따로-tag-따고---push">
+<a class="anchor" href="#code%EC%88%98%EC%A0%95-%ED%9B%84-commit-push-%EB%81%9D%EB%82%9C-%EB%92%A4-%EB%94%B0%EB%A1%9C-tag-%EB%94%B0%EA%B3%A0---push" aria-hidden="true"><span class="octicon octicon-link"></span></a>code수정 후 commit-&gt;push 끝난 뒤, 따로 tag 따고 -&gt; push</h3>
+
+<ol>
+  <li>
+    <p>파일(코드) 수정</p>
+  </li>
+  <li>
+    <p>local git <strong>commit</strong></p>
+  </li>
+  <li>
+    <p>local -&gt; origin(<strong>원격레포</strong>)로 <strong>push</strong></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git add <span class="nt">-A</span>
+ ❯ git commit <span class="nt">-m</span> <span class="s2">"askldjflkasd"</span>
+ ❯ git push
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>commit의 push가 끝난 뒤, <code class="language-plaintext highlighter-rouge">tag</code>를 딴다.</strong></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git tag v0.0.2
+ ❯ git push origin v0.0.2
+ Total 0 <span class="o">(</span>delta 0<span class="o">)</span>, reused 0 <span class="o">(</span>delta 0<span class="o">)</span>
+ To https://github.com/is2js/git-ssac.git
+  <span class="k">*</span> <span class="o">[</span>new tag]         v0.0.2 -&gt; v0.0.2
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="tag는-과감하게-돌아가기-git-reset-hard-태그">
+<a class="anchor" href="#tag%EB%8A%94-%EA%B3%BC%EA%B0%90%ED%95%98%EA%B2%8C-%EB%8F%8C%EC%95%84%EA%B0%80%EA%B8%B0-git-reset-hard-%ED%83%9C%EA%B7%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>tag는 과감하게 돌아가기: git reset –hard [태그]</h3>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">git reset --hard [commit_hash]</code>를 하면 <strong>해당 커밋까지 돌아가면서 자연스럽게 그 이후의 내용들은 삭제되었다.</strong>
+    <ul>
+      <li><strong>하지만, 태그의 경우, <code class="language-plaintext highlighter-rouge">code + commit</code>은 돌아가나 <code class="language-plaintext highlighter-rouge">tag</code>는 삭제안되고 남아있다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>❯ git reset <span class="nt">--hard</span> v0.0.1
+HEAD is now at bd4c018 Merge branch <span class="s1">'testbr'</span> into main
+
+
+❯ git tag
+
+v0.0.1
+v0.0.2
+</code></pre></div></div>
+
+<ul>
+  <li><strong>되돌아가도 tag는 남아있으니 직접 삭제해줘야한다.</strong></li>
+</ul>
+
+<h3 id="reset-tag이후에도-localremote-tag-따로-삭제-git-tag--d-태그--git-push-origin--d-태그">
+<a class="anchor" href="#reset-tag%EC%9D%B4%ED%9B%84%EC%97%90%EB%8F%84-localremote-tag-%EB%94%B0%EB%A1%9C-%EC%82%AD%EC%A0%9C-git-tag--d-%ED%83%9C%EA%B7%B8--git-push-origin--d-%ED%83%9C%EA%B7%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>reset tag이후에도 local+remote tag 따로 삭제: git tag -d 태그 / git push origin -d 태그</h3>
+
+<ol>
+  <li>
+    <p><strong>로컬 tag를 삭제</strong>한다.</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> git tag -d v0.0.2
+    
+ Deleted tag 'v0.0.2' (was 476f70b)
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>원격에 남아있는 tag도 삭제</strong>한다.</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> git push origin -d v0.0.2
+    
+ To https://github.com/is3js/py.git
+  - [deleted]         v0.0.2
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="깃-심화2-with-개념위주">
+<a class="anchor" href="#%EA%B9%83-%EC%8B%AC%ED%99%942-with-%EA%B0%9C%EB%85%90%EC%9C%84%EC%A3%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>깃 심화2 with 개념위주</h2>
+
+<h3 id="실수로-다른브랜치에-커밋or코드의존성때문에-다른사람-커밋이-필요할-때-git-cherry-pick-으로-특정커밋만-똑-가져올-때">
+<a class="anchor" href="#%EC%8B%A4%EC%88%98%EB%A1%9C-%EB%8B%A4%EB%A5%B8%EB%B8%8C%EB%9E%9C%EC%B9%98%EC%97%90-%EC%BB%A4%EB%B0%8Bor%EC%BD%94%EB%93%9C%EC%9D%98%EC%A1%B4%EC%84%B1%EB%95%8C%EB%AC%B8%EC%97%90-%EB%8B%A4%EB%A5%B8%EC%82%AC%EB%9E%8C-%EC%BB%A4%EB%B0%8B%EC%9D%B4-%ED%95%84%EC%9A%94%ED%95%A0-%EB%95%8C-git-cherry-pick-%EC%9C%BC%EB%A1%9C-%ED%8A%B9%EC%A0%95%EC%BB%A4%EB%B0%8B%EB%A7%8C-%EB%98%91-%EA%B0%80%EC%A0%B8%EC%98%AC-%EB%95%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>실수로 다른브랜치에 커밋or코드의존성때문에 다른사람 커밋이 필요할 때: git cherry-pick 으로 특정커밋만 똑! 가져올 때</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011002343727.png" alt="image-20211011002343727"></p>
+
+<ul>
+  <li>
+    <p>코드의존성</p>
+
+    <ul>
+      <li>다른사람 커밋 위에서 일해야하는 경우
+        <ul>
+          <li>ex&gt; 다른사람이 버그고침 -&gt; 나는 그위에서 일을 해야할 때</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>master branch의 cccccccc커밋만  -&gt; my branch로</p>
+
+    <ul>
+      <li>
+        <p>커밋해쉬 앞 7글자</p>
+
+        <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git cherry-pick ccccccc
+</code></pre></div>        </div>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011002712243.png" alt="image-20211011002712243"></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="git-reset-총정리add취소-commit취소">
+<a class="anchor" href="#git-reset-%EC%B4%9D%EC%A0%95%EB%A6%ACadd%EC%B7%A8%EC%86%8C-commit%EC%B7%A8%EC%86%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>git reset 총정리(add취소, commit취소)</h3>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">ADD취소</code> 2가지</p>
+
+    <ul>
+      <li><strong>옵션을 안주면 <code class="language-plaintext highlighter-rouge">mixed</code></strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011003126389.png" alt="image-20211011003126389"></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">커밋취소</code> 3가지</p>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">HEAD</code>뒤에 눈웃음 한개 <code class="language-plaintext highlighter-rouge">^</code>
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">--soft</code> : commit만 취소 + <code class="language-plaintext highlighter-rouge">add + 내용물 그대로</code>
+</li>
+          <li><strong><code class="language-plaintext highlighter-rouge">(mixed)</code> : commt취소 + add취소 + <code class="language-plaintext highlighter-rouge">내용물만 그대로(unstaged)</code></strong></li>
+          <li>
+<code class="language-plaintext highlighter-rouge">--hard</code> :  commit취소 + add취소 + 내용물취소</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011003219453.png" alt="image-20211011003219453"></p>
+  </li>
+</ul>
+
+<h3 id="head와--숫자">
+<a class="anchor" href="#head%EC%99%80--%EC%88%AB%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>HEAD와 ^, ~숫자</h3>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">HEAD</code>: <strong><code class="language-plaintext highlighter-rouge">로컬</code> workingDir의 <code class="language-plaintext highlighter-rouge">현재 작업중인 커밋</code></strong>
+    <ul>
+      <li>switch하면 작업폴더, 작업하는곳도 바뀌니 head도 바뀐다.</li>
+      <li><strong>add만 했다면? 커밋이 아직 아니므로 HEAD가 보고 있진 않다.</strong></li>
+    </ul>
+  </li>
+  <li>
+<strong>HEAD<code class="language-plaintext highlighter-rouge">^</code>: 현재작업중 커밋의 <code class="language-plaintext highlighter-rouge">부모커밋</code></strong>
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">^^</code> : 부모의부모</li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">~3</code> : <code class="language-plaintext highlighter-rouge">^^^</code>쓰지말고, 3단계 전 커밋</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011004343131.png" alt="image-20211011004343131">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011004351053.png" alt="image-20211011004351053">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011004403666.png" alt="image-20211011004403666">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011004429954.png" alt="image-20211011004429954">
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="다시git-reset-head-살펴보기with-돌아가서-자연스럽게-취소">
+<a class="anchor" href="#%EB%8B%A4%EC%8B%9Cgit-reset-head-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B0with-%EB%8F%8C%EC%95%84%EA%B0%80%EC%84%9C-%EC%9E%90%EC%97%B0%EC%8A%A4%EB%9F%BD%EA%B2%8C-%EC%B7%A8%EC%86%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>다시git reset HEAD 살펴보기with 돌아가서 자연스럽게 취소</h3>
+
+<ol>
+  <li>
+    <p>add 취소</p>
+
+    <ul>
+      <li>
+        <p>커밋이 아니므로, HEAD는 아직 안보고 있다.</p>
+      </li>
+      <li>
+        <p>그래서 git reset HEAD를 하게 되면, <strong>HEAD커밋을 삭제하는게 아니라 <code class="language-plaintext highlighter-rouge">git reset [여기]</code> = <code class="language-plaintext highlighter-rouge">[여기]로 돌아가겠다</code> = 해당커밋이후로 add는 커밋은 필요없다. <code class="language-plaintext highlighter-rouge">자연스럽게 add를 취소</code></strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011004613267.png" alt="image-20211011004613267"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011004726483.png" alt="image-20211011004726483">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011004929115.png" alt="image-20211011004929115"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>커밋취소<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011005120724.png" alt="image-20211011005120724"></p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">git reset HEAD^</code> 현재의 부모커밋으로 가고 싶다.</p>
+      </li>
+      <li>
+        <p><strong>를 통해서 현재커밋을 취소</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011005133219.png" alt="image-20211011005133219"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="작업중에-다른작업요청시-commit도-reset도-애매한-임시저장-git-stash">
+<a class="anchor" href="#%EC%9E%91%EC%97%85%EC%A4%91%EC%97%90-%EB%8B%A4%EB%A5%B8%EC%9E%91%EC%97%85%EC%9A%94%EC%B2%AD%EC%8B%9C-commit%EB%8F%84-reset%EB%8F%84-%EC%95%A0%EB%A7%A4%ED%95%9C-%EC%9E%84%EC%8B%9C%EC%A0%80%EC%9E%A5-git-stash" aria-hidden="true"><span class="octicon octicon-link"></span></a>작업중에 다른작업요청시 commit도 reset도 애매한 임시저장: git stash</h3>
+
+<ul>
+  <li>
+    <p>로그인 <strong>브랜치에서  작업중인데, 갑자기 로그아웃 브랜치를 수정해달라고함.</strong></p>
+
+    <ul>
+      <li>브랜치를 정리해야지만 브랜치변경이 가능함.
+        <ul>
+          <li>커밋한다음 reset을 해도되긴하겠지만,,,</li>
+        </ul>
+      </li>
+      <li><strong>커밋하기엔 미완성, 작업물을 날릴순 없다. 임시저장으로 정리</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p>현재 어느정도는 add된 상태</p>
+
+    <ul>
+      <li>
+        <p>unstage된 = add되지 않는 파일도 있음.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011005844708.png" alt="image-20211011005844708">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011005931612.png" alt="image-20211011005931612"></p>
+      </li>
+      <li>
+        <p><strong>add, unstage 다 합쳐서 사진을 스태시! 하고 찍는다.</strong></p>
+
+        <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git stash
+</code></pre></div>        </div>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011010019725.png" alt="image-20211011010019725"></p>
+
+        <ul>
+          <li>
+            <p><strong>커밋이후의 상황들 전체가 <code class="language-plaintext highlighter-rouge">stash 바구니</code>에 담기게 됨.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011010055227.png" alt="image-20211011010055227"></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>바구니에 담기면 사라진다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011010208956.png" alt="image-20211011010208956"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">git stash pop</code>을 통해 stash바구니에서 꺼내면 다시 적용된다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011010245179.png" alt="image-20211011010245179"></p>
+
+    <ul>
+      <li>stack처럼 pop으로 나온다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011010324195.png" alt="image-20211011010324195">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011010402997.png" alt="image-20211011010402997">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>git stash, git stash pop 이외에 <code class="language-plaintext highlighter-rouge">git stash list</code>도 있다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011010431876.png" alt="image-20211011010431876"></p>
+  </li>
+</ul>
+
+<h3 id="마지막-커밋-변경내용추가-메세지변경-git-commit-amend">
+<a class="anchor" href="#%EB%A7%88%EC%A7%80%EB%A7%89-%EC%BB%A4%EB%B0%8B-%EB%B3%80%EA%B2%BD%EB%82%B4%EC%9A%A9%EC%B6%94%EA%B0%80-%EB%A9%94%EC%84%B8%EC%A7%80%EB%B3%80%EA%B2%BD-git-commit-amend" aria-hidden="true"><span class="octicon octicon-link"></span></a>마지막 커밋 변경(내용추가, 메세지변경): git commit –amend</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011010616653.png" alt="image-20211011010616653"></p>
+
+<ul>
+  <li>
+<strong>마지막 커밋A에 일부만 빠졌다?</strong>
+    <ul>
+      <li>3을 빼고 1,2만 add 및 커밋한 상태</li>
+      <li><strong><code class="language-plaintext highlighter-rouge">3을 git add</code>한 뒤 <code class="language-plaintext highlighter-rouge">git commit --amend</code></strong></li>
+    </ul>
+  </li>
+  <li>
+<strong>그냥 커밋메세지만 변경</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">git commit --amend -m "메세지"</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="merge말고-1줄로-합치는데-상대주는놈branch-위에-올려서-합칠-때git-rebase-">
+<a class="anchor" href="#merge%EB%A7%90%EA%B3%A0-1%EC%A4%84%EB%A1%9C-%ED%95%A9%EC%B9%98%EB%8A%94%EB%8D%B0-%EC%83%81%EB%8C%80%EC%A3%BC%EB%8A%94%EB%86%88branch-%EC%9C%84%EC%97%90-%EC%98%AC%EB%A0%A4%EC%84%9C-%ED%95%A9%EC%B9%A0-%EB%95%8Cgit-rebase-" aria-hidden="true"><span class="octicon octicon-link"></span></a>merge말고 1줄로 합치는데, 상대주는놈branch 위에 올려서 합칠 때:git rebase <branch></branch>
+</h3>
+
+<ul>
+  <li>
+    <p>내 브랜치들을 <strong><code class="language-plaintext highlighter-rouge">주는놈branch</code> 위에서 적용시키고 싶을 때</strong></p>
+
+    <ul>
+      <li>최근브랜치가 내꺼가 되면서, 내가  주는놈 위에 적용됨.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011011157120.png" alt="image-20211011011157120"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011011211637.png" alt="image-20211011011211637"></p>
+  </li>
+  <li>
+    <p><strong>주의할점으로, 주는놈위에 쌓아올려질 때, 그대로 가는게 아니라 <code class="language-plaintext highlighter-rouge">커밋해쉬가 달라짐</code></strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011011300333.png" alt="image-20211011011300333"></p>
+  </li>
+</ul>
+
+<h3 id="merge-vs-rebase">
+<a class="anchor" href="#merge-vs-rebase" aria-hidden="true"><span class="octicon octicon-link"></span></a>merge vs rebase</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011011440989.png" alt="image-20211011011440989"></p>
+
+<ul>
+  <li>merge와 비교
+    <ul>
+      <li><strong>장점: 커밋해쉬 유지 및 흐름 유지되어 돌아갈 수 있음</strong></li>
+      <li>단점: <strong>merge라는 불필요커밋을 생성함.</strong>
+</li>
+    </ul>
+  </li>
+  <li>rebase
+    <ul>
+      <li>장점: <strong>주는놈위에 받는놈위주로 정리가 됨. 깨끗한 커밋 히스토리가 됨.</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="커밋-합침-삭제-등-커밋-히스토리-조절-git-rebase--i">
+<a class="anchor" href="#%EC%BB%A4%EB%B0%8B-%ED%95%A9%EC%B9%A8-%EC%82%AD%EC%A0%9C-%EB%93%B1-%EC%BB%A4%EB%B0%8B-%ED%9E%88%EC%8A%A4%ED%86%A0%EB%A6%AC-%EC%A1%B0%EC%A0%88-git-rebase--i" aria-hidden="true"><span class="octicon octicon-link"></span></a>커밋 합침, 삭제 등 커밋 히스토리 조절: git rebase -i</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011011620097.png" alt="image-20211011011620097"></p>
+
+<h3 id="pull받은이후-rebase로-커밋해쉬가-바뀌었다면-어쩔수-없이-git-push-force">
+<a class="anchor" href="#pull%EB%B0%9B%EC%9D%80%EC%9D%B4%ED%9B%84-rebase%EB%A1%9C-%EC%BB%A4%EB%B0%8B%ED%95%B4%EC%89%AC%EA%B0%80-%EB%B0%94%EB%80%8C%EC%97%88%EB%8B%A4%EB%A9%B4-%EC%96%B4%EC%A9%94%EC%88%98-%EC%97%86%EC%9D%B4-git-push-force" aria-hidden="true"><span class="octicon octicon-link"></span></a>pull받은이후 rebase로 커밋해쉬가 바뀌었다면? 어쩔수 없이 git push –force</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011013551223.png" alt="image-20211011013551223"></p>
+
+<ul>
+  <li>
+    <p>remote branch2개를 잘 받아왔다.</p>
+  </li>
+  <li>
+    <p>이후 <strong><code class="language-plaintext highlighter-rouge">git rebase(주는놈위에 쌓아서 합침)</code>로 내 커밋해쉬가 바뀌었다면?</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011013641088.png" alt="image-20211011013641088"></p>
+
+    <ul>
+      <li>
+<strong>이 상태에서 git push하면 reject</strong>된다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011014624104.png" alt="image-20211011014624104">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>어쩔수 없이 <strong><code class="language-plaintext highlighter-rouge">git push --force</code>로 덮어씌워야함.</strong></p>
+  </li>
+  <li>
+    <p>협업중엔 조심해야한다.</p>
+
+    <ul>
+      <li>
+        <p><strong>남자가 rebase후 푸쉬포스</strong>로 덮어씌워진다면,,</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011015657705.png" alt="image-20211011015657705">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011015709288.png" alt="image-20211011015709288"></p>
+      </li>
+      <li>
+        <p><strong>같은 브랜치 협업중</strong>에는 미리 말안하는 이상 rebase 및 push force를 하면 안될듯</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="alias">
+<a class="anchor" href="#alias" aria-hidden="true"><span class="octicon octicon-link"></span></a>alias</h3>
+
+<ul>
+  <li>
+    <p>git push까지</p>
+
+    <ul>
+      <li>status diff add cache? commit log</li>
+    </ul>
+  </li>
+  <li>
+    <p>git폴더에</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011020355626.png" alt="image-20211011020355626"></p>
+  </li>
+  <li>
+    <p>내 환경설정에
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211011020850041.png" alt="image-20211011020850041"></p>
+  </li>
+  <li>
+    <p>참고</p>
+
+    <ul>
+      <li>
+        <p><a href="https://github.com/hidekuma/dotfiles/blob/master/bashrc.cafe24.wsl">히데쿠마 설정</a></p>
+
+        <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c">## alias</span>
+        
+  <span class="c"># git</span>
+  <span class="nb">alias </span><span class="nv">gst</span><span class="o">=</span><span class="s1">'git status'</span>
+  <span class="nb">alias </span><span class="nv">gc</span><span class="o">=</span><span class="s1">'git commit'</span>
+  <span class="nb">alias </span><span class="nv">gm</span><span class="o">=</span><span class="s1">'git merge'</span>
+  <span class="nb">alias </span><span class="nv">gr</span><span class="o">=</span><span class="s1">'git reset'</span>
+  <span class="nb">alias </span><span class="nv">ga</span><span class="o">=</span><span class="s1">'git add'</span>
+  <span class="nb">alias </span><span class="nv">gaa</span><span class="o">=</span><span class="s1">'git add --all'</span>
+  <span class="nb">alias </span><span class="nv">gloga</span><span class="o">=</span><span class="s1">'git log --oneline --decorate --color --graph --all'</span>
+  <span class="nb">alias </span><span class="nv">glog</span><span class="o">=</span><span class="s1">'git log --oneline --decorate --color --graph'</span>
+  <span class="nb">alias </span><span class="nv">gco</span><span class="o">=</span><span class="s1">'git checkout'</span>
+  <span class="nb">alias </span><span class="nv">gb</span><span class="o">=</span><span class="s1">'git branch'</span>
+  <span class="nb">alias </span><span class="nv">gcb</span><span class="o">=</span><span class="s1">'git branch | fzf -m | xargs git checkout'</span>
+  <span class="nb">alias </span><span class="nv">gmb</span><span class="o">=</span><span class="s1">'git branch | fzf -m | xargs git merge'</span>
+  <span class="nb">alias </span><span class="nv">gdb</span><span class="o">=</span><span class="s1">'git branch | fzf -m | xargs git branch -D'</span>
+  <span class="nb">alias </span><span class="nv">gp</span><span class="o">=</span><span class="s1">'git push'</span>
+  <span class="nb">alias </span><span class="nv">gf</span><span class="o">=</span><span class="s1">'git fetch'</span>
+  <span class="nb">alias </span><span class="nv">gl</span><span class="o">=</span><span class="s1">'git pull'</span>
+  <span class="nb">alias </span><span class="nv">gd</span><span class="o">=</span><span class="s1">'git diff'</span>
+  <span class="nb">alias </span><span class="nv">ghf</span><span class="o">=</span><span class="s1">'git ls-files -v | grep "^h" | cut -c3-'</span>
+        
+        
+  <span class="c"># dkr</span>
+  <span class="nb">alias </span><span class="nv">dkr</span><span class="o">=</span><span class="s1">'docker'</span>
+  <span class="nb">alias </span><span class="nv">dkrp</span><span class="o">=</span><span class="s1">'docker-compose'</span>
+  <span class="c"># for docker</span>
+  <span class="c">#sudo mount --bind /mnt/c /c</span>
+  <span class="nb">sudo </span>mount <span class="nt">--bind</span> /mnt/d /d
+  <span class="nb">export </span><span class="nv">DOCKER_HOST</span><span class="o">=</span>tcp://0.0.0.0:2375
+        
+  <span class="c"># basic</span>
+  <span class="nb">alias </span><span class="nv">dotfiles</span><span class="o">=</span><span class="s1">'cd ~/dotfiles'</span>
+  <span class="nb">alias </span><span class="nv">ll</span><span class="o">=</span><span class="s1">'ls -al'</span>
+  <span class="nb">alias </span><span class="nv">l</span><span class="o">=</span><span class="s1">'clear &amp;&amp; ls -al'</span>
+  <span class="c">#alias cdd='cd /d/'</span>
+  <span class="nb">alias </span><span class="nv">ws</span><span class="o">=</span><span class="s1">'cd /d/workspace'</span>
+  <span class="c">#alias solup='cd /d/workspace/solup'</span>
+  <span class="nb">alias </span><span class="nv">echost</span><span class="o">=</span><span class="s1">'cd /d/workspace/solup/echost'</span>
+  <span class="nb">alias </span><span class="nv">12r</span><span class="o">=</span><span class="s1">'cd /d/workspace/solup/12r'</span>
+  <span class="nb">alias </span><span class="nv">private</span><span class="o">=</span><span class="s1">'cd /d/workspace/private'</span>
+  <span class="nb">alias</span> ..<span class="o">=</span><span class="s1">'cd ..'</span>
+  <span class="nb">alias</span> ..2<span class="o">=</span><span class="s1">'.. &amp;&amp; ..'</span>
+  <span class="nb">alias</span> ..3<span class="o">=</span><span class="s1">'..2 &amp;&amp; ..'</span>
+        
+  <span class="c"># some more ls aliases</span>
+  <span class="c">#alias ll='ls -alF'</span>
+  <span class="nb">alias </span><span class="nv">la</span><span class="o">=</span><span class="s1">'ls -A'</span>
+  <span class="c">#alias l='ls -CF'</span>
+        
+  <span class="c"># Add an "alert" alias for long running commands.  Use like so:</span>
+  <span class="c">#   sleep 10; alert</span>
+  <span class="nb">alias </span><span class="nv">alert</span><span class="o">=</span><span class="s1">'notify-send --urgency=low -i "$([ $? = 0 ] &amp;&amp; echo terminal || echo error)" "$(history|tail -n1|sed -e '</span><span class="se">\'</span><span class="s1">'s/^\s*[0-9]\+\s*//;s/[;&amp;|]\s*alert$//'</span><span class="se">\'</span><span class="s1">')"'</span>
+        
+        
+  <span class="c"># for python</span>
+  <span class="nb">alias </span><span class="nv">python</span><span class="o">=</span><span class="s1">'python3'</span>
+  <span class="nb">alias </span><span class="nv">pip</span><span class="o">=</span><span class="s1">'pip3'</span>
+  <span class="nb">export </span><span class="nv">WORKON_HOME</span><span class="o">=</span>~/.virtualenvs
+  <span class="nb">export </span><span class="nv">VIRTUALENVWRAPPER_PYTHON</span><span class="o">=</span><span class="s1">'/usr/bin/python3'</span>  <span class="c"># Usage of python3</span>
+  <span class="nb">source</span> ~/.local/bin/virtualenvwrapper.sh
+  <span class="c"># for pyenv</span>
+  <span class="nb">export </span><span class="nv">PYENV_ROOT</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.pyenv"</span>
+  <span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"</span><span class="nv">$PYENV_ROOT</span><span class="s2">/bin:</span><span class="nv">$PATH</span><span class="s2">"</span>
+  <span class="nb">export </span><span class="nv">PYTHON_CONFIGURE_OPTS</span><span class="o">=</span><span class="s2">"--enable-shared"</span>
+  <span class="nb">export </span><span class="nv">PYENV_VIRTUALENV_DISABLE_PROMPT</span><span class="o">=</span>1
+        
+  <span class="k">if </span><span class="nb">command</span> <span class="nt">-v</span> pyenv 1&gt;/dev/null 2&gt;&amp;1<span class="p">;</span> <span class="k">then
+    </span><span class="nb">eval</span> <span class="s2">"</span><span class="si">$(</span>pyenv init -<span class="si">)</span><span class="s2">"</span>
+    <span class="nb">eval</span> <span class="s2">"</span><span class="si">$(</span>pyenv virtualenv-init -<span class="si">)</span><span class="s2">"</span>
+  <span class="k">fi</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/git/2021/10/16/%EA%B9%832_%EA%B9%83%EA%B8%B0%EB%B3%B8(vscode)_%EA%B9%83%EC%8B%AC%ED%99%941(vscode)_%EA%B9%83%EC%8B%AC%ED%99%942(%EA%B0%9C%EB%85%90).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

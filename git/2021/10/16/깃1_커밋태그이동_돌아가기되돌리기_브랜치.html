@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>기본1) commit or Tag로 이동 + 돌아가기&amp;되돌리기+ 브랜치 작업 | Returning Student</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="기본1) commit or Tag로 이동 + 돌아가기&amp;되돌리기+ 브랜치 작업" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="깃 기본기로서 커밋해쉬 or Tag로 과거 소스보기 / 돌아가기 / 되돌리기 / 브랜치 를 학습" />
+<meta property="og:description" content="깃 기본기로서 커밋해쉬 or Tag로 과거 소스보기 / 돌아가기 / 되돌리기 / 브랜치 를 학습" />
+<link rel="canonical" href="blog.chojaeseong.com/git/2021/10/16/%EA%B9%831_%EC%BB%A4%EB%B0%8B%ED%83%9C%EA%B7%B8%EC%9D%B4%EB%8F%99_%EB%8F%8C%EC%95%84%EA%B0%80%EA%B8%B0%EB%90%98%EB%8F%8C%EB%A6%AC%EA%B8%B0_%EB%B8%8C%EB%9E%9C%EC%B9%98.html" />
+<meta property="og:url" content="blog.chojaeseong.com/git/2021/10/16/%EA%B9%831_%EC%BB%A4%EB%B0%8B%ED%83%9C%EA%B7%B8%EC%9D%B4%EB%8F%99_%EB%8F%8C%EC%95%84%EA%B0%80%EA%B8%B0%EB%90%98%EB%8F%8C%EB%A6%AC%EA%B8%B0_%EB%B8%8C%EB%9E%9C%EC%B9%98.html" />
+<meta property="og:site_name" content="Returning Student" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/git.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-10-16T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-10-16T00:00:00-05:00","url":"blog.chojaeseong.com/git/2021/10/16/%EA%B9%831_%EC%BB%A4%EB%B0%8B%ED%83%9C%EA%B7%B8%EC%9D%B4%EB%8F%99_%EB%8F%8C%EC%95%84%EA%B0%80%EA%B8%B0%EB%90%98%EB%8F%8C%EB%A6%AC%EA%B8%B0_%EB%B8%8C%EB%9E%9C%EC%B9%98.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/git.png","headline":"기본1) commit or Tag로 이동 + 돌아가기&amp;되돌리기+ 브랜치 작업","dateModified":"2021-10-16T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/git/2021/10/16/%EA%B9%831_%EC%BB%A4%EB%B0%8B%ED%83%9C%EA%B7%B8%EC%9D%B4%EB%8F%99_%EB%8F%8C%EC%95%84%EA%B0%80%EA%B8%B0%EB%90%98%EB%8F%8C%EB%A6%AC%EA%B8%B0_%EB%B8%8C%EB%9E%9C%EC%B9%98.html"},"description":"깃 기본기로서 커밋해쉬 or Tag로 과거 소스보기 / 돌아가기 / 되돌리기 / 브랜치 를 학습","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="Returning Student" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Returning Student</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/mygit/">MyGit</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">기본1) commit or Tag로 이동 + 돌아가기&amp;되돌리기+ 브랜치 작업</h1><p class="page-description">깃 기본기로서 커밋해쉬 or Tag로 과거 소스보기 / 돌아가기 / 되돌리기 / 브랜치 를 학습</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-10-16T00:00:00-05:00" itemprop="datePublished">
+        Oct 16, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#git">git</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#타인repo를-clone후-commit-tag-코드-옮겨다니기">타인repo를 clone후 commit, tag 코드 옮겨다니기</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#commit_hash-or-tag로-점프-git-checkout-hash-or-tag">commit_hash or tag로 점프: git checkout [hash or tag]</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#내-repo-돌아가기-되돌리기">내 repo 돌아가기, 되돌리기</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#기본-세팅">기본 세팅</a></li>
+<li class="toc-entry toc-h3"><a href="#과감한-돌아가기-git-reset-commit_hash-hard">과감한 돌아가기: git reset [commit_hash] –hard</a></li>
+<li class="toc-entry toc-h3"><a href="#반대동작으로-취소시켜-돌아갈-미래를-남긴체-되돌리기--git-revert">(반대동작으로 취소시켜, 돌아갈 미래를 남긴체) 되돌리기 : git revert</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#내repo-branch평행우주-만들기-for-기존플젝에-새로운-도전">내repo branch(평행우주) 만들기 for 기존플젝에 새로운 도전</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#평행우주로-이동도git-checkout-브랜-or-더블클릭-in-소스트리">평행우주로 이동도:git checkout [브랜] or 더블클릭 in 소스트리</a></li>
+<li class="toc-entry toc-h3"><a href="#브랜치에서-새-브랜치-따기">브랜치에서 새 브랜치 따기</a></li>
+<li class="toc-entry toc-h3"><a href="#연결된-3개의-평행우주에서-상황맞이">연결된 3개의 평행우주에서 상황맞이</a></li>
+<li class="toc-entry toc-h3"><a href="#다른-우주의지를-이은-가장-바깥가지-브랜치에서-변화-가져오기--받을놈branch이동후-git-merge-줄놈branch">다른 우주(의지를 이은 가장 바깥가지 브랜치)에서 변화 가져오기: [ 받을놈branch이동후] git merge [줄놈branch]</a></li>
+<li class="toc-entry toc-h3"><a href="#reset-hard로-merge전으로-돌아간-후-소스트리로-merge하기">reset –hard로 merge전으로 돌아간 후, 소스트리로 merge하기</a></li>
+<li class="toc-entry toc-h3"><a href="#아름답지-않은-merge--conflict후에는-메세지없이-git-commit">아름답지 않은 merge + conflict후에는 메세지없이 git commit</a></li>
+<li class="toc-entry toc-h3"><a href="#다른우주도-1줄로-만들어-통합-git-rebase재배치">다른우주도 1줄로 만들어 통합: git rebase(재배치)</a></li>
+<li class="toc-entry toc-h3"><a href="#다-쓴-브랜치-삭제-git-branch--d">다 쓴 브랜치 삭제: git branch -D</a></li>
+</ul>
+</li>
+</ul><h2 id="타인repo를-clone후-commit-tag-코드-옮겨다니기">
+<a class="anchor" href="#%ED%83%80%EC%9D%B8repo%EB%A5%BC-clone%ED%9B%84-commit-tag-%EC%BD%94%EB%93%9C-%EC%98%AE%EA%B2%A8%EB%8B%A4%EB%8B%88%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>타인repo를 clone후 commit, tag 코드 옮겨다니기</h2>
+
+<ul>
+  <li>실습레포: <code class="language-plaintext highlighter-rouge">/home/is2js/workspace/git-test</code>
+</li>
+  <li>Reference
+    <ul>
+      <li><a href="https://www.youtube.com/channel/UCNbp-JsE2BUZMwPaC6J8ApQ">memi dev</a></li>
+      <li><a href="https://www.youtube.com/channel/UC2nkWbaJt1KQDi2r2XclzTQ">얄팍한 코딩사전</a></li>
+      <li><a href="https://www.youtube.com/channel/UCO1RNdbf-2x-pzc8ZxHKNZA">kaist 전산학부학생회</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="commit_hash-or-tag로-점프-git-checkout-hash-or-tag">
+<a class="anchor" href="#commit_hash-or-tag%EB%A1%9C-%EC%A0%90%ED%94%84-git-checkout-hash-or-tag" aria-hidden="true"><span class="octicon octicon-link"></span></a>commit_hash or tag로 점프: git checkout [hash or tag]</h3>
+
+<ul>
+  <li>
+    <p>환경변수를 파악하고 code .</p>
+  </li>
+  <li>
+    <p>vscode로 리조지토리 초기화</p>
+  </li>
+  <li>
+    <p>vscode push 버튼으로 올리기</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001005629523.png" alt="image-20211001005629523"></p>
+  </li>
+  <li>
+    <p>git fetch는 해두는 게 좋다</p>
+
+    <ul>
+      <li>내 repo에 누가 작업을 추가했는지 <strong>파악만 해주는 것</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>강의별로 commit을 한다면?</p>
+
+    <ul>
+      <li>
+        <p><strong>커밋별로 tag를 추가로 만들어준다.</strong></p>
+      </li>
+      <li>
+        <p>예를 들어</p>
+
+        <ul>
+          <li>
+            <p>5화 작업</p>
+
+            <ul>
+              <li>5화 커밋
+                <ul>
+                  <li><code class="language-plaintext highlighter-rouge">git tag 5</code></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p>6화 작업</p>
+
+            <ul>
+              <li>6화 커밋
+                <ul>
+                  <li><code class="language-plaintext highlighter-rouge">git tag 6</code></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><code class="language-plaintext highlighter-rouge">push </code> by vscode push버튼</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001010739579.png" alt="image-20211001010739579"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">git checkout [git_id]</code>으로 5화 이전의 4화로 <code class="language-plaintext highlighter-rouge">점프</code>띄어보자.</strong></p>
+
+    <ul>
+      <li>
+        <p>4화 부분의 git id 복사
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001010912582.png" alt="image-20211001010912582"></p>
+      </li>
+      <li>
+        <p><strong>해당 폴더의 <code class="language-plaintext highlighter-rouge">vscode 터미널</code>에서 <code class="language-plaintext highlighter-rouge">git checkout [git_id]</code></strong></p>
+
+        <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git checkout fefc0cacbf262ae0794e64a632afa2da095b622a
+</code></pre></div>        </div>
+
+        <ul>
+          <li>
+<strong>이때 brunch자체가 <code class="language-plaintext highlighter-rouge">[git_id]</code>로 변하면서 과거로 돌아간다</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001011150526.png" alt="image-20211001011150526">
+</li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>현재로 돌아오려면, <code class="language-plaintext highlighter-rouge">기존 branch(master)</code>로 checkout한다</strong></p>
+
+        <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git checkout master
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">git checkout [tag명]</code>으로 <code class="language-plaintext highlighter-rouge">점프</code>띄어보자</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>각 커밋마다 커밋후 쉬운 이름표</strong>인 tag를  만들어준다.</p>
+
+        <ul>
+          <li>
+            <p>아까 5화 작업 끝나고, <code class="language-plaintext highlighter-rouge">git tag 5</code></p>
+
+            <ul>
+              <li>
+                <p><strong>5화 끝난후의 소스를 보고 싶을 땐 이렇게 이동한다</strong></p>
+
+                <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  #git checkout [tag명]
+  git checkout 5
+</code></pre></div>                </div>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001012120166.png" alt="image-20211001012120166"></p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>다 참조가 끝났다면, 다시 최근소스의 branch로 오면된다.</strong></p>
+
+        <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git checkout master
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>tag는 대신 따로 push를 해줘야한다.</strong></p>
+
+    <ul>
+      <li>커밋들을 push한거로는 tag까지 push가 안됨.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001012541909.png" alt="image-20211001012541909">
+</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git push --tags
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p>버튼으로는 잘 안보이고 <strong>팔레트 &gt; push 검색 &gt; <code class="language-plaintext highlighter-rouge">git push tags</code>를 선택해준다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001012458748.png" alt="image-20211001012458748">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001012626189.png" alt="image-20211001012626189"></p>
+      </li>
+      <li>
+        <p>참고)</p>
+
+        <ul>
+          <li>
+            <p>맨첨 커밋에는 <code class="language-plaintext highlighter-rouge">0.0.0</code>의 tag를 만들어주고
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001012710133.png" alt="image-20211001012710133"></p>
+          </li>
+          <li>
+            <p>그 이후로는 <code class="language-plaintext highlighter-rouge">1.0.0</code>부터 쭉 만들면된다.</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001012719525.png" alt="image-20211001012719525"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="내-repo-돌아가기-되돌리기">
+<a class="anchor" href="#%EB%82%B4-repo-%EB%8F%8C%EC%95%84%EA%B0%80%EA%B8%B0-%EB%90%98%EB%8F%8C%EB%A6%AC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>내 repo 돌아가기, 되돌리기</h2>
+
+<h3 id="기본-세팅">
+<a class="anchor" href="#%EA%B8%B0%EB%B3%B8-%EC%84%B8%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>기본 세팅</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">/home/is2js/workspace/git-practice</code></li>
+</ul>
+
+<ol>
+  <li>
+    <p>소스트리 설치</p>
+
+    <ul>
+      <li>vscode에서는 <strong>설정(ctrl+,)에서 <code class="language-plaintext highlighter-rouge">exclude</code> 검색후 <code class="language-plaintext highlighter-rouge">.git</code>을 삭제</strong>하여 보이게 하기</li>
+    </ul>
+  </li>
+  <li>
+    <p>디렉토리에서 vscode열기</p>
+
+    <ul>
+      <li>
+        <p>vscode 터미널 열여서 git설정 저장하기</p>
+
+        <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git config <span class="nt">--global</span> user.name <span class="s2">"is2js"</span>
+  git config <span class="nt">--global</span> user.name <span class="s2">"tingstyle1@gmail.com"</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">.git</code>폴더를 삭제후 소스트리에서 해보기</p>
+
+    <ul>
+      <li>
+<strong>create를 통해 해당폴더를 선택해서 만들어준다.</strong>
+        <ul>
+          <li>이미 폴더가 있는데 이 내부에 .git생성할까 물어보면 OK
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001232956631.png" alt="image-20211001232956631">
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>2개의 파일을 만들고 이 상태를 저장하기</p>
+
+    <ul>
+      <li>cat</li>
+      <li>mouse</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">git status</code>(gst)</strong>를 통해 아직 <code class="language-plaintext highlighter-rouge">untracked 파일들</code> 확인 후 add</p>
+
+    <p><strong><code class="language-plaintext highlighter-rouge">git add -A</code></strong></p>
+
+    <p><code class="language-plaintext highlighter-rouge">git status</code></p>
+  </li>
+  <li>
+    <p><strong>메세지(<code class="language-plaintext highlighter-rouge">-m</code>)와 함께 묻기(commit 해주기)</strong>
+ <code class="language-plaintext highlighter-rouge">git commit -m "First commit"</code></p>
+  </li>
+  <li>
+    <p>묻은 것을 소스트리에서 확인해보기
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001233642989.png" alt="image-20211001233642989"></p>
+
+    <p>터미널에서 히스토리 확인하기
+ <code class="language-plaintext highlighter-rouge">git log --oneline </code></p>
+  </li>
+  <li>
+    <p><strong>소스트리는 git status없이 묻을 파일을 자동으로 알려준다.</strong></p>
+
+    <ul>
+      <li>vscode도 extensiont쪽에 알려줌?</li>
+      <li>dog라는 파일을 만들고
+        <ul>
+          <li>소스트리에서 확인해서 add + 커밋까지해보자.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001233956185.png" alt="image-20211001233956185">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001234010365.png" alt="image-20211001234010365">
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>파일 삭제 + 변경 + 생성을 한꺼번에 한 뒤 <code class="language-plaintext highlighter-rouge">git status</code>로 보자.
+    <ul>
+      <li>삭제+변경과  생성을 따로따로 알려주며 다 알려주긴 한다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001234218325.png" alt="image-20211001234218325">
+</li>
+      <li>소스트리도 아이콘으로 알려준다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001234255141.png" alt="image-20211001234255141">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">git log</code>로 이때까지 묻은 캡슐들을 한꺼번에 볼 수 있음.
+소스트리에서는 <code class="language-plaintext highlighter-rouge">History</code>탭에서 보면 된다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001234615685.png" alt="image-20211001234615685"></p>
+  </li>
+</ol>
+
+<h3 id="과감한-돌아가기-git-reset-commit_hash-hard">
+<a class="anchor" href="#%EA%B3%BC%EA%B0%90%ED%95%9C-%EB%8F%8C%EC%95%84%EA%B0%80%EA%B8%B0-git-reset-commit_hash-hard" aria-hidden="true"><span class="octicon octicon-link"></span></a>과감한 돌아가기: git reset [commit_hash] –hard</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001234706364.png" alt="image-20211001234706364"></p>
+
+<ul>
+  <li>
+    <p>돌아갈때는 <code class="language-plaintext highlighter-rouge">과감한방법</code>과 <code class="language-plaintext highlighter-rouge">신중한방법</code>이 있다.</p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">과감한방법(--hard)</code> : 복원이후시점은 완전히 지우겠다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001234739005.png" alt="image-20211001234739005"></p>
+
+        <ul>
+          <li>
+            <p><strong>git log상의 commit_id 앞6글자만 복사</strong>후</p>
+          </li>
+          <li>
+            <p><code class="language-plaintext highlighter-rouge">git reset [commit_id] --hard</code></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001234901365.png" alt="image-20211001234901365">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001234933860.png" alt="image-20211001234933860"></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>다시 한번 cat삭제 + dog이름변경 + 펭귄추가를 해주고 commit한뒤 <strong>소스트리로 reset –hard해보자.</strong></p>
+
+        <ul>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">이 커밋까지 현재브린치를 초기화</code></strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001235606020.png" alt="image-20211001235606020">
+</li>
+          <li>Hard(버림) 선택
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211001235653620.png" alt="image-20211001235653620">
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><del><strong><code class="language-plaintext highlighter-rouge">신중한방법(--soft)</code></strong>: 시점만 돌아가고 + <strong>그 이후는 커밋되지 않은 상태로 파일은 유지</strong></del></p>
+  </li>
+</ul>
+
+<h3 id="반대동작으로-취소시켜-돌아갈-미래를-남긴체-되돌리기--git-revert">
+<a class="anchor" href="#%EB%B0%98%EB%8C%80%EB%8F%99%EC%9E%91%EC%9C%BC%EB%A1%9C-%EC%B7%A8%EC%86%8C%EC%8B%9C%EC%BC%9C-%EB%8F%8C%EC%95%84%EA%B0%88-%EB%AF%B8%EB%9E%98%EB%A5%BC-%EB%82%A8%EA%B8%B4%EC%B2%B4-%EB%90%98%EB%8F%8C%EB%A6%AC%EA%B8%B0--git-revert" aria-hidden="true"><span class="octicon octicon-link"></span></a>(반대동작으로 취소시켜, 돌아갈 미래를 남긴체) 되돌리기 : git revert</h3>
+
+<ul>
+  <li>
+    <p>**<code class="language-plaintext highlighter-rouge">[reset으로 돌아갈 수 있는 미래]를 남겨두기 위해, [반대동작으로 취소시켜] 되돌리기</code> **</p>
+  </li>
+  <li>다시 3번째 커밋까지 만들어준다.</li>
+  <li>이번에는 <code class="language-plaintext highlighter-rouge">돌아갈시점 6자리 for reset</code>이 아닌 <strong><code class="language-plaintext highlighter-rouge">취소할 시점 6자리 for revert</code></strong>를 <code class="language-plaintext highlighter-rouge">git log</code>에서 찾는다.
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">취소할 커밋</code>을  <code class="language-plaintext highlighter-rouge">revert(취소)했다는 커밋</code>이 그대로 이어서 남는다.
+        <ul>
+          <li><strong>소스트리를 통해 확인하면, 정확히 취소할 커밋이, 커밋시 수행한 동작을 정확히 반대로 수행하여 취소함.</strong></li>
+          <li>
+<code class="language-plaintext highlighter-rouge">취소할커밋</code>이 커밋기록으로 남아있으니, <strong><code class="language-plaintext highlighter-rouge">reset --hard(이 커밋까지 현재브런치를 초기화)</code>을 통한 해당 커밋으로 과감하게 돌아갈 수도 있다.</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>**즉, <code class="language-plaintext highlighter-rouge">[reset으로 돌아갈 수 있는 미래]를 남겨두는 [반대동작으로 취소시켜] 되돌리기</code> **</li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>가장 최근 것을 revert로 취소</strong>시켜보자.</p>
+
+    <p><code class="language-plaintext highlighter-rouge">git log</code></p>
+
+    <ul>
+      <li>제일 최근시점을 취소시키기 위해, 최근 커밋(현재커밋) 6글자 복붙</li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">git revert [취소시점6자리]</code> + <code class="language-plaintext highlighter-rouge">:wq</code></p>
+
+    <ul>
+      <li><strong>커밋메세지 작성화면으로 들어온다.</strong></li>
+      <li>
+<strong>여기선 <code class="language-plaintext highlighter-rouge">:wq</code>로 나와야 해당 revert 커밋메세지가 전달된다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211002000722292.png" alt="image-20211002000722292">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211002000855922.png" alt="image-20211002000855922">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>3번째 커밋이 취소된 것을 <code class="language-plaintext highlighter-rouge">파일이 reset처럼 과거상태로 돌아감</code>을 보면 알 수 있다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211002000933963.png" alt="image-20211002000933963"></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">git log</code></strong>를 확인해보니, 돌아간시점이후로 가 삭제된 것(reset –hard, 과감한 돌아가기)가 아니라 <strong>새 커밋이 형성되었다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211002001052979.png" alt="image-20211002001052979"></p>
+
+    <ul>
+      <li>소스트리에서 보아도 <strong>3번째 커밋을 상쇄시키는 커밋이 추가로 발생함</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211002001109106.png" alt="image-20211002001109106">
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211002001152074.png" alt="image-20211002001152074"></p>
+
+    <ul>
+      <li>
+<strong>자세히 보면, 소스트리를 통해 확인하면, 정확히 취소할 커밋이, 커밋시 수행한 동작을 정확히 반대로 수행하여 취소함</strong>
+        <ul>
+          <li>3번째 커밋(취소할 커밋) 때 한 동작들
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211002001555974.png" alt="image-20211002001555974">
+</li>
+          <li>4번째 커밋인 <code class="language-plaintext highlighter-rouge">3번째 커밋을 취소함(revert)</code>를 할때의 동작들
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211002001659195.png" alt="image-20211002001659195">
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>revert를 통해 취소할커밋도</strong> reset-hard와 다르게 기록으로 남아있으니 <strong>reset을 통해 <code class="language-plaintext highlighter-rouge">취소하기 전의 3번째 커밋상태</code>로 과감하게 돌아갈 수도 있다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211002001758225.png" alt="image-20211002001758225">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211002001804553.png" alt="image-20211002001804553"></p>
+  </li>
+  <li>
+    <p>소스트리를 통한 revert는 <strong><code class="language-plaintext highlighter-rouge">커밋 되돌리기</code></strong>다.</p>
+
+    <ul>
+      <li>
+        <p>역시.. (반대동작으로  취소시켜) <code class="language-plaintext highlighter-rouge">되돌리기</code> = <code class="language-plaintext highlighter-rouge">revert</code>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211002001952906.png" alt="image-20211002001952906"></p>
+
+        <ul>
+          <li>
+            <p><code class="language-plaintext highlighter-rouge">커밋 되돌리기</code> == <code class="language-plaintext highlighter-rouge">반대동작을 통해 해당 커밋을 취소시킴</code></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211002002040361.png" alt="image-20211002002040361"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="내repo-branch평행우주-만들기-for-기존플젝에-새로운-도전">
+<a class="anchor" href="#%EB%82%B4repo-branch%ED%8F%89%ED%96%89%EC%9A%B0%EC%A3%BC-%EB%A7%8C%EB%93%A4%EA%B8%B0-for-%EA%B8%B0%EC%A1%B4%ED%94%8C%EC%A0%9D%EC%97%90-%EC%83%88%EB%A1%9C%EC%9A%B4-%EB%8F%84%EC%A0%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>내repo branch(평행우주) 만들기 for 기존플젝에 새로운 도전</h2>
+
+<ul>
+  <li>회사 프로젝트를 내가 함부로 수정할 수 없으니
+    <ul>
+      <li><strong>현재 프로젝트에서 다른 시도를 해보고 싶을 때, branch를 만들어 평행우주로 넘어간다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="평행우주로-이동도git-checkout-브랜-or-더블클릭-in-소스트리">
+<a class="anchor" href="#%ED%8F%89%ED%96%89%EC%9A%B0%EC%A3%BC%EB%A1%9C-%EC%9D%B4%EB%8F%99%EB%8F%84git-checkout-%EB%B8%8C%EB%9E%9C-or-%EB%8D%94%EB%B8%94%ED%81%B4%EB%A6%AD-in-%EC%86%8C%EC%8A%A4%ED%8A%B8%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>평행우주로 이동도:git checkout [브랜] or 더블클릭 in 소스트리</h3>
+
+<ol>
+  <li>
+    <p>브랜치 생성</p>
+
+    <ul>
+      <li>브랜치 : <strong>현 시점에서 2개의 미래로 분기를 시작하겠다.</strong>
+        <ul>
+          <li>현 시점과 동일한 상태 그대로 가져가면서 분기함.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c">#git branch [만들 브랜치명]</span>
+ git branch my-idea
+</code></pre></div>    </div>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003000041156.png" alt="image-20211003000041156"></p>
+
+    <ul>
+      <li>
+        <p>확인은 <code class="language-plaintext highlighter-rouge">git branch</code>만</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003000221840.png" alt="image-20211003000221840"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>브랜치 이동도 <code class="language-plaintext highlighter-rouge">git checkout</code></strong></p>
+
+    <ul>
+      <li>
+        <p><strong>과거로 점프갔다오기 : git checkout [commit_id or tag]</strong></p>
+
+        <ul>
+          <li><strong>과거로 돌아가기 : git reset –hard or git revert [commit_id]</strong></li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>과거가 아닌 <code class="language-plaintext highlighter-rouge">현재-&gt;다른평행우주(branch)로 이동</code>도 <code class="language-plaintext highlighter-rouge">git checkout</code> + <code class="language-plaintext highlighter-rouge">브랜치명</code></strong></p>
+
+        <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c">#git checktout [브랜치명]git checktout my-idea</span>
+</code></pre></div>        </div>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003000651235.png" alt="image-20211003000651235"></p>
+
+        <ul>
+          <li>branch변경해도, 내 파일상태에는 변함이 없음. 현재 상태를 그대로 가지고 평행우주를 만들어서</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>데이터 변경 후 커밋하기 in <code class="language-plaintext highlighter-rouge">my-idea브랜치</code></p>
+
+    <ul>
+      <li>
+        <p>mouse 삭제, dinosaur 추가</p>
+
+        <ul>
+          <li>용이름 둘리</li>
+        </ul>
+      </li>
+      <li>
+        <p>현 branch에서 커밋하기</p>
+
+        <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git add -Agit commit -m "Add dino"
+</code></pre></div>        </div>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003000859291.png" alt="image-20211003000859291"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>상사가 부를 땐, 원래 우주로 돌아간다.</strong></p>
+
+    <ul>
+      <li>
+        <p>원래 브랜치는 master였다.</p>
+
+        <ul>
+          <li>
+            <p>이동 전
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003001332003.png" alt="image-20211003001332003"></p>
+          </li>
+          <li>
+            <p>이동 후 (파일이 원래대로 돌아옴)</p>
+
+            <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git checkout master
+</code></pre></div>            </div>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003001400307.png" alt="image-20211003001400307"></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>git을 처음 배울때는 파일이 잘못될까바 불안해서 사용안할 수도 있는데, 앞으로 계속 사용해보자~</strong></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>소스트리</strong>에서 다시 해보자. <strong><code class="language-plaintext highlighter-rouge">더블클릭으로도 우주를 왔다갔다 하며 확인</code>할 수 있다.</strong></p>
+    <ul>
+      <li>브랜치 부분에 my-idea가 추가됨. <strong>여기서 각 브랜치를 더블클릭할 때마다, vscode의 파일도 같이 바뀌더라.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003001456954.png" alt="image-20211003001456954">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003001621866.png" alt="image-20211003001621866">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003001633841.png" alt="image-20211003001633841">
+</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="브랜치에서-새-브랜치-따기">
+<a class="anchor" href="#%EB%B8%8C%EB%9E%9C%EC%B9%98%EC%97%90%EC%84%9C-%EC%83%88-%EB%B8%8C%EB%9E%9C%EC%B9%98-%EB%94%B0%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>브랜치에서 새 브랜치 따기</h3>
+
+<ol>
+  <li>
+    <p><strong>my-idea로 checkout된 상태</strong>에서, 상단의 <code class="language-plaintext highlighter-rouge">브랜치</code>탭에서 새로 생성해보자.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003001857763.png" alt="image-20211003001857763"></p>
+
+    <ul>
+      <li>
+<strong>이 때, 새 브랜치로 체크아웃을 체크해주면, 자동으로 새 브랜치로 넘어가진 상태가 된다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003001921089.png" alt="image-20211003001921089">
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003001935250.png" alt="image-20211003001935250"></p>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">my-idea</code>에서 파생된 브랜치라 그 상태를 그대로 가져갔다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>브랜치의 브랜치 상태에서, 데이터를 변경후 커밋까지</p>
+
+    <ul>
+      <li>cat 이름을 변경:tom to nyang</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003002136494.png" alt="image-20211003002136494"></p>
+  </li>
+</ol>
+
+<h3 id="연결된-3개의-평행우주에서-상황맞이">
+<a class="anchor" href="#%EC%97%B0%EA%B2%B0%EB%90%9C-3%EA%B0%9C%EC%9D%98-%ED%8F%89%ED%96%89%EC%9A%B0%EC%A3%BC%EC%97%90%EC%84%9C-%EC%83%81%ED%99%A9%EB%A7%9E%EC%9D%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>연결된 3개의 평행우주에서 상황맞이</h3>
+
+<ol>
+  <li>
+    <p>상사가 <code class="language-plaintext highlighter-rouge">master</code>의 내용을 바꾸길 원함.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003002904029.png" alt="image-20211003002904029"></p>
+
+    <ul>
+      <li>
+        <p>요구 대로 바꿔고, commit한다.</p>
+
+        <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git add -Agit commit -m "EDIT dog name"
+</code></pre></div>        </div>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003002942121.png" alt="image-20211003002942121"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>평행우주에서, 타 브랜치의 base가 되는 branch(여기선 maser)가  한발(commit) 나서게 되면, 분기된 branch가 나눠서 그려진다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003003147169.png" alt="image-20211003003147169"></p>
+  </li>
+</ol>
+
+<h3 id="다른-우주의지를-이은-가장-바깥가지-브랜치에서-변화-가져오기--받을놈branch이동후-git-merge-줄놈branch">
+<a class="anchor" href="#%EB%8B%A4%EB%A5%B8-%EC%9A%B0%EC%A3%BC%EC%9D%98%EC%A7%80%EB%A5%BC-%EC%9D%B4%EC%9D%80-%EA%B0%80%EC%9E%A5-%EB%B0%94%EA%B9%A5%EA%B0%80%EC%A7%80-%EB%B8%8C%EB%9E%9C%EC%B9%98%EC%97%90%EC%84%9C-%EB%B3%80%ED%99%94-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0--%EB%B0%9B%EC%9D%84%EB%86%88branch%EC%9D%B4%EB%8F%99%ED%9B%84-git-merge-%EC%A4%84%EB%86%88branch" aria-hidden="true"><span class="octicon octicon-link"></span></a>다른 우주(의지를 이은 가장 바깥가지 브랜치)에서 변화 가져오기: [ 받을놈branch이동후] git merge [줄놈branch]</h3>
+
+<ol>
+  <li>
+    <p><strong>현재 메인프로젝트 <code class="language-plaintext highlighter-rouge">master</code>의 변경내용과는 서로다른 <code class="language-plaintext highlighter-rouge">평행우주끼리 다른파일 수정</code></strong>이라면, <strong><code class="language-plaintext highlighter-rouge">브랜치의 브랜치</code>라도 편하게 <code class="language-plaintext highlighter-rouge">master로 merge되는 것을 권유</code>할 수 있다.</strong></p>
+
+    <ul>
+      <li>
+        <p>아래 내용을 상사에게 권해본다.</p>
+
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">my-idea</code>에서 mouse삭제 후 dino 추가했고</li>
+          <li>
+<code class="language-plaintext highlighter-rouge">my-idea</code> - <code class="language-plaintext highlighter-rouge">my-another-idea</code>에서 cat이름을 변경했는데
+            <ul>
+              <li>이것들을 메인프로젝트에 적용해도될까요? Okay 승인</li>
+            </ul>
+          </li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003003446450.png" alt="image-20211003003446450"></p>
+      </li>
+      <li>
+        <p>2개의 평행우주에서 일어난 일을 master브랜치로 가져야가한다.</p>
+
+        <ul>
+          <li>
+            <p>이 때, <strong><code class="language-plaintext highlighter-rouge">브랜치1의 브랜치2</code>는 생성부터 <code class="language-plaintext highlighter-rouge">브랜치1의 변화를 그대로 가져와서 생성</code>되므로 <code class="language-plaintext highlighter-rouge">브랜치2만 반영시키면 된다.</code></strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003003549273.png" alt="image-20211003003549273">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003003715241.png" alt="image-20211003003715241"></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003003725288.png" alt="image-20211003003725288"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>merge</strong>를 위해서는</p>
+
+    <ul>
+      <li>
+        <p>먼저 <strong><code class="language-plaintext highlighter-rouge">받는놈 브랜치(master)</code>로 이동(checkout)한 상태</strong>여야한다.</p>
+
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">git merge [줄놈 브랜치명]</code></strong></li>
+        </ul>
+
+        <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git checkout mastergit merge my-another-idea
+</code></pre></div>        </div>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003003957105.png" alt="image-20211003003957105"></p>
+      </li>
+      <li>
+        <p>변화를 보니 <strong>master의 상사지시 +  평행우주에서 한 것</strong>들이 모두 반영되어있다.</p>
+
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">master</code>에서의 dog name to 바꾼 것도 반영되어이있지만
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003004307823.png" alt="image-20211003004307823">
+</li>
+          <li>
+<code class="language-plaintext highlighter-rouge">my-another-idea</code>에서의 쥐삭제+용추가 한 것도 동시에 반영된 상태다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003004333159.png" alt="image-20211003004333159">
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>확인은</p>
+    <ul>
+      <li>소스트리</li>
+      <li>vscode git graph가 아니라면</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">git log --graph --all --decorate</code>로 확인하란다
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">git log --graph --oneline</code>정도면 충분할듯?</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="reset-hard로-merge전으로-돌아간-후-소스트리로-merge하기">
+<a class="anchor" href="#reset-hard%EB%A1%9C-merge%EC%A0%84%EC%9C%BC%EB%A1%9C-%EB%8F%8C%EC%95%84%EA%B0%84-%ED%9B%84-%EC%86%8C%EC%8A%A4%ED%8A%B8%EB%A6%AC%EB%A1%9C-merge%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>reset –hard로 merge전으로 돌아간 후, 소스트리로 merge하기</h3>
+
+<ul>
+  <li>소스트리로 실습하기 위해 <strong>merge전으로 돌아가보자.</strong>
+</li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>merge 직전의 <code class="language-plaintext highlighter-rouge">받는놈 브랜치</code>의 <code class="language-plaintext highlighter-rouge">가장 마지막 커밋 == merge전 커밋</code>으로</strong></p>
+
+    <ul>
+      <li>
+        <p>git reset –hard</p>
+      </li>
+      <li>
+        <p>소스트리: <code class="language-plaintext highlighter-rouge">이 커밋까지 현재 브랜치를 초기화</code></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003005017239.png" alt="image-20211003005017239">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003005025695.png" alt="image-20211003005025695"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>소스트리로 merge하려면</strong> 더 간단한데
+    <ul>
+      <li>받는놈의 branch를 더블클릭해서 이동</li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">주는놈 branch</code>를 <code class="language-plaintext highlighter-rouge">우클릭</code></strong> &gt; <strong><code class="language-plaintext highlighter-rouge">현재 브랜치(받는놈 더블클릭 상태)로 my-another-idea(주는놈, 우클리상태) 병합</code></strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003005204959.png" alt="image-20211003005204959">
+</li>
+    </ul>
+  </li>
+  <li>나중에는.. 수많은 폴더와 파일을 다뤄야하기 때문에,
+    <ul>
+      <li>
+<strong>기존프로젝트에 새 도전을 하려면</strong> 반드시 <strong><code class="language-plaintext highlighter-rouge">git branch</code>써야함</strong>.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003005845391.png" alt="image-20211003005845391">
+</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="아름답지-않은-merge--conflict후에는-메세지없이-git-commit">
+<a class="anchor" href="#%EC%95%84%EB%A6%84%EB%8B%B5%EC%A7%80-%EC%95%8A%EC%9D%80-merge--conflict%ED%9B%84%EC%97%90%EB%8A%94-%EB%A9%94%EC%84%B8%EC%A7%80%EC%97%86%EC%9D%B4-git-commit" aria-hidden="true"><span class="octicon octicon-link"></span></a>아름답지 않은 merge + conflict후에는 메세지없이 git commit</h3>
+
+<ul>
+  <li>원래 merge가 성공하면 git이 자동 add + commit까지 한다.</li>
+</ul>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">bark-wang</code>브랜치 생성후, <strong>dog 파일 수정</strong> -&gt; commit</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git branch bark-wang❯ git checkout bark-wangSwitched to branch 'bark-wang'❯ git add -A❯ git commit -m "EDIT dog file"
+</code></pre></div>    </div>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003010526993.png" alt="image-20211003010526993"></p>
+  </li>
+  <li>
+    <p>이제 받는놈인 <code class="language-plaintext highlighter-rouge">master</code>로 돌아와서 <strong>같은 dog파일 수정</strong>하자.</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git checkout masterSwitched to branch 'master'❯ git add -A❯ git commit -m "EDIT dog file bar warlwarl"
+</code></pre></div>    </div>
+
+    <ul>
+      <li>master가 한발짝 나가는 순간부터 분기가 갈라져 보인다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003010655293.png" alt="image-20211003010655293">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>현재, <code class="language-plaintext highlighter-rouge">master</code> 와 <code class="language-plaintext highlighter-rouge">bark-wang</code>이 서로 같은 파일을 수정한 상태다.</p>
+
+    <ul>
+      <li>
+        <p>아까의 merge는 서로 다른파일이 수정된 상태라 merge가 쉽게 되었다.</p>
+      </li>
+      <li>
+        <p><strong>한번 merge해보자</strong></p>
+
+        <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  ❯ git checkout masterAlready on 'master'❯ git merge bark-wangAuto-merging dogCONFLICT (content): Merge conflict in dogAutomatic merge failed; fix conflicts and then commit the result.
+</code></pre></div>        </div>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003011007118.png" alt="image-20211003011007118">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003011038253.png" alt="image-20211003011038253"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>merge시 conflict가 뜨는데</strong> <code class="language-plaintext highlighter-rouge">같은 파일을 여러 평행우주에서 수정</code>했기 때문이다.
+    <ol>
+      <li>conflic가 없었을 때의 merge는?
+        <ul>
+          <li>merge를 <code class="language-plaintext highlighter-rouge">자동으로 커밋까지</code> 해주는 커밋메세지 확인이 떴었다.</li>
+        </ul>
+      </li>
+      <li><strong>terminal에 안내문이 뜬다</strong></li>
+      <li>
+<strong>소스트리에서는 <code class="language-plaintext highlighter-rouge">그래프가 회색으로 연결안되어있으면서 "커밋하지 않은 변경사항"</code>의 상태로 뜬다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003011147302.png" alt="image-20211003011147302">
+</li>
+      <li>
+<strong>vscode에서는 conflict된 부분을 나눠서 알려준다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003011213533.png" alt="image-20211003011213533">
+</li>
+    </ol>
+  </li>
+  <li>
+    <p>conflict는 <strong>vscode에서 택1해서 지울건 지운 뒤, <code class="language-plaintext highlighter-rouge">add</code>후  <code class="language-plaintext highlighter-rouge">git commit</code>을 <code class="language-plaintext highlighter-rouge">-m 없는 상태</code>로 커밋을 날리면 자동으로 <code class="language-plaintext highlighter-rouge">merge 메세지</code>가 뜬다.</strong></p>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">accept incoming ~</code> in vscode</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> git add -Agit commit
+</code></pre></div>    </div>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003011547877.png" alt="image-20211003011547877"></p>
+
+    <ul>
+      <li>
+        <p><strong>conflic후 commit은 메세지없이 <code class="language-plaintext highlighter-rouge">git commit</code>만 날리며 알아서 <code class="language-plaintext highlighter-rouge">merge 메세지가 미리 작성</code>되어있다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003011632308.png" alt="image-20211003011632308"></p>
+      </li>
+    </ul>
+  </li>
+  <li><strong>앞으로 다른 브랜치끼리는 같은파일을 수정안하도록 작업하면 merge가 편안해진다.</strong></li>
+</ol>
+
+<h3 id="다른우주도-1줄로-만들어-통합-git-rebase재배치">
+<a class="anchor" href="#%EB%8B%A4%EB%A5%B8%EC%9A%B0%EC%A3%BC%EB%8F%84-1%EC%A4%84%EB%A1%9C-%EB%A7%8C%EB%93%A4%EC%96%B4-%ED%86%B5%ED%95%A9-git-rebase%EC%9E%AC%EB%B0%B0%EC%B9%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>다른우주도 1줄로 만들어 통합: git rebase(재배치)</h3>
+
+<ul>
+  <li>
+    <p>프로젝트의 성격에 따라 필요한 것을 선택해서 사용하면 된다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003020510088.png" alt="image-20211003020510088"></p>
+  </li>
+  <li>
+    <p>지금은 git log상 2갈래 정도만 나오지만</p>
+
+    <ul>
+      <li>
+        <p>실제로는 엄청나게 많은 줄기가 생기게 된다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003015700954.png" alt="image-20211003015700954">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003015710426.png" alt="image-20211003015710426"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>딱 1줄로 통합되도록 merge하는 방법이 <strong>git rebase다</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>소스트리상으로는 master(받는놈)에서 주는놈(bark-warl) 우클릭 &gt; <code class="language-plaintext highlighter-rouge">재배치(rebase)</code>를 클릭한다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003020742481.png" alt="image-20211003020742481"></p>
+      </li>
+      <li>
+        <p>같은 파일을 건들인 상황이니 똑같이 conflict해결후 add+commit한다.</p>
+      </li>
+      <li>
+        <p>재배치가 끝나면 분기가1 줄로 나타난다.</p>
+
+        <ul>
+          <li>브랜치라도 합쳐지는 모양이 아니다.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003020920872.png" alt="image-20211003020920872"><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003020953896.png" alt="image-20211003020953896"></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="다-쓴-브랜치-삭제-git-branch--d">
+<a class="anchor" href="#%EB%8B%A4-%EC%93%B4-%EB%B8%8C%EB%9E%9C%EC%B9%98-%EC%82%AD%EC%A0%9C-git-branch--d" aria-hidden="true"><span class="octicon octicon-link"></span></a>다 쓴 브랜치 삭제: git branch -D</h3>
+
+<ul>
+  <li>
+    <p>rebase는 1줄로 받는놈(masetr)에 통합되어버린다.</p>
+
+    <ul>
+      <li>
+        <p>그럼 작업한 branch(주는놈)은 더이상 필요 없을 것이다.</p>
+      </li>
+      <li>대문자로 <code class="language-plaintext highlighter-rouge">-D</code>옵션을 준다</li>
+      <li>소스트리는 우클릭으로 바로 할 수 있다.</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  ❯ git branch -D bark-wang
+  Deleted branch bark-wang (was 5fefbe0).
+</code></pre></div>    </div>
+
+    <p>​</p>
+  </li>
+  <li>
+    <p>merge를 통해 분기가 합쳐졌던 branch들도 <code class="language-plaintext highlighter-rouge">git branch -D</code>로 삭제하였더니</p>
+
+    <ul>
+      <li>분기 표기는 남아있는데, branch만 사라졌다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211003021224185.png" alt="image-20211003021224185"></p>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/git/2021/10/16/%EA%B9%831_%EC%BB%A4%EB%B0%8B%ED%83%9C%EA%B7%B8%EC%9D%B4%EB%8F%99_%EB%8F%8C%EC%95%84%EA%B0%80%EA%B8%B0%EB%90%98%EB%8F%8C%EB%A6%AC%EA%B8%B0_%EB%B8%8C%EB%9E%9C%EC%B9%98.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

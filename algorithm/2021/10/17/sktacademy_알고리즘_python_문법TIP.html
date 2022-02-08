@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>SKTacademy 코테 TIP과 자료구조 요령 정리 | Returning Student</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="SKTacademy 코테 TIP과 자료구조 요령 정리" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="python으로 알고리즘을 푸는 요령과 문법 TIP 모음" />
+<meta property="og:description" content="python으로 알고리즘을 푸는 요령과 문법 TIP 모음" />
+<link rel="canonical" href="blog.chojaeseong.com/algorithm/2021/10/17/sktacademy_%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98_python_%EB%AC%B8%EB%B2%95TIP.html" />
+<meta property="og:url" content="blog.chojaeseong.com/algorithm/2021/10/17/sktacademy_%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98_python_%EB%AC%B8%EB%B2%95TIP.html" />
+<meta property="og:site_name" content="Returning Student" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/algo.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-10-17T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-10-17T00:00:00-05:00","url":"blog.chojaeseong.com/algorithm/2021/10/17/sktacademy_%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98_python_%EB%AC%B8%EB%B2%95TIP.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/algo.png","headline":"SKTacademy 코테 TIP과 자료구조 요령 정리","dateModified":"2021-10-17T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/algorithm/2021/10/17/sktacademy_%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98_python_%EB%AC%B8%EB%B2%95TIP.html"},"description":"python으로 알고리즘을 푸는 요령과 문법 TIP 모음","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="Returning Student" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Returning Student</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/mygit/">MyGit</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">SKTacademy 코테 TIP과 자료구조 요령 정리</h1><p class="page-description">python으로 알고리즘을 푸는 요령과 문법 TIP 모음</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-10-17T00:00:00-05:00" itemprop="datePublished">
+        Oct 17, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      14 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#algorithm">algorithm</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#알고리즘-푸는-이유">알고리즘 푸는 이유</a></li>
+<li class="toc-entry toc-h3"><a href="#문제보고-감잡기">문제보고 감잡기</a></li>
+<li class="toc-entry toc-h3"><a href="#ps팁">PS팁</a></li>
+<li class="toc-entry toc-h3"><a href="#수학">수학</a></li>
+<li class="toc-entry toc-h3"><a href="#정렬">정렬</a></li>
+<li class="toc-entry toc-h3"><a href="#자료구조">자료구조</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#그래프와-tree의-저장방법">그래프와 Tree의 저장방법</a></li>
+<li class="toc-entry toc-h4"><a href="#규칙적용된-tree인-이진트리로-heapbst">규칙적용된 tree인 이진트리로 heap/bst</a></li>
+<li class="toc-entry toc-h4"><a href="#그래프-일반tree-점-격자판-다-탐색하는-dfs와-bfs">그래프, 일반Tree, 점, 격자판 다 탐색하는 DFS와 BFS</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#앞으로-공부하는-방법">앞으로 공부하는 방법</a></li>
+</ul><ul>
+  <li>reference
+    <ol>
+      <li><a href="https://tacademy.skplanet.com/live/player/onlineLectureDetail.action?seq=175">SKTacademy</a></li>
+    </ol>
+  </li>
+</ul>
+
+<h3 id="알고리즘-푸는-이유">
+<a class="anchor" href="#%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%ED%91%B8%EB%8A%94-%EC%9D%B4%EC%9C%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>알고리즘 푸는 이유</h3>
+
+<ol>
+  <li>
+<strong>구현</strong>: 생각하는 내용을 코드로 옮긴다. 연습안하면 안된다. 500문제 이상 풀어야함. <strong>반복해야 언제 어떤 변수를 선언하고 언제 전처리 해야하는지 알 수 있게 된다. 빨라지고 나만의 코딩스타일이 생긴다.</strong>
+</li>
+  <li>
+<strong>효율성</strong>: <strong>계속 구현하다보면, 효율성을 챙기</strong>면서,
+    <ul>
+      <li>자주 사용하는 함수로 최적화</li>
+      <li>다른 사람들의 코드를 보면서, 효율적인 코드 작성</li>
+    </ul>
+  </li>
+  <li>
+<strong>절차적 사고</strong>: 절차적인 사고에 익숙해짐.
+    <ul>
+      <li>언제 어떤 과정을 하고, 다음은 어떻게 해야하는지</li>
+      <li>적재적소한 알고리즘을 선택할 수 있게 된다.
+        <ul>
+          <li>그럴려면 <strong>자료구조, 알고리즘을 따로 공부</strong>해야한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>디버깅</strong>: 한번만에 맞는 경우는 거의 없다.
+    <ul>
+      <li>예외케이스 탐색을 많이 해야한다.
+        <ul>
+          <li><strong>최저, 최대, 최악 경우를 넣어보면서 한다.</strong></li>
+          <li>코드(에러)를 읽는 능력</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>재미:</strong>
+    <ul>
+      <li>적은시간으로 연습 가능</li>
+      <li><strong>프로젝트와 다르게 짧은 주기로 성취감</strong></li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="문제보고-감잡기">
+<a class="anchor" href="#%EB%AC%B8%EC%A0%9C%EB%B3%B4%EA%B3%A0-%EA%B0%90%EC%9E%A1%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>문제보고 감잡기</h3>
+
+<ol>
+  <li>
+    <p><strong>1초당 가능한 복잡도 간 미리 계산하기</strong></p>
+
+    <ul>
+      <li>
+        <p>python으로</p>
+
+        <ul>
+          <li><strong>백만번(<code class="language-plaintext highlighter-rouge">10^6</code>)  반복문or덧셈곱셈 등… -&gt; <code class="language-plaintext highlighter-rouge">1초 안에 다 풀린다.</code></strong></li>
+          <li>
+<strong>천만번(<code class="language-plaintext highlighter-rouge">10^7</code>)</strong> -&gt; <strong><code class="language-plaintext highlighter-rouge">1초 안에 대부분 풀린다.</code></strong>
+            <ul>
+              <li><strong><code class="language-plaintext highlighter-rouge">python으로 1초안에 천만~5천만(10^7 ~ 5* 10^7)까지 연산 가능하다 생각하자.</code></strong></li>
+            </ul>
+          </li>
+          <li>
+<strong>1억(<code class="language-plaintext highlighter-rouge">10^8</code>)</strong> -&gt; <strong><code class="language-plaintext highlighter-rouge">불가능 </code>-&gt; 알고리즘 바꿔야함.</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025173359400.png" alt="image-20211025173359400">
+</li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>다시 문제보기</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025173951186.png" alt="image-20211025173951186"></p>
+
+        <ul>
+          <li>
+            <p><strong>시간제한부터 보기</strong></p>
+
+            <ul>
+              <li>1초 -&gt; 10&amp;7 안에 풀어야한다.</li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>입력 보고, 반복문 횟수 갸늠하기</strong></p>
+
+            <ul>
+              <li>n = 10억 = <strong>10^9 -&gt; <code class="language-plaintext highlighter-rouge">단순 반복문 O(N)으로 는 불가능하다.</code></strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025174009251.png" alt="image-20211025174009251">
+</li>
+              <li>입력을 보고 O(N)이상 불가 -&gt; <code class="language-plaintext highlighter-rouge">루트(n) or lgN or O(1)</code>으로 해야한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="ps팁">
+<a class="anchor" href="#ps%ED%8C%81" aria-hidden="true"><span class="octicon octicon-link"></span></a>PS팁</h3>
+
+<ol>
+  <li>
+    <p>입력과 초기화</p>
+
+    <ul>
+      <li>
+        <p>python의 <strong>input은 3가지 종류</strong>를 받는다.</p>
+
+        <ul>
+          <li>
+            <p><code class="language-plaintext highlighter-rouge">숫자</code>1개</p>
+
+            <ul>
+              <li>python에서는 항상 string으로 들어온형변환부터 해준다.</li>
+            </ul>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025204602247.png" alt="image-20211025204602247"></p>
+          </li>
+          <li>
+            <p><code class="language-plaintext highlighter-rouge">문자열</code></p>
+
+            <ul>
+              <li>일반 문장</li>
+              <li>
+<strong>쪼개면서, [i]번째 인덱싱도 하고 싶다 -&gt; list()</strong>
+                <ul>
+                  <li>immutable한 string 대신 list로 변환시켜줘야한다.</li>
+                </ul>
+              </li>
+              <li>다시 붙일려면 <strong>”“.join사용</strong>
+</li>
+            </ul>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025204613631.png" alt="image-20211025204613631"></p>
+          </li>
+          <li>
+            <p><code class="language-plaintext highlighter-rouge">숫자 배열</code></p>
+
+            <ul>
+              <li>map을 써서 형변환한다.</li>
+            </ul>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025204621793.png" alt="image-20211025204621793"></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>**list(배열)의 초기화는 comprehension으로 **</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025204933684.png" alt="image-20211025204933684"></p>
+      </li>
+    </ul>
+  </li>
+  <li>에러메세지 확인하기
+    <ul>
+      <li><strong>RE: 런타임에러 -&gt; zerodivision or indexError</strong></li>
+      <li>TLE: 시간초과 -&gt; 잘짰는데 무한루프가 있거나, 알고리즘이 안 좋거나
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025205503707.png" alt="image-20211025205503707">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>추상화와 기능분리</p>
+
+    <ul>
+      <li>
+        <p><strong>맨 처음 <code class="language-plaintext highlighter-rouge">반복문에 돌아가면서 기능을 해줄</code> or  <code class="language-plaintext highlighter-rouge">테케마다 처리해줄 input()받기부터 시작하는 함수</code>를 짜자. 대충 로직을 슈도코드 짜듯이 짜면서  <code class="language-plaintext highlighter-rouge">반복문 - 체크 - 결과값 저장 등의 로직</code>을 짠다.</strong></p>
+      </li>
+      <li>
+        <p><strong>코딩하는 2가지 방법</strong></p>
+
+        <ul>
+          <li>현재가 main함수라고 가정하고 <strong>while 문에서 다 돌리기</strong>
+</li>
+          <li>process함수를 따로 만들어놓고, <strong><code class="language-plaintext highlighter-rouge">테케를 process함수에서 받아</code> main에서 돌림</strong>
+</li>
+        </ul>
+      </li>
+      <li>
+        <p>처음에는 다 while문에 넣고 돌린다.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025205759579.png" alt="image-20211025205759579"></p>
+      </li>
+      <li>
+        <p><strong>하지만, main함수는 최소화 해서  가벼워야한다. 내용들은 다 함수로 보낸다.</strong></p>
+
+        <ul>
+          <li>반복문을 돌되, 각 TestCase마다 따로 처리되도록 함수로, <strong>TC별 처리되도록 하는 함수를 만들어서 돌린다.</strong>
+</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025205932783.png" alt="image-20211025205932783"></p>
+
+        <ul>
+          <li>일단 위에 스샷기준으로는..
+            <ul>
+              <li>테케별 처리도되록 <strong>함수에서 input을 받고 -&gt; 리하고 -&gt; return 하고-&gt; main에서 for문 print(함수return값)</strong>
+</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>예를 들어, <a href="https://www.acmicpc.net/problem/15684">삼성기출-사다리조작</a>문제를 보자. (풀이는 안함)</p>
+
+        <ol>
+          <li>
+            <p>삼성쪽은 문제가 되게 길다.  <strong>그림 위 수치 위주로 빠르게 한번 보자.</strong></p>
+
+            <ul>
+              <li>
+                <p><strong>일단 수치(숫자)를 먼저보고 <code class="language-plaintext highlighter-rouge">"아~ 사다리가 5줄, 6줄 되는 구나 "</code></strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025212129731.png" alt="image-20211025212129731"></p>
+              </li>
+              <li>
+                <p><code class="language-plaintext highlighter-rouge">사다리를 중간에 넣을 수 있구나</code>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025212154704.png" alt="image-20211025212154704"></p>
+              </li>
+              <li>
+                <p><code class="language-plaintext highlighter-rouge">사다리를 진행해나가는 과정이 있구나</code></p>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025212234097.png" alt="image-20211025212234097"></p>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">입력 양식(예제 입력)</code>보기</strong></p>
+
+            <ul>
+              <li>첫줄의 숫자와, 나머지 아래 숫자가 같으니까
+<code class="language-plaintext highlighter-rouge">아 대충 아래쪽이 사다리를 의미하겠구나</code>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025212347073.png" alt="image-20211025212347073">
+</li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>문제를 자세히 읽기 시작하는데 <code class="language-plaintext highlighter-rouge">출력</code> 요구사항을 먼저 본다</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025212431718.png" alt="image-20211025212431718"></p>
+          </li>
+          <li>
+            <p><strong>문제가 복잡해보인다.</strong></p>
+
+            <ul>
+              <li>
+                <p>**이 때, main함수를 간단하게 만들기 위해, <code class="language-plaintext highlighter-rouge">반복문 어떻게 돌릴지 판단</code> -&gt; 그안에서 사용될 기능 분리하여  일단 <code class="language-plaintext highlighter-rouge">슈도코드로 함수들을 작성</code>해 기능분리 시켜준다. **</p>
+              </li>
+              <li>
+                <p>사다리를 최대3개까지 놓는데,</p>
+
+                <ul>
+                  <li>
+                    <p><code class="language-plaintext highlighter-rouge">i에 놓을지</code></p>
+
+                    <p><code class="language-plaintext highlighter-rouge">j에 놓을지</code></p>
+
+                    <p><code class="language-plaintext highlighter-rouge">k에 놓을지 선택</code>할 수 있게 <code class="language-plaintext highlighter-rouge">3중for문</code>을 만들어 탐색가능하게 함.</p>
+                  </li>
+                  <li>
+                    <p>3개에 따라 가능한지 확인하는 <code class="language-plaintext highlighter-rouge">check(i,j,k) 함수를 사용</code>하고  <strong>슈도코드로 위에다 작성해둔다.</strong></p>
+                  </li>
+                  <li>
+                    <p><strong>가능할 때,  그 i번째 사다리가 i로 내려오는지 체크해주는 함수<code class="language-plaintext highlighter-rouge">result()</code>도 슈도코드로 작성</strong>해둔다.</p>
+                  </li>
+                </ul>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025212604856.png" alt="image-20211025212604856">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025212618150.png" alt="image-20211025212618150"></p>
+              </li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>코드를 줄여 가독성을 높이는 <code class="language-plaintext highlighter-rouge">조건문, 반복문, 함수</code></strong> by python indent를 줄이기</p>
+
+    <ol>
+      <li>
+        <p><strong>반복문 eX&gt; <code class="language-plaintext highlighter-rouge">N by N by N</code> 3중 포문</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025213501612.png" alt="image-20211025213501612"></p>
+
+        <ul>
+          <li>
+            <p>똑같이 N**3 만큼 횟수는 동일하게 돌아가는데, 한번에 <code class="language-plaintext highlighter-rouge">for num in range(N**3)</code>으로 돌리면서</p>
+
+            <ul>
+              <li>
+<strong>i</strong> =  num을  N^2으로 나눈 몫  = <strong><code class="language-plaintext highlighter-rouge">num // (N*N)</code></strong>
+</li>
+              <li>j = num을 N으로 나눈 몫을,  다시 N으로 나눈 나머지 = <strong><code class="language-plaintext highlighter-rouge">num//N % N</code></strong>
+</li>
+              <li>k = num을 N으로 나눈 나머지 = <strong><code class="language-plaintext highlighter-rouge">num % N</code></strong>
+</li>
+            </ul>
+          </li>
+          <li>
+            <p>**내가 만든 2중 포문을 indent 1개로 **</p>
+
+            <ul>
+              <li>i = num을 N으로 나눈 몫
+                <ul>
+                  <li>N*N을 통해, ` 0~N-1<code class="language-plaintext highlighter-rouge">을 첫번째 구간으로해서  </code>N개` 존재하는데,
+                    <ul>
+                      <li>
+<code class="language-plaintext highlighter-rouge">0~N-1</code>구간: 행을 0으로 간주해요</li>
+                      <li>
+<code class="language-plaintext highlighter-rouge">N~2N-1</code> : 행을 1로 간주해요</li>
+                      <li>…</li>
+                      <li>
+<code class="language-plaintext highlighter-rouge">~N^2-1</code> N개의 구간이 있어요</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>j = num을 N으로 나눈 나머지
+                <ul>
+                  <li>구간별로 <code class="language-plaintext highlighter-rouge">0~N-1</code>의 열을 담당해요.</li>
+                </ul>
+              </li>
+            </ul>
+
+            <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="o">**</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">num</span><span class="o">//</span><span class="n">N</span><span class="p">,</span> <span class="n">num</span><span class="o">%</span><span class="n">N</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">f"(</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s">,</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s">)"</span> <span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="s">" "</span><span class="p">)</span>
+</code></pre></div>            </div>
+          </li>
+          <li>
+            <p>진법, 진수를 활용하면 더 쉬워진다고 한다.</p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>main 반복문 속 조건문을 <code class="language-plaintext highlighter-rouge">if True:시 process()</code>가 아니라 <code class="language-plaintext highlighter-rouge">if not False시: continue로 아래 process() 건너띄기</code></strong>를 통해 indent를 챙길 수 있다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025215821652.png" alt="image-20211025215821652"></p>
+
+        <ul>
+          <li>process()함수 위에다가 <strong>if not 조건문 :<code class="language-plaintext highlighter-rouge">continue</code></strong>를 활용해서 <strong>탈락시 건너띄기</strong>하면, 반복문내 indent를 줄일 수 있다.</li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>함수안에 if : return 다음에는 else가 필요없다.</strong></p>
+
+        <ul>
+          <li>**if return / return도 <code class="language-plaintext highlighter-rouge">return 삼항연산자</code>로 줄일 수 있다. **
+            <ul>
+              <li>가장 선호. flag도 이런식으로 할 수 있다.</li>
+            </ul>
+          </li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025220112911.png" alt="image-20211025220112911"></p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>변수명은 snake_case로, 함수명은 cameCase로, Pascal은 시작부터 대문자인 Camel</p>
+  </li>
+  <li>
+    <p>적용해보기 <a href="https://www.acmicpc.net/problem/2484">주사위네개</a></p>
+
+    <ul>
+      <li>나는 Counter를 활용했지만..</li>
+    </ul>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># 기존 내코드
+</span><span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
+   
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+   
+<span class="n">max_money</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s">'-inf'</span><span class="p">)</span>
+<span class="c1"># 같은 눈이 4개가 나오면 50,000원+(같은 눈)×5,000원의 상금을 받게 된다. 
+# 같은 눈이 3개만 나오면 10,000원+(3개가 나온 눈)×1,000원의 상금을 받게 된다. 
+# 같은 눈이 2개씩 두 쌍이 나오는 경우에는 2,000원+(2개가 나온 눈)×500원+(또 다른 2개가 나온 눈)×500원의 상금을 받게 된다.
+# 같은 눈이 2개만 나오는 경우에는 1,000원+(같은 눈)×100원의 상금을 받게 된다. 
+# 모두 다른 눈이 나오는 경우에는 (그 중 가장 큰 눈)×100원의 상금을 받게 된다.  
+</span>   
+<span class="k">def</span> <span class="nf">calc_money</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">max_cnt</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="n">val_lst</span> <span class="o">=</span> <span class="p">[</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="n">max_cnt</span><span class="p">]</span>
+       
+    <span class="k">if</span> <span class="n">max_cnt</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">50000</span> <span class="o">+</span> <span class="p">(</span><span class="n">val_lst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">5000</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">max_cnt</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="c1"># val_lst = [ x[0] for x in data.items() if x[1]==max_cnt]
+</span>        <span class="k">return</span> <span class="mi">10000</span> <span class="o">+</span> <span class="p">(</span><span class="n">val_lst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">max_cnt</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="c1"># val_lst = [ x[0] for x in data.items() if x[1]==max_cnt]
+</span>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">val_lst</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">2000</span><span class="o">+</span><span class="p">(</span><span class="n">val_lst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">500</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">val_lst</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">500</span><span class="p">)</span> 
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">1000</span> <span class="o">+</span> <span class="p">(</span><span class="n">val_lst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">keys</span><span class="p">())</span><span class="o">*</span><span class="mi">100</span>
+   
+   
+   
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">input</span><span class="p">().</span><span class="n">split</span><span class="p">()))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+   
+    <span class="n">money</span> <span class="o">=</span> <span class="n">calc_money</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+   
+    <span class="n">max_money</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_money</span><span class="p">,</span> <span class="n">money</span><span class="p">)</span>
+   
+<span class="k">print</span><span class="p">(</span><span class="n">max_money</span><span class="p">)</span>
+   
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p>수학을 이용하면서</p>
+
+        <ul>
+          <li><strong>기능분리 by 함수</strong></li>
+          <li>
+<strong>입력과 초기화</strong> by 튜플, 컴프리헨션</li>
+          <li>
+<strong>반복문, 조건문 줄이기</strong> by 한번에돌기+ if reutrn후에는 no else noelif  +  삼항연산자</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025222302250.png" alt="image-20211025222302250"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="수학">
+<a class="anchor" href="#%EC%88%98%ED%95%99" aria-hidden="true"><span class="octicon octicon-link"></span></a>수학</h3>
+
+<ol>
+  <li>
+    <p>반복문을</p>
+
+    <ul>
+      <li>range(min(a,b))로 길이를 줄이거나</li>
+      <li>range(min(a,b),,-1)로 거꾸로 시작하거나</li>
+      <li>range(,,n)으로 간격을 주는 것을 생각하자.</li>
+    </ul>
+  </li>
+  <li>
+    <p>유호제법은 코드로 외우자.</p>
+
+    <ul>
+      <li>math.gcd써도될듯..</li>
+    </ul>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># a&gt;b
+</span><span class="k">def</span> <span class="nf">gcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
+    <span class="c1"># 1) b가 a의 약수면.. 그냥 b가 최대 공약수
+</span>    <span class="c1"># 2) 그게 아니라면, 재귀로서 gcd(b, a%b)로 재귀로 빨리 구하자.
+</span>    <span class="k">return</span> <span class="n">b</span> <span class="k">if</span> <span class="n">a</span><span class="o">%</span><span class="n">b</span><span class="o">==</span><span class="mi">0</span> <span class="k">else</span><span class="p">:</span><span class="n">gcd</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="o">%</span><span class="n">b</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>소수판별과 에라토스테네스의 체</p>
+
+    <ul>
+      <li>
+        <p>소수판별  isPrime은</p>
+
+        <ul>
+          <li>
+            <p>이론상 소수=1과 자기자신만을 약수로 가짐 =  <strong><code class="language-plaintext highlighter-rouge">2~n-1까지 약수없음, 약수 나오면 탈락</code></strong>인데</p>
+
+            <ul>
+              <li>약수와 배수의 관계에서 <strong>약수는 항상 짝을 이루어 존재</strong>하니 <strong><code class="language-plaintext highlighter-rouge">2~루트(n)</code>까지만 검사한다.</strong>
+</li>
+            </ul>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211026170026159.png" alt="image-20211026170026159"></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>에라토스테네스의 체</p>
+
+        <ul>
+          <li>범위가 주어진다  <code class="language-plaintext highlighter-rouge">1~n</code>까지 중 소스의 갯수는?
+            <ul>
+              <li>1은 소수가 아니여서 지움</li>
+              <li>2부터 isPrime으로 소수판별
+                <ul>
+                  <li><strong>소수로 판별되면 -&gt; 소수의 배수들을 싹다 지움(어떤수의 배수는.. 소수가 아님 무조건 x2, x3들이 약수가 되니까</strong></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211026170342838.png" alt="image-20211026170342838"></p>
+
+        <ul>
+          <li>
+<strong>뭔가를 지울 때는 <code class="language-plaintext highlighter-rouge">chk, ck</code>배열에다가 <code class="language-plaintext highlighter-rouge">index - T/F</code>를 hashing하여  활용한다. 이미 범위가 정해져있으면 거의 이렇게 사용한다.</strong>
+            <ul>
+              <li>count 정렬</li>
+              <li>에라토스 테네스의 체</li>
+              <li>DFS BFS?</li>
+            </ul>
+          </li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211026170702162.png" alt="image-20211026170702162"></p>
+
+        <ul>
+          <li>
+            <p>그외 자세히 주석으로 달음</p>
+
+            <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">era</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="c1"># 체크는 hasing용으로서, n index를 쓸 거기때문에 0부터 시작했더라도 range(N+1)까지 돌려준다.
+</span>    <span class="n">ck</span> <span class="o">=</span> <span class="p">[</span> <span class="bp">False</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">]</span> 
+    <span class="n">p</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># 1은 소수가 아니므로 제끼고 2부터 체크한다.
+</span>    <span class="c1"># 소수의 배수들을 True를 채워놓고, 다음에 올 때 건너뛰게 한다.
+</span>    <span class="c1"># 과거에서 판단한 소수의 배수들에 안걸렸으면, 아직 False로 남아있는, 소수는 바로 append해 줘도 된다.
+</span>    <span class="c1"># -&gt; 맨처음 2만, 최초이기 때문에 과거에서 True로 소수탈락시킨 경험이 없다.
+</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># 아직 False인 것만 체크한다.
+</span>        <span class="c1"># 아래에서, 미래원소들 중에 소수라고 판별내어놨으면 건너뛴다.
+</span>        <span class="c1"># -&gt; check를 활용해서 건너뛰는 [ck 미래 -&gt; continue 로직]이다.
+</span>        <span class="k">if</span> <span class="n">ck</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="c1"># False = 2의 배수부터 시작해서, 소수탈락(True)에 안걸렸다면, 소수라고 판단한다.
+</span>        <span class="n">p</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> 
+        <span class="c1"># 현재 i는 소수라는 뜻인데, 소수-&gt; 소수의 배수를 True(소수탈락)로 지워야한다.
+</span>        <span class="c1"># * i배수 조작-&gt; i배수는 range(시작수, 끝수, i)를 통해 +i씩 움직인다.
+</span>        <span class="c1"># 이 때, i+i or i*2부터  +i씩 i*3, i*4를 지워나가는게 아니라 
+</span>        <span class="c1"># * &lt; ixi &gt;부터 시작해서 i의 배수를  지워나간다  range(i*i, N+1, i) 
+</span>        <span class="c1"># -&gt; 왜냐하면, 이미 과거에서 지워났기 때문인데 
+</span>        <span class="c1"># -&gt; 예를 들어, 6은.. 이미 2에서 지워놨음. 3에서 지울 필요X.
+</span>        <span class="c1"># -&gt; 3은 뭐부터 지워나가야할까? -&gt; 앞에서 안나왔을, 3의배수로서만 존재하는, 
+</span>        <span class="c1"># -&gt; 3만을 약수로 가지는 = 9부터 지워나가면 된다.
+</span>        <span class="c1"># -&gt; 2*i부터 지눠나가도 괜찮다.
+</span>        <span class="c1"># for j in range(i*2, N+1, i):
+</span>        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">i</span><span class="p">,</span> <span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+            <span class="n">ck</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span> 
+       
+    <span class="c1"># 이제 리얼소수는 p 배열에, 체크여부는 ck(소수탈락시True?)로 반환한다.
+</span>    <span class="k">return</span> <span class="n">ck</span><span class="p">,</span> <span class="n">p</span>
+       
+       
+<span class="k">print</span><span class="p">(</span><span class="n">era</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="c1"># ([False, False, False, False, True, False, True, False, True, True, True], [2, 3, 5, 7])
+</span></code></pre></div>            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>하노이 = 분할정복 by 재귀</p>
+
+    <ul>
+      <li>n번째 자체처리를 잘 넣어주자.</li>
+      <li>재귀가 꼭 return해줄 필요는 없다. return안한다면 꼭 + 등의 연산으로 연결해줄 필요가 없다.
+        <ul>
+          <li>갯수: return f(n-1) * 2 +1</li>
+          <li>출력: f(n-1) + print(n자체) + f(n-1)
+            <ul>
+              <li>f(n-1)내부에서도 print가 호출됨.</li>
+            </ul>
+          </li>
+          <li><strong>BUT 재귀함수의 base case if는 반드시  return으로 종료시켜줘야한다!!</strong></li>
+        </ul>
+      </li>
+      <li>변하는 것들을 인자로 잘 넣어주자. 숫자 명칭이 고정이라면, 합이 일정한 것도 이용하자.</li>
+    </ul>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># 1-&gt;3def hanoi(st, ed, n):    if n==1:        return print(st,ed)    # 1-&gt;2 n-1    # st-&gt;mid     hanoi(st, 6-(st+ed), n-1)    # 1-&gt;3    print(st, ed)    # 2-&gt;3 n-1    # mid -&gt;ed    hanoi(6-(st+ed), ed, n-1)
+</span></code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="정렬">
+<a class="anchor" href="#%EC%A0%95%EB%A0%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>정렬</h3>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">선택정렬</code>(i+1~n-1와 비교 최소값 찾으면 swap, 매번 맨왼쪽 최소값 확정), <code class="language-plaintext highlighter-rouge">버블정렬</code>( 매번 인접한수 비교후 크면 오른쪽으로 swap, 매번 맨오른쪽 최대값 확정)은 n, n-1, .. 1번 모두 탐색해야해서 시복 O( n(n+1)/2) = <code class="language-plaintext highlighter-rouge">O(N^2)</code>으로 너무 느리다.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">퀵 소트</code></p>
+
+    <ul>
+      <li>
+        <p>재귀로 구현.  <strong><code class="language-plaintext highlighter-rouge">1)p정하고 2) 작, 큰그룹나눠서  3)p자리 확정</code></strong>의 과정을 작은그룹에서 1번, 큰그룹에서 1번 다시 시행한다.</p>
+
+        <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">quick_sort</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+    <span class="c1"># 리스트가 하나 이하의 원소만을 담고 있다면 종료
+</span>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">array</span>
+     
+    <span class="n">pivot</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># 피벗은 첫 번째 원소
+</span>    <span class="n">tail</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="c1"># 피벗을 제외한 리스트
+</span>     
+    <span class="n">left_side</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tail</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">pivot</span><span class="p">]</span> <span class="c1"># 분할된 왼쪽 부분
+</span>    <span class="n">right_side</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tail</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">pivot</span><span class="p">]</span> <span class="c1"># 분할된 오른쪽 부분
+</span>     
+    <span class="k">return</span> <span class="n">quick_sort</span><span class="p">(</span><span class="n">left_side</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="n">pivot</span><span class="p">]</span> <span class="o">+</span> <span class="n">quick_sort</span><span class="p">(</span><span class="n">right_side</span><span class="p">)</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">머지 소트</code></p>
+
+    <ul>
+      <li>
+        <p>재귀시, divide후 <strong>conquer과정에 투포인터 개념으로 merge</strong>를 해야한다.</p>
+      </li>
+      <li>
+        <p><strong>1)절반으로 나누고, 2) 각각을 투포인터개념으로 합친다.</strong></p>
+
+        <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># 합병정렬에서는 conquer과정이 복잡하다.
+# [divide] 는 그냥 반씩 쪼개면 되지만, 
+# [conquer]된(정렬된 list2개) 것들을 [combine](2개 list 합하여 정렬)시 복잡하기 때문에 이 부분을 merge함수로 뺀다.
+</span><span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="n">list1</span><span class="p">,</span> <span class="n">list2</span><span class="p">):</span>
+    <span class="n">merged_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">list1</span><span class="p">)</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">list2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">list1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">list2</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+            <span class="n">merged_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">list1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">i</span><span class="o">+=</span><span class="mi">1</span> 
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">merged_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">list2</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+            <span class="n">j</span><span class="o">+=</span><span class="mi">1</span> 
+     
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">list1</span><span class="p">):</span>
+        <span class="n">merged_list</span> <span class="o">+=</span> <span class="n">list2</span><span class="p">[</span><span class="n">j</span><span class="p">:]</span>
+    <span class="k">elif</span> <span class="n">j</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">list2</span><span class="p">):</span>
+        <span class="n">merged_list</span> <span class="o">+=</span> <span class="n">list1</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="n">merged_list</span>
+     
+<span class="k">def</span> <span class="nf">merge_sort</span><span class="p">(</span><span class="n">my_list</span><span class="p">):</span>
+    <span class="c1"># base case 
+</span>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">my_list</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">my_list</span>
+    <span class="c1"># divide and conquer
+</span>    <span class="n">left_half</span> <span class="o">=</span> <span class="n">my_list</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">my_list</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">right_half</span> <span class="o">=</span> <span class="n">my_list</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">my_list</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="c1"># 부분문제는  원래함수(부분)을 한 상태가.. 정복된 상태다 조심!
+</span>    <span class="k">return</span> <span class="n">merge</span><span class="p">(</span><span class="n">merge_sort</span><span class="p">(</span><span class="n">left_half</span><span class="p">),</span> <span class="n">merge_sort</span><span class="p">(</span><span class="n">right_half</span><span class="p">))</span>
+     
+<span class="k">print</span><span class="p">(</span><span class="n">merge_sort</span><span class="p">([</span><span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">10</span><span class="p">]))</span>
+</code></pre></div>        </div>
+
+        <ul>
+          <li><strong>2개의 배열을 merge할 때, 4개짜리 배열을 미리 대기시켜놓고, 투포인터로  넣어줘야한다.</strong></li>
+          <li><strong>즉, 메모리할당이 많아진다.</strong></li>
+          <li><strong><code class="language-plaintext highlighter-rouge">머지 소트는 정렬 문제에서 메모리가 넉넉할 때 쓴다.</code></strong></li>
+          <li><strong><code class="language-plaintext highlighter-rouge">퀵 소트는, 최악(역순정렬&amp;p를 맨첫값)의 경우 NN이 될 수도 있다. </code></strong></li>
+        </ul>
+      </li>
+      <li>
+        <p>python <code class="language-plaintext highlighter-rouge">sort(), sorted()</code>는 <strong>퀵소트, 머지소트보다 더 최적화된 정렬을 쓰니. 그냥 이걸 쓰자.</strong></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">라딕스 소트(radix sort)</code> = 카운팅정렬 -&gt; <strong>이범정(10^6~10^7 이하)일 때</strong></p>
+
+    <ol>
+      <li>
+        <p>**이미 <code class="language-plaintext highlighter-rouge">최소~최대값</code>의 범위가 정해져있을 때 **, 그 범위를 index로 hashing시킨 배열을 미리 만들어놓고</p>
+      </li>
+      <li>
+        <p>카운팅한다.</p>
+      </li>
+      <li>
+        <p>카운팅수만큼 연속해서 나열�</p>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<h3 id="자료구조">
+<a class="anchor" href="#%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>자료구조</h3>
+
+<ul>
+  <li>쓰는이유:
+    <ul>
+      <li>
+<strong>효율성</strong>. 쓰는 의미가 있음. 사용처가 정해져있다. <strong>메모리를 효율적으로 쓴다.</strong>
+        <ul>
+          <li>ex&gt; stack: undo 마지막에 했던 작업을 되돌리기 위해. 직전꺼를 되돌리기</li>
+        </ul>
+      </li>
+      <li>
+<strong>추상적</strong>: 코드가 정해져있지 않음. <strong>개념이므로</strong> <strong>라이브러리가 아니더라도 어느 언어라도 구현가능해야한다.</strong>
+</li>
+      <li>
+<strong>재사용성</strong>: 계속 쓰기 위해 라이브러리를 제공함
+        <ul>
+          <li>python은 collections에 많음.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>stack
+    <ul>
+      <li>
+<strong>접시닦고 다시 가져가는 것</strong>에 비유 많이함. <strong>undo</strong>
+</li>
+      <li>넣고push <strong>위에서부터 빼는</strong>pop 2가지가 핵심</li>
+      <li><strong>배열과 다른점은, 맨 마지막이 빠져나가는 점 : LIFO</strong></li>
+      <li><strong>python에서는 따로 library없고 <code class="language-plaintext highlighter-rouge">배열[]</code>로 바로 사용한다.</strong></li>
+      <li>
+<a href="https://www.acmicpc.net/problem/9012">예제</a> : 괄호 -&gt; 여는괄호만 넣어서 <strong>쌓으며</strong>, 닫괄시.. <strong>직전에 넣은</strong> 여괄 <strong>부터 꺼내</strong> 짝이 맞나 <strong>확인해야한다.</strong>
+</li>
+    </ul>
+  </li>
+  <li>queue와 deque
+    <ul>
+      <li>
+<strong>왜쓸까? 배열이랑 달라보이지만, 불필요 메모리를 줄인다.<code class="language-plaintext highlighter-rouge">메모리를 효율적으로</code>사용하기 위해</strong>
+        <ul>
+          <li>배열로도 구현가능(pop한 앞부분으로 index를 한칸씩 당긴다.?)</li>
+          <li>이미 pop한 것들을 붙잡을 이유가 없어서 그럴필요가 없음.</li>
+        </ul>
+      </li>
+      <li><strong>server에서 여러 queue를 써서, 여유로운 queue에 task를 넣어주는 형식(task분할)</strong></li>
+      <li><strong>python에서는 <code class="language-plaintext highlighter-rouge">deque</code> = stack + queue라서 queue문제는 deque</strong></li>
+      <li>예제: <a href="https://www.acmicpc.net/problem/11866">요세푸스</a>
+        <ul>
+          <li>돌면서 제거된 사람을 빼야하는 경우 -&gt; deque의 queue로 popleft + append를 rotate로 해결</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="그래프와-tree의-저장방법">
+<a class="anchor" href="#%EA%B7%B8%EB%9E%98%ED%94%84%EC%99%80-tree%EC%9D%98-%EC%A0%80%EC%9E%A5%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>그래프와 Tree의 저장방법</h4>
+
+<ul>
+  <li>
+    <p>그래프의 특이한 형태로서, <strong>나가는 간선(outdegree)</strong>만 있으면 <code class="language-plaintext highlighter-rouge">Tree</code></p>
+
+    <ul>
+      <li>
+        <p>Tree도 2가지 저장방법이 있다.</p>
+
+        <ul>
+          <li>
+<strong>자식마다 <code class="language-plaintext highlighter-rouge">부모는 only 1개</code>씩, <code class="language-plaintext highlighter-rouge">자식배열</code>에 저장</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211101175529986.png" alt="image-20211101175529986">
+            <ul>
+              <li>cycle없이 root node제외하고 다 부모가 1개씩 존재</li>
+              <li>
+<strong>밑에서부터 부모를 찾아 올라갈 수 있다.</strong>
+                <ul>
+                  <li><strong><code class="language-plaintext highlighter-rouge">4의 부모 2 -&gt; 2의부모 1 -&gt; 1의 부모 0 == root</code></strong></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+<strong>부모마다 여러개자식을, <code class="language-plaintext highlighter-rouge">자식list</code>로 <code class="language-plaintext highlighter-rouge">2차원배열</code>에 저장</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027180313109.png" alt="image-20211027180313109">
+            <ul>
+              <li>
+<strong><code class="language-plaintext highlighter-rouge">인접리스트</code> 저장시, <code class="language-plaintext highlighter-rouge">아래로 내려가면서</code> 순환을 돌기 좋다.</strong>
+                <ul>
+                  <li><strong>1의 자식2 -&gt; 2는 아래로 4,5,6을 볼 수 있으니 4번 부터 본다. -&gt; <code class="language-plaintext highlighter-rouge">4번은 비어서 leaf node로 끝났따</code> -&gt; 5번 보고 6번보고 하자.</strong></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>Tree의  <code class="language-plaintext highlighter-rouge">부모저장</code>배열 -&gt; <code class="language-plaintext highlighter-rouge">LCA찾기</code> 예시가<a href="https://www.acmicpc.net/problem/2644"> <code class="language-plaintext highlighter-rouge">촌수문제</code></a>다.</strong></p>
+
+        <ul>
+          <li>조상들 모을 default 0의 N+1개짜리 <code class="language-plaintext highlighter-rouge">부모저장배열</code> 생성
+            <ul>
+              <li>입력정보를 배열에 저장함. 부모 없으면 0</li>
+            </ul>
+          </li>
+          <li>2개 node의 공통조상찾는다?
+            <ul>
+              <li>각각의 (조상, 촌수) 튜플이 담길 list를 선언</li>
+              <li>한번 타고올라갈때마다 거리를 더해줄 각각의 촌수변수 선언</li>
+            </ul>
+          </li>
+          <li>각 node마다 부모가 없을 때까지 찾아가야한다.
+            <ul>
+              <li>default 0이며, 안쓰는 p[0]에 0이 들어가있어 무한루프의 가능성이 있으니, 부모가 0되는 순간 빠져나와서, 아직 처리안된상태로 나와, 마지막에 한번더 처리해준다.</li>
+              <li>나부터 시작, 거리0으로서 튜플로(조상,거리)를 모아준다.</li>
+              <li>재귀적으로 한번 찾아갈때마다 B = p[B] 로서, 나를 부모로 업데이트해준다. 그러면 나의 부모의 부모를 찾아가도록 된다.</li>
+            </ul>
+          </li>
+        </ul>
+
+        <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
+    
+<span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">input</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
+    
+<span class="c1"># 1. 촌수는 Tree형태 그래프인데, 문제에서 부모(1개만) 저장하는 방식을 택했으니
+# -&gt; 1차원 배열에 다가 받아준다. 
+# -&gt; 자신의 부모를 모두 0으로 초기화 해놓는다. (1부터 시작하는 node -&gt; 0은 부모가 없다는 것을 표현함.)
+# cf) 자식들y는 여러개일 수 있어서  index에 놓고, 각 자식들에 대한 부모는 1명밖이다 -&gt; value로서 1개
+</span><span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+    
+<span class="c1"># 2. 관계수를 for문에서 바로 받아, 각 관계 -&gt; 부모배열을 채운다.
+</span><span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">())):</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">input</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
+    <span class="c1"># * 3.우리는 1차원 배열에 [부모만!] 저장한다.
+</span>    <span class="c1"># 1 2 중에 1이 부모니까 index 2에다가 1를 저장한다.
+</span>    <span class="c1"># cf) 자식들y는 여러개일 수 있어서  index에 놓고, 각 자식들에 대한 부모는 1명밖이다 -&gt; value로서 1개
+</span>    <span class="n">p</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span>
+    
+<span class="c1"># 3. A와 B의 공통 조상을 찾기전에,
+# * A의 조상들을 모두 모은다, B의 조상들을 모은다 -&gt; 교집합?
+# ** 참고로, A조상을 모을 때는, A자신을 포함해서 A자신 정보, 촌수거리0 부터 시작해서 -&gt; 재귀적으로 (부모, 부모까지거리(+=1)의 정보를 호출해서 담는다.
+</span><span class="n">Aa</span><span class="p">,</span> <span class="n">Ba</span> <span class="o">=</span><span class="p">[],</span> <span class="p">[]</span> <span class="c1"># Aa: A의 조상a, Ba : B의 조상a
+# * A의 조상들(부모, 부모의 부모.. ) 모으는 과정에서, A와의 촌수도 같이 튜플로 저장하기 위해
+</span><span class="n">Ad</span><span class="p">,</span> <span class="n">Bd</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+<span class="c1"># 1) 자신x&lt;-부모p[x]로 업데이트하여, 부모의 부모도 다음번에 찾아가게함
+# 2) 자신&lt;-부모 업데이트할 때, 거리도 +1 업데이트해서, 촌수도 올라가게 함.
+# 3) p[x] &gt; 0를 while if조건절에 놓아서, p[x]==0 부모가없는 지점까지 올라간다.
+</span><span class="k">while</span> <span class="n">p</span><span class="p">[</span><span class="n">A</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+    <span class="c1"># 3-1) 제일처음에 들어가면, 나와의거리Ad=0인.. 나 자신을 0촌 조상으로 튜플로 넣어준다. (나, 나와의거리)
+</span>    <span class="n">Aa</span><span class="p">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">Ad</span><span class="p">))</span>
+    <span class="c1"># 3-2) 재귀적으로 내가 부모가 되도록 업데이트해서, 
+</span>    <span class="c1"># while p[updated A]부모의부모가 있다면 -&gt; (나 updated A=부모, 전보단 늘어난 거리updated Ad +1)
+</span>    <span class="c1"># 을 조상으로서 재귀적으로 모아준다.
+</span>    <span class="n">Ad</span><span class="o">+=</span><span class="mi">1</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">A</span><span class="p">]</span> <span class="c1"># 내가 내 부모가 된다. for 다음단계를 위한 업데이트
+</span>    
+<span class="c1"># * 부모가 없는 p[A]=0의 root node도 넣어줘야한다... root node가 공통조상이 될 확류은 높다.
+# - 현재 p[A]==0상태이며, 첫 0이라서.. 루트노드로 업데이트된 것 일 것이다.. 마지막에 한번만 넣어주자.
+</span><span class="n">Aa</span><span class="p">.</span><span class="n">append</span><span class="p">((</span><span class="n">A</span><span class="p">,</span> <span class="n">Ad</span><span class="p">))</span>
+    
+<span class="c1"># 4. B도 마찬가지다. 
+</span><span class="k">while</span> <span class="n">p</span><span class="p">[</span><span class="n">B</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+    <span class="n">Ba</span><span class="p">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">Bd</span><span class="p">))</span>
+    <span class="n">Bd</span><span class="o">+=</span><span class="mi">1</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">B</span><span class="p">]</span> 
+<span class="n">Ba</span><span class="p">.</span><span class="n">append</span><span class="p">((</span><span class="n">B</span><span class="p">,</span> <span class="n">Bd</span><span class="p">))</span>
+    
+    
+<span class="c1"># print(p)
+# * 5.  2개배열을, &lt;2중 포문&gt;으로 1:1매칭 해보면서, 튜플 (조상, 촌수) 중 조상이 같을 때를 찾늗나.
+# -&gt; 조상이 같은 순간에서 촌수를 더해버리면 된다.
+</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Aa</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">Ba</span><span class="p">:</span>
+        <span class="c1"># 여기는 Aa, Ba 조상들의 1:1매칭 공간
+</span>        <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">j</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">j</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="c1"># 등장하면, 제일 빠른 것을 만난 순간 바로 프로그램을 종료하면 된다.
+</span>            <span class="nb">exit</span><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>나가는 간선외 <strong>들어오는 간선(indegree)까지 있으면</strong> <code class="language-plaintext highlighter-rouge">Graph</code></p>
+
+    <ul>
+      <li>
+        <p>그래프는 2가지 저장방법이 있음</p>
+
+        <ul>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">인접행렬</code> : 행: 출발점 -&gt; 열: 도착점을 나타내는 N by N행렬</strong></p>
+
+            <ul>
+              <li>인접행렬도 3가지가 있음.
+                <ul>
+                  <li>노방향</li>
+                  <li>방향</li>
+                  <li>방향+가중치
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027173251556.png" alt="image-20211027173251556">
+</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">인접 리스트</code></strong> : <strong>튜플로  갈수 있는 (가중치, 노드) list를 인접한 list에 저정함.</strong></p>
+
+            <ul>
+              <li>
+                <p>1의 indegree는? 0 (들어오는게 없다)</p>
+              </li>
+              <li>
+                <p>1의 outdgree는? 3 (3개가 나간다.)</p>
+
+                <ul>
+                  <li><strong>in, outdegree가 중요한 이유는 indegree가 0인 지점이 시작점 일 될 수도, 한붓그리기 는 짝수여야한다. 등의 규칙이 있음</strong></li>
+                </ul>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027173251556.png" alt="image-20211027173251556"></p>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p>이렇게 그래프를 저장하면, <strong>최단거리나 가중치를 고려한 최소비용 등을 계산</strong>할 수 있게 된다</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="규칙적용된-tree인-이진트리로-heapbst">
+<a class="anchor" href="#%EA%B7%9C%EC%B9%99%EC%A0%81%EC%9A%A9%EB%90%9C-tree%EC%9D%B8-%EC%9D%B4%EC%A7%84%ED%8A%B8%EB%A6%AC%EB%A1%9C-heapbst" aria-hidden="true"><span class="octicon octicon-link"></span></a>규칙적용된 tree인 이진트리로 heap/bst</h4>
+
+<ul>
+  <li>이진트리: Tree구조 자체가 graph만큼 어려워서 <code class="language-plaintext highlighter-rouge">규칙</code>을 정했는데
+    <ol>
+      <li><strong>Tree의 rootnode가 1부터가 시작</strong></li>
+      <li>
+<strong>자식은 최대2개로 하여-&gt;왼쪽자식node == 부모node의 2배가 너넘버링된다.</strong>
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">나node//2</code> 는 부모node</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+<strong>heap: <code class="language-plaintext highlighter-rouge">NlgN</code>으로 정렬을 유지</strong>하면서 데이터 pop/push가 가능하다.
+    <ul>
+      <li>
+<a href="https://gmlwjd9405.github.io/2018/05/10/algorithm-heap-sort.html">그림 출저</a>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211030163140110.png" alt="image-20211030163140110">
+</li>
+    </ul>
+  </li>
+  <li>
+<strong>bst: python에서는 <code class="language-plaintext highlighter-rouge">set</code>, <code class="language-plaintext highlighter-rouge">dict의 key</code>를  원소-&gt; hash값 -&gt; hash값들을 bst 구조로 만들어  내부에서 사용되어</strong> 중복안되고 bst로 검색해서 빠르다?</li>
+</ul>
+
+<h4 id="그래프-일반tree-점-격자판-다-탐색하는-dfs와-bfs">
+<a class="anchor" href="#%EA%B7%B8%EB%9E%98%ED%94%84-%EC%9D%BC%EB%B0%98tree-%EC%A0%90-%EA%B2%A9%EC%9E%90%ED%8C%90-%EB%8B%A4-%ED%83%90%EC%83%89%ED%95%98%EB%8A%94-dfs%EC%99%80-bfs" aria-hidden="true"><span class="octicon octicon-link"></span></a>그래프, 일반Tree, 점, 격자판 다 탐색하는 DFS와 BFS</h4>
+
+<ul>
+  <li>
+<strong>DFS</strong>
+    <ul>
+      <li>전수조사시 사용되하는데, 1-&gt;0 <strong>마지막 탐색지점에서 빽할 때, 직전 node가 필요</strong>한데, 직전node를 stack 선언후 쌓아두는게 아니라, <strong><code class="language-plaintext highlighter-rouge">재귀를 이용해서 stack을 자동 사용</code>한다.</strong>
+        <ul>
+          <li>재귀함수=함수=stack메모리에서 관리되어 stack처럼 쓰임</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>BFS</strong>
+    <ul>
+      <li>시작좌표(시작점, root node)에서 시작하여
+        <ul>
+          <li>
+<strong>level별 = 최단거리별</strong> 기록하기 위해 <strong>queue(deque)을 사용한다.</strong>
+            <ul>
+              <li>목표좌표가 나타나는 최단거리(level)을 구하거나</li>
+              <li>해당 level이 끝났을 때 최단거리의 수?</li>
+            </ul>
+          </li>
+          <li>level별로 좌-&gt;우순으로 검색한다.</li>
+          <li>
+<strong>queue에 시작좌표를 넣어놓고</strong>
+            <ul>
+              <li><strong><code class="language-plaintext highlighter-rouge">빼고</code> -&gt; (목표좌푠지확인) -&gt; <code class="language-plaintext highlighter-rouge">자식들 탐색</code> -&gt; <code class="language-plaintext highlighter-rouge">검사</code> -&gt; 넣기전 <code class="language-plaintext highlighter-rouge">자체처리</code> -&gt; queue에 <code class="language-plaintext highlighter-rouge">넣기</code> -&gt; (level별 시행시 L+=1)</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>2개의 사용차이
+    <ol>
+      <li>
+<strong>찾는 범위가 국한되어서 n번안에 찾아지는 것이 확신을 할 수 있을 경우 -&gt; <code class="language-plaintext highlighter-rouge">BFS</code></strong>
+        <ul>
+          <li><a href="https://www.acmicpc.net/problem/12851">숨바꼭질2</a></li>
+        </ul>
+      </li>
+      <li>
+<strong>모든 범위를 찾아봐야 하는 경우(매 탐색마다 1-&gt;0 바뀌는 끝을 찍어야하는 경우?) -&gt; <code class="language-plaintext highlighter-rouge">DFS</code></strong>
+        <ul>
+          <li><a href="https://www.acmicpc.net/problem/2667">단지번호 붙이기</a></li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<h3 id="앞으로-공부하는-방법">
+<a class="anchor" href="#%EC%95%9E%EC%9C%BC%EB%A1%9C-%EA%B3%B5%EB%B6%80%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>앞으로 공부하는 방법</h3>
+
+<ol>
+  <li>많이풀기
+    <ol>
+      <li><strong>삼성은 DFS, BFS 30문제정도</strong></li>
+      <li>
+<strong>카카오는 Trie</strong>를 포함해서 30문제정도</li>
+    </ol>
+  </li>
+  <li>암기하기
+    <ol>
+      <li>이해로는 X 많이 쓰면서 암기하는 과정이 필요하다.</li>
+      <li><strong>자기만의  템플릿이 있어야 한다.</strong></li>
+    </ol>
+  </li>
+  <li>주기적 체크하기
+    <ol>
+      <li>대회?</li>
+      <li><a href="https://www.notion.so/4e7f47700af341f4b649e4cad0c4fb30">안내서 노션</a></li>
+    </ol>
+  </li>
+</ol>
+
+
+  </div><a class="u-url" href="/algorithm/2021/10/17/sktacademy_%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98_python_%EB%AC%B8%EB%B2%95TIP.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

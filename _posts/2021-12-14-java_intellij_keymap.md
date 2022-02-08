@@ -1,10 +1,10 @@
 ---
 toc: true
 layout: post
-description: 우테코 4기 프리코스를 거치며 정리한 intellij 및 협업 세팅
+description: 우테코 프리코스간 정리한 intellij vscode keymap적용 및 협업 세팅
 
 categories: [java, configuration]
-title: vscode keymap + intelliJ + 프리코스 협업 세팅
+title: intelliJ 세팅(vscode keymap + 협업 세팅)
 
 image: "images/posts/java.png"
 ---
