@@ -149,6 +149,7 @@ image: "images/posts/blog.png"
 2. tags.html코드를 수정한다.
     - ul태그에 `entry-meta inline-list` 속성을 추가한다
     - 그외 tag, tag-name, eachtag 등의 속성을 이용해서 꾸민다.
+    
     ```html
     <ul class="entry-meta inline-list">
     {% for category in categories %}
