@@ -4,6 +4,9 @@ layout: post
 description: 자주 사용하는 powershell, bashshell명령어 학습
 categories: [shell, powershell, WindowsTerminal, windows]
 title: powershell_vs_bashshell명령어
+
+image: "images/posts/config.png"
+
 ---
 
 ## 개요

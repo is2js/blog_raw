@@ -2,8 +2,11 @@
 toc: true
 layout: post
 description: github의 인덱스와, gitblog의 index.html을 꾸미는 법 공부하기
-categories: [fastpages, github]
+categories: [git, github]
 title: 프로필) github index, badge 등 생성하여 꾸미기
+
+image: "images/posts/git.png"
+
 ---
 
 ## 참고사이트

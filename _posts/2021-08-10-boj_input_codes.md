@@ -7,9 +7,12 @@ branch: master
 badges: true
 comments: true
 author: Jaeseong Cho
-categories: [boj, 백준]
+categories: [algorithm]
 nb_path: _notebooks/2021-08-10-boj_input_codes.ipynb
 layout: notebook
+
+image: "images/posts/algo.png"
+
 ---
 
 <!--

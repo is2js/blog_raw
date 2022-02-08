@@ -7,9 +7,12 @@ branch: master
 badges: true
 comments: true
 author: Jaeseong Cho
-categories: [프로그래머스, python, algorithm]
+categories: [algorithm]
 nb_path: _notebooks/2021-08-11-프로그래머스_python_pythonic.ipynb
 layout: notebook
+
+image: "images/posts/algo.png"
+
 ---
 
 <!--
