@@ -191,7 +191,7 @@ blockquote > :last-child { margin-bottom: 0; }
 blockquote i, blockquote em { font-style: normal; }
 
 /** Code formatting */
-pre, code { font-family: "Menlo", "Inconsolata", "Consolas", "Roboto Mono", "Ubuntu Mono", "Liberation Mono", "Courier New", monospace; font-size: 0.9375em; border: 1px solid #e8e8e8; border-radius: 3px; background-color: #eeeeff; }
+pre, code { font-family: 'Spoqa Han Sans Neo', "Menlo", "Inconsolata", "Consolas", "Roboto Mono", "Ubuntu Mono", "Liberation Mono", "Courier New", monospace; font-size: 0.9375em; border: 1px solid #e8e8e8; border-radius: 3px; background-color: #eeeeff; }
 
 code { padding: 1px 5px; }
 
@@ -580,7 +580,7 @@ p code { font-size: 19px; }
 
 /* make non-headings slightly lighter */
 .post-content p, .post-content li {   
-	font-family: "Nanum Gothic";
+	font-family: 'Spoqa Han Sans Neo';
 	font-size: 15px;
 	color: #515151;
 	font-weight: 400;
@@ -596,7 +596,7 @@ margin-right: auto;
 
 /* font  */
 h1, h2, h3, h4, h5, h6{
-font-family:"Sunflower", normal; 
+font-family:'Spoqa Han Sans Neo', normal; 
 }
 
 /* inline code size (minima/fastpages-dracula-highlight.css) */
