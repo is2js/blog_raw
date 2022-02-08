@@ -3,7 +3,7 @@
     
         "post0": {
             "title": "fastpages post preview setting",
-            "content": "fast pages 메인에서 preview image 보이게 하기 . 참고: 이미지를 표기하는 fastpages | . _config.yml에서 show_image: false -&gt; true로 변경 . | 미리캔버스를 검색해서 템플릿으로 생성할 이미지 만들기 생성 목록 | . algo.png | blog.png | config.png | data.png | default.png | git.png | java.png | python.png | sql.png | wootech.png | . | 최상단 images폴더 &gt; posts폴더에 이미지들 넣어두기 . | post마다 image: &quot;images/posts/blog.png&quot;형식으로 preview 이미지 설정하기 메인 위쪽은 index.html | 메인 아래쪽 포스트 담당은 home.html이다 | . _config.yml에서 show.image: true일 경우 post_list.html(글만) -&gt; post_list_image_card.html로 바뀌어서 보인다. | . | . |",
+            "content": "fast pages 메인에서 preview image 보이게 하기 . 참고: 이미지를 표기하는 fastpages | . _config.yml에서 show_image: false -&gt; true로 변경 . | 미리캔버스를 검색해서 템플릿으로 생성할 이미지 만들기 참고 블로그 | 생성 목록 algo.png | blog.png | config.png | data.png | default.png | git.png | java.png | python.png | sql.png | wootech.png | . | . | 최상단 images폴더 &gt; posts폴더에 이미지들 넣어두기 . | post마다 image: &quot;images/posts/blog.png&quot;형식으로 preview 이미지 설정하기 메인 위쪽은 index.html | 메인 아래쪽 포스트 담당은 home.html이다 | . _config.yml에서 show.image: true일 경우 post_list.html(글만) -&gt; post_list_image_card.html로 바뀌어서 보인다. | . | . |",
             "url": "blog.chojaeseong.com/fastpages/2022/02/08/fastpages-post-preview-setting.html",
             "relUrl": "/fastpages/2022/02/08/fastpages-post-preview-setting.html",
             "date": " • Feb 8, 2022"
