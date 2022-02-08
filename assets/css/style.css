@@ -516,7 +516,7 @@ p code { font-size: 19px; }
 
 
 /* custom css */
-
+/** 예전 블로그에서 쓰던 tag모음 + 각 개별tag적용 css  */
 .entry-meta {
     font-size: 12px;
     font-size: 0.75rem;
@@ -549,13 +549,12 @@ p code { font-size: 19px; }
     border-radius: 0 3px 3px 0;
     /*3px 이상 오그리면, 하이퍼링크랑 막 난리남.*/
 }
-
 .entry-meta .tag:hover {
     background-color: rgba(136, 136, 136, 0.8); }
 .entry-meta .entry-reading-time {
     float: right; }
-
     
+
 .inline-list {
     list-style: none;
     margin-left: 0;
@@ -565,7 +564,6 @@ p code { font-size: 19px; }
     list-style-type: none;
     display: inline; 
 }
-
 
 /* 추가) 각 제목들도 tag 작은모양처럼*/
 .eachtag {
@@ -619,6 +617,4 @@ font-size: 13px;
 .MathJax_Display, /* MathJax 2 */
 mjx-container     /* MathJax 3 */
 { text-align: left!important; }
-
-
 /* 한국인이 폰트 커스텀한 코드 ===start=============================================================== */
