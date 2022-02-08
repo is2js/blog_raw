@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>협업2)오픈소스PR + 팀원PR + issue로 PR | 돌범의 기술블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="협업2)오픈소스PR + 팀원PR + issue로 PR" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="PullRequest날리는 다양한 경우의 수를 시뮬레이션 함." />
+<meta property="og:description" content="PullRequest날리는 다양한 경우의 수를 시뮬레이션 함." />
+<link rel="canonical" href="blog.chojaeseong.com/git/2021/10/17/%EA%B9%834_PR%ED%8C%80%EC%9E%91%EC%97%85_1%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4_2%ED%8C%80%EC%9E%91%EC%97%85_3%EC%9E%87%EC%8A%88%EC%99%80%EB%A6%AC%EB%B7%B0%EC%9A%A9PR.html" />
+<meta property="og:url" content="blog.chojaeseong.com/git/2021/10/17/%EA%B9%834_PR%ED%8C%80%EC%9E%91%EC%97%85_1%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4_2%ED%8C%80%EC%9E%91%EC%97%85_3%EC%9E%87%EC%8A%88%EC%99%80%EB%A6%AC%EB%B7%B0%EC%9A%A9PR.html" />
+<meta property="og:site_name" content="돌범의 기술블로그" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/git.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-10-17T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-10-17T00:00:00-05:00","url":"blog.chojaeseong.com/git/2021/10/17/%EA%B9%834_PR%ED%8C%80%EC%9E%91%EC%97%85_1%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4_2%ED%8C%80%EC%9E%91%EC%97%85_3%EC%9E%87%EC%8A%88%EC%99%80%EB%A6%AC%EB%B7%B0%EC%9A%A9PR.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/git.png","headline":"협업2)오픈소스PR + 팀원PR + issue로 PR","dateModified":"2021-10-17T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/git/2021/10/17/%EA%B9%834_PR%ED%8C%80%EC%9E%91%EC%97%85_1%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4_2%ED%8C%80%EC%9E%91%EC%97%85_3%EC%9E%87%EC%8A%88%EC%99%80%EB%A6%AC%EB%B7%B0%EC%9A%A9PR.html"},"description":"PullRequest날리는 다양한 경우의 수를 시뮬레이션 함.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 추후 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 쥬피터 등 h1, h2 제목은 sunflower체 도입 -->
+  
+  <link href='https://fonts.googleapis.com/css2?family=Sunflower:wght@700&display=swap' rel="stylesheet'>
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범의 기술블로그" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범의 기술블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/mygit/">MyGit</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">협업2)오픈소스PR + 팀원PR + issue로 PR</h1><p class="page-description">PullRequest날리는 다양한 경우의 수를 시뮬레이션 함.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-10-17T00:00:00-05:00" itemprop="datePublished">
+        Oct 17, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      11 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#git">git</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#여러가지-pull-request-날려보기">여러가지 Pull Request 날려보기</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#노팀원-fork-pr팀원-pr받기만-타인나-fork후-수정용브랜치로-push하여-타인의-pr">노팀원 fork PR(팀원-PR받기만/ 타인(나)-Fork후 수정용브랜치로 push하여 타인의 PR)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#팀원아니더라도-fork-clone-topic따서-작업한-뒤----merge하지않고-commit-push">팀원아니더라도 fork-clone-topic따서 작업한 뒤 -&gt;  (merge하지않고) commit, push</a></li>
+<li class="toc-entry toc-h4"><a href="#topic-push로-만든-fork레포-pr클릭시-원본레포baserepo-pr을-유도-전제-mainmaster는-변화없이-topicbr만-변화-cf-fork레포headrepo로-merge도-가능함">topic push로 만든 Fork레포 PR클릭시 원본레포(baserepo) PR을 유도: 전제-main(master)는 변화없이 topicbr만 변화! cf) Fork레포(headrepo)로 merge도 가능함.</a></li>
+<li class="toc-entry toc-h4"><a href="#원본레포-팀원은-팀원x-fork-topic-pr-날린-것을-commit을-직접-확인하여-request-chagnge하거나-approve해준다">원본레포 팀원은, 팀원X-Fork-topic-PR 날린 것을 commit을 직접 확인하여 request chagnge하거나 approve해준다.</a></li>
+<li class="toc-entry toc-h4"><a href="#팀원이-아니더라도-prmerge후-delete-branch가-원칙-로컬에서-로컬fork-2개다-해줌">팀원이 아니더라도 PR(merge)후 delete branch가 원칙: 로컬에서 로컬+fork 2개다 해줌.</a></li>
+<li class="toc-entry toc-h4"><a href="#로컬topic-삭제---remotefork레포도-자동삭제-반영시키기--git-remote-update-prune">로컬topic 삭제 -&gt; remote(fork레포)도 자동삭제 반영시키기:  git remote update –prune</a></li>
+<li class="toc-entry toc-h4"><a href="#참고-origin과-upstream">참고) origin과 upstream</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#upstream--downstream">Upstream &amp; Downstream</a></li>
+<li class="toc-entry toc-h5"><a href="#fork">Fork</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#노팀원이지만-원본repo오픈소스---fork레포-및-local레포를-최신형으로-유지-by-local에서-upstream으로-등록하여-upstream원본레포---originfork레포-upstream---local-통로뚫고-가져오기-git-remote-add-upstream-url---git-fetch-upstream--fork레포-merge버튼---localgit-merge-upstreammain">노팀원이지만 [원본repo(오픈소스)] -&gt; fork레포 및 local레포를 최신형으로 유지 by local에서 upstream으로 등록하여 upstream(원본레포) -&gt; origin(fork레포), upstream -&gt; local 통로뚫고 가져오기: git remote add upstream [url] -&gt; git fetch upstream -&gt;[fork레포 ]merge버튼 +  [local]git merge upstream/main</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#팀작업1-내부팀원-not-오픈소스-초대-및-작업하기">팀작업1: 내부팀원 (not 오픈소스) 초대 및 작업하기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#팀리더is3js가-팀원is2js초대--github-settings-manage-acess-add-peopleinvite-collaborator">팀리더(is3js)가 팀원(is2js)초대 : github-settings-manage acess-add people(invite collaborator)</a></li>
+<li class="toc-entry toc-h4"><a href="#팀원은-초대되었다면fork--clone---topic---pr할-필요가-없이-clone-pushor-topic--review팀원pr만-한다--팀원이라면-바로-local-팀repo에-바로-push가-가능">팀원은 초대되었다면,fork(-&gt; clone -&gt; topic -&gt; PR)할 필요가 없이 clone(-&gt;push)or(-&gt;topic-&gt; review=팀원PR)만 한다.  팀원이라면 바로 local-&gt;팀repo에 바로 push가 가능</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#팀작업2-내부팀원의-clone-local에서-topic-push로-pr권유---topic-push한-사람만-pr요청-가능---타-팀원review받기-review안받을거면-main-push했음">팀작업2: 내부팀원의 clone (local)에서 topic push로 PR권유 -&gt; topic push한 사람만 PR요청 가능 -&gt; 타 팀원review받기 (review안받을거면 main push했음)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#topic-push한-작업팀원만-자신에게-pr권유를-확인-및--요청할-수-있다">topic push한 작업팀원만, 자신에게 PR권유를 확인 및  요청할 수 있다.</a></li>
+<li class="toc-entry toc-h4"><a href="#타팀원은-pr-불--commit-메세지--commit-클릭---코드-리뷰">타팀원은 PR 불-&gt; commit 메세지-&gt; commit 클릭 -&gt; 코드 리뷰</a></li>
+<li class="toc-entry toc-h4"><a href="#topic-push--pr했던-작업-팀원은-확인해서-1-reply--2-local에서-추가작업---3-topic-br-push---4-자동-pr-timeline에-추가">(topic push -&gt;PR했던) 작업 팀원은 확인해서 1) Reply + 2) local에서 추가작업 -&gt; 3) topic br PUSH -&gt; 4) 자동 PR timeline에 추가</a></li>
+<li class="toc-entry toc-h4"><a href="#타팀원의-2번째-review부터는-작업팀원의-추가push가-자동으로-pr-timelien에-추가된다">타팀원의 2번째 review부터는 [작업팀원의 추가push]가 자동으로 PR timelien에 추가된다.</a></li>
+<li class="toc-entry toc-h4"><a href="#승인은-lgtmlooks-good-to-me">승인은 LGTM(looks good to me)</a></li>
+<li class="toc-entry toc-h4"><a href="#approval이-떴다면-작업팀원이-merge-pr해도-된다-아무나-팀원이면-다된다-merge후에는-delete-topic-branch---local-code-최신화git-pull---local의-topic-branch는-직접-삭제">approval이 떴다면, 작업팀원이 merge PR해도 된다. 아무나 팀원이면 다된다. merge후에는 delete (topic) branch -&gt; local code 최신화(git pull) -&gt; local의 topic branch는 직접 삭제()</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#팀작업3-issue개선기록-와-pr팀원1주인-수정용브랜치push-pr--팀원2-리뷰만-실습">팀작업3: issue(개선기록) 와 PR(팀원1(주인)-수정용브랜치push PR / 팀원2-리뷰만) 실습</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#로컬-readme생성후---원격-빈레포에-push로-시작--1번째-가이드-or-create-a-new-repository-on-the-command-lineinit-readme-push">로컬 readme생성후 -&gt; 원격 빈레포에 push로 시작.  1번째 가이드: …or create a new repository on the command line(init, readme push)</a></li>
+<li class="toc-entry toc-h4"><a href="#원격레포에-issue생성--issue는-todo-list-역할이나-논의사항-정리용">원격레포에 issue생성:  issue는 TODO list 역할이나 논의사항 정리용</a></li>
+<li class="toc-entry toc-h4"><a href="#issue-해결-전에-collaborator-추가-상대방은-메일로만-초대받음">issue 해결 전에, collaborator 추가 (상대방은 메일로만 초대받음)</a></li>
+<li class="toc-entry toc-h4"><a href="#로컬에서--생성-후-파일-수정하기-git-checkout--b-생성후전환될-브랜치">로컬에서  생성 후 파일 수정하기: git checkout -b [생성후전환될 브랜치]수정용&gt;</a></li>
+<li class="toc-entry toc-h4"><a href="#pr날릴-브랜치는순수-git-commit후-메세지-작성되는-부분에---issue-번호-삽입하여-해당issue에-커밋-걸어주기">(PR날릴 브랜치는)순수 git commit후 메세지 작성되는 부분에 [- issue #번호] 삽입하여, 해당issue에 커밋 걸어주기</a></li>
+<li class="toc-entry toc-h4"><a href="#원격레포에-없는-지만-push해주면-알아서생성pr권유">원격레포에 없는 지만, push해주면 &lt;알아서생성+PR권유&gt;수정용브랜치&gt;</a></li>
+<li class="toc-entry toc-h4"><a href="#혼자는merge지만-pr은-를-팀원collaborator들에게-확인요청이니-메세지-한번더">혼자는merge지만, PR은 를 팀원(collaborator)들에게 확인요청이니 메세지 한번더!수정용브랜치&gt;</a></li>
+<li class="toc-entry toc-h4"><a href="#pr을-검수할-팀원에게-review요청하기수정용브랜치를-merge해도될지">PR을 검수할 팀원에게 review요청하기(수정용브랜치를 merge해도될지)</a></li>
+<li class="toc-entry toc-h4"><a href="#리뷰요청받은-뒤-add-your-review는-linebyline으로-피드백-주는-것">리뷰요청받은 뒤 Add your review는 lineByline으로 피드백 주는 것</a></li>
+<li class="toc-entry toc-h4"><a href="#리뷰요청시-피드백라인별코멘트과-별개로-칼을-뽑아야함-approvemerge-or-request-changes다시push해">리뷰요청시 피드백(라인별코멘트)과 별개로, 칼을 뽑아야함: Approve(merge) or Request changes(다시push해)</a></li>
+<li class="toc-entry toc-h4"><a href="#로컬-review내용인-1-라인별코멘트에-대한-대답reply--2-변화요구에-대한-에서-수정후-다시-push">[로컬] review내용인 1) 라인별코멘트에 [대한 대답reply] &amp; 2) 변화요구에 대한 [에서 수정후 다시 push]로컬&gt;</a></li>
+<li class="toc-entry toc-h4"><a href="#pr은-의-단위라서-아직-merge안됬다면-해당브랜치는-이어지며-가서-확인한다">PR은 의 단위라서 아직 merge안됬다면, 해당브랜치는 이어지며 가서 확인한다.수정용브랜치&gt;</a></li>
+<li class="toc-entry toc-h4"><a href="#또다시-pr수정용브랜치-merge검토에-대한-review요청을-받음---lgtm-approve해주기">또다시 PR(수정용브랜치 merge검토)에 대한 review요청을 받음. -&gt; LGTM approve해주기</a></li>
+<li class="toc-entry toc-h4"><a href="#review가-approve해야-드디어-merge가-뜬다-동시에-">review가 approve해야 드디어 merge가 뜬다. 동시에 </a></li>
+<li class="toc-entry toc-h4"><a href="#issue탭에서도-merged가-뜸---pr-merged의-해결된-issue를-닫기">[issue탭]에서도 Merged가 뜸. -&gt; [PR-&gt;merged]의 해결된 issue를 닫기</a></li>
+<li class="toc-entry toc-h4"><a href="#로컬에서-default-main브랜치로-옮겨와-pr-merged된-프로젝트-정보를-git-pull로-내려받아서-로컬에서도-통합-및-브랜치삭제가-반영되도록-한다">[로컬]에서 default [main]브랜치로 옮겨와, PR-&gt;merged된 프로젝트 정보를 git pull로 내려받아서, 로컬에서도 통합 및 브랜치삭제가 반영되도록 한다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h2 id="여러가지-pull-request-날려보기">
+<a class="anchor" href="#%EC%97%AC%EB%9F%AC%EA%B0%80%EC%A7%80-pull-request-%EB%82%A0%EB%A0%A4%EB%B3%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>여러가지 Pull Request 날려보기</h2>
+
+<ul>
+  <li>Reference
+    <ul>
+      <li><a href="https://www.youtube.com/channel/UCNbp-JsE2BUZMwPaC6J8ApQ">memi dev</a></li>
+      <li><a href="https://www.youtube.com/channel/UC2nkWbaJt1KQDi2r2XclzTQ">얄팍한 코딩사전</a></li>
+      <li><a href="https://www.youtube.com/channel/UCO1RNdbf-2x-pzc8ZxHKNZA">kaist 전산학부학생회</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="노팀원-fork-pr팀원-pr받기만-타인나-fork후-수정용브랜치로-push하여-타인의-pr">
+<a class="anchor" href="#%EB%85%B8%ED%8C%80%EC%9B%90-fork-pr%ED%8C%80%EC%9B%90-pr%EB%B0%9B%EA%B8%B0%EB%A7%8C-%ED%83%80%EC%9D%B8%EB%82%98-fork%ED%9B%84-%EC%88%98%EC%A0%95%EC%9A%A9%EB%B8%8C%EB%9E%9C%EC%B9%98%EB%A1%9C-push%ED%95%98%EC%97%AC-%ED%83%80%EC%9D%B8%EC%9D%98-pr" aria-hidden="true"><span class="octicon octicon-link"></span></a>노팀원 fork PR(팀원-PR받기만/ 타인(나)-Fork후 수정용브랜치로 push하여 타인의 PR)</h3>
+
+<ul>
+  <li>앞에서 <code class="language-plaintext highlighter-rouge">PR</code> =  팀원1(주인):수정용브랜치 -&gt;  팀원2:collaborator이며 리뷰만
+    <ul>
+      <li>PR(주인-수정용브랜치 / 팀원-리뷰만) 실습
+        <ul>
+          <li>로컬 : <code class="language-plaintext highlighter-rouge">git_seminar</code>
+</li>
+          <li>
+            <p>원격 : <code class="language-plaintext highlighter-rouge">CS100_Git</code> in is3js</p>
+
+            <ul>
+              <li>협동자: <code class="language-plaintext highlighter-rouge">is3js</code>
+</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>소샬코딩의 <code class="language-plaintext highlighter-rouge">PR</code></strong></p>
+
+    <ul>
+      <li>
+        <p>오픈소스 레포(is3js)  : <code class="language-plaintext highlighter-rouge">py</code></p>
+
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">주인</code> 혹은 <code class="language-plaintext highlighter-rouge">collaborator</code>임.</li>
+        </ul>
+      </li>
+      <li>
+        <p>기여하고 싶은사람(is2js, 나): <code class="language-plaintext highlighter-rouge">py(fork)</code></p>
+
+        <ul>
+          <li><strong>팀원이 아닌 이상 일단 <code class="language-plaintext highlighter-rouge">fork</code>한다</strong></li>
+          <li><strong>팀원이 아니더라도 <code class="language-plaintext highlighter-rouge">clone</code>후 로컬에서  <code class="language-plaintext highlighter-rouge">topic branch를 따서</code> 작업한다.</strong></li>
+          <li><strong>fork레포(내꺼)에 commit, push한다</strong></li>
+          <li><strong>팀원이 아니지만, <code class="language-plaintext highlighter-rouge">fork레포 - topic branch</code>의 변동사항을 <code class="language-plaintext highlighter-rouge">push로 PR</code>한다.</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210508012759342.png" alt="image-20210508012759342"></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="팀원아니더라도-fork-clone-topic따서-작업한-뒤----merge하지않고-commit-push">
+<a class="anchor" href="#%ED%8C%80%EC%9B%90%EC%95%84%EB%8B%88%EB%8D%94%EB%9D%BC%EB%8F%84-fork-clone-topic%EB%94%B0%EC%84%9C-%EC%9E%91%EC%97%85%ED%95%9C-%EB%92%A4----merge%ED%95%98%EC%A7%80%EC%95%8A%EA%B3%A0-commit-push" aria-hidden="true"><span class="octicon octicon-link"></span></a>팀원아니더라도 fork-clone-topic따서 작업한 뒤 -&gt;  (merge하지않고) commit, push</h4>
+
+<ol>
+  <li>
+    <p>나는 오픈소스의 collaborator가 아니므로 <strong>오픈소스(py)를 <code class="language-plaintext highlighter-rouge">fork</code>한다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210508012759342.png" alt="image-20210508012759342"></p>
+  </li>
+  <li>
+    <p><strong>작업을 하려면 일단 clone부터해서 local에 가지고 온다.</strong></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git clone https://github.com/is2js/py.git .❯ code <span class="nb">.</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p>git 설정을 한번 확인해준다.</p>
+
+        <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  ❯ git config <span class="nt">--list</span>
+</code></pre></div>        </div>
+
+        <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  remote.origin.url=https://github.com/is2js/py.gitremote.origin.fetch=+refs/heads/*:refs/remotes/origin/*branch.main.remote=originbranch.main.merge=refs/heads/main
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>fork를 해온 상태는 <code class="language-plaintext highlighter-rouge">main</code>브랜치이다. <strong>새로운 topic 브랜치 <code class="language-plaintext highlighter-rouge">work</code>를 따서 작업 -&gt; commit -&gt; <code class="language-plaintext highlighter-rouge">work를 push까지</code>해보자.</strong></p>
+
+    <ul>
+      <li>
+        <p>브랜치 클릭 -&gt; <code class="language-plaintext highlighter-rouge">+새 분기 만들기</code> &gt; work</p>
+      </li>
+      <li>
+        <p><strong>main에 merge하는게 아니라 <code class="language-plaintext highlighter-rouge">topic branch를 commit -&gt; push</code>해야 <code class="language-plaintext highlighter-rouge">팀원아닌데도 PR</code>을 날릴 준비를 할 수 있다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211023233805507.png" alt="image-20211023233805507"></p>
+
+        <ul>
+          <li>
+            <p>명령어로 할 거면</p>
+
+            <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git push origin <span class="o">[</span>topic branch명]
+</code></pre></div>            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>fork한 내 레포라도 <code class="language-plaintext highlighter-rouge">topic branch가 merge없이 push</code>되었으면 <code class="language-plaintext highlighter-rouge">PR</code>로 인식된다.</strong></p>
+
+    <ul>
+      <li>
+<strong>내 개인소스 수정: merge –no-ff -&gt; main commit -&gt; push</strong>
+        <ul>
+          <li><strong>PR : no merge -&gt; topic commit -&gt; topic push</strong></li>
+        </ul>
+      </li>
+      <li>원본레포인 <code class="language-plaintext highlighter-rouge">is3js/py</code>는 미동도 없고, fork한 내 레포 <code class="language-plaintext highlighter-rouge">is2js/py</code>에만 PR이 들어온다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211023234010489.png" alt="image-20211023234010489">
+</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="topic-push로-만든-fork레포-pr클릭시-원본레포baserepo-pr을-유도-전제-mainmaster는-변화없이-topicbr만-변화-cf-fork레포headrepo로-merge도-가능함">
+<a class="anchor" href="#topic-push%EB%A1%9C-%EB%A7%8C%EB%93%A0-fork%EB%A0%88%ED%8F%AC-pr%ED%81%B4%EB%A6%AD%EC%8B%9C-%EC%9B%90%EB%B3%B8%EB%A0%88%ED%8F%ACbaserepo-pr%EC%9D%84-%EC%9C%A0%EB%8F%84-%EC%A0%84%EC%A0%9C-mainmaster%EB%8A%94-%EB%B3%80%ED%99%94%EC%97%86%EC%9D%B4-topicbr%EB%A7%8C-%EB%B3%80%ED%99%94-cf-fork%EB%A0%88%ED%8F%ACheadrepo%EB%A1%9C-merge%EB%8F%84-%EA%B0%80%EB%8A%A5%ED%95%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>topic push로 만든 <code class="language-plaintext highlighter-rouge">Fork레포 PR</code>클릭시 <code class="language-plaintext highlighter-rouge">원본레포(baserepo) PR</code>을 유도: 전제-main(master)는 변화없이 topicbr만 변화! cf) Fork레포(headrepo)로 merge도 가능함.</h4>
+
+<ol>
+  <li>일단 기본적으로
+    <ul>
+      <li>fork한 내 레포(head repo) : <code class="language-plaintext highlighter-rouge">is2js/py</code>에서</li>
+      <li>
+<strong>원본 레포(base repo) : <code class="language-plaintext highlighter-rouge">is3js/py</code>로 PR를 보내는 것을 기본적으로 수행</strong>하려 한다.</li>
+      <li>
+<strong>fork레포에서 PR버튼 눌렀는데, 이미 <code class="language-plaintext highlighter-rouge">원본레포(is3js/py)</code>로 이동되어있다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211023235109243.png" alt="image-20211023235109243">
+</li>
+    </ul>
+  </li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211023234353008.png" alt="image-20211023234353008">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211023234404820.png" alt="image-20211023234404820"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211023234454291.png" alt="image-20211023234454291"></p>
+
+<ol>
+  <li>
+    <p>base repo를 수정하면, <code class="language-plaintext highlighter-rouge">fork-main</code> &lt;- <code class="language-plaintext highlighter-rouge">fork-topic</code> 도 가능한가보다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211023234907262.png" alt="image-20211023234907262"></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">Create pull request</code>해보자.</strong></p>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">원본레포</code>에다가 날리는 것이다.</li>
+      <li>원본레포에서 보면 PR이 불들어와있다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211023235009054.png" alt="image-20211023235009054">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211023235147828.png" alt="image-20211023235147828">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211023235159492.png" alt="image-20211023235159492"></p>
+  </li>
+  <li>
+    <p>fork레포는 PR에 아무 표시도 안된다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211023235234660.png" alt="image-20211023235234660"></p>
+  </li>
+</ol>
+
+<h4 id="원본레포-팀원은-팀원x-fork-topic-pr-날린-것을-commit을-직접-확인하여-request-chagnge하거나-approve해준다">
+<a class="anchor" href="#%EC%9B%90%EB%B3%B8%EB%A0%88%ED%8F%AC-%ED%8C%80%EC%9B%90%EC%9D%80-%ED%8C%80%EC%9B%90x-fork-topic-pr-%EB%82%A0%EB%A6%B0-%EA%B2%83%EC%9D%84-commit%EC%9D%84-%EC%A7%81%EC%A0%91-%ED%99%95%EC%9D%B8%ED%95%98%EC%97%AC-request-chagnge%ED%95%98%EA%B1%B0%EB%82%98-approve%ED%95%B4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>원본레포 팀원은, 팀원X-Fork-topic-PR 날린 것을 commit을 직접 확인하여 request chagnge하거나 approve해준다.</h4>
+
+<ol>
+  <li>
+    <p>PR 확인후 해당 topic branch의 커밋까지 찾아들어간다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211023235855846.png" alt="image-20211023235855846"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211023235914172.png" alt="image-20211023235914172">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211023235924060.png" alt="image-20211023235924060"></p>
+  </li>
+  <li>
+    <p>코멘트를 날릴 땐, +드래그해서 많이 날릴 수 있음.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211023235951701.png" alt="image-20211023235951701"></p>
+  </li>
+  <li>
+    <p>최종적으로는 우측 상단의 <code class="language-plaintext highlighter-rouge">review changes</code> &gt; <code class="language-plaintext highlighter-rouge">approve</code>까지 해야하지 merge된다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211024000105293.png" alt="image-20211024000105293">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211024000118580.png" alt="image-20211024000118580">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211024000131309.png" alt="image-20211024000131309"></p>
+  </li>
+  <li>
+    <p>최종승인하면 <strong>원본의 기본branch인 <code class="language-plaintext highlighter-rouge">main</code>으로 알아서 merge된다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211024000210548.png" alt="image-20211024000210548"></p>
+  </li>
+</ol>
+
+<h4 id="팀원이-아니더라도-prmerge후-delete-branch가-원칙-로컬에서-로컬fork-2개다-해줌">
+<a class="anchor" href="#%ED%8C%80%EC%9B%90%EC%9D%B4-%EC%95%84%EB%8B%88%EB%8D%94%EB%9D%BC%EB%8F%84-prmerge%ED%9B%84-delete-branch%EA%B0%80-%EC%9B%90%EC%B9%99-%EB%A1%9C%EC%BB%AC%EC%97%90%EC%84%9C-%EB%A1%9C%EC%BB%ACfork-2%EA%B0%9C%EB%8B%A4-%ED%95%B4%EC%A4%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>팀원이 아니더라도 PR(merge)후 delete branch가 원칙: 로컬에서 로컬+fork 2개다 해줌.</h4>
+
+<ul>
+  <li>
+    <p>로컬에서 내 <code class="language-plaintext highlighter-rouge">fork레포</code> 및  내 <code class="language-plaintext highlighter-rouge">로컬레포</code>의 topic branch를 삭제해준다.</p>
+
+    <ul>
+      <li>main으로 바꾸고, 삭제</li>
+    </ul>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  ❯ git branch <span class="nt">-a</span>❯ git checkout main❯ git branch <span class="nt">-d</span> work
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="로컬topic-삭제---remotefork레포도-자동삭제-반영시키기--git-remote-update-prune">
+<a class="anchor" href="#%EB%A1%9C%EC%BB%ACtopic-%EC%82%AD%EC%A0%9C---remotefork%EB%A0%88%ED%8F%AC%EB%8F%84-%EC%9E%90%EB%8F%99%EC%82%AD%EC%A0%9C-%EB%B0%98%EC%98%81%EC%8B%9C%ED%82%A4%EA%B8%B0--git-remote-update-prune" aria-hidden="true"><span class="octicon octicon-link"></span></a>로컬topic 삭제 -&gt; remote(fork레포)도 자동삭제 반영시키기:  git remote update –prune</h4>
+
+<ol>
+  <li>
+    <p><strong>로컬에 topic branch가 삭제된 상태에서</strong> git remote <code class="language-plaintext highlighter-rouge">update --prune</code>을 사용하여 <strong>로컬에 맞춰서 branch삭제 시킨다.</strong></p>
+  </li>
+  <li>
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git remote update <span class="nt">--prune</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>안되서 나는 <code class="language-plaintext highlighter-rouge">git push origin :remote_br</code></strong></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> git push origin :work
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="참고-origin과-upstream">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0-origin%EA%B3%BC-upstream" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고) origin과 upstream</h4>
+
+<ul>
+  <li>레퍼런스: https://pers0n4.io/github-remote-repository-and-upstream/</li>
+</ul>
+
+<h5 id="upstream--downstream">
+<a class="anchor" href="#upstream--downstream" aria-hidden="true"><span class="octicon octicon-link"></span></a>Upstream &amp; Downstream</h5>
+
+<p>GitHub에서 repo를 생성하고 나면 다들 <strong>origin</strong>이라는 용어를 보셨을 겁니다. <code class="language-plaintext highlighter-rouge">clone</code>했을 때는 origin이 자동으로 등록돼있고, <code class="language-plaintext highlighter-rouge">init</code>했을 때는 <code class="language-plaintext highlighter-rouge">git remote add origin ...</code>으로 origin을 직접 등록하라고 안내하죠. 여기서 말하는 origin이 깃허브에 존재하는 repository 즉, remote를 뜻하는 단어입니다. 다만 remote에 origin이라는 이름을 붙인 것뿐이랍니다.</p>
+
+<p>upstream과 downstream은 <em>상대적인 개념</em>이라 origin과 local을 기준으로 생각하면 origin이 upstream, local이 downstream이 됩니다. 그 이유는 push와 pull을 기준으로 생각했을 때 origin으로부터 local로 흐르는 관계가 형성되기 때문입니다.</p>
+
+<ul>
+  <li>local에서 origin으로 push한다</li>
+  <li>origin에서 local로 pull한다</li>
+</ul>
+
+<p>만약 CLI로 push를 해보셨다면 <code class="language-plaintext highlighter-rouge">git push -u origin main</code><a href="https://pers0n4.io/github-remote-repository-and-upstream/#fn-3">3</a>이라는 명령어를 입력했을 텐데, 여기서 <code class="language-plaintext highlighter-rouge">-u</code> 옵션이 <code class="language-plaintext highlighter-rouge">--set-upstream</code> 옵션의 줄임으로 upstream을 설정한다는 뜻입니다. upstream을 한 번 설정하고 나면 다음부터는 <code class="language-plaintext highlighter-rouge">git push</code> 또는 <code class="language-plaintext highlighter-rouge">git pull</code>이라고 명령어만 입력해도 자동으로 origin의 main 브랜치로부터 push와 pull을 진행하는 이유가 upstream 옵션을 통해 해당 브랜치에서 upstream과 downstream 관계가 설정됐기 때문이죠.</p>
+
+<h5 id="fork">
+<a class="anchor" href="#fork" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fork</h5>
+
+<p>GitHub에서 오픈소스 프로젝트에 기여한다거나, 협업을 진행할 때 fork를 이용하게 됩니다. fork는 다른 사람의 repository를 내 소유의 repository로 복사하는 일이죠. 따라서 원래 소유자의 remote repository와 내가 fork한 remote repository 사이에도 upstream과 downstream이라는 관계가 형성된답니다. 그래서 보통 <strong><em>원래 소유자의 remote</em>를 말할 때 <code class="language-plaintext highlighter-rouge">upstream</code>, <em>내가 포크한 remote</em>를 말할 때 <code class="language-plaintext highlighter-rouge">origin</code>이라는 용어를 사용</strong>하곤 합니다.</p>
+
+<h4 id="노팀원이지만-원본repo오픈소스---fork레포-및-local레포를-최신형으로-유지-by-local에서-upstream으로-등록하여-upstream원본레포---originfork레포-upstream---local-통로뚫고-가져오기-git-remote-add-upstream-url---git-fetch-upstream--fork레포-merge버튼---localgit-merge-upstreammain">
+<a class="anchor" href="#%EB%85%B8%ED%8C%80%EC%9B%90%EC%9D%B4%EC%A7%80%EB%A7%8C-%EC%9B%90%EB%B3%B8repo%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4---fork%EB%A0%88%ED%8F%AC-%EB%B0%8F-local%EB%A0%88%ED%8F%AC%EB%A5%BC-%EC%B5%9C%EC%8B%A0%ED%98%95%EC%9C%BC%EB%A1%9C-%EC%9C%A0%EC%A7%80-by-local%EC%97%90%EC%84%9C-upstream%EC%9C%BC%EB%A1%9C-%EB%93%B1%EB%A1%9D%ED%95%98%EC%97%AC-upstream%EC%9B%90%EB%B3%B8%EB%A0%88%ED%8F%AC---originfork%EB%A0%88%ED%8F%AC-upstream---local-%ED%86%B5%EB%A1%9C%EB%9A%AB%EA%B3%A0-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0-git-remote-add-upstream-url---git-fetch-upstream--fork%EB%A0%88%ED%8F%AC-merge%EB%B2%84%ED%8A%BC---localgit-merge-upstreammain" aria-hidden="true"><span class="octicon octicon-link"></span></a>노팀원이지만 [원본repo(오픈소스)] -&gt; fork레포 및 local레포를 최신형으로 유지 by local에서 upstream으로 등록하여 upstream(원본레포) -&gt; origin(fork레포), upstream -&gt; local 통로뚫고 가져오기: git remote add upstream [url] -&gt; git fetch upstream -&gt;[fork레포 ]merge버튼 +  [local]git merge upstream/main</h4>
+
+<ul>
+  <li>
+    <p>상황</p>
+
+    <ul>
+      <li>
+        <p>갑자기 <strong>오픈소스 author가 원본repo -&gt; main을 변경</strong>했다면?</p>
+
+        <ul>
+          <li><strong>나한테(fork레포, local레포)의 main도 수정된 내용이 들어와야한다.</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210509141145812.png" alt="image-20210509141145812"></p>
+      </li>
+      <li>
+        <p>기존 local repo에서 -&gt; fork repo를 <code class="language-plaintext highlighter-rouge">origin </code>이라 별칭했음</p>
+
+        <ul>
+          <li><strong>local repo에서 -&gt; 원본repo를  <code class="language-plaintext highlighter-rouge">upstream</code>으로  별칭 등록 및 <code class="language-plaintext highlighter-rouge">원본repo - fork repo</code>를 연결</strong></li>
+        </ul>
+      </li>
+      <li>
+        <p>git fetch: <code class="language-plaintext highlighter-rouge">origin to local</code></p>
+
+        <ul>
+          <li><strong>git fetch upstream: <code class="language-plaintext highlighter-rouge">원본repo(upstream) to fork repo(origin)</code>으로 업데이트 내용 받아오기</strong></li>
+          <li><strong><code class="language-plaintext highlighter-rouge">git merge upstream/main</code>으로 <code class="language-plaintext highlighter-rouge">원본repo(upstream) to local repo(local)</code>로 업데이트 내용 받아오기</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>my)  원본repo를 노팀원이 <code class="language-plaintext highlighter-rouge">upstream</code>으로 local에서 등록하면</p>
+
+    <ul>
+      <li>upstream -&gt; fork</li>
+      <li>upstream -&gt; local
+        <ul>
+          <li>업데이트가 가능하다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>관련 명령어</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210509155956836.png" alt="image-20210509155956836"></p>
+  </li>
+  <li>
+    <p>참고) upstream 삭제</p>
+
+    <ul>
+      <li>
+        <p><a href="https://www.delftstack.com/ko/howto/git/how-to-remove-a-git-remote-url/">참고 블로그</a></p>
+
+        <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git remote <span class="nt">-v</span>
+        
+  git remote <span class="nb">rm </span>upstream
+        
+  git remote <span class="nt">-v</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p>local에서 <code class="language-plaintext highlighter-rouge">원본repo</code>를 <code class="language-plaintext highlighter-rouge">upstream</code>으로 등록한다.</p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git remote add upstream https://github.com/is3js/py.git
+</code></pre></div>    </div>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025020736754.png" alt="image-20211025020736754"></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">git fetch upstream</code>명령어로 <strong><code class="language-plaintext highlighter-rouge">upstream</code>의 최신정보를  <code class="language-plaintext highlighter-rouge">origin</code>이 받을 수 있도록 업데이트해온다.(아직 받진 X)</strong></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git fetch upstream
+    
+ remote: Enumerating objects: 8, <span class="k">done</span><span class="nb">.</span>
+ remote: Counting objects: 100% <span class="o">(</span>8/8<span class="o">)</span>, <span class="k">done</span><span class="nb">.</span>
+ remote: Compressing objects: 100% <span class="o">(</span>3/3<span class="o">)</span>, <span class="k">done</span><span class="nb">.</span>
+ remote: Total 5 <span class="o">(</span>delta 2<span class="o">)</span>, reused 4 <span class="o">(</span>delta 2<span class="o">)</span>, pack-reused 0
+ Unpacking objects: 100% <span class="o">(</span>5/5<span class="o">)</span>, <span class="k">done</span><span class="nb">.</span>
+ From https://github.com/is3js/py
+  <span class="k">*</span> <span class="o">[</span>new branch]      main       -&gt; upstream/main
+</code></pre></div>    </div>
+
+    <ul>
+      <li>origin(fork repo)에 가보면, Fetch해왔다고 뜬다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025020950100.png" alt="image-20211025020950100">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>fork repo에 들어가 <code class="language-plaintext highlighter-rouge">git fetch upstream</code>정보를 이용해 <code class="language-plaintext highlighter-rouge">최종 merge</code>시킨다.</strong> by <code class="language-plaintext highlighter-rouge">Fetch upsteam&gt; Fetch and merge 버튼</code>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211025021044045.png" alt="image-20211025021044045"></p>
+  </li>
+  <li>
+    <p><strong>local에서는 <code class="language-plaintext highlighter-rouge">git merge upstream/main</code>명령어를 이용해 upstream정보를 가져온다.</strong></p>
+
+    <ul>
+      <li>왠지 <code class="language-plaintext highlighter-rouge">origin을 pull</code>해서 업데이트 해도될것같긴한데… 따로 <code class="language-plaintext highlighter-rouge">upstream -&gt; local</code>로 받는다?</li>
+    </ul>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git merge upstream/main
+    
+ Updating 476f70b..f7dd8e8
+ Fast-forward
+  .gitignore | 11 ++++++++++-
+  rb.py      |  3 +++
+  2 files changed, 13 insertions<span class="o">(</span>+<span class="o">)</span>, 1 deletion<span class="o">(</span>-<span class="o">)</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p>참고) 만약 merge가 conflict나면</p>
+
+        <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git merge upstream/master  <span class="nt">--allow-unrelated-histories</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>앞으로 계속</strong></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git fetch upstream
+    
+ <span class="c"># fork repo가서 merge 버튼</span>
+    
+ <span class="c"># local에서 merge</span>
+ ❯ git merge upstream/main
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="팀작업1-내부팀원-not-오픈소스-초대-및-작업하기">
+<a class="anchor" href="#%ED%8C%80%EC%9E%91%EC%97%851-%EB%82%B4%EB%B6%80%ED%8C%80%EC%9B%90-not-%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4-%EC%B4%88%EB%8C%80-%EB%B0%8F-%EC%9E%91%EC%97%85%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>팀작업1: 내부팀원 (not 오픈소스) 초대 및 작업하기</h3>
+
+<ul>
+  <li>내부 소스( not 오픈소스)라고 가정한다.</li>
+  <li>관련 명령어
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210509163537503.png" alt="image-20210509163537503">
+</li>
+</ul>
+
+<h4 id="팀리더is3js가-팀원is2js초대--github-settings-manage-acess-add-peopleinvite-collaborator">
+<a class="anchor" href="#%ED%8C%80%EB%A6%AC%EB%8D%94is3js%EA%B0%80-%ED%8C%80%EC%9B%90is2js%EC%B4%88%EB%8C%80--github-settings-manage-acess-add-peopleinvite-collaborator" aria-hidden="true"><span class="octicon octicon-link"></span></a>팀리더(is3js)가 팀원(is2js)초대 : github-settings-manage acess-add people(invite collaborator)</h4>
+
+<ul>
+  <li>초대받은 사람은 <strong><code class="language-plaintext highlighter-rouge">등록 email</code>로만 초대를 받음.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211026004222340.png" alt="image-20211026004222340">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211026004236027.png" alt="image-20211026004236027">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211026004246483.png" alt="image-20211026004246483">
+    <ul>
+      <li>push권한이 있다고 한다. = 글쓰기 기능이 있다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="팀원은-초대되었다면fork--clone---topic---pr할-필요가-없이-clone-pushor-topic--review팀원pr만-한다--팀원이라면-바로-local-팀repo에-바로-push가-가능">
+<a class="anchor" href="#%ED%8C%80%EC%9B%90%EC%9D%80-%EC%B4%88%EB%8C%80%EB%90%98%EC%97%88%EB%8B%A4%EB%A9%B4fork--clone---topic---pr%ED%95%A0-%ED%95%84%EC%9A%94%EA%B0%80-%EC%97%86%EC%9D%B4-clone-pushor-topic--review%ED%8C%80%EC%9B%90pr%EB%A7%8C-%ED%95%9C%EB%8B%A4--%ED%8C%80%EC%9B%90%EC%9D%B4%EB%9D%BC%EB%A9%B4-%EB%B0%94%EB%A1%9C-local-%ED%8C%80repo%EC%97%90-%EB%B0%94%EB%A1%9C-push%EA%B0%80-%EA%B0%80%EB%8A%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>팀원은 초대되었다면,<code class="language-plaintext highlighter-rouge">fork</code>(-&gt; clone -&gt; topic -&gt; PR)할 필요가 없이 <code class="language-plaintext highlighter-rouge">clone</code>(-&gt;push)or(-&gt;topic-&gt; review=팀원PR)</strong>만 한다.  팀원이라면 바로 local-&gt;팀repo에 바로 push가 가능</h4>
+
+<ol>
+  <li>
+    <p><strong>팀원은 초대되었다면,<code class="language-plaintext highlighter-rouge">fork</code>(-&gt; clone -&gt; topic -&gt; PR)할 필요가 없이 <code class="language-plaintext highlighter-rouge">clone</code>(-&gt;topic-&gt;push or review=팀원PR)</strong></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ <span class="nb">mkdir </span>team_py❯ <span class="nb">cd </span>team_py❯ git clone https://github.com/is3js/py.git <span class="nb">.</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>해당 폴더로 이동후 수정하고 commit -&gt; push까지해보자.</p>
+
+    <ul>
+      <li>원래는 topic -&gt;</li>
+    </ul>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> code .# main에서 바로 <span class="c"># 파일수정# add commit -&gt;push</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>팀원이라면, 팀repo에 바로 push</strong>가 된다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211026010233836.png" alt="image-20211026010233836"></p>
+  </li>
+</ol>
+
+<h3 id="팀작업2-내부팀원의-clone-local에서-topic-push로-pr권유---topic-push한-사람만-pr요청-가능---타-팀원review받기-review안받을거면-main-push했음">
+<a class="anchor" href="#%ED%8C%80%EC%9E%91%EC%97%852-%EB%82%B4%EB%B6%80%ED%8C%80%EC%9B%90%EC%9D%98-clone-local%EC%97%90%EC%84%9C-topic-push%EB%A1%9C-pr%EA%B6%8C%EC%9C%A0---topic-push%ED%95%9C-%EC%82%AC%EB%9E%8C%EB%A7%8C-pr%EC%9A%94%EC%B2%AD-%EA%B0%80%EB%8A%A5---%ED%83%80-%ED%8C%80%EC%9B%90review%EB%B0%9B%EA%B8%B0-review%EC%95%88%EB%B0%9B%EC%9D%84%EA%B1%B0%EB%A9%B4-main-push%ED%96%88%EC%9D%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>팀작업2: 내부팀원의 clone (local)에서 topic push로 PR권유 -&gt; topic push한 사람만 PR요청 가능 -&gt; 타 팀원review받기 (review안받을거면 main push했음)</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211026234606004.png" alt="image-20211026234606004"></p>
+
+<h4 id="topic-push한-작업팀원만-자신에게-pr권유를-확인-및--요청할-수-있다">
+<a class="anchor" href="#topic-push%ED%95%9C-%EC%9E%91%EC%97%85%ED%8C%80%EC%9B%90%EB%A7%8C-%EC%9E%90%EC%8B%A0%EC%97%90%EA%B2%8C-pr%EA%B6%8C%EC%9C%A0%EB%A5%BC-%ED%99%95%EC%9D%B8-%EB%B0%8F--%EC%9A%94%EC%B2%AD%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>topic push한 작업팀원만, 자신에게 PR권유를 확인 및  요청할 수 있다.</h4>
+
+<ol>
+  <li>
+    <p>팀원은 fork필요없이 local clone후 <code class="language-plaintext highlighter-rouge">main push</code>해도 되지만,
+ <strong><code class="language-plaintext highlighter-rouge">review</code>를 받기 위해 <code class="language-plaintext highlighter-rouge">topic push로 PR</code>한다</strong></p>
+
+    <ol>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">user-login</code> topic branch 생성</p>
+
+        <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> git checkout <span class="nt">-b</span> user-login
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">login.py</code> 생성 후 작업</p>
+      </li>
+      <li>
+        <p>add, commit, (<code class="language-plaintext highlighter-rouge">topic branch</code>) push</p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>**팀원repo에 들어가도 **</p>
+
+    <ul>
+      <li>
+        <p>topic branch를 보낸 사람이 아니면.. PR권유가 안뜬다.</p>
+
+        <ul>
+          <li>
+            <p><code class="language-plaintext highlighter-rouge">is3js</code>(타팀원)</p>
+
+            <ul>
+              <li>PR권유는 topic br push한 사람 자신에게만 보인다.</li>
+            </ul>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027002603701.png" alt="image-20211027002603701"></p>
+
+            <ul>
+              <li>branch로는 보여도, PR은 타팀원이 결정안함.</li>
+            </ul>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027002655932.png" alt="image-20211027002655932"></p>
+          </li>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">is2js</code>( topic br push한 작업 팀원)</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027002624628.png" alt="image-20211027002624628"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>topic br push를 pull request한다.</p>
+
+    <ul>
+      <li>
+<strong>메세지에 코드리뷰 부탁한다고 남기자.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027002904699.png" alt="image-20211027002904699">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027002918331.png" alt="image-20211027002918331">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027002932412.png" alt="image-20211027002932412">
+</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="타팀원은-pr-불--commit-메세지--commit-클릭---코드-리뷰">
+<a class="anchor" href="#%ED%83%80%ED%8C%80%EC%9B%90%EC%9D%80-pr-%EB%B6%88--commit-%EB%A9%94%EC%84%B8%EC%A7%80--commit-%ED%81%B4%EB%A6%AD---%EC%BD%94%EB%93%9C-%EB%A6%AC%EB%B7%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>타팀원은 PR 불-&gt; commit 메세지-&gt; commit 클릭 -&gt; 코드 리뷰</h4>
+
+<ol>
+  <li>
+    <p><strong>author가 아니더라도 모든 팀원들이 확인할 수 있게  ** **PR에 불</strong>이 들어와있다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027003101299.png" alt="image-20211027003101299"></p>
+  </li>
+  <li>
+    <p>Merge를 누르기 전에 <strong><code class="language-plaintext highlighter-rouge">메세지에 달려있는 커밋</code>까지 직접들어가서 코드를 살펴보자.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027003956509.png" alt="image-20211027003956509">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027004022572.png" alt="image-20211027004022572">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027004110973.png" alt="image-20211027004110973"></p>
+  </li>
+  <li>
+    <p>code line에서 <strong><code class="language-plaintext highlighter-rouge">+</code>를 드래그</strong>해서 코드 리뷰를 해준다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027004202411.png" alt="image-20211027004202411"></p>
+  </li>
+  <li>
+<strong>거절을 의미하는 코드 리뷰</strong>를 해주자.
+    <ul>
+      <li>코드리뷰한 것 바로 밑에 Reply도 달 수 있으니 확인하면된다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027004300336.png" alt="image-20211027004300336">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027004341588.png" alt="image-20211027004341588">
+</li>
+      <li>
+<strong>코드 리뷰를 데면 우측에 <code class="language-plaintext highlighter-rouge">Finish your review(1)</code>가 뜬다. 클릭해서 리뷰를 끝내자.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027004432150.png" alt="image-20211027004432150">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027004510724.png" alt="image-20211027004510724">
+</li>
+    </ul>
+  </li>
+  <li>
+<strong>코드 리뷰를 달면, <code class="language-plaintext highlighter-rouge">자동으로 작업 팀원에게 email도 보내</code>준다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027004939323.png" alt="image-20211027004939323">
+</li>
+</ol>
+
+<h4 id="topic-push--pr했던-작업-팀원은-확인해서-1-reply--2-local에서-추가작업---3-topic-br-push---4-자동-pr-timeline에-추가">
+<a class="anchor" href="#topic-push--pr%ED%96%88%EB%8D%98-%EC%9E%91%EC%97%85-%ED%8C%80%EC%9B%90%EC%9D%80-%ED%99%95%EC%9D%B8%ED%95%B4%EC%84%9C-1-reply--2-local%EC%97%90%EC%84%9C-%EC%B6%94%EA%B0%80%EC%9E%91%EC%97%85---3-topic-br-push---4-%EC%9E%90%EB%8F%99-pr-timeline%EC%97%90-%EC%B6%94%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>(topic push -&gt;PR했던) 작업 팀원은 확인해서 1) Reply + 2) local에서 추가작업 -&gt; 3) topic br PUSH -&gt; 4) 자동 PR timeline에 추가</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027004757149.png" alt="image-20211027004757149"></p>
+
+<ol>
+  <li>
+    <p>거절성 코드리뷰에 대해 대답을 해주고
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027005457918.png" alt="image-20211027005457918">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027005506828.png" alt="image-20211027005506828"></p>
+  </li>
+  <li>
+    <p><strong>PR 날렸던 <code class="language-plaintext highlighter-rouge">topic br</code>로 다시 돌아와서</strong></p>
+
+    <ul>
+      <li>
+        <p>추가 작업을 함.</p>
+
+        <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  ❯ git checkout user-login
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>다시 한번 <code class="language-plaintext highlighter-rouge">topic br push</code>하면, 추가 PR을 안날려도 자동으로 <code class="language-plaintext highlighter-rouge">PR 타임라인에 추가</code>된다.</strong> 
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027005754566.png" alt="image-20211027005754566">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027005828221.png" alt="image-20211027005828221"></p>
+  </li>
+</ol>
+
+<h4 id="타팀원의-2번째-review부터는-작업팀원의-추가push가-자동으로-pr-timelien에-추가된다">
+<a class="anchor" href="#%ED%83%80%ED%8C%80%EC%9B%90%EC%9D%98-2%EB%B2%88%EC%A7%B8-review%EB%B6%80%ED%84%B0%EB%8A%94-%EC%9E%91%EC%97%85%ED%8C%80%EC%9B%90%EC%9D%98-%EC%B6%94%EA%B0%80push%EA%B0%80-%EC%9E%90%EB%8F%99%EC%9C%BC%EB%A1%9C-pr-timelien%EC%97%90-%EC%B6%94%EA%B0%80%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>타팀원의 2번째 review부터는 [작업팀원의 추가push]가 자동으로 PR timelien에 추가된다.</h4>
+
+<ol>
+  <li>
+    <p><strong>타팀원 화면에서는</strong> 작업팀원의  <strong>추가작업한 커밋 위에 <code class="language-plaintext highlighter-rouge">View changes</code>가 떠있다.</strong></p>
+
+    <ul>
+      <li>
+        <p>작업팀원이 커밋할 때</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027010050456.png" alt="image-20211027010050456"></p>
+      </li>
+      <li>
+        <p><strong>타팀원(리뷰팀원)화면</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027010004726.png" alt="image-20211027010004726"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="승인은-lgtmlooks-good-to-me">
+<a class="anchor" href="#%EC%8A%B9%EC%9D%B8%EC%9D%80-lgtmlooks-good-to-me" aria-hidden="true"><span class="octicon octicon-link"></span></a>승인은 LGTM(looks good to me)</h4>
+
+<ol>
+  <li>코드 리뷰를 다시 한번 남기고
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027010331847.png" alt="image-20211027010331847">
+</li>
+  <li>
+<strong>finish your review에서 <code class="language-plaintext highlighter-rouge">approve</code>를 선택해주면 끝난다. 이 때 멘트는 <code class="language-plaintext highlighter-rouge">LGMT</code>를 많이 쓴다.</strong> 
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027010356300.png" alt="image-20211027010356300">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027010413531.png" alt="image-20211027010413531">
+</li>
+</ol>
+
+<h4 id="approval이-떴다면-작업팀원이-merge-pr해도-된다-아무나-팀원이면-다된다-merge후에는-delete-topic-branch---local-code-최신화git-pull---local의-topic-branch는-직접-삭제">
+<a class="anchor" href="#approval%EC%9D%B4-%EB%96%B4%EB%8B%A4%EB%A9%B4-%EC%9E%91%EC%97%85%ED%8C%80%EC%9B%90%EC%9D%B4-merge-pr%ED%95%B4%EB%8F%84-%EB%90%9C%EB%8B%A4-%EC%95%84%EB%AC%B4%EB%82%98-%ED%8C%80%EC%9B%90%EC%9D%B4%EB%A9%B4-%EB%8B%A4%EB%90%9C%EB%8B%A4-merge%ED%9B%84%EC%97%90%EB%8A%94-delete-topic-branch---local-code-%EC%B5%9C%EC%8B%A0%ED%99%94git-pull---local%EC%9D%98-topic-branch%EB%8A%94-%EC%A7%81%EC%A0%91-%EC%82%AD%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>approval이 떴다면, 작업팀원이 merge PR해도 된다. 아무나 팀원이면 다된다. merge후에는 delete (topic) branch -&gt; local code 최신화(git pull) -&gt; local의 topic branch는 직접 삭제()</h4>
+
+<ol>
+  <li>approve 확인되면
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027010542205.png" alt="image-20211027010542205">
+</li>
+  <li>
+    <p><strong>작업한 팀원이라도 merge시킬 수 있다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027010605724.png" alt="image-20211027010605724">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027010634660.png" alt="image-20211027010634660">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027010647468.png" alt="image-20211027010647468"></p>
+  </li>
+  <li>
+    <p>작업이 끝난 topic branch를 삭제하라고 뜬다. 삭제한다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027010713796.png" alt="image-20211027010713796">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211027010723420.png" alt="image-20211027010723420"></p>
+  </li>
+  <li>
+    <p><strong>로컬의 main 코드를 최신화하기 위해 <code class="language-plaintext highlighter-rouge">main branch</code>로 와서 <code class="language-plaintext highlighter-rouge">git pull</code>로 코드 최신화한다.</strong></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git checkout main
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>로컬의 topic branch도 직접 삭제한다.</strong></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git branch <span class="nt">-d</span> user-login
+ Deleted branch user-login <span class="o">(</span>was b7bde3a<span class="o">)</span><span class="nb">.</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>cf) 혹시 delete branch 안해서 서버에 남아있다면?</p>
+
+<ol>
+  <li>
+    <p>local branch 수동 삭제</p>
+  </li>
+  <li>
+    <p>remote 동기화로 삭제</p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> git remote update <span class="nt">--prune</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="팀작업3-issue개선기록-와-pr팀원1주인-수정용브랜치push-pr--팀원2-리뷰만-실습">
+<a class="anchor" href="#%ED%8C%80%EC%9E%91%EC%97%853-issue%EA%B0%9C%EC%84%A0%EA%B8%B0%EB%A1%9D-%EC%99%80-pr%ED%8C%80%EC%9B%901%EC%A3%BC%EC%9D%B8-%EC%88%98%EC%A0%95%EC%9A%A9%EB%B8%8C%EB%9E%9C%EC%B9%98push-pr--%ED%8C%80%EC%9B%902-%EB%A6%AC%EB%B7%B0%EB%A7%8C-%EC%8B%A4%EC%8A%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>팀작업3: issue(개선기록) 와 PR(팀원1(주인)-수정용브랜치push PR / 팀원2-리뷰만) 실습</h3>
+
+<ul>
+  <li>
+    <p>로컬 : <code class="language-plaintext highlighter-rouge">git_seminar</code></p>
+  </li>
+  <li>
+    <p>원격 : <code class="language-plaintext highlighter-rouge">CS100_Git</code> in is2js</p>
+
+    <ul>
+      <li>협동자: <code class="language-plaintext highlighter-rouge">is3js</code>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="로컬-readme생성후---원격-빈레포에-push로-시작--1번째-가이드-or-create-a-new-repository-on-the-command-lineinit-readme-push">
+<a class="anchor" href="#%EB%A1%9C%EC%BB%AC-readme%EC%83%9D%EC%84%B1%ED%9B%84---%EC%9B%90%EA%B2%A9-%EB%B9%88%EB%A0%88%ED%8F%AC%EC%97%90-push%EB%A1%9C-%EC%8B%9C%EC%9E%91--1%EB%B2%88%EC%A7%B8-%EA%B0%80%EC%9D%B4%EB%93%9C-or-create-a-new-repository-on-the-command-lineinit-readme-push" aria-hidden="true"><span class="octicon octicon-link"></span></a>로컬 readme생성후 -&gt; 원격 빈레포에 push로 시작.  1번째 가이드: …or create a new repository on the command line(init, readme push)</h4>
+
+<ol>
+  <li>
+    <p>로컬에서, 빈 레포 생성시 주어지는 가이드1 번째인 <strong><code class="language-plaintext highlighter-rouge">…or create a new repository on the command line</code>를 따라치기</strong></p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> echo "# CS100_Git" &gt;&gt; README.md
+ git init
+ git add README.md
+ git commit -m "first commit"
+ git branch -M main
+ git remote add origin https://github.com/is2js/CS100_Git.git
+ git push -u origin main
+</code></pre></div>    </div>
+
+    <ul>
+      <li>아직 <code class="language-plaintext highlighter-rouge">git init</code>안한 상태에서
+        <ul>
+          <li>readme.md를 먼저 만들고,, 시작하네</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="원격레포에-issue생성--issue는-todo-list-역할이나-논의사항-정리용">
+<a class="anchor" href="#%EC%9B%90%EA%B2%A9%EB%A0%88%ED%8F%AC%EC%97%90-issue%EC%83%9D%EC%84%B1--issue%EB%8A%94-todo-list-%EC%97%AD%ED%95%A0%EC%9D%B4%EB%82%98-%EB%85%BC%EC%9D%98%EC%82%AC%ED%95%AD-%EC%A0%95%EB%A6%AC%EC%9A%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>원격레포에 issue생성:  issue는 TODO list 역할이나 논의사항 정리용</h4>
+
+<ol>
+  <li>
+    <p>원격레포의 <code class="language-plaintext highlighter-rouge">issue 탭</code> &gt; <code class="language-plaintext highlighter-rouge">new issue</code> 클릭</p>
+
+    <ul>
+      <li>readme.md 파일을 좀 더 구체적으로 작성해주라고 issue 생성하기
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012000908676.png" alt="image-20211012000908676">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>issue 오른쪽 사이드바에 보이는 <code class="language-plaintext highlighter-rouge">Assignees</code>를 클릭하여, issue해결자 10명 중 1명으로 나를 등록한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012001024427.png" alt="image-20211012001024427">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012001037842.png" alt="image-20211012001037842"></p>
+  </li>
+</ol>
+
+<h4 id="issue-해결-전에-collaborator-추가-상대방은-메일로만-초대받음">
+<a class="anchor" href="#issue-%ED%95%B4%EA%B2%B0-%EC%A0%84%EC%97%90-collaborator-%EC%B6%94%EA%B0%80-%EC%83%81%EB%8C%80%EB%B0%A9%EC%9D%80-%EB%A9%94%EC%9D%BC%EB%A1%9C%EB%A7%8C-%EC%B4%88%EB%8C%80%EB%B0%9B%EC%9D%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>issue 해결 전에, collaborator 추가 (상대방은 메일로만 초대받음)</h4>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">settings</code> &gt; <code class="language-plaintext highlighter-rouge">manage access</code> &gt; <code class="language-plaintext highlighter-rouge">add people</code></p>
+
+    <ul>
+      <li>
+        <p>is2js(tingstyle1@gmail.com, 현재) -&gt; (시크릿창) <code class="language-plaintext highlighter-rouge">is3js</code> 계정 추가</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012012441561.png" alt="image-20211012012441561"></p>
+
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">is3js(is2js@naver.com)</code>계정은 깃허브알림 없이 <strong>메일로만 초대장이 옴</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012012649976.png" alt="image-20211012012649976">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012012953280.png" alt="image-20211012012953280">
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="로컬에서--생성-후-파일-수정하기-git-checkout--b-생성후전환될-브랜치">
+<a class="anchor" href="#%EB%A1%9C%EC%BB%AC%EC%97%90%EC%84%9C--%EC%83%9D%EC%84%B1-%ED%9B%84-%ED%8C%8C%EC%9D%BC-%EC%88%98%EC%A0%95%ED%95%98%EA%B8%B0-git-checkout--b-%EC%83%9D%EC%84%B1%ED%9B%84%EC%A0%84%ED%99%98%EB%90%A0-%EB%B8%8C%EB%9E%9C%EC%B9%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>로컬에서  생성 후 파일 수정하기: git checkout -b [생성후전환될 브랜치]수정용&gt;</h4>
+
+<ol>
+  <li>
+    <p>로컬(is2js)에서 <strong><code class="language-plaintext highlighter-rouge">feature/readMe</code> 라는 파일 수정용 브랜치를 생성</strong>하자</p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git checkout <span class="nt">-b</span> feature/readMeSwitched to a new branch <span class="s1">'feature/readMe'</span><span class="o">&gt;</span>glg <span class="c"># git log(HEAD -&gt; feature/readMe, origin/main, main)</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+<strong>branch 변경 후 <code class="language-plaintext highlighter-rouge">git log</code>를 확인</strong>하니 <strong>HEAD</strong>가 브랜치를 잘 따라오고 있다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>파일 <strong>수정후에는 add전</strong>  <strong>gitt diff</strong>로 어느부분 수정되어있는지 확인</p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git diffdiff <span class="nt">--git</span> a/README.md b/README.mdindex 1743ce5..a6cac92 100644--- a/README.md+++ b/README.md@@ <span class="nt">-1</span> +1,3 @@ <span class="c"># CS100_Git++This is CS100\ No newline at end of file</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>add - status - commit</strong> 단계를 거친다.</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git add README.md❯ git status
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="pr날릴-브랜치는순수-git-commit후-메세지-작성되는-부분에---issue-번호-삽입하여-해당issue에-커밋-걸어주기">
+<a class="anchor" href="#pr%EB%82%A0%EB%A6%B4-%EB%B8%8C%EB%9E%9C%EC%B9%98%EB%8A%94%EC%88%9C%EC%88%98-git-commit%ED%9B%84-%EB%A9%94%EC%84%B8%EC%A7%80-%EC%9E%91%EC%84%B1%EB%90%98%EB%8A%94-%EB%B6%80%EB%B6%84%EC%97%90---issue-%EB%B2%88%ED%98%B8-%EC%82%BD%EC%9E%85%ED%95%98%EC%97%AC-%ED%95%B4%EB%8B%B9issue%EC%97%90-%EC%BB%A4%EB%B0%8B-%EA%B1%B8%EC%96%B4%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>(PR날릴 브랜치는)순수 git commit후 메세지 작성되는 부분에 [- issue #번호] 삽입하여, 해당issue에 커밋 걸어주기</h4>
+
+<ol>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">git commit</code>만 입력하기</strong></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="o">&gt;</span> git commit
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>commit 메세지 작성 에디터에서 <strong><code class="language-plaintext highlighter-rouge">- issue #1</code>의 관련된 issue 번호를 기입해주기</strong></p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ADD more description in README- issue #1
+</code></pre></div>    </div>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012020222119.png" alt="image-20211012020222119"></p>
+  </li>
+  <li>
+    <p><strong>나중에 저렇게 삽입한 <code class="language-plaintext highlighter-rouge">커밋속 issue #1</code>지정 부분은 <code class="language-plaintext highlighter-rouge">PR속에서 issue를 연결</code>해준다.</strong></p>
+
+    <ul>
+      <li>
+        <p>**즉, <code class="language-plaintext highlighter-rouge">issue에 대한</code> 하여 PR(팀원검토)시에는 `#번호`를 커밋메세지에 넣어두자.**수정용브랜치로&gt;</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012205926087.png" alt="image-20211012205926087"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="원격레포에-없는-지만-push해주면-알아서생성pr권유">
+<a class="anchor" href="#%EC%9B%90%EA%B2%A9%EB%A0%88%ED%8F%AC%EC%97%90-%EC%97%86%EB%8A%94-%EC%A7%80%EB%A7%8C-push%ED%95%B4%EC%A3%BC%EB%A9%B4-%EC%95%8C%EC%95%84%EC%84%9C%EC%83%9D%EC%84%B1pr%EA%B6%8C%EC%9C%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>원격레포에 없는 지만, push해주면 &lt;알아서생성+PR권유&gt;수정용브랜치&gt;</h4>
+
+<ol>
+  <li>
+    <p>로컬에서 원격레포로 <strong>수정용 브랜치를 push</strong></p>
+
+    <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> ❯ git push origin feature/readMeCounting objects: 3, <span class="k">done</span>.Writing objects: 100% <span class="o">(</span>3/3<span class="o">)</span>, 289 bytes | 289.00 KiB/s, <span class="k">done</span>.Total 3 <span class="o">(</span>delta 0<span class="o">)</span>, reused 0 <span class="o">(</span>delta 0<span class="o">)</span>remote: remote: Create a pull request <span class="k">for</span> <span class="s1">'feature/readMe'</span> on GitHub by visiting:remote:      https://github.com/is2js/CS100_Git/pull/new/feature/readMeremote: To https://github.com/is2js/CS100_Git.git <span class="k">*</span> <span class="o">[</span>new branch]      feature/readMe -&gt; feature/readMe
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>github에 가보면,</p>
+
+    <ul>
+      <li>
+        <p><strong>새로운 브랜치 생성 확인</strong>: 로컬에서 수정용브랜치를 push해서 자동으로 생성한 것</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012020515820.png" alt="image-20211012020515820"></p>
+      </li>
+      <li>
+        <p>현재는 main우주만 보여주고 있음. 수정한 평행우주는 브랜치를 선택해서 들어가야 보임
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012020546449.png" alt="image-20211012020546449"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="혼자는merge지만-pr은-를-팀원collaborator들에게-확인요청이니-메세지-한번더">
+<a class="anchor" href="#%ED%98%BC%EC%9E%90%EB%8A%94merge%EC%A7%80%EB%A7%8C-pr%EC%9D%80-%EB%A5%BC-%ED%8C%80%EC%9B%90collaborator%EB%93%A4%EC%97%90%EA%B2%8C-%ED%99%95%EC%9D%B8%EC%9A%94%EC%B2%AD%EC%9D%B4%EB%8B%88-%EB%A9%94%EC%84%B8%EC%A7%80-%ED%95%9C%EB%B2%88%EB%8D%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>혼자는merge지만, PR은 를 팀원(collaborator)들에게 확인요청이니 메세지 한번더!수정용브랜치&gt;</h4>
+
+<ul>
+  <li>
+    <p>혼자 작업했다면,</p>
+
+    <ul>
+      <li>로컬에서 수정용브랜치 -&gt; main브랜치 merge하면 끝</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>여러명 작업시 merge대신</strong></p>
+
+    <ul>
+      <li>
+        <p>로컬에서 수정용 브랜치생성후 파일 수정</p>
+      </li>
+      <li>
+        <p><strong>원격레포에 push하여 수정용브랜치 생성</strong></p>
+      </li>
+      <li>
+        <p>합치기전에 <strong>PR과정</strong>을 전시하여 <strong>팀원들에게 확인받기</strong></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>Compare &amp; pull request 클릭</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012020622138.png" alt="image-20211012020622138"></p>
+  </li>
+  <li>
+    <p><strong>PR은 팀원확인요청이다. <code class="language-plaintext highlighter-rouge">로컬 커밋메세지</code>가 default로 적혀있는데, <code class="language-plaintext highlighter-rouge">커밋메세지에 PR메세지로서 추가</code>로 적어준다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012021248244.png" alt="image-20211012021248244"></p>
+  </li>
+  <li>
+    <p>아래와 같이 커밋메세지 따로에, <strong>PR메세지가 덮어서 보인다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012021340747.png" alt="image-20211012021340747"></p>
+  </li>
+</ol>
+
+<h4 id="pr을-검수할-팀원에게-review요청하기수정용브랜치를-merge해도될지">
+<a class="anchor" href="#pr%EC%9D%84-%EA%B2%80%EC%88%98%ED%95%A0-%ED%8C%80%EC%9B%90%EC%97%90%EA%B2%8C-review%EC%9A%94%EC%B2%AD%ED%95%98%EA%B8%B0%EC%88%98%EC%A0%95%EC%9A%A9%EB%B8%8C%EB%9E%9C%EC%B9%98%EB%A5%BC-merge%ED%95%B4%EB%8F%84%EB%90%A0%EC%A7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>PR을 검수할 팀원에게 review요청하기(수정용브랜치를 merge해도될지)</h4>
+
+<ul>
+  <li>PR메세지 우측에 <strong>Reviewers</strong>가 있다. 여길 선택해서, <strong>PR review를 요청하자.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012021532748.png" alt="image-20211012021532748">
+</li>
+</ul>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">is3js(팀원)</code>계정을 시크릿창으로 들어가보자.</p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">레포 &gt; Pull request &gt; 해당PR</code></strong>까지 클릭하고  가야지 Review요청한 것이 보인다. (호버해도 보이긴하네)
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012021724732.png" alt="image-20211012021724732">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012021738139.png" alt="image-20211012021738139"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012021801116.png" alt="image-20211012021801116"></p>
+      </li>
+      <li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="리뷰요청받은-뒤-add-your-review는-linebyline으로-피드백-주는-것">
+<a class="anchor" href="#%EB%A6%AC%EB%B7%B0%EC%9A%94%EC%B2%AD%EB%B0%9B%EC%9D%80-%EB%92%A4-add-your-review%EB%8A%94-linebyline%EC%9C%BC%EB%A1%9C-%ED%94%BC%EB%93%9C%EB%B0%B1-%EC%A3%BC%EB%8A%94-%EA%B2%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>리뷰요청받은 뒤 Add your review는 lineByline으로 피드백 주는 것</h4>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">add your review </code> 클릭
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012021902164.png" alt="image-20211012021902164"></p>
+  </li>
+  <li>
+    <p><strong>플러스버튼으로 피드백을 주면되는데 <code class="language-plaintext highlighter-rouge">드래그</code>로 여러라인에 대한 피드백을 줄 수 도 있다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012022345620.png" alt="image-20211012022345620">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012022353627.png" alt="image-20211012022353627"></p>
+  </li>
+</ol>
+
+<h4 id="리뷰요청시-피드백라인별코멘트과-별개로-칼을-뽑아야함-approvemerge-or-request-changes다시push해">
+<a class="anchor" href="#%EB%A6%AC%EB%B7%B0%EC%9A%94%EC%B2%AD%EC%8B%9C-%ED%94%BC%EB%93%9C%EB%B0%B1%EB%9D%BC%EC%9D%B8%EB%B3%84%EC%BD%94%EB%A9%98%ED%8A%B8%EA%B3%BC-%EB%B3%84%EA%B0%9C%EB%A1%9C-%EC%B9%BC%EC%9D%84-%EB%BD%91%EC%95%84%EC%95%BC%ED%95%A8-approvemerge-or-request-changes%EB%8B%A4%EC%8B%9Cpush%ED%95%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>리뷰요청시 피드백(라인별코멘트)과 별개로, 칼을 뽑아야함: Approve(merge) or Request changes(다시push해)</h4>
+
+<ol>
+  <li>
+    <p>코멘트를 다 남겼으면, 우측 상단에 <strong><code class="language-plaintext highlighter-rouge">Finish you review</code>로 칼을 뽑아야한다.</strong></p>
+
+    <ul>
+      <li>이 경우 수정이 좀 더 필요하다고 하여 승인거절한다.<strong>내용없이 Reqeust changes 클릭</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012022539756.png" alt="image-20211012022539756">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012022554859.png" alt="image-20211012022554859">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>내가 남긴 코멘트의 위치 및 승인거절=변화요구의 메세지를 확인한다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012022702446.png" alt="image-20211012022702446"></p>
+  </li>
+</ol>
+
+<h4 id="로컬-review내용인-1-라인별코멘트에-대한-대답reply--2-변화요구에-대한-에서-수정후-다시-push">
+<a class="anchor" href="#%EB%A1%9C%EC%BB%AC-review%EB%82%B4%EC%9A%A9%EC%9D%B8-1-%EB%9D%BC%EC%9D%B8%EB%B3%84%EC%BD%94%EB%A9%98%ED%8A%B8%EC%97%90-%EB%8C%80%ED%95%9C-%EB%8C%80%EB%8B%B5reply--2-%EB%B3%80%ED%99%94%EC%9A%94%EA%B5%AC%EC%97%90-%EB%8C%80%ED%95%9C-%EC%97%90%EC%84%9C-%EC%88%98%EC%A0%95%ED%9B%84-%EB%8B%A4%EC%8B%9C-push" aria-hidden="true"><span class="octicon octicon-link"></span></a>[로컬] review내용인 1) 라인별코멘트에 [대한 대답reply] &amp; 2) 변화요구에 대한 [에서 수정후 다시 push]로컬&gt;</h4>
+
+<ol>
+  <li>
+    <p>라인별 코멘트에 대한 대답
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012203849082.png" alt="image-20211012203849082"></p>
+  </li>
+  <li>
+    <p><strong>리뷰어에 의한 <code class="language-plaintext highlighter-rouge">Changes requested</code>는 <code class="language-plaintext highlighter-rouge">feature/readMe에 푸싱함으로써 커밋을 추가</code>하라고 뜬다.</strong></p>
+
+    <ul>
+      <li>reviewer에 의한 <strong><code class="language-plaintext highlighter-rouge">request changes</code>는 <code class="language-plaintext highlighter-rouge">&lt;수정용 브랜치로 추가 커밋하면 다시 검토&gt;</code>를 말하는 것이다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012204021617.png" alt="image-20211012204021617">
+</li>
+    </ul>
+
+    <ol>
+      <li>
+        <p>다시 로컬 해당 브랜치로 와서
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012204047337.png" alt="image-20211012204047337"></p>
+      </li>
+      <li>
+        <p>요구대로 새롭게 작성후 push까지 해준다.</p>
+
+        <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> # 파일 수정# add전 git gtatusgit status#git add 파일명git add README.mdgit commitgit loggit push origin feature/readMe
+</code></pre></div>        </div>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<h4 id="pr은-의-단위라서-아직-merge안됬다면-해당브랜치는-이어지며-가서-확인한다">
+<a class="anchor" href="#pr%EC%9D%80-%EC%9D%98-%EB%8B%A8%EC%9C%84%EB%9D%BC%EC%84%9C-%EC%95%84%EC%A7%81-merge%EC%95%88%EB%90%AC%EB%8B%A4%EB%A9%B4-%ED%95%B4%EB%8B%B9%EB%B8%8C%EB%9E%9C%EC%B9%98%EB%8A%94-%EC%9D%B4%EC%96%B4%EC%A7%80%EB%A9%B0-%EA%B0%80%EC%84%9C-%ED%99%95%EC%9D%B8%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>PR은 의 단위라서 아직 merge안됬다면, 해당브랜치는 이어지며 가서 확인한다.수정용브랜치&gt;</h4>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">git push origin feature/readMe</code>를 통해 push했으면, <strong>아직 해당 <code class="language-plaintext highlighter-rouge">PR상황에서 커밋이 추가</code>된다.</strong></p>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">main</code>에서는 <strong>추가 PR 안내가 없음.</strong>
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">수정용 브랜치</code>에서는 평행우주의 내용은 변화되었음.</li>
+        </ul>
+      </li>
+      <li>reviewer에 의해 <strong><code class="language-plaintext highlighter-rouge">request changes</code>는 <code class="language-plaintext highlighter-rouge">&lt;수정용브랜치로 추가 커밋하면 다시 검토&gt;</code>를 말하는 것이다.</strong>
+        <ul>
+          <li><strong>즉, 검토하고 있던 PR상황으로 다시 직접들어가보면, <code class="language-plaintext highlighter-rouge">추가 push</code>를 확인할 수 있게 됨.</strong></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012205331147.png" alt="image-20211012205331147">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012205341225.png" alt="image-20211012205341225">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012205508739.png" alt="image-20211012205508739"></p>
+  </li>
+  <li>
+    <p>**의 추가push후**에는 되면 **또다시 review 요청해야한다.**수정용&gt;</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012205618234.png" alt="image-20211012205618234">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012205623529.png" alt="image-20211012205623529"></p>
+  </li>
+</ol>
+
+<h4 id="또다시-pr수정용브랜치-merge검토에-대한-review요청을-받음---lgtm-approve해주기">
+<a class="anchor" href="#%EB%98%90%EB%8B%A4%EC%8B%9C-pr%EC%88%98%EC%A0%95%EC%9A%A9%EB%B8%8C%EB%9E%9C%EC%B9%98-merge%EA%B2%80%ED%86%A0%EC%97%90-%EB%8C%80%ED%95%9C-review%EC%9A%94%EC%B2%AD%EC%9D%84-%EB%B0%9B%EC%9D%8C---lgtm-approve%ED%95%B4%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>또다시 PR(수정용브랜치 merge검토)에 대한 review요청을 받음. -&gt; LGTM approve해주기</h4>
+
+<ul>
+  <li>
+    <p>역시 해당 PR까지 클릭해서 들어와야 보인다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012210422411.png" alt="image-20211012210422411">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012210519267.png" alt="image-20211012210519267"></p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">add your review</code></p>
+
+        <ul>
+          <li>라인별 코멘트 -&gt; 생략</li>
+          <li><strong><code class="language-plaintext highlighter-rouge">LGTM</code>(Loos Good To me)와 함께 <code class="language-plaintext highlighter-rouge">Approve</code></strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012210640750.png" alt="image-20211012210640750">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012210659514.png" alt="image-20211012210659514"></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="review가-approve해야-드디어-merge가-뜬다-동시에-">
+<a class="anchor" href="#review%EA%B0%80-approve%ED%95%B4%EC%95%BC-%EB%93%9C%EB%94%94%EC%96%B4-merge%EA%B0%80-%EB%9C%AC%EB%8B%A4-%EB%8F%99%EC%8B%9C%EC%97%90-" aria-hidden="true"><span class="octicon octicon-link"></span></a>review가 approve해야 드디어 merge가 뜬다. 동시에 <pr></pr>
+</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012210750994.png" alt="image-20211012210750994">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012210808546.png" alt="image-20211012210808546">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012210816652.png" alt="image-20211012210816652"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012210916779.png" alt="image-20211012210916779">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012210927147.png" alt="image-20211012210927147"></p>
+
+<ol>
+  <li>
+    <p><strong>우측의 <code class="language-plaintext highlighter-rouge">Delete branch</code>를 눌러 수정용브랜치를 삭제해주자.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012210956298.png" alt="image-20211012210956298"></p>
+  </li>
+  <li>
+    <p>PR탭은 <code class="language-plaintext highlighter-rouge">Merged</code>로 해결됨.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012211030115.png" alt="image-20211012211030115"></p>
+  </li>
+</ol>
+
+<h4 id="issue탭에서도-merged가-뜸---pr-merged의-해결된-issue를-닫기">
+<a class="anchor" href="#issue%ED%83%AD%EC%97%90%EC%84%9C%EB%8F%84-merged%EA%B0%80-%EB%9C%B8---pr-merged%EC%9D%98-%ED%95%B4%EA%B2%B0%EB%90%9C-issue%EB%A5%BC-%EB%8B%AB%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>[issue탭]에서도 Merged가 뜸. -&gt; [PR-&gt;merged]의 해결된 issue를 닫기</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012211217724.png" alt="image-20211012211217724"></p>
+
+<ol>
+  <li>
+    <p>issue작성 후</p>
+
+    <ul>
+      <li>수정용브랜치 생성</li>
+      <li>PR를 위해 커밋
+        <ul>
+          <li>커밋시 issue번호를 <code class="language-plaintext highlighter-rouge">#번호</code>형태로 커밋메세지 속에 남기면 <strong>issue탭에서도 표기가 된다.</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">수정용브랜치 push -&gt; PR 생성 -&gt; review -&gt; merged</code>로 해결되었으면 issue도 닫아야한다.</strong></p>
+
+    <ol>
+      <li>
+        <p><strong>메세지로 닫는다 알리기</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012211447292.png" alt="image-20211012211447292">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012211453402.png" alt="image-20211012211453402"></p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">Close issue</code>를 눌러서 해당 issue를 닫는다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012211527987.png" alt="image-20211012211527987">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211012211534572.png" alt="image-20211012211534572"></p>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<h4 id="로컬에서-default-main브랜치로-옮겨와-pr-merged된-프로젝트-정보를-git-pull로-내려받아서-로컬에서도-통합-및-브랜치삭제가-반영되도록-한다">
+<a class="anchor" href="#%EB%A1%9C%EC%BB%AC%EC%97%90%EC%84%9C-default-main%EB%B8%8C%EB%9E%9C%EC%B9%98%EB%A1%9C-%EC%98%AE%EA%B2%A8%EC%99%80-pr-merged%EB%90%9C-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%A0%95%EB%B3%B4%EB%A5%BC-git-pull%EB%A1%9C-%EB%82%B4%EB%A0%A4%EB%B0%9B%EC%95%84%EC%84%9C-%EB%A1%9C%EC%BB%AC%EC%97%90%EC%84%9C%EB%8F%84-%ED%86%B5%ED%95%A9-%EB%B0%8F-%EB%B8%8C%EB%9E%9C%EC%B9%98%EC%82%AD%EC%A0%9C%EA%B0%80-%EB%B0%98%EC%98%81%EB%90%98%EB%8F%84%EB%A1%9D-%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>[로컬]에서 default [main]브랜치로 옮겨와, PR-&gt;merged된 프로젝트 정보를 git pull로 내려받아서, 로컬에서도 통합 및 브랜치삭제가 반영되도록 한다.</h4>
+
+<ol>
+  <li>삭제당한 <code class="language-plaintext highlighter-rouge">feature/readme&lt;수정용브랜치&gt;</code>가 아닌 default <code class="language-plaintext highlighter-rouge">main</code>브랜치로 옮겨와서 <code class="language-plaintext highlighter-rouge">git pull</code>받는다.</li>
+</ol>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>❯ git checkout main
+❯ git fetch
+❯ git pull <span class="c"># git pull origin main 으로 정확하게 표시하면 upstream설정이 안뜬다.</span>
+<span class="c"># 그러나 한번만 업스트림하면 되므로 그냥 해준다.</span>
+❯ git branch <span class="nt">--set-upstream-to</span><span class="o">=</span>origin/main main
+Branch <span class="s1">'main'</span> <span class="nb">set </span>up to track remote branch <span class="s1">'main'</span> from <span class="s1">'origin'</span><span class="nb">.</span>
+❯ git fetch
+❯ git pull
+
+Updating 99ce761..1ed16b7
+Fast-forward
+ README.md | 4 ++++
+ 1 file changed, 4 insertions<span class="o">(</span>+<span class="o">)</span>
+</code></pre></div></div>
+
+
+  </div><a class="u-url" href="/git/2021/10/17/%EA%B9%834_PR%ED%8C%80%EC%9E%91%EC%97%85_1%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4_2%ED%8C%80%EC%9E%91%EC%97%85_3%EC%9E%87%EC%8A%88%EC%99%80%EB%A6%AC%EB%B7%B0%EC%9A%A9PR.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
