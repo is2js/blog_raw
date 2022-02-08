@@ -2,7 +2,7 @@
 toc: true
 layout: post
 categories: [git]
-title: 기본2) vscode를 활용해서 git 심화내용 학습하기
+title: 기본2) vscode로 git 심화 학습
 description: git의 심화내용을 vscode 활용 2 part, 개념 1 part 나누어 학습
 
 image: "images/posts/git.png"

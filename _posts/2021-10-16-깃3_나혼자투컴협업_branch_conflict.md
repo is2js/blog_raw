@@ -2,8 +2,8 @@
 toc: true
 layout: post
 categories: [git]
-title: 협업1) 나혼자 2컴으로 협업(원격작업)하는 방법
-description: local to remote -> remote to com1, com2를 시뮬레이션함.
+title: 협업1) 나혼자 투컴으로 협업
+description: local to remote -> remote to com1, com2를 시뮬레이션 함.
 
 image: "images/posts/git.png"
 ---
