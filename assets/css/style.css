@@ -498,6 +498,7 @@ p code { font-size: 19px; }
     color: #152447; }
 .entry-meta .vcard:before {
     content: " by "; }
+	
 .entry-meta .tag {
     display: inline-block;
     margin: 4px;
