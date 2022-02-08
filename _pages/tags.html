@@ -14,10 +14,13 @@ search_exclude: true
   {% endfor %}
   {% assign categories = categories | sort_natural %}
 
-  
+
   <ul class="entry-meta inline-list">
   {% for category in categories %}
-    <li ><a href="#{{ category }}">{{ category }}</a></li>
+    <!-- <li ><a href="#{{ category }}">{{ category }}</a></li> -->
+    <li ><a class="tag" href="#{{ category }}"> 
+      <span>#</span> 
+      <span class="tag-name">{{ category }}</span></a></li>
   {% endfor %}
   </ul>
 
