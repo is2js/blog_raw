@@ -130,23 +130,18 @@ window.onload = wrap_img;
 
 <ol>
   <li>
-<code class="language-plaintext highlighter-rouge">_includes</code>폴더 &gt; <code class="language-plaintext highlighter-rouge">head.html</code>파일에서 <strong>웹 폰트 link태그 추가해주기</strong>
- ```html
-  <!-- 폰트추가를 위한 link태그 삽입 -->
-  <!-- 폰트1:  기본 spoqa 웹폰트 -->
-  <!-- css에서 * {} 다 뒤집어씀. -->
-</li>
-</ol>
-<link href="//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css" rel="stylesheet" type="text/css">
+    <p><code class="language-plaintext highlighter-rouge">_includes</code>폴더 &gt; <code class="language-plaintext highlighter-rouge">head.html</code>파일에서 <strong>웹 폰트 link태그 추가해주기</strong></p>
 
-<p><!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
-  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 --></p>
-<link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet">
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```
-</code></pre></div></div>
-
-<ol>
+    <div class="language-html highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c">&lt;!-- 폰트추가를 위한 link태그 삽입 --&gt;</span>
+ <span class="c">&lt;!-- 폰트1:  기본 spoqa 웹폰트 --&gt;</span>
+ <span class="c">&lt;!-- css에서 * {} 다 뒤집어씀. --&gt;</span>
+ <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">'//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css'</span> <span class="na">rel=</span><span class="s">'stylesheet'</span> <span class="na">type=</span><span class="s">'text/css'</span><span class="nt">&gt;</span>
+ <span class="c">&lt;!-- 폰트2:  블로그 제목들 sunflower 웹폰트 --&gt;</span>
+ <span class="c">&lt;!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 --&gt;</span>
+ <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">"//fonts.googleapis.com/css?family=Sunflower:300,500,700"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span><span class="nt">&gt;</span> 
+</code></pre></div>    </div>
+  </li>
   <li>해당 폰트를 사용하기 위해 <code class="language-plaintext highlighter-rouge">assets</code>폴더 &gt; <code class="language-plaintext highlighter-rouge">css</code>폴더 &gt; <strong><code class="language-plaintext highlighter-rouge">styles.css</code>를 수정</strong>한다
     <ul>
       <li>나의 경우, scss수정시 잘 안됬다. 모든 것을 여기서 설정해줬다.</li>
