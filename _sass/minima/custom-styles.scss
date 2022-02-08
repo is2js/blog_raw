@@ -1,50 +1,6 @@
 @import "minima/fastpages-styles";   
-//@import "minima/fastpages-dracula-highlight"; 
+@import "minima/fastpages-dracula-highlight"; 
 
 /*----- ADD YOUR STYLES BELOW -------*/
 
 
-// 한국인이 폰트 커스텀한 코드 ===start===============================================================
-// 블로그 주소: https://anarinsk.github.io/lostineconomics-v2-1/coding-tool/web-tool/2020/03/07/blogging-with-fastpages.html
-// 코드 주소: https://github.com/anarinsk/lostineconomics-v2-1/blob/master/_sass/minima/custom-styles.scss
-
-// font loading 
-//@import url(https://fonts.googleapis.com/css?family=Roboto+Slab);
-//@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
-@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic');
-@import url('https://fonts.googleapis.com/css?family=Sunflower:500');
-
-// Add your styles below
-// make non-headings slightly lighter
-.post-content p, .post-content li {   
-	//font-family: "Nanum Gothic";
-	font-size: 15px;
-	color: #515151;
-	font-weight: 400;
-}
-
-.post img {
-display: block;
-border:1px solid #021a40;
-vertical-align: top;
-margin-left: auto;
-margin-right: auto;
-}
-
-// # font 
-h1, h2, h3, h4, h5, h6{
-	font-family: 'Spoqa Han Sans Neo', normal;
-}
-
-// inline code size (minima/fastpages-dracula-highlight.css)
-p code{
-font-size: 13px;
-}
-
-// mathjax options // Not working 
-.MathJax_Display, /* MathJax 2 */
-mjx-container     /* MathJax 3 */
-{ text-align: left!important; }
-
-
-// 한국인이 폰트 커스텀한 코드 ===start===============================================================
