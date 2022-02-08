@@ -5,6 +5,8 @@ description: 우테코 4기 프리코스를 거치며 정리한 intellij 및 협
 
 categories: [java, intellij]
 title: vscode keymap을 적용한 intellij 세팅 및 프리코스 협업 세팅
+
+image: "images/posts/java.png"
 ---
 
 
