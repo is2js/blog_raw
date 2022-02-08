@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-description: fastpages를 이용하여 notebook, md파일로 쉽게 블로그를 관리할 수 있도록 해봅시다.
+description: notebook, md파일로 쉽게 블로그를 관리하는 블로그 만들기
 categories: [fastpages]
 title: fastpages로 블로그 제작 
 

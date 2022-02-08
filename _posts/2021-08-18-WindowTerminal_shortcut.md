@@ -2,9 +2,9 @@
 toc: true
 layout: post
 description: 윈도우 터미널 단축키 모음입니다.
-categories: [configuration, windows, WindowsTerminal]
+categories: [configuration]
 
-title: 단축키) 윈도우 터미널(WindowsTerminal) 단축키 모음
+title: 윈도우 터미널 단축키 모음
 
 image: "images/posts/config.png"
 
