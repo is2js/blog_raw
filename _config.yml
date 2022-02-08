@@ -6,9 +6,9 @@
 # https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
 # https://learnxinyminutes.com/docs/yaml/
 
-title: 돌범의 기술블로그
+title: 돌범 기술블로그
 
-description: An easy to use blogging platform with support for Jupyter Notebooks.
+description: fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록
 github_username: is2js
 # you can comment the below line out if your repo name is not different than your baseurl
 github_repo: "blog_raw"
