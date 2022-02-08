@@ -598,6 +598,11 @@ margin-right: auto;
 h1, h2, h3, h4, h5, h6{
 font-family:'Spoqa Han Sans Neo', normal; 
 }
+/* 제목들은 먹히는데, 제목만쓰질 않으니.. */
+/* test-> 전체를 font-familty 덮어쓰기 */
+*{
+	font-family:'Spoqa Han Sans Neo', normal!important; 
+}
 
 /* inline code size (minima/fastpages-dracula-highlight.css) */
 p code{
