@@ -198,9 +198,11 @@ pre { padding: 8px 12px; overflow-x: auto; }
 
 pre > code { border: 0; padding-right: 0; padding-left: 0; }
 
-.highlight { border-radius: 3px; background: #eeeeff; }
-
-.highlighter-rouge .highlight { background: #eeeeff; }
+/** 강조 색 변경 */
+/* .highlight { border-radius: 3px; background: #eeeeff; } */
+/* .highlighter-rouge .highlight { background: #eeeeff; } */
+.highlight { border-radius: 3px; background: #f9f2f4; color:#E53A40;}
+.highlighter-rouge .highlight { background: #f9f2f4; color: #E53A40; }
 
 /** Wrapper */
 .wrapper { max-width: calc(1000px - (30px)); margin-right: auto; margin-left: auto; padding-right: 15px; padding-left: 15px; }
@@ -577,8 +579,8 @@ p code { font-size: 19px; }
 코드 주소: https://github.com/anarinsk/lostineconomics-v2-1/blob/master/_sass/minima/custom-styles.scss */
 
 /* font loading  */
-@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic');
-@import url('https://fonts.googleapis.com/css?family=Sunflower:500');
+/* @import url('https://fonts.googleapis.com/css?family=Nanum+Gothic'); */
+/* @import url('https://fonts.googleapis.com/css?family=Sunflower:500'); */
 
 /* make non-headings slightly lighter */
 .post-content p, .post-content li {   
