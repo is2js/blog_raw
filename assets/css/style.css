@@ -485,3 +485,55 @@ pre code { font-size: 15px !important; }
 p code { font-size: 19px; }
 
 /*# sourceMappingURL=style.css.map */
+
+
+/* custom css */
+
+.entry-meta {
+    font-size: 12px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: rgba(187, 187, 187, 0.8); }
+.entry-meta a {
+    color: rgba(187, 187, 187, 0.8); }
+.entry-meta .vcard:before {
+    content: " by "; }
+.entry-meta .tag {
+    display: inline-block;
+    margin: 4px;
+    color: #fff;
+    border-radius: 3px;
+    background-color: rgba(162, 162, 162, 0.8); }
+
+/*my) 상단 태그들 모음 태그 글자 배경*/
+.entry-meta .tag span {
+    float: left;
+    padding: 6px 6px;
+    color: #ffffff;
+    font-family: inherit;
+    background-color: #342626;
+}
+/*my) 상단 태그들의 카운트 색*/
+.entry-meta .tag .count {
+    background-color: #d7a6a6;
+    border-radius: 0 3px 3px 0;
+    /*3px 이상 오그리면, 하이퍼링크랑 막 난리남.*/
+}
+
+.entry-meta .tag:hover {
+    background-color: rgba(136, 136, 136, 0.8); }
+.entry-meta .entry-reading-time {
+    float: right; }
+
+
+
+    
+.inline-list {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0; 
+}
+.inline-list li {
+    list-style-type: none;
+    display: inline; 
+}
