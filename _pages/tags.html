@@ -19,13 +19,17 @@ search_exclude: true
   {% for category in categories %}
     <!-- <li ><a href="#{{ category }}">{{ category }}</a></li> -->
     <li ><a class="tag" href="#{{ category }}"> 
-      <span>#</span> 
+      <!-- <span>#</span>  -->
+      <i class="fas fa-tags category-tags-icon"></i>
       <span class="tag-name">{{ category }}</span></a></li>
   {% endfor %}
   </ul>
 
   {% for category in categories %}
-      <h3 id ="{{ category }}"><i class="fas fa-tags category-tags-icon"></i></i> {{ category }}</h3>
+      <h4 id ="{{ category }}">
+        <i class="fas fa-tags category-tags-icon"></i> 
+        <span class="tag-name">{{ category }}</span></a></li>
+      </h4>
       <a name="{{ category | slugize }}"></a>
       {% for post in site.categories[category] %}
         {% if post.hide != true %}
