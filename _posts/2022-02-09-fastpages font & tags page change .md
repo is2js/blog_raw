@@ -82,3 +82,6 @@ image: "images/posts/blog.png"
     ```css
     pre, code { font-family: 'Spoqa Han Sans Neo', "Menlo", "Inconsolata", "Consolas", "Roboto Mono", "Ubuntu Mono", "Liberation Mono", "Courier New", monospace; font-size: 0.9375em; border: 1px solid #f9f2f4; border-radius: 3px; background-color: #f9f2f4; color:#E53A40;}
     ```
+
+5. style.css.map 파일에서 highlight소스를 한번 빼보자.
+     - `"_sass/minima/fastpages-dracula-highlight.scss"`
