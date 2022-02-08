@@ -3,7 +3,7 @@
     
         "post0": {
             "title": "fastpages font&tags page change",
-            "content": "font 바꾸기 . 참고: 한국 블로그 | . |",
+            "content": "font 바꾸기 . 참고: 한국 블로그 | . _includes폴더 &gt; head.html파일에서 웹 폰트 link태그 추가해주기 html | &lt;link href=’https://fonts.googleapis.com/css2?family=Sunflower:wght@700&amp;display=swap’ rel=”stylesheet’&gt; . 해당 폰트를 사용하기 위해 asseets |",
             "url": "blog.chojaeseong.com/fastpages/2022/02/09/fastpages-font-&-tags-page-change.html",
             "relUrl": "/fastpages/2022/02/09/fastpages-font-&-tags-page-change.html",
             "date": " • Feb 9, 2022"
