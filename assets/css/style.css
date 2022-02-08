@@ -176,7 +176,6 @@ a:link {
 
 a { color: #152447; text-decoration: none; }
 a:visited { color: #152447; }
-
 a:hover { color: #313266; text-decoration: underline; }
 
 .social-media-list a:hover, .pagination a:hover { text-decoration: none; }
@@ -580,7 +579,7 @@ p code { font-size: 19px; }
 
 /* make non-headings slightly lighter */
 .post-content p, .post-content li {   
-	font-family: 'Spoqa Han Sans Neo';
+	font-family: 'Spoqa Han Sans Neo', normal;
 	font-size: 15px;
 	color: #515151;
 	font-weight: 400;
@@ -600,8 +599,9 @@ margin-right: auto;
 	font-family:'Spoqa Han Sans Neo', normal!important; 
 }
 /* font2 제목글자는 선플라워  */
-h1, h2, h3, h4, h5, h6{
+h1, h2, h3, h4, h5, h6, tag-name {
 	font-family:"Sunflower", normal!important; 
+	color: #152447;
 }
 
 /* inline code size (minima/fastpages-dracula-highlight.css) */

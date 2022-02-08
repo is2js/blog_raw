@@ -2,8 +2,8 @@
   
     
         "post0": {
-            "title": "fastpages font&tags page change",
-            "content": "font 바꾸기 . 참고: 한국 블로그 | . _includes폴더 &gt; head.html파일에서 웹 폰트 link태그 추가해주기 html | &lt;link href=’https://fonts.googleapis.com/css2?family=Sunflower:wght@700&amp;display=swap’ rel=”stylesheet’&gt; . 해당 폰트를 사용하기 위해 asseets |",
+            "title": "fastpages font & tag page change",
+            "content": "font 바꾸기 . 참고: 한국 블로그 | . _includes폴더 &gt; head.html파일에서 웹 폰트 link태그 추가해주기 html | . . 해당 폰트를 사용하기 위해 assets폴더 &gt; css폴더 &gt; styles.css를 수정한다 나의 경우, scss수정시 잘 안됬다. 모든 것을 여기서 설정해줬다. | font-family 검색해서 모두 font-family: &#39;Spoqa Han Sans Neo&#39;, normal;로 바꿔주기 | 전역으로 다 먹이기 + 제목들은 다른 글자체로 먹이기 /* 제목들은 먹히는데, 제목만쓰질 않으니.. */ /* test-&gt; 전체를 font-familty 덮어쓰기 */ *{ font-family:&#39;Spoqa Han Sans Neo&#39;, normal!important; } /* font2 제목 글자는 선플라워 */ h1, h2, h3, h4, h5, h6{ font-family:&quot;Sunflower&quot;, normal!important; } . | . | a태그 리셋시켜서 색 적용되게 하기 /** Links */ /** 폰트 색 (링크 색) -&gt; 이것만 바꾼다고 변경안됨.. */ /* 모든 a태그 프로퍼티들을 리셋 */ a { all: unset; } /* a태그의 가상클래스도 같이 리셋 */ a:link { text-decoration: none; color: #152447; } a:visited { text-decoration: none; color: #152447; } /* 누른상태 */ a:active { text-decoration: none; color: #152447; } /* 갖다덴 상태 */ a:hover { text-decoration: none; color: #152447; } a { color: #152447; text-decoration: none; } a:visited { color: #152447; } a:hover { color: #313266; text-decoration: underline; } . |",
             "url": "blog.chojaeseong.com/fastpages/2022/02/09/fastpages-font-&-tags-page-change.html",
             "relUrl": "/fastpages/2022/02/09/fastpages-font-&-tags-page-change.html",
             "date": " • Feb 9, 2022"
@@ -268,6 +268,15 @@
       
   
 
+  
+      ,"page3": {
+          "title": "MyGit",
+          "content": ".",
+          "url": "blog.chojaeseong.com/mygit/",
+          "relUrl": "/mygit/",
+          "date": ""
+      }
+      
   
 
   
