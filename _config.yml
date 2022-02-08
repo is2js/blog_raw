@@ -42,7 +42,7 @@ baseurl: "" # the subpath of your site, e.g. "/blog".
 # Github and twitter are optional:
 minima:
   social_links:
-    twitter: fastdotai
+    twitter: is2js
     github: is2js
 
 # Set this to true to get LaTeX math equation support
