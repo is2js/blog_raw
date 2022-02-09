@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>코드리뷰 1단계 세팅하기 | 돌범의 기술블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="코드리뷰 1단계 세팅하기" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="우테코 코드리뷰 1단계 세팅" />
+<meta property="og:description" content="우테코 코드리뷰 1단계 세팅" />
+<link rel="canonical" href="blog.chojaeseong.com/git/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/09/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0%EC%84%B8%ED%8C%85(1%EB%8B%A8%EA%B3%84%EA%B9%8C%EC%A7%80)(%EC%99%84).html" />
+<meta property="og:url" content="blog.chojaeseong.com/git/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/09/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0%EC%84%B8%ED%8C%85(1%EB%8B%A8%EA%B3%84%EA%B9%8C%EC%A7%80)(%EC%99%84).html" />
+<meta property="og:site_name" content="돌범의 기술블로그" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/wootech.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-09T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-02-09T00:00:00-06:00","url":"blog.chojaeseong.com/git/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/09/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0%EC%84%B8%ED%8C%85(1%EB%8B%A8%EA%B3%84%EA%B9%8C%EC%A7%80)(%EC%99%84).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"코드리뷰 1단계 세팅하기","dateModified":"2022-02-09T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/git/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/09/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0%EC%84%B8%ED%8C%85(1%EB%8B%A8%EA%B3%84%EA%B9%8C%EC%A7%80)(%EC%99%84).html"},"description":"우테코 코드리뷰 1단계 세팅","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범의 기술블로그" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범의 기술블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">코드리뷰 1단계 세팅하기</h1><p class="page-description">우테코 코드리뷰 1단계 세팅</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-09T00:00:00-06:00" itemprop="datePublished">
+        Feb 9, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      1 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#git">git</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#코드리뷰">코드리뷰</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#코드리뷰-세팅">코드리뷰 세팅</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#관리자-짝-매칭-실시">관리자 짝 매칭 실시</a></li>
+<li class="toc-entry toc-h4"><a href="#미션수행-방법">미션수행 방법</a></li>
+</ul>
+</li>
+</ul><h3 id="코드리뷰-세팅">
+<a class="anchor" href="#%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0-%EC%84%B8%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>코드리뷰 세팅</h3>
+
+<h4 id="관리자-짝-매칭-실시">
+<a class="anchor" href="#%EA%B4%80%EB%A6%AC%EC%9E%90-%EC%A7%9D-%EB%A7%A4%EC%B9%AD-%EC%8B%A4%EC%8B%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>관리자 짝 매칭 실시</h4>
+
+<ul>
+  <li>
+    <p>관리자 매칭 실시
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210014115248.png" alt="image-20220210014115248"></p>
+  </li>
+  <li>
+    <p>피매칭자은 확인함.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220209105049849.png" alt="image-20220209105049849"></p>
+  </li>
+</ul>
+
+<h4 id="미션수행-방법">
+<a class="anchor" href="#%EB%AF%B8%EC%85%98%EC%88%98%ED%96%89-%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>미션수행 방법</h4>
+
+<ol>
+  <li>lecture클릭후 <code class="language-plaintext highlighter-rouge">미션시작</code> 클릭시 -&gt;  <strong>자동으로 <code class="language-plaintext highlighter-rouge">내 github_id</code>로 —&gt; <code class="language-plaintext highlighter-rouge">미션repo에 브랜치</code>생성</strong>  (스샷없음)
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220209105319168.png" alt="image-20220209105319168">
+</li>
+  <li>
+<strong>미션시작으로 내 브랜치를 생성하면, <code class="language-plaintext highlighter-rouge">리뷰어도 자동 배정</code>된다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210014238887.png" alt="image-20220210014238887">)
+    <ul>
+      <li>동시성 잇슈가 있을 땐, 관리자가 리뷰어를 재배정한다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>저장소로 와서 <strong><code class="language-plaintext highlighter-rouge">내 github_id</code>로 <code class="language-plaintext highlighter-rouge">생성된 branch</code>가 정상 생성되었는지 <code class="language-plaintext highlighter-rouge">미션repo에 branch 검색</code>해서 확인</strong>한다</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220209105548572.png" alt="image-20220209105548572"></p>
+  </li>
+  <li>강의홈페이지를 통해 <strong>branch가 생성되었으나 팀원X  push권한 X -&gt; <code class="language-plaintext highlighter-rouge">fork</code>를 먼저 한다.</strong>
+    <ul>
+      <li>
+<a href="https://github.com/woowacourse/woowacourse-docs/blob/master/maincourse/README.md">문서</a>를 보면서 스텝바이스텝으로 한다.</li>
+      <li>여기선 1단계까지만 한다.
+        <ul>
+          <li><strong><a href="https://github.com/woowacourse/woowacourse-docs/blob/master/maincourse/review-step1.md">코드리뷰 요청 1단계</a>: 미션 진행 후 github에 올리는 단계</strong></li>
+          <li>
+<a href="https://github.com/woowacourse/woowacourse-docs/blob/master/maincourse/review-step2.md">코드리뷰 요청 2단계</a>: 코드리뷰 요청을 보내고, 피드백을 받은 후 피드백 반영 및 merge하는 단계</li>
+          <li>
+<a href="https://github.com/woowacourse/woowacourse-docs/blob/master/maincourse/review-step3.md">코드리뷰 요청 3단계</a>: 다음 단계 미션을 위해 준비하는 단계</li>
+        </ul>
+      </li>
+      <li>이렇게 권한은 없지만 <strong>[강의홈페이지를 통한 원본repo에 <code class="language-plaintext highlighter-rouge">이름만 내 github_id branch</code>]</strong>가 생성된 상태로 -&gt; <strong>fork</strong>한다.
+        <ul>
+          <li>fork가 내 계정으로 잘되어있어야한다</li>
+        </ul>
+      </li>
+      <li>
+<strong>fork를 해도  <code class="language-plaintext highlighter-rouge">기존 원본repo의 모든 branch들</code>이 다 fork</strong>되어있다. 기본 main으로 되어있다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220209110007703.png" alt="image-20220209110007703">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>fork는 모든 branch그대로 보유 —&gt; <code class="language-plaintext highlighter-rouge">clone을 통해서 로컬로 가져올 때는 --single-branch만</code> 가져오는 것이 가능하다.</strong></p>
+
+    <ul>
+      <li>현업에서는 10개이내 branch이므로 <code class="language-plaintext highlighter-rouge">git clone -b [branch명] --single-branch [fork한 레포명]</code>가 필요가 없다  .</li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">내 이름의 branch</code>가 main브랜치다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220209110234909.png" alt="image-20220209110234909">
+</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> git clone -b {본인_아이디} --single-branch https://github.com/{본인_아이디}/{저장소 아이디}
+    
+ ex) git clone -b javajigi --single-branch https://github.com/javajigi/java-baseball.git
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">git clone -b is2js --single-branch https://github.com/is2js/java-racingcar.git</code></strong>
+        <ul>
+          <li>
+<strong>intellij 터미널에서 작업</strong>하면 된다.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> PS C:\Users\cho_desktop\IdeaProjects\missions&gt; 
+    
+ git clone -b is2js --single-branch https://github.com/is2js/java-
+ racingcar.git
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>​		-</p>
+
+<ol>
+  <li>intellij에서 clone한 폴더를 open한다
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220209110718259.png" alt="image-20220209110718259">
+    <ul>
+      <li>
+<strong>내 이름의 싱글브랜치만 가져와지는지 확인한다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220209110844686.png" alt="image-20220209110844686">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">git checkout -b step1</code>으로 첫번째 리뷰용 브랜치를 만든다.</strong></p>
+
+    <ul>
+      <li>–single-branch clone 한 입장에서 , 내 id_branch -&gt; main브랜치</li>
+      <li>
+        <p>작업할 branch -&gt; <code class="language-plaintext highlighter-rouge">step1 -&gt; ...</code>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220209110940186.png" alt="image-20220209110940186"></p>
+      </li>
+      <li>
+        <p>cf) **git alias는 집착해서 알아야한다.-&gt; **</p>
+
+        <ul>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">gco</code> main = git command</strong></p>
+          </li>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">gba</code> = git branch -a</strong></p>
+
+            <div class="language-sh highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c"># windows git alias</span>
+  git config <span class="nt">--global</span> alias.co checkout
+  git config <span class="nt">--global</span> alias.ci commit
+  git config <span class="nt">--global</span> alias.st status
+  git config <span class="nt">--global</span> alias.br branch
+  git config <span class="nt">--global</span> alias.hist <span class="s2">"log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short"</span>
+  git config <span class="nt">--global</span> alias.type <span class="s1">'cat-file -t'</span>
+  git config <span class="nt">--global</span> alias.dump <span class="s1">'cat-file -p'</span>
+            
+            
+  <span class="c"># shell git alias</span>
+  <span class="nb">alias </span><span class="nv">gs</span><span class="o">=</span><span class="s1">'git status '</span>
+  <span class="nb">alias </span><span class="nv">ga</span><span class="o">=</span><span class="s1">'git add '</span>
+  <span class="nb">alias </span><span class="nv">gb</span><span class="o">=</span><span class="s1">'git branch '</span>
+  <span class="nb">alias </span><span class="nv">gc</span><span class="o">=</span><span class="s1">'git commit'</span>
+  <span class="nb">alias </span><span class="nv">gd</span><span class="o">=</span><span class="s1">'git diff'</span>
+  <span class="nb">alias </span><span class="nv">gco</span><span class="o">=</span><span class="s1">'git checkout '</span>
+  <span class="nb">alias </span><span class="nv">gk</span><span class="o">=</span><span class="s1">'gitk --all&amp;'</span>
+  <span class="nb">alias </span><span class="nv">gx</span><span class="o">=</span><span class="s1">'gitx --all'</span>
+            
+  <span class="nb">alias </span><span class="nv">got</span><span class="o">=</span><span class="s1">'git '</span>
+  <span class="nb">alias </span><span class="nv">get</span><span class="o">=</span><span class="s1">'git '</span>
+</code></pre></div>            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220209111042723.png" alt="image-20220209111042723"></p>
+  </li>
+  <li>
+<strong>마감 당일 일찍<code class="language-plaintext highlighter-rouge">짝과 찢어지고</code> -&gt; 리팩토링 추가해서 -&gt; PR요청</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220209112643527.png" alt="image-20220209112643527">
+</li>
+</ol>
+
+
+  </div><a class="u-url" href="/git/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/09/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0%EC%84%B8%ED%8C%85(1%EB%8B%A8%EA%B3%84%EA%B9%8C%EC%A7%80)(%EC%99%84).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

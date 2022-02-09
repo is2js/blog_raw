@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>TDD 기본 싸이클 작성 | 돌범의 기술블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="TDD 기본 싸이클 작성" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="TDD 싸이클 돌려보기(덧셈계산기)" />
+<meta property="og:description" content="TDD 싸이클 돌려보기(덧셈계산기)" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/2022/02/08/TDD%EC%8B%B8%EC%9D%B4%ED%81%B4(%EB%8D%A7%EC%85%88%EA%B3%84%EC%82%B0%EA%B8%B0)(%EC%99%842).html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/2022/02/08/TDD%EC%8B%B8%EC%9D%B4%ED%81%B4(%EB%8D%A7%EC%85%88%EA%B3%84%EC%82%B0%EA%B8%B0)(%EC%99%842).html" />
+<meta property="og:site_name" content="돌범의 기술블로그" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/wootech.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-08T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-02-08T00:00:00-06:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/2022/02/08/TDD%EC%8B%B8%EC%9D%B4%ED%81%B4(%EB%8D%A7%EC%85%88%EA%B3%84%EC%82%B0%EA%B8%B0)(%EC%99%842).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"TDD 기본 싸이클 작성","dateModified":"2022-02-08T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/2022/02/08/TDD%EC%8B%B8%EC%9D%B4%ED%81%B4(%EB%8D%A7%EC%85%88%EA%B3%84%EC%82%B0%EA%B8%B0)(%EC%99%842).html"},"description":"TDD 싸이클 돌려보기(덧셈계산기)","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범의 기술블로그" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범의 기술블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">TDD 기본 싸이클 작성</h1><p class="page-description">TDD 싸이클 돌려보기(덧셈계산기)</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-08T00:00:00-06:00" itemprop="datePublished">
+        Feb 8, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      1 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#TDD">TDD</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#tdd-싸이클">TDD 싸이클</a></li>
+</ul><h3 id="tdd-싸이클">
+<a class="anchor" href="#tdd-%EC%8B%B8%EC%9D%B4%ED%81%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>TDD 싸이클</h3>
+
+<ul>
+  <li>
+    <p>TDD 구현</p>
+
+    <ul>
+      <li>싸이클
+        <ol>
+          <li>**<code class="language-plaintext highlighter-rouge">fail</code>떨어지는 <code class="language-plaintext highlighter-rouge">test코드</code> 생성 **
+            <ul>
+              <li>case별로 메서드_이름을 표기하여 작성한다.</li>
+            </ul>
+          </li>
+          <li>
+<strong>main(프로덕션)코드 작성 후 pass</strong>
+            <ul>
+              <li>2번째부터는 개별 pass -&gt; 전체pass 순으로 확인</li>
+            </ul>
+          </li>
+          <li><strong>refactoring(rename부터 시작)</strong></li>
+        </ol>
+      </li>
+    </ul>
+
+    <ol>
+      <li>
+        <p>test에서 package &gt;  <strong>XXXTest</strong> class를 먼저 만든다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210002321626.png" alt="image-20220210002321626"></p>
+
+        <ul>
+          <li>
+            <p><code class="language-plaintext highlighter-rouge">generate(alt+insert)</code>기능으로<code class="language-plaintext highlighter-rouge"> @test</code>로 생성</p>
+          </li>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">메서드_명</code></strong>은 한글명으로 해도 되고, 단위테스트가 의미하는 바만 잘 나타내면된다. <strong>여기선 <code class="language-plaintext highlighter-rouge">여러 경우 중 1가지(구분자 없는) 경우</code>로 시작을 한다.</strong></p>
+          </li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210002132357.png" alt="image-20220210002132357"></p>
+      </li>
+      <li>
+        <p>클래스명 + 메소드명을 먼저 사용하여 <strong>할당을 <code class="language-plaintext highlighter-rouge">반환형 actual</code>변수</strong>로 받은 뒤
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210002420978.png" alt="image-20220210002420978"></p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">assertThat( actual ).isEqualTo( )</code>에서 인자에 예상값(우리가 원하는 값)을 넣는다.<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210002750670.png" alt="image-20220210002750670"></p>
+      </li>
+      <li>
+        <p>SC 없는 클래스를 만들 되, <strong><code class="language-plaintext highlighter-rouge">미리 main쪽에 package</code>를 만들어 놓은 상태에서 -&gt;  생성경로를 <code class="language-plaintext highlighter-rouge">main</code>으로 바꿔준다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210003428318.png" alt="image-20220210003428318">
+ 	<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210003615119.png" alt="image-20220210003615119"></p>
+
+        <ul>
+          <li>test &gt; package &gt; <code class="language-plaintext highlighter-rouge">XXXTest</code>  class</li>
+          <li>내부 XXX클래스.메서드() —&gt; main &gt; package &gt; <code class="language-plaintext highlighter-rouge">XXX</code> class로 생성</li>
+          <li>
+<strong>test에만 존재하는 package를 선택하면, main에 못만드니 미리 만들어놔야한다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210003637496.png" alt="image-20220210003637496">
+</li>
+        </ul>
+      </li>
+      <li>
+        <p>**클래스 생성 직후 바로 돌아와(<code class="language-plaintext highlighter-rouge">Back</code>기능 ctrl+u) method도 만들어준다 **</p>
+
+        <ul>
+          <li>
+            <p><strong>이 때, <code class="language-plaintext highlighter-rouge">actual(1)</code>을 반환하지 않는 불완전한 메소드를 <code class="language-plaintext highlighter-rouge">수정없이 test실행부터</code>해서 <code class="language-plaintext highlighter-rouge">Error</code>를 낸다</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210004142871.png" alt="image-20220210004142871">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210004155379.png" alt="image-20220210004155379">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210004242837.png" alt="image-20220210004242837"></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>test코드(SCTest)가  <strong><code class="language-plaintext highlighter-rouge">pass</code>하도록 프로덕션코드(main코드, SC)를 수정</strong>한다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210004534897.png" alt="image-20220210004534897">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210004546088.png" alt="image-20220210004546088"></p>
+      </li>
+      <li>
+        <p><strong>pass한 프로덕션 메소드를 <code class="language-plaintext highlighter-rouge">refactoring</code>한다.</strong></p>
+
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">파라미터 이름</code> 바꾸는 것도 <code class="language-plaintext highlighter-rouge">F2</code> = <code class="language-plaintext highlighter-rouge">refactoring</code>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210004747129.png" alt="image-20220210004747129">
+</li>
+          <li>@test 막 사용했던 <code class="language-plaintext highlighter-rouge">class이름(XXX)</code> 바꾸는 것도 F2 = refactoring
+            <ul>
+              <li>이 때, <code class="language-plaintext highlighter-rouge">test class이름 XXXTest</code>도 바꾸자고 권유한다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210004912329.png" alt="image-20220210004912329">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210004929527.png" alt="image-20220210004929527">
+</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>더이상 refactoring할게 없다면 -&gt; 새로운 단위테스트를 클래스.메소드()부터 만들어서 나아간다.</p>
+
+        <ul>
+          <li>
+            <p><strong>직전에 만든 테코랑 비슷하다면, 복붙해서 시작한다.</strong></p>
+          </li>
+          <li>
+            <p>테케는 가능한 가장 작은 단위를 만드는 경우며,  <strong>케이스 -&gt; <code class="language-plaintext highlighter-rouge">if 상황별 새로운 메소드</code>로</strong> 나누고 <strong>-&gt; 상황에 맞게 <code class="language-plaintext highlighter-rouge">인자 변경</code> -&gt; <code class="language-plaintext highlighter-rouge">expected</code></strong></p>
+
+            <ul>
+              <li>구분자 없음 -&gt; “1” -&gt; 1</li>
+              <li>컴마 구분자 -&gt;  “1,2” -&gt; 3</li>
+            </ul>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210011954592.png" alt="image-20220210011954592"></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>다음 테케도 <strong>프로덕션 코드 수정없이 일단 돌려서 fail을 떨어뜨린 뒤-&gt; 에러보고 참고하여 찾아가서 수정</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210012202908.png" alt="image-20220210012202908"></p>
+      </li>
+      <li>
+        <p>해당 테케실행 -&gt; <strong>전체 테케도 실행</strong>해서 전체 통과하는지 확인을 한다.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210012607222.png" alt="image-20220210012607222"></p>
+      </li>
+      <li>
+        <p>pass후엔 refactoring하기</p>
+
+        <ul>
+          <li>
+            <p>for문으로 들어가는 indent -&gt; <code class="language-plaintext highlighter-rouge">메소드 추출 refactoring</code></p>
+
+            <ul>
+              <li>
+                <p>return문까지 잡아서 추출해보기(<code class="language-plaintext highlighter-rouge">alt+ctrl+m</code> -&gt; 안되면 <code class="language-plaintext highlighter-rouge">ctrl+.</code>)</p>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210013249462.png" alt="image-20220210013249462"></p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>input/output이 명확한 쉬운 TDD였다.</p>
+
+        <ul>
+          <li>자동차 경주를 하려면, 너무 힘들 것</li>
+          <li>
+<strong>단위테스트만</strong> 만들어서 해볼 것</li>
+          <li><strong>fail하는 test생성 -&gt; 프로덕션수정으로 pass -&gt; refactoring</strong></li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/2022/02/08/TDD%EC%8B%B8%EC%9D%B4%ED%81%B4(%EB%8D%A7%EC%85%88%EA%B3%84%EC%82%B0%EA%B8%B0)(%EC%99%842).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>method refactoring | 돌범의 기술블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="method refactoring" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="method관련된 리팩토링 살펴보기" />
+<meta property="og:description" content="method관련된 리팩토링 살펴보기" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/10/method_refactoring(%EC%99%84).html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/10/method_refactoring(%EC%99%84).html" />
+<meta property="og:site_name" content="돌범의 기술블로그" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/wootech.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-10T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-02-10T00:00:00-06:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/10/method_refactoring(%EC%99%84).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"method refactoring","dateModified":"2022-02-10T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/10/method_refactoring(%EC%99%84).html"},"description":"method관련된 리팩토링 살펴보기","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범의 기술블로그" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범의 기술블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">method refactoring</h1><p class="page-description">method관련된 리팩토링 살펴보기</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-10T00:00:00-06:00" itemprop="datePublished">
+        Feb 10, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      1 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#메소드관련-리팩토링">메소드관련 리팩토링</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-메서드-추출로-for-indent-제거">01 메서드 추출로 [for indent] 제거</a></li>
+<li class="toc-entry toc-h4"><a href="#02-early-return으로-else-제거">02 early return으로 [else] 제거</a></li>
+<li class="toc-entry toc-h4"><a href="#03-메서드-분리---일을-1가지씩-순차적으로">03 메서드 분리 -&gt; [일을 1가지씩 순차적으로]</a></li>
+<li class="toc-entry toc-h4"><a href="#04-로컬변수-제거----line-줄이기">04 로컬변수 제거 -&gt; [ line 줄이기]</a></li>
+<li class="toc-entry toc-h4"><a href="#05-compose-method-패턴---조건문-보기-좋게">05 compose method 패턴 -&gt; [조건문 보기 좋게]</a></li>
+</ul>
+</li>
+</ul><h3 id="메소드관련-리팩토링">
+<a class="anchor" href="#%EB%A9%94%EC%86%8C%EB%93%9C%EA%B4%80%EB%A0%A8-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81" aria-hidden="true"><span class="octicon octicon-link"></span></a>메소드관련 리팩토링</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220208161557404.png" alt="image-20220208161557404"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220208161641871.png" alt="image-20220208161641871"></p>
+
+<h4 id="01-메서드-추출로-for-indent-제거">
+<a class="anchor" href="#01-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%B6%94%EC%B6%9C%EB%A1%9C-for-indent-%EC%A0%9C%EA%B1%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 메서드 추출로 [for indent] 제거</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220208161751819.png" alt="image-20220208161751819"></p>
+
+<ul>
+  <li>
+    <p>indent는 메서드 분리로 해결한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220208161833152.png" alt="image-20220208161833152"></p>
+  </li>
+</ul>
+
+<h4 id="02-early-return으로-else-제거">
+<a class="anchor" href="#02-early-return%EC%9C%BC%EB%A1%9C-else-%EC%A0%9C%EA%B1%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 early return으로 [else] 제거</h4>
+
+<ul>
+  <li>
+    <p>else 제거 by early return</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220208161947277.png" alt="image-20220208161947277"></p>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220208162012050.png" alt="image-20220208162012050"></p>
+
+<h4 id="03-메서드-분리---일을-1가지씩-순차적으로">
+<a class="anchor" href="#03-%EB%A9%94%EC%84%9C%EB%93%9C-%EB%B6%84%EB%A6%AC---%EC%9D%BC%EC%9D%84-1%EA%B0%80%EC%A7%80%EC%94%A9-%EC%88%9C%EC%B0%A8%EC%A0%81%EC%9C%BC%EB%A1%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 메서드 분리 -&gt; [일을 1가지씩 순차적으로]</h4>
+
+<ul>
+  <li>1가지 일만하도록 메서드 분리
+    <ul>
+      <li>convert(문자열[]-&gt; 숫자[] )  +  누적합sum</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220208162043109.png" alt="image-20220208162043109"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220208162117516.png" alt="image-20220208162117516"></p>
+
+<ul>
+  <li>보기 좋음 »&gt; 약간의 성능저하</li>
+</ul>
+
+<h4 id="04-로컬변수-제거----line-줄이기">
+<a class="anchor" href="#04-%EB%A1%9C%EC%BB%AC%EB%B3%80%EC%88%98-%EC%A0%9C%EA%B1%B0----line-%EC%A4%84%EC%9D%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 로컬변수 제거 -&gt; [ line 줄이기]</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220208162301276.png" alt="image-20220208162301276"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220208162304774.png" alt="image-20220208162304774"></p>
+
+<h4 id="05-compose-method-패턴---조건문-보기-좋게">
+<a class="anchor" href="#05-compose-method-%ED%8C%A8%ED%84%B4---%EC%A1%B0%EA%B1%B4%EB%AC%B8-%EB%B3%B4%EA%B8%B0-%EC%A2%8B%EA%B2%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 compose method 패턴 -&gt; [조건문 보기 좋게]</h4>
+
+<ul>
+  <li>조건문에 적용: https://wooyaggo.tistory.com/34</li>
+  <li>심화: https://mygumi.tistory.com/343</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220208162327440.png" alt="image-20220208162327440"></p>
+
+<ul>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">조건문</code>을 의도를 가진 메서드로</strong> 바꾼다 -&gt; 파라미터의 type이나 조건이 <strong>바뀔 때 <code class="language-plaintext highlighter-rouge">사용된 조건문</code>을 일괄해서 바꿀 수 있다.</strong>
+</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220208162332034.png" alt="image-20220208162332034"></p>
+
+<ul>
+  <li>
+    <p>읽기좋게 레벨 맞추기</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220208162400185.png" alt="image-20220208162400185"></p>
+  </li>
+  <li>
+    <p>비교</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220208162412464.png" alt="image-20220208162412464"></p>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/10/method_refactoring(%EC%99%84).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
