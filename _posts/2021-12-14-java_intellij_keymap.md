@@ -21,7 +21,7 @@ image: "images/posts/java.png"
 - `shift 2번` : 전체 검색(유지)
   - vscode `F1`
 
-- **keymap 들어가서 `move opposite group`검색후 `ctrl+shift+ 오른화살표`지정**하기
+- **keymap 들어가서 `move to opposite group`검색후 `ctrl+shift+ 오른화살표`지정**하기
   - `ctrl + \` 이후 넘기기..왼쪽넘기기 기능 자체는 없나보다.
   - `alt+shift+0`으로 세로로 넘기기 가능
 
