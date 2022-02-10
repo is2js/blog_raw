@@ -132,13 +132,12 @@ window.onload = wrap_img;
 <a class="anchor" href="#tdd-%EC%8B%B8%EC%9D%B4%ED%81%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>TDD 싸이클</h3>
 
 <ul>
-  <li>
-    <p>TDD 구현</p>
-
+  <li>TDD 구현
     <ul>
       <li>싸이클
         <ol>
-          <li>**<code class="language-plaintext highlighter-rouge">fail</code>떨어지는 <code class="language-plaintext highlighter-rouge">test코드</code> 생성 **
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">fail</code>떨어지는 <code class="language-plaintext highlighter-rouge">test코드</code> 생성</strong>
             <ul>
               <li>case별로 메서드_이름을 표기하여 작성한다.</li>
             </ul>
@@ -153,139 +152,152 @@ window.onload = wrap_img;
         </ol>
       </li>
     </ul>
+  </li>
+</ul>
 
-    <ol>
+<ol>
+  <li>
+    <p>test에서 package &gt;  <strong>XXXTest</strong> class를 먼저 만든다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210002321626.png" alt="image-20220210002321626"></p>
+
+    <ul>
       <li>
-        <p>test에서 package &gt;  <strong>XXXTest</strong> class를 먼저 만든다.</p>
-
-        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210002321626.png" alt="image-20220210002321626"></p>
-
-        <ul>
-          <li>
-            <p><code class="language-plaintext highlighter-rouge">generate(alt+insert)</code>기능으로<code class="language-plaintext highlighter-rouge"> @test</code>로 생성</p>
-          </li>
-          <li>
-            <p><strong><code class="language-plaintext highlighter-rouge">메서드_명</code></strong>은 한글명으로 해도 되고, 단위테스트가 의미하는 바만 잘 나타내면된다. <strong>여기선 <code class="language-plaintext highlighter-rouge">여러 경우 중 1가지(구분자 없는) 경우</code>로 시작을 한다.</strong></p>
-          </li>
-        </ul>
-
-        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210002132357.png" alt="image-20220210002132357"></p>
+        <p><code class="language-plaintext highlighter-rouge">generate(alt+insert)</code>기능으로<code class="language-plaintext highlighter-rouge"> @test</code>로 생성</p>
       </li>
       <li>
-        <p>클래스명 + 메소드명을 먼저 사용하여 <strong>할당을 <code class="language-plaintext highlighter-rouge">반환형 actual</code>변수</strong>로 받은 뒤
- <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210002420978.png" alt="image-20220210002420978"></p>
+        <p><strong><code class="language-plaintext highlighter-rouge">메서드_명</code></strong>은 한글명으로 해도 되고, 단위테스트가 의미하는 바만 잘 나타내면된다. <strong>여기선 <code class="language-plaintext highlighter-rouge">여러 경우 중 1가지(구분자 없는) 경우</code>로 시작을 한다.</strong></p>
       </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210002132357.png" alt="image-20220210002132357"></p>
+  </li>
+  <li>클래스명 + 메소드명을 먼저 사용하여 <strong>할당을 <code class="language-plaintext highlighter-rouge">반환형 actual</code>변수</strong>로 받은 뒤
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210002420978.png" alt="image-20220210002420978">
+    <ul>
       <li>
-        <p><code class="language-plaintext highlighter-rouge">assertThat( actual ).isEqualTo( )</code>에서 인자에 예상값(우리가 원하는 값)을 넣는다.<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210002750670.png" alt="image-20220210002750670"></p>
-      </li>
-      <li>
-        <p>SC 없는 클래스를 만들 되, <strong><code class="language-plaintext highlighter-rouge">미리 main쪽에 package</code>를 만들어 놓은 상태에서 -&gt;  생성경로를 <code class="language-plaintext highlighter-rouge">main</code>으로 바꿔준다.</strong>
+<strong><code class="language-plaintext highlighter-rouge">given</code>(값 -&gt; 변수 선언 등) -&gt; <code class="language-plaintext highlighter-rouge">when</code>(actual까지 로직) -&gt; <code class="language-plaintext highlighter-rouge">then</code>( asesertThat(actual).isEqualTo(expected))</strong>
+ ```
+ // given
+ String data = “(1,2)”;</li>
+    </ul>
+
+    <p>// when
+ String result = data.substring(1, data.length()-1);</p>
+
+    <p>// then
+ assertThat(result).isEqualTo(“1,2”);
+ ```</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">assertThat( actual ).isEqualTo( )</code>에서 인자에 예상값(우리가 원하는 값)을 넣는다.<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210002750670.png" alt="image-20220210002750670"></p>
+  </li>
+  <li>
+    <p>SC 없는 클래스를 만들 되, <strong><code class="language-plaintext highlighter-rouge">미리 main쪽에 package</code>를 만들어 놓은 상태에서 -&gt;  생성경로를 <code class="language-plaintext highlighter-rouge">main</code>으로 바꿔준다.</strong>
  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210003428318.png" alt="image-20220210003428318">
- 	<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210003615119.png" alt="image-20220210003615119"></p>
+     <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210003615119.png" alt="image-20220210003615119"></p>
 
-        <ul>
-          <li>test &gt; package &gt; <code class="language-plaintext highlighter-rouge">XXXTest</code>  class</li>
-          <li>내부 XXX클래스.메서드() —&gt; main &gt; package &gt; <code class="language-plaintext highlighter-rouge">XXX</code> class로 생성</li>
-          <li>
+    <ul>
+      <li>test &gt; package &gt; <code class="language-plaintext highlighter-rouge">XXXTest</code>  class</li>
+      <li>내부 XXX클래스.메서드() —&gt; main &gt; package &gt; <code class="language-plaintext highlighter-rouge">XXX</code> class로 생성</li>
+      <li>
 <strong>test에만 존재하는 package를 선택하면, main에 못만드니 미리 만들어놔야한다.</strong>
   <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210003637496.png" alt="image-20220210003637496">
 </li>
-        </ul>
-      </li>
+    </ul>
+  </li>
+  <li>
+    <p>**클래스 생성 직후 바로 돌아와(<code class="language-plaintext highlighter-rouge">Back</code>기능 ctrl+u) method도 만들어준다 **</p>
+
+    <ul>
       <li>
-        <p>**클래스 생성 직후 바로 돌아와(<code class="language-plaintext highlighter-rouge">Back</code>기능 ctrl+u) method도 만들어준다 **</p>
+        <p><strong>이 때, <code class="language-plaintext highlighter-rouge">actual(1)</code>을 반환하지 않는 불완전한 메소드를 <code class="language-plaintext highlighter-rouge">수정없이 test실행부터</code>해서 <code class="language-plaintext highlighter-rouge">Error</code>를 낸다</strong></p>
 
-        <ul>
-          <li>
-            <p><strong>이 때, <code class="language-plaintext highlighter-rouge">actual(1)</code>을 반환하지 않는 불완전한 메소드를 <code class="language-plaintext highlighter-rouge">수정없이 test실행부터</code>해서 <code class="language-plaintext highlighter-rouge">Error</code>를 낸다</strong></p>
-
-            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210004142871.png" alt="image-20220210004142871">
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210004142871.png" alt="image-20220210004142871">
   <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210004155379.png" alt="image-20220210004155379">
   <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210004242837.png" alt="image-20220210004242837"></p>
-          </li>
-        </ul>
       </li>
-      <li>
-        <p>test코드(SCTest)가  <strong><code class="language-plaintext highlighter-rouge">pass</code>하도록 프로덕션코드(main코드, SC)를 수정</strong>한다.</p>
+    </ul>
+  </li>
+  <li>
+    <p>test코드(SCTest)가  <strong><code class="language-plaintext highlighter-rouge">pass</code>하도록 프로덕션코드(main코드, SC)를 수정</strong>한다.</p>
 
-        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210004534897.png" alt="image-20220210004534897">
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210004534897.png" alt="image-20220210004534897">
  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210004546088.png" alt="image-20220210004546088"></p>
-      </li>
-      <li>
-        <p><strong>pass한 프로덕션 메소드를 <code class="language-plaintext highlighter-rouge">refactoring</code>한다.</strong></p>
+  </li>
+  <li>
+    <p><strong>pass한 프로덕션 메소드를 <code class="language-plaintext highlighter-rouge">refactoring</code>한다.</strong></p>
 
-        <ul>
-          <li>
+    <ul>
+      <li>
 <code class="language-plaintext highlighter-rouge">파라미터 이름</code> 바꾸는 것도 <code class="language-plaintext highlighter-rouge">F2</code> = <code class="language-plaintext highlighter-rouge">refactoring</code>
   <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210004747129.png" alt="image-20220210004747129">
 </li>
-          <li>@test 막 사용했던 <code class="language-plaintext highlighter-rouge">class이름(XXX)</code> 바꾸는 것도 F2 = refactoring
-            <ul>
-              <li>이 때, <code class="language-plaintext highlighter-rouge">test class이름 XXXTest</code>도 바꾸자고 권유한다.
+      <li>@test 막 사용했던 <code class="language-plaintext highlighter-rouge">class이름(XXX)</code> 바꾸는 것도 F2 = refactoring
+        <ul>
+          <li>이 때, <code class="language-plaintext highlighter-rouge">test class이름 XXXTest</code>도 바꾸자고 권유한다.
   <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210004912329.png" alt="image-20220210004912329">
   <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210004929527.png" alt="image-20220210004929527">
 </li>
-            </ul>
-          </li>
         </ul>
       </li>
-      <li>
-        <p>더이상 refactoring할게 없다면 -&gt; 새로운 단위테스트를 클래스.메소드()부터 만들어서 나아간다.</p>
-
-        <ul>
-          <li>
-            <p><strong>직전에 만든 테코랑 비슷하다면, 복붙해서 시작한다.</strong></p>
-          </li>
-          <li>
-            <p>테케는 가능한 가장 작은 단위를 만드는 경우며,  <strong>케이스 -&gt; <code class="language-plaintext highlighter-rouge">if 상황별 새로운 메소드</code>로</strong> 나누고 <strong>-&gt; 상황에 맞게 <code class="language-plaintext highlighter-rouge">인자 변경</code> -&gt; <code class="language-plaintext highlighter-rouge">expected</code></strong></p>
-
-            <ul>
-              <li>구분자 없음 -&gt; “1” -&gt; 1</li>
-              <li>컴마 구분자 -&gt;  “1,2” -&gt; 3</li>
-            </ul>
-
-            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210011954592.png" alt="image-20220210011954592"></p>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <p>다음 테케도 <strong>프로덕션 코드 수정없이 일단 돌려서 fail을 떨어뜨린 뒤-&gt; 에러보고 참고하여 찾아가서 수정</strong>
- <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210012202908.png" alt="image-20220210012202908"></p>
-      </li>
-      <li>
-        <p>해당 테케실행 -&gt; <strong>전체 테케도 실행</strong>해서 전체 통과하는지 확인을 한다.
-<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210012607222.png" alt="image-20220210012607222"></p>
-      </li>
-      <li>
-        <p>pass후엔 refactoring하기</p>
-
-        <ul>
-          <li>
-            <p>for문으로 들어가는 indent -&gt; <code class="language-plaintext highlighter-rouge">메소드 추출 refactoring</code></p>
-
-            <ul>
-              <li>
-                <p>return문까지 잡아서 추출해보기(<code class="language-plaintext highlighter-rouge">alt+ctrl+m</code> -&gt; 안되면 <code class="language-plaintext highlighter-rouge">ctrl+.</code>)</p>
-
-                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210013249462.png" alt="image-20220210013249462"></p>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <p>input/output이 명확한 쉬운 TDD였다.</p>
-
-        <ul>
-          <li>자동차 경주를 하려면, 너무 힘들 것</li>
-          <li>
-<strong>단위테스트만</strong> 만들어서 해볼 것</li>
-          <li><strong>fail하는 test생성 -&gt; 프로덕션수정으로 pass -&gt; refactoring</strong></li>
-        </ul>
-      </li>
-    </ol>
+    </ul>
   </li>
-</ul>
+  <li>
+    <p>더이상 refactoring할게 없다면 -&gt; 새로운 단위테스트를 클래스.메소드()부터 만들어서 나아간다.</p>
+
+    <ul>
+      <li>
+        <p><strong>직전에 만든 테코랑 비슷하다면, 복붙해서 시작한다.</strong></p>
+      </li>
+      <li>
+        <p>테케는 가능한 가장 작은 단위를 만드는 경우며,  <strong>케이스 -&gt; <code class="language-plaintext highlighter-rouge">if 상황별 새로운 메소드</code>로</strong> 나누고 <strong>-&gt; 상황에 맞게 <code class="language-plaintext highlighter-rouge">인자 변경</code> -&gt; <code class="language-plaintext highlighter-rouge">expected</code></strong></p>
+
+        <ul>
+          <li>구분자 없음 -&gt; “1” -&gt; 1</li>
+          <li>컴마 구분자 -&gt;  “1,2” -&gt; 3</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210011954592.png" alt="image-20220210011954592"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>다음 테케도 <strong>프로덕션 코드 수정없이 일단 돌려서 fail을 떨어뜨린 뒤-&gt; 에러보고 참고하여 찾아가서 수정</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210012202908.png" alt="image-20220210012202908"></p>
+  </li>
+  <li>
+    <p>해당 테케실행 -&gt; <strong>전체 테케도 실행</strong>해서 전체 통과하는지 확인을 한다.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210012607222.png" alt="image-20220210012607222"></p>
+  </li>
+  <li>
+    <p>pass후엔 refactoring하기</p>
+
+    <ul>
+      <li>
+        <p>for문으로 들어가는 indent -&gt; <code class="language-plaintext highlighter-rouge">메소드 추출 refactoring</code></p>
+
+        <ul>
+          <li>
+            <p>return문까지 잡아서 추출해보기(<code class="language-plaintext highlighter-rouge">alt+ctrl+m</code> -&gt; 안되면 <code class="language-plaintext highlighter-rouge">ctrl+.</code>)</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210013249462.png" alt="image-20220210013249462"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>input/output이 명확한 쉬운 TDD였다.</p>
+
+    <ul>
+      <li>자동차 경주를 하려면, 너무 힘들 것</li>
+      <li>
+<strong>단위테스트만</strong> 만들어서 해볼 것</li>
+      <li><strong>fail하는 test생성 -&gt; 프로덕션수정으로 pass -&gt; refactoring</strong></li>
+    </ul>
+  </li>
+</ol>
 
 
   </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/2022/02/08/TDD%EC%8B%B8%EC%9D%B4%ED%81%B4(%EB%8D%A7%EC%85%88%EA%B3%84%EC%82%B0%EA%B8%B0)(%EC%99%842).html" hidden></a>
