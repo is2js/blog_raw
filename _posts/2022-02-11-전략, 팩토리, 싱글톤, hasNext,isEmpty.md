@@ -149,6 +149,9 @@ image: "images/posts/wootech.png"
         jk.printPosition();
     
     }
+
+    js의 위치: 0
+    jk의 위치: 3
     ```
 
     
