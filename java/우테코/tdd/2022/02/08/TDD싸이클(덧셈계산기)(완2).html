@@ -176,18 +176,20 @@ window.onload = wrap_img;
  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210002420978.png" alt="image-20220210002420978">
     <ul>
       <li>
-<strong><code class="language-plaintext highlighter-rouge">given</code>(값 -&gt; 변수 선언 등) -&gt; <code class="language-plaintext highlighter-rouge">when</code>(actual까지 로직) -&gt; <code class="language-plaintext highlighter-rouge">then</code>( asesertThat(actual).isEqualTo(expected))</strong>
- ```
- // given
- String data = “(1,2)”;</li>
+        <p><strong><code class="language-plaintext highlighter-rouge">given</code>(값 -&gt; 변수 선언 등) -&gt; <code class="language-plaintext highlighter-rouge">when</code>(actual까지 로직) -&gt; <code class="language-plaintext highlighter-rouge">then</code>( asesertThat(actual).isEqualTo(expected))</strong></p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>      <span class="c1">// given</span>
+      <span class="nc">String</span> <span class="n">data</span> <span class="o">=</span> <span class="s">"(1,2)"</span><span class="o">;</span>
+
+      <span class="c1">// when</span>
+      <span class="nc">String</span> <span class="n">result</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">data</span><span class="o">.</span><span class="na">length</span><span class="o">()-</span><span class="mi">1</span><span class="o">);</span>
+
+      <span class="c1">// then</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">result</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">"1,2"</span><span class="o">);</span>
+</code></pre></div>        </div>
+      </li>
     </ul>
-
-    <p>// when
- String result = data.substring(1, data.length()-1);</p>
-
-    <p>// then
- assertThat(result).isEqualTo(“1,2”);
- ```</p>
   </li>
   <li>
     <p><code class="language-plaintext highlighter-rouge">assertThat( actual ).isEqualTo( )</code>에서 인자에 예상값(우리가 원하는 값)을 넣는다.<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220210002750670.png" alt="image-20220210002750670"></p>
