@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>전략,팩토리,싱글톤,hasNext,isEmpty | 돌범의 기술블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="전략,팩토리,싱글톤,hasNext,isEmpty" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="일부 패턴들 + 자바상식" />
+<meta property="og:description" content="일부 패턴들 + 자바상식" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/11/%EC%A0%84%EB%9E%B5,-%ED%8C%A9%ED%86%A0%EB%A6%AC,-%EC%8B%B1%EA%B8%80%ED%86%A4,-hasNext,isEmpty.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/11/%EC%A0%84%EB%9E%B5,-%ED%8C%A9%ED%86%A0%EB%A6%AC,-%EC%8B%B1%EA%B8%80%ED%86%A4,-hasNext,isEmpty.html" />
+<meta property="og:site_name" content="돌범의 기술블로그" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/wootech.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-11T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-02-11T00:00:00-06:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/11/%EC%A0%84%EB%9E%B5,-%ED%8C%A9%ED%86%A0%EB%A6%AC,-%EC%8B%B1%EA%B8%80%ED%86%A4,-hasNext,isEmpty.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"전략,팩토리,싱글톤,hasNext,isEmpty","dateModified":"2022-02-11T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/11/%EC%A0%84%EB%9E%B5,-%ED%8C%A9%ED%86%A0%EB%A6%AC,-%EC%8B%B1%EA%B8%80%ED%86%A4,-hasNext,isEmpty.html"},"description":"일부 패턴들 + 자바상식","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범의 기술블로그" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범의 기술블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">전략,팩토리,싱글톤,hasNext,isEmpty</h1><p class="page-description">일부 패턴들 + 자바상식</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-11T00:00:00-06:00" itemprop="datePublished">
+        Feb 11, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#전략패턴-for-대체를-테스트에서-상수로">전략패턴 for 대체를 [테스트에서 상수]로</a></li>
+<li class="toc-entry toc-h3"><a href="#정적-팩토리-메소드-네이밍-컨벤션">정적 팩토리 메소드 네이밍 컨벤션</a></li>
+<li class="toc-entry toc-h3"><a href="#싱글톤-패턴관리자machine-inputview스캐너">싱글톤 패턴(관리자Machine, InputView스캐너)</a></li>
+<li class="toc-entry toc-h3"><a href="#값객체hasnext패턴">값객체.hasNext()패턴</a></li>
+<li class="toc-entry toc-h3"><a href="#isempty---isblank">isEmpty  &lt; isBlank</a></li>
+</ul><h3 id="전략패턴-for-대체를-테스트에서-상수로">
+<a class="anchor" href="#%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4-for-%EB%8C%80%EC%B2%B4%EB%A5%BC-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%97%90%EC%84%9C-%EC%83%81%EC%88%98%EB%A1%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>전략패턴 for 대체를 [테스트에서 상수]로</h3>
+
+<ul>
+  <li>전략패턴은 전략을 <strong>사용자가 선택해서 상황에 맞는</strong> 행동을 하게 할때 주로 사용
+    <ul>
+      <li>
+<strong>필요시 다른 환율적용</strong>한 계산 반영</li>
+      <li>해쉬값 생성시 알고리즘을 <strong>다르게 적용</strong>
+</li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">다른 적용 전략으로서 [랜덤값 포함 조건문] -&gt; [()- &gt; true] 테스트에 적용</code></strong>
+        <ul>
+          <li>여기서는 랜덤값을 -&gt; 테스트용 상수로 적용하기 위해서, 랜덤값 포함 조건문에 전략패턴을 건다</li>
+        </ul>
+      </li>
+      <li><a href="https://catsbi.oopy.io/344dbe7b-9774-48fc-9c95-b554e9c1c4bc">예시 코드 블로그(노션)</a></li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>바뀔 수 있는 부분을 잡아서 <code class="language-plaintext highlighter-rouge">상태에 맞게 메소드로 추출</code>해놓는다.</strong></p>
+
+    <ul>
+      <li>
+        <p>해당메소드는 인터페이스 impl 구상클래스로 갈 것이다.</p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">if</span><span class="o">(</span> <span class="nc">Util</span><span class="o">.</span><span class="na">generateRandomNumber</span><span class="o">()</span> <span class="o">&gt;=</span> <span class="mi">4</span> <span class="o">){</span>
+          <span class="k">this</span><span class="o">.</span><span class="na">position</span><span class="o">++;</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">if</span><span class="o">(</span><span class="n">isMovable</span><span class="o">()){</span>
+          <span class="k">this</span><span class="o">.</span><span class="na">position</span><span class="o">++;</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+        
+  <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isMovable</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="nc">Util</span><span class="o">.</span><span class="na">generateRandomNumber</span><span class="o">()</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">인터페이스 XXXXStrategy</code> + <code class="language-plaintext highlighter-rouge">이름만 가진 추상메서드</code>를 만든다.</strong></p>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">랜덤한 조건문</code>이  -&gt; <code class="language-plaintext highlighter-rouge">테스트용으로 대체</code>될 예정이라면 -&gt; <strong><code class="language-plaintext highlighter-rouge">boolean등 반환형</code> +  <code class="language-plaintext highlighter-rouge">추출한 메서드를 추상메서드로 이름만</code> 정의한다</strong>
+</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">MoveConditionStrategy</span> <span class="o">{</span>
+     <span class="kt">boolean</span> <span class="nf">isMovable</span><span class="o">();</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">특정Strategy</code>의 이름을 정해서 <code class="language-plaintext highlighter-rouge">impl구상클래스</code>를 <code class="language-plaintext highlighter-rouge">추출메소드를 복붙</code>해서 구현한다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">RandomMoveConditionStrategy</span> <span class="kd">implements</span> <span class="nc">MoveConditionStrategy</span><span class="o">{</span>
+    
+     <span class="nd">@Override</span>
+     <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isMovable</span><span class="o">()</span> <span class="o">{</span>
+         <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">RandomMoveConditionStrategy</span> <span class="kd">implements</span> <span class="nc">MoveConditionStrategy</span><span class="o">{</span>
+    
+     <span class="nd">@Override</span>
+     <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isMovable</span><span class="o">()</span> <span class="o">{</span>
+         <span class="k">return</span> <span class="nc">Util</span><span class="o">.</span><span class="na">generateRandomNumber</span><span class="o">()</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="o">;</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">특정전략의 메소드</code>가 사용된 곳마다 —&gt; 다른전략을 허용하는 <code class="language-plaintext highlighter-rouge">추상화된 인터페이스 객체</code>를 <code class="language-plaintext highlighter-rouge">인자</code>로 받은 뒤 -&gt; <code class="language-plaintext highlighter-rouge">추상체.추출메소드()</code>호출로 수정한다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+     <span class="k">if</span><span class="o">(</span><span class="n">isMovable</span><span class="o">()){</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">position</span><span class="o">++;</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">(</span><span class="nc">MoveConditionStrategy</span> <span class="n">moveConditionStrategy</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">if</span><span class="o">(</span><span class="n">moveConditionStrategy</span><span class="o">.</span><span class="na">isMovable</span><span class="o">()){</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">position</span><span class="o">++;</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>이제 에러난 부분을 타고가면서, <strong><code class="language-plaintext highlighter-rouge">내부 매개변수</code> 정의에 사용된 <code class="language-plaintext highlighter-rouge">추상 인자</code>를 호출하는   <code class="language-plaintext highlighter-rouge">외부 인자 자리</code>에 <code class="language-plaintext highlighter-rouge">new 특정전략()</code>를 넣워준다.</strong></p>
+
+    <ul>
+      <li><strong>여기서는 <code class="language-plaintext highlighter-rouge">매 car</code>마다 랜덤 전략이 <code class="language-plaintext highlighter-rouge">각각 적용되어야하는 부분</code> -&gt;  <code class="language-plaintext highlighter-rouge">특정전략을 인자로 넣어준다.</code></strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">cars</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">car</span> <span class="o">-&gt;</span> <span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">());</span>
+     <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">cars</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">car</span> <span class="o">-&gt;</span> <span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="k">new</span> <span class="nc">RandomMoveConditionStrategy</span><span class="o">()));</span>
+     <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>테스트에서 다른전략으로 <code class="language-plaintext highlighter-rouge">조건부의 상수</code>인 람다함수로 <code class="language-plaintext highlighter-rouge">() -&gt; true</code>를 대입하여 움직임을 확인한다.</strong></p>
+
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">랜덤이 섞인 기능</code>은 테스트하기 힘들다</strong> -&gt; <strong><code class="language-plaintext highlighter-rouge">전략자리로 바꿔서 항상 같은 값인 상수</code></strong>를  들어가게해서 다른 기능을 테스트한다.</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="n">자동차_움직임</span><span class="o">()</span> <span class="o">{</span>
+    
+     <span class="nc">Car</span> <span class="n">js</span> <span class="o">=</span> <span class="nc">Car</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"js"</span><span class="o">);</span>
+     <span class="c1">// +1 움직임의 조건부를 &lt;다른전략 사용가능한 전략패턴&gt;으로 정의했으니 -&gt; 특정전략을 넘겨 결정한다.</span>
+     <span class="nc">RandomMoveConditionStrategy</span> <span class="n">randomMoveConditionStrategy</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RandomMoveConditionStrategy</span><span class="o">();</span>
+     <span class="n">js</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="n">randomMoveConditionStrategy</span><span class="o">);</span>
+     <span class="n">js</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="n">randomMoveConditionStrategy</span><span class="o">);</span>
+     <span class="n">js</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="n">randomMoveConditionStrategy</span><span class="o">);</span>
+     <span class="n">js</span><span class="o">.</span><span class="na">printPosition</span><span class="o">();</span>
+    
+     <span class="c1">// 전략자리-랜덤조건부 ---대신---&gt; [다른전략으로서 람다함수 상수로서 true]로 줘버릴 수 있다.</span>
+     <span class="c1">// -&gt; 테스트용으로 항상 움직임을 확인할 수 있다.</span>
+     <span class="nc">Car</span> <span class="n">jk</span> <span class="o">=</span> <span class="nc">Car</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"jk"</span><span class="o">);</span>
+     <span class="n">jk</span><span class="o">.</span><span class="na">move</span><span class="o">(</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="kc">true</span><span class="o">);</span>
+     <span class="n">jk</span><span class="o">.</span><span class="na">move</span><span class="o">(</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="kc">true</span><span class="o">);</span>
+     <span class="n">jk</span><span class="o">.</span><span class="na">move</span><span class="o">(</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="kc">true</span><span class="o">);</span>
+     <span class="n">jk</span><span class="o">.</span><span class="na">printPosition</span><span class="o">();</span>
+    
+ <span class="o">}</span>
+
+ <span class="n">js의</span> <span class="nl">위치:</span> <span class="mi">0</span>
+ <span class="n">jk의</span> <span class="nl">위치:</span> <span class="mi">3</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="정적-팩토리-메소드-네이밍-컨벤션">
+<a class="anchor" href="#%EC%A0%95%EC%A0%81-%ED%8C%A9%ED%86%A0%EB%A6%AC-%EB%A9%94%EC%86%8C%EB%93%9C-%EB%84%A4%EC%9D%B4%EB%B0%8D-%EC%BB%A8%EB%B2%A4%EC%85%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>정적 팩토리 메소드 네이밍 컨벤션</h3>
+
+<ul>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">from</code>: 매개변수를 하나</strong> 받아서 해당 타입의 인스턴스를 반환하는 형변환 메소드
+  ex) Date d = Date.from(instant);</li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">Of</code>: 여러 매개변수를 받아</strong> 적합한 타입의 인스턴스를 반환하는 집계 메소드
+  ex) Set<rank> faceCards = EnumSet.of(JACK, QUEEN, KING);</rank>
+</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">valueOf</code>: from과 of의 더 자세한 버전
+  ex) BigInteger prime = BigInteger.valueOf(Integer.MAX_VALUE);;</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">instance</code> 혹은 <code class="language-plaintext highlighter-rouge">getInstance</code>: 매게변수를 받는다면 매게변수로 명시한 인스턴스를 반환하지만, 같은 인스턴스임을 보장하지는 않는다.
+  ex) StackWalker luke = StackWalker,getInstance(options);</li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">create</code> 혹은 <code class="language-plaintext highlighter-rouge">newInstance</code>: instance 혹은 getInstance와 같지만, 매번 새로운 인스턴스를 생성해 반환함을 보장한다.</p>
+  </li>
+  <li><strong>참고: 생성자내부에서만 <code class="language-plaintext highlighter-rouge">this.필드 = </code>할당이 가능함. 팩토리 메서드는 <code class="language-plaintext highlighter-rouge">변환or검증</code>만</strong></li>
+</ul>
+
+<h3 id="싱글톤-패턴관리자machine-inputview스캐너">
+<a class="anchor" href="#%EC%8B%B1%EA%B8%80%ED%86%A4-%ED%8C%A8%ED%84%B4%EA%B4%80%EB%A6%AC%EC%9E%90machine-inputview%EC%8A%A4%EC%BA%90%EB%84%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>싱글톤 패턴(관리자Machine, InputView스캐너)</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//1. class내부에 default생성자로 static finale 객체를 미리 생성해놓는다 -&gt; for getInstance시 반환할 수 있게 미리 생성</span>
+<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">$CLASS_NAME</span><span class="err">$</span> <span class="n">$VALUE_NAME</span><span class="err">$</span> <span class="o">=</span> <span class="k">new</span> <span class="n">$CLASS_NAME</span><span class="err">$</span><span class="o">();</span>
+
+<span class="c1">//2. 차후 입력시, 싱글톤이 받아서 [관리하는 데이터]를 쌓아둔다.</span>
+<span class="c1">//private Cars cars;</span>
+
+<span class="c1">//3. 싱글톤 private생성자는 미리 생성해야해서 매개변수 없이 default생성자로 만든다.</span>
+<span class="kd">private</span> <span class="n">$CLASS_NAME</span><span class="err">$</span><span class="o">()</span> <span class="o">{</span>
+<span class="o">}</span>
+
+<span class="c1">//4. 관리자로서 [관리 데이터]를 매 구동시 초기화 할 수 있게 한다.</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
+	<span class="c1">// this.cars = new ArrayList&lt;&gt;();</span>
+<span class="o">}</span>
+
+<span class="c1">//5. 싱글톤은 언제든지 부르면 나갈 수 있게  public static getInstance()메소드르 ㄹ정의한다.</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="n">$CLASS_NAME</span><span class="err">$</span> <span class="n">getInstance</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">$VALUE_NAME</span><span class="err">$</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//1. class 내부에 default? 생성자로 미리 static final 객체 생성</span>
+<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Scanner</span> <span class="n">scanner</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+
+<span class="c1">//2. 싱글톤scanner(getInstance) + .nextLine() ---&gt; getInput()으로 싱글톤 + 메서드까지 사용</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="nc">String</span> <span class="nf">getInput</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">scanner</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="값객체hasnext패턴">
+<a class="anchor" href="#%EA%B0%92%EA%B0%9D%EC%B2%B4hasnext%ED%8C%A8%ED%84%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>값객체.hasNext()패턴</h3>
+
+<ol>
+  <li>
+<code class="language-plaintext highlighter-rouge">if 남은수 0보다 큰지 물어본다</code>
+    <ul>
+      <li>0보다 크면 <code class="language-plaintext highlighter-rouge">1빠진 값객체</code>로 재할당받고</li>
+      <li>true를 return해서 <code class="language-plaintext highlighter-rouge">바깥 반복문이 계속 돌아가게</code> 한다.</li>
+    </ul>
+  </li>
+  <li>남은수가 0보다 같거나 작으면
+    <ul>
+      <li>false를 return해서 바깥 <code class="language-plaintext highlighter-rouge">반복문에 진입을 막는다</code>.</li>
+    </ul>
+  </li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasNextGame</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">gameCount</span><span class="o">.</span><span class="na">moreThanZero</span><span class="o">()){</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">gameCount</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">gameCount</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+<span class="o">}</span>
+
+
+<span class="c1">//...</span>
+
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">moreThanZero</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="nc">Count</span> <span class="nf">next</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">Count</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">count</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="isempty---isblank">
+<a class="anchor" href="#isempty---isblank" aria-hidden="true"><span class="octicon octicon-link"></span></a>isEmpty  &lt; isBlank</h3>
+
+<ul>
+  <li>isEmpy: <code class="language-plaintext highlighter-rouge">""</code>의 빈값</li>
+  <li>isBlank: <code class="language-plaintext highlighter-rouge">""</code>를 포함하여 <code class="language-plaintext highlighter-rouge">" "</code>까지 다 True되는 넓은 범위</li>
+</ul>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/11/%EC%A0%84%EB%9E%B5,-%ED%8C%A9%ED%86%A0%EB%A6%AC,-%EC%8B%B1%EA%B8%80%ED%86%A4,-hasNext,isEmpty.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

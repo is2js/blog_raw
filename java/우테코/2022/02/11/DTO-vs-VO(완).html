@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>DTO와 VO를 비교 | 돌범의 기술블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="DTO와 VO를 비교" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="DTO와 VO를 알아보기" />
+<meta property="og:description" content="DTO와 VO를 알아보기" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/11/DTO-vs-VO(%EC%99%84).html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/11/DTO-vs-VO(%EC%99%84).html" />
+<meta property="og:site_name" content="돌범의 기술블로그" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/wootech.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-11T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-02-11T00:00:00-06:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/11/DTO-vs-VO(%EC%99%84).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"DTO와 VO를 비교","dateModified":"2022-02-11T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/11/DTO-vs-VO(%EC%99%84).html"},"description":"DTO와 VO를 알아보기","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범의 기술블로그" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범의 기술블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">DTO와 VO를 비교</h1><p class="page-description">DTO와 VO를 알아보기</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-11T00:00:00-06:00" itemprop="datePublished">
+        Feb 11, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#dto-vs-vo">DTO vs VO</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#혼용-사례">혼용 사례</a></li>
+<li class="toc-entry toc-h3"><a href="#dtodata-transfer-object">DTO(Data Transfer Object)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#예시를-통한-dto-학습crewdto">예시를 통한 DTO 학습(CrewDto)</a></li>
+<li class="toc-entry toc-h4"><a href="#entity와-분리">Entity와 분리</a></li>
+<li class="toc-entry toc-h4"><a href="#예시로또-car-정의">예시(로또, Car 정의)</a></li>
+<li class="toc-entry toc-h4"><a href="#특징">특징</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#vovalue-object">VO(Value Object)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#예시를-통한-vo-학습money">예시를 통한 VO 학습(Money)</a></li>
+<li class="toc-entry toc-h4"><a href="#예시car">예시(Car)</a></li>
+<li class="toc-entry toc-h4"><a href="#특징-1">특징</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#dto와-vo공통점과-차이점">DTO와 VO공통점과 차이점</a></li>
+</ul>
+</li>
+</ul><h2 id="dto-vs-vo">
+<a class="anchor" href="#dto-vs-vo" aria-hidden="true"><span class="octicon octicon-link"></span></a>DTO vs VO</h2>
+
+<ul>
+  <li>참고 사이트
+    <ul>
+      <li><a href="https://www.youtube.com/watch?v=EeJnNaiMy3U">테크톡1</a></li>
+      <li><a href="https://www.youtube.com/watch?v=z5fUkck_RZM&amp;t=568s">테크톡2(인비)</a></li>
+      <li><a href="https://pomo0703.tistory.com/9">포모 블로그</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="혼용-사례">
+<a class="anchor" href="#%ED%98%BC%EC%9A%A9-%EC%82%AC%EB%A1%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>혼용 사례</h3>
+
+<ul>
+  <li>특정 책 1판에 의해서 사람들이 잘못 인지하게 됨.
+    <ul>
+      <li><strong>지금은 데이터 전달은 TO + Data -&gt;  <code class="language-plaintext highlighter-rouge">DTO</code>로만 사용</strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">VO</code> = 값 표현용</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="dtodata-transfer-object">
+<a class="anchor" href="#dtodata-transfer-object" aria-hidden="true"><span class="octicon octicon-link"></span></a>DTO(Data Transfer Object)</h3>
+
+<ul>
+  <li>DTO는 프로세스 간에 데이터를 전달하는 객체</li>
+  <li><strong>주로 비동기 처리를 해야할 때 사용</strong></li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">로직을 갖고 있지 않은</code></strong> 순수한 데이터 전달객체라 setter(보내는쪽)/getter(받는쪽)로만 구성되는데, <strong>DB에서 값을 받아오므로 <code class="language-plaintext highlighter-rouge">setter가 없이</code>. 생성자에서 값할당한 이후 끝.</strong></p>
+  </li>
+  <li>
+<strong>정확히는 <code class="language-plaintext highlighter-rouge">계층간</code> 데이터 전달 객체</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220211092511970.png" alt="image-20220211092511970">
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">Controller</code>(웹)와 <code class="language-plaintext highlighter-rouge">Service</code>(서비스)사이에 데이터 전달용으로 사용된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="예시를-통한-dto-학습crewdto">
+<a class="anchor" href="#%EC%98%88%EC%8B%9C%EB%A5%BC-%ED%86%B5%ED%95%9C-dto-%ED%95%99%EC%8A%B5crewdto" aria-hidden="true"><span class="octicon octicon-link"></span></a>예시를 통한 DTO 학습(CrewDto)</h4>
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220211092647799.png" alt="image-20220211092647799"></p>
+
+<ul>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">service</code> layer에서 데이터를 보낼 때 (<code class="language-plaintext highlighter-rouge">받는 쪽에서 사용하라고 정의</code>만)</strong></p>
+
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">createXXX()</code>메서드를 통해 <code class="language-plaintext highlighter-rouge">DTO생성</code> + <code class="language-plaintext highlighter-rouge">Dto에 정의한 setter()로 데이터 박아</code>로 데이터전달`을 수행한다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220211092929797.png" alt="image-20220211092929797">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">controller</code>layer(<code class="language-plaintext highlighter-rouge">웹</code> 레이어)에서 데이터를 받을 땐</strong></p>
+
+    <ul>
+      <li>**<code class="language-plaintext highlighter-rouge">service</code>에 정의해둔 <code class="language-plaintext highlighter-rouge">createXXX()</code>메서드를 통해 -&gt; **
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">데이터박힌 DTO 생성</code></strong></li>
+          <li><strong>DTO.getter로 데이터들 받기</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">setter를 제거</code>하고 <code class="language-plaintext highlighter-rouge">생성자로만 데이터를 받아 생성된 불변의 DTO</code>주도록 수정</strong></p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">setter를 삭제</code>한다 -&gt; VO처럼 <code class="language-plaintext highlighter-rouge">불변객체</code>가 됨 -&gt; <code class="language-plaintext highlighter-rouge">데이터 전달과정 시 불변성 보장</code> -&gt; 안정적</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220211093943190.png" alt="image-20220211093943190"></p>
+  </li>
+</ul>
+
+<h4 id="entity와-분리">
+<a class="anchor" href="#entity%EC%99%80-%EB%B6%84%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>Entity와 분리</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220211094416744.png" alt="image-20220211094416744"></p>
+
+<ul>
+  <li>View는 요구사항에 의해 자주 변경되는 부분이다.
+    <ul>
+      <li>entity기준으로 테이블 생성/ 스키마변경하는 class -&gt; 요청/응닶값 전달 클래스로 사용하지 말 것
+        <ul>
+          <li>view변경시마다 entity도 매번 변경해야함.</li>
+          <li>관련된 수많은 비지니스 로직(class)들이 영향을 끼치게 됨.</li>
+        </ul>
+      </li>
+      <li>
+<strong>view변경에 따라 -&gt; <code class="language-plaintext highlighter-rouge">다른 class에 영향을 끼치지 않는</code> DTO class를 요청/응답값에 사용</strong>
+        <ul>
+          <li>join한 결과값 조회 -&gt; entity로는 다 표현X</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="예시로또-car-정의">
+<a class="anchor" href="#%EC%98%88%EC%8B%9C%EB%A1%9C%EB%98%90-car-%EC%A0%95%EC%9D%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>예시(로또, Car 정의)</h4>
+
+<ul>
+  <li>
+    <p>예시 - 로또
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220211085655445.png" alt="image-20220211085655445"></p>
+  </li>
+  <li>
+    <p>예시 - Car</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">class</span> <span class="nc">CarDTO</span> <span class="o">{</span>
+      <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+      <span class="kd">private</span> <span class="kt">int</span> <span class="n">position</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>생성이후 <strong><code class="language-plaintext highlighter-rouge">OutputView</code>로 가공된 DTO 객체를 보내줄 수</strong> 있습니다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="특징">
+<a class="anchor" href="#%ED%8A%B9%EC%A7%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>특징</h4>
+
+<ol>
+  <li>데이터 접근 메서드만 가진다.</li>
+  <li>정렬과 직렬화 메서드는 가질 수 있다.</li>
+  <li>데이터 캡슐화 -&gt; 유연하게 대응된다.
+    <ul>
+      <li>데이터 요청수 감소 효과</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="vovalue-object">
+<a class="anchor" href="#vovalue-object" aria-hidden="true"><span class="octicon octicon-link"></span></a>VO(Value Object)</h3>
+
+<ul>
+  <li>값 객체</li>
+  <li>
+<strong>VO의 핵심은 <code class="language-plaintext highlighter-rouge">equals()와 hashcode()를 오버라이딩</code>하하여</strong> <strong>내부에 선언된 속성(필드)의 <code class="language-plaintext highlighter-rouge">모든 값들이 같으면 ---&gt;  똑같은 객체</code></strong>라고 판단하게 한다</li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">원시 값을 감싼다</code> -&gt; <code class="language-plaintext highlighter-rouge">validation이 가장 큰 역할</code> 중 하나</strong>
+    <ul>
+      <li><strong>my) 식별자로 접근해야 데이터 변화에 대응한다</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="예시를-통한-vo-학습money">
+<a class="anchor" href="#%EC%98%88%EC%8B%9C%EB%A5%BC-%ED%86%B5%ED%95%9C-vo-%ED%95%99%EC%8A%B5money" aria-hidden="true"><span class="octicon octicon-link"></span></a>예시를 통한 VO 학습(Money)</h4>
+
+<ul>
+  <li>
+    <p>고유번호 = 내부 값이 같으면 -&gt; 같은 객체
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220211094846843.png" alt="image-20220211094846843"></p>
+  </li>
+  <li>
+    <p>Money class</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220211094904840.png" alt="image-20220211094904840"></p>
+
+    <ul>
+      <li>
+<strong>VO는 값 자체 표현 = <code class="language-plaintext highlighter-rouge">DTO처럼 불변 객체</code></strong>
+        <ul>
+          <li>DTO처럼, <strong>setter성격의 메소드 X 생성자로서만 초기화</strong>
+</li>
+          <li><strong>VO는 <code class="language-plaintext highlighter-rouge">DTO와 달리 getter이외에 로직을 포함</code> ex&gt; getHalfValue</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>일반적인 객체 -&gt; equals비교와 hashCode비교가 불일치로 나온다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220211095135241.png" alt="image-20220211095135241"></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">완전한 VO</code>를 위하여</strong></p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">hashCode()</code>의 return값 비교 -&gt; 같으면 <code class="language-plaintext highlighter-rouge">equals()로 한번더</code> 비교</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220211095215083.png" alt="image-20220211095215083"></p>
+      </li>
+      <li>
+        <p><strong>완전한 VO == <code class="language-plaintext highlighter-rouge">객체를 속성값으로만 비교</code>하게 하기 위해 -&gt; <code class="language-plaintext highlighter-rouge">2개 메소드 오버라이딩</code></strong></p>
+
+        <ul>
+          <li><strong>속성값인 value로만 비교할 수 있게 된다.</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220211095445918.png" alt="image-20220211095445918">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220211095532262.png" alt="image-20220211095532262"></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="예시car">
+<a class="anchor" href="#%EC%98%88%EC%8B%9Ccar" aria-hidden="true"><span class="octicon octicon-link"></span></a>예시(Car)</h4>
+
+<ul>
+  <li>
+    <p>Car - <strong>움직임이 있다면( 내부 속성이 변함)</strong> -&gt; <strong><code class="language-plaintext highlighter-rouge">new 새로운 객체로 반환</code></strong>하여 -&gt; <strong><code class="language-plaintext highlighter-rouge">원래 자기가 가지던 값은 변하지 않고 -&gt; 변한 것은 다른  값 객체로 취급</code></strong></p>
+
+    <ul>
+      <li>내부속성 변화가 없다면 (움직이지않았다면) -&gt; <strong>자기자신 반환 <code class="language-plaintext highlighter-rouge">return this;</code></strong>
+</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="nc">Car</span> <span class="nf">move</span><span class="o">(</span><span class="kt">int</span> <span class="n">randomNum</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">randomNum</span> <span class="o">&gt;=</span> <span class="no">MOVE_POINT</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="k">new</span> <span class="nf">Car</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">name</span><span class="o">,</span> <span class="n">position</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span>
+      <span class="o">}</span>
+      <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="특징-1">
+<a class="anchor" href="#%ED%8A%B9%EC%A7%95-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>특징</h4>
+
+<ol>
+  <li>
+    <p>값 자체로 의미를 가진다.</p>
+  </li>
+  <li>
+    <p><strong>변하지 않는 값을 가진다</strong></p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">불변 보장(변하면 새객체)</code>해서 안전성과 생산성</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p>객체 비교시 ID를 사용하지 않음</p>
+  </li>
+  <li>
+    <p>같은 객체로는 속성들의 값을 비교한다.</p>
+  </li>
+</ol>
+
+<h3 id="dto와-vo공통점과-차이점">
+<a class="anchor" href="#dto%EC%99%80-vo%EA%B3%B5%ED%86%B5%EC%A0%90%EA%B3%BC-%EC%B0%A8%EC%9D%B4%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>DTO와 VO공통점과 차이점</h3>
+
+<ul>
+  <li>
+<strong>DTO: 레이어간 데이터 전달을 위함</strong>
+    <ul>
+      <li>객체 동등비교시,  속성값 같다고 같은 객체 아니다.</li>
+      <li>setter를 넣어준다면 가변, 보통 불변</li>
+      <li>getter/setter외 로직X</li>
+    </ul>
+  </li>
+  <li>
+<strong>VO: 값 자체 표현</strong>
+    <ul>
+      <li>객체 동등비교시,  속성값 같으면 같은 객체 by 오버라이딩</li>
+      <li>setter없이 생성자로 초기화하는 불변</li>
+      <li>getter/setter외 로직을 가질 수 있다.</li>
+    </ul>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/11/DTO-vs-VO(%EC%99%84).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
