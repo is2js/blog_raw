@@ -4,9 +4,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>코드리뷰 1단계 세팅하기 | 돌범의 기술블로그</title>
+<title>코드리뷰 방법(1단계) | 돌범의 기술블로그</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="코드리뷰 1단계 세팅하기" />
+<meta property="og:title" content="코드리뷰 방법(1단계)" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="우테코 코드리뷰 1단계 세팅" />
 <meta property="og:description" content="우테코 코드리뷰 1단계 세팅" />
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-02-09T00:00:00-06:00" />
 <script type="application/ld+json">
-{"datePublished":"2022-02-09T00:00:00-06:00","url":"blog.chojaeseong.com/git/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/09/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0%EC%84%B8%ED%8C%85(1%EB%8B%A8%EA%B3%84%EA%B9%8C%EC%A7%80)(%EC%99%84).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"코드리뷰 1단계 세팅하기","dateModified":"2022-02-09T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/git/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/09/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0%EC%84%B8%ED%8C%85(1%EB%8B%A8%EA%B3%84%EA%B9%8C%EC%A7%80)(%EC%99%84).html"},"description":"우테코 코드리뷰 1단계 세팅","@context":"https://schema.org"}</script>
+{"datePublished":"2022-02-09T00:00:00-06:00","url":"blog.chojaeseong.com/git/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/09/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0%EC%84%B8%ED%8C%85(1%EB%8B%A8%EA%B3%84%EA%B9%8C%EC%A7%80)(%EC%99%84).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"코드리뷰 방법(1단계)","dateModified":"2022-02-09T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/git/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/09/%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0%EC%84%B8%ED%8C%85(1%EB%8B%A8%EA%B3%84%EA%B9%8C%EC%A7%80)(%EC%99%84).html"},"description":"우테코 코드리뷰 1단계 세팅","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <!-- 폰트추가를 위한 link태그 삽입 -->
   <!-- 폰트1:  기본 spoqa 웹폰트 -->
@@ -96,13 +96,13 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">코드리뷰 1단계 세팅하기</h1><p class="page-description">우테코 코드리뷰 1단계 세팅</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-09T00:00:00-06:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">코드리뷰 방법(1단계)</h1><p class="page-description">우테코 코드리뷰 1단계 세팅</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-09T00:00:00-06:00" itemprop="datePublished">
         Feb 9, 2022
       </time>
        • <span class="read-time" title="Estimated read time">
     
     
-      1 min read
+      3 min read
     
 </span></p>
 
@@ -127,14 +127,32 @@ window.onload = wrap_img;
     <!-- toc가 먼저 나오므로 h3로 안내하기 -->
     <h3>📜 제목으로 보기</h3>
     <ul class="section-nav">
-<li class="toc-entry toc-h3"><a href="#코드리뷰-세팅">코드리뷰 세팅</a>
+<li class="toc-entry toc-h3"><a href="#개별-셋팅">개별 셋팅</a>
 <ul>
 <li class="toc-entry toc-h4"><a href="#관리자-짝-매칭-실시">관리자 짝 매칭 실시</a></li>
-<li class="toc-entry toc-h4"><a href="#미션수행-방법">미션수행 방법</a></li>
+<li class="toc-entry toc-h4"><a href="#원본레포에-각-github_id-br-생성">원본레포에 각 github_id br 생성</a></li>
+<li class="toc-entry toc-h4"><a href="#원본레포-각-fork">원본레포 각 fork</a></li>
+<li class="toc-entry toc-h4"><a href="#github_id-single-branch만-clone">github_id single-branch만 clone</a></li>
+<li class="toc-entry toc-h4"><a href="#step1-br작업-br-생성">step1 br(작업 br) 생성</a></li>
 </ul>
 </li>
-</ul><h3 id="코드리뷰-세팅">
-<a class="anchor" href="#%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0-%EC%84%B8%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>코드리뷰 세팅</h3>
+<li class="toc-entry toc-h3"><a href="#협업-시작-a와-b">협업 시작 (A와 B)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#작업레포local-a-정하기">작업레포(local, A) 정하기</a></li>
+<li class="toc-entry toc-h4"><a href="#a-fork레포remote-2---b-local레포">A fork레포(remote 2) -&gt; B local레포</a></li>
+<li class="toc-entry toc-h4"><a href="#a-fork레포remote2---b-fork레포remote1">A fork레포(remote2) -&gt; B fork레포(remote1)</a></li>
+<li class="toc-entry toc-h4"><a href="#사실-b-local---b-fork로-가는게-맞다">사실… B local -&gt; B fork로 가는게 맞다?</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#코드리뷰-요청">코드리뷰 요청</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#페어-끊기">페어 끊기</a></li>
+<li class="toc-entry toc-h4"><a href="#forkrepo---원본repo-pr-리뷰요청">forkRepo -&gt; 원본Repo PR (리뷰요청)</a></li>
+<li class="toc-entry toc-h4"><a href="#홈피-slack에-리뷰요청-알림">홈피-&gt;slack에 리뷰요청 알림</a></li>
+</ul>
+</li>
+</ul><h3 id="개별-셋팅">
+<a class="anchor" href="#%EA%B0%9C%EB%B3%84-%EC%85%8B%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>개별 셋팅</h3>
 
 <h4 id="관리자-짝-매칭-실시">
 <a class="anchor" href="#%EA%B4%80%EB%A6%AC%EC%9E%90-%EC%A7%9D-%EB%A7%A4%EC%B9%AD-%EC%8B%A4%EC%8B%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>관리자 짝 매칭 실시</h4>
@@ -150,8 +168,8 @@ window.onload = wrap_img;
   </li>
 </ul>
 
-<h4 id="미션수행-방법">
-<a class="anchor" href="#%EB%AF%B8%EC%85%98%EC%88%98%ED%96%89-%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>미션수행 방법</h4>
+<h4 id="원본레포에-각-github_id-br-생성">
+<a class="anchor" href="#%EC%9B%90%EB%B3%B8%EB%A0%88%ED%8F%AC%EC%97%90-%EA%B0%81-github_id-br-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>원본레포에 각 github_id br 생성</h4>
 
 <ol>
   <li>lecture클릭후 <code class="language-plaintext highlighter-rouge">미션시작</code> 클릭시 -&gt;  <strong>자동으로 <code class="language-plaintext highlighter-rouge">내 github_id</code>로 —&gt; <code class="language-plaintext highlighter-rouge">미션repo에 브랜치</code>생성</strong>  (스샷없음)
@@ -169,6 +187,12 @@ window.onload = wrap_img;
 
     <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220209105548572.png" alt="image-20220209105548572"></p>
   </li>
+</ol>
+
+<h4 id="원본레포-각-fork">
+<a class="anchor" href="#%EC%9B%90%EB%B3%B8%EB%A0%88%ED%8F%AC-%EA%B0%81-fork" aria-hidden="true"><span class="octicon octicon-link"></span></a>원본레포 각 fork</h4>
+
+<ol>
   <li>강의홈페이지를 통해 <strong>branch가 생성되었으나 팀원X  push권한 X -&gt; <code class="language-plaintext highlighter-rouge">fork</code>를 먼저 한다.</strong>
     <ul>
       <li>
@@ -193,6 +217,12 @@ window.onload = wrap_img;
 </li>
     </ul>
   </li>
+</ol>
+
+<h4 id="github_id-single-branch만-clone">
+<a class="anchor" href="#github_id-single-branch%EB%A7%8C-clone" aria-hidden="true"><span class="octicon octicon-link"></span></a>github_id single-branch만 clone</h4>
+
+<ol>
   <li>
     <p><strong>fork는 모든 branch그대로 보유 —&gt; <code class="language-plaintext highlighter-rouge">clone을 통해서 로컬로 가져올 때는 --single-branch만</code> 가져오는 것이 가능하다.</strong></p>
 
@@ -241,6 +271,12 @@ window.onload = wrap_img;
 </li>
     </ul>
   </li>
+</ol>
+
+<h4 id="step1-br작업-br-생성">
+<a class="anchor" href="#step1-br%EC%9E%91%EC%97%85-br-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>step1 br(작업 br) 생성</h4>
+
+<ol>
   <li>
     <p><strong><code class="language-plaintext highlighter-rouge">git checkout -b step1</code>으로 첫번째 리뷰용 브랜치를 만든다.</strong></p>
 
@@ -291,10 +327,214 @@ window.onload = wrap_img;
 
     <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220209111042723.png" alt="image-20220209111042723"></p>
   </li>
+</ol>
+
+<h3 id="협업-시작-a와-b">
+<a class="anchor" href="#%ED%98%91%EC%97%85-%EC%8B%9C%EC%9E%91-a%EC%99%80-b" aria-hidden="true"><span class="octicon octicon-link"></span></a>협업 시작 (A와 B)</h3>
+
+<ul>
   <li>
-<strong>마감 당일 일찍<code class="language-plaintext highlighter-rouge">짝과 찢어지고</code> -&gt; 리팩토링 추가해서 -&gt; PR요청</strong>
- <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220209112643527.png" alt="image-20220209112643527">
+    <p>일단 github_id가 local에의 <code class="language-plaintext highlighter-rouge">user.name</code>과 동일한지 확인한다.</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git config user.name
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220211235150552.png" alt="image-20220211235150552"></p>
+
+<h4 id="작업레포local-a-정하기">
+<a class="anchor" href="#%EC%9E%91%EC%97%85%EB%A0%88%ED%8F%AClocal-a-%EC%A0%95%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>작업레포(local, A) 정하기</h4>
+
+<ul>
+  <li>
+    <p><strong>페어와 <code class="language-plaintext highlighter-rouge">CodeWithMe</code></strong>등으로 <strong>작업할 local 레포 정하기</strong></p>
+
+    <ul>
+      <li>
+        <p>나의 경우, 네트워크 잇슈로 <strong><code class="language-plaintext highlighter-rouge">화면공유 + B를 colaborator 등록</code></strong>하여
+  <strong>B가 local에 <code class="language-plaintext highlighter-rouge">step1</code>만 <code class="language-plaintext highlighter-rouge">--single-branch clone</code>후 서로 push &amp;&amp;  pull</strong> 해서 작성함.</p>
+
+        <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>   git clone <span class="nt">-b</span> step1 <span class="nt">--single-branch</span> <span class="o">[</span>git주소] <span class="o">[</span>폴더명 or .]
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>작업을 완료한 뒤 push까지 끝낸다.</p>
+  </li>
+</ul>
+
+<h4 id="a-fork레포remote-2---b-local레포">
+<a class="anchor" href="#a-fork%EB%A0%88%ED%8F%ACremote-2---b-local%EB%A0%88%ED%8F%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>A fork레포(remote 2) -&gt; B local레포</h4>
+
+<ol>
+  <li>
+    <p>협업해서 push된 <strong>[A 원격레포-step1]를 2번째 <code class="language-plaintext highlighter-rouge">remote repo</code>로 등록</strong>한다.</p>
+
+    <ul>
+      <li>
+        <p>1번째는 fork한  나(B)의 원격레포</p>
+      </li>
+      <li>
+        <p>2번째는 fork한 A의 원격레포</p>
+
+        <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git remote add pair&lt;원격레포별칭&gt; &lt;Repo URL <span class="k">for </span>pairs fork&gt; 
+        
+  git remote <span class="nt">-v</span>
+</code></pre></div>        </div>
+
+        <ul>
+          <li>origin: 원격 저장소를 가리키는 일반적인 별칭</li>
+          <li>pair: 내가 정한 <strong>추가</strong> 원격 레포의 별칭</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>A 원격레포(remote pair)의 step1(협업했던br)의 내용만 <strong>fetch</strong>해온다.</p>
+
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">A pair repo</code> -&gt; <code class="language-plaintext highlighter-rouge">B local repo</code></strong>
+        <ul>
+          <li>우리는 pull을 해버렸다. pull할때마다 merge로 표기되니 조심.</li>
+        </ul>
+      </li>
+      <li>git fetch : 다른 사람의 branch의 <strong>내용을 가져와 확인한 뒤 (나중에) merge</strong> 하고 싶을때 fetch를 사용</li>
+      <li>아직 merge는 하지 않았기 때문에 인텔리제이에 가져온 코드들이 보이진 않을 것이다.</li>
+    </ul>
+
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> git fetch pair step1
+</code></pre></div>    </div>
+
+    <ul>
+      <li>안되면 git fetch <code class="language-plaintext highlighter-rouge">pair/step1</code>
 </li>
+    </ul>
+  </li>
+  <li>
+    <p>fetch로 내역들을 확인했으면 merge한다.</p>
+
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> git merge pair step1
+</code></pre></div>    </div>
+
+    <ul>
+      <li>안되면 git merge <code class="language-plaintext highlighter-rouge">pair/step1</code>
+</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="a-fork레포remote2---b-fork레포remote1">
+<a class="anchor" href="#a-fork%EB%A0%88%ED%8F%ACremote2---b-fork%EB%A0%88%ED%8F%ACremote1" aria-hidden="true"><span class="octicon octicon-link"></span></a>A fork레포(remote2) -&gt; B fork레포(remote1)</h4>
+
+<ol>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">정보를 줄 pair(remote2)의 협업br(step1)</code>로 HEAD 이동시켜놓기</strong></p>
+
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> git checkout pair&lt;원격레포별칭&gt;/step1&lt;협업br&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>정보를 받을 origin(remote1)의 협업br(step1)으로 push하기</strong></p>
+
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">A pair repo</code> -&gt; <code class="language-plaintext highlighter-rouge">B remote repo</code></strong>
+        <ul>
+          <li>remote —&gt; remote로 commit내역을 넘기나보다.</li>
+          <li>fetch -&gt; merge로 local에 가져왔다면, 원격에서 원격으로 한번더 가져오나보다.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git push <span class="nt">--force</span> origin step1
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="사실-b-local---b-fork로-가는게-맞다">
+<a class="anchor" href="#%EC%82%AC%EC%8B%A4-b-local---b-fork%EB%A1%9C-%EA%B0%80%EB%8A%94%EA%B2%8C-%EB%A7%9E%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>사실… B local -&gt; B fork로 가는게 맞다?</h4>
+
+<ul>
+  <li>
+<a href="https://kth990303.tistory.com/260?category=909512">동기 크루 중 1분의 블로그</a>
+    <ul>
+      <li>git remote add pair url</li>
+      <li>git fetch pair step1</li>
+      <li>git merge pair step1</li>
+      <li>git push origin step1</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="코드리뷰-요청">
+<a class="anchor" href="#%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0-%EC%9A%94%EC%B2%AD" aria-hidden="true"><span class="octicon octicon-link"></span></a>코드리뷰 요청</h3>
+
+<h4 id="페어-끊기">
+<a class="anchor" href="#%ED%8E%98%EC%96%B4-%EB%81%8A%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>페어 끊기</h4>
+
+<ol>
+  <li>우테코 홈피 -&gt; 나의팀 -&gt; <code class="language-plaintext highlighter-rouge">피드백</code>을 누르면 <strong>페어가 끊어진다.</strong>
+    <ul>
+      <li>페어가 끊어져야 리뷰요청이 활성화된다?!
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220211235821456.png" alt="image-20220211235821456">
+</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="forkrepo---원본repo-pr-리뷰요청">
+<a class="anchor" href="#forkrepo---%EC%9B%90%EB%B3%B8repo-pr-%EB%A6%AC%EB%B7%B0%EC%9A%94%EC%B2%AD" aria-hidden="true"><span class="octicon octicon-link"></span></a>forkRepo -&gt; 원본Repo PR (리뷰요청)</h4>
+
+<ol>
+  <li>내 <strong><code class="language-plaintext highlighter-rouge">fork 원격레포</code> 의  <code class="language-plaintext highlighter-rouge">step1</code> br로 이동한 뒤, 원본(미션)repo로 PR를 누른다.</strong>
+    <ul>
+      <li>PR을 통한 코드리뷰는
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">fork레포</code>- <code class="language-plaintext highlighter-rouge">작업br(step1)</code>에서 PR을 걸어 -&gt; <code class="language-plaintext highlighter-rouge">원본레포</code>의 <code class="language-plaintext highlighter-rouge">나와관련된 br(is2js)</code>에 요청하는 것</strong></li>
+          <li>fork레포의 <code class="language-plaintext highlighter-rouge">관련br(is2js)</code>가 아닌 것에 주의하자.</li>
+        </ul>
+      </li>
+      <li>
+<strong>PR 받는 곳</strong> 원본레포: base repository - <code class="language-plaintext highlighter-rouge">is2js(관련 br)</code>
+</li>
+      <li>
+<strong>PR 보내는 곳</strong> fork레포: head repository - <code class="language-plaintext highlighter-rouge">step1(작업br)</code>
+        <ul>
+          <li>
+<strong>branch를 잘 선택해야한다.</strong>
+  <img src="C:%5CUsers%5Ccho_desktop%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220212000552720.png" alt="image-20220212000552720">
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>PR메세지까지 다 작성해서 제출한다.</li>
+</ol>
+
+<h4 id="홈피-slack에-리뷰요청-알림">
+<a class="anchor" href="#%ED%99%88%ED%94%BC-slack%EC%97%90-%EB%A6%AC%EB%B7%B0%EC%9A%94%EC%B2%AD-%EC%95%8C%EB%A6%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>홈피-&gt;slack에 리뷰요청 알림</h4>
+
+<ol>
+  <li>
+    <p>우측 상단에 <code class="language-plaintext highlighter-rouge">리뷰요청</code>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220212000745529.png" alt="image-20220212000745529">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220212000754317.png" alt="image-20220212000754317"></p>
+  </li>
+  <li>
+    <p>slack으로 메세지 전달</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220212000814375.png" alt="image-20220212000814375"></p>
+  </li>
 </ol>
 
 
