@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>intellij 협업 세팅 | 돌범의 기술블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="intellij 협업 세팅" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="intellij로 만든 자바프로젝트 협업 세팅" />
+<meta property="og:description" content="intellij로 만든 자바프로젝트 협업 세팅" />
+<link rel="canonical" href="blog.chojaeseong.com/intellij/%EC%9A%B0%ED%85%8C%EC%BD%94/%ED%98%91%EC%97%85/2022/02/13/intellij%ED%98%91%EC%97%85%EC%84%B8%ED%8C%85(%EC%99%84).html" />
+<meta property="og:url" content="blog.chojaeseong.com/intellij/%EC%9A%B0%ED%85%8C%EC%BD%94/%ED%98%91%EC%97%85/2022/02/13/intellij%ED%98%91%EC%97%85%EC%84%B8%ED%8C%85(%EC%99%84).html" />
+<meta property="og:site_name" content="돌범의 기술블로그" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/wootech.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-13T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-02-13T00:00:00-06:00","url":"blog.chojaeseong.com/intellij/%EC%9A%B0%ED%85%8C%EC%BD%94/%ED%98%91%EC%97%85/2022/02/13/intellij%ED%98%91%EC%97%85%EC%84%B8%ED%8C%85(%EC%99%84).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"intellij 협업 세팅","dateModified":"2022-02-13T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/intellij/%EC%9A%B0%ED%85%8C%EC%BD%94/%ED%98%91%EC%97%85/2022/02/13/intellij%ED%98%91%EC%97%85%EC%84%B8%ED%8C%85(%EC%99%84).html"},"description":"intellij로 만든 자바프로젝트 협업 세팅","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범의 기술블로그" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범의 기술블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">intellij 협업 세팅</h1><p class="page-description">intellij로 만든 자바프로젝트 협업 세팅</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-13T00:00:00-06:00" itemprop="datePublished">
+        Feb 13, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#intellij">intellij</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#협업">협업</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#인텔리제이-세팅">인텔리제이 세팅</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#gradle-및-assertj-설정">Gradle 및 assertj 설정</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#gradle의-테스트-해보기">gradle의 테스트 해보기</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#utf-8-설정file-encoding">utf 8 설정(file encoding)</a></li>
+<li class="toc-entry toc-h3"><a href="#lf--code-style--checkstyle--saveactions">LF / code style / checkstyle / saveActions</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#저장시-새줄-추가-with-save-actions">저장시 새줄 추가 with Save Actions</a></li>
+<li class="toc-entry toc-h4"><a href="#editorconfig--for--windows에서도-lf로-저장">.editorConfig  for  windows에서도 LF로 저장</a></li>
+<li class="toc-entry toc-h4"><a href="#xml-파일들-다운">XML 파일들 다운</a></li>
+<li class="toc-entry toc-h4"><a href="#code-style">code style</a></li>
+<li class="toc-entry toc-h4"><a href="#checkstyle">checkstyle</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#네이버핵데이-컨벤션--및-checkstyle-적용하기">네이버핵데이 컨벤션  및 CheckStyle 적용하기</a></li>
+</ul>
+</li>
+</ul><h2 id="인텔리제이-세팅">
+<a class="anchor" href="#%EC%9D%B8%ED%85%94%EB%A6%AC%EC%A0%9C%EC%9D%B4-%EC%84%B8%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>인텔리제이 세팅</h2>
+
+<h3 id="gradle-및-assertj-설정">
+<a class="anchor" href="#gradle-%EB%B0%8F-assertj-%EC%84%A4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gradle 및 assertj 설정</h3>
+
+<ul>
+  <li>
+    <p>gradle검색후 build and run <code class="language-plaintext highlighter-rouge">intellij</code>로 바꿔주기
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213002843152.png" alt="image-20220213002843152"></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">build.gradle</code>에 assertj 넣어주기</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">:</span><span class="n">assertj</span><span class="o">-</span><span class="nl">core:</span><span class="mf">3.22</span><span class="o">.</span><span class="mi">0</span><span class="err">'</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="gradle의-테스트-해보기">
+<a class="anchor" href="#gradle%EC%9D%98-%ED%85%8C%EC%8A%A4%ED%8A%B8-%ED%95%B4%EB%B3%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>gradle의 테스트 해보기</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211206150651962.png" alt="image-20211206150651962"></p>
+
+<ol>
+  <li>
+<code class="language-plaintext highlighter-rouge">shift 2번</code> or <code class="language-plaintext highlighter-rouge">f1</code> -&gt; <code class="language-plaintext highlighter-rouge">gradle task선택</code>
+    <ol>
+      <li>
+<code class="language-plaintext highlighter-rouge">gradle clean</code> 수행</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">gradle test</code> 수행</li>
+    </ol>
+  </li>
+</ol>
+
+<h3 id="utf-8-설정file-encoding">
+<a class="anchor" href="#utf-8-%EC%84%A4%EC%A0%95file-encoding" aria-hidden="true"><span class="octicon octicon-link"></span></a>utf 8 설정(file encoding)</h3>
+
+<ul>
+  <li>
+    <p>utf8, lf설정 되어있나 확인하기</p>
+
+    <ul>
+      <li><strong>editor &gt; <code class="language-plaintext highlighter-rouge">File Encodings</code> &gt; 체크 3가지 모두 utf-8</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><del>shift 2번연속 클릭 (search everywhere)</del></p>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">vm</code>검색
+        <ul>
+          <li>Edit Custom VM option 클릭</li>
+          <li><strong>맨 마지막 줄에 <code class="language-plaintext highlighter-rouge">-Dfile.encoding=UTF-8</code>  추가</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><del>build.gradle 설정 추가</del></p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>compileJava.options.encoding = 'UTF-8' // UTF-8 설정
+compileTestJava.options.encoding = 'UTF-8'
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="lf--code-style--checkstyle--saveactions">
+<a class="anchor" href="#lf--code-style--checkstyle--saveactions" aria-hidden="true"><span class="octicon octicon-link"></span></a>LF / code style / checkstyle / saveActions</h3>
+
+<h4 id="저장시-새줄-추가-with-save-actions">
+<a class="anchor" href="#%EC%A0%80%EC%9E%A5%EC%8B%9C-%EC%83%88%EC%A4%84-%EC%B6%94%EA%B0%80-with-save-actions" aria-hidden="true"><span class="octicon octicon-link"></span></a>저장시 새줄 추가 with Save Actions</h4>
+
+<ul>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">Plugins &gt; market &gt; save actions</code></strong>를 검색해서 설치한다.
+    <ul>
+      <li>아래와 같은 3개를 체크해준다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213040420120.png" alt="image-20220213040420120">
+</li>
+    </ul>
+  </li>
+  <li>Editor &gt; General &gt; 에서 해당 박스를 체크한다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213035939709.png" alt="image-20220213035939709">
+</li>
+</ul>
+
+<h4 id="editorconfig--for--windows에서도-lf로-저장">
+<a class="anchor" href="#editorconfig--for--windows%EC%97%90%EC%84%9C%EB%8F%84-lf%EB%A1%9C-%EC%A0%80%EC%9E%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>.editorConfig  for  windows에서도 LF로 저장</h4>
+
+<ul>
+  <li>
+<strong>다양한 에디터들에게 공통적인 코드컨벤션을 적용</strong>시킨다.
+    <ul>
+      <li><strong>적용시 <code class="language-plaintext highlighter-rouge">windows에서도 LF로 저장</code>되게 한다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p>루트에서 <code class="language-plaintext highlighter-rouge">NEW &gt; EditorConfig 검색</code>후 생성한다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213040047734.png" alt="image-20220213040047734"></p>
+  </li>
+  <li>
+    <p><strong>아래 내용을 복붙한다.</strong></p>
+
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c"># top-most EditorConfig file</span>
+  root <span class="o">=</span> <span class="nb">true</span>
+    
+  <span class="o">[</span><span class="k">*</span><span class="o">]</span>
+  <span class="c"># [encoding-utf8]</span>
+  charset <span class="o">=</span> utf-8
+    
+  <span class="c"># [newline-lf]</span>
+  end_of_line <span class="o">=</span> lf
+    
+  <span class="c"># [newline-eof]</span>
+  insert_final_newline <span class="o">=</span> <span class="nb">true</span>
+    
+  <span class="o">[</span><span class="k">*</span>.bat]
+  end_of_line <span class="o">=</span> crlf
+    
+  <span class="o">[</span><span class="k">*</span>.java]
+  <span class="c"># [indentation-tab]</span>
+  indent_style <span class="o">=</span> tab
+    
+  <span class="c"># [4-spaces-tab]</span>
+  indent_size <span class="o">=</span> 4
+  tab_width <span class="o">=</span> 4
+    
+  <span class="c"># [no-trailing-spaces]</span>
+  trim_trailing_whitespace <span class="o">=</span> <span class="nb">true</span>
+    
+  <span class="o">[</span>line-length-120]
+  max_line_length <span class="o">=</span> 120
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="xml-파일들-다운">
+<a class="anchor" href="#xml-%ED%8C%8C%EC%9D%BC%EB%93%A4-%EB%8B%A4%EC%9A%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>XML 파일들 다운</h4>
+
+<ul>
+  <li>
+<a href="https://github.com/is2js/is2js/archive/refs/heads/main.zip">우테코javastyleXML, naverConventionXML 다운로드</a>
+    <ul>
+      <li>프로젝트폴더 최상단에 넣어준다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="code-style">
+<a class="anchor" href="#code-style" aria-hidden="true"><span class="octicon octicon-link"></span></a>code style</h4>
+
+<ol>
+  <li>
+<strong>Editor &gt; <code class="language-plaintext highlighter-rouge">code style</code> &gt;</strong> Scheme &gt; 톱니바퀴 &gt; Import Scheme &gt; Intellij IDEA XML
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">intellij-java-wooteco-style.xml</code> 선택해주기
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213013403561.png" alt="image-20220213013403561">
+</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="checkstyle">
+<a class="anchor" href="#checkstyle" aria-hidden="true"><span class="octicon octicon-link"></span></a>checkstyle</h4>
+
+<ol>
+  <li>
+    <p>일단 <strong>LF로 push하기 위한 git 전역설정</strong>이 되어있어야한다.</p>
+
+    <ul>
+      <li>
+        <p>윈도우에서는 git commit시 CRLF로 새줄을 저장하지만, <strong>위 설정을 통해 push시에는 LF로 올라가게 한다.</strong></p>
+
+        <ul>
+          <li>Git은 <code class="language-plaintext highlighter-rouge">커밋</code>할 때 자동으로 <code class="language-plaintext highlighter-rouge">CRLF를 LF로 변환</code>해주고</li>
+          <li>windows로 clone하면 다시 <code class="language-plaintext highlighter-rouge">LF가 CRLF</code>가 됨</li>
+        </ul>
+
+        <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  git config <span class="nt">--global</span> core.autocrlf <span class="nb">true</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>없다면 플러그인 <code class="language-plaintext highlighter-rouge">Plugins 에서 CheckStyle-IDEA검색 후</code>부터 설치한다.</strong></p>
+
+    <ul>
+      <li>CheckStyle-IDEA 설치
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213021416201.png" alt="image-20220213021416201">
+</li>
+      <li>프로젝트 최상단에 <code class="language-plaintext highlighter-rouge">naver-checkstyle-rules.xml</code>를 위치시키고
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213024656737.png" alt="image-20220213024656737">
+</li>
+      <li>Tools &gt; <code class="language-plaintext highlighter-rouge">Checkstyle</code>에서
+        <ul>
+          <li>버전을 8.24 이상으로,</li>
+          <li>Scan Scope를 <code class="language-plaintext highlighter-rouge">All sources(including tests)</code>로 맞추고
+            <ul>
+              <li>테스트 한글함수를 위해서 tests 포함안해도 될 듯?</li>
+            </ul>
+          </li>
+          <li>
+<code class="language-plaintext highlighter-rouge">+</code>를 눌러, 위에서 <code class="language-plaintext highlighter-rouge">편집해준 naver-checkstyle-rule</code>를 추가해준다.</li>
+          <li>naver-checkstyle-rule을 선택해준다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213031949271.png" alt="image-20220213031949271">
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="네이버핵데이-컨벤션--및-checkstyle-적용하기">
+<a class="anchor" href="#%EB%84%A4%EC%9D%B4%EB%B2%84%ED%95%B5%EB%8D%B0%EC%9D%B4-%EC%BB%A8%EB%B2%A4%EC%85%98--%EB%B0%8F-checkstyle-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a><del>네이버핵데이 컨벤션  및 CheckStyle 적용하기</del>
+</h3>
+
+<ul>
+  <li>
+    <p>요약</p>
+
+    <ol>
+      <li>Settings &gt; Editor &gt; Code style &gt; Java &gt; Scheme &gt; 톱니바퀴 &gt; import Scheme &gt; (ideaProject폴더에 다운받아놓은 )<strong>InteliJ ~ .xml 파일 찾아 적용</strong>
+        <ol>
+          <li>
+<del>cf) <strong>code style&gt; java에서 use tab character를 풀어야 4스페이스</strong>가 된다.</del> <strong><code class="language-plaintext highlighter-rouge">Tab 사용하도록 체크</code></strong>하자.</li>
+        </ol>
+      </li>
+      <li>
+<strong>파일을 저장 할 때마다 포멧터 자동 적용설정 by <a href="https://plugins.jetbrains.com/plugin/7642-save-actions"><code class="language-plaintext highlighter-rouge">Save Actions plugin</code></a>을 활용하면 파일을 저장</strong>하는 순간 포멧터를 자동 적용할 수 있다.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211206150403192.png" alt="image-20211206150403192">
+        <ol>
+          <li>
+<code class="language-plaintext highlighter-rouge">File</code> &gt; <code class="language-plaintext highlighter-rouge">Settings</code> ( <code class="language-plaintext highlighter-rouge">Ctrl + Alt + S</code> ) &gt; <code class="language-plaintext highlighter-rouge">Plugins</code> 메뉴로 이동</li>
+          <li>
+<code class="language-plaintext highlighter-rouge">Marketplace</code> 탭에서 ‘Save Actions’ 로 검색</li>
+          <li>
+<code class="language-plaintext highlighter-rouge">Save Actions' plugin의 상세 설명 화면에서 </code>[Install]` 버튼 클릭</li>
+          <li>IntelliJ를 재시작</li>
+          <li>
+<code class="language-plaintext highlighter-rouge">File</code> &gt; <code class="language-plaintext highlighter-rouge">Settings</code> &gt; <code class="language-plaintext highlighter-rouge">Other Settions</code> &gt; <code class="language-plaintext highlighter-rouge">Save Actions</code> 메뉴로 이동</li>
+          <li>
+<strong>아래 항목을 체크</strong>
+            <ul>
+              <li><strong><code class="language-plaintext highlighter-rouge">Activate save actions on save</code></strong></li>
+              <li><strong><code class="language-plaintext highlighter-rouge">Optimize imoprts</code></strong></li>
+              <li><strong><code class="language-plaintext highlighter-rouge">Refomat file</code></strong></li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+      <li>플러그인  CheckStyle-IDEA 플러그인을 검색 후 설치
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211206150522262.png" alt="image-20211206150522262">
+        <ol>
+          <li><strong><code class="language-plaintext highlighter-rouge">Tools &gt; CheckStyle</code>에서 <code class="language-plaintext highlighter-rouge">Checkstyle version</code>을 8.24 이상, <code class="language-plaintext highlighter-rouge">Scan Scope</code>를 <code class="language-plaintext highlighter-rouge">All sources (including tests)</code> 로 설정</strong></li>
+          <li><strong><code class="language-plaintext highlighter-rouge">Configuration file</code>에 다운받고 수정한 XML 파일(ideaProject폴더에 다운받아놓은 naver~checkstyle rule.xml)을 추가</strong></li>
+          <li>하단에 checkstyle 창(단축키 직접지정 <code class="language-plaintext highlighter-rouge">alt+shift+k</code>)로 코드짜고 확인하기</li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<hr>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211206150606845.png" alt="image-20211206150606845"></p>
+
+<ul>
+  <li><a href="https://github.com/naver/hackday-conventions-java/blob/master/rule-config/naver-intellij-formatter.xml">intellij용 xml파일 다운로드</a></li>
+  <li>설치가이드
+    <ul>
+      <li>https://naver.github.io/hackday-conventions-java/#intellij-formatter</li>
+      <li>나는 지금 플러그인 : google-java-format&gt; android 버전을쓰고있는데.. 취소시킴</li>
+    </ul>
+  </li>
+  <li>
+    <p>checkStyle적용하기</p>
+
+    <ul>
+      <li>
+        <p><a href="https://checkstyle.sourceforge.io/">CheckStyle</a>은 Java 코드를 작성 할 때 규칙(이 경우 코딩 컨벤션)들을 선언해두고 이를 어길 시 에러 또는 경고를 뿜어내어 개발자로 하여금 컨벤션을 강제로 지킬 수 있도록 도와주는 코딩 컨벤션 검사 도구다. 네이버 핵데이 Java 코딩 컨벤션을 적용할 시 다음을 제외한 나머지들에 대한 컨벤션을 검사할 수 있다.</p>
+
+        <ul>
+          <li><a href="https://naver.github.io/hackday-conventions-java/#avoid-korean-pronounce">한국어 발음대로의 표기 금지</a></li>
+          <li><a href="https://naver.github.io/hackday-conventions-java/#class-noun">클래스 이름에 명사 사용</a></li>
+          <li><a href="https://naver.github.io/hackday-conventions-java/#interface-noun-adj">인터페이스 이름에 명사/형용사 사용</a></li>
+          <li><a href="https://naver.github.io/hackday-conventions-java/#method-verb-preposition">메서드 이름은 동사/전치사로 시작</a></li>
+          <li><a href="https://naver.github.io/hackday-conventions-java/#test-class-suffix">테스트 클래스는 ‘Test’로 끝남</a></li>
+          <li><a href="https://naver.github.io/hackday-conventions-java/#space-after-bracket">대괄호 뒤에 공백 삽입</a></li>
+          <li><a href="https://naver.github.io/hackday-conventions-java/#space-around-comment">주석문 기호 전후의 공백 삽입</a></li>
+        </ul>
+      </li>
+      <li>
+        <p>적용방법</p>
+
+        <ul>
+          <li>
+            <p><a href="https://raw.githubusercontent.com/naver/hackday-conventions-java/master/rule-config/naver-checkstyle-rules.xml">Naver CheckStyle Rules XML</a> 파일을 다운받는다. <del>나는 프로젝트 최상단(<code class="language-plaintext highlighter-rouge">$rootDir</code>)에 이를 추가했다.</del></p>
+
+            <ul>
+              <li>내문서 &gt; <code class="language-plaintext highlighter-rouge">IdeaProjects</code>폴더에 저장함.</li>
+            </ul>
+          </li>
+          <li>
+            <p>우선 나는 다른 규칙을 덮어쓸 생각이 없어서 <a href="https://naver.github.io/hackday-conventions-java/#checkstyle">여기</a>를 참고하여 XML 파일에서 다음을 삭제했다. 이를 삭제하지 않으면 다음 단계에서 <code class="language-plaintext highlighter-rouge">suppressionFile</code> 변수에 파일을 할당해야한다.</p>
+
+            <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="n">module</span> <span class="n">name</span><span class="o">=</span><span class="s">"SuppressionFilter"</span><span class="o">&gt;</span>
+   <span class="err">​</span><span class="o">&lt;</span><span class="n">property</span> <span class="n">name</span><span class="o">=</span><span class="s">"file"</span> <span class="n">value</span><span class="o">=</span><span class="s">"${suppressionFile}"</span><span class="o">/&gt;</span>
+   <span class="err">​</span><span class="o">&lt;</span><span class="n">property</span> <span class="n">name</span><span class="o">=</span><span class="s">"optional"</span> <span class="n">value</span><span class="o">=</span><span class="s">"false"</span><span class="o">/&gt;</span>
+<span class="o">&lt;/</span><span class="n">module</span><span class="o">&gt;</span>
+</code></pre></div>            </div>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>ide에 적용하기</strong></p>
+
+        <ol>
+          <li><strong><code class="language-plaintext highlighter-rouge">File &gt; Settings &gt; Plugins</code> 메뉴에서 CheckStyle-IDEA 플러그인을 검색 후 설치한다.</strong></li>
+          <li><strong><code class="language-plaintext highlighter-rouge">Tools &gt; CheckStyle</code>에서 <code class="language-plaintext highlighter-rouge">Checkstyle version</code>을 8.24 이상, <code class="language-plaintext highlighter-rouge">Scan Scope</code>를 <code class="language-plaintext highlighter-rouge">All sources (including tests)</code> 로 설정한 후 <code class="language-plaintext highlighter-rouge">Configuration file</code>에 다운받고 수정한 XML 파일을 추가하자</strong></li>
+          <li><strong>이제 우리가 설정한 코딩 컨벤션을 어기는 코드를 작성하면 다음과 같이 경고 표시가 나타난다.</strong></li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/intellij/%EC%9A%B0%ED%85%8C%EC%BD%94/%ED%98%91%EC%97%85/2022/02/13/intellij%ED%98%91%EC%97%85%EC%84%B8%ED%8C%85(%EC%99%84).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

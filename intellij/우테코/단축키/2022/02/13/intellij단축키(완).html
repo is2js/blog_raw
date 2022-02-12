@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>intellij 플러그인 및 단축키 | 돌범의 기술블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="intellij 플러그인 및 단축키" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="필수 플로그인 및 vscode keymap단축키" />
+<meta property="og:description" content="필수 플로그인 및 vscode keymap단축키" />
+<link rel="canonical" href="blog.chojaeseong.com/intellij/%EC%9A%B0%ED%85%8C%EC%BD%94/%EB%8B%A8%EC%B6%95%ED%82%A4/2022/02/13/intellij%EB%8B%A8%EC%B6%95%ED%82%A4(%EC%99%84).html" />
+<meta property="og:url" content="blog.chojaeseong.com/intellij/%EC%9A%B0%ED%85%8C%EC%BD%94/%EB%8B%A8%EC%B6%95%ED%82%A4/2022/02/13/intellij%EB%8B%A8%EC%B6%95%ED%82%A4(%EC%99%84).html" />
+<meta property="og:site_name" content="돌범의 기술블로그" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/wootech.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-13T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-02-13T00:00:00-06:00","url":"blog.chojaeseong.com/intellij/%EC%9A%B0%ED%85%8C%EC%BD%94/%EB%8B%A8%EC%B6%95%ED%82%A4/2022/02/13/intellij%EB%8B%A8%EC%B6%95%ED%82%A4(%EC%99%84).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"intellij 플러그인 및 단축키","dateModified":"2022-02-13T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/intellij/%EC%9A%B0%ED%85%8C%EC%BD%94/%EB%8B%A8%EC%B6%95%ED%82%A4/2022/02/13/intellij%EB%8B%A8%EC%B6%95%ED%82%A4(%EC%99%84).html"},"description":"필수 플로그인 및 vscode keymap단축키","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범의 기술블로그" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범의 기술블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">intellij 플러그인 및 단축키</h1><p class="page-description">필수 플로그인 및 vscode keymap단축키</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-13T00:00:00-06:00" itemprop="datePublished">
+        Feb 13, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#intellij">intellij</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#단축키">단축키</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#인텔리제이-플러그인-및-단축키">인텔리제이 플러그인 및 단축키</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#플러그인">플러그인</a></li>
+<li class="toc-entry toc-h3"><a href="#단축키vscode-keymap기준">단축키(vscode keymap기준)</a></li>
+</ul>
+</li>
+</ul><h2 id="인텔리제이-플러그인-및-단축키">
+<a class="anchor" href="#%EC%9D%B8%ED%85%94%EB%A6%AC%EC%A0%9C%EC%9D%B4-%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8-%EB%B0%8F-%EB%8B%A8%EC%B6%95%ED%82%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>인텔리제이 플러그인 및 단축키</h2>
+
+<h3 id="플러그인">
+<a class="anchor" href="#%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>플러그인</h3>
+
+<ol>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">vscode keymap</code></strong>검색 install</p>
+
+    <ul>
+      <li>keymap탭 가서 VSCode로 바꾸기</li>
+    </ul>
+  </li>
+  <li>
+<strong>key Promoter X</strong> 설치
+    <ol>
+      <li>vscode keymap 바꾼것도 보여준다.</li>
+    </ol>
+  </li>
+  <li><strong>Rainbow Brackets</strong></li>
+  <li>
+    <p><strong>.ignore</strong> : 우클릭으로 ignore파일을 만들어주는데,</p>
+
+    <ul>
+      <li>우클릭 &gt; new  &gt; ignore file &gt; .gitignore파일 &gt; 선택하면 될듯핟.</li>
+      <li>자동완성도 해줌.</li>
+    </ul>
+  </li>
+  <li>
+    <p>cobalt2 theme</p>
+  </li>
+  <li>
+    <p>editor &gt; font &gt; jetbrain Mono -&gt; fira code + ligature 허용</p>
+  </li>
+  <li>
+    <p>맨끝에 newline없으면 생성해주기</p>
+
+    <ol>
+      <li>
+        <p>설정 &gt; editor &gt; general &gt; on save 탭 &gt;  <del>[x] ensure lien feed at file end on save</del></p>
+
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">ensure every saved file ends with a line break</code></strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211122162918503.png" alt="image-20211122162918503"></p>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<h3 id="단축키vscode-keymap기준">
+<a class="anchor" href="#%EB%8B%A8%EC%B6%95%ED%82%A4vscode-keymap%EA%B8%B0%EC%A4%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>단축키(vscode keymap기준)</h3>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">shift 2번</code> : 전체 검색(유지)
+    <ul>
+      <li>vscode <code class="language-plaintext highlighter-rouge">F1</code>
+</li>
+    </ul>
+  </li>
+  <li>
+<strong>keymap 들어가서 <code class="language-plaintext highlighter-rouge">move To opposite group</code>검색후 <code class="language-plaintext highlighter-rouge">ctrl+shift+ 오른화살표</code>지정</strong>하기
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">ctrl + \</code> 이후 넘기기..왼쪽넘기기 기능 자체는 없나보다.</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">alt+shift+0</code>으로 세로로 넘기기 가능</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">alt+shift+F</code>  : reformat code -&gt; 한파일내
+    <ul>
+      <li><strong>패키지 or 폴더 선택후 alft+shift+F</strong></li>
+    </ul>
+  </li>
+  <li>
+<strong>keymap 들어가서 <code class="language-plaintext highlighter-rouge">back</code>검색후 <code class="language-plaintext highlighter-rouge">ctrl+u</code>지정</strong>하기</li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">ctrl + .</code></strong>으로 메인메소드 내용을 <strong>extract method</strong>
+    <ul>
+      <li>호돌스에서 봄.</li>
+      <li><strong>메소드 분리 및 <code class="language-plaintext highlighter-rouge">패키지명 작성하고 폴더이동시키기</code></strong></li>
+    </ul>
+  </li>
+  <li><strong>신세계) <code class="language-plaintext highlighter-rouge">alt+insert</code>로 생성자를 만듬</strong></li>
+  <li>**신세계) 메서드사용을 위한 객체 만들 때(인스턴스화) 할 때, **
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">new 클래스명();</code> 기입후 <code class="language-plaintext highlighter-rouge">ctrl+.으로 local변수 자동(선택후)생성</code>하자.</strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">객체.메서드();</code>기입후 <code class="language-plaintext highlighter-rouge">ctrl+.</code>으로 메서드결과값 받는 변수 자동(선택후)생성</strong></li>
+    </ul>
+  </li>
+  <li>
+<strong>keymap -&gt; extend line selection -&gt; <code class="language-plaintext highlighter-rouge">ctrl+L</code>을 추가해서 사용하기</strong>
+    <ul>
+      <li>라인 선택하기
+        <ul>
+          <li><strong>shift+alt+아래화살표로 복사할때,, 라인 선택해서해야.. 꼬임없을 듯</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">shift+ alt+ F10</code>: <strong>실행할 class파일 선택해서 실행</strong>
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">ctrl+alt+F10</code>은 바로 실행.</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">shift + alt + x</code>: 현재 파일들 다 close</li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">shift + alt + a</code> : 긴글 주석?</p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">alt + ~</code> : git관련 명령어들 목록나옴</strong></p>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">ctrl+F11</code> or <code class="language-plaintext highlighter-rouge">ctrl+shift+{key}</code>로 북마크 지정</strong>
+    <ul>
+      <li><strong>-&gt; <code class="language-plaintext highlighter-rouge">ctrl+해당번호</code>로 이동</strong></li>
+      <li>
+<strong>keymap -&gt; <code class="language-plaintext highlighter-rouge">show bookmaks</code>검색후 -&gt; <code class="language-plaintext highlighter-rouge">CTRL+SHIFT + F11 </code></strong>으로 지정함</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">ctrl+f3</code> : 같은단어 이동가능한 <code class="language-plaintext highlighter-rouge">검색한 상태</code>로 만들기 == <code class="language-plaintext highlighter-rouge">ctrl+f</code>
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">f3</code> : 같은 단어 다음으로 이동</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">shift+f3</code> : 같은단어 이전 단어로 이동</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">shift+F5</code> : 실행중인 <strong>작업 종료</strong>
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">ctrl+F5</code> : 실행</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">shift+ alt + f10</code> : main함수 골라서 실행</li>
+    </ul>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">alt+7</code>: 현재파일 Structure(메소드 등) 한눈에 보기</strong>
+    <ul>
+      <li>
+<strong>유틸메서드로 빼기, 상수 옮기기 : <code class="language-plaintext highlighter-rouge">f6</code></strong>으로 편하게</li>
+    </ul>
+  </li>
+  <li>
+<strong>리팩토링</strong>
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">alt+ctrl+c</code> : 값을 상수로 등록해버리기</strong></li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">alt+ctrl+m</code> : 코드를 메서드화 시키기</strong>
+        <ul>
+          <li>2번 눌르면 창으로 하는 듯</li>
+        </ul>
+      </li>
+      <li><strong><code class="language-plaintext highlighter-rouge">alt+ctrl+v</code>: <code class="language-plaintext highlighter-rouge">new 클래스()</code>까지 입력후 참조변수 바로 생성</strong></li>
+    </ul>
+  </li>
+  <li>
+<strong>축약어</strong>
+    <ul>
+      <li>iter</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">fori</code> 추가</li>
+      <li>itar</li>
+      <li>ifn</li>
+      <li>inn</li>
+    </ul>
+  </li>
+  <li><strong><code class="language-plaintext highlighter-rouge">F8</code>: 오류바로 찾아가기</strong></li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">ctrl+f</code> -&gt; <code class="language-plaintext highlighter-rouge">F3</code> or <code class="language-plaintext highlighter-rouge">shift + F3</code> : 검색항목 순서대로 찾아가기</p>
+  </li>
+  <li>
+<strong>keymap -&gt; <code class="language-plaintext highlighter-rouge">refresh gradle dependen~</code>검색 후 -&gt; <code class="language-plaintext highlighter-rouge">shift+ c+a + G</code>로  추가해서 사용</strong>
+    <ul>
+      <li>gradle에 추가한 라이브러리 재갱신시킬 때!!</li>
+    </ul>
+  </li>
+  <li>keymap -&gt; checkstyle -&gt; <code class="language-plaintext highlighter-rouge">alt+shift+k</code>로 지정함
+    <ul>
+      <li>naver checkstyle 적용해보기 위함임.</li>
+    </ul>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">F3</code> -&gt; 함수단위로 건너띄기</strong>
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">검색후 F3</code> : 다음 검색결과로 넘어가기</strong>
+        <ul>
+          <li>shift는 이전으로 넘어가짐.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">ctrl+Tab</code> : 직전창 왔다갔다하기
+    <ul>
+      <li>shift 안눌러도됨.</li>
+      <li>메인로직(controller) <strong>옆에서, <code class="language-plaintext highlighter-rouge">readme</code> &lt;-&gt; <code class="language-plaintext highlighter-rouge">세부작업중 파일</code>싱글톤관리자, 서브화면 왓따갔다 하면 좋음</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">ctrl+shift+alt+ I</code>  후 -&gt; <code class="language-plaintext highlighter-rouge">unused desc</code> 검색후 -&gt; test파일 제외 체크 -&gt; <code class="language-plaintext highlighter-rouge">사용하지 않는 험수들</code> 손수 제거하기</strong>
+    <ul>
+      <li>
+        <p><strong>safe delete하니까..ㅠㅠ 설정 꼬였음.</strong></p>
+      </li>
+      <li>
+        <p>File -&gt; invalidate cache 캐쉬삭제 &amp; restart 해서 처리..</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>라이브 템플릿 추가</strong>하기
+    <ul>
+      <li>싱글톤용 -&gt; <code class="language-plaintext highlighter-rouge">sgt</code>으로 생성
+        <ul>
+          <li><strong>외부에서 메인로직관리<code class="language-plaintext highlighter-rouge">싱글톤Class.getInstance()</code>로 작성후</strong></li>
+          <li>
+<strong>클래스 생성 후 <code class="language-plaintext highlighter-rouge">sgt</code></strong>으로 채워주기</li>
+        </ul>
+      </li>
+      <li>검증하며 무한호출하는 재귀 getInput
+        <ul>
+          <li><strong>InputView.getInput()작성후 <code class="language-plaintext highlighter-rouge">getMany</code> or <code class="language-plaintext highlighter-rouge">getOne</code></strong></li>
+        </ul>
+      </li>
+      <li>랩핑클래스용</li>
+      <li>이넘용</li>
+    </ul>
+  </li>
+  <li>
+    <p>keymap에서 <code class="language-plaintext highlighter-rouge">Toggle case</code>검색후  vscode의 대문자(U), 소문자(L)에 해당하는 것 2개를 다 추가해주기</p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">ctrl+alt+U</code> , <code class="language-plaintext highlighter-rouge">ctrl+alt+L</code></strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220212115459990.png" alt="image-20220212115459990"></p>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/intellij/%EC%9A%B0%ED%85%8C%EC%BD%94/%EB%8B%A8%EC%B6%95%ED%82%A4/2022/02/13/intellij%EB%8B%A8%EC%B6%95%ED%82%A4(%EC%99%84).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
