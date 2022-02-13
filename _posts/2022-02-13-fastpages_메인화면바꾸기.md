@@ -1,22 +1,18 @@
-\---
+---
 
 toc: true
 
 layout: post
 
-description:  home.html > index.html + posts의 메인화면 수정
+title: change index.html(메인)
+
+description:  home.html > index.html+posts 메인화면 수정
 
 categories: [fastpages]
 
-title: change index.html
-
-
-
 image: "images/posts/blog.png"
 
-
-
-\---
+---
 
 - [참고블로그](https://anarinsk.github.io/lostineconomics-v2-1/coding-tool/web-tool/2020/03/07/blogging-with-fastpages.html) 및 [깃허브](https://github.com/anarinsk/lostineconomics-v2-1)
   - 이분은 옛날 버전인 것 같으며, index.md로 paginationd이 작동한다.
@@ -51,7 +47,7 @@ search_exclude: true
 
 ![]({{ site.baseurl }}/images/logo_github.png "로고"){: style="float: right; margin-left: 20px" width="180"}
 
-### I'am...
+## I'm...
 
 평범한 한의사 `돌아온범생`의 우아한 엔지니어 도전기를 기록합니다.<br/>
 <br/>
@@ -60,7 +56,7 @@ Doctor of Korean Medicine, Currently studying SW engineering and biostatistics<b
 [more...]({{ site.baseurl }}/about)
 
 
-### Posts
+## Posts
 ```
 
 - markdown에서 이미지를 float시키는 방법 참고해보자.
@@ -82,7 +78,7 @@ Doctor of Korean Medicine, Currently studying SW engineering and biostatistics<b
       <div class="wrapper">
         <div class="home"><p><img src="/images/logo_github.png" alt="" title="로고" style="float: right; margin-left: 25px" width="200" /></p>
 
-<h3 id="iam">I’am…</h3>
+<h2 id="iam">I’m…</h2>
 
 <p>평범한 한의사 <code class="language-plaintext highlighter-rouge">돌아온범생</code>의 우아한 엔지니어 도전기를 기록합니다.<br />
 <br />
@@ -124,7 +120,7 @@ image: images/logo_github.png
   <div class="wrapper">
     <div class="home"><p><img src="/images/logo_github.png" alt="" title="로고" style="float: right; margin-left: 25px" width="200" /></p>
 
-<h3 id="iam">I’am…</h3>
+<h2 id="iam">I’m…</h2>
 
 <p>평범한 한의사 <code class="language-plaintext highlighter-rouge">돌아온범생</code>의 우아한 엔지니어 도전기를 기록합니다.<br />
 <br />
@@ -132,7 +128,7 @@ image: images/logo_github.png
 Doctor of Korean Medicine, Currently studying SW engineering and biostatistics<br />
 <a href="/about">more…</a></p>
 
-<h3 id="posts">Posts</h3>
+<h2 id="posts">Posts</h2>
 ```
 
 
