@@ -4,7 +4,7 @@ search_exclude: true
 
 ---
 
-![]({{ site.baseurl }}/images/logo_github.png "로고"){: style="float: right; margin-left: 25px" width="200"}
+![]({{ site.baseurl }}/images/logo_github.png "로고"){: style="float: right; margin-left: 20px" width="180"}
 
 ### I'am...
 
