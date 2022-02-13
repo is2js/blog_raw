@@ -244,7 +244,7 @@ public boolean hasNextGame() {
 
 //...
 
-public boolean moreThanZero() {
+public boolean hasNextGame() {
     return count > 0;
 }
 
