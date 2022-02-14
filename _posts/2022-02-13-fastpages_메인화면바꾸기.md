@@ -4,7 +4,7 @@ toc: true
 
 layout: post
 
-title: change index.html(메인)
+title: fastpages change index.html
 
 description:  home.html > index.html+posts 메인화면 수정
 
