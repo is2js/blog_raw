@@ -1,0 +1,85 @@
+
+<hr />
+<p>toc: true
+layout: post
+title: DTO 간단 적용해보기
+description: OutputView에서 List<단일Dto>를 return받기</단일Dto></p>
+
+<p>categories: [java, 우테코]
+image: “images/posts/wootech.png”
+—</p>
+
+<h2 id="dto">DTO</h2>
+
+<ul>
+  <li><a href="https://github.com/jinyoungchoi95/java-racingcar/blob/step1/src/main/java/racingcar/controller/RacingCarDto.java">참고 DTO 쓴 PR</a></li>
+</ul>
+
+<h3 id="controller-outputviewprint--관리자객체get일급컬렉션-">controller OutputView.print(  관리자객체.get일급컬렉션) )</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">OutputView</span><span class="o">.</span><span class="na">printResultEveryRound</span><span class="o">(</span><span class="n">racingGame</span><span class="o">.</span><span class="na">getCurrentCars</span><span class="o">());</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>관리자객체에서도 List<단일객체>나오는 일급에 들어가지 않았으므로 그대로 **여기서 return될 타입이 `List<단일Dto>`를 예상하자**</단일Dto></단일객체></p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CarDto</span><span class="o">&gt;</span> <span class="nf">getCurrentCars</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">cars</span><span class="o">.</span><span class="na">getCurrentCars</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="liststreammap-단일---단일dtofrom-단일--collect">list.stream().map( 단일 -&gt; 단일Dto.from( 단일) ) .collect~</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CarDto</span><span class="o">&gt;</span> <span class="nf">getCurrentCars</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">cars</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">car</span> <span class="o">-&gt;</span> <span class="nc">CarDto</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">car</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>####</p>
+
+<h3 id="dto의-팩토리는-객채---모든-속성-getter로-꺼내서-생성자-호출">Dto의 팩토리는 객채 -&gt; 모든 속성 getter로 꺼내서 생성자 호출</h3>
+
+<ul>
+  <li>이 때, string속성 -&gt; <strong>toString</strong>() / 숫자 -&gt; <strong>toXXX() 네이밍</strong>활용</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CarDto</span> <span class="o">{</span>
+
+	<span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">position</span><span class="o">;</span>
+
+	<span class="kd">public</span> <span class="nf">CarDto</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">int</span> <span class="n">positiion</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">position</span> <span class="o">=</span> <span class="n">positiion</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kd">static</span> <span class="nc">CarDto</span> <span class="nf">from</span><span class="o">(</span><span class="nc">Car</span> <span class="n">car</span><span class="o">)</span> <span class="o">{</span>
+		<span class="c1">// Dto는 동일 객체를 받아서, 생성자호출은 객체내 개별속성들을 모조리 getter</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="nf">CarDto</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="n">car</span><span class="o">.</span><span class="na">toPosition</span><span class="o">());</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">name</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getPosition</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">position</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="outputview는-list를-받아-돌아가며-getter">OutputView는 List<단일Dto>를 받아 돌아가며 getter</단일Dto></h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">printResultEveryRound</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">CarDto</span><span class="o">&gt;</span> <span class="n">currentCars</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="nc">CarDto</span> <span class="n">currentCar</span> <span class="o">:</span> <span class="n">currentCars</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">currentCar</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">" : "</span> <span class="o">+</span> <span class="n">collectDash</span><span class="o">(</span><span class="n">currentCar</span><span class="o">.</span><span class="na">getPosition</span><span class="o">()));</span>
+    <span class="o">}</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
