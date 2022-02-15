@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>일급컬렉션(생성자,사용이유,테스트) | 돌범 기술블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="일급컬렉션(생성자,사용이유,테스트)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="네오의 TDD 강의(문자열계산기)+TIP" />
+<meta property="og:description" content="네오의 TDD 강의(문자열계산기)+TIP" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%ED%85%8C%EC%8A%A4%ED%8A%B8/2022/02/15/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98_%EC%83%9D%EC%84%B1%EC%9E%90_%EC%82%AC%EC%9A%A9%EC%9D%B4%EC%9C%A0_%ED%85%8C%EC%8A%A4%ED%8A%B8(%EC%99%84).html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%ED%85%8C%EC%8A%A4%ED%8A%B8/2022/02/15/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98_%EC%83%9D%EC%84%B1%EC%9E%90_%EC%82%AC%EC%9A%A9%EC%9D%B4%EC%9C%A0_%ED%85%8C%EC%8A%A4%ED%8A%B8(%EC%99%84).html" />
+<meta property="og:site_name" content="돌범 기술블로그" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/wootech.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-15T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-02-15T00:00:00-06:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%ED%85%8C%EC%8A%A4%ED%8A%B8/2022/02/15/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98_%EC%83%9D%EC%84%B1%EC%9E%90_%EC%82%AC%EC%9A%A9%EC%9D%B4%EC%9C%A0_%ED%85%8C%EC%8A%A4%ED%8A%B8(%EC%99%84).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"일급컬렉션(생성자,사용이유,테스트)","dateModified":"2022-02-15T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%ED%85%8C%EC%8A%A4%ED%8A%B8/2022/02/15/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98_%EC%83%9D%EC%84%B1%EC%9E%90_%EC%82%AC%EC%9A%A9%EC%9D%B4%EC%9C%A0_%ED%85%8C%EC%8A%A4%ED%8A%B8(%EC%99%84).html"},"description":"네오의 TDD 강의(문자열계산기)+TIP","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범 기술블로그" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범 기술블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">일급컬렉션(생성자,사용이유,테스트)</h1><p class="page-description">네오의 TDD 강의(문자열계산기)+TIP</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-15T00:00:00-06:00" itemprop="datePublished">
+        Feb 15, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#일급컬렉션">일급컬렉션</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#테스트">테스트</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#일급컬렉션-생성자와-사용이유">일급컬렉션 생성자와 사용이유</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#생성자-21개">생성자 2+1개</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#fromxxxx-inputview에서-검증된-list-string-를-받는-public-정적팩토리메서드">fromXXXX: InputView에서 검증된 List&lt; String &gt;를 받는 public 정적팩토리메서드</a></li>
+<li class="toc-entry toc-h5"><a href="#from-테스트-등에서-list-단일객체-를-받는-public-정적팩토리메서드">from: 테스트 등에서 List&lt; 단일객체 &gt;를 받는 public 정적팩토리메서드</a></li>
+<li class="toc-entry toc-h5"><a href="#기본생성자-private--list-단일객체-">기본생성자: private + List&lt; 단일객체 &gt;</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#쓰는-이유-4가지">쓰는 이유 4가지</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#01-검증-통과해야만-생성-가능한-자료구조비지니스-종속-자료구조">01 검증 통과해야만 생성 가능한 자료구조(비지니스 종속 자료구조)</a></li>
+<li class="toc-entry toc-h5"><a href="#02-setteradd-등이-없는-불변구조">02 setter/add 등이 없는 불변구조</a></li>
+<li class="toc-entry toc-h5"><a href="#03-상태변수와-행위기능을-자료구조와-함께-한-class에-다-모으기냉무">03 상태(변수)와 행위(기능)을 자료구조와 함께 한 class에 다 모으기(냉무)</a></li>
+<li class="toc-entry toc-h5"><a href="#05-이름을-가지는-자료구조가-됨냉무">05 이름을 가지는 자료구조가 됨.(냉무)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#일급컬렉션-테스트">일급컬렉션 테스트</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#단일객체---일급컬렉션-순서대로-생성">단일객체 -&gt; 일급컬렉션 순서대로 생성</a></li>
+<li class="toc-entry toc-h4"><a href="#given자리에-단일객체-조작을-when에서는-일급컬렉-기능을">given자리에 단일객체 조작을! when에서는 일급컬렉 기능을!</a></li>
+</ul>
+</li>
+</ul><h3 id="일급컬렉션-생성자와-사용이유">
+<a class="anchor" href="#%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98-%EC%83%9D%EC%84%B1%EC%9E%90%EC%99%80-%EC%82%AC%EC%9A%A9%EC%9D%B4%EC%9C%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급컬렉션 생성자와 사용이유</h3>
+
+<h4 id="생성자-21개">
+<a class="anchor" href="#%EC%83%9D%EC%84%B1%EC%9E%90-21%EA%B0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>생성자 2+1개</h4>
+
+<h5 id="fromxxxx-inputview에서-검증된-list-string-를-받는-public-정적팩토리메서드">
+<a class="anchor" href="#fromxxxx-inputview%EC%97%90%EC%84%9C-%EA%B2%80%EC%A6%9D%EB%90%9C-list-string-%EB%A5%BC-%EB%B0%9B%EB%8A%94-public-%EC%A0%95%EC%A0%81%ED%8C%A9%ED%86%A0%EB%A6%AC%EB%A9%94%EC%84%9C%EB%93%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>fromXXXX: InputView에서 검증된 List&lt; String &gt;를 받는 public 정적팩토리메서드</h5>
+
+<ul>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">InputView</code></strong>.getXXX() 에서 <strong><code class="language-plaintext highlighter-rouge">검증 후</code> 들어오는 ** -&gt;  **<code class="language-plaintext highlighter-rouge">List&lt; String &gt;</code>으로 들어올 것</strong>이기 때문에 <strong><code class="language-plaintext highlighter-rouge">.fromStrings( )</code>형식으로 작성한다.</strong></p>
+
+    <ul>
+      <li>String List -&gt; 단일객체 List로 변환되어 -&gt;  기본 생성자를 부른다.</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Cars</span> <span class="nf">fromNames</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">values</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">//input에서 검증하고 와서, 변환만</span>
+      <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">value</span> <span class="o">-&gt;</span> <span class="nc">Car</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">value</span><span class="o">))</span>
+          <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nf">Cars</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="from-테스트-등에서-list-단일객체-를-받는-public-정적팩토리메서드">
+<a class="anchor" href="#from-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EB%93%B1%EC%97%90%EC%84%9C-list-%EB%8B%A8%EC%9D%BC%EA%B0%9D%EC%B2%B4-%EB%A5%BC-%EB%B0%9B%EB%8A%94-public-%EC%A0%95%EC%A0%81%ED%8C%A9%ED%86%A0%EB%A6%AC%EB%A9%94%EC%84%9C%EB%93%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>from: 테스트 등에서 List&lt; 단일객체 &gt;를 받는 public 정적팩토리메서드</h5>
+
+<ul>
+  <li>
+    <p>기본생성자는 private하게 유지하기 위해, <strong>테스트용 public 기본 생성자 from ( <code class="language-plaintext highlighter-rouge">List&lt; 단일객체 &gt;</code></strong>로 생각하자.</p>
+
+    <ul>
+      <li>따로 <strong>개별 검증은 필요 없고(단일객체 생성시 이미 검증)</strong> -&gt; <strong><code class="language-plaintext highlighter-rouge">중복검사 등만 필요</code></strong>
+</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Cars</span> <span class="nf">from</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">//중복 검증 등</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nf">Cars</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="기본생성자-private--list-단일객체-">
+<a class="anchor" href="#%EA%B8%B0%EB%B3%B8%EC%83%9D%EC%84%B1%EC%9E%90-private--list-%EB%8B%A8%EC%9D%BC%EA%B0%9D%EC%B2%B4-" aria-hidden="true"><span class="octicon octicon-link"></span></a>기본생성자: private + List&lt; 단일객체 &gt;</h5>
+
+<ul>
+  <li>
+    <p>inputView 검증-&gt; fromStrings</p>
+  </li>
+  <li>
+    <p>test -&gt; from -&gt; 복수검증</p>
+  </li>
+  <li>
+    <p><strong>기본생성자는 일단 검증 없이 생성만 하는 역할을 하게 한다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">private</span> <span class="nf">Cars</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">cars</span> <span class="o">=</span> <span class="n">cars</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="쓰는-이유-4가지">
+<a class="anchor" href="#%EC%93%B0%EB%8A%94-%EC%9D%B4%EC%9C%A0-4%EA%B0%80%EC%A7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>쓰는 이유 4가지</h4>
+
+<ul>
+  <li><a href="https://jojoldu.tistory.com/412">참고 블로그</a></li>
+</ul>
+
+<h5 id="01-검증-통과해야만-생성-가능한-자료구조비지니스-종속-자료구조">
+<a class="anchor" href="#01-%EA%B2%80%EC%A6%9D-%ED%86%B5%EA%B3%BC%ED%95%B4%EC%95%BC%EB%A7%8C-%EC%83%9D%EC%84%B1-%EA%B0%80%EB%8A%A5%ED%95%9C-%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0%EB%B9%84%EC%A7%80%EB%8B%88%EC%8A%A4-%EC%A2%85%EC%86%8D-%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 검증 통과해야만 생성 가능한 자료구조(비지니스 종속 자료구조)</h5>
+
+<ul>
+  <li>
+    <p>흩어져있는 검증 기능들을 외울 수 없다. 신입사원이 와도 바로 작동하도록 하는 객체를 만들어야한다.</p>
+  </li>
+  <li>
+    <p>해당, util등에서 처리할게 아니라 <strong>검증 만족시 생성가능한 자료구조</strong>를 만들어 신입사원도 쓸 수 있게 해야한다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Cars</span> <span class="nf">from</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+      <span class="nc">Validator</span><span class="o">.</span><span class="na">validateCarsName</span><span class="o">(</span><span class="n">getCarNames</span><span class="o">(</span><span class="n">cars</span><span class="o">));</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nf">Cars</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="02-setteradd-등이-없는-불변구조">
+<a class="anchor" href="#02-setteradd-%EB%93%B1%EC%9D%B4-%EC%97%86%EB%8A%94-%EB%B6%88%EB%B3%80%EA%B5%AC%EC%A1%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 setter/add 등이 없는 불변구조</h5>
+
+<ul>
+  <li>
+    <p>List는 add, map은 put 등의 메서드를 제공하는데</p>
+
+    <ul>
+      <li>
+        <p><strong>일급컬렉션으로 감싸서 <code class="language-plaintext highlighter-rouge">생성자와 getter류 기능</code>만 제공하도록하고 <code class="language-plaintext highlighter-rouge">setter 등</code>을 제공하지 않음녀 불변구조가 된다.</strong></p>
+      </li>
+      <li>
+        <p>자료구조에 <code class="language-plaintext highlighter-rouge">final</code>을 붙혀도 해당 context에서 재할당만 불가 -&gt; add, put 등은 가능함.</p>
+
+        <ul>
+          <li>cf) 일급컬렉션에 <code class="language-plaintext highlighter-rouge">변수는 1개</code>이며, <code class="language-plaintext highlighter-rouge">final</code>이 붙어서 최초생성이후 변경할 수 없게 한다.</li>
+        </ul>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">;</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="03-상태변수와-행위기능을-자료구조와-함께-한-class에-다-모으기냉무">
+<a class="anchor" href="#03-%EC%83%81%ED%83%9C%EB%B3%80%EC%88%98%EC%99%80-%ED%96%89%EC%9C%84%EA%B8%B0%EB%8A%A5%EC%9D%84-%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0%EC%99%80-%ED%95%A8%EA%BB%98-%ED%95%9C-class%EC%97%90-%EB%8B%A4-%EB%AA%A8%EC%9C%BC%EA%B8%B0%EB%83%89%EB%AC%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 상태(변수)와 행위(기능)을 자료구조와 함께 한 class에 다 모으기(냉무)</h5>
+
+<h5 id="05-이름을-가지는-자료구조가-됨냉무">
+<a class="anchor" href="#05-%EC%9D%B4%EB%A6%84%EC%9D%84-%EA%B0%80%EC%A7%80%EB%8A%94-%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0%EA%B0%80-%EB%90%A8%EB%83%89%EB%AC%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 이름을 가지는 자료구조가 됨.(냉무)</h5>
+
+<h3 id="일급컬렉션-테스트">
+<a class="anchor" href="#%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98-%ED%85%8C%EC%8A%A4%ED%8A%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급컬렉션 테스트</h3>
+
+<h4 id="단일객체---일급컬렉션-순서대로-생성">
+<a class="anchor" href="#%EB%8B%A8%EC%9D%BC%EA%B0%9D%EC%B2%B4---%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98-%EC%88%9C%EC%84%9C%EB%8C%80%EB%A1%9C-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>단일객체 -&gt; 일급컬렉션 순서대로 생성</h4>
+
+<ul>
+  <li>단일객체 -&gt; 일급컬렉션 순서대로 생성하도록 전역변수 -&gt;  <code class="language-plaintext highlighter-rouge">@BeforeEach</code>에서
+    <ul>
+      <li>List&lt; Car &gt;를 받으면서 중복 등 다수검증하는 from으로 생성한다.</li>
+      <li>단일 객체생성은 여기서는 다루지 않지만, 검증이 들어간 로직으로 해야할 듯.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//1. 일급컬렉 Test: @BeforeEach에서 단일객체 개별생성 후(그래야 개별조작 가능 -&gt; 반영) List에 담아놓기</span>
+<span class="nc">Car</span> <span class="n">코니</span><span class="o">;</span>
+<span class="nc">Car</span> <span class="n">재성</span><span class="o">;</span>
+<span class="nc">Cars</span> <span class="n">cars</span><span class="o">;</span>
+
+<span class="nd">@BeforeEach</span>
+<span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">코니</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="s">"코니"</span><span class="o">);</span>
+    <span class="n">재성</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="s">"재성"</span><span class="o">);</span>
+    <span class="n">cars</span> <span class="o">=</span> <span class="nc">Cars</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">코니</span><span class="o">,</span> <span class="n">재성</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="given자리에-단일객체-조작을-when에서는-일급컬렉-기능을">
+<a class="anchor" href="#given%EC%9E%90%EB%A6%AC%EC%97%90-%EB%8B%A8%EC%9D%BC%EA%B0%9D%EC%B2%B4-%EC%A1%B0%EC%9E%91%EC%9D%84-when%EC%97%90%EC%84%9C%EB%8A%94-%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89-%EA%B8%B0%EB%8A%A5%EC%9D%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>given자리에 단일객체 조작을! when에서는 일급컬렉 기능을!</h4>
+
+<ul>
+  <li>
+    <p>given자리에 <code class="language-plaintext highlighter-rouge">일급컬렉션과 공유</code>된 개별 객체들을 조작후 -&gt;  테스트한다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">getMaxposition_method_test</span><span class="o">()</span> <span class="o">{</span>
+      <span class="c1">//given -&gt; 단일객체를 조작</span>
+      <span class="n">코니</span><span class="o">.</span><span class="na">move</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="kc">true</span><span class="o">);</span>
+      <span class="n">재성</span><span class="o">.</span><span class="na">move</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="kc">false</span><span class="o">);</span>
+    
+      <span class="c1">//when</span>
+      <span class="nc">Car</span> <span class="n">actualMaxPositionCar</span> <span class="o">=</span> <span class="n">getMaxPositionCar2</span><span class="o">();</span>
+      <span class="c1">//then</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">actualMaxPositionCar</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">코니</span><span class="o">);</span>
+  <span class="o">}</span>
+    
+  <span class="c1">// private하며 메서드 내부의 메서드 -&gt;  복사하고, 인자를 바꿔주자.</span>
+  <span class="kd">private</span> <span class="nc">Car</span> <span class="nf">getMaxPositionCar2</span><span class="o">()</span> <span class="o">{</span>
+      <span class="nc">Car</span> <span class="n">maxPositionCar</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">코니</span><span class="o">,</span> <span class="n">재성</span><span class="o">).</span><span class="na">stream</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="nl">Car:</span><span class="o">:</span><span class="n">compareTo</span><span class="o">)</span>
+          <span class="o">.</span><span class="na">orElseThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">IllegalArgumentException</span><span class="o">());</span>
+      <span class="k">return</span> <span class="n">maxPositionCar</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%ED%85%8C%EC%8A%A4%ED%8A%B8/2022/02/15/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98_%EC%83%9D%EC%84%B1%EC%9E%90_%EC%82%AC%EC%9A%A9%EC%9D%B4%EC%9C%A0_%ED%85%8C%EC%8A%A4%ED%8A%B8(%EC%99%84).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
