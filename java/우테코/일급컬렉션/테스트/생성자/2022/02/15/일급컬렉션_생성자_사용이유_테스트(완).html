@@ -165,36 +165,33 @@ window.onload = wrap_img;
 <ul>
   <li>생성 루트가 여러개 ex&gt; <code class="language-plaintext highlighter-rouge">List&lt;String&gt;</code> or <code class="language-plaintext highlighter-rouge">List&lt;Car&gt;</code>인 일급컬렉션
     <ol>
-      <li>private 필요속성을 받는 기본생성자</li>
-      <li>public fromXXX( <code class="language-plaintext highlighter-rouge">List&lt;String&gt;</code> )
+      <li>private 필요속성(만) 받는 기본생성자</li>
+      <li>public <code class="language-plaintext highlighter-rouge">fromStrings( List&lt; String &gt; )</code>
         <ul>
           <li>inputView에서 검증을 하고 오므로 검증없이 -&gt; <code class="language-plaintext highlighter-rouge">List&lt;객체&gt;</code>로 변환 -&gt; 생성자</li>
         </ul>
       </li>
-      <li>public from(<code class="language-plaintext highlighter-rouge">List&lt;객체&gt;</code>)
+      <li>public <code class="language-plaintext highlighter-rouge">from객체(List&lt; 객체 &gt;)</code>
         <ul>
           <li>test등에서 단일객체 -&gt; List add되어 들어오는데, <strong>복수 검증(중복)을 추가</strong>후 -&gt; 생성자</li>
         </ul>
       </li>
     </ol>
   </li>
-  <li>생성 루트가 1개인 VO, 단일객체
+  <li>
+<code class="language-plaintext highlighter-rouge">VO, 단일객체라도 </code>숫자형<code class="language-plaintext highlighter-rouge">이라면 -&gt; **</code>inputView에서 형변환`후, 해당형으로 검증되도록**
     <ol>
-      <li>inputView에서 따로 검증안한다면, public 생성자에서 검증까지 다 처리하면 될 듯함.</li>
-      <li>만약 inputView에서 검증한다면??
-        <ol>
-          <li>public 생성자 (노 검증) for Controller에서 사용
-            <ul>
-              <li>inputView에서 검증한 값이 들어올테지만, <strong>테스트에서 생성시에는 검증되어야 함.</strong>
+      <li>inputView에서 따로 검증안한다면, public 생성자에서 검증까지 다 처리하면 될 듯함.
+        <ul>
+          <li>inputView에서는 VO는 <code class="language-plaintext highlighter-rouge">형변환하고나서 -&gt; 검증</code>하자.
+            <ol>
+              <li>public 기본생성자(원본 타입) with 노검증(for inputView거친 뒤 or <code class="language-plaintext highlighter-rouge">숫자VO 연산</code>)</li>
+              <li>public from(원본타입) with  검증(for 테스트 or int직접생성)</li>
+              <li>public fromStrNumber  with No 검증 <code class="language-plaintext highlighter-rouge">inputView에서 검증하고 오니</code>
 </li>
-            </ul>
+            </ol>
           </li>
-          <li>public from  with (검증)
-            <ul>
-              <li>테스트용 정적팩토리메서드??? -&gt; private 생성자 -&gt; 생성</li>
-            </ul>
-          </li>
-        </ol>
+        </ul>
       </li>
     </ol>
   </li>
