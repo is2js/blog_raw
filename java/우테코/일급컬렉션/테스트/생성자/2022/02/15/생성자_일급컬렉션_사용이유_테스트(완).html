@@ -4,20 +4,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>일급컬렉션(생성자,사용이유,테스트) | 돌범 기술블로그</title>
+<title>생성자와 일급컬렉션(사용이유, 테스트) | 돌범 기술블로그</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="일급컬렉션(생성자,사용이유,테스트)" />
+<meta property="og:title" content="생성자와 일급컬렉션(사용이유, 테스트)" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="네오의 TDD 강의(문자열계산기)+TIP" />
 <meta property="og:description" content="네오의 TDD 강의(문자열계산기)+TIP" />
-<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%ED%85%8C%EC%8A%A4%ED%8A%B8/%EC%83%9D%EC%84%B1%EC%9E%90/2022/02/15/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98_%EC%83%9D%EC%84%B1%EC%9E%90_%EC%82%AC%EC%9A%A9%EC%9D%B4%EC%9C%A0_%ED%85%8C%EC%8A%A4%ED%8A%B8(%EC%99%84).html" />
-<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%ED%85%8C%EC%8A%A4%ED%8A%B8/%EC%83%9D%EC%84%B1%EC%9E%90/2022/02/15/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98_%EC%83%9D%EC%84%B1%EC%9E%90_%EC%82%AC%EC%9A%A9%EC%9D%B4%EC%9C%A0_%ED%85%8C%EC%8A%A4%ED%8A%B8(%EC%99%84).html" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%ED%85%8C%EC%8A%A4%ED%8A%B8/%EC%83%9D%EC%84%B1%EC%9E%90/2022/02/15/%EC%83%9D%EC%84%B1%EC%9E%90_%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98_%EC%82%AC%EC%9A%A9%EC%9D%B4%EC%9C%A0_%ED%85%8C%EC%8A%A4%ED%8A%B8(%EC%99%84).html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%ED%85%8C%EC%8A%A4%ED%8A%B8/%EC%83%9D%EC%84%B1%EC%9E%90/2022/02/15/%EC%83%9D%EC%84%B1%EC%9E%90_%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98_%EC%82%AC%EC%9A%A9%EC%9D%B4%EC%9C%A0_%ED%85%8C%EC%8A%A4%ED%8A%B8(%EC%99%84).html" />
 <meta property="og:site_name" content="돌범 기술블로그" />
 <meta property="og:image" content="blog.chojaeseong.com/images/posts/wootech.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-02-15T00:00:00-06:00" />
 <script type="application/ld+json">
-{"datePublished":"2022-02-15T00:00:00-06:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%ED%85%8C%EC%8A%A4%ED%8A%B8/%EC%83%9D%EC%84%B1%EC%9E%90/2022/02/15/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98_%EC%83%9D%EC%84%B1%EC%9E%90_%EC%82%AC%EC%9A%A9%EC%9D%B4%EC%9C%A0_%ED%85%8C%EC%8A%A4%ED%8A%B8(%EC%99%84).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"일급컬렉션(생성자,사용이유,테스트)","dateModified":"2022-02-15T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%ED%85%8C%EC%8A%A4%ED%8A%B8/%EC%83%9D%EC%84%B1%EC%9E%90/2022/02/15/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98_%EC%83%9D%EC%84%B1%EC%9E%90_%EC%82%AC%EC%9A%A9%EC%9D%B4%EC%9C%A0_%ED%85%8C%EC%8A%A4%ED%8A%B8(%EC%99%84).html"},"description":"네오의 TDD 강의(문자열계산기)+TIP","@context":"https://schema.org"}</script>
+{"datePublished":"2022-02-15T00:00:00-06:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%ED%85%8C%EC%8A%A4%ED%8A%B8/%EC%83%9D%EC%84%B1%EC%9E%90/2022/02/15/%EC%83%9D%EC%84%B1%EC%9E%90_%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98_%EC%82%AC%EC%9A%A9%EC%9D%B4%EC%9C%A0_%ED%85%8C%EC%8A%A4%ED%8A%B8(%EC%99%84).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"생성자와 일급컬렉션(사용이유, 테스트)","dateModified":"2022-02-15T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%ED%85%8C%EC%8A%A4%ED%8A%B8/%EC%83%9D%EC%84%B1%EC%9E%90/2022/02/15/%EC%83%9D%EC%84%B1%EC%9E%90_%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98_%EC%82%AC%EC%9A%A9%EC%9D%B4%EC%9C%A0_%ED%85%8C%EC%8A%A4%ED%8A%B8(%EC%99%84).html"},"description":"네오의 TDD 강의(문자열계산기)+TIP","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <!-- 폰트추가를 위한 link태그 삽입 -->
   <!-- 폰트1:  기본 spoqa 웹폰트 -->
@@ -96,7 +96,7 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">일급컬렉션(생성자,사용이유,테스트)</h1><p class="page-description">네오의 TDD 강의(문자열계산기)+TIP</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-15T00:00:00-06:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">생성자와 일급컬렉션(사용이유, 테스트)</h1><p class="page-description">네오의 TDD 강의(문자열계산기)+TIP</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-15T00:00:00-06:00" itemprop="datePublished">
         Feb 15, 2022
       </time>
        • <span class="read-time" title="Estimated read time">
@@ -133,6 +133,7 @@ window.onload = wrap_img;
     <!-- toc가 먼저 나오므로 h3로 안내하기 -->
     <h3>📜 제목으로 보기</h3>
     <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#생성자-규칙">생성자 규칙</a></li>
 <li class="toc-entry toc-h3"><a href="#일급컬렉션-생성자와-사용이유">일급컬렉션 생성자와 사용이유</a>
 <ul>
 <li class="toc-entry toc-h4"><a href="#생성자-21개">생성자 2+1개</a>
@@ -158,8 +159,8 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h4"><a href="#given자리에-단일객체-조작을-when에서는-일급컬렉-기능을">given자리에 단일객체 조작을! when에서는 일급컬렉 기능을!</a></li>
 </ul>
 </li>
-</ul><h3 id="일급컬렉션-생성자와-사용이유">
-<a class="anchor" href="#%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98-%EC%83%9D%EC%84%B1%EC%9E%90%EC%99%80-%EC%82%AC%EC%9A%A9%EC%9D%B4%EC%9C%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급컬렉션 생성자와 사용이유</h3>
+</ul><h3 id="생성자-규칙">
+<a class="anchor" href="#%EC%83%9D%EC%84%B1%EC%9E%90-%EA%B7%9C%EC%B9%99" aria-hidden="true"><span class="octicon octicon-link"></span></a>생성자 규칙</h3>
 
 <p><strong>나만의 규칙</strong></p>
 <ul>
@@ -179,23 +180,25 @@ window.onload = wrap_img;
     </ol>
   </li>
   <li>
-<code class="language-plaintext highlighter-rouge">VO, 단일객체라도 </code>숫자형<code class="language-plaintext highlighter-rouge">이라면 -&gt; **</code>inputView에서 형변환`후, 해당형으로 검증되도록**
+<code class="language-plaintext highlighter-rouge">VO, 단일객체</code>라도 <code class="language-plaintext highlighter-rouge">숫자형</code>이라면 -&gt; <strong><code class="language-plaintext highlighter-rouge">inputView에서 형변환</code>후, 해당형으로 검증되도록</strong>
     <ol>
       <li>inputView에서 따로 검증안한다면, public 생성자에서 검증까지 다 처리하면 될 듯함.
         <ul>
-          <li>inputView에서는 VO는 <code class="language-plaintext highlighter-rouge">형변환하고나서 -&gt; 검증</code>하자.
-            <ol>
-              <li>public 기본생성자(원본 타입) with 노검증(for inputView거친 뒤 or <code class="language-plaintext highlighter-rouge">숫자VO 연산</code>)</li>
-              <li>public from(원본타입) with  검증(for 테스트 or int직접생성)</li>
-              <li>public fromStrNumber  with No 검증 <code class="language-plaintext highlighter-rouge">inputView에서 검증하고 오니</code>
-</li>
-            </ol>
-          </li>
+          <li>inputView에서는 VO는 <code class="language-plaintext highlighter-rouge">형변환하고나서 -&gt; 검증</code>하자.</li>
         </ul>
+      </li>
+      <li>inputView 검증해야하는 상황이라면? -&gt; <strong>형변환후 int만 검증</strong>
+        <ol>
+          <li>public 기본생성자(원본 타입) with 노검증(for <code class="language-plaintext highlighter-rouge">inputView거친 뒤 controller</code> or <code class="language-plaintext highlighter-rouge">숫자VO 연산</code>)</li>
+          <li>public fromNumber(원본타입) with  검증(for 테스트 or int직접생성)</li>
+        </ol>
       </li>
     </ol>
   </li>
 </ul>
+
+<h3 id="일급컬렉션-생성자와-사용이유">
+<a class="anchor" href="#%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98-%EC%83%9D%EC%84%B1%EC%9E%90%EC%99%80-%EC%82%AC%EC%9A%A9%EC%9D%B4%EC%9C%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급컬렉션 생성자와 사용이유</h3>
 
 <h4 id="생성자-21개">
 <a class="anchor" href="#%EC%83%9D%EC%84%B1%EC%9E%90-21%EA%B0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>생성자 2+1개</h4>
@@ -383,7 +386,7 @@ window.onload = wrap_img;
 </ul>
 
 
-  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%ED%85%8C%EC%8A%A4%ED%8A%B8/%EC%83%9D%EC%84%B1%EC%9E%90/2022/02/15/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98_%EC%83%9D%EC%84%B1%EC%9E%90_%EC%82%AC%EC%9A%A9%EC%9D%B4%EC%9C%A0_%ED%85%8C%EC%8A%A4%ED%8A%B8(%EC%99%84).html" hidden></a>
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%ED%85%8C%EC%8A%A4%ED%8A%B8/%EC%83%9D%EC%84%B1%EC%9E%90/2022/02/15/%EC%83%9D%EC%84%B1%EC%9E%90_%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98_%EC%82%AC%EC%9A%A9%EC%9D%B4%EC%9C%A0_%ED%85%8C%EC%8A%A4%ED%8A%B8(%EC%99%84).html" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
