@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>git강의(upstream, git객체) | 돌범 기술블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="git강의(upstream, git객체)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="준의 git 기본강의" />
+<meta property="og:description" content="준의 git 기본강의" />
+<link rel="canonical" href="blog.chojaeseong.com/git/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/17/%EC%A4%80)-upstream%EA%B3%BC-git%EA%B0%9D%EC%B2%B4-%EA%B0%95%EC%9D%98(%EC%99%84).html" />
+<meta property="og:url" content="blog.chojaeseong.com/git/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/17/%EC%A4%80)-upstream%EA%B3%BC-git%EA%B0%9D%EC%B2%B4-%EA%B0%95%EC%9D%98(%EC%99%84).html" />
+<meta property="og:site_name" content="돌범 기술블로그" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/git.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-17T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-02-17T00:00:00-06:00","url":"blog.chojaeseong.com/git/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/17/%EC%A4%80)-upstream%EA%B3%BC-git%EA%B0%9D%EC%B2%B4-%EA%B0%95%EC%9D%98(%EC%99%84).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/git.png","headline":"git강의(upstream, git객체)","dateModified":"2022-02-17T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/git/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/17/%EC%A4%80)-upstream%EA%B3%BC-git%EA%B0%9D%EC%B2%B4-%EA%B0%95%EC%9D%98(%EC%99%84).html"},"description":"준의 git 기본강의","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범 기술블로그" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범 기술블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">git강의(upstream, git객체)</h1><p class="page-description">준의 git 기본강의</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-17T00:00:00-06:00" itemprop="datePublished">
+        Feb 17, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      1 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#git">git</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#준의-git-강의">준의 git 강의</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#upstream">upstream</a></li>
+<li class="toc-entry toc-h4"><a href="#help명령어와-git-객체">–help명령어와 git 객체</a></li>
+</ul>
+</li>
+</ul><h3 id="준의-git-강의">
+<a class="anchor" href="#%EC%A4%80%EC%9D%98-git-%EA%B0%95%EC%9D%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>준의 git 강의</h3>
+
+<h4 id="upstream">
+<a class="anchor" href="#upstream" aria-hidden="true"><span class="octicon octicon-link"></span></a>upstream</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220216104610592.png" alt="image-20220216104610592"></p>
+
+<ul>
+  <li>
+<strong>기본적</strong>으로 <strong>최초push</strong>에서는
+    <ul>
+      <li>
+        <p>local -&gt;  origin의 연결에  <code class="language-plaintext highlighter-rouge">local에 대한 상대적 상류(upstream) </code>를 <code class="language-plaintext highlighter-rouge">-u</code>로 명시해줘야한다.</p>
+      </li>
+      <li>
+        <p>-<code class="language-plaintext highlighter-rouge">u</code>는 <code class="language-plaintext highlighter-rouge">--set-upstream</code>으로 상대적인 상류를 표기한 것이다.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>일반적</strong>으로
+    <ul>
+      <li>
+<strong>origin에 대한 origin이 <code class="language-plaintext highlighter-rouge">upstream</code></strong>이라고 <strong>별칭</strong>한다.
+        <ul>
+          <li>미션repo(<code class="language-plaintext highlighter-rouge">upstream</code>) -&gt; fork repo(<code class="language-plaintext highlighter-rouge">origin</code>) -&gt; clone repo(<code class="language-plaintext highlighter-rouge">local</code>)</li>
+        </ul>
+      </li>
+      <li>최초 명시해준 것처럼 <strong>upstream</strong>은 downstream에 대해 상대적인 것이다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>깃허브 초기 메세지 박스를 보면 <code class="language-plaintext highlighter-rouge">-u</code>가 있는데 <strong>상대적 상-하 관계를 설정하는 upstream설정을 요약</strong>한 단어다</p>
+
+    <ul>
+      <li>없으면 push가 안된다.</li>
+      <li>내 local의 remote인 <code class="language-plaintext highlighter-rouge">origin</code>이라는 원천이라는 upstream으로 사용한다
+        <ul>
+          <li>보통은 원천(origin)보다 위쪽(stream)은 없다.</li>
+          <li>하지만, <strong><code class="language-plaintext highlighter-rouge">fork</code>로 <code class="language-plaintext highlighter-rouge">가운데origin</code>이 생기면서, 원본 repo를<code class="language-plaintext highlighter-rouge">별칭stream</code>을 사용하게 된다.</strong>
+</li>
+          <li><strong>우테코의 경우, 미션repo를 fork해해서 <code class="language-plaintext highlighter-rouge">origin</code>보다 더 상위단계가 생기므로 <code class="language-plaintext highlighter-rouge">upstream</code></strong></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220216105030785.png" alt="image-20220216105030785"></p>
+
+    <ul>
+      <li>
+<strong>여러개의 downstream</strong>이 존재함을 안보이더라도 생각해야한다.
+        <ul>
+          <li>
+<strong>git clone시</strong>((origin &lt;-&gt; local)에는 origin을 알고 있기 때문에 <strong>자동으로 stream관계가 설정</strong>되어 push할 때 <code class="language-plaintext highlighter-rouge">-u</code>를 통한 upstream 설정은 안해도 된다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="help명령어와-git-객체">
+<a class="anchor" href="#help%EB%AA%85%EB%A0%B9%EC%96%B4%EC%99%80-git-%EA%B0%9D%EC%B2%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>–help명령어와 git 객체</h4>
+
+<ul>
+  <li>
+    <p>퀴즈1
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220216105638129.png" alt="image-20220216105638129"></p>
+
+    <p><code class="language-plaintext highlighter-rouge">O</code></p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">git help</code>메세지들을 잘 보자.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220216105744351.png" alt="image-20220216105744351"></p>
+
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">.git</code>안에 깃 저장소를 초기화 했습니다.</li>
+          <li>
+<code class="language-plaintext highlighter-rouge">ls -al</code> 숨긴 파일, 폴더 보면 <code class="language-plaintext highlighter-rouge">.git</code>이 깃 저장소(<code class="language-plaintext highlighter-rouge">로컬 저장소</code>)가 보인다.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220216105853695.png" alt="image-20220216105853695"></p>
+
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">tree .git/</code>으로 로컬저장소의 구조를 보면<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220216105941160.png" alt="image-20220216105941160">
+</li>
+        </ul>
+      </li>
+      <li>
+        <p>명령어 도움말은 <code class="language-plaintext highlighter-rouge">명령어</code> + <strong><code class="language-plaintext highlighter-rouge">--help</code>를 뒤에 달면된다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220216110218535.png" alt="image-20220216110218535"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>퀴즈2
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220216110227506.png" alt="image-20220216110227506"></p>
+
+    <ul>
+      <li>
+        <p>blob은 파일으로 생각하자.</p>
+      </li>
+      <li>
+        <p>답은 <code class="language-plaintext highlighter-rouge">5</code>번</p>
+
+        <ul>
+          <li>branch는 commit객체에 대한 참조만 가지고 있다.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220216110335830.png" alt="image-20220216110335830"></p>
+      </li>
+      <li>
+        <p>commit</p>
+
+        <ul>
+          <li>커밋 = 작업 디렉토리 스냅샷  = 세이브 포인트</li>
+          <li><strong>돌아가기 위한 포인트.. commit + push만 하지말자</strong></li>
+          <li>돌아가기 위한 정보를 어떻게 담고 있을까</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220216110639929.png" alt="image-20220216110639929"></p>
+      </li>
+      <li>
+        <p>add시 생성객체, commit시 생성객체를 나누었다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220216110841734.png" alt="image-20220216110841734">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220216110908919.png" alt="image-20220216110908919"></p>
+
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">add</code>하면, git이 <strong><code class="language-plaintext highlighter-rouge">a.txt</code>를 관리대상으로 인식</strong>한다.
+            <ul>
+              <li><strong>아까는 없었던, <code class="language-plaintext highlighter-rouge">index</code>와 <code class="language-plaintext highlighter-rouge">object</code>가 추가 된다.</strong></li>
+            </ul>
+          </li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220216111032274.png" alt="image-20220216111032274"></p>
+
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">commit</code>하면, tree(파일관련), commit(tree를 담고 있는)객체까지 만들어서 2개가 더 만들어진다.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220216111155902.png" alt="image-20220216111155902"></p>
+      </li>
+      <li>
+        <p>퀴즈3</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220216111320270.png" alt="image-20220216111320270"></p>
+
+        <ul>
+          <li>git은 변경사항만 저장한다?
+            <ul>
+              <li>흔한 오해 -&gt; <strong>파일을 통채로 저장한다!</strong>
+</li>
+              <li>엄청 뒤로 갈 때, 변경사항만으로 추적? -&gt; <strong>연산 엄청 많아진다. 그냥 속도측면을 중요시해서 <code class="language-plaintext highlighter-rouge">통채로 저장</code> = <code class="language-plaintext highlighter-rouge">객체</code>로 관리</strong>
+</li>
+              <li>
+<strong>원본 파일마다 <code class="language-plaintext highlighter-rouge">tree</code>객체를 가지고 있다.</strong> 통채로 저장해놓고, 그것들을 관리하기 위한 커밋이 가진다.
+                <ul>
+                  <li>마지막 commit상태의 blob을 본다.</li>
+                  <li>변경사항을 저장하는게 아니라서..</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/git/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/17/%EC%A4%80)-upstream%EA%B3%BC-git%EA%B0%9D%EC%B2%B4-%EA%B0%95%EC%9D%98(%EC%99%84).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
