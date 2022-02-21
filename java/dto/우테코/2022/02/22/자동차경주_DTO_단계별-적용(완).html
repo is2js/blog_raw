@@ -129,25 +129,25 @@ window.onload = wrap_img;
     <ul class="section-nav">
 <li class="toc-entry toc-h2"><a href="#단일dto">단일DTO</a>
 <ul>
-<li class="toc-entry toc-h3"><a href="#01-controller의-outputviewprint--에-list-반환해주기">01 Controller의 OutputView.print(  )에 List 반환해주기단일Dto&gt;</a></li>
-<li class="toc-entry toc-h3"><a href="#02-일급-속-list를-streammap으로-list로-변환">02 일급 속 List를 stream.map으로 List로 변환단일Dto&gt;단일&gt;</a></li>
+<li class="toc-entry toc-h3"><a href="#01-controller의-outputviewprint--에-list단일dto-반환해주기">01 Controller의 OutputView.print(  )에 List&lt;단일Dto&gt; 반환해주기</a></li>
+<li class="toc-entry toc-h3"><a href="#02-일급-속-list단일객체를-streammap으로-list단일dto로-변환">02 일급 속 List&lt;단일객체&gt;를 stream.map으로 List&lt;단일Dto&gt;로 변환</a></li>
 <li class="toc-entry toc-h3"><a href="#03-dto-변환-정펙메는-from단일객체---모든-속성들-원시값까지-나눠서-get">03 Dto 변환 정펙메는 from(단일객체) -&gt; 모든 속성들 원시값까지 나눠서 get</a></li>
-<li class="toc-entry toc-h3"><a href="#04-outputview는-list를-받아서-gette들로-출력-로직-작성">04 OutputView는 List를 받아서 gette들로 출력 로직 작성단일Dto&gt;</a></li>
+<li class="toc-entry toc-h3"><a href="#04-outputview는-list단일dto를-받아서-getter들로-출력-로직-작성">04 OutputView는 List&lt;단일Dto&gt;를 받아서 getter들로 출력 로직 작성</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h2"><a href="#일급dto">일급Dto</a>
 <ul>
-<li class="toc-entry toc-h3"><a href="#01-일급todto를-통한--list자리를-일급dto로-교체">01 일급.toDto()를 통한  List자리를 일급Dto로 교체단일Dto&gt;</a></li>
-<li class="toc-entry toc-h3"><a href="#02-일급dto-정펙매-공식-재료는-일급-내부에-있는-list-no-list">02 일급Dto 정펙매 공식 재료는 일급 내부에 있는 List (No List)단일Dto&gt;단일객체&gt;</a></li>
+<li class="toc-entry toc-h3"><a href="#01-일급todto를-통한--list단일dto자리를-일급dto로-교체">01 일급.toDto()를 통한  List&lt;단일Dto&gt;자리를 일급Dto로 교체</a></li>
+<li class="toc-entry toc-h3"><a href="#02-일급dto-정펙매-공식-재료는-일급-내부에-있는-list단일객체-no-list단일dto">02 일급Dto 정펙매 공식 재료는 일급 내부에 있는 List&lt;단일객체&gt; (No List&lt;단일Dto&gt;)</a></li>
 <li class="toc-entry toc-h3"><a href="#03-일급dto의-getter-네이밍은-get으로-줄여주자">03 일급Dto의 getter 네이밍은 get()으로 줄여주자.</a></li>
-<li class="toc-entry toc-h3"><a href="#04-outputview내부-list-사용---일급dtoget">04 OutputView내부 List 사용 -&gt; 일급Dto.get()단일Dto&gt;</a></li>
+<li class="toc-entry toc-h3"><a href="#04-outputview내부-list단일dto-사용---일급dtoget">04 OutputView내부 List&lt;단일Dto&gt; 사용 -&gt; 일급Dto.get()</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h2"><a href="#dto테스트">DTO테스트</a>
 <ul>
 <li class="toc-entry toc-h3"><a href="#01-dto를-사용하는-outputview의-test로-테스트한다">01 Dto를 사용하는 OutputView의 Test로 테스트한다.</a></li>
 <li class="toc-entry toc-h3"><a href="#02-원시속성들로-단일dto-만드는-깡통-정펙매of--정의">02 [원시속성들]로 단일Dto 만드는 깡통 [정펙매of ] 정의</a></li>
-<li class="toc-entry toc-h3"><a href="#03-프로덕션에-없던-일급dto의---정펙매from--list-정의">03 프로덕션에 없던, 일급Dto의   정펙매from ( List) 정의단일Dto&gt;</a></li>
+<li class="toc-entry toc-h3"><a href="#03-프로덕션에-없던-일급dto의---정펙매from--list단일dto-정의">03 프로덕션에 없던, 일급Dto의   정펙매from ( List&lt;단일Dto&gt;) 정의</a></li>
 <li class="toc-entry toc-h3"><a href="#04-outputtostring은-변수로-못받는다-바로-확인">04 output.toString()은 변수로 못받는다. 바로 확인</a></li>
 </ul>
 </li>
@@ -158,8 +158,8 @@ window.onload = wrap_img;
   <li><a href="https://github.com/jinyoungchoi95/java-racingcar/blob/step1/src/main/java/racingcar/controller/RacingCarDto.java">참고 DTO 쓴 PR</a></li>
 </ul>
 
-<h3 id="01-controller의-outputviewprint--에-list-반환해주기">
-<a class="anchor" href="#01-controller%EC%9D%98-outputviewprint--%EC%97%90-list-%EB%B0%98%ED%99%98%ED%95%B4%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 Controller의 OutputView.print(  )에 List 반환해주기단일Dto&gt;</h3>
+<h3 id="01-controller의-outputviewprint--에-list단일dto-반환해주기">
+<a class="anchor" href="#01-controller%EC%9D%98-outputviewprint--%EC%97%90-list%EB%8B%A8%EC%9D%BCdto-%EB%B0%98%ED%99%98%ED%95%B4%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 Controller의 OutputView.print(  )에 List<code class="language-plaintext highlighter-rouge">&lt;단일Dto&gt;</code> 반환해주기</h3>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">OutputView</span><span class="o">.</span><span class="na">printResultEveryRound</span><span class="o">(</span><span class="n">racingGame</span><span class="o">.</span><span class="na">getCurrentCars</span><span class="o">());</span>
 </code></pre></div></div>
@@ -174,8 +174,8 @@ window.onload = wrap_img;
 <span class="o">}</span>
 </code></pre></div></div>
 
-<h3 id="02-일급-속-list를-streammap으로-list로-변환">
-<a class="anchor" href="#02-%EC%9D%BC%EA%B8%89-%EC%86%8D-list%EB%A5%BC-streammap%EC%9C%BC%EB%A1%9C-list%EB%A1%9C-%EB%B3%80%ED%99%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 일급 속 List를 stream.map으로 List로 변환단일Dto&gt;단일&gt;</h3>
+<h3 id="02-일급-속-list단일객체를-streammap으로-list단일dto로-변환">
+<a class="anchor" href="#02-%EC%9D%BC%EA%B8%89-%EC%86%8D-list%EB%8B%A8%EC%9D%BC%EA%B0%9D%EC%B2%B4%EB%A5%BC-streammap%EC%9C%BC%EB%A1%9C-list%EB%8B%A8%EC%9D%BCdto%EB%A1%9C-%EB%B3%80%ED%99%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 일급 속 List<code class="language-plaintext highlighter-rouge">&lt;단일객체&gt;</code>를 stream.map으로 List<code class="language-plaintext highlighter-rouge">&lt;단일Dto&gt;</code>로 변환</h3>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CarDto</span><span class="o">&gt;</span> <span class="nf">getCurrentCars</span><span class="o">()</span> <span class="o">{</span>
     <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">cars</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
@@ -216,8 +216,8 @@ window.onload = wrap_img;
 <span class="o">}</span>
 </code></pre></div></div>
 
-<h3 id="04-outputview는-list를-받아서-gette들로-출력-로직-작성">
-<a class="anchor" href="#04-outputview%EB%8A%94-list%EB%A5%BC-%EB%B0%9B%EC%95%84%EC%84%9C-gette%EB%93%A4%EB%A1%9C-%EC%B6%9C%EB%A0%A5-%EB%A1%9C%EC%A7%81-%EC%9E%91%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 OutputView는 List를 받아서 gette들로 출력 로직 작성단일Dto&gt;</h3>
+<h3 id="04-outputview는-list단일dto를-받아서-getter들로-출력-로직-작성">
+<a class="anchor" href="#04-outputview%EB%8A%94-list%EB%8B%A8%EC%9D%BCdto%EB%A5%BC-%EB%B0%9B%EC%95%84%EC%84%9C-getter%EB%93%A4%EB%A1%9C-%EC%B6%9C%EB%A0%A5-%EB%A1%9C%EC%A7%81-%EC%9E%91%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 OutputView는 List<code class="language-plaintext highlighter-rouge">&lt;단일Dto&gt;</code>를 받아서 getter들로 출력 로직 작성</h3>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">printResultEveryRound</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">CarDto</span><span class="o">&gt;</span> <span class="n">currentCars</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">for</span> <span class="o">(</span><span class="nc">CarDto</span> <span class="n">currentCar</span> <span class="o">:</span> <span class="n">currentCars</span><span class="o">)</span> <span class="o">{</span>
@@ -230,8 +230,8 @@ window.onload = wrap_img;
 <h2 id="일급dto">
 <a class="anchor" href="#%EC%9D%BC%EA%B8%89dto" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급Dto</h2>
 
-<h3 id="01-일급todto를-통한--list자리를-일급dto로-교체">
-<a class="anchor" href="#01-%EC%9D%BC%EA%B8%89todto%EB%A5%BC-%ED%86%B5%ED%95%9C--list%EC%9E%90%EB%A6%AC%EB%A5%BC-%EC%9D%BC%EA%B8%89dto%EB%A1%9C-%EA%B5%90%EC%B2%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 일급.toDto()를 통한  List자리를 일급Dto로 교체단일Dto&gt;</h3>
+<h3 id="01-일급todto를-통한--list단일dto자리를-일급dto로-교체">
+<a class="anchor" href="#01-%EC%9D%BC%EA%B8%89todto%EB%A5%BC-%ED%86%B5%ED%95%9C--list%EB%8B%A8%EC%9D%BCdto%EC%9E%90%EB%A6%AC%EB%A5%BC-%EC%9D%BC%EA%B8%89dto%EB%A1%9C-%EA%B5%90%EC%B2%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 일급.toDto()를 통한  List<code class="language-plaintext highlighter-rouge">&lt;단일Dto&gt;</code>자리를 일급Dto로 교체</h3>
 
 <ul>
   <li>단일Dto는 List -&gt; steram -&gt; map 가운데만 등장했으나단일&gt;</li>
@@ -243,8 +243,8 @@ window.onload = wrap_img;
     <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">cars</span><span class="o">.</span><span class="na">toDto</span><span class="o">();</span>
 </code></pre></div></div>
 
-<h3 id="02-일급dto-정펙매-공식-재료는-일급-내부에-있는-list-no-list">
-<a class="anchor" href="#02-%EC%9D%BC%EA%B8%89dto-%EC%A0%95%ED%8E%99%EB%A7%A4-%EA%B3%B5%EC%8B%9D-%EC%9E%AC%EB%A3%8C%EB%8A%94-%EC%9D%BC%EA%B8%89-%EB%82%B4%EB%B6%80%EC%97%90-%EC%9E%88%EB%8A%94-list-no-list" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 일급Dto 정펙매 공식 재료는 일급 내부에 있는 List (No List)단일Dto&gt;단일객체&gt;</h3>
+<h3 id="02-일급dto-정펙매-공식-재료는-일급-내부에-있는-list단일객체-no-list단일dto">
+<a class="anchor" href="#02-%EC%9D%BC%EA%B8%89dto-%EC%A0%95%ED%8E%99%EB%A7%A4-%EA%B3%B5%EC%8B%9D-%EC%9E%AC%EB%A3%8C%EB%8A%94-%EC%9D%BC%EA%B8%89-%EB%82%B4%EB%B6%80%EC%97%90-%EC%9E%88%EB%8A%94-list%EB%8B%A8%EC%9D%BC%EA%B0%9D%EC%B2%B4-no-list%EB%8B%A8%EC%9D%BCdto" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 일급Dto 정펙매 공식 재료는 일급 내부에 있는 List<code class="language-plaintext highlighter-rouge">&lt;단일객체&gt;</code> (No List<code class="language-plaintext highlighter-rouge">&lt;단일Dto&gt;</code>)</h3>
 
 <ul>
   <li>단일Dto는 Car가 모르고, 내부에서 이용안한다. Cars내부에서  <code class="language-plaintext highlighter-rouge">List&lt;CarDto&gt;</code> 만들 때 map에서 사용된다.</li>
@@ -292,8 +292,8 @@ window.onload = wrap_img;
 <span class="o">}</span>
 </code></pre></div></div>
 
-<h3 id="04-outputview내부-list-사용---일급dtoget">
-<a class="anchor" href="#04-outputview%EB%82%B4%EB%B6%80-list-%EC%82%AC%EC%9A%A9---%EC%9D%BC%EA%B8%89dtoget" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 OutputView내부 List 사용 -&gt; 일급Dto.get()단일Dto&gt;</h3>
+<h3 id="04-outputview내부-list단일dto-사용---일급dtoget">
+<a class="anchor" href="#04-outputview%EB%82%B4%EB%B6%80-list%EB%8B%A8%EC%9D%BCdto-%EC%82%AC%EC%9A%A9---%EC%9D%BC%EA%B8%89dtoget" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 OutputView내부 List<code class="language-plaintext highlighter-rouge">&lt;단일Dto&gt;</code> 사용 -&gt; 일급Dto.get()</h3>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//public static void printRacingRecord(List&lt;CarDto&gt; cars) {</span>
         <span class="c1">//        for (CarDto car : cars) {</span>
@@ -336,8 +336,8 @@ window.onload = wrap_img;
 <span class="o">}</span>
 </code></pre></div></div>
 
-<h3 id="03-프로덕션에-없던-일급dto의---정펙매from--list-정의">
-<a class="anchor" href="#03-%ED%94%84%EB%A1%9C%EB%8D%95%EC%85%98%EC%97%90-%EC%97%86%EB%8D%98-%EC%9D%BC%EA%B8%89dto%EC%9D%98---%EC%A0%95%ED%8E%99%EB%A7%A4from--list-%EC%A0%95%EC%9D%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 프로덕션에 없던, 일급Dto의   정펙매from ( List) 정의단일Dto&gt;</h3>
+<h3 id="03-프로덕션에-없던-일급dto의---정펙매from--list단일dto-정의">
+<a class="anchor" href="#03-%ED%94%84%EB%A1%9C%EB%8D%95%EC%85%98%EC%97%90-%EC%97%86%EB%8D%98-%EC%9D%BC%EA%B8%89dto%EC%9D%98---%EC%A0%95%ED%8E%99%EB%A7%A4from--list%EB%8B%A8%EC%9D%BCdto-%EC%A0%95%EC%9D%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 프로덕션에 없던, 일급Dto의   정펙매from ( List<code class="language-plaintext highlighter-rouge">&lt;단일Dto&gt;</code>) 정의</h3>
 
 <ul>
   <li>프로덕션에서는 <strong>일급내부 <code class="language-plaintext highlighter-rouge">List&lt;단일&gt;</code>  —일급Dto정펙매–&gt; (List&lt;단일Dto변환 -&gt;) <code class="language-plaintext highlighter-rouge">일급Dto</code></strong>
