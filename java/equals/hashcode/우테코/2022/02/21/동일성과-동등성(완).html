@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>동일성(옵라전 equals) vs 동등성(후 equals) | 돌범 기술블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="동일성(옵라전 equals) vs 동등성(후 equals)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="동일성(identity, 메모리주소, ==, 옵라전 equals)과 동등성(equality, 값, 옵라후 equals)" />
+<meta property="og:description" content="동일성(identity, 메모리주소, ==, 옵라전 equals)과 동등성(equality, 값, 옵라후 equals)" />
+<link rel="canonical" href="blog.chojaeseong.com/java/equals/hashcode/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/21/%EB%8F%99%EC%9D%BC%EC%84%B1%EA%B3%BC-%EB%8F%99%EB%93%B1%EC%84%B1(%EC%99%84).html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/equals/hashcode/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/21/%EB%8F%99%EC%9D%BC%EC%84%B1%EA%B3%BC-%EB%8F%99%EB%93%B1%EC%84%B1(%EC%99%84).html" />
+<meta property="og:site_name" content="돌범 기술블로그" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-21T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-02-21T00:00:00-06:00","url":"blog.chojaeseong.com/java/equals/hashcode/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/21/%EB%8F%99%EC%9D%BC%EC%84%B1%EA%B3%BC-%EB%8F%99%EB%93%B1%EC%84%B1(%EC%99%84).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"동일성(옵라전 equals) vs 동등성(후 equals)","dateModified":"2022-02-21T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/equals/hashcode/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/21/%EB%8F%99%EC%9D%BC%EC%84%B1%EA%B3%BC-%EB%8F%99%EB%93%B1%EC%84%B1(%EC%99%84).html"},"description":"동일성(identity, 메모리주소, ==, 옵라전 equals)과 동등성(equality, 값, 옵라후 equals)","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범 기술블로그" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범 기술블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">동일성(옵라전 equals) vs 동등성(후 equals)</h1><p class="page-description">동일성(identity, 메모리주소, ==, 옵라전 equals)과 동등성(equality, 값, 옵라후 equals)</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-21T00:00:00-06:00" itemprop="datePublished">
+        Feb 21, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      1 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#equals">equals</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#hashcode">hashcode</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#동일ㅣ성--identity--메모ㄹㅣ주소">동일(ㅣ)성 = (I)dentity = 메모ㄹ(ㅣ)주소</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#세팅">세팅</a></li>
+<li class="toc-entry toc-h4"><a href="#오버라이딩-전-default-equals---메모리비교">오버라이딩 전 default equals -&gt; 메모리비교</a></li>
+<li class="toc-entry toc-h4"><a href="#오버라이딩후-equals---지정한-값으로-비교">오버라이딩후 equals -&gt; 지정한 값으로 비교</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#hashcode도-같이-오버라이딩-하는-이유">hashCode도 같이 오버라이딩 하는 이유?</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#자료구조들도-같은-객체로-인식">자료구조들도 같은 객체로 인식</a></li>
+</ul>
+</li>
+</ul><h3 id="동일ㅣ성--identity--메모ㄹㅣ주소">
+<a class="anchor" href="#%EB%8F%99%EC%9D%BC%E3%85%A3%EC%84%B1--identity--%EB%A9%94%EB%AA%A8%E3%84%B9%E3%85%A3%EC%A3%BC%EC%86%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>동일(ㅣ)성 = (I)dentity = 메모ㄹ(ㅣ)주소</h3>
+
+<ul>
+  <li>
+    <p>반대로 동등성 = equality = 정해준 값이 같은지</p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">equals</code>는 equality가 아닌<code class="language-plaintext highlighter-rouge">메모리 주소(identity) 비교가 default</code>라서 오버라이딩 해야한다.</strong></p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">==</code> = <code class="language-plaintext highlighter-rouge">메모리 주소</code>로 비교 = <strong><code class="language-plaintext highlighter-rouge">default equals</code></strong></p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">equals</span><span class="o">(</span><span class="nc">Object</span> <span class="n">obj</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="o">(</span><span class="k">this</span> <span class="o">==</span> <span class="n">obj</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">=</code> = <code class="language-plaintext highlighter-rouge">값</code>으로 비교 = <strong><code class="language-plaintext highlighter-rouge">오버라이딩 equals</code></strong></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="세팅">
+<a class="anchor" href="#%EC%84%B8%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>세팅</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">position</span><span class="o">;</span>
+
+    <span class="c1">// 부 생성자는 주 생성자(name, position)보다 더 앞에 위치하며, 뒤쪽의 주 생성자를 this( , )로 사용한다.</span>
+    <span class="kd">public</span> <span class="nf">Car</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">Car</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">position</span> <span class="o">=</span> <span class="n">position</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="오버라이딩-전-default-equals---메모리비교">
+<a class="anchor" href="#%EC%98%A4%EB%B2%84%EB%9D%BC%EC%9D%B4%EB%94%A9-%EC%A0%84-default-equals---%EB%A9%94%EB%AA%A8%EB%A6%AC%EB%B9%84%EA%B5%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>오버라이딩 전 default equals -&gt; 메모리비교</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">before_overriding_equals_test</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">//1. 오버라이딩 전 deafult equals : 같은 메모리 주소만 true</span>
+    <span class="kd">final</span> <span class="nc">Car</span> <span class="n">재성</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="s">"차"</span><span class="o">);</span>
+    <span class="kd">final</span> <span class="nc">Car</span> <span class="n">석영</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="s">"차"</span><span class="o">);</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">재성</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">석영</span><span class="o">);</span>
+    <span class="c1">//Expected :domain.Car@29647f75</span>
+    <span class="c1">//Actual   :domain.Car@355ce81c</span>
+    <span class="c1">// -&gt; 서로 다른 객체(메모리주소)를 가져서 deafult equals로는 같다고 할 수 없음.</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="오버라이딩후-equals---지정한-값으로-비교">
+<a class="anchor" href="#%EC%98%A4%EB%B2%84%EB%9D%BC%EC%9D%B4%EB%94%A9%ED%9B%84-equals---%EC%A7%80%EC%A0%95%ED%95%9C-%EA%B0%92%EC%9C%BC%EB%A1%9C-%EB%B9%84%EA%B5%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>오버라이딩후 equals -&gt; 지정한 값으로 비교</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">final</span> <span class="nc">Car</span> <span class="n">재성</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="s">"차"</span><span class="o">);</span>
+<span class="kd">final</span> <span class="nc">Car</span> <span class="n">석영</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="s">"차"</span><span class="o">);</span>
+
+<span class="n">assertThat</span><span class="o">(</span><span class="n">재성</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">석영</span><span class="o">);</span> <span class="c1">// true</span>
+</code></pre></div></div>
+
+<h3 id="hashcode도-같이-오버라이딩-하는-이유">
+<a class="anchor" href="#hashcode%EB%8F%84-%EA%B0%99%EC%9D%B4-%EC%98%A4%EB%B2%84%EB%9D%BC%EC%9D%B4%EB%94%A9-%ED%95%98%EB%8A%94-%EC%9D%B4%EC%9C%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>hashCode도 같이 오버라이딩 하는 이유?</h3>
+
+<ul>
+  <li>
+<strong>hashCode메서드는 실제 <code class="language-plaintext highlighter-rouge">메모리 주소 -&gt; 정수값으로 반환</code>해주는 함수이다.</strong>
+    <ul>
+      <li>자료구조 등에 사용될 때, 이 hashCode기준으로 같냐/틀리냐를 판단한다.</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">값 같으면 -&gt; 같은 객체</code>를 만족시켜주기 위해서는 <strong><code class="language-plaintext highlighter-rouge">같다의 기준</code>을 바꿔줬었다.</strong>
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">같다</code>의 기준</strong>을 <code class="language-plaintext highlighter-rouge">메모리 주소 비교 -&gt; 값 비교</code>로 <strong>equals 오버라이딩</strong>으로 바꿔줘야했지만,</li>
+    </ul>
+  </li>
+  <li>
+<strong>이번엔 자료구조 등이 받아서 읽을<code class="language-plaintext highlighter-rouge">해쉬코드 기준</code>을 객체의 메모리주소정수 반환이 아닌 -&gt; <code class="language-plaintext highlighter-rouge">객체(Car)가 가진 값(name)의 메모리 주소 정수 반환</code>로 바꿔준다.</strong>
+    <ul>
+      <li>cf) 값의 메모리주소 -&gt; 같은 문자열이면 다 같다</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="자료구조들도-같은-객체로-인식">
+<a class="anchor" href="#%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0%EB%93%A4%EB%8F%84-%EA%B0%99%EC%9D%80-%EA%B0%9D%EC%B2%B4%EB%A1%9C-%EC%9D%B8%EC%8B%9D" aria-hidden="true"><span class="octicon octicon-link"></span></a>자료구조들도 같은 객체로 인식</h4>
+
+<p>쉽게 말해서, 반환되는 hashCode도 값 기준으로 바꿔서, <strong><code class="language-plaintext highlighter-rouge">값 같다 -&gt; 객체의 해쉬코드 같다</code>를 만들어버린다.</strong></p>
+
+<ul>
+  <li><strong>그렇지 않으면, equals는 True로 나올지 몰라도,  <code class="language-plaintext highlighter-rouge">자료구조는 다른 객체로 인식</code>하는 상태가 된다.</strong></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">before_overriding_hashcode_test</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">Car</span> <span class="n">재성</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="s">"차"</span><span class="o">);</span>
+    <span class="kd">final</span> <span class="nc">Car</span> <span class="n">석영</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="s">"차"</span><span class="o">);</span>
+
+    <span class="kd">final</span> <span class="nc">HashSet</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">set</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashSet</span><span class="o">&lt;&gt;();</span>
+    <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">재성</span><span class="o">);</span>
+    <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">석영</span><span class="o">);</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">set</span><span class="o">.</span><span class="na">size</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+    <span class="c1">//Expected :1</span>
+    <span class="c1">//Actual   :2</span>
+    <span class="c1">// hashCode를 객체기준-&gt;값기준으로 정의해주지 않으면, 자료구조들은 다른 객체로 인식한다.</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>hashCode오버라이딩 후</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">after_overriding_hashcode_test</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">//2.</span>
+    <span class="kd">final</span> <span class="nc">Car</span> <span class="n">재성</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="s">"차"</span><span class="o">);</span>
+    <span class="kd">final</span> <span class="nc">Car</span> <span class="n">석영</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="s">"차"</span><span class="o">);</span>
+
+    <span class="kd">final</span> <span class="nc">HashSet</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">set</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashSet</span><span class="o">&lt;&gt;();</span>
+    <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">재성</span><span class="o">);</span>
+    <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">석영</span><span class="o">);</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">set</span><span class="o">.</span><span class="na">size</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span> <span class="c1">// true</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+
+  </div><a class="u-url" href="/java/equals/hashcode/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/21/%EB%8F%99%EC%9D%BC%EC%84%B1%EA%B3%BC-%EB%8F%99%EB%93%B1%EC%84%B1(%EC%99%84).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
