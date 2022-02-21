@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>comparable vs comparator | 돌범 기술블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="comparable vs comparator" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="java에서 final로 불변 값/변수를 사용" />
+<meta property="og:description" content="java에서 final로 불변 값/변수를 사용" />
+<link rel="canonical" href="blog.chojaeseong.com/java/comparable/comparator/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/21/comparable_vs_comparator(%EC%99%84).html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/comparable/comparator/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/21/comparable_vs_comparator(%EC%99%84).html" />
+<meta property="og:site_name" content="돌범 기술블로그" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-21T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-02-21T00:00:00-06:00","url":"blog.chojaeseong.com/java/comparable/comparator/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/21/comparable_vs_comparator(%EC%99%84).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"comparable vs comparator","dateModified":"2022-02-21T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/comparable/comparator/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/21/comparable_vs_comparator(%EC%99%84).html"},"description":"java에서 final로 불변 값/변수를 사용","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범 기술블로그" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범 기술블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">comparable vs comparator</h1><p class="page-description">java에서 final로 불변 값/변수를 사용</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-21T00:00:00-06:00" itemprop="datePublished">
+        Feb 21, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#comparable">comparable</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#comparator">comparator</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#세팅">세팅</a></li>
+<li class="toc-entry toc-h3"><a href="#기준없이-정렬">기준없이 정렬</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#기준없이-문자열-리스트-정렬">기준없이 문자열 리스트 정렬</a></li>
+<li class="toc-entry toc-h4"><a href="#기준없이-객체-리스트-정렬">기준없이 객체 리스트 정렬</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#객체에-정렬-기준-주기">객체에 정렬 기준 주기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-sort에-안넣어줘도-되는-수동-기준-comparable">01 sort()에 안넣어줘도 되는 수동 기준 Comparable</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#compareto">compareTo</a></li>
+<li class="toc-entry toc-h5"><a href="#in-stream-집계--compareto-기준으로-바로-사용-가능">in stream: .집계(  ::compareTo) 기준으로 바로 사용 가능</a></li>
+<li class="toc-entry toc-h5"><a href="#단점-정렬기준-변화시--모두-수정--까봐야-앎--네이밍">단점: 정렬기준 변화시  모두 수정 + 까봐야 앎 + 네이밍</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#02-sort---2번째-인자에-넣어주는-능동적-기준-comparator">02 .sort( , ) 2번째 인자에 넣어주는 능동적 기준 Comparator</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#comparator-직접-구현-for-네이밍">comparator 직접 구현 for 네이밍</a></li>
+<li class="toc-entry toc-h5"><a href="#comparatorapi--getter--for-가장편함">Comparator.api + getter()  for 가장편함.</a></li>
+<li class="toc-entry toc-h5"><a href="#comparatorapi--getter--in-stream">Comparator.api + getter()  in stream</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#정리">정리</a></li>
+</ul><ul>
+  <li><a href="https://creampuffy.tistory.com/141?category=986887">참고 블로그1</a></li>
+  <li><a href="https://gmlwjd9405.github.io/2018/09/06/java-comparable-and-comparator.html">참고 블로그2</a></li>
+</ul>
+
+<h3 id="세팅">
+<a class="anchor" href="#%EC%84%B8%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>세팅</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">position</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Car</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">position</span> <span class="o">=</span> <span class="n">position</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getPosition</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">position</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="기준없이-정렬">
+<a class="anchor" href="#%EA%B8%B0%EC%A4%80%EC%97%86%EC%9D%B4-%EC%A0%95%EB%A0%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>기준없이 정렬</h3>
+
+<h4 id="기준없이-문자열-리스트-정렬">
+<a class="anchor" href="#%EA%B8%B0%EC%A4%80%EC%97%86%EC%9D%B4-%EB%AC%B8%EC%9E%90%EC%97%B4-%EB%A6%AC%EC%8A%A4%ED%8A%B8-%EC%A0%95%EB%A0%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>기준없이 문자열 리스트 정렬</h4>
+
+<ul>
+  <li>
+    <p>문자열은 값이므로 알아서 <strong>기준 없이 알아서 정렬된다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"정렬기준 없이 문자열 리스트 정렬"</span><span class="o">)</span>
+  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">noStandard_stringList_sort</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">strings</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"acd"</span><span class="o">,</span> <span class="s">"abc"</span><span class="o">,</span> <span class="s">"dca"</span><span class="o">);</span>
+    
+      <span class="c1">// Collections.sort() 와 .reverse()</span>
+      <span class="nc">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">strings</span><span class="o">);</span>
+      <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">strings</span><span class="o">);</span> <span class="c1">// [abc, acd, dca]</span>
+    
+    
+      <span class="nc">Collections</span><span class="o">.</span><span class="na">reverse</span><span class="o">(</span><span class="n">strings</span><span class="o">);</span>
+      <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">strings</span><span class="o">);</span> <span class="c1">// [dca, acd, abc]</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>String은 <code class="language-plaintext highlighter-rouge">이미 내부에서 Comparable을 구현 -&gt; compareTo 오버라이딩 하여 정렬기준을 제시</code>하고 있기 때문</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">String</span>
+      <span class="kd">implements</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">Serializable</span><span class="o">,</span> <span class="nc">Comparable</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;,</span> <span class="nc">CharSequence</span> <span class="o">{</span>
+        
+      <span class="c1">//...</span>
+        
+          <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compareTo</span><span class="o">(</span><span class="nc">String</span> <span class="n">anotherString</span><span class="o">)</span> <span class="o">{</span>
+          <span class="kt">byte</span> <span class="n">v1</span><span class="o">[]</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+          <span class="kt">byte</span> <span class="n">v2</span><span class="o">[]</span> <span class="o">=</span> <span class="n">anotherString</span><span class="o">.</span><span class="na">value</span><span class="o">;</span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">coder</span><span class="o">()</span> <span class="o">==</span> <span class="n">anotherString</span><span class="o">.</span><span class="na">coder</span><span class="o">())</span> <span class="o">{</span>
+              <span class="k">return</span> <span class="nf">isLatin1</span><span class="o">()</span> <span class="o">?</span> <span class="nc">StringLatin1</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">v1</span><span class="o">,</span> <span class="n">v2</span><span class="o">)</span>
+                  <span class="o">:</span> <span class="nc">StringUTF16</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">v1</span><span class="o">,</span> <span class="n">v2</span><span class="o">);</span>
+          <span class="o">}</span>
+          <span class="k">return</span> <span class="nf">isLatin1</span><span class="o">()</span> <span class="o">?</span> <span class="nc">StringLatin1</span><span class="o">.</span><span class="na">compareToUTF16</span><span class="o">(</span><span class="n">v1</span><span class="o">,</span> <span class="n">v2</span><span class="o">)</span>
+              <span class="o">:</span> <span class="nc">StringUTF16</span><span class="o">.</span><span class="na">compareToLatin1</span><span class="o">(</span><span class="n">v1</span><span class="o">,</span> <span class="n">v2</span><span class="o">);</span>
+      <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="기준없이-객체-리스트-정렬">
+<a class="anchor" href="#%EA%B8%B0%EC%A4%80%EC%97%86%EC%9D%B4-%EA%B0%9D%EC%B2%B4-%EB%A6%AC%EC%8A%A4%ED%8A%B8-%EC%A0%95%EB%A0%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>기준없이 객체 리스트 정렬</h4>
+
+<ul>
+  <li>
+    <p>객체를 넣은 List는 아예 정렬 대상이 안되고 컴파일 에러가 난다.</p>
+  </li>
+  <li>
+    <p><strong>반드시 먼저 정렬기준을 정해줘야한다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"정렬기준 없이 객체 리스트 정렬"</span><span class="o">)</span>
+  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">noStandard_carList_sort</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span>
+          <span class="k">new</span> <span class="nf">Car</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="mi">1</span><span class="o">),</span>
+          <span class="k">new</span> <span class="nf">Car</span><span class="o">(</span><span class="s">"재경"</span><span class="o">,</span> <span class="mi">2</span><span class="o">),</span>
+          <span class="k">new</span> <span class="nf">Car</span><span class="o">(</span><span class="s">"아라"</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+      <span class="o">);</span>
+    
+      <span class="c1">//2.</span>
+      <span class="c1">// no suitable method found for sort(java.util.List&lt;domain.Car&gt;)</span>
+      <span class="c1">// method java.util.Collections.&lt;T&gt;sort(java.util.List&lt;T&gt;,java.util.Comparator&lt;? super T&gt;) is not applicable</span>
+      <span class="nc">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span>
+      <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span>
+    
+      <span class="nc">Collections</span><span class="o">.</span><span class="na">reverse</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span>
+      <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span>
+  <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="객체에-정렬-기준-주기">
+<a class="anchor" href="#%EA%B0%9D%EC%B2%B4%EC%97%90-%EC%A0%95%EB%A0%AC-%EA%B8%B0%EC%A4%80-%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>객체에 정렬 기준 주기</h3>
+
+<h4 id="01-sort에-안넣어줘도-되는-수동-기준-comparable">
+<a class="anchor" href="#01-sort%EC%97%90-%EC%95%88%EB%84%A3%EC%96%B4%EC%A4%98%EB%8F%84-%EB%90%98%EB%8A%94-%EC%88%98%EB%8F%99-%EA%B8%B0%EC%A4%80-comparable" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 sort()에 안넣어줘도 되는 수동 기준 Comparable</h4>
+
+<ul>
+  <li>수동적인 내부 기준인 만큼, <strong>까봐야알고, 수정할려면 다 도메인 내부를 다 바꿔야한다.</strong>
+</li>
+</ul>
+
+<ol>
+  <li>
+    <p>자기자신 Type의 Comparable을 구현한다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="kd">implements</span> <span class="nc">Comparable</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="o">{</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>비교할 원시값Type에 맞게 <code class="language-plaintext highlighter-rouge">compareTo</code>를 재정의</strong>한다.</p>
+
+    <ul>
+      <li>int면 <code class="language-plaintext highlighter-rouge">Integer.compare( this.xxxx , other.xxxx )</code>
+</li>
+      <li>string이면, 내부 자기가 구현한 <code class="language-plaintext highlighter-rouge">this.compareTo(other)</code>를 사용</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@Override</span>
+ <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compareTo</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Car</span> <span class="n">otherCar</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">name</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">otherCar</span><span class="o">.</span><span class="na">name</span><span class="o">);</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">.sort()</code>만</strong> 해서 오름/내림차순 확인해보기</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"comparable -&gt; name 기준으로 객체 리스트  정렬"</span><span class="o">)</span>
+ <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="nf">noStandard_carList_sort</span><span class="o">()</span> <span class="o">{</span>
+     <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span>
+         <span class="k">new</span> <span class="nf">Car</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="mi">1</span><span class="o">),</span>
+         <span class="k">new</span> <span class="nf">Car</span><span class="o">(</span><span class="s">"재경"</span><span class="o">,</span> <span class="mi">2</span><span class="o">),</span>
+         <span class="k">new</span> <span class="nf">Car</span><span class="o">(</span><span class="s">"아라"</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+     <span class="o">);</span>
+    
+     <span class="c1">//3.</span>
+     <span class="nc">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span>
+     <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span> <span class="c1">// [아라 3, 재경 2, 재성 1]</span>
+    
+     <span class="nc">Collections</span><span class="o">.</span><span class="na">reverse</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span>
+     <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span> <span class="c1">// [아라 3, 재경 2, 재성 1]</span>
+ <span class="o">}</span>
+    
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="compareto">
+<a class="anchor" href="#compareto" aria-hidden="true"><span class="octicon octicon-link"></span></a>compareTo</h5>
+
+<ul>
+  <li><a href="https://mine-it-record.tistory.com/133">참고 블로그</a></li>
+</ul>
+
+<ol>
+  <li>
+    <p>숫자형 비교</p>
+
+    <ul>
+      <li>
+        <p><strong>기준 값과 비교대상이 동일한 값일 경우 0</strong></p>
+      </li>
+      <li>
+        <p><strong>기준 값이 비교대상 보다 작은 경우 -1</strong></p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">기준 값이</code> 비교대상 보다 <code class="language-plaintext highlighter-rouge">큰 경우 1</code></strong></p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>   <span class="nc">Integer</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span> 
+   <span class="nc">Integer</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span> 
+   <span class="nc">Double</span> <span class="n">z</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">;</span> 
+         
+   <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">x</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">y</span><span class="o">)</span> <span class="o">);</span> <span class="c1">// -1 </span>
+   <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">x</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span> <span class="o">);</span> <span class="c1">// 0 </span>
+   <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">x</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span> <span class="o">);</span> <span class="c1">// 1 </span>
+   <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">z</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="mf">2.7</span><span class="o">)</span> <span class="o">);</span> <span class="c1">// -1</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>숫자형 중 Int의 비교</p>
+
+    <ul>
+      <li>
+        <p>compareTo() 대신 Integer.compare(, ) 사용</p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>  
+  <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">5</span><span class="o">;</span>
+        
+  <span class="nc">Integer</span><span class="o">.</span><span class="na">compare</span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">);</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>문자열 -&gt; String클래스가 이미 오버라이딩 해놓은 <code class="language-plaintext highlighter-rouge">compareTo()</code>이용</p>
+
+    <ul>
+      <li>
+        <p>(첫글자 같으면서) 비교대상이 기준에 포함되면 -&gt; 길이의 차이를 return한다.</p>
+      </li>
+      <li>
+        <p>(첫글자가 다르면서)  비교대상이 기준에 포함되면  -&gt; 서로 다른 문자열이 시작되는 위치(첫위치)에서 아스키코드 값 차이</p>
+      </li>
+      <li>
+        <p>포함이 안되는 문자열끼리 비교는 그냥 첫글자의 아스키코드 차이</p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">String</span> <span class="n">str</span> <span class="o">=</span> <span class="s">"abcd"</span><span class="o">;</span> <span class="c1">// 1) 비교대상에 문자열이 포함되어있을 경우 </span>
+  <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">str</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="s">"abcd"</span><span class="o">)</span> <span class="o">);</span> <span class="c1">// 0 (같은 경우는 숫자나 문자나 0을 리턴) </span>
+  <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">str</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="s">"ab"</span><span class="o">)</span> <span class="o">);</span> <span class="c1">// 2 </span>
+  <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">str</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="s">"a"</span><span class="o">)</span> <span class="o">);</span> <span class="c1">// 3 </span>
+  <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">str</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="s">"c"</span><span class="o">)</span> <span class="o">);</span> <span class="c1">// -2 </span>
+  <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="s">""</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">str</span><span class="o">)</span> <span class="o">);</span> <span class="c1">// -4 // 2) 비교대상과 전혀 다른 문자열인 경우 </span>
+  <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">str</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="s">"zefd"</span><span class="o">)</span> <span class="o">);</span> <span class="c1">// -25 </span>
+  <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">str</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="s">"zEFd"</span><span class="o">)</span> <span class="o">);</span> <span class="c1">// -25 </span>
+  <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">str</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="s">"ABCD"</span><span class="o">)</span> <span class="o">);</span> <span class="c1">// 32</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h5 id="in-stream-집계--compareto-기준으로-바로-사용-가능">
+<a class="anchor" href="#in-stream-%EC%A7%91%EA%B3%84--compareto-%EA%B8%B0%EC%A4%80%EC%9C%BC%EB%A1%9C-%EB%B0%94%EB%A1%9C-%EC%82%AC%EC%9A%A9-%EA%B0%80%EB%8A%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>in stream: .집계(  ::compareTo) 기준으로 바로 사용 가능</h5>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">.집계(  기준이 되어줄 메서드 )</code>로 <code class="language-plaintext highlighter-rouge">집계기준</code>으로 바로 사용할 수 있다.</strong></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">list</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="nl">Car:</span><span class="o">:</span><span class="n">compareTo</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span> <span class="o">...</span> <span class="o">);</span>
+</code></pre></div></div>
+
+<h5 id="단점-정렬기준-변화시--모두-수정--까봐야-앎--네이밍">
+<a class="anchor" href="#%EB%8B%A8%EC%A0%90-%EC%A0%95%EB%A0%AC%EA%B8%B0%EC%A4%80-%EB%B3%80%ED%99%94%EC%8B%9C--%EB%AA%A8%EB%91%90-%EC%88%98%EC%A0%95--%EA%B9%8C%EB%B4%90%EC%95%BC-%EC%95%8E--%EB%84%A4%EC%9D%B4%EB%B0%8D" aria-hidden="true"><span class="octicon octicon-link"></span></a>단점: 정렬기준 변화시  모두 수정 + 까봐야 앎 + 네이밍</h5>
+
+<ul>
+  <li>
+<strong>다른 개발자들이 <code class="language-plaintext highlighter-rouge">implements Comparable&lt;Car&gt;</code> 만 보고도</strong>어떤 기준으로 정렬될지 모른다. -&gt; <strong>지식으로서 compareTo를 다 까봐야한다.</strong>
+</li>
+  <li>그리고 이 <strong>기준이 바뀌지 않을 거라 장담</strong>할 수 없다. 구현부 compareTo를  하나하나 수정해줘야한다.</li>
+  <li><strong>네이밍 수정을 못함. compareTo보다 더 직관적인 네이밍 필요</strong></li>
+</ul>
+
+<h4 id="02-sort---2번째-인자에-넣어주는-능동적-기준-comparator">
+<a class="anchor" href="#02-sort---2%EB%B2%88%EC%A7%B8-%EC%9D%B8%EC%9E%90%EC%97%90-%EB%84%A3%EC%96%B4%EC%A3%BC%EB%8A%94-%EB%8A%A5%EB%8F%99%EC%A0%81-%EA%B8%B0%EC%A4%80-comparator" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 .sort( , ) 2번째 인자에 넣어주는 능동적 기준 Comparator</h4>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">list.sort()</code>의 첫번째 인자 혹은 <code class="language-plaintext highlighter-rouge">Arrays.sort(, )</code>나 <code class="language-plaintext highlighter-rouge">Collections.sort(, )</code>의 <strong>두번째 파라미터로 comparator를 받는 메소드가 오버로딩</strong> 되어있다.
+    <ul>
+      <li>따라서 수동적 기준인 natural ordering 으로 정렬하기 원할 경우, compareTo만 정의해서 기준으로 넣어주면 되고</li>
+      <li>
+<strong>정렬 기준을 동적으로 할당</strong>하고 싶을 경우, <strong><code class="language-plaintext highlighter-rouge">.sort( , )</code>1~2번째 파라미터로 Comparator를 정의해서 전달</strong>하자.</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="comparator-직접-구현-for-네이밍">
+<a class="anchor" href="#comparator-%EC%A7%81%EC%A0%91-%EA%B5%AC%ED%98%84-for-%EB%84%A4%EC%9D%B4%EB%B0%8D" aria-hidden="true"><span class="octicon octicon-link"></span></a>comparator 직접 구현 for 네이밍</h5>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">new Comparator</code>롤 작성한 뒤-&gt; <code class="language-plaintext highlighter-rouge">&lt;Car&gt;의 클래스</code>만 입력해주고  -&gt; implements메소드 -&gt; <code class="language-plaintext highlighter-rouge">compare</code>만 선택한다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="k">new</span> <span class="nc">Comparator</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;()</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>**getter()도.. 들어가서.. 불러와서.. 비교시킨다. **</p>
+
+    <ul>
+      <li>문자열이면, compareTo()  String클래스꺼</li>
+      <li>인트면, Integer.compare()</li>
+    </ul>
+
+    <p>```java
+ new Comparator<car>() {
+     @Override
+     public int compare(final Car o1, final Car o2) {
+         return o1.getName().compareTo(o2.getName());
+     }
+ };</car></p>
+  </li>
+  <li>
+    <p>변수로 받아서 <strong>정렬기준 객체의 <code class="language-plaintext highlighter-rouge">네이밍</code>을 완성</strong>한다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">final</span> <span class="nc">Comparator</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">carNameComparator</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Comparator</span><span class="o">&lt;&gt;()</span> <span class="o">{</span>
+     <span class="nd">@Override</span>
+     <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Car</span> <span class="n">o1</span><span class="o">,</span> <span class="kd">final</span> <span class="nc">Car</span> <span class="n">o2</span><span class="o">)</span> <span class="o">{</span>
+         <span class="k">return</span> <span class="n">o1</span><span class="o">.</span><span class="na">getName</span><span class="o">().</span><span class="na">compareTo</span><span class="o">(</span><span class="n">o2</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+     <span class="o">}</span>
+ <span class="o">};</span>
+    
+    
+ <span class="kd">final</span> <span class="nc">Comparator</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">carPositionComparator</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Comparator</span><span class="o">&lt;&gt;()</span> <span class="o">{</span>
+     <span class="nd">@Override</span>
+     <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Car</span> <span class="n">o1</span><span class="o">,</span> <span class="kd">final</span> <span class="nc">Car</span> <span class="n">o2</span><span class="o">)</span> <span class="o">{</span>
+         <span class="k">return</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">compare</span><span class="o">(</span><span class="n">o1</span><span class="o">.</span><span class="na">getPosition</span><span class="o">(),</span> <span class="n">o2</span><span class="o">.</span><span class="na">getPosition</span><span class="o">());</span>
+     <span class="o">}</span>
+ <span class="o">};</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>.sort( , )의 2번째 인자에 능동적으로 기준을 넣어준다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nc">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">cars</span><span class="o">,</span> <span class="n">carNameComparator</span><span class="o">);</span>
+ <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span> <span class="c1">// [아라 3, 재경 2, 재성 1]</span>
+    
+ <span class="nc">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">cars</span><span class="o">,</span> <span class="n">carPositionComparator</span><span class="o">);</span>
+ <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span> <span class="c1">// [재성 1, 재경 2, 아라 3]</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="comparatorapi--getter--for-가장편함">
+<a class="anchor" href="#comparatorapi--getter--for-%EA%B0%80%EC%9E%A5%ED%8E%B8%ED%95%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>Comparator.api + getter()  for 가장편함.</h5>
+
+<ul>
+  <li><strong>따로 impl하거나 new 구현할 필요 없이, <code class="language-plaintext highlighter-rouge">sort()의 2번째 인자</code>에 바로 넣어준다.</strong></li>
+  <li><strong>Comparator.comparing() <code class="language-plaintext highlighter-rouge">.reversed()</code>를 붙혀 역순 지정가능</strong></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">cars</span><span class="o">,</span> <span class="nc">Comparator</span><span class="o">.</span><span class="na">comparing</span><span class="o">(</span><span class="nl">Car:</span><span class="o">:</span><span class="n">getName</span><span class="o">));</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span> <span class="c1">// [아라 3, 재경 2, 재성 1]</span>
+
+<span class="nc">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">cars</span><span class="o">,</span> <span class="nc">Comparator</span><span class="o">.</span><span class="na">comparing</span><span class="o">(</span><span class="nl">Car:</span><span class="o">:</span><span class="n">getName</span><span class="o">)</span>
+                 <span class="o">.</span><span class="na">reversed</span><span class="o">());</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span> <span class="c1">// [재성 1, 재경 2, 아라 3]</span>
+
+<span class="nc">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">cars</span><span class="o">,</span> <span class="nc">Comparator</span><span class="o">.</span><span class="na">comparing</span><span class="o">(</span><span class="nl">Car:</span><span class="o">:</span><span class="n">getPosition</span><span class="o">));</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span> <span class="c1">// [재성 1, 재경 2, 아라 3]</span>
+
+<span class="nc">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">cars</span><span class="o">,</span> <span class="nc">Comparator</span><span class="o">.</span><span class="na">comparing</span><span class="o">(</span><span class="nl">Car:</span><span class="o">:</span><span class="n">getPosition</span><span class="o">)</span>
+                 <span class="o">.</span><span class="na">reversed</span><span class="o">());</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span> <span class="c1">// [아라 3, 재경 2, 재성 1]</span>
+</code></pre></div></div>
+
+<h5 id="comparatorapi--getter--in-stream">
+<a class="anchor" href="#comparatorapi--getter--in-stream" aria-hidden="true"><span class="octicon octicon-link"></span></a>Comparator.api + getter()  in stream</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">max</span> <span class="o">(</span> <span class="nc">Comparator</span><span class="o">.</span><span class="na">comparingInt</span> <span class="o">(</span> <span class="nl">클래스:</span><span class="o">:</span><span class="n">getter</span> <span class="o">))</span>
+</code></pre></div></div>
+
+<h3 id="정리">
+<a class="anchor" href="#%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>정리</h3>
+
+<ul>
+  <li>Comparable 보다는 <code class="language-plaintext highlighter-rouge">Comparator</code>를 사용하여 <strong>정렬 기준만큼은 <code class="language-plaintext highlighter-rouge">도메인에서 제외시켜 외부에 위치</code></strong>시켜 <strong>변경에 유연하게 만든다.</strong>
+</li>
+  <li>
+    <p>외부에서는 comparable -&gt; compareTo -&gt; .sort() <strong>수동적 내부 기준으로 정렬</strong>시 <strong><code class="language-plaintext highlighter-rouge">밖에서 보면 무엇을 기준으로 정렬되는지 모른다.</code></strong></p>
+  </li>
+  <li>
+<strong>Comparator 는</strong>
+    <ul>
+      <li><strong>도메인 클래스에 변경을 가하지 않고도 변경에 유연해진다.</strong></li>
+      <li><strong>정렬 기준을 코드 자체로 나타내기 때문에 협업에도 더 좋은 것 같다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/java/comparable/comparator/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/21/comparable_vs_comparator(%EC%99%84).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
