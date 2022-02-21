@@ -139,9 +139,10 @@ window.onload = wrap_img;
 <ul>
 <li class="toc-entry toc-h4"><a href="#저장시-새줄-추가-with-save-actions">저장시 새줄 추가 with Save Actions</a></li>
 <li class="toc-entry toc-h4"><a href="#code-style">code style</a></li>
-<li class="toc-entry toc-h4"><a href="#추가-method-local-variable-final로-생성하기">(추가) method, local variable final로 생성하기</a></li>
-<li class="toc-entry toc-h4"><a href="#추가-상수를-private로-추출하기">(추가) 상수를 private로 추출하기</a></li>
-<li class="toc-entry toc-h4"><a href="#페어-컨벤션">페어 컨벤션</a></li>
+<li class="toc-entry toc-h4"><a href="#추가-method의-local-variable-final로-생성하기">(추가) method의 local variable final로 생성하기</a></li>
+<li class="toc-entry toc-h4"><a href="#추가-변수를-final로-추출최초-1회">(추가) 변수를 final로 추출(최초 1회)</a></li>
+<li class="toc-entry toc-h4"><a href="#추가-상수를-private로-추출최초-1회">(추가) 상수를 private로 추출(최초 1회)</a></li>
+<li class="toc-entry toc-h4"><a href="#페어-컨벤션링크">페어 컨벤션(링크)</a></li>
 <li class="toc-entry toc-h4"><a href="#editorconfig-for--windows에서도-lf로-저장">.editorConfig for  windows에서도 LF로 저장</a></li>
 <li class="toc-entry toc-h4"><a href="#checkstyle">checkstyle</a></li>
 <li class="toc-entry toc-h4"><a href="#네이버핵데이-컨벤션--및-checkstyle-적용하기">네이버핵데이 컨벤션  및 CheckStyle 적용하기</a></li>
@@ -264,8 +265,8 @@ compileTestJava.options.encoding = 'UTF-8'
   </li>
 </ol>
 
-<h4 id="추가-method-local-variable-final로-생성하기">
-<a class="anchor" href="#%EC%B6%94%EA%B0%80-method-local-variable-final%EB%A1%9C-%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>(추가) method, local variable final로 생성하기</h4>
+<h4 id="추가-method의-local-variable-final로-생성하기">
+<a class="anchor" href="#%EC%B6%94%EA%B0%80-method%EC%9D%98-local-variable-final%EB%A1%9C-%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>(추가) method의 local variable final로 생성하기</h4>
 <ul>
   <li>
 <strong>Editor &gt; <code class="language-plaintext highlighter-rouge">Code style</code> &gt; java &gt; Code generation &gt;  [x] <code class="language-plaintext highlighter-rouge">make ~ final</code> 체크박스 2개</strong>
@@ -273,28 +274,26 @@ compileTestJava.options.encoding = 'UTF-8'
 </li>
 </ul>
 
-<h4 id="추가-상수를-private로-추출하기">
-<a class="anchor" href="#%EC%B6%94%EA%B0%80-%EC%83%81%EC%88%98%EB%A5%BC-private%EB%A1%9C-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>(추가) 상수를 private로 추출하기</h4>
+<h4 id="추가-변수를-final로-추출최초-1회">
+<a class="anchor" href="#%EC%B6%94%EA%B0%80-%EB%B3%80%EC%88%98%EB%A5%BC-final%EB%A1%9C-%EC%B6%94%EC%B6%9C%EC%B5%9C%EC%B4%88-1%ED%9A%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>(추가) 변수를 final로 추출(최초 1회)</h4>
+<ul>
+  <li>추출할 때, <code class="language-plaintext highlighter-rouge">ctrl + alt + v</code>를 <strong>2번 눌러서, <code class="language-plaintext highlighter-rouge">Declare final</code>체크</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220221123901716.png" alt="image-20220221123901716">
+</li>
+</ul>
+
+<h4 id="추가-상수를-private로-추출최초-1회">
+<a class="anchor" href="#%EC%B6%94%EA%B0%80-%EC%83%81%EC%88%98%EB%A5%BC-private%EB%A1%9C-%EC%B6%94%EC%B6%9C%EC%B5%9C%EC%B4%88-1%ED%9A%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>(추가) 상수를 private로 추출(최초 1회)</h4>
 <ul>
   <li>추출할 때, <code class="language-plaintext highlighter-rouge">ctrl + alt + c</code>를 <strong>2번 눌러서, public -&gt; private로 옮겨놓기</strong>
 </li>
 </ul>
 
-<h4 id="페어-컨벤션">
-<a class="anchor" href="#%ED%8E%98%EC%96%B4-%EC%BB%A8%EB%B2%A4%EC%85%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>페어 컨벤션</h4>
-<ol>
-  <li>
-<code class="language-plaintext highlighter-rouge">setter</code> 사용 금지</li>
-  <li>
-<code class="language-plaintext highlighter-rouge">getter</code> 최대한 지양</li>
-  <li>메소드 라인 10줄로 제한</li>
-  <li>VO, 일급 컬렉션 최대한 활용
-    <ul>
-      <li>VO는 동등성, 불변성 지키기</li>
-    </ul>
-  </li>
-  <li>랜덤 값 테스트를 위해 함수형 인터페이스 활용</li>
-</ol>
+<h4 id="페어-컨벤션링크">
+<a class="anchor" href="#%ED%8E%98%EC%96%B4-%EC%BB%A8%EB%B2%A4%EC%85%98%EB%A7%81%ED%81%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>페어 컨벤션(<a href="https://docs.google.com/spreadsheets/d/1cIsXu4xGRyDqdafsNY4bLwtEjO7Ve0ECKjUx5LzGTzI/edit#gid=0">링크</a>)</h4>
+<ul>
+  <li>구글 스프레트 시트 <a href="https://docs.google.com/spreadsheets/d/1cIsXu4xGRyDqdafsNY4bLwtEjO7Ve0ECKjUx5LzGTzI/edit#gid=0">링크</a>로 매번 업데이트 된 것 활용하기</li>
+</ul>
 
 <h4 id="editorconfig-for--windows에서도-lf로-저장">
 <a class="anchor" href="#editorconfig-for--windows%EC%97%90%EC%84%9C%EB%8F%84-lf%EB%A1%9C-%EC%A0%80%EC%9E%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a><del>.editorConfig for  windows에서도 LF로 저장</del>

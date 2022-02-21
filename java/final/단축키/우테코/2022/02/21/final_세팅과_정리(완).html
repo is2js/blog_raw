@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>java final 세팅과 사용법 | 돌범 기술블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="java final 세팅과 사용법" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="java에서 final로 불변 값/변수를 사용" />
+<meta property="og:description" content="java에서 final로 불변 값/변수를 사용" />
+<link rel="canonical" href="blog.chojaeseong.com/java/final/%EB%8B%A8%EC%B6%95%ED%82%A4/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/21/final_%EC%84%B8%ED%8C%85%EA%B3%BC_%EC%A0%95%EB%A6%AC(%EC%99%84).html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/final/%EB%8B%A8%EC%B6%95%ED%82%A4/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/21/final_%EC%84%B8%ED%8C%85%EA%B3%BC_%EC%A0%95%EB%A6%AC(%EC%99%84).html" />
+<meta property="og:site_name" content="돌범 기술블로그" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-21T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-02-21T00:00:00-06:00","url":"blog.chojaeseong.com/java/final/%EB%8B%A8%EC%B6%95%ED%82%A4/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/21/final_%EC%84%B8%ED%8C%85%EA%B3%BC_%EC%A0%95%EB%A6%AC(%EC%99%84).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"java final 세팅과 사용법","dateModified":"2022-02-21T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/final/%EB%8B%A8%EC%B6%95%ED%82%A4/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/21/final_%EC%84%B8%ED%8C%85%EA%B3%BC_%EC%A0%95%EB%A6%AC(%EC%99%84).html"},"description":"java에서 final로 불변 값/변수를 사용","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범 기술블로그" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범 기술블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">java final 세팅과 사용법</h1><p class="page-description">java에서 final로 불변 값/변수를 사용</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-21T00:00:00-06:00" itemprop="datePublished">
+        Feb 21, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#final">final</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#단축키">단축키</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#final-키워드로-값의-변경을-막아라">final 키워드로 값의 변경을 막아라</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#final-세팅-in-ide-지역-변수-메소드-파라미터">final 세팅 in IDE, 지역 변수, 메소드 파라미터</a></li>
+<li class="toc-entry toc-h4"><a href="#final-값---재할당을-막아-불변">final 값 -&gt; 재할당을 막아 불변</a></li>
+<li class="toc-entry toc-h4"><a href="#final-객체---메서드로-내부-변화-가능---메서드를-항상-새-객체로-응답">final 객체 -&gt; 메서드로 내부 변화 가능 -&gt; 메서드를 항상 새 객체로 응답</a></li>
+<li class="toc-entry toc-h4"><a href="#final-메서드-클래스---자식이-못-쓰게">final 메서드, 클래스 -&gt; 자식이 못 쓰게</a></li>
+<li class="toc-entry toc-h4"><a href="#final-컬렉션껍데기포인터1-등은-응답시-copy해서-응답하라">final 컬렉션(껍데기포인터1) 등은 응답시 copy해서 응답하라</a></li>
+<li class="toc-entry toc-h4"><a href="#컨밴션-중-하나가-된다">컨밴션 중 하나가 된다.</a></li>
+<li class="toc-entry toc-h4"><a href="#참고-글">참고 글</a></li>
+</ul>
+</li>
+</ul><h3 id="final-키워드로-값의-변경을-막아라">
+<a class="anchor" href="#final-%ED%82%A4%EC%9B%8C%EB%93%9C%EB%A1%9C-%EA%B0%92%EC%9D%98-%EB%B3%80%EA%B2%BD%EC%9D%84-%EB%A7%89%EC%95%84%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>final 키워드로 값의 변경을 막아라</h3>
+
+<h4 id="final-세팅-in-ide-지역-변수-메소드-파라미터">
+<a class="anchor" href="#final-%EC%84%B8%ED%8C%85-in-ide-%EC%A7%80%EC%97%AD-%EB%B3%80%EC%88%98-%EB%A9%94%EC%86%8C%EB%93%9C-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>final 세팅 in IDE, 지역 변수, 메소드 파라미터</h4>
+
+<ul>
+  <li>지역변수, 파라미터 모두 final로 생성되도록 하자
+    <ul>
+      <li>설정 &gt; Editor &gt; Code style &gt; java &gt; Code generation &gt; <code class="language-plaintext highlighter-rouge">Make ~ final</code> 체크박스 2개 
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220224105047.png" alt="final_세팅">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>main 메소드 template 인 <code class="language-plaintext highlighter-rouge">psvm</code>의 인자에도 <code class="language-plaintext highlighter-rouge">final</code>을 붙혀준다.</p>
+
+    <ul>
+      <li>설정 &gt; live template or psvm 검색 &gt; final 붙여주기</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220230643712.png" alt="image-20220220230643712"></p>
+  </li>
+</ul>
+
+<h4 id="final-값---재할당을-막아-불변">
+<a class="anchor" href="#final-%EA%B0%92---%EC%9E%AC%ED%95%A0%EB%8B%B9%EC%9D%84-%EB%A7%89%EC%95%84-%EB%B6%88%EB%B3%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>final 값 -&gt; 재할당을 막아 불변</h4>
+
+<ul>
+  <li>메서드 내부에서 코드 중간에서 가변 변수를 수정할 때, 위에 재할당 등의 수정이 되었었나 확인해야한다.
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">final</code>로 재할당(재사용)이 불가능한 <code class="language-plaintext highlighter-rouge">불변 값</code>사용하다가, <code class="language-plaintext highlighter-rouge">변수의 재사용</code>이 필요할 경우 새 변수</strong>를 만들어서 쓰자.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>모든 지역변수, 인자에 final을 붙이자.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220221090040904.png" alt="image-20220221090040904"></p>
+  </li>
+  <li>
+    <p>final로 값을 초기화(<strong>선언후 할당</strong>)하는 방법은 2가지다</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">//1. final변수 선언과 동시에 &amp;&amp; 할당 -&gt; final은 재할당 불가 -&gt; 변수재사용시 새객체 반환할 것</span>
+  <span class="kd">final</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+  <span class="n">i</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span> <span class="c1">// java: cannot assign a value to final variable i</span>
+    
+    
+  <span class="c1">//2. final변수 먼저 선언 -&gt; 이후 할당</span>
+  <span class="c1">// 생성자 등에서 값을 외부에서 받아와 추가 로직(convert or default 대입 등 특수 case(if) 존재)이후 초기화</span>
+  <span class="kd">final</span> <span class="kt">int</span> <span class="n">number</span><span class="o">;</span>
+  <span class="n">number</span> <span class="o">=</span> <span class="mi">5</span><span class="o">;</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="final-객체---메서드로-내부-변화-가능---메서드를-항상-새-객체로-응답">
+<a class="anchor" href="#final-%EA%B0%9D%EC%B2%B4---%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EB%82%B4%EB%B6%80-%EB%B3%80%ED%99%94-%EA%B0%80%EB%8A%A5---%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%ED%95%AD%EC%83%81-%EC%83%88-%EA%B0%9D%EC%B2%B4%EB%A1%9C-%EC%9D%91%EB%8B%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>final 객체 -&gt; 메서드로 내부 변화 가능 -&gt; 메서드를 항상 새 객체로 응답</h4>
+
+<ul>
+  <li>
+    <p>객체의 경우는 <code class="language-plaintext highlighter-rouge">final</code>로는 완벽한 불변을 못만든다.</p>
+
+    <ul>
+      <li><strong>final 값와 달리 <code class="language-plaintext highlighter-rouge">final 객체</code>는 메소드 등에 의해 <code class="language-plaintext highlighter-rouge">내부가 변할 수 있다.(포인터의 포인터에서 껍데기 포인터1)</code></strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>객체를 불변으로 만든 법<code class="language-plaintext highlighter-rouge">상태변화를 일으키는 기능들은 새로운 객체를 반환</code>하도록 정의하자.</strong></p>
+
+    <ol>
+      <li>
+        <p>상태변화 시켰던 메서드의 <strong>void returnType에 <code class="language-plaintext highlighter-rouge">해당 객체를 응답(return)</code>하도록 수정</strong></p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c1">// 내부변화되는 final 객체</span>
+ <span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+     <span class="k">this</span><span class="o">.</span><span class="na">position</span><span class="o">++;</span>
+ <span class="o">}</span>
+        
+        
+ <span class="c1">// 1. 일단 응답을 동일 객체로 만들어주기</span>
+ <span class="kd">public</span> <span class="nc">Car</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+     <span class="k">this</span><span class="o">.</span><span class="na">position</span><span class="o">++;</span>
+ <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">변화된 상태</code>로 new생성자()로 호출하여 -&gt; 새로운 객체를  반환시킨다.</strong></p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c1">//2. 응답 객체를, 변화된 값으로 새로 만들어서 응답 -&gt; 내부 값은 변화 없다.</span>
+ <span class="kd">public</span> <span class="nc">Car</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+     <span class="k">return</span> <span class="k">new</span> <span class="nf">Car</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">position</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+ <span class="o">}</span>
+        
+ <span class="c1">//3. 생성자를 통해 응답할 객체를 만들어준다. 내부 값의 변화는 없게 한다.</span>
+ <span class="kd">public</span> <span class="nf">Car</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">this</span><span class="o">.</span><span class="na">position</span> <span class="o">=</span> <span class="n">position</span><span class="o">;</span>
+ <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<h4 id="final-메서드-클래스---자식이-못-쓰게">
+<a class="anchor" href="#final-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%81%B4%EB%9E%98%EC%8A%A4---%EC%9E%90%EC%8B%9D%EC%9D%B4-%EB%AA%BB-%EC%93%B0%EA%B2%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>final 메서드, 클래스 -&gt; 자식이 못 쓰게</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">domain</span><span class="o">;</span>
+
+<span class="kd">final</span> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">FinalParent</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="kt">void</span> <span class="nf">finalMethod</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">String</span> <span class="n">asdfasdf</span> <span class="o">=</span> <span class="s">"asdfasdf"</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">domain</span><span class="o">;</span>
+<span class="c1">//2. final 클래스는 자식이 상속이 안된다.</span>
+<span class="c1">// java: cannot inherit from final domain.FinalParent</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FinalChild</span> <span class="kd">extends</span> <span class="nc">FinalParent</span> <span class="o">{</span>
+    
+    <span class="c1">//1. final 메소드는 자식이 오버라이딩 못된다. -&gt; 코어 부분에서 변경을 원치 않는 메소드를 명시할 때 사용</span>
+    <span class="c1">//java: cannot find symbol,  symbol: class FinalParent</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">finalize</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">Throwable</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">finalize</span><span class="o">();</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<h4 id="final-컬렉션껍데기포인터1-등은-응답시-copy해서-응답하라">
+<a class="anchor" href="#final-%EC%BB%AC%EB%A0%89%EC%85%98%EA%BB%8D%EB%8D%B0%EA%B8%B0%ED%8F%AC%EC%9D%B8%ED%84%B01-%EB%93%B1%EC%9D%80-%EC%9D%91%EB%8B%B5%EC%8B%9C-copy%ED%95%B4%EC%84%9C-%EC%9D%91%EB%8B%B5%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>final 컬렉션(껍데기포인터1) 등은 응답시 copy해서 응답하라</h4>
+
+<ul>
+  <li>my) <code class="language-plaintext highlighter-rouge">포인터1의 포인터2</code>에 의해 변경될 수 있으니, <strong>껍데기 포인터1 자체를 copy해서 응답해라</strong>
+</li>
+  <li>컬렉션을 반환할 때, 메모리주소가 공유되니, <strong>어디서든 같은 컬렉션이 변경되는 위험</strong>이 있다.
+    <ul>
+      <li>
+<strong>copy해서 전혀 다른 메모리의 컬렉션으로 응답</strong>하자.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="컨밴션-중-하나가-된다">
+<a class="anchor" href="#%EC%BB%A8%EB%B0%B4%EC%85%98-%EC%A4%91-%ED%95%98%EB%82%98%EA%B0%80-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>컨밴션 중 하나가 된다.</h4>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">final</code>을 붙이는 것은 <strong>컨벤션이며 팀 안에서는 따르는게 좋을 수</strong> 도 있다.
+    <ul>
+      <li>내 생각에 타당하지 않으면 얘기를 꺼내서 바꿀 수 있다.</li>
+    </ul>
+  </li>
+  <li>컨벤션이라면, 비효율적이라도 그대로 가는 경우가 많다.
+    <ul>
+      <li>디자인 패턴 역시, 효율적이거나 좋은 코드라서 뿐만 아니라 <strong><code class="language-plaintext highlighter-rouge">커뮤니케이션을 줄이는 컨밴션</code>이기 때문에 좋기</strong>도 하다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="참고-글">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0-%EA%B8%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고 글</h4>
+
+<ul>
+  <li><a href="https://hudi.blog/java-final/">후디 블로그</a></li>
+</ul>
+
+
+  </div><a class="u-url" href="/java/final/%EB%8B%A8%EC%B6%95%ED%82%A4/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/21/final_%EC%84%B8%ED%8C%85%EA%B3%BC_%EC%A0%95%EB%A6%AC(%EC%99%84).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
