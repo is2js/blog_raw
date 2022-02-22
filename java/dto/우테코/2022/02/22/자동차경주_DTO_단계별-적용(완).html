@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      2 min read
+      3 min read
     
 </span></p>
 
@@ -189,7 +189,11 @@ window.onload = wrap_img;
 
 <ul>
   <li>이 때, Car는 VO Name, Position이라도, <strong><code class="language-plaintext highlighter-rouge">Dto의 속성 및 getter()는 순수 원시값</code>만 가지고 뱉어낸다.</strong>
+    <ul>
+      <li>예를 들어, car.getName()은 <code class="language-plaintext highlighter-rouge">Name(VO)</code> return이 아니라 <strong><code class="language-plaintext highlighter-rouge">this.name.getName()</code>의 원시값을 return해야 CarDto가 생성자에서 개별속성들을 원시값으로 받아먹을 수 있다.</strong>
 </li>
+    </ul>
+  </li>
 </ul>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CarDto</span> <span class="o">{</span>

@@ -136,7 +136,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h4"><a href="#final-값---재할당을-막아-불변">final 값 -&gt; 재할당을 막아 불변</a></li>
 <li class="toc-entry toc-h4"><a href="#final-객체---메서드로-내부-변화-가능---메서드를-항상-새-객체로-응답">final 객체 -&gt; 메서드로 내부 변화 가능 -&gt; 메서드를 항상 새 객체로 응답</a></li>
 <li class="toc-entry toc-h4"><a href="#final-메서드-클래스---자식이-못-쓰게">final 메서드, 클래스 -&gt; 자식이 못 쓰게</a></li>
-<li class="toc-entry toc-h4"><a href="#final-컬렉션껍데기포인터1-등은-응답시-copy해서-응답하라">final 컬렉션(껍데기포인터1) 등은 응답시 copy해서 응답하라</a></li>
+<li class="toc-entry toc-h4"><a href="#final-컬렉션내부-변경api를-제공하는-껍데기포인터1-등은-응답시-copyunmodifiable-해서-응답하라">final 컬렉션(내부 변경api를 제공하는 껍데기포인터1) 등은 응답시 copy(unmodifiable) 해서 응답하라</a></li>
 <li class="toc-entry toc-h4"><a href="#컨밴션-중-하나가-된다">컨밴션 중 하나가 된다.</a></li>
 <li class="toc-entry toc-h4"><a href="#참고-글">참고 글</a></li>
 </ul>
@@ -276,8 +276,8 @@ window.onload = wrap_img;
 
 </code></pre></div></div>
 
-<h4 id="final-컬렉션껍데기포인터1-등은-응답시-copy해서-응답하라">
-<a class="anchor" href="#final-%EC%BB%AC%EB%A0%89%EC%85%98%EA%BB%8D%EB%8D%B0%EA%B8%B0%ED%8F%AC%EC%9D%B8%ED%84%B01-%EB%93%B1%EC%9D%80-%EC%9D%91%EB%8B%B5%EC%8B%9C-copy%ED%95%B4%EC%84%9C-%EC%9D%91%EB%8B%B5%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>final 컬렉션(껍데기포인터1) 등은 응답시 copy해서 응답하라</h4>
+<h4 id="final-컬렉션내부-변경api를-제공하는-껍데기포인터1-등은-응답시-copyunmodifiable-해서-응답하라">
+<a class="anchor" href="#final-%EC%BB%AC%EB%A0%89%EC%85%98%EB%82%B4%EB%B6%80-%EB%B3%80%EA%B2%BDapi%EB%A5%BC-%EC%A0%9C%EA%B3%B5%ED%95%98%EB%8A%94-%EA%BB%8D%EB%8D%B0%EA%B8%B0%ED%8F%AC%EC%9D%B8%ED%84%B01-%EB%93%B1%EC%9D%80-%EC%9D%91%EB%8B%B5%EC%8B%9C-copyunmodifiable-%ED%95%B4%EC%84%9C-%EC%9D%91%EB%8B%B5%ED%95%98%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>final 컬렉션(내부 변경api를 제공하는 껍데기포인터1) 등은 응답시 copy(unmodifiable) 해서 응답하라</h4>
 
 <ul>
   <li>my) <code class="language-plaintext highlighter-rouge">포인터1의 포인터2</code>에 의해 변경될 수 있으니, <strong>껍데기 포인터1 자체를 copy해서 응답해라</strong>
@@ -289,6 +289,12 @@ window.onload = wrap_img;
     </ul>
   </li>
 </ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">();</span> <span class="c1">// unmodifiableList</span>
+<span class="n">names</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"텍스트"</span><span class="o">)</span> <span class="c1">// 예외발생</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- 내가 만든 일급컬렉션이라면 불변(내부 변화 기능 제공 않함)이 되겠지만, **일반 컬렉션이라면, 반환시 메모리주소가 공유된다. -&gt; `unmodifiableList`로 copy된 메모리를 반환시켜 테스트 등 변화가 발생하게 하자.**
+</code></pre></div></div>
 
 <h4 id="컨밴션-중-하나가-된다">
 <a class="anchor" href="#%EC%BB%A8%EB%B0%B4%EC%85%98-%EC%A4%91-%ED%95%98%EB%82%98%EA%B0%80-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>컨밴션 중 하나가 된다.</h4>

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Console 입력-검증-생성자 정리 | 돌범 기술블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Console 입력-검증-생성자 정리" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="getInput -&gt; valid -&gt; 객체 생성자" />
+<meta property="og:description" content="getInput -&gt; valid -&gt; 객체 생성자" />
+<link rel="canonical" href="blog.chojaeseong.com/java/console/input/validation/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/22/%EC%BD%98%EC%86%94%EC%9E%85%EB%A0%A5_%EA%B2%80%EC%A6%9D_%EC%83%9D%EC%84%B1%EC%9E%90(%EC%99%84).html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/console/input/validation/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/22/%EC%BD%98%EC%86%94%EC%9E%85%EB%A0%A5_%EA%B2%80%EC%A6%9D_%EC%83%9D%EC%84%B1%EC%9E%90(%EC%99%84).html" />
+<meta property="og:site_name" content="돌범 기술블로그" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-22T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-02-22T00:00:00-06:00","url":"blog.chojaeseong.com/java/console/input/validation/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/22/%EC%BD%98%EC%86%94%EC%9E%85%EB%A0%A5_%EA%B2%80%EC%A6%9D_%EC%83%9D%EC%84%B1%EC%9E%90(%EC%99%84).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"Console 입력-검증-생성자 정리","dateModified":"2022-02-22T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/console/input/validation/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/22/%EC%BD%98%EC%86%94%EC%9E%85%EB%A0%A5_%EA%B2%80%EC%A6%9D_%EC%83%9D%EC%84%B1%EC%9E%90(%EC%99%84).html"},"description":"getInput -&gt; valid -&gt; 객체 생성자","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범 기술블로그" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범 기술블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Console 입력-검증-생성자 정리</h1><p class="page-description">getInput -> valid -> 객체 생성자</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-22T00:00:00-06:00" itemprop="datePublished">
+        Feb 22, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#console">console</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#input">input</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#validation">validation</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#콘솔-프로그램-입력검증생성자">콘솔 프로그램 입력/검증/생성자</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#inputview">InputView</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#재활용-scanner">재활용 SCANNER</a></li>
+<li class="toc-entry toc-h4"><a href="#4단계-getxxx">4단계 getXXX()</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#controller">Controller</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#trycatch">try/catch</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#생성자">생성자</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-private-기본생성자">01 private 기본생성자</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#복수">복수</a></li>
+<li class="toc-entry toc-h5"><a href="#vo">VO</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#02-frominput-string-or-liststring-">02 .fromInput( String or List&lt;String&gt; )</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#복수-1">복수</a></li>
+<li class="toc-entry toc-h5"><a href="#vo-는-from원본-1개만">VO 는 .from(원본 1개만)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#03-from-원본재료-">03 .from( 원본재료 )</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#복수-2">복수</a></li>
+<li class="toc-entry toc-h5"><a href="#vo-는-from원본-1개만-1">VO 는 .from(원본 1개만)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h2 id="콘솔-프로그램-입력검증생성자">
+<a class="anchor" href="#%EC%BD%98%EC%86%94-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-%EC%9E%85%EB%A0%A5%EA%B2%80%EC%A6%9D%EC%83%9D%EC%84%B1%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>콘솔 프로그램 입력/검증/생성자</h2>
+
+<ul>
+  <li>자동차경주 1,2차 피드백(1단계 미션)후 <code class="language-plaintext highlighter-rouge">콘솔입력 -&gt; 검증 -&gt; 개별 모델 생성자</code> 구조를 생각해보았다.</li>
+</ul>
+
+<h3 id="inputview">
+<a class="anchor" href="#inputview" aria-hidden="true"><span class="octicon octicon-link"></span></a>InputView</h3>
+
+<h4 id="재활용-scanner">
+<a class="anchor" href="#%EC%9E%AC%ED%99%9C%EC%9A%A9-scanner" aria-hidden="true"><span class="octicon octicon-link"></span></a>재활용 SCANNER</h4>
+
+<ol>
+  <li>
+    <p><strong>스캐너</strong>를 사용하는 public static <code class="language-plaintext highlighter-rouge">getInput()</code></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Scanner</span> <span class="no">SCANNER</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+    
+ <span class="kd">public</span> <span class="kd">static</span> <span class="nc">String</span> <span class="nf">getInput</span><span class="o">()</span> <span class="o">{</span>
+     <span class="k">return</span> <span class="no">SCANNER</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="4단계-getxxx">
+<a class="anchor" href="#4%EB%8B%A8%EA%B3%84-getxxx" aria-hidden="true"><span class="octicon octicon-link"></span></a>4단계 getXXX()</h4>
+
+<ol>
+  <li>
+    <p><strong>개별 모델input</strong>들을 의미하는 <code class="language-plaintext highlighter-rouge">getXXX()</code>는 <strong>4단계로 구성</strong>됨.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">getCarNames</span><span class="o">()</span> <span class="o">{</span>
+     <span class="nc">OutputView</span><span class="o">.</span><span class="na">printRequestInstruction</span><span class="o">(</span><span class="no">REQUEST_CARS_NAME</span><span class="o">);</span>
+     <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">carsName</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">getInput</span><span class="o">().</span><span class="na">split</span><span class="o">(</span><span class="no">SPLIT_DELIMITER</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">))</span>
+         <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">String:</span><span class="o">:</span><span class="n">trim</span><span class="o">)</span>
+         <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+     <span class="nc">Validator</span><span class="o">.</span><span class="na">validateCarNames</span><span class="o">(</span><span class="n">carsName</span><span class="o">);</span>
+     <span class="k">return</span> <span class="n">carsName</span><span class="o">;</span>
+ <span class="o">}</span>
+    
+ <span class="kd">public</span> <span class="kd">static</span> <span class="nc">String</span> <span class="nf">getRound</span><span class="o">()</span> <span class="o">{</span>
+     <span class="nc">OutputView</span><span class="o">.</span><span class="na">printRequestInstruction</span><span class="o">(</span><span class="no">REQUEST_ROUND_VALUE</span><span class="o">);</span>
+     <span class="nc">String</span> <span class="n">inputRound</span> <span class="o">=</span> <span class="nc">InputView</span><span class="o">.</span><span class="na">getInput</span><span class="o">();</span>
+     <span class="nc">Validator</span><span class="o">.</span><span class="na">validateInputNumber</span><span class="o">(</span><span class="n">inputRound</span><span class="o">);</span>
+     <span class="k">return</span> <span class="n">inputRound</span><span class="o">;</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <ol>
+      <li>
+        <p><strong>OuputView.print( 안내메세지 )</strong></p>
+      </li>
+      <li>
+        <p>스캐너를 사용해서 받은, 복수형이면 <strong>split(,-1)</strong> by <code class="language-plaintext highlighter-rouge">Arrays.stream( ).map().collect()</code> / 단수형이면 <strong>그냥</strong></p>
+
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">List&lt;String&gt;</code>  or <code class="language-plaintext highlighter-rouge">String</code></strong></li>
+        </ul>
+      </li>
+      <li>
+        <p>복수형이면 <strong>실제이름XXXX</strong>를 붙이고 / 단수형이면 <strong>Input</strong>(String) or <strong>InputNumber</strong>(StringNumber)를 붙인</p>
+
+        <ol>
+          <li>
+            <p><strong>Input루트의 공통검증:  <code class="language-plaintext highlighter-rouge">Validator.validate~</code></strong> -&gt; <strong>재료는 <code class="language-plaintext highlighter-rouge">List&lt;String&gt;</code> 아니면 <code class="language-plaintext highlighter-rouge">String(Number)</code>로 무조건 String타입을 검증대상으로 보게 정했다.</strong></p>
+
+            <ol>
+              <li>
+                <p>복수형이면 <strong>check복수형(</strong>개별Empty, 중복) -&gt; <strong>for</strong> validateInput or validateInputNumber의 <strong>단수 공통검증</strong></p>
+
+                <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">private</span> <span class="nf">Validator</span><span class="o">()</span> <span class="o">{</span> <span class="c1">// 유틸클래스는 따로 객체생성안한다는 private생성자로 표시</span>
+ <span class="o">}</span>
+                
+ <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">validateCarNames</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">carNames</span><span class="o">)</span> <span class="o">{</span>
+     <span class="n">checkCarNamesEmpty</span><span class="o">(</span><span class="n">carNames</span><span class="o">);</span>
+     <span class="n">checkDuplicated</span><span class="o">(</span><span class="n">carNames</span><span class="o">);</span>
+     <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">carName</span> <span class="o">:</span> <span class="n">carNames</span><span class="o">)</span> <span class="o">{</span>
+         <span class="n">validateInput</span><span class="o">(</span><span class="n">carName</span><span class="o">);</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>                </div>
+              </li>
+              <li>
+                <p>단수형이면 String이냐 StringNumber냐에 따라서 다르게</p>
+
+                <ol>
+                  <li>String: <code class="language-plaintext highlighter-rouge">NullOrEmpty</code> + <code class="language-plaintext highlighter-rouge">IncludeBlank</code>
+</li>
+                  <li>StringNumber: <code class="language-plaintext highlighter-rouge">NullOrEmpty</code> + <code class="language-plaintext highlighter-rouge">Format</code>(<strong>넣으면 IncludeBlank안넣어도 된다</strong>)</li>
+                </ol>
+
+                <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">validateInput</span><span class="o">(</span><span class="nc">String</span> <span class="n">carName</span><span class="o">)</span> <span class="o">{</span>
+     <span class="n">checkNullOrEmpty</span><span class="o">(</span><span class="n">carName</span><span class="o">);</span>
+     <span class="n">checkIncludeBlank</span><span class="o">(</span><span class="n">carName</span><span class="o">);</span>
+ <span class="o">}</span>
+                
+ <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">validateInputNumber</span><span class="o">(</span><span class="nc">String</span> <span class="n">inputRound</span><span class="o">)</span> <span class="o">{</span>
+     <span class="n">checkNullOrEmpty</span><span class="o">(</span><span class="n">inputRound</span><span class="o">);</span>
+     <span class="n">checkValidFormat</span><span class="o">(</span><span class="n">inputRound</span><span class="o">);</span>
+ <span class="o">}</span>
+</code></pre></div>                </div>
+              </li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">return</code></strong> <code class="language-plaintext highlighter-rouge">List&lt;String&gt;  or String</code>(2번)</p>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<h3 id="controller">
+<a class="anchor" href="#controller" aria-hidden="true"><span class="octicon octicon-link"></span></a>Controller</h3>
+
+<h4 id="trycatch">
+<a class="anchor" href="#trycatch" aria-hidden="true"><span class="octicon octicon-link"></span></a>try/catch</h4>
+
+<ul>
+  <li>
+    <p>입력받을 때, <strong><code class="language-plaintext highlighter-rouge">입력 예외발생시 다시 입력받기</code></strong> 받으려면 **<code class="language-plaintext highlighter-rouge">getXXXX()</code>가 **</p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">검증을 포함하는 부분</code>시켜서</strong></li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">재귀호출하는 하도록 메서드화</code></strong>되어 있고 그부분을 <strong><code class="language-plaintext highlighter-rouge">try/catch</code>로</strong> 쌓여있여있어야하는데,</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">getXXX()</code> + 받아서 <code class="language-plaintext highlighter-rouge">모델의 (정펙매)생성자 호출하는 과정</code>까지 try/catch로 감싸면, <code class="language-plaintext highlighter-rouge">도메인 자체검증</code>도 try/catch의 재귀에 걸려 <code class="language-plaintext highlighter-rouge">도메인 자체검증 예외발생시에도 재입력</code>받을 수 있게 된다.</strong></p>
+
+    <ul>
+      <li>객체 생성로직( 자체 검증 -&gt; 객체 생성)까지 포함시켰으니, 해당 메서드는 <strong>try성공시 객체를 returnType으로</strong>
+</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">private</span> <span class="nc">Cars</span> <span class="nf">getCars</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">try</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="nc">Cars</span><span class="o">.</span><span class="na">fromInput</span><span class="o">(</span><span class="nc">InputView</span><span class="o">.</span><span class="na">getCarNames</span><span class="o">());</span>
+      <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IllegalArgumentException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+          <span class="nc">OutputView</span><span class="o">.</span><span class="na">printErrorMessage</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+          <span class="k">return</span> <span class="nf">getCars</span><span class="o">();</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">RacingGame</span> <span class="n">racingGame</span> <span class="o">=</span> <span class="nc">RacingGame</span><span class="o">.</span><span class="na">createRacingGame</span><span class="o">(</span>
+      <span class="n">getCars</span><span class="o">(),</span>
+      <span class="n">getRound</span><span class="o">(),</span>
+      <span class="k">new</span> <span class="nf">RandomNumberGeneratePolicy</span><span class="o">()</span>
+  <span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="생성자">
+<a class="anchor" href="#%EC%83%9D%EC%84%B1%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>생성자</h3>
+
+<h4 id="01-private-기본생성자">
+<a class="anchor" href="#01-private-%EA%B8%B0%EB%B3%B8%EC%83%9D%EC%84%B1%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 private 기본생성자</h4>
+
+<h5 id="복수">
+<a class="anchor" href="#%EB%B3%B5%EC%88%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>복수</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="nf">Cars</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">cars</span> <span class="o">=</span> <span class="n">cars</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="vo">
+<a class="anchor" href="#vo" aria-hidden="true"><span class="octicon octicon-link"></span></a>VO</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="nf">Name</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="02-frominput-string-or-liststring-">
+<a class="anchor" href="#02-frominput-string-or-liststring-" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 .fromInput( <code class="language-plaintext highlighter-rouge">String</code> or <code class="language-plaintext highlighter-rouge">List&lt;String&gt;</code> )</h4>
+
+<h5 id="복수-1">
+<a class="anchor" href="#%EB%B3%B5%EC%88%98-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>복수</h5>
+
+<ul>
+  <li>input을 거쳐왔으므로, 공통 검증을 해줄 필요가 없다. -&gt; <strong>자체 검증만 시행</strong>
+    <ul>
+      <li>만일, <strong>내부 포장객체를 속성으로</strong> 가지는 일급컬렉션 등이라면? <strong>자체검증은 포장객체에게</strong> 갈 수도 있다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Cars</span> <span class="nf">fromInput</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nc">InputNames</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Names</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Names</span><span class="o">.</span><span class="na">fromInput</span><span class="o">(</span><span class="nc">InputNames</span><span class="o">);</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">Cars</span><span class="o">(</span><span class="n">names</span><span class="o">.</span><span class="na">getNames</span><span class="o">().</span><span class="na">stream</span><span class="o">()</span>
+                    <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">Car:</span><span class="o">:</span><span class="n">fromName</span><span class="o">)</span>
+                    <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">()));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="vo-는-from원본-1개만">
+<a class="anchor" href="#vo-%EB%8A%94-from%EC%9B%90%EB%B3%B8-1%EA%B0%9C%EB%A7%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>VO 는 .from(원본 1개만)</h5>
+
+<ul>
+  <li>정팩메 1개 -&gt; input이지만  .from + 유일 자체 검증 생성자</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Name</span> <span class="nf">from</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">checkValidLengthOfName</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">Name</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="03-from-원본재료-">
+<a class="anchor" href="#03-from-%EC%9B%90%EB%B3%B8%EC%9E%AC%EB%A3%8C-" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 .from( 원본재료 )</h4>
+
+<h5 id="복수-2">
+<a class="anchor" href="#%EB%B3%B5%EC%88%98-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>복수</h5>
+
+<ul>
+  <li>input없이 프로덕션내부 or 테스트에서 사용된다. -&gt; <strong>유틸화된 공통검증 + 자체 검증</strong>
+    <ul>
+      <li>만일, 원본<strong>재료</strong>가 포장된 객체라면, <strong>자체검증은 포장객에게 갈 수 있다.</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Cars</span> <span class="nf">from</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">Cars</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="vo-는-from원본-1개만-1">
+<a class="anchor" href="#vo-%EB%8A%94-from%EC%9B%90%EB%B3%B8-1%EA%B0%9C%EB%A7%8C-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>VO 는 .from(원본 1개만)</h5>
+
+<ul>
+  <li>정팩메 1개 -&gt; input이지만  .from + 유일 자체 검증 생성자</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Position</span> <span class="nf">from</span><span class="o">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">validatePosition</span><span class="o">(</span><span class="n">position</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Position</span><span class="o">(</span><span class="n">position</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+
+  </div><a class="u-url" href="/java/console/input/validation/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/22/%EC%BD%98%EC%86%94%EC%9E%85%EB%A0%A5_%EA%B2%80%EC%A6%9D_%EC%83%9D%EC%84%B1%EC%9E%90(%EC%99%84).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
