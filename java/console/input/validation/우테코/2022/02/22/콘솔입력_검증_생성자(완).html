@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      2 min read
+      4 min read
     
 </span></p>
 
@@ -138,32 +138,50 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h3"><a href="#inputview">InputView</a>
 <ul>
 <li class="toc-entry toc-h4"><a href="#재활용-scanner">재활용 SCANNER</a></li>
-<li class="toc-entry toc-h4"><a href="#4단계-getxxx">4단계 getXXX()</a></li>
+<li class="toc-entry toc-h4"><a href="#4단계-inputviewgetxxx">4단계 InputView.getXXX()</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h3"><a href="#controller">Controller</a>
 <ul>
 <li class="toc-entry toc-h4"><a href="#trycatch">try/catch</a></li>
+<li class="toc-entry toc-h4"><a href="#controller-getxxx-inputviewgetxxx-응답-string---convert생성자객체생성trycatch">Controller getXXX(): InputView.getXXX() 응답 String -&gt; convert+생성자객체생성+try/catch</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h3"><a href="#생성자">생성자</a>
 <ul>
 <li class="toc-entry toc-h4"><a href="#01-private-기본생성자">01 private 기본생성자</a>
 <ul>
-<li class="toc-entry toc-h5"><a href="#복수">복수</a></li>
-<li class="toc-entry toc-h5"><a href="#vo">VO</a></li>
+<li class="toc-entry toc-h5"><a href="#복수-list단일-ex-cars">복수( List&lt;단일&gt;) ex&gt; Cars</a></li>
+<li class="toc-entry toc-h5"><a href="#단일객체-포장객체들-nameposition--ex-car">단일객체 (포장객체들, Name+Position ) ex&gt; Car</a></li>
+<li class="toc-entry toc-h5"><a href="#일급컬렉션-list원시-ex-names">일급컬렉션 (List&lt;원시&gt;) ex&gt; Names</a></li>
+<li class="toc-entry toc-h5"><a href="#stringnumber-int--ex-round">StringNumber (int ) ex&gt; Round</a></li>
+<li class="toc-entry toc-h5"><a href="#string-string--ex-name">String (String ) ex&gt; Name</a></li>
+<li class="toc-entry toc-h5"><a href="#복수dto-listcardto-ex-carsdto">복수Dto (List&lt;CarDto&gt;) ex&gt; CarsDto</a></li>
+<li class="toc-entry toc-h5"><a href="#단일dto-원시값들-ex-cardto">단일Dto (원시값들) ex&gt; CarDto</a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h4"><a href="#02-frominput-string-or-liststring-">02 .fromInput( String or List&lt;String&gt; )</a>
+<li class="toc-entry toc-h4"><a href="#02-frominput--only-string-or-liststring-">02 .fromInput ( only String or List&lt;String&gt; )</a>
 <ul>
-<li class="toc-entry toc-h5"><a href="#복수-1">복수</a></li>
-<li class="toc-entry toc-h5"><a href="#vo-는-from원본-1개만">VO 는 .from(원본 1개만)</a></li>
+<li class="toc-entry toc-h5"><a href="#복수-list단일-ex-cars-1">복수( List&lt;단일&gt;) ex&gt; Cars</a></li>
+<li class="toc-entry toc-h5"><a href="#단일객체-포장객체들-nameposition--ex-car-1">단일객체 (포장객체들, Name+Position ) ex&gt; Car</a></li>
+<li class="toc-entry toc-h5"><a href="#일급컬렉션-list원시-ex-names-1">일급컬렉션 (List&lt;원시&gt;) ex&gt; Names</a></li>
+<li class="toc-entry toc-h5"><a href="#stringnumber-int--ex-round-1">StringNumber (int ) ex&gt; Round</a></li>
+<li class="toc-entry toc-h5"><a href="#string-string--ex-name-1">String (String ) ex&gt; Name</a></li>
+<li class="toc-entry toc-h5"><a href="#복수dto-listcardto-ex-carsdto-1">복수Dto (List&lt;CarDto&gt;) ex&gt; CarsDto</a></li>
+<li class="toc-entry toc-h5"><a href="#단일dto-원시값들-ex-cardto-1">단일Dto (원시값들) ex&gt; CarDto</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h4"><a href="#03-from-원본재료-">03 .from( 원본재료 )</a>
 <ul>
-<li class="toc-entry toc-h5"><a href="#복수-2">복수</a></li>
-<li class="toc-entry toc-h5"><a href="#vo-는-from원본-1개만-1">VO 는 .from(원본 1개만)</a></li>
+<li class="toc-entry toc-h5"><a href="#복수">복수</a></li>
+<li class="toc-entry toc-h5"><a href="#vo-는-from원본-1개만">VO 는 .from(원본 1개만)</a></li>
+<li class="toc-entry toc-h5"><a href="#복수-list단일-ex-cars-2">복수( List&lt;단일&gt;) ex&gt; Cars</a></li>
+<li class="toc-entry toc-h5"><a href="#단일객체-포장객체들-nameposition--ex-car-2">단일객체 (포장객체들, Name+Position ) ex&gt; Car</a></li>
+<li class="toc-entry toc-h5"><a href="#일급컬렉션-list원시-ex-names-2">일급컬렉션 (List&lt;원시&gt;) ex&gt; Names</a></li>
+<li class="toc-entry toc-h5"><a href="#stringnumber-int--ex-round-2">StringNumber (int ) ex&gt; Round</a></li>
+<li class="toc-entry toc-h5"><a href="#string-string--ex-name-2">String (String ) ex&gt; Name</a></li>
+<li class="toc-entry toc-h5"><a href="#복수dto-listcardto-ex-carsdto-2">복수Dto (List&lt;CarDto&gt;) ex&gt; CarsDto</a></li>
+<li class="toc-entry toc-h5"><a href="#단일dto-원시값들-ex-cardto-2">단일Dto (원시값들) ex&gt; CarDto</a></li>
 </ul>
 </li>
 </ul>
@@ -174,7 +192,16 @@ window.onload = wrap_img;
 <a class="anchor" href="#%EC%BD%98%EC%86%94-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-%EC%9E%85%EB%A0%A5%EA%B2%80%EC%A6%9D%EC%83%9D%EC%84%B1%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>콘솔 프로그램 입력/검증/생성자</h2>
 
 <ul>
-  <li>자동차경주 1,2차 피드백(1단계 미션)후 <code class="language-plaintext highlighter-rouge">콘솔입력 -&gt; 검증 -&gt; 개별 모델 생성자</code> 구조를 생각해보았다.</li>
+  <li>
+    <p>자동차경주 1,2차 피드백(1단계 미션)후 <code class="language-plaintext highlighter-rouge">콘솔입력 -&gt; 검증 -&gt; 개별 모델 생성자</code> 구조를 생각해보았다.</p>
+  </li>
+  <li>
+    <p>아직 Dto - domain 의존은 해결되지 않은 상황</p>
+    <ul>
+      <li>나중에 참고할 것: <a href="https://github.com/woowacourse/java-racingcar/pull/331/files/6012ceb67c2d34a6af220470bb6bb46ddb580014#diff-755c2e76d8574dd11a0cdcec3fb5911656d4c7e9b3afd3025fe3ab4bc25330ae">DTO를 의존 하는 domain 문제 PR</a>
+</li>
+    </ul>
+  </li>
 </ul>
 
 <h3 id="inputview">
@@ -197,8 +224,8 @@ window.onload = wrap_img;
   </li>
 </ol>
 
-<h4 id="4단계-getxxx">
-<a class="anchor" href="#4%EB%8B%A8%EA%B3%84-getxxx" aria-hidden="true"><span class="octicon octicon-link"></span></a>4단계 getXXX()</h4>
+<h4 id="4단계-inputviewgetxxx">
+<a class="anchor" href="#4%EB%8B%A8%EA%B3%84-inputviewgetxxx" aria-hidden="true"><span class="octicon octicon-link"></span></a>4단계 InputView.getXXX()</h4>
 
 <ol>
   <li>
@@ -258,7 +285,7 @@ window.onload = wrap_img;
 </code></pre></div>                </div>
               </li>
               <li>
-                <p>단수형이면 String이냐 StringNumber냐에 따라서 다르게</p>
+                <p>단수형이면 <strong>String</strong>이냐 <strong>StringNumber</strong>냐에 따라서 다르게</p>
 
                 <ol>
                   <li>String: <code class="language-plaintext highlighter-rouge">NullOrEmpty</code> + <code class="language-plaintext highlighter-rouge">IncludeBlank</code>
@@ -322,6 +349,15 @@ window.onload = wrap_img;
           <span class="k">return</span> <span class="nf">getCars</span><span class="o">();</span>
       <span class="o">}</span>
   <span class="o">}</span>
+    
+  <span class="kd">private</span> <span class="nc">Round</span> <span class="nf">getRound</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">try</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="nc">Round</span><span class="o">.</span><span class="na">fromInput</span><span class="o">(</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="nc">InputView</span><span class="o">.</span><span class="na">getRound</span><span class="o">()));</span>
+      <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IllegalArgumentException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+          <span class="nc">OutputView</span><span class="o">.</span><span class="na">printErrorMessage</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+          <span class="k">return</span> <span class="nf">getRound</span><span class="o">();</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
 </code></pre></div>    </div>
 
     <div class="language-java highlighter-rouge">
@@ -334,41 +370,124 @@ window.onload = wrap_img;
   </li>
 </ul>
 
+<h4 id="controller-getxxx-inputviewgetxxx-응답-string---convert생성자객체생성trycatch">
+<a class="anchor" href="#controller-getxxx-inputviewgetxxx-%EC%9D%91%EB%8B%B5-string---convert%EC%83%9D%EC%84%B1%EC%9E%90%EA%B0%9D%EC%B2%B4%EC%83%9D%EC%84%B1trycatch" aria-hidden="true"><span class="octicon octicon-link"></span></a>Controller getXXX(): InputView.getXXX() 응답 String -&gt; convert+생성자객체생성+try/catch</h4>
+
+<ul>
+  <li>
+    <p><strong>대신, 중간에 필요한 객체의 생성자까진 노출할 필요는 없다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">RacingGameController</span> <span class="o">{</span>
+      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">startRacing</span><span class="o">()</span> <span class="o">{</span>
+          <span class="nc">RacingGame</span> <span class="n">racingGame</span> <span class="o">=</span> <span class="nc">RacingGame</span><span class="o">.</span><span class="na">createRacingGame</span><span class="o">(</span>
+                  <span class="n">getCars</span><span class="o">(),</span>
+                
+                
+  <span class="c1">// InputView의 getXXX()는 무조건 String -&gt; 중간 객체(Name)도 다 노출...</span>
+  <span class="kd">private</span> <span class="nc">Cars</span> <span class="nf">getCars</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">try</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="nc">Cars</span><span class="o">.</span><span class="na">fromNames</span><span class="o">(</span><span class="nc">Names</span><span class="o">.</span><span class="na">fromInput</span><span class="o">(</span><span class="nc">InputView</span><span class="o">.</span><span class="na">getCarNames</span><span class="o">()));</span>
+</code></pre></div>    </div>
+    <ul>
+      <li>지금은 <code class="language-plaintext highlighter-rouge">Cars</code>를 만들기 위해 <code class="language-plaintext highlighter-rouge">Names</code>의 존재를 알아야 하는 상황인데요, <strong>사실 <code class="language-plaintext highlighter-rouge">Names</code>는 <code class="language-plaintext highlighter-rouge">Cars</code> 안에서만 사용되고 있죠. 그렇다면 <code class="language-plaintext highlighter-rouge">Names</code>의 존재가 바깥에 노출될 필요가 있을까요? 구현을 드러내고 있는 건 아닐까요?</strong>
+        <ul>
+          <li>원시값 포장한 것은 굳이 생성자를 안드러내도 된다.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">private</span> <span class="nc">Cars</span> <span class="nf">getCars</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">try</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="nc">Cars</span><span class="o">.</span><span class="na">fromInput</span><span class="o">(</span><span class="nc">InputView</span><span class="o">.</span><span class="na">getCarNames</span><span class="o">());</span>
+            
+            
+  <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Cars</span> <span class="nf">fromInput</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nc">InputNames</span><span class="o">)</span> <span class="o">{</span>
+  	<span class="nc">Names</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Names</span><span class="o">.</span><span class="na">fromInput</span><span class="o">(</span><span class="nc">InputNames</span><span class="o">);</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nf">Cars</span><span class="o">(</span><span class="n">names</span><span class="o">.</span><span class="na">getNames</span><span class="o">(</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
 <h3 id="생성자">
 <a class="anchor" href="#%EC%83%9D%EC%84%B1%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>생성자</h3>
 
 <h4 id="01-private-기본생성자">
 <a class="anchor" href="#01-private-%EA%B8%B0%EB%B3%B8%EC%83%9D%EC%84%B1%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 private 기본생성자</h4>
 
-<h5 id="복수">
-<a class="anchor" href="#%EB%B3%B5%EC%88%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>복수</h5>
+<h5 id="복수-list단일-ex-cars">
+<a class="anchor" href="#%EB%B3%B5%EC%88%98-list%EB%8B%A8%EC%9D%BC-ex-cars" aria-hidden="true"><span class="octicon octicon-link"></span></a>복수( <code class="language-plaintext highlighter-rouge">List&lt;단일&gt;</code>) ex&gt; Cars</h5>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="nf">Cars</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">this</span><span class="o">.</span><span class="na">cars</span> <span class="o">=</span> <span class="n">cars</span><span class="o">;</span>
 <span class="o">}</span>
 </code></pre></div></div>
 
-<h5 id="vo">
-<a class="anchor" href="#vo" aria-hidden="true"><span class="octicon octicon-link"></span></a>VO</h5>
+<h5 id="단일객체-포장객체들-nameposition--ex-car">
+<a class="anchor" href="#%EB%8B%A8%EC%9D%BC%EA%B0%9D%EC%B2%B4-%ED%8F%AC%EC%9E%A5%EA%B0%9D%EC%B2%B4%EB%93%A4-nameposition--ex-car" aria-hidden="true"><span class="octicon octicon-link"></span></a>단일객체 (포장객체들, Name+Position ) ex&gt; Car</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="nf">Car</span><span class="o">(</span><span class="nc">Name</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">position</span> <span class="o">=</span> <span class="nc">Position</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="no">DEFAULT_POSITION_VALUE</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="일급컬렉션-list원시-ex-names">
+<a class="anchor" href="#%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98-list%EC%9B%90%EC%8B%9C-ex-names" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급컬렉션 (<code class="language-plaintext highlighter-rouge">List&lt;원시&gt;</code>) ex&gt; Names</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="nf">Names</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Name</span><span class="o">&gt;</span> <span class="n">names</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">names</span> <span class="o">=</span> <span class="n">names</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="stringnumber-int--ex-round">
+<a class="anchor" href="#stringnumber-int--ex-round" aria-hidden="true"><span class="octicon octicon-link"></span></a>StringNumber (int ) ex&gt; Round</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="nf">Round</span><span class="o">(</span><span class="kt">int</span> <span class="n">roundNum</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">roundNum</span> <span class="o">=</span> <span class="n">roundNum</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="string-string--ex-name">
+<a class="anchor" href="#string-string--ex-name" aria-hidden="true"><span class="octicon octicon-link"></span></a>String (String ) ex&gt; Name</h5>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="nf">Name</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
 <span class="o">}</span>
 </code></pre></div></div>
 
-<h4 id="02-frominput-string-or-liststring-">
-<a class="anchor" href="#02-frominput-string-or-liststring-" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 .fromInput( <code class="language-plaintext highlighter-rouge">String</code> or <code class="language-plaintext highlighter-rouge">List&lt;String&gt;</code> )</h4>
+<h5 id="복수dto-listcardto-ex-carsdto">
+<a class="anchor" href="#%EB%B3%B5%EC%88%98dto-listcardto-ex-carsdto" aria-hidden="true"><span class="octicon octicon-link"></span></a>복수Dto (<code class="language-plaintext highlighter-rouge">List&lt;CarDto&gt;</code>) ex&gt; CarsDto</h5>
 
-<h5 id="복수-1">
-<a class="anchor" href="#%EB%B3%B5%EC%88%98-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>복수</h5>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="nf">CarsDto</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CarDto</span><span class="o">&gt;</span> <span class="n">carsDto</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">carsDto</span> <span class="o">=</span> <span class="n">carsDto</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="단일dto-원시값들-ex-cardto">
+<a class="anchor" href="#%EB%8B%A8%EC%9D%BCdto-%EC%9B%90%EC%8B%9C%EA%B0%92%EB%93%A4-ex-cardto" aria-hidden="true"><span class="octicon octicon-link"></span></a>단일Dto (원시값들) ex&gt; CarDto</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nf">CarDto</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">position</span> <span class="o">=</span> <span class="n">position</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="02-frominput--only-string-or-liststring-">
+<a class="anchor" href="#02-frominput--only-string-or-liststring-" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 .fromInput ( only <code class="language-plaintext highlighter-rouge">String</code> or <code class="language-plaintext highlighter-rouge">List&lt;String&gt;</code> )</h4>
 
 <ul>
-  <li>input을 거쳐왔으므로, 공통 검증을 해줄 필요가 없다. -&gt; <strong>자체 검증만 시행</strong>
+  <li>inputView에서 <strong>기본검증을 거치고 난 뒤, 자체 검증만 필요</strong>한 친구들
     <ul>
-      <li>만일, <strong>내부 포장객체를 속성으로</strong> 가지는 일급컬렉션 등이라면? <strong>자체검증은 포장객체에게</strong> 갈 수도 있다.</li>
+      <li>만약, stream.map <strong>단일객체생성자 등장시 -&gt; 단일객체로 검증이 옮겨짐</strong>
+</li>
     </ul>
   </li>
 </ul>
+
+<h5 id="복수-list단일-ex-cars-1">
+<a class="anchor" href="#%EB%B3%B5%EC%88%98-list%EB%8B%A8%EC%9D%BC-ex-cars-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>복수( <code class="language-plaintext highlighter-rouge">List&lt;단일&gt;</code>) ex&gt; Cars</h5>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Cars</span> <span class="nf">fromInput</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nc">InputNames</span><span class="o">)</span> <span class="o">{</span>
     <span class="nc">Names</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Names</span><span class="o">.</span><span class="na">fromInput</span><span class="o">(</span><span class="nc">InputNames</span><span class="o">);</span>
@@ -378,24 +497,62 @@ window.onload = wrap_img;
 <span class="o">}</span>
 </code></pre></div></div>
 
-<h5 id="vo-는-from원본-1개만">
-<a class="anchor" href="#vo-%EB%8A%94-from%EC%9B%90%EB%B3%B8-1%EA%B0%9C%EB%A7%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>VO 는 .from(원본 1개만)</h5>
+<h5 id="단일객체-포장객체들-nameposition--ex-car-1">
+<a class="anchor" href="#%EB%8B%A8%EC%9D%BC%EA%B0%9D%EC%B2%B4-%ED%8F%AC%EC%9E%A5%EA%B0%9D%EC%B2%B4%EB%93%A4-nameposition--ex-car-1" aria-hidden="true"><span class="octicon octicon-link"></span></a><del>단일객체 (포장객체들, Name+Position ) ex&gt; Car</del>
+</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//</span>
+</code></pre></div></div>
+
+<h5 id="일급컬렉션-list원시-ex-names-1">
+<a class="anchor" href="#%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98-list%EC%9B%90%EC%8B%9C-ex-names-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급컬렉션 (<code class="language-plaintext highlighter-rouge">List&lt;원시&gt;</code>) ex&gt; Names</h5>
 
 <ul>
-  <li>정팩메 1개 -&gt; input이지만  .from + 유일 자체 검증 생성자</li>
+  <li>자체검증하는 대신, stream상에서 단일객체에서 검증이 옮겨짐.</li>
 </ul>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Name</span> <span class="nf">from</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">checkValidLengthOfName</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="nf">Name</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Names</span> <span class="nf">fromInput</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">Names</span><span class="o">(</span><span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                     <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">Name:</span><span class="o">:</span><span class="n">from</span><span class="o">)</span>
+                     <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">()));</span>
 <span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="stringnumber-int--ex-round-1">
+<a class="anchor" href="#stringnumber-int--ex-round-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>StringNumber (int ) ex&gt; Round</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Round</span> <span class="nf">fromInput</span><span class="o">(</span><span class="kt">int</span> <span class="n">inputRound</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">validateRound</span><span class="o">(</span><span class="n">inputRound</span><span class="o">);</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">Round</span><span class="o">(</span><span class="n">inputRound</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="string-string--ex-name-1">
+<a class="anchor" href="#string-string--ex-name-1" aria-hidden="true"><span class="octicon octicon-link"></span></a><del>String (String ) ex&gt; Name</del>
+</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//</span>
+</code></pre></div></div>
+
+<h5 id="복수dto-listcardto-ex-carsdto-1">
+<a class="anchor" href="#%EB%B3%B5%EC%88%98dto-listcardto-ex-carsdto-1" aria-hidden="true"><span class="octicon octicon-link"></span></a><del>복수Dto (<code class="language-plaintext highlighter-rouge">List&lt;CarDto&gt;</code>) ex&gt; CarsDto</del>
+</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//</span>
+</code></pre></div></div>
+
+<h5 id="단일dto-원시값들-ex-cardto-1">
+<a class="anchor" href="#%EB%8B%A8%EC%9D%BCdto-%EC%9B%90%EC%8B%9C%EA%B0%92%EB%93%A4-ex-cardto-1" aria-hidden="true"><span class="octicon octicon-link"></span></a><del>단일Dto (원시값들) ex&gt; CarDto</del>
+</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//</span>
 </code></pre></div></div>
 
 <h4 id="03-from-원본재료-">
 <a class="anchor" href="#03-from-%EC%9B%90%EB%B3%B8%EC%9E%AC%EB%A3%8C-" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 .from( 원본재료 )</h4>
 
-<h5 id="복수-2">
-<a class="anchor" href="#%EB%B3%B5%EC%88%98-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>복수</h5>
+<h5 id="복수">
+<a class="anchor" href="#%EB%B3%B5%EC%88%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>복수</h5>
 
 <ul>
   <li>input없이 프로덕션내부 or 테스트에서 사용된다. -&gt; <strong>유틸화된 공통검증 + 자체 검증</strong>
@@ -411,8 +568,8 @@ window.onload = wrap_img;
 <span class="o">}</span>
 </code></pre></div></div>
 
-<h5 id="vo-는-from원본-1개만-1">
-<a class="anchor" href="#vo-%EB%8A%94-from%EC%9B%90%EB%B3%B8-1%EA%B0%9C%EB%A7%8C-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>VO 는 .from(원본 1개만)</h5>
+<h5 id="vo-는-from원본-1개만">
+<a class="anchor" href="#vo-%EB%8A%94-from%EC%9B%90%EB%B3%B8-1%EA%B0%9C%EB%A7%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>VO 는 .from(원본 1개만)</h5>
 
 <ul>
   <li>정팩메 1개 -&gt; input이지만  .from + 유일 자체 검증 생성자</li>
@@ -422,6 +579,111 @@ window.onload = wrap_img;
         <span class="n">validatePosition</span><span class="o">(</span><span class="n">position</span><span class="o">);</span>
         <span class="k">return</span> <span class="k">new</span> <span class="nf">Position</span><span class="o">(</span><span class="n">position</span><span class="o">);</span>
     <span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="복수-list단일-ex-cars-2">
+<a class="anchor" href="#%EB%B3%B5%EC%88%98-list%EB%8B%A8%EC%9D%BC-ex-cars-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>복수( <code class="language-plaintext highlighter-rouge">List&lt;단일&gt;</code>) ex&gt; Cars</h5>
+
+<ul>
+  <li>
+<strong>test코드에서</strong>  Car -&gt; Cars로 바로 생성하기 위해</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Cars</span> <span class="nf">from</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">Cars</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="단일객체-포장객체들-nameposition--ex-car-2">
+<a class="anchor" href="#%EB%8B%A8%EC%9D%BC%EA%B0%9D%EC%B2%B4-%ED%8F%AC%EC%9E%A5%EA%B0%9D%EC%B2%B4%EB%93%A4-nameposition--ex-car-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>단일객체 (포장객체들, Name+Position ) ex&gt; Car</h5>
+
+<ul>
+  <li><strong>일급컬렉션, 복수 쪽에서는 <code class="language-plaintext highlighter-rouge">stream</code>을 통해 <code class="language-plaintext highlighter-rouge">원본 List</code> -&gt; <code class="language-plaintext highlighter-rouge">단일객체 List</code> -&gt; <code class="language-plaintext highlighter-rouge">일급</code>으로순으로 가기도 한다.</strong></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Car</span> <span class="nf">fromName</span><span class="o">(</span><span class="nc">Name</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">Car</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="일급컬렉션-list원시-ex-names-2">
+<a class="anchor" href="#%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98-list%EC%9B%90%EC%8B%9C-ex-names-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급컬렉션 (<code class="language-plaintext highlighter-rouge">List&lt;원시&gt;</code>) ex&gt; Names</h5>
+
+<ul>
+  <li>test코드용</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Names</span> <span class="nf">from</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Name</span><span class="o">&gt;</span> <span class="n">names</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">validateNames</span><span class="o">(</span><span class="n">names</span><span class="o">);</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">Names</span><span class="o">(</span><span class="n">names</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="stringnumber-int--ex-round-2">
+<a class="anchor" href="#stringnumber-int--ex-round-2" aria-hidden="true"><span class="octicon octicon-link"></span></a><del>StringNumber (int ) ex&gt; Round</del>
+</h5>
+
+<ul>
+  <li>test를 안하고,  <strong>controller에서 마지막에 convert시킬거라</strong>을 <strong>input원본 받을일이 없음.</strong>
+</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//</span>
+</code></pre></div></div>
+
+<h5 id="string-string--ex-name-2">
+<a class="anchor" href="#string-string--ex-name-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>String (String ) ex&gt; Name</h5>
+
+<ul>
+  <li>
+<strong>복수, 일급컬렉션</strong>의 Names에서 <strong>stream으로 만들어지는 과정</strong>
+</li>
+  <li>테스트용</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Name</span> <span class="nf">from</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">checkValidLengthOfName</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">Name</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="복수dto-listcardto-ex-carsdto-2">
+<a class="anchor" href="#%EB%B3%B5%EC%88%98dto-listcardto-ex-carsdto-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>복수Dto (<code class="language-plaintext highlighter-rouge">List&lt;CarDto&gt;</code>) ex&gt; CarsDto</h5>
+
+<ol>
+  <li>
+<strong>일급컬렉션</strong> 내부에서 <strong>toDto()호출시 ** <code class="language-plaintext highlighter-rouge">List&lt;단일&gt;</code> **유일 필드</strong>-&gt; <code class="language-plaintext highlighter-rouge">List&lt;단일Dto&gt;</code> 변환후 기본생성자로 <code class="language-plaintext highlighter-rouge">복수Dto</code>로 만들어줌 -&gt; <strong><code class="language-plaintext highlighter-rouge">from일급컬렉</code></strong>
+</li>
+  <li>공통적인 기본 private <code class="language-plaintext highlighter-rouge">List&lt;단일Dto&gt;</code>를 호출해줄 public -&gt; <strong><code class="language-plaintext highlighter-rouge">.from</code></strong>
+</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">CarsDto</span> <span class="nf">fromCars</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//todo: 5. cars -&gt; carsdto의 정펙메( List&lt;Car&gt; ) -&gt; List&lt;CarDto&gt; -&gt; 일급 생성자</span>
+    <span class="c1">// carsDto의 생성자는  car list(cars)를 받아서 -&gt; cardto list -&gt; 일급 dto를 만드는 곳</span>
+    <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CarDto</span><span class="o">&gt;</span> <span class="n">carDtos</span> <span class="o">=</span> <span class="n">cars</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">car</span> <span class="o">-&gt;</span> <span class="nc">CarDto</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">car</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">CarsDto</span><span class="o">(</span><span class="n">carDtos</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="nc">CarsDto</span> <span class="nf">from</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CarDto</span><span class="o">&gt;</span> <span class="n">carsDto</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">CarsDto</span><span class="o">(</span><span class="n">carsDto</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="단일dto-원시값들-ex-cardto-2">
+<a class="anchor" href="#%EB%8B%A8%EC%9D%BCdto-%EC%9B%90%EC%8B%9C%EA%B0%92%EB%93%A4-ex-cardto-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>단일Dto (원시값들) ex&gt; CarDto</h5>
+
+<ol>
+  <li><strong><code class="language-plaintext highlighter-rouge">복수or일급컬렉션</code>에서 stream에서 <code class="language-plaintext highlighter-rouge">Car -&gt; CarDto</code>시 사용될  <code class="language-plaintext highlighter-rouge">.from원본( 1:1원본)</code></strong></li>
+  <li><strong><code class="language-plaintext highlighter-rouge">OuputView 테스트</code>에서  <code class="language-plaintext highlighter-rouge">원시값 필드들로 생성</code>하는<code class="language-plaintext highlighter-rouge">단일Dto</code> -&gt; 복수Dto</strong></li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nf">CarDto</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">position</span> <span class="o">=</span> <span class="n">position</span><span class="o">;</span>
+<span class="o">}</span>
 </code></pre></div></div>
 
 
