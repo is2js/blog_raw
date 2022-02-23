@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>피드백) 1-1(자동차경주) 코드리뷰 | 돌범 기술블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="피드백) 1-1(자동차경주) 코드리뷰" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="레벨1 1단계 자동차 경주 피드백 1,2차 모음" />
+<meta property="og:description" content="레벨1 1단계 자동차 경주 피드백 1,2차 모음" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%ED%94%BC%EB%93%9C%EB%B0%B1/%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/23/%ED%94%BC%EB%93%9C%EB%B0%B1_%EB%A0%88%EB%B2%A81_1%EB%8B%A8%EA%B3%84_%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC_PR_%ED%94%BC%EB%93%9C%EB%B0%B1(%EC%99%84).html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%ED%94%BC%EB%93%9C%EB%B0%B1/%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/23/%ED%94%BC%EB%93%9C%EB%B0%B1_%EB%A0%88%EB%B2%A81_1%EB%8B%A8%EA%B3%84_%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC_PR_%ED%94%BC%EB%93%9C%EB%B0%B1(%EC%99%84).html" />
+<meta property="og:site_name" content="돌범 기술블로그" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-23T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-02-23T00:00:00-06:00","url":"blog.chojaeseong.com/java/%ED%94%BC%EB%93%9C%EB%B0%B1/%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/23/%ED%94%BC%EB%93%9C%EB%B0%B1_%EB%A0%88%EB%B2%A81_1%EB%8B%A8%EA%B3%84_%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC_PR_%ED%94%BC%EB%93%9C%EB%B0%B1(%EC%99%84).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"피드백) 1-1(자동차경주) 코드리뷰","dateModified":"2022-02-23T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%ED%94%BC%EB%93%9C%EB%B0%B1/%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/23/%ED%94%BC%EB%93%9C%EB%B0%B1_%EB%A0%88%EB%B2%A81_1%EB%8B%A8%EA%B3%84_%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC_PR_%ED%94%BC%EB%93%9C%EB%B0%B1(%EC%99%84).html"},"description":"레벨1 1단계 자동차 경주 피드백 1,2차 모음","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범 기술블로그" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범 기술블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">피드백) 1-1(자동차경주) 코드리뷰</h1><p class="page-description">레벨1 1단계 자동차 경주 피드백 1,2차 모음</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-23T00:00:00-06:00" itemprop="datePublished">
+        Feb 23, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#피드백">피드백</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#자동차경주">자동차경주</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#자경-미션-피드백">자경 미션 피드백</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#네이밍">네이밍</a></li>
+<li class="toc-entry toc-h4"><a href="#체크">체크</a></li>
+<li class="toc-entry toc-h4"><a href="#검증">검증</a></li>
+<li class="toc-entry toc-h4"><a href="#생성자">생성자</a></li>
+<li class="toc-entry toc-h4"><a href="#기본">기본</a></li>
+<li class="toc-entry toc-h4"><a href="#vo-dto">VO, DTO</a></li>
+<li class="toc-entry toc-h4"><a href="#테스트">테스트</a></li>
+</ul>
+</li>
+</ul><h3 id="자경-미션-피드백">
+<a class="anchor" href="#%EC%9E%90%EA%B2%BD-%EB%AF%B8%EC%85%98-%ED%94%BC%EB%93%9C%EB%B0%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>자경 미션 피드백</h3>
+
+<ul>
+  <li><a href="https://github.com/woowacourse/java-racingcar/pull/330">PR 1차 피드백</a></li>
+  <li>
+<a href="https://github.com/woowacourse/java-racingcar/pull/381">PR 2차 피드백</a>
+    <ul>
+      <li>리뷰어: <a href="https://github.com/choihz">코니</a>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="네이밍">
+<a class="anchor" href="#%EB%84%A4%EC%9D%B4%EB%B0%8D" aria-hidden="true"><span class="octicon octicon-link"></span></a>네이밍</h4>
+
+<ul>
+  <li>if절에 들어가는 메서드명은 <code class="language-plaintext highlighter-rouge">is~</code>, <code class="language-plaintext highlighter-rouge">has~</code>로 시작하자.</li>
+  <li>VO의 새객체 반환 메서드네이밍을 <code class="language-plaintext highlighter-rouge">toNextRound()</code>로 잡았다. to는 괜찮을까?
+    <ul>
+      <li>toString, toDto 같이 형 변환시에만 사용하자.. 또 바꿔야겟넹.. <code class="language-plaintext highlighter-rouge">getNextRound()</code>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>Util이라는 추상적인 이름 대신 <code class="language-plaintext highlighter-rouge">Validator</code>처럼 구체적인 이름으로 클래스 잡기</p>
+  </li>
+  <li>
+    <p>조건문 전체가 아니라, <code class="language-plaintext highlighter-rouge">일부 값</code> 비교에서도 <code class="language-plaintext highlighter-rouge">네이밍을 변수로 추출</code>하는게 좋다</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">checkDuplicated</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">carNames</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">carNames</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">distinct</span><span class="o">().</span><span class="na">count</span><span class="o">()</span> <span class="o">!=</span> <span class="n">carNames</span><span class="o">.</span><span class="na">size</span><span class="o">())</span> <span class="o">{</span>
+            
+            
+  <span class="kt">long</span> <span class="n">distinctCountOfCarNames</span> <span class="o">=</span> <span class="n">carNames</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">distinct</span><span class="o">().</span><span class="na">count</span><span class="o">();</span>
+  	<span class="k">if</span> <span class="o">(</span><span class="n">distinctCountOfCarNames</span> <span class="o">!=</span> <span class="n">carNames</span><span class="o">.</span><span class="na">size</span><span class="o">())</span> <span class="o">{</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>추출할 때, 메서드의 인자는 <code class="language-plaintext highlighter-rouge">구체적으로X 좀더 추상적으로</code> 정의해주기</strong></li>
+</ul>
+
+<h4 id="체크">
+<a class="anchor" href="#%EC%B2%B4%ED%81%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>체크</h4>
+
+<ul>
+  <li>메소드 사용 순서대로 배치후 commit -&gt; <code class="language-plaintext highlighter-rouge">커밋전 체크리스트화</code>
+    <ul>
+      <li>structure(alt+7)</li>
+    </ul>
+  </li>
+  <li>불필요 공백 제거후 coimmit</li>
+  <li>테스트 코드 돌리고 commit
+    <ul>
+      <li>@parameterizedTest &lt;-&gt; @Test</li>
+    </ul>
+  </li>
+  <li>intellij 상수, 변수추출을 private으로 최초 1번 옮겨주기</li>
+  <li>
+    <p>유틸이라도 <strong>해당 class에서만 사용된다면,  <code class="language-plaintext highlighter-rouge">private</code> 으로 변경해줘야한다.</strong></p>
+  </li>
+  <li><strong><code class="language-plaintext highlighter-rouge">static 유틸 클래스는 private생성자로 객체생성없음을 명시해주기</code></strong></li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">상수 &lt;-&gt; 멤버변수 개행 1줄</code> 넣어주기</strong></p>
+  </li>
+  <li><strong>전략메서드에는 인페/클래스명에 있는 목적어(number)를 repeat할 필요없다. 동사(generate)만</strong></li>
+</ul>
+
+<h4 id="검증">
+<a class="anchor" href="#%EA%B2%80%EC%A6%9D" aria-hidden="true"><span class="octicon octicon-link"></span></a>검증</h4>
+
+<ul>
+  <li>
+    <p>실수로 기입된  <code class="language-plaintext highlighter-rouge">내부공백(Blank)</code> 검사는 <strong><code class="language-plaintext highlighter-rouge">문자열숫자의 format</code>검사가 있다면 안해도 된다.</strong></p>
+  </li>
+  <li>
+    <p><strong>부정조건문 없애자</strong></p>
+  </li>
+</ul>
+
+<h4 id="생성자">
+<a class="anchor" href="#%EC%83%9D%EC%84%B1%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>생성자</h4>
+
+<ul>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">static 유틸 클래스는 private생성자로 객체생성없음을 명시해주기</code></strong></p>
+  </li>
+  <li>
+    <p><strong>접근제한자 기본은 private으로 바꿔주기</strong></p>
+  </li>
+  <li>
+    <p>도메인은 input이외에 자체 검증 -&gt; <code class="language-plaintext highlighter-rouge">input에서는 공통검증 / 도메인 자체검증 생성자</code></p>
+  </li>
+  <li>생성자 로직
+    <ul>
+      <li>private 기본 생성자</li>
+      <li>public from( 원본 <code class="language-plaintext highlighter-rouge">List&lt; Car&gt;</code>) + Cars검증로직(중복 등)</li>
+      <li>public fromNames or fromInput(<code class="language-plaintext highlighter-rouge">List&lt; String &gt;</code>) + Cars검증로직(중복 등)</li>
+    </ul>
+  </li>
+  <li>테스트에서 단일-&gt; 단일List 만든 뒤,
+    <ul>
+      <li>단일 조정 by메서드 -&gt; 단일List에 반영 -&gt; 반영된 단일List로 일급컬렉션 생성</li>
+      <li>불변을 위해 포인터의 포인터 사용을 막아야하는데, <code class="language-plaintext highlighter-rouge">테스트에서는 포포를 사용할 수 있게 inputString List가 아닌 단일객체List로부터 만드는 생성자(정펙매) 추가</code>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="기본">
+<a class="anchor" href="#%EA%B8%B0%EB%B3%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>기본</h4>
+
+<ul>
+  <li>
+    <p><strong>split</strong>은 2번재 인자를 줘야, <code class="language-plaintext highlighter-rouge">,,</code> 를 안씹고 간다. -&gt; <strong><code class="language-plaintext highlighter-rouge">split( , -1)</code></strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">String</span><span class="o">[]</span> <span class="n">split</span> <span class="o">=</span> <span class="s">",,"</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">","</span><span class="o">);</span> <span class="c1">// count 0</span>
+  <span class="nc">String</span><span class="o">[]</span> <span class="n">split1</span> <span class="o">=</span> <span class="s">",,a"</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">","</span><span class="o">);</span> <span class="c1">// 3</span>
+  <span class="nc">String</span><span class="o">[]</span> <span class="n">split2</span> <span class="o">=</span> <span class="s">",a,"</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">","</span><span class="o">);</span> <span class="c1">// 2</span>
+  <span class="nc">String</span><span class="o">[]</span> <span class="n">split3</span> <span class="o">=</span> <span class="s">"a,,"</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">","</span><span class="o">);</span> <span class="c1">// 1</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>split</strong>후 <strong>trim까지 해서 반환해야 <code class="language-plaintext highlighter-rouge">a, a</code>를 다른 것으로 인식</strong>한다. -&gt; <strong><code class="language-plaintext highlighter-rouge">split(,-1).map(String::trim)</code></strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">return</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">value</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="n">delimiter</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">))</span>
+      <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">String:</span><span class="o">:</span><span class="n">trim</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>convert나 split관련 기본api가 충분하면, <strong>유틸 메서드로 따로 빼지말고 그냥 사용하자. 지식만 늘어난다.</strong></p>
+  </li>
+  <li>
+    <p>조건문의 전략객체(Functional interface)에는 <code class="language-plaintext highlighter-rouge">() -&gt; </code><strong>람다식으로 테스트</strong>한다.</p>
+  </li>
+</ul>
+
+<h4 id="vo-dto">
+<a class="anchor" href="#vo-dto" aria-hidden="true"><span class="octicon octicon-link"></span></a>VO, DTO</h4>
+
+<ul>
+  <li>
+    <p>Dto는 controller에 일단 넣어준다.</p>
+  </li>
+  <li>ROUND는 hasNext패턴으로 줄어가는데, <strong><code class="language-plaintext highlighter-rouge">생성자 검증은 1이상</code> &lt;-&gt; <code class="language-plaintext highlighter-rouge">1씩 줄여가니 0까지는 감.</code></strong>
+    <ul>
+      <li>생성자에서 검증하되, <strong>새객체 반환은 <code class="language-plaintext highlighter-rouge">검증없는 private 기본생성자</code></strong>이용</li>
+    </ul>
+  </li>
+  <li>
+    <p>DTO는 <strong>VO나, 포장객체 없이 only 원시값들로 필드가 구성 -&gt;  <code class="language-plaintext highlighter-rouge">Dto사용을 위한 원본 getter에서는 VO-&gt;value까지 최종반환시킨 getter</code></strong></p>
+  </li>
+  <li>
+    <p>VO를 가진 단일객체의 compareTo에 원시값 비교 x -&gt; <strong><code class="language-plaintext highlighter-rouge">VO로 비교</code> -&gt; <code class="language-plaintext highlighter-rouge">VO도 비교가능</code>하게</strong></p>
+  </li>
+  <li>
+    <p>정펙매 생성자 중간에 VO가 등장할 경우, getter()를 써도 된다.</p>
+  </li>
+  <li>
+    <p>VO는 검증/불변을 위해 래핑한 것이므로, <strong>도입했다고 굳이 정펙매를 외부에 오픈안해도 된다</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">private</span> <span class="nc">Cars</span> <span class="nf">getCars</span><span class="o">()</span> <span class="o">{</span>
+          <span class="k">try</span> <span class="o">{</span>
+              <span class="k">return</span> <span class="nc">Cars</span><span class="o">.</span><span class="na">fromNames</span><span class="o">(</span><span class="nc">InputView</span><span class="o">.</span><span class="na">getCarNames</span><span class="o">());</span>
+              <span class="c1">//Cars.fromNames(Names.fromInput(InputView.getCarNames()));</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>같은 context에서 사용될 일이 없는, 객체 생성 가운데 활용되는 객체들은 구현을 드러내지 않는 것이 좋을 것 같습니다!</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="테스트">
+<a class="anchor" href="#%ED%85%8C%EC%8A%A4%ED%8A%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>테스트</h4>
+
+<ul>
+  <li>
+    <p>DTO의 테스트는 <strong>view처럼 자주 바뀌는 DTO에 대해 테스트를 생각해본다.</strong></p>
+  </li>
+  <li>
+    <p>DisplayName은 <strong>너무하다 싶을정도로 자세히 쓴다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">class</span> <span class="nc">NameTest</span> <span class="o">{</span>
+      <span class="c1">//@DisplayName("이름이 1자 미만, 5자 초과일 경우")</span>
+      <span class="c1">//@DisplayName("자동차 이름이 1자 미만, 5자 초과하여 유효하지 않은 경우")</span>
+      <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"자동차 이름이 1자 미만, 5자 초과하여 유효하지 않은 경우 예외가 발생한다"</span><span class="o">)</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>이정도로 <strong>결과까지 명확하게 서술</strong>하면 더 좋습니다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">@ValueSource</code>의 빈 문자열과 <code class="language-plaintext highlighter-rouge">@EmptySource</code>가 같은 값을 제공하지 않나요?</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@EmptySource</span>
+  <span class="nd">@ValueSource</span><span class="o">(</span><span class="n">strings</span> <span class="o">=</span> <span class="o">{</span><span class="s">""</span><span class="o">,</span> <span class="s">"Wishoon"</span><span class="o">,</span> <span class="s">"123456"</span><span class="o">})</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/java/%ED%94%BC%EB%93%9C%EB%B0%B1/%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/23/%ED%94%BC%EB%93%9C%EB%B0%B1_%EB%A0%88%EB%B2%A81_1%EB%8B%A8%EA%B3%84_%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC_PR_%ED%94%BC%EB%93%9C%EB%B0%B1(%EC%99%84).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
