@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      3 min read
+      4 min read
     
 </span></p>
 
@@ -139,7 +139,7 @@ window.onload = wrap_img;
 <ul>
 <li class="toc-entry toc-h4"><a href="#저장시-새줄-추가-with-save-actions">저장시 새줄 추가 with Save Actions</a></li>
 <li class="toc-entry toc-h4"><a href="#code-style">code style</a></li>
-<li class="toc-entry toc-h4"><a href="#추가-method의-local-variable-final로-생성하기">(추가) method의 local variable final로 생성하기</a></li>
+<li class="toc-entry toc-h4"><a href="#추가-method의-local-variable-final로-생성--tab말고-4space">(추가) method의 local variable final로 생성 + tab말고 4space</a></li>
 <li class="toc-entry toc-h4"><a href="#추가-변수를-final로-추출최초-1회">(추가) 변수를 final로 추출(최초 1회)</a></li>
 <li class="toc-entry toc-h4"><a href="#추가-상수를-private로-추출최초-1회">(추가) 상수를 private로 추출(최초 1회)</a></li>
 <li class="toc-entry toc-h4"><a href="#페어-컨벤션링크">페어 컨벤션(링크)</a></li>
@@ -265,13 +265,19 @@ compileTestJava.options.encoding = 'UTF-8'
   </li>
 </ol>
 
-<h4 id="추가-method의-local-variable-final로-생성하기">
-<a class="anchor" href="#%EC%B6%94%EA%B0%80-method%EC%9D%98-local-variable-final%EB%A1%9C-%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>(추가) method의 local variable final로 생성하기</h4>
+<h4 id="추가-method의-local-variable-final로-생성--tab말고-4space">
+<a class="anchor" href="#%EC%B6%94%EA%B0%80-method%EC%9D%98-local-variable-final%EB%A1%9C-%EC%83%9D%EC%84%B1--tab%EB%A7%90%EA%B3%A0-4space" aria-hidden="true"><span class="octicon octicon-link"></span></a>(추가) method의 local variable final로 생성 + tab말고 4space</h4>
 <ul>
   <li>
-<strong>Editor &gt; <code class="language-plaintext highlighter-rouge">Code style</code> &gt; java &gt; Code generation &gt;  [x] <code class="language-plaintext highlighter-rouge">make ~ final</code> 체크박스 2개</strong>
-  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220224105047.png" alt="image-20220220224105047">
-</li>
+    <p><strong>Editor &gt; <code class="language-plaintext highlighter-rouge">Code style</code> &gt; java &gt; Code generation &gt;  [x] <code class="language-plaintext highlighter-rouge">make ~ final</code> 체크박스 2개</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220224105047.png" alt="image-20220220224105047"></p>
+  </li>
+  <li>
+    <p><strong>Editor &gt; <code class="language-plaintext highlighter-rouge">Code style</code> &gt; java &gt; tabs and indents &gt; <code class="language-plaintext highlighter-rouge">[ ] Use tab character 체크해제</code> + <code class="language-plaintext highlighter-rouge">Continuation indent 8-&gt;4</code></strong></p>
+    <ul>
+      <li>OS마다 tab의 크기가 다르므로 space를 사용하게 <code class="language-plaintext highlighter-rouge">tab사용 체크해제</code>하는 것</li>
+    </ul>
+  </li>
 </ul>
 
 <h4 id="추가-변수를-final로-추출최초-1회">
