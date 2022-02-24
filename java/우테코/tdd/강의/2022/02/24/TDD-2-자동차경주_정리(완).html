@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>TDD 실습2 자동차경주 | 돌범 기술블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="TDD 실습2 자동차경주" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="기능구현목록, 응답+예상값-&gt;객체+예상객체로 테스트" />
+<meta property="og:description" content="기능구현목록, 응답+예상값-&gt;객체+예상객체로 테스트" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/02/24/TDD-2-%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC_%EC%A0%95%EB%A6%AC(%EC%99%84).html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/02/24/TDD-2-%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC_%EC%A0%95%EB%A6%AC(%EC%99%84).html" />
+<meta property="og:site_name" content="돌범 기술블로그" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/wootech.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-24T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-02-24T00:00:00-06:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/02/24/TDD-2-%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC_%EC%A0%95%EB%A6%AC(%EC%99%84).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"TDD 실습2 자동차경주","dateModified":"2022-02-24T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/02/24/TDD-2-%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC_%EC%A0%95%EB%A6%AC(%EC%99%84).html"},"description":"기능구현목록, 응답+예상값-&gt;객체+예상객체로 테스트","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범 기술블로그" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범 기술블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">TDD 실습2 자동차경주</h1><p class="page-description">기능구현목록, 응답+예상값->객체+예상객체로 테스트</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-24T00:00:00-06:00" itemprop="datePublished">
+        Feb 24, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      8 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#TDD">TDD</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#강의">강의</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#기능-요구사항-복붙후-정리">기능 요구사항 복붙후 정리</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#복붙">복붙</a></li>
+<li class="toc-entry toc-h4"><a href="#제목--앞에-체크박스-만들기">제목(##) + 앞에 체크박스 만들기</a></li>
+<li class="toc-entry toc-h4"><a href="#키워드-뽑기">키워드 뽑기</a></li>
+<li class="toc-entry toc-h4"><a href="#키워드-관계-재배치">키워드 관계 재배치</a></li>
+<li class="toc-entry toc-h4"><a href="#시작점-고르기">시작점 고르기</a></li>
+<li class="toc-entry toc-h4"><a href="#출력-view에-대한-요구사항은-무시하고-객체-설계부터-시작">출력, View에 대한 요구사항은 무시하고 객체 설계부터 시작</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#tdd-시작">TDD 시작</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#정의-없는-default생성자-사용---응답-하는-메서드부터">정의 없는 default생성자 사용 /  응답 하는 메서드부터</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#case-추가누적---응답-expected-변경-2">case 추가(누적 -&gt; 응답 expected 변경 2)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#복붙으로-다른-test-case메서드-맨끝_네임-수정를-작성하며-안돌아가는-코드-구현">복붙으로 다른 Test case(메서드 맨끝_네임 수정)를 작성하며 안돌아가는 코드 구현</a></li>
+<li class="toc-entry toc-h4"><a href="#기존-작성된-메서드를-메서드2로-복붙한-뒤-구현">기존 작성된 메서드를 메서드2로 복붙한 뒤 구현</a></li>
+<li class="toc-entry toc-h4"><a href="#복붙-수정-메서드2를-사용해서-통과시켜본다">복붙 수정 메서드2를 사용해서 통과시켜본다.</a></li>
+<li class="toc-entry toc-h4"><a href="#기존case도-수정-메서드2로-변경해보고---기존메서드는-회색띄운-뒤-삭제">기존case도 수정 메서드2로 변경해보고 -&gt; 기존메서드()는 회색띄운 뒤 삭제</a></li>
+<li class="toc-entry toc-h4"><a href="#최종-수정메서드2----매서드로-이름-변경">최종 수정메서드2  -&gt; 매서드로 이름 변경</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#case-추가조건-따라-stop---expected는-stop일때-나와야하는-값으로-미리-넣어두기-0">case 추가(조건 따라 stop -&gt; expected는 stop일때 나와야하는 값으로 미리 넣어두기 0)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#복붙--test-case-추가--설계전-해당-case-expected입력해서-error">복붙  Test case 추가 ( 설계전 해당 case expected입력해서 error)</a></li>
+<li class="toc-entry toc-h4"><a href="#메서드2로-복사해서-다시-처리">메서드2()로 복사해서 다시 처리</a></li>
+<li class="toc-entry toc-h4"><a href="#내부-랜덤-포함-메서드는-테스트-실행시마다-결과가-다르다">내부 랜덤 포함 메서드는 테스트 실행시마다 결과가 다르다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#랜덤은-가능한-구조로-바꿔주기">랜덤은 가능한 구조로 바꿔주기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#랜덤부분만-파라미터화시켜-밖으로-빼준다">랜덤부분만 파라미터화시켜 밖으로 빼준다.</a></li>
+<li class="toc-entry toc-h4"><a href="#사용처의-랜덤생성을-특정-상수로-바꾼다">사용처의 랜덤생성을 특정 상수로 바꾼다.</a></li>
+<li class="toc-entry toc-h4"><a href="#랜덤-뿐만-아니라-랜덤포함조건자체를-객체의-역할로">랜덤 뿐만 아니라 랜덤포함조건자체를 객체의 역할로</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#확인을-위한-응답-값조회이-실제-필요한지-의심해봐야한다">확인을 위한 응답 값(조회)이 실제 필요한지 의심해봐야한다</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#응답하는-것도-1가지-일조회다-위치변경테스트할-기능--조회-2가지-일을-하는-move">응답하는 것도 1가지 일(조회)다. 위치변경(테스트할 기능) + 조회 2가지 일을 하는 move()</a></li>
+<li class="toc-entry toc-h4"><a href="#조회-메서드가-아니라면-테스트-끝난-후-응답-값-제거리팩토링">조회 메서드가 아니라면, 테스트 끝난 후, 응답 값 제거리팩토링</a></li>
+<li class="toc-entry toc-h4"><a href="#응답-값-대신-해당객체를--expected-예상값-대신-예상값으로-생성한--equals옵라된--예상객체를">응답 값 대신 [해당객체]를 / expected 예상값 대신 예상값으로 생성한 + equals옵라된  [예상객체]를</a></li>
+<li class="toc-entry toc-h4"><a href="#응답-없는-메소드2로-치환-후--객체메서드2호출---assertthat객체-예상객체-로-비교">응답 없는 메소드2로 치환 후,  객체.메서드2호출 - assertThat(객체). (예상객체) 로 비교</a></li>
+<li class="toc-entry toc-h4"><a href="#생성자도-테스트를-위한-생성자인지-고민---그렇다면-getposition-대신-position으로-마무리">생성자도… 테스트를 위한 생성자인지 고민 -&gt; 그렇다면 .getPosition() 대신 .position()으로 마무리?</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#외부추출랜덤은-상위-객체-테스트를-막는다">외부추출랜덤은 상위 객체 테스트를 막는다</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#상위-객체관리자-test----list-테스트끝난객체-를-받도록-생성---돌면서-시켜야함">상위 객체(관리자) Test -&gt;  List&lt; 테스트끝난객체&gt; 를 받도록 생성 -&gt; 돌면서 시켜야함.</a></li>
+<li class="toc-entry toc-h4"><a href="#가장-끝단의-객체를-찾고-테스트-불가-부분을-밖으로-뺀다">가장 끝단의 객체를 찾고, 테스트 불가 부분을 밖으로 뺀다.</a></li>
+</ul>
+</li>
+</ul><ul>
+  <li>실패하는 코드를 짜는 이유?
+    <ul>
+      <li>통과하는 코드를 짜려고 하면, <strong>case단위가 아니라 다 짜야해서 너무 커진다</strong>.</li>
+      <li><strong><code class="language-plaintext highlighter-rouge">case 만드는 것이 목적 -&gt; 실패 case부터 만든다.</code></strong></li>
+    </ul>
+  </li>
+  <li>테스트코드도 복잡도를 낮춘다.</li>
+</ul>
+
+<h3 id="기능-요구사항-복붙후-정리">
+<a class="anchor" href="#%EA%B8%B0%EB%8A%A5-%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%B3%B5%EB%B6%99%ED%9B%84-%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>기능 요구사항 복붙후 정리</h3>
+
+<h4 id="복붙">
+<a class="anchor" href="#%EB%B3%B5%EB%B6%99" aria-hidden="true"><span class="octicon octicon-link"></span></a>복붙</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>각 자동차에 이름을 부여할 수 있다. 
+전진하는 자동차를 출력할 때 자동차 이름을 같이 출력한다. 
+자동차 이름은 쉼표(,)를 기준으로 구분한다. 
+자동차 경주 게임을 완료한 후 누가 우승했는지를 알려준다. 우승자는 한명 이상일 수 있다.
+
+</code></pre></div></div>
+
+<h4 id="제목--앞에-체크박스-만들기">
+<a class="anchor" href="#%EC%A0%9C%EB%AA%A9--%EC%95%9E%EC%97%90-%EC%B2%B4%ED%81%AC%EB%B0%95%EC%8A%A4-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>제목(##) + 앞에 체크박스 만들기</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## 요구사항
+ 
+- [ ] 각 자동차에 이름을 부여할 수 있다.
+- [ ] 전진하는 자동차를 출력할 때 자동차 이름을 같이 출력한다.
+- [ ] 자동차 이름은 쉼표(,)를 기준으로 구분한다.
+- [ ] 자동차 경주 게임을 완료한 후 누가 우승했는지를 알려준다. 우승자는 한명 이상일 수 있다.
+
+</code></pre></div></div>
+
+<ul>
+  <li>
+<strong>각 요구사항들을 테스트코드 DisplayName으로 작성</strong>하기도 한다.</li>
+</ul>
+
+<h4 id="키워드-뽑기">
+<a class="anchor" href="#%ED%82%A4%EC%9B%8C%EB%93%9C-%EB%BD%91%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>키워드 뽑기</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">##</span> <span class="n">요구사항</span>
+ 
+<span class="o">-</span> <span class="o">[</span> <span class="o">]</span> <span class="n">각</span> <span class="n">자동차에</span> <span class="n">이름을</span> <span class="n">부여할</span> <span class="n">수</span> <span class="n">있다</span><span class="o">.</span>
+<span class="o">-</span> <span class="o">[</span> <span class="o">]</span> <span class="n">전진하는</span> <span class="n">자동차를</span> <span class="n">출력할</span> <span class="n">때</span> <span class="n">자동차</span> <span class="n">이름을</span> <span class="n">같이</span> <span class="n">출력한다</span><span class="o">.</span>
+<span class="o">-</span> <span class="o">[</span> <span class="o">]</span> <span class="n">자동차</span> <span class="n">이름은</span> <span class="n">쉼표</span><span class="o">(,)</span><span class="n">를</span> <span class="n">기준으로</span> <span class="n">구분한다</span><span class="o">.</span>
+<span class="o">-</span> <span class="o">[</span> <span class="o">]</span> <span class="n">자동차</span> <span class="n">경주</span> <span class="n">게임을</span> <span class="n">완료한</span> <span class="n">후</span> <span class="n">누가</span> <span class="n">우승했는지를</span> <span class="n">알려준다</span><span class="o">.</span> <span class="n">우승자는</span> <span class="n">한명</span> <span class="n">이상일</span> <span class="n">수</span> <span class="n">있다</span><span class="o">.</span>
+    
+    
+<span class="o">-</span> <span class="n">자동차</span>
+<span class="o">-</span> <span class="n">이름</span>
+<span class="o">-</span> <span class="n">자동차</span> <span class="n">이름은</span> <span class="n">쉼표</span><span class="o">(,)</span><span class="n">를</span> <span class="n">기준</span>
+<span class="o">-</span> <span class="n">전진</span>
+<span class="o">-</span> <span class="n">게임</span>
+<span class="o">-</span> <span class="n">우승</span>
+<span class="o">-</span> <span class="n">우승자는</span> <span class="n">한명</span> <span class="n">이상</span>
+</code></pre></div></div>
+
+<h4 id="키워드-관계-재배치">
+<a class="anchor" href="#%ED%82%A4%EC%9B%8C%EB%93%9C-%EA%B4%80%EA%B3%84-%EC%9E%AC%EB%B0%B0%EC%B9%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>키워드 관계 재배치</h4>
+
+<ul>
+  <li>객체인지 vs 메서드인지 vs 세부 요구사항인지</li>
+  <li>객체 중에 이름만 다르게 뽑을지 -&gt; <strong>뽑는 것은 관리자 객체에서</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">우승한 자동차 -&gt; 자동차 중 뽑은 것 -&gt; 자동차 경주(관리자)</code></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- 자동차
+    - 전진: 자동차가 하는 것이니 객체가 아닌 메서드
+    - 우승한 자동차: 따른 객체인지 vs 자동차 중 뽑아서 이름만 다르게?
+        - 우승자는 한명 이상: 세부 요구사항
+- 이름
+    - 이름은 쉼표(,)를 기준: 세부 요구사항
+- 자동차 게임: 자동차에서 우승한 자동차 뽑는 것은 이상하니, 게임이 관리하면서 뽑도록
+    - 우승한 자동차: 따른 객체인지 vs 자동차 중 뽑아서 이름만 다르게?
+        - 우승자는 한명 이상: 세부 요구사항
+</code></pre></div></div>
+
+<h4 id="시작점-고르기">
+<a class="anchor" href="#%EC%8B%9C%EC%9E%91%EC%A0%90-%EA%B3%A0%EB%A5%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>시작점 고르기</h4>
+
+<ul>
+  <li>자동차 게임 -&gt; <code class="language-plaintext highlighter-rouge">관리자부터 하기엔 잘 모름</code>
+</li>
+  <li>
+<strong>자동차 -&gt; <code class="language-plaintext highlighter-rouge">핵심이자 간단한 단위 객체</code></strong>
+    <ul>
+      <li>진짜 잘 모르겠으면 <code class="language-plaintext highlighter-rouge">이름</code>부터 해도 된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="출력-view에-대한-요구사항은-무시하고-객체-설계부터-시작">
+<a class="anchor" href="#%EC%B6%9C%EB%A0%A5-view%EC%97%90-%EB%8C%80%ED%95%9C-%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%EC%9D%80-%EB%AC%B4%EC%8B%9C%ED%95%98%EA%B3%A0-%EA%B0%9D%EC%B2%B4-%EC%84%A4%EA%B3%84%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91" aria-hidden="true"><span class="octicon octicon-link"></span></a>출력, View에 대한 요구사항은 무시하고 객체 설계부터 시작</h4>
+
+<ul>
+  <li>UI, view를 맨나중에 붙이면, 객체다운 객체가 완성됨.</li>
+</ul>
+
+<h3 id="tdd-시작">
+<a class="anchor" href="#tdd-%EC%8B%9C%EC%9E%91" aria-hidden="true"><span class="octicon octicon-link"></span></a>TDD 시작</h3>
+
+<h4 id="정의-없는-default생성자-사용---응답-하는-메서드부터">
+<a class="anchor" href="#%EC%A0%95%EC%9D%98-%EC%97%86%EB%8A%94-default%EC%83%9D%EC%84%B1%EC%9E%90-%EC%82%AC%EC%9A%A9---%EC%9D%91%EB%8B%B5-%ED%95%98%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C%EB%B6%80%ED%84%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>정의 없는 default생성자 사용 /  응답 하는 메서드부터</h4>
+
+<ul>
+  <li>
+    <p><strong>TDD 시작점을 <code class="language-plaintext highlighter-rouge">new Car();</code>의 생성자에서 부터 시작하는 경우가 많다.</strong></p>
+
+    <ul>
+      <li>보통은 <code class="language-plaintext highlighter-rouge">Car car = new Car();</code>의 생성자로 TDD를 시작한다.
+        <ul>
+          <li>여기서 시작해서 테스트 코드로 변하게 된다.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="n">생성자_검사</span><span class="o">()</span> <span class="o">{</span>
+      <span class="c1">//방법1. 생성시 예외발생안함.</span>
+      <span class="n">assertDoesNotThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="n">재성</span><span class="o">));</span>
+    
+      <span class="c1">//방법2. 생성한 것이 null이 아님.</span>
+      <span class="kd">final</span> <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="s">"재성"</span><span class="o">);</span>
+    
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">).</span><span class="na">isNotNull</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>여기서는 <strong>객체 생성자와 동시에 <code class="language-plaintext highlighter-rouge">상수 먼저 응답하는 기능 메서드를 주 테스트로 시작한다</code></strong></p>
+
+    <ul>
+      <li>움직였을 때, 1칸 움직였다고 -&gt; <strong><code class="language-plaintext highlighter-rouge">상수 1</code>을 응답할거라 가정</strong>하고 작성한다.</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">//1. 객체+Test로 테스트 class 작성</span>
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">CarTest</span> <span class="o">{</span>
+      <span class="nd">@Test</span>
+      <span class="c1">//2. (생성자 따로 검사하는게 아닌) 객체의 기능으로 메서드 명 먼저 작성</span>
+      <span class="kt">void</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+          <span class="c1">//3. 없어도 객체 생성자 호출</span>
+          <span class="kd">final</span> <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">();</span>
+    
+          <span class="c1">//4. 객체 기능을 호출하되, 테스트에 용이하도록 &lt;호출시 응답 결과값&gt;이 있을 거라 예상 -&gt; assertThat( actual )에 바로 값 넣어주기</span>
+          <span class="c1">//car.move()</span>
+    
+          <span class="c1">//5. 기대하는(나와야하는) 응답 값을 .isEqualTo(  expected )에 넣어주기</span>
+          <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>컴파일 에러들을 잡는다.</p>
+
+    <ul>
+      <li><strong>예상하는 <code class="language-plaintext highlighter-rouge">응답값을 상수</code>로 바로 나오도록 먼저 작성한다.</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="o">{</span>
+      <span class="kd">public</span> <span class="kt">int</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>테스트를 돌려서, 상수 1로 응답하는지 확인한다.</p>
+  </li>
+</ul>
+
+<h3 id="case-추가누적---응답-expected-변경-2">
+<a class="anchor" href="#case-%EC%B6%94%EA%B0%80%EB%88%84%EC%A0%81---%EC%9D%91%EB%8B%B5-expected-%EB%B3%80%EA%B2%BD-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>case 추가(누적 -&gt; 응답 expected 변경 2)</h3>
+
+<h4 id="복붙으로-다른-test-case메서드-맨끝_네임-수정를-작성하며-안돌아가는-코드-구현">
+<a class="anchor" href="#%EB%B3%B5%EB%B6%99%EC%9C%BC%EB%A1%9C-%EB%8B%A4%EB%A5%B8-test-case%EB%A9%94%EC%84%9C%EB%93%9C-%EB%A7%A8%EB%81%9D_%EB%84%A4%EC%9E%84-%EC%88%98%EC%A0%95%EB%A5%BC-%EC%9E%91%EC%84%B1%ED%95%98%EB%A9%B0-%EC%95%88%EB%8F%8C%EC%95%84%EA%B0%80%EB%8A%94-%EC%BD%94%EB%93%9C-%EA%B5%AC%ED%98%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>복붙으로 다른 Test case(메서드 맨끝_네임 수정)를 작성하며 안돌아가는 코드 구현</h4>
+
+<ul>
+  <li>
+    <p>1칸 움직여서 1 반환하는 case도 있지만, <strong>2번 움직이는 or 안 움직이는 케이스도 있음.</strong></p>
+
+    <ul>
+      <li><strong>메서드를 복붙해서 case를 나눈다</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">move_go</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">();</span>
+    
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+  <span class="o">}</span>
+    
+  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">move_go2</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">();</span>
+      <span class="c1">//1.</span>
+      <span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">();</span>
+      <span class="c1">//2. </span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span> <span class="c1">// 2를 응답해줘야함.</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="기존-작성된-메서드를-메서드2로-복붙한-뒤-구현">
+<a class="anchor" href="#%EA%B8%B0%EC%A1%B4-%EC%9E%91%EC%84%B1%EB%90%9C-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EB%A9%94%EC%84%9C%EB%93%9C2%EB%A1%9C-%EB%B3%B5%EB%B6%99%ED%95%9C-%EB%92%A4-%EA%B5%AC%ED%98%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>기존 작성된 메서드를 메서드2로 복붙한 뒤 구현</h4>
+
+<ul>
+  <li>
+    <p>기존 코드는 돌아가도록 하는 상태(<code class="language-plaintext highlighter-rouge">move() 그대로 두기</code>)에서 move() -&gt; <strong><code class="language-plaintext highlighter-rouge">move2()</code>로 복붙한 뒤, 직전꺼도 포함해서 다 돌아가도록 구현</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kn">package</span> <span class="nn">domain</span><span class="o">;</span>
+    
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="o">{</span>
+      <span class="kd">public</span> <span class="kt">int</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+      <span class="o">}</span>
+    
+      <span class="kd">public</span> <span class="kt">int</span> <span class="nf">move2</span><span class="o">()</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>누적되려면, <strong>저장할 변수가 필요해서 필드(인변)</strong>를 선언하여 거기다가 가지고 있도록 한다..</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">move2</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">position</span><span class="o">++;</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="o">{</span>
+      <span class="kd">private</span> <span class="kt">int</span> <span class="n">position</span><span class="o">;</span>
+    
+      <span class="kd">public</span> <span class="kt">int</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+      <span class="o">}</span>
+    
+      <span class="kd">public</span> <span class="kt">int</span> <span class="nf">move2</span><span class="o">()</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="o">++</span><span class="n">position</span><span class="o">;</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="복붙-수정-메서드2를-사용해서-통과시켜본다">
+<a class="anchor" href="#%EB%B3%B5%EB%B6%99-%EC%88%98%EC%A0%95-%EB%A9%94%EC%84%9C%EB%93%9C2%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C-%ED%86%B5%EA%B3%BC%EC%8B%9C%EC%BC%9C%EB%B3%B8%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>복붙 수정 메서드2를 사용해서 통과시켜본다.</h4>
+
+<ul>
+  <li>
+    <p>복붙<code class="language-plaintext highlighter-rouge">new Test method</code>  에서 복붙 <code class="language-plaintext highlighter-rouge">method2()</code>를 사용해서 통과시킨다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">move_go2</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">();</span>
+      <span class="c1">//1.</span>
+      <span class="n">car</span><span class="o">.</span><span class="na">move2</span><span class="o">();</span>
+      <span class="c1">//2.</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">move2</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+  <span class="o">}</span>
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="기존case도-수정-메서드2로-변경해보고---기존메서드는-회색띄운-뒤-삭제">
+<a class="anchor" href="#%EA%B8%B0%EC%A1%B4case%EB%8F%84-%EC%88%98%EC%A0%95-%EB%A9%94%EC%84%9C%EB%93%9C2%EB%A1%9C-%EB%B3%80%EA%B2%BD%ED%95%B4%EB%B3%B4%EA%B3%A0---%EA%B8%B0%EC%A1%B4%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-%ED%9A%8C%EC%83%89%EB%9D%84%EC%9A%B4-%EB%92%A4-%EC%82%AD%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>기존case도 수정 메서드2로 변경해보고 -&gt; 기존메서드()는 회색띄운 뒤 삭제</h4>
+
+<ul>
+  <li>
+    <p>처음 테스트도 <code class="language-plaintext highlighter-rouge">.move2()</code>를 사용하게 한 뒤 테스트</p>
+  </li>
+  <li>
+    <p>테스트 통과하면 기존 <code class="language-plaintext highlighter-rouge">move()</code>는 사용안되서 <strong>회색 떠있음 -&gt; <code class="language-plaintext highlighter-rouge">alt + del</code>로 안전삭제</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">move_go</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">();</span>
+    
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">move2</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+  <span class="o">}</span>
+    
+  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">move_go2</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">();</span>
+      <span class="c1">//1.</span>
+      <span class="n">car</span><span class="o">.</span><span class="na">move2</span><span class="o">();</span>
+      <span class="c1">//2.</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">move2</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="최종-수정메서드2----매서드로-이름-변경">
+<a class="anchor" href="#%EC%B5%9C%EC%A2%85-%EC%88%98%EC%A0%95%EB%A9%94%EC%84%9C%EB%93%9C2----%EB%A7%A4%EC%84%9C%EB%93%9C%EB%A1%9C-%EC%9D%B4%EB%A6%84-%EB%B3%80%EA%B2%BD" aria-hidden="true"><span class="octicon octicon-link"></span></a>최종 수정메서드2  -&gt; 매서드로 이름 변경</h4>
+
+<ul>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">.move2()</code>가 -&gt; <code class="language-plaintext highlighter-rouge">.move()</code>를 대체하는 순간</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">move_go</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">();</span>
+    
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+  <span class="o">}</span>
+    
+  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">move_go2</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">();</span>
+      <span class="c1">//1.</span>
+      <span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">();</span>
+      <span class="c1">//2.</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+  <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="case-추가조건-따라-stop---expected는-stop일때-나와야하는-값으로-미리-넣어두기-0">
+<a class="anchor" href="#case-%EC%B6%94%EA%B0%80%EC%A1%B0%EA%B1%B4-%EB%94%B0%EB%9D%BC-stop---expected%EB%8A%94-stop%EC%9D%BC%EB%95%8C-%EB%82%98%EC%99%80%EC%95%BC%ED%95%98%EB%8A%94-%EA%B0%92%EC%9C%BC%EB%A1%9C-%EB%AF%B8%EB%A6%AC-%EB%84%A3%EC%96%B4%EB%91%90%EA%B8%B0-0" aria-hidden="true"><span class="octicon octicon-link"></span></a>case 추가(조건 따라 stop -&gt; expected는 stop일때 나와야하는 값으로 미리 넣어두기 0)</h3>
+
+<h4 id="복붙--test-case-추가--설계전-해당-case-expected입력해서-error">
+<a class="anchor" href="#%EB%B3%B5%EB%B6%99--test-case-%EC%B6%94%EA%B0%80--%EC%84%A4%EA%B3%84%EC%A0%84-%ED%95%B4%EB%8B%B9-case-expected%EC%9E%85%EB%A0%A5%ED%95%B4%EC%84%9C-error" aria-hidden="true"><span class="octicon octicon-link"></span></a>복붙  Test case 추가 ( 설계전 해당 case expected입력해서 error)</h4>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">move_stop</code>케이스 추가 -&gt; <strong>expected 0을 응답하도록 작성하기</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">move_stop</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">();</span>
+    
+      <span class="c1">//1. 1번움직였는데  ---&gt;  0을 응답해야하는 경우도 처리</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="메서드2로-복사해서-다시-처리">
+<a class="anchor" href="#%EB%A9%94%EC%84%9C%EB%93%9C2%EB%A1%9C-%EB%B3%B5%EC%82%AC%ED%95%B4%EC%84%9C-%EB%8B%A4%EC%8B%9C-%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>메서드2()로 복사해서 다시 처리</h4>
+
+<ul>
+  <li>
+    <p>해당 조건일 때만 움직이게 해준다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">move2</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="nc">ThreadLocalRandom</span><span class="o">.</span><span class="na">current</span><span class="o">().</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="o">)</span> <span class="o">{</span>
+          <span class="n">position</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">;</span>
+      <span class="o">}</span>
+      <span class="k">return</span> <span class="n">position</span><span class="o">;</span>
+  <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="내부-랜덤-포함-메서드는-테스트-실행시마다-결과가-다르다">
+<a class="anchor" href="#%EB%82%B4%EB%B6%80-%EB%9E%9C%EB%8D%A4-%ED%8F%AC%ED%95%A8-%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%8B%A4%ED%96%89%EC%8B%9C%EB%A7%88%EB%8B%A4-%EA%B2%B0%EA%B3%BC%EA%B0%80-%EB%8B%A4%EB%A5%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>내부 랜덤 포함 메서드는 테스트 실행시마다 결과가 다르다.</h4>
+
+<ul>
+  <li>특정 테스트 바깥에 커서를 두고 전체 테스트 실행
+    <ul>
+      <li>랜덤이 껴있는 경우 돌릴 때 마다 다르게 결과</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="랜덤은-가능한-구조로-바꿔주기">
+<a class="anchor" href="#%EB%9E%9C%EB%8D%A4%EC%9D%80-%EA%B0%80%EB%8A%A5%ED%95%9C-%EA%B5%AC%EC%A1%B0%EB%A1%9C-%EB%B0%94%EA%BF%94%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>랜덤은 가능한 구조로 바꿔주기</h3>
+
+<h4 id="랜덤부분만-파라미터화시켜-밖으로-빼준다">
+<a class="anchor" href="#%EB%9E%9C%EB%8D%A4%EB%B6%80%EB%B6%84%EB%A7%8C-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%ED%99%94%EC%8B%9C%EC%BC%9C-%EB%B0%96%EC%9C%BC%EB%A1%9C-%EB%B9%BC%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>랜덤부분만 파라미터화시켜 밖으로 빼준다.</h4>
+
+<ul>
+  <li>
+    <p>기존</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>      <span class="kd">public</span> <span class="kt">int</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+          <span class="k">if</span> <span class="o">(</span><span class="nc">ThreadLocalRandom</span><span class="o">.</span><span class="na">current</span><span class="o">().</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="o">)</span> <span class="o">{</span>
+              <span class="n">position</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">;</span>
+          <span class="o">}</span>
+          <span class="k">return</span> <span class="n">position</span><span class="o">;</span>
+      <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>파라미터화시켜 밖으로 빼기</p>
+
+    <ul>
+      <li><strong>자동으로 <code class="language-plaintext highlighter-rouge">사용중이던 부분(랜덤)</code>이 –&gt;메소드 사용처로 이동된다.</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>       <span class="kd">public</span> <span class="kt">int</span> <span class="nf">move</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+           <span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="o">)</span> <span class="o">{</span>
+               <span class="n">position</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">;</span>
+           <span class="o">}</span>
+           <span class="k">return</span> <span class="n">position</span><span class="o">;</span>
+       <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="nc">ThreadLocalRandom</span><span class="o">.</span><span class="na">current</span><span class="o">().</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">10</span><span class="o">))).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="사용처의-랜덤생성을-특정-상수로-바꾼다">
+<a class="anchor" href="#%EC%82%AC%EC%9A%A9%EC%B2%98%EC%9D%98-%EB%9E%9C%EB%8D%A4%EC%83%9D%EC%84%B1%EC%9D%84-%ED%8A%B9%EC%A0%95-%EC%83%81%EC%88%98%EB%A1%9C-%EB%B0%94%EA%BE%BC%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>사용처의 랜덤생성을 특정 상수로 바꾼다.</h4>
+
+<ul>
+  <li>
+    <p>랜덤은 <strong><code class="language-plaintext highlighter-rouge">프로덕션 코드에서만 사용</code>되므로  추출되어 <code class="language-plaintext highlighter-rouge">사용처로 옮겨간 랜덤부분을 테스트에서는 상수로 변경</code>한다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>   <span class="nd">@Test</span>
+   <span class="kt">void</span> <span class="nf">move_go2</span><span class="o">()</span> <span class="o">{</span>
+       <span class="kd">final</span> <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">();</span>
+     
+       <span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
+       <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="mi">5</span><span class="o">)).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+   <span class="o">}</span>
+     
+   <span class="nd">@Test</span>
+   <span class="kt">void</span> <span class="nf">move_stop</span><span class="o">()</span> <span class="o">{</span>
+       <span class="kd">final</span> <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">();</span>
+     
+       <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="mi">3</span><span class="o">)).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+   <span class="o">}</span>
+   <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="랜덤-뿐만-아니라-랜덤포함조건자체를-객체의-역할로">
+<a class="anchor" href="#%EB%9E%9C%EB%8D%A4-%EB%BF%90%EB%A7%8C-%EC%95%84%EB%8B%88%EB%9D%BC-%EB%9E%9C%EB%8D%A4%ED%8F%AC%ED%95%A8%EC%A1%B0%EA%B1%B4%EC%9E%90%EC%B2%B4%EB%A5%BC-%EA%B0%9D%EC%B2%B4%EC%9D%98-%EC%97%AD%ED%95%A0%EB%A1%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>랜덤 뿐만 아니라 <code class="language-plaintext highlighter-rouge">랜덤포함조건</code>자체를 객체의 역할로</h4>
+
+<ul>
+  <li>
+    <p>객체가 테스트를 위한 랜덤부분 외부 파라미터로 추출 뿐만 아니라</p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">if 조건</code>에 따른 다른 역할을 하는 객체로 취급하고 싶다면 <code class="language-plaintext highlighter-rouge">if조건 자체를 인터페이스</code>로 추출할 수 있다.</strong></p>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">전략패턴</code>은 대체가능한 다른전략을 넣는 부분을 <strong>인터페이스 -&gt; 전략메서드로 추출해놓는다.</strong>
+</li>
+    </ul>
+
+    <ol>
+      <li>
+        <p>바뀔 수 있는 부분을 잡아서 상태에 맞게 메소드로 추출해놓는다.</p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">인터페이스 XXXXStrategy</code> + <code class="language-plaintext highlighter-rouge">이름만 가진 추상메서드</code>를 만든다.</strong></p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">특정Strategy</code>의 이름을 정해서 <code class="language-plaintext highlighter-rouge">impl구상클래스</code>를 <code class="language-plaintext highlighter-rouge">추출메소드를 복붙</code>해서 구현한다.</strong></p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">특정전략의 메소드</code>가 사용된 곳마다 —&gt; 다른전략을 허용하는 <code class="language-plaintext highlighter-rouge">추상화된 인터페이스 객체</code>를 <code class="language-plaintext highlighter-rouge">인자</code>로 받은 뒤 -&gt; <code class="language-plaintext highlighter-rouge">추상체.추출메소드()</code>호출로 수정한다.</strong></p>
+      </li>
+      <li>
+        <p>이제 에러난 부분을 타고가면서, <em>*<code class="language-plaintext highlighter-rouge">내부 매개변수</code> 정의에 사용된 <code class="language-plaintext highlighter-rouge">추상 인자</code>를 호출하는 <code class="language-plaintext highlighter-rouge">외부 인자 자리</code>에 <code class="language-plaintext highlighter-rouge">new 특정전략()</code>를 넣워준다.</em></p>
+      </li>
+      <li>
+        <p><strong>테스트에서 다른전략으로 <code class="language-plaintext highlighter-rouge">조건부의 상수</code>인 람다함수로 <code class="language-plaintext highlighter-rouge">() -&gt; true</code>를 대입하여 움직임을 확인한다.</strong></p>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<h3 id="확인을-위한-응답-값조회이-실제-필요한지-의심해봐야한다">
+<a class="anchor" href="#%ED%99%95%EC%9D%B8%EC%9D%84-%EC%9C%84%ED%95%9C-%EC%9D%91%EB%8B%B5-%EA%B0%92%EC%A1%B0%ED%9A%8C%EC%9D%B4-%EC%8B%A4%EC%A0%9C-%ED%95%84%EC%9A%94%ED%95%9C%EC%A7%80-%EC%9D%98%EC%8B%AC%ED%95%B4%EB%B4%90%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>확인을 위한 응답 값(조회)이 실제 필요한지 의심해봐야한다</h3>
+
+<ul>
+  <li>내부 position만 바뀌면 되는데, <strong>테스트를 위해 응답하고 있지는 않은지 의심</strong>하자.</li>
+</ul>
+
+<h4 id="응답하는-것도-1가지-일조회다-위치변경테스트할-기능--조회-2가지-일을-하는-move">
+<a class="anchor" href="#%EC%9D%91%EB%8B%B5%ED%95%98%EB%8A%94-%EA%B2%83%EB%8F%84-1%EA%B0%80%EC%A7%80-%EC%9D%BC%EC%A1%B0%ED%9A%8C%EB%8B%A4-%EC%9C%84%EC%B9%98%EB%B3%80%EA%B2%BD%ED%85%8C%EC%8A%A4%ED%8A%B8%ED%95%A0-%EA%B8%B0%EB%8A%A5--%EC%A1%B0%ED%9A%8C-2%EA%B0%80%EC%A7%80-%EC%9D%BC%EC%9D%84-%ED%95%98%EB%8A%94-move" aria-hidden="true"><span class="octicon octicon-link"></span></a>응답하는 것도 1가지 일(조회)다. 위치변경(테스트할 기능) + 조회 2가지 일을 하는 move()</h4>
+
+<ul>
+  <li>
+    <p>포지션을 조회하고 싶다면 또다시 <code class="language-plaintext highlighter-rouge">car.move()</code>를 호출해서 확인해야하나? <strong>변하면서 조회</strong>되므로 이상하다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">move</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="o">)</span> <span class="o">{</span>
+          <span class="n">position</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">;</span>
+      <span class="o">}</span>
+      <span class="k">return</span> <span class="n">position</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>조회는..  응답 말고도 다른 방법이 있다. <code class="language-plaintext highlighter-rouge">값으로 만드는 객체</code>로 비교</strong></p>
+  </li>
+</ul>
+
+<h4 id="조회-메서드가-아니라면-테스트-끝난-후-응답-값-제거리팩토링">
+<a class="anchor" href="#%EC%A1%B0%ED%9A%8C-%EB%A9%94%EC%84%9C%EB%93%9C%EA%B0%80-%EC%95%84%EB%8B%88%EB%9D%BC%EB%A9%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EB%81%9D%EB%82%9C-%ED%9B%84-%EC%9D%91%EB%8B%B5-%EA%B0%92-%EC%A0%9C%EA%B1%B0%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81" aria-hidden="true"><span class="octicon octicon-link"></span></a>조회 메서드가 아니라면, 테스트 끝난 후, 응답 값 제거리팩토링</h4>
+
+<ul>
+  <li>
+    <p>메서드2() 복붙 생성하여, <strong>응답이 제거된 메서드2</strong> 생성</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">move</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="o">)</span> <span class="o">{</span>
+          <span class="n">position</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">;</span>
+      <span class="o">}</span>
+      <span class="k">return</span> <span class="n">position</span><span class="o">;</span>
+  <span class="o">}</span>
+    
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">move2</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="o">)</span> <span class="o">{</span>
+          <span class="n">position</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">;</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Test에서는 assertThat()에 응답 값을 넣어줘야하는데?</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="mi">3</span><span class="o">)).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="응답-값-대신-해당객체를--expected-예상값-대신-예상값으로-생성한--equals옵라된--예상객체를">
+<a class="anchor" href="#%EC%9D%91%EB%8B%B5-%EA%B0%92-%EB%8C%80%EC%8B%A0-%ED%95%B4%EB%8B%B9%EA%B0%9D%EC%B2%B4%EB%A5%BC--expected-%EC%98%88%EC%83%81%EA%B0%92-%EB%8C%80%EC%8B%A0-%EC%98%88%EC%83%81%EA%B0%92%EC%9C%BC%EB%A1%9C-%EC%83%9D%EC%84%B1%ED%95%9C--equals%EC%98%B5%EB%9D%BC%EB%90%9C--%EC%98%88%EC%83%81%EA%B0%9D%EC%B2%B4%EB%A5%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>응답 값 대신 [해당객체]를 / expected 예상값 대신 예상값으로 생성한 + equals옵라된  [예상객체]를</h4>
+
+<ol>
+  <li>
+    <p><strong>예상값으로 <code class="language-plaintext highlighter-rouge">예상객체</code>를 만들어줄 <code class="language-plaintext highlighter-rouge">생성자를 추가</code>한다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220224163249798.png" alt="image-20220224163249798"></p>
+  </li>
+  <li>
+    <p><strong>기존에는 default 생성자로서, 인자 없이 만들었다. <code class="language-plaintext highlighter-rouge">Select None</code>으로 기존 것도 사용가능하게 빈 default 생성자를 따로 정의해주자.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220224163755370.png" alt="image-20220224163755370"></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="nf">Car</span><span class="o">()</span> <span class="o">{</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>생성된 객체로 비교하기 위해, <strong>equals, hashCode를 옵라이딩</strong></p>
+  </li>
+</ol>
+
+<h4 id="응답-없는-메소드2로-치환-후--객체메서드2호출---assertthat객체-예상객체-로-비교">
+<a class="anchor" href="#%EC%9D%91%EB%8B%B5-%EC%97%86%EB%8A%94-%EB%A9%94%EC%86%8C%EB%93%9C2%EB%A1%9C-%EC%B9%98%ED%99%98-%ED%9B%84--%EA%B0%9D%EC%B2%B4%EB%A9%94%EC%84%9C%EB%93%9C2%ED%98%B8%EC%B6%9C---assertthat%EA%B0%9D%EC%B2%B4-%EC%98%88%EC%83%81%EA%B0%9D%EC%B2%B4-%EB%A1%9C-%EB%B9%84%EA%B5%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>응답 없는 메소드2로 치환 후,  객체.메서드2호출 - assertThat(객체). (예상객체) 로 비교</h4>
+
+<ul>
+  <li>
+    <p><strong>이제 전부 <code class="language-plaintext highlighter-rouge">응답없는 메소드2</code>로 치환  -&gt; <code class="language-plaintext highlighter-rouge">actual 응답 자리에서 빼주기</code></strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">move_go</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">();</span>
+      <span class="n">car</span><span class="o">.</span><span class="na">move2</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+    
+      <span class="c1">// 1.actual에는 실제응답 대신, 객체를</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span> <span class="c1">// 2. 예상값으로 만든 예상객체</span>
+  <span class="o">}</span>
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>기존 <strong>assertThat( <code class="language-plaintext highlighter-rouge">응답값</code> ) .isEqualsTo ( <code class="language-plaintext highlighter-rouge">예상값</code>)</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="mi">4</span><span class="o">)).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>assertThat( <code class="language-plaintext highlighter-rouge">사용객체</code> ) .isEqualsTo ( <code class="language-plaintext highlighter-rouge">예상객체</code>)</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="n">ar</span><span class="o">.</span><span class="na">move2</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+    
+ <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="생성자도-테스트를-위한-생성자인지-고민---그렇다면-getposition-대신-position으로-마무리">
+<a class="anchor" href="#%EC%83%9D%EC%84%B1%EC%9E%90%EB%8F%84-%ED%85%8C%EC%8A%A4%ED%8A%B8%EB%A5%BC-%EC%9C%84%ED%95%9C-%EC%83%9D%EC%84%B1%EC%9E%90%EC%9D%B8%EC%A7%80-%EA%B3%A0%EB%AF%BC---%EA%B7%B8%EB%A0%87%EB%8B%A4%EB%A9%B4-getposition-%EB%8C%80%EC%8B%A0-position%EC%9C%BC%EB%A1%9C-%EB%A7%88%EB%AC%B4%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>생성자도… 테스트를 위한 생성자인지 고민 -&gt; 그렇다면 .getPosition() 대신 .position()으로 마무리?</h4>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">get이라는 네이밍을 빼서</code> 내부에  position이 있는지 모르게 하는게 핵심</strong></li>
+</ul>
+
+<h3 id="외부추출랜덤은-상위-객체-테스트를-막는다">
+<a class="anchor" href="#%EC%99%B8%EB%B6%80%EC%B6%94%EC%B6%9C%EB%9E%9C%EB%8D%A4%EC%9D%80-%EC%83%81%EC%9C%84-%EA%B0%9D%EC%B2%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8%EB%A5%BC-%EB%A7%89%EB%8A%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>외부추출랜덤은 상위 객체 테스트를 막는다</h3>
+
+<ul>
+  <li>자동차.move()의 내부 랜덤 추출 -&gt;  자동차.move(랜덤사용) -&gt; <strong>자동차.move(랜덤사용)을 호출하는 자동차경주가 내부 랜덤을 포함</strong>하게 됨.</li>
+</ul>
+
+<h4 id="상위-객체관리자-test----list-테스트끝난객체-를-받도록-생성---돌면서-시켜야함">
+<a class="anchor" href="#%EC%83%81%EC%9C%84-%EA%B0%9D%EC%B2%B4%EA%B4%80%EB%A6%AC%EC%9E%90-test----list-%ED%85%8C%EC%8A%A4%ED%8A%B8%EB%81%9D%EB%82%9C%EA%B0%9D%EC%B2%B4-%EB%A5%BC-%EB%B0%9B%EB%8F%84%EB%A1%9D-%EC%83%9D%EC%84%B1---%EB%8F%8C%EB%A9%B4%EC%84%9C-%EC%8B%9C%EC%BC%9C%EC%95%BC%ED%95%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>상위 객체(관리자) Test -&gt;  List&lt; 테스트끝난객체&gt; 를 받도록 생성 -&gt; 돌면서 시켜야함.</h4>
+
+<ol>
+  <li>
+    <p><strong>단일 테스트가 끝난 <code class="language-plaintext highlighter-rouge">단일객체</code>에 대해서 <code class="language-plaintext highlighter-rouge">일급 컬렉션 생성 전 LIst&lt;단일&gt;</code>을 사용 == <code class="language-plaintext highlighter-rouge">세팅by생성자( List&lt;단일객체&gt; )</code>하는 <code class="language-plaintext highlighter-rouge">상위객체, 관리자객체</code>를 Test서부터 만든다.</strong></p>
+
+    <ul>
+      <li>
+<strong>필요한 것은</strong> set을 <strong>생성자에서 받는다.</strong>
+</li>
+      <li><strong>다 못받으면, 필요기능의 메서드 파라미터로</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="nf">name</span><span class="o">()</span> <span class="o">{</span>
+     <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="k">new</span> <span class="nc">Car</span><span class="o">(),</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">());</span>
+    
+     <span class="kd">final</span> <span class="nc">RacingGame</span> <span class="n">racingGame</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingGame</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">RacingGame</span> <span class="o">{</span>
+     <span class="kd">public</span> <span class="nf">RacingGame</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">RacingGame</span> <span class="o">{</span>
+     <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">;</span>
+    
+     <span class="kd">public</span> <span class="nf">RacingGame</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">cars</span> <span class="o">=</span> <span class="n">cars</span><span class="o">;</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>관리자=상위객체에서 메서드() -&gt; list를 돌며 단일객체 메서드 시키기</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">RacingGame</span> <span class="o">{</span>
+     <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">;</span>
+    
+     <span class="kd">public</span> <span class="nf">RacingGame</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">cars</span> <span class="o">=</span> <span class="n">cars</span><span class="o">;</span>
+     <span class="o">}</span>
+    
+     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">()</span> <span class="o">{</span>
+         <span class="n">cars</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span> <span class="n">car</span> <span class="o">-&gt;</span> <span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="nc">ThreadLocalRandom</span><span class="o">.</span><span class="na">current</span><span class="o">().</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">10</span><span class="o">)));</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Car만 테스트는 가능하고, 그 <strong>상위객체인 RacingGame은 테스트가 불가능한 상태다.</strong></p>
+    <ul>
+      <li>원한다면 다시 랜덤부분을 파라미터로 추출하면 된다.</li>
+      <li><strong>어디까지 테스트가능 구조로 할지는 자기가 선택하는 것</strong></li>
+      <li><strong>상위객체도 테스트 가능한 구조로 만들고 싶다면, 파라미터화시켜 외부로 빼면 된다.</strong></li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="가장-끝단의-객체를-찾고-테스트-불가-부분을-밖으로-뺀다">
+<a class="anchor" href="#%EA%B0%80%EC%9E%A5-%EB%81%9D%EB%8B%A8%EC%9D%98-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%B0%BE%EA%B3%A0-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EB%B6%88%EA%B0%80-%EB%B6%80%EB%B6%84%EC%9D%84-%EB%B0%96%EC%9C%BC%EB%A1%9C-%EB%BA%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>가장 끝단의 객체를 찾고, 테스트 불가 부분을 밖으로 뺀다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220224160243276.png" alt="image-20220224160243276"></p>
+
+<ul>
+  <li>
+    <p>한단계 더 올리면, RacingGame도 테스트가 가능해진다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220224160301143.png" alt="image-20220224160301143"></p>
+  </li>
+  <li>
+    <p><strong>랜덤, 특정 날짜에만 작동  등이 <code class="language-plaintext highlighter-rouge">테스트하기 힘든 코드</code>다.</strong></p>
+    <ul>
+      <li>외부로 분리해서 주입한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220224160337461.png" alt="image-20220224160337461"></p>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/02/24/TDD-2-%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC_%EC%A0%95%EB%A6%AC(%EC%99%84).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
