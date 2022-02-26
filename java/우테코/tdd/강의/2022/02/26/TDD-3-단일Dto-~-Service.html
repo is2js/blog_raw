@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>TDD 3 자경(단일Dto~Service) | 돌범 기술블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="TDD 3 자경(단일Dto~Service)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="객체-&gt;단일Dto-&gt;일급-&gt; … Service까지" />
+<meta property="og:description" content="객체-&gt;단일Dto-&gt;일급-&gt; … Service까지" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/02/26/TDD-3-%EB%8B%A8%EC%9D%BCDto-~-Service.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/02/26/TDD-3-%EB%8B%A8%EC%9D%BCDto-~-Service.html" />
+<meta property="og:site_name" content="돌범 기술블로그" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/wootech.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-26T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-02-26T00:00:00-06:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/02/26/TDD-3-%EB%8B%A8%EC%9D%BCDto-~-Service.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"TDD 3 자경(단일Dto~Service)","dateModified":"2022-02-26T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/02/26/TDD-3-%EB%8B%A8%EC%9D%BCDto-~-Service.html"},"description":"객체-&gt;단일Dto-&gt;일급-&gt; … Service까지","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범 기술블로그" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범 기술블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">TDD 3 자경(단일Dto~Service)</h1><p class="page-description">객체->단일Dto->일급-> ... Service까지</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-26T00:00:00-06:00" itemprop="datePublished">
+        Feb 26, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      10 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#TDD">TDD</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#강의">강의</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#controller와-service">Controller와 Service</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#controller는-도메인service-의존하며-생성자에서-같이-초기화된다">Controller는 도메인Service 의존하며, 생성자에서 같이 초기화된다.</a></li>
+<li class="toc-entry toc-h3"><a href="#controller생성시-inputview-받---service는-input데이터-받는-안받든-초기화하여-생성---작동시-결과가져-줄ouputview를-받아-전달">Controller[생성]시 inputView 받 -&gt; Service는 input데이터 받는 안받든 초기화하여 생성.  + [작동]시 결과가져 줄OuputView를 받아 전달</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#객체---service까지-tdd">객체 -&gt; Service까지 TDD</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#단일-객체-tdd">단일 객체 TDD</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#필요시-도메인-검증-테스트">필요시 도메인 검증 테스트</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#단일-dto-tdd">단일 Dto TDD</a></li>
+<li class="toc-entry toc-h3"><a href="#일급-tdd">일급 TDD</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#정제가상-재료로-셋업">정제가상 재료로 셋업</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#필요시-도메인-검증-테스트-1">필요시 도메인 검증 테스트</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#기능-결과-확인용-todto-부터">기능 결과 확인용 toDto() 부터</a></li>
+<li class="toc-entry toc-h4"><a href="#일급todto를-통한-메서드-기능-테스트">일급.toDto()를 통한 메서드 기능 테스트</a></li>
+<li class="toc-entry toc-h4"><a href="#단일dtofrom-응답객체--개발---객체비교불가상황응답-값-1개만-getter-추출---값-비교-테스트">단일Dto.from( 응답객체 ) 개발 -&gt; (객체비교불가상황)응답 값 1개만 getter 추출 -&gt; 값 비교 테스트</a></li>
+<li class="toc-entry toc-h4"><a href="#일급의-응답list객체는---한방에-dtolist-or-복수dto로-한방에">일급의 응답(List&lt;객체&gt;)는 -&gt; 한방에 DtoList or 복수Dto로 한방에</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#service-객체-tdd">Service 객체 TDD</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#재료없이-service객체-셋업-원래-미리-생성-in--컨트롤러">재료없이 service객체 셋업 (원래 미리 생성 in  컨트롤러)</a></li>
+<li class="toc-entry toc-h4"><a href="#input재료들을-받는-service-생성자도-만들어-셋업에서-관리변수-채워놓기">input재료들을 받는 service 생성자도 만들어, 셋업에서 관리변수 채워놓기.</a></li>
+<li class="toc-entry toc-h4"><a href="#기능-결과-확인용-일급todto-호출-함수부터">기능 결과 확인용 일급.toDto() 호출 함수부터</a></li>
+<li class="toc-entry toc-h4"><a href="#미리-안넣어놓고-차후-setter역할의-servicegenerate로-input재료---해당도메인-객체일급-변환-생성-tdd">미리 안넣어놓고, 차후 setter역할의 service.generate()로 input재료 -&gt; 해당도메인 객체(일급) 변환 생성 TDD</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#필요시-전략객체-service에서-생성하여--메서드의-파라미터로-넣어주기">필요시 전략객체 service에서 생성하여,  메서드의 파라미터로 넣어주기</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#들어간-service-변수인스턴스-변수-필요-변수확인-테스트">들어간 Service 변수(인스턴스 변수, 필요 변수)확인 테스트</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#관리인스턴스-변수-중-vo는-getdto없이-asssertthatextracting으로-내부-인변-바로-뽑아-확인하기">관리(인스턴스) 변수 중 VO는 getDto없이 asssertThat().extracting으로 내부 인변 바로 뽑아 확인하기</a></li>
+<li class="toc-entry toc-h5"><a href="#input정제-vo-원시값까지-받아주는-service-생성자-추가-생성">input정제 VO 원시값까지 받아주는 service 생성자 추가 생성</a></li>
+<li class="toc-entry toc-h5"><a href="#vo-객체-개발">VO 객체 개발</a></li>
+<li class="toc-entry toc-h5"><a href="#vo를-받아서-생성하는-service를-초기화-후-extracting으로-객체-뽑아서-11비교">VO를 받아서 생성하는 service를 초기화 후, extracting으로 객체 뽑아서 1:1비교</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#메인로직-tdd">메인로직 TDD</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#메인로직-실행">메인로직 실행</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#메인로직-실행-횟수vo의-iterator-tdd">메인로직 실행 횟수(VO)의 iterator TDD</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#01-service-iscontinuable---voisnotfinish---truefalse를-테스트한다">01 service. isContinuable() -&gt; Vo.isNotFinish() -&gt; true/false를 테스트한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#02-serviceplay메인로직-내부에서---메인객체메인로직-와-동시에-돌아갈--vo감소로직-vogetnext-처리">02 service.play메인로직() 내부에서 -&gt; 메인객체.메인로직() 와 동시에 돌아갈 + VO감소로직 VO.getNext(); 처리</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#랜덤응답의-범위-tdd단위테스트">랜덤응답의 범위 TDD(단위테스트)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#값-1개의-랜덤--repeatedtest--isbetween">값 1개의 랜덤:  @RepeatedTest() + .isBetween</a></li>
+<li class="toc-entry toc-h4"><a href="#list의-랜덤-iterator의-hasnext패턴---객체비교">List의 랜덤: iterator의 hasNext패턴 -&gt; 객체비교</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h2 id="controller와-service">
+<a class="anchor" href="#controller%EC%99%80-service" aria-hidden="true"><span class="octicon octicon-link"></span></a>Controller와 Service</h2>
+
+<h3 id="controller는-도메인service-의존하며-생성자에서-같이-초기화된다">
+<a class="anchor" href="#controller%EB%8A%94-%EB%8F%84%EB%A9%94%EC%9D%B8service-%EC%9D%98%EC%A1%B4%ED%95%98%EB%A9%B0-%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90%EC%84%9C-%EA%B0%99%EC%9D%B4-%EC%B4%88%EA%B8%B0%ED%99%94%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Controller는 도메인Service 의존하며, 생성자에서 같이 초기화된다.</h3>
+
+<ol>
+  <li>
+    <p><strong>controller의 생성자에서</strong> <code class="language-plaintext highlighter-rouge">inputView</code>와 <code class="language-plaintext highlighter-rouge">outputView</code>와 함께, 생성된 or 생성한 <strong><code class="language-plaintext highlighter-rouge">service객체</code>를 받아준다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="nf">GameController</span><span class="o">(</span><span class="nc">GameService</span> <span class="n">gameService</span><span class="o">,</span> <span class="nc">InputView</span> <span class="n">inputView</span><span class="o">,</span> <span class="nc">OutputView</span> <span class="n">outputView</span><span class="o">)</span> <span class="o">{</span>
+     <span class="c1">//controller가 알고 있던 빈 service객체에</span>
+     <span class="k">this</span><span class="o">.</span><span class="na">gameService</span> <span class="o">=</span> <span class="n">gameService</span><span class="o">;</span> <span class="c1">// 외부에서 받음</span>
+     <span class="k">this</span><span class="o">.</span><span class="na">inputView</span> <span class="o">=</span> <span class="n">inputView</span><span class="o">;</span>
+     <span class="k">this</span><span class="o">.</span><span class="na">outputView</span> <span class="o">=</span> <span class="n">outputView</span><span class="o">;</span> 
+ <span class="o">}</span>
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>컨트롤러 생성시 inputView객체</strong>를 받고</p>
+
+    <ul>
+      <li>받은 inputView를 생성자에서 이용하여 <strong><code class="language-plaintext highlighter-rouge">inputView.getDto() 등의 데이터</code>를 인자로 받아 Service를 생성</strong>한다.</li>
+      <li><strong>한번에 input을 받을 수 있을 경우,  input에서 getDto로 Service로 다 가져온다.</strong></li>
+      <li>outputView는 controller 작동시 인자로 받아서 사용된다.</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="nf">GameController</span><span class="o">(</span><span class="nc">InputView</span> <span class="n">inputView</span><span class="o">)</span> <span class="o">{</span>
+     <span class="c1">//controller가 알고 있던 빈 service객체에</span>
+     <span class="c1">//외부에서 받은 InputView를 이용하여 service를 생성하여 초기화</span>
+     <span class="n">racingGame</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingGame</span><span class="o">(</span><span class="n">inputView</span><span class="o">.</span><span class="na">getInitDto</span><span class="o">());</span>
+ <span class="o">}</span>
+    
+ <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="nc">OutputView</span> <span class="n">outputView</span><span class="o">)</span> <span class="o">{</span>
+     <span class="n">playGame</span><span class="o">(</span><span class="n">outputView</span><span class="o">);</span>
+     <span class="n">endGame</span><span class="o">(</span><span class="n">outputView</span><span class="o">);</span>
+ <span class="o">}</span>
+    
+ <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+     <span class="nc">GameController</span> <span class="n">controller</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GameController</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputView</span><span class="o">());</span>
+     <span class="n">controller</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="k">new</span> <span class="nc">OutputView</span><span class="o">());</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>컨트롤러 생성시 <strong>컨트롤러 생성자에서 <code class="language-plaintext highlighter-rouge">service도 데이터없이 먼저 생성</code></strong>한다.</p>
+
+    <ul>
+      <li><strong>service가 필요한 데이터는 <code class="language-plaintext highlighter-rouge">메서드의 인자</code>로 받아서 <code class="language-plaintext highlighter-rouge">service에 set</code>한다.</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="nf">RacingController</span><span class="o">()</span> <span class="o">{</span>
+     <span class="n">racingService</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">();</span>
+ <span class="o">}</span>
+    
+ <span class="c1">// 한꺼번에 input을 dto로 받는게 아니라면, 개별로 -&gt; 메서드를 통해 input을 따로 입력받는다.</span>
+ <span class="n">racingController</span><span class="o">.</span><span class="na">generateRacingCars</span><span class="o">(</span><span class="n">carNameInput</span><span class="o">());</span>
+    
+    
+ <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+     <span class="nc">RacingController</span> <span class="n">racingController</span> <span class="o">=</span> <span class="k">new</span>  <span class="nc">RacingController</span><span class="o">();</span>
+     <span class="n">racingController</span><span class="o">.</span><span class="na">generateRacingCars</span><span class="o">(</span><span class="n">carNameInput</span><span class="o">());</span>
+     <span class="kt">int</span> <span class="n">round</span> <span class="o">=</span> <span class="n">roundInput</span><span class="o">();</span>
+     <span class="nc">RacingCarOutput</span><span class="o">.</span><span class="na">printRoundResultMessage</span><span class="o">();</span>
+     <span class="n">race</span><span class="o">(</span><span class="n">racingController</span><span class="o">,</span> <span class="n">round</span><span class="o">);</span>
+     <span class="n">racingController</span><span class="o">.</span><span class="na">checkWinners</span><span class="o">();</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="controller생성시-inputview-받---service는-input데이터-받는-안받든-초기화하여-생성---작동시-결과가져-줄ouputview를-받아-전달">
+<a class="anchor" href="#controller%EC%83%9D%EC%84%B1%EC%8B%9C-inputview-%EB%B0%9B---service%EB%8A%94-input%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B0%9B%EB%8A%94-%EC%95%88%EB%B0%9B%EB%93%A0-%EC%B4%88%EA%B8%B0%ED%99%94%ED%95%98%EC%97%AC-%EC%83%9D%EC%84%B1---%EC%9E%91%EB%8F%99%EC%8B%9C-%EA%B2%B0%EA%B3%BC%EA%B0%80%EC%A0%B8-%EC%A4%84ouputview%EB%A5%BC-%EB%B0%9B%EC%95%84-%EC%A0%84%EB%8B%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>Controller[생성]시 inputView 받 -&gt; Service는 input데이터 받는 안받든 초기화하여 생성.  + [작동]시 결과가져 줄OuputView를 받아 전달</h3>
+
+<ul>
+  <li>inputView에서 재입력 or 나눠서 받아야하는 경우가 아니라면 <code class="language-plaintext highlighter-rouge">new Service( inputView.getInitDto() )</code> 생성시 받아 생성</li>
+  <li>먼저 서비스부터 생성되고 이후 순서대로 데이터를 set해야하는 경우, 먼저 서비스를 생성 <code class="language-plaintext highlighter-rouge">new Service()</code> 이후, 메서드 사용하면서 초기화</li>
+</ul>
+
+<h2 id="객체---service까지-tdd">
+<a class="anchor" href="#%EA%B0%9D%EC%B2%B4---service%EA%B9%8C%EC%A7%80-tdd" aria-hidden="true"><span class="octicon octicon-link"></span></a>객체 -&gt; Service까지 TDD</h2>
+
+<h3 id="단일-객체-tdd">
+<a class="anchor" href="#%EB%8B%A8%EC%9D%BC-%EA%B0%9D%EC%B2%B4-tdd" aria-hidden="true"><span class="octicon octicon-link"></span></a>단일 객체 TDD</h3>
+
+<ul>
+  <li>
+    <p>참고: <a href="https://blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/02/24/TDD-2-%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC_%EC%A0%95%EB%A6%AC(%EC%99%84).html">TDD2 자동차경주 블로</a>그 / <a href="https://blog.chojaeseong.com/java/dto/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/02/22/%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC_DTO_%EB%8B%A8%EA%B3%84%EB%B3%84-%EC%A0%81%EC%9A%A9(%EC%99%84).html">DTO 단계별 적용 + 테스트</a></p>
+
+    <ul>
+      <li>인자 없는 생성자 <code class="language-plaintext highlighter-rouge">new Car()</code> + <code class="language-plaintext highlighter-rouge">응답하는 메서드</code> + <code class="language-plaintext highlighter-rouge">값으로 비교</code>부터 시작해서, 블로그 글을 보고 완성한다.</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">when 객체</code> 와 <code class="language-plaintext highlighter-rouge">생성자로 만든 예상객체</code>를 비교한다.</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span> 		
+  <span class="kt">void</span> <span class="nf">car_move_1step</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+    
+      <span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+    
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="mi">1</span><span class="o">));</span>
+  <span class="o">}</span>
+    
+  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">car_move_2step</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+    
+      <span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+      <span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+    
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="mi">2</span><span class="o">));</span>
+  <span class="o">}</span>
+    
+  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">car_move_stop</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+    
+      <span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+    
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="mi">0</span><span class="o">));</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="필요시-도메인-검증-테스트">
+<a class="anchor" href="#%ED%95%84%EC%9A%94%EC%8B%9C-%EB%8F%84%EB%A9%94%EC%9D%B8-%EA%B2%80%EC%A6%9D-%ED%85%8C%EC%8A%A4%ED%8A%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>필요시 도메인 검증 테스트</h4>
+
+<h3 id="단일-dto-tdd">
+<a class="anchor" href="#%EB%8B%A8%EC%9D%BC-dto-tdd" aria-hidden="true"><span class="octicon octicon-link"></span></a>단일 Dto TDD</h3>
+
+<ul>
+  <li>
+<strong>완성된 단일 객체 -&gt; 꽁꽁 싸멘 일급컬렉션</strong>으로 가기 전에, <code class="language-plaintext highlighter-rouge">List&lt;단일Dto&gt;</code>가 있어야 <strong>일급컬렉션 결과조회 by <code class="language-plaintext highlighter-rouge">toDto()</code>로 가능할 것 같다.</strong>
+</li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>단일객체의  <code class="language-plaintext highlighter-rouge">모든 인스턴스 변수(필드)</code>을 <code class="language-plaintext highlighter-rouge">원시값</code>으로 받는 <code class="language-plaintext highlighter-rouge">Dto.of( , )</code>로 받도록 <code class="language-plaintext highlighter-rouge">정팩매</code>부터 설계하고, <code class="language-plaintext highlighter-rouge">getter로 뽑는 확인</code>만 해주자.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">final</span> <span class="nc">CarDto</span> <span class="n">재성</span> <span class="o">=</span> <span class="nc">CarDto</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span> <span class="c1">// Car의 모든 필드을 원시값으로 받아 만든다.</span>
+    
+ <span class="n">assertThat</span><span class="o">(</span><span class="n">재성</span><span class="o">.</span><span class="na">getName</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">"재성"</span><span class="o">);</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+ <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">position</span><span class="o">;</span>
+    
+ <span class="kd">public</span> <span class="nf">CarDto</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+     <span class="k">this</span><span class="o">.</span><span class="na">position</span> <span class="o">=</span> <span class="n">position</span><span class="o">;</span>
+ <span class="o">}</span>
+    
+ <span class="kd">public</span> <span class="kd">static</span> <span class="nc">CarDto</span> <span class="nf">of</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">return</span> <span class="k">new</span> <span class="nf">CarDto</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">position</span><span class="o">);</span>
+ <span class="o">}</span>
+    
+ <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+     <span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+ <span class="o">}</span>
+    
+ <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getPosition</span><span class="o">()</span> <span class="o">{</span>
+     <span class="k">return</span> <span class="n">position</span><span class="o">;</span>
+ <span class="o">}</span>
+    
+ <span class="nd">@Override</span>
+ <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">equals</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Object</span> <span class="n">object</span><span class="o">)</span> <span class="o">{</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="일급-tdd">
+<a class="anchor" href="#%EC%9D%BC%EA%B8%89-tdd" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급 TDD</h3>
+
+<ul>
+  <li>단일객체들 생성 -&gt; list에 넣기 -&gt; 일급 or 서비스에 넣기 -&gt; 단일객체 조정 -&gt; 그대로 반영</li>
+</ul>
+
+<h4 id="정제가상-재료로-셋업">
+<a class="anchor" href="#%EC%A0%95%EC%A0%9C%EA%B0%80%EC%83%81-%EC%9E%AC%EB%A3%8C%EB%A1%9C-%EC%85%8B%EC%97%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>정제가상 재료로 셋업</h4>
+
+<ol>
+  <li>
+    <p>input으로 들어오는 <code class="language-plaintext highlighter-rouge">List&lt;String&gt;</code>으로  <strong>split 정제되어 들어온다고 가정</strong>하고 <strong>setUp에 세팅한다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nc">Cars</span> <span class="n">cars</span><span class="o">;</span>
+    
+ <span class="nd">@BeforeEach</span>
+ <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+     <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="s">"재경"</span><span class="o">);</span>
+     <span class="n">cars</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Cars</span><span class="o">(</span><span class="n">names</span><span class="o">);</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="필요시-도메인-검증-테스트-1">
+<a class="anchor" href="#%ED%95%84%EC%9A%94%EC%8B%9C-%EB%8F%84%EB%A9%94%EC%9D%B8-%EA%B2%80%EC%A6%9D-%ED%85%8C%EC%8A%A4%ED%8A%B8-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>필요시 도메인 검증 테스트</h5>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">input에서부터 정제된 데이터(split, convert)</code>가 들어왔을 때, 검증하자.</li>
+</ul>
+
+<h4 id="기능-결과-확인용-todto-부터">
+<a class="anchor" href="#%EA%B8%B0%EB%8A%A5-%EA%B2%B0%EA%B3%BC-%ED%99%95%EC%9D%B8%EC%9A%A9-todto-%EB%B6%80%ED%84%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>기능 결과 확인용 toDto() 부터</h4>
+
+<ul>
+  <li>
+    <p>일급은 쌓여져있어서 확인이 힘들다.  -&gt; <strong><code class="language-plaintext highlighter-rouge">toDto()</code>로 <code class="language-plaintext highlighter-rouge">List&lt;단일Dto&gt;</code>로 가져와서 확인한다.</strong></p>
+
+    <ul>
+      <li>개발1: <code class="language-plaintext highlighter-rouge">.getCurrentCars()</code>로서 <strong><code class="language-plaintext highlighter-rouge">List&lt;단일Dto&gt;</code>를 가져온다.</strong>
+</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">toDto</span><span class="o">()</span> <span class="o">{</span>
+      <span class="c1">//3-3. 일급의 기능개발 전, 확인이 될 수 있게 현재 객체들을 Dto List로 가져오는 기능</span>
+      <span class="c1">// -&gt; 내부에서 dto가 단일객체를 이용하도록  짤 것</span>
+      <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CarDto</span><span class="o">&gt;</span> <span class="n">currentCars</span> <span class="o">=</span> <span class="n">cars</span><span class="o">.</span><span class="na">getCurrentCars</span><span class="o">();</span>
+    
+      <span class="c1">//        assertThat(currentCars.get(0)).isEqualTo(CarDto.of("재성", 0));</span>
+      <span class="c1">// List의 검사는 contains, containsOnly로도 검사할 수있따.</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">currentCars</span><span class="o">).</span><span class="na">contains</span><span class="o">(</span><span class="nc">CarDto</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"재경"</span><span class="o">,</span> <span class="mi">0</span><span class="o">));</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="일급todto를-통한-메서드-기능-테스트">
+<a class="anchor" href="#%EC%9D%BC%EA%B8%89todto%EB%A5%BC-%ED%86%B5%ED%95%9C-%EB%A9%94%EC%84%9C%EB%93%9C-%EA%B8%B0%EB%8A%A5-%ED%85%8C%EC%8A%A4%ED%8A%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급.toDto()를 통한 메서드 기능 테스트</h4>
+
+<ul>
+  <li>
+    <p>각종 확인 방법</p>
+
+    <ul>
+      <li>
+<strong>일급.toDto()</strong> <code class="language-plaintext highlighter-rouge">contains</code> ( <strong>예상객체 by Dto.of</strong>)</li>
+      <li>
+<strong>일급.toDto()</strong> <code class="language-plaintext highlighter-rouge">containsOnly</code> ( <strong>예상객체1, 2 by Dto.of</strong>)
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">isEqualTo</code> (  <strong>Arrays.asList(예상객체1, 2 by Dto.of))</strong>
+</li>
+        </ul>
+      </li>
+      <li>
+<strong>일급.toDto() .get( index)</strong> <code class="language-plaintext highlighter-rouge">isEqualTo</code> ( **예상객체 by Dto.of **)</li>
+      <li>
+<strong>일급.메서드() -&gt; 객체</strong> <code class="language-plaintext highlighter-rouge">isEqualTo</code> ( **예상객체 by Dto.of **)</li>
+      <li>
+<strong>단일Dto.from</strong>( 객체 1개 ) <strong>개발</strong> .getter()   <code class="language-plaintext highlighter-rouge">isEqualTo</code> ( 값 )</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">race_move_1step</span><span class="o">()</span> <span class="o">{</span>
+      <span class="n">cars</span><span class="o">.</span><span class="na">race</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
+    
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">cars</span><span class="o">.</span><span class="na">getCurrentCars</span><span class="o">()).</span><span class="na">contains</span><span class="o">(</span><span class="nc">CarDto</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="mi">1</span><span class="o">));</span>
+  <span class="o">}</span>
+    
+  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">race_move_0step</span><span class="o">()</span> <span class="o">{</span>
+      <span class="n">cars</span><span class="o">.</span><span class="na">race</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+    
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">cars</span><span class="o">.</span><span class="na">getCurrentCars</span><span class="o">()).</span><span class="na">contains</span><span class="o">(</span><span class="nc">CarDto</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="mi">0</span><span class="o">));</span>
+  <span class="o">}</span>
+    
+  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">get_max_position_cars</span><span class="o">()</span> <span class="o">{</span>
+      <span class="n">cars</span><span class="o">.</span><span class="na">race</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+      <span class="kd">final</span> <span class="nc">Car</span> <span class="n">maxPositionCar</span> <span class="o">=</span> <span class="n">cars</span><span class="o">.</span><span class="na">getMaxPosition</span><span class="o">();</span>
+    
+      <span class="n">assertThat</span><span class="o">(</span><span class="nc">CarDto</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">maxPositionCar</span><span class="o">).</span><span class="na">getPosition</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+  <span class="o">}</span>
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="단일dtofrom-응답객체--개발---객체비교불가상황응답-값-1개만-getter-추출---값-비교-테스트">
+<a class="anchor" href="#%EB%8B%A8%EC%9D%BCdtofrom-%EC%9D%91%EB%8B%B5%EA%B0%9D%EC%B2%B4--%EA%B0%9C%EB%B0%9C---%EA%B0%9D%EC%B2%B4%EB%B9%84%EA%B5%90%EB%B6%88%EA%B0%80%EC%83%81%ED%99%A9%EC%9D%91%EB%8B%B5-%EA%B0%92-1%EA%B0%9C%EB%A7%8C-getter-%EC%B6%94%EC%B6%9C---%EA%B0%92-%EB%B9%84%EA%B5%90-%ED%85%8C%EC%8A%A4%ED%8A%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>단일Dto.from( 응답객체 ) 개발 -&gt; (객체비교불가상황)응답 값 1개만 getter 추출 -&gt; 값 비교 테스트</h4>
+
+<ul>
+  <li>
+    <p>현재 maxPosition인 Car객체 (List)를 뽑기 위해 <strong><code class="language-plaintext highlighter-rouge">중간, Car객체 1개 추출 로직을 테스트</code></strong>해야한다.</p>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">actual</code>에서 단일객체 1개마 뽑히는 상황 -&gt; <strong>단일객체1 to 단일Dto</strong>로 바로 가도록 <strong><code class="language-plaintext highlighter-rouge">단일Dto.from()</code></strong> 정펙매를 만들어줘야 -&gt; <strong>값을 추출할 수 있다.</strong>
+</li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">필드 1개만 알고 있는 상황</code>을 확인해야하므로,  max인 값</strong>을 가진 Car를 뽑아내기 때문에, <strong>임의로 CarDto.of( , , )로 만들 수 없는 상황</strong>
+</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">get_max_position_car</span><span class="o">()</span> <span class="o">{</span>
+      <span class="n">cars</span><span class="o">.</span><span class="na">race</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+      <span class="kd">final</span> <span class="nc">Car</span> <span class="n">maxPositionCar</span> <span class="o">=</span> <span class="n">cars</span><span class="o">.</span><span class="na">getMaxPosition</span><span class="o">();</span> 
+        
+      <span class="c1">// 이름은 모름, position만 1인 것을 아는 상황. -&gt; 값으로 비교해야함 -&gt; Dto에서 뽑아내야함.</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="nc">CarDto</span> <span class="nf">from</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Car</span> <span class="n">car</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nf">CarDto</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">car</span><span class="o">.</span><span class="na">getPosition</span><span class="o">());</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">get_max_position_car</span><span class="o">()</span> <span class="o">{</span>
+      <span class="n">cars</span><span class="o">.</span><span class="na">race</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+      <span class="kd">final</span> <span class="nc">Car</span> <span class="n">maxPositionCar</span> <span class="o">=</span> <span class="n">cars</span><span class="o">.</span><span class="na">getMaxPosition</span><span class="o">();</span>
+    
+      <span class="c1">//my) &lt;일부 속성(이름제외된 숫자속성)만 변화되어, 객체==만든 예상객체&gt;의 비교가 불가능할 경우,</span>
+      <span class="c1">//    실제 객체를 -&gt;  dto변형 후 값을 뽑아내 -&gt; 값 대 값으로 확인할 수 도 있다.</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="nc">CarDto</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">maxPositionCar</span><span class="o">).</span><span class="na">getPosition</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="일급의-응답list객체는---한방에-dtolist-or-복수dto로-한방에">
+<a class="anchor" href="#%EC%9D%BC%EA%B8%89%EC%9D%98-%EC%9D%91%EB%8B%B5list%EA%B0%9D%EC%B2%B4%EB%8A%94---%ED%95%9C%EB%B0%A9%EC%97%90-dtolist-or-%EB%B3%B5%EC%88%98dto%EB%A1%9C-%ED%95%9C%EB%B0%A9%EC%97%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급의 응답(<code class="language-plaintext highlighter-rouge">List&lt;객체&gt;</code>)는 -&gt; 한방에 DtoList or 복수Dto로 한방에</h4>
+
+<ul>
+  <li>
+    <p><strong>일급이 사용되는 <code class="language-plaintext highlighter-rouge">serivce</code>에게는 <code class="language-plaintext highlighter-rouge">DtoList</code> or <code class="language-plaintext highlighter-rouge">복수 Dto</code>로 응답해야한다.</strong></p>
+
+    <ul>
+      <li>어차피 응답은 <code class="language-plaintext highlighter-rouge">객체List</code>로 오니 -&gt; <strong><code class="language-plaintext highlighter-rouge">복수Dto.from( List&lt;객체&gt;)</code>로 한방에 돌리자.</strong>
+</li>
+      <li>
+<strong>내부에서 이미 개발된 <code class="language-plaintext highlighter-rouge">stream 단일객체</code> + <code class="language-plaintext highlighter-rouge">단일Dto.from( 단일객체)</code> -&gt; list</strong>로만 만들어주면 된다.</li>
+      <li><strong>대신 dto용 getter에 이름을… <code class="language-plaintext highlighter-rouge">get()</code>로 단순화시키자.</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">get_max_position_cars</span><span class="o">()</span> <span class="o">{</span>
+      <span class="n">cars</span><span class="o">.</span><span class="na">getWinners</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">//일급 응답이 객체리스트? -&gt; 한방에 복수Dto.from만들기</span>
+  <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="nf">getWinners</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">Car</span> <span class="n">maxPositionCar</span> <span class="o">=</span> <span class="n">getMaxPosition</span><span class="o">();</span>
+      <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">cars</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">car</span> <span class="o">-&gt;</span> <span class="n">car</span><span class="o">.</span><span class="na">isSamePosition</span><span class="o">(</span><span class="n">maxPositionCar</span><span class="o">))</span>
+          <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">// 이미 단일Dto.from이 개발된 상황이라면, </span>
+  <span class="c1">// 객체리스트 -&gt; 복수Dto 한방에 개발한다.</span>
+  <span class="k">return</span> <span class="nc">CarsDto</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">cars</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+              <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">car</span> <span class="o">-&gt;</span> <span class="n">car</span><span class="o">.</span><span class="na">isSamePosition</span><span class="o">(</span><span class="n">maxPositionCar</span><span class="o">))</span>
+              <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">()));</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CarDto</span><span class="o">&gt;</span> <span class="nf">from</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// 단일Dto List로 일단 만든 뒤 -&gt; 생성자 호출 예정</span>
+      <span class="k">return</span> <span class="n">cars</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">car</span> <span class="o">-&gt;</span> <span class="nc">CarDto</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">car</span><span class="o">))</span>
+          <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">return</span> <span class="nc">CarsDto</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">cars</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                      <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">car</span> <span class="o">-&gt;</span> <span class="n">car</span><span class="o">.</span><span class="na">isSamePosition</span><span class="o">(</span><span class="n">maxPositionCar</span><span class="o">))</span>
+                      <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">()));</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CarDto</span><span class="o">&gt;</span> <span class="n">carsDto</span><span class="o">;</span>
+    
+  <span class="kd">public</span> <span class="nf">CarsDto</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CarDto</span><span class="o">&gt;</span> <span class="n">carsDto</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">carsDto</span> <span class="o">=</span> <span class="n">carsDto</span><span class="o">;</span>
+  <span class="o">}</span>
+    
+  <span class="kd">public</span> <span class="kd">static</span> <span class="nc">CarsDto</span> <span class="nf">from</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nf">CarsDto</span><span class="o">(</span><span class="n">cars</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                         <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">car</span> <span class="o">-&gt;</span> <span class="nc">CarDto</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">car</span><span class="o">))</span>
+                         <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">()));</span>
+  <span class="o">}</span>
+    
+  <span class="c1">//public List&lt;CarDto&gt; getCarsDto() {</span>
+  <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CarDto</span><span class="o">&gt;</span> <span class="nf">get</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">carsDto</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>dtoList .get() -&gt; Dto List -&gt;  1개 뽑아서 값 비교..(현재 이름모르고 1개 값만 아는 상태)</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">get_max_position_cars</span><span class="o">()</span> <span class="o">{</span>
+      <span class="n">cars</span><span class="o">.</span><span class="na">race</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+      <span class="n">cars</span><span class="o">.</span><span class="na">race</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+      <span class="n">cars</span><span class="o">.</span><span class="na">race</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+      <span class="kd">final</span> <span class="nc">CarsDto</span> <span class="n">winnerCars</span> <span class="o">=</span> <span class="n">cars</span><span class="o">.</span><span class="na">getWinners</span><span class="o">();</span>
+    
+      <span class="c1">//복수Dto.get() -&gt; List &lt;단일Dto&gt;</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">winnerCars</span><span class="o">.</span><span class="na">get</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="na">getPosition</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="service-객체-tdd">
+<a class="anchor" href="#service-%EA%B0%9D%EC%B2%B4-tdd" aria-hidden="true"><span class="octicon octicon-link"></span></a>Service 객체 TDD</h3>
+
+<ul>
+  <li>inputView로부터 오는 도메인의 재료를 컨트롤러 내부에서
+    <ol>
+      <li>생성될 때, <code class="language-plaintext highlighter-rouge">생성자</code>로 될 때 받을지</li>
+      <li>객체생성 후, <code class="language-plaintext highlighter-rouge">generate</code>로</li>
+    </ol>
+  </li>
+  <li>
+<strong>input재료</strong>들 -&gt; 받아서 생성자를 통한 <strong>일급 or List단일</strong>로의 <strong>변환 생성</strong>도 서비스 안에서 이루어진다.
+    <ul>
+      <li>필요재료라 <strong>인스턴스 변수로 관리</strong>해야한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="재료없이-service객체-셋업-원래-미리-생성-in--컨트롤러">
+<a class="anchor" href="#%EC%9E%AC%EB%A3%8C%EC%97%86%EC%9D%B4-service%EA%B0%9D%EC%B2%B4-%EC%85%8B%EC%97%85-%EC%9B%90%EB%9E%98-%EB%AF%B8%EB%A6%AC-%EC%83%9D%EC%84%B1-in--%EC%BB%A8%ED%8A%B8%EB%A1%A4%EB%9F%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>재료없이 service객체 셋업 (원래 미리 생성 in  컨트롤러)</h4>
+
+<ul>
+  <li>
+    <p>컨트롤러에서 사용한다고 생각하자.</p>
+  </li>
+  <li>
+    <p><strong>일단 컨트롤러 생성자에서부터 미리 서비스를 미리 생성시킬 예정이다.</strong></p>
+
+    <ul>
+      <li>
+        <p>재료가 한번에 오면 initDto -&gt; service미리 생성시킬 시 받아주면 되는데</p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@BeforeEach</span>
+  <span class="kt">void</span> <span class="nf">setup</span><span class="o">()</span> <span class="o">{</span>
+      <span class="n">racingGame</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingGame</span><span class="o">(</span><span class="nc">InitDto</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"juri,hunch"</span><span class="o">,</span> <span class="s">"5"</span><span class="o">));</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>그게 아니라면, service.generate일급()처럼, 원재료를 일급/List객체로 변환하는 작업도 service가 담당한다.</p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="nf">RacingController</span><span class="o">()</span> <span class="o">{</span>
+      <span class="n">racingService</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>셋업에 서비스 미리 생성</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">RacingService</span> <span class="n">racingService</span><span class="o">;</span>
+    
+  <span class="nd">@BeforeEach</span>
+  <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+      <span class="n">racingService</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="input재료들을-받는-service-생성자도-만들어-셋업에서-관리변수-채워놓기">
+<a class="anchor" href="#input%EC%9E%AC%EB%A3%8C%EB%93%A4%EC%9D%84-%EB%B0%9B%EB%8A%94-service-%EC%83%9D%EC%84%B1%EC%9E%90%EB%8F%84-%EB%A7%8C%EB%93%A4%EC%96%B4-%EC%85%8B%EC%97%85%EC%97%90%EC%84%9C-%EA%B4%80%EB%A6%AC%EB%B3%80%EC%88%98-%EC%B1%84%EC%9B%8C%EB%86%93%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>input재료들을 받는 service 생성자도 만들어, 셋업에서 관리변수 채워놓기.</h4>
+
+<ul>
+  <li>
+    <p>i<strong>nput을 나중에 받더라도.. 미리 만들어져있어야하구나</strong>. 그래야 <strong>꺼내는 기능만을 확인</strong>할 수 있다.</p>
+  </li>
+  <li>
+    <p>service안에 관리 변수에 뭐가 들어있어야… 확인이 된<strong>input원재료 -&gt; 관리 변수 (<code class="language-plaintext highlighter-rouge">Cars cars</code>)를 통채로 받아주는 놈을 임시로 만들자.</strong></p>
+
+    <ul>
+      <li>
+<strong>검증</strong>은 각 도메인 내에서 할 것임. <strong>변환생성해주는 서비스에서 하지말자.</strong>
+</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@BeforeEach</span>
+  <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">carNames</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="s">"재경"</span><span class="o">,</span> <span class="s">"아라"</span><span class="o">);</span>
+    
+      <span class="n">racingService</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">(</span><span class="n">carNames</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">private</span> <span class="nc">Cars</span> <span class="n">cars</span><span class="o">;</span>
+    
+  <span class="kd">public</span> <span class="nf">RacingService</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">carNames</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">cars</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Cars</span><span class="o">(</span><span class="n">carNames</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="기능-결과-확인용-일급todto-호출-함수부터">
+<a class="anchor" href="#%EA%B8%B0%EB%8A%A5-%EA%B2%B0%EA%B3%BC-%ED%99%95%EC%9D%B8%EC%9A%A9-%EC%9D%BC%EA%B8%89todto-%ED%98%B8%EC%B6%9C-%ED%95%A8%EC%88%98%EB%B6%80%ED%84%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>기능 결과 확인용 일급.toDto() 호출 함수부터</h4>
+
+<ul>
+  <li>
+    <p>서비스는 내부에 <strong>인스턴스변수로 일급 (or 객체List)를 관리</strong>한다.</p>
+
+    <ul>
+      <li>일급이나 객체List를 확인하는 방법은 toDto로 미리 정의해놓았다.</li>
+      <li>
+<strong>이것을 부르는 메서드(<code class="language-plaintext highlighter-rouge">getCurrent일급()</code>)를 먼저 TDD</strong>한다.
+        <ul>
+          <li>이름만 get일급()이지, toDto한 <code class="language-plaintext highlighter-rouge">List&lt;Dto&gt;</code>를 가져온다.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">get_current_cars</span><span class="o">()</span> <span class="o">{</span>
+      <span class="n">racingService</span><span class="o">.</span><span class="na">getCurrentCars</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">RacingService</span> <span class="o">{</span>
+    
+      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">getCurrentCars</span><span class="o">()</span> <span class="o">{</span>
+          <span class="k">this</span><span class="o">.</span><span class="na">cars</span><span class="o">.</span><span class="na">getCurrentCars</span><span class="o">();</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">RacingService</span> <span class="o">{</span>
+    
+      <span class="kd">private</span> <span class="nc">Cars</span> <span class="n">cars</span><span class="o">;</span>
+    
+      <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CarDto</span><span class="o">&gt;</span> <span class="nf">getCurrentCars</span><span class="o">()</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">cars</span><span class="o">.</span><span class="na">getCurrentCars</span><span class="o">();</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <p>```java
+  @Test
+  void get_current_cars() {
+      final List<cardto> currentCars = racingService.getCurrentCars();</cardto></p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  assertThat(currentCars).contains(CarDto.of("재성", 0));   }
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="미리-안넣어놓고-차후-setter역할의-servicegenerate로-input재료---해당도메인-객체일급-변환-생성-tdd">
+<a class="anchor" href="#%EB%AF%B8%EB%A6%AC-%EC%95%88%EB%84%A3%EC%96%B4%EB%86%93%EA%B3%A0-%EC%B0%A8%ED%9B%84-setter%EC%97%AD%ED%95%A0%EC%9D%98-servicegenerate%EB%A1%9C-input%EC%9E%AC%EB%A3%8C---%ED%95%B4%EB%8B%B9%EB%8F%84%EB%A9%94%EC%9D%B8-%EA%B0%9D%EC%B2%B4%EC%9D%BC%EA%B8%89-%EB%B3%80%ED%99%98-%EC%83%9D%EC%84%B1-tdd" aria-hidden="true"><span class="octicon octicon-link"></span></a>미리 안넣어놓고, 차후 setter역할의 service.generate()로 input재료 -&gt; 해당도메인 객체(일급) 변환 생성 TDD</h4>
+
+<ul>
+  <li>
+    <p>서비스는 해당도메인의 기능을 모아둔 것이다. <strong>일단 해당도메인으로 변환</strong>시킨다.</p>
+
+    <ul>
+      <li>
+<strong>서비스.해당도메인생성( input재료)</strong> -&gt; <strong>내부 관리 <code class="language-plaintext highlighter-rouge">인스턴스 변수(일급orList)에  set</code></strong>되는 것을 확인해야한다.</li>
+      <li><strong>그것을 빼쓰라고 만든게 <code class="language-plaintext highlighter-rouge">일급.toDto()</code>있으니, <code class="language-plaintext highlighter-rouge">서비스에서 일급DTO내놔 메서드를 호출해서 컨트롤러에 제공</code>해준다.</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">generate_cars</span><span class="o">()</span> <span class="o">{</span>
+      <span class="c1">//given: input에서 오는 원재료</span>
+      <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="s">"재경"</span><span class="o">);</span>
+    
+      <span class="c1">//when</span>
+      <span class="n">racingService</span><span class="o">.</span><span class="na">generateCars</span><span class="o">(</span><span class="n">names</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">RacingService</span> <span class="o">{</span>
+    
+      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">generateCars</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">this</span><span class="o">.</span><span class="na">cars</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Cars</span><span class="o">(</span><span class="n">names</span><span class="o">);</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">RacingService</span> <span class="o">{</span>
+    
+      <span class="kd">private</span> <span class="nc">Cars</span> <span class="n">cars</span><span class="o">;</span>
+    
+      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">generateCars</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">this</span><span class="o">.</span><span class="na">cars</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Cars</span><span class="o">(</span><span class="n">names</span><span class="o">);</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">generate_cars</span><span class="o">()</span> <span class="o">{</span>
+      <span class="c1">//given: input에서 정제된 원재료</span>
+      <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="s">"재경"</span><span class="o">);</span>
+      <span class="n">racingService</span><span class="o">.</span><span class="na">generateCars</span><span class="o">(</span><span class="n">names</span><span class="o">);</span>
+    
+      <span class="c1">//when</span>
+      <span class="c1">//then</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">racingService</span><span class="o">.</span><span class="na">getCurrentCars</span><span class="o">()).</span><span class="na">contains</span><span class="o">(</span><span class="nc">CarDto</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="mi">0</span><span class="o">));</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="필요시-전략객체-service에서-생성하여--메서드의-파라미터로-넣어주기">
+<a class="anchor" href="#%ED%95%84%EC%9A%94%EC%8B%9C-%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4-service%EC%97%90%EC%84%9C-%EC%83%9D%EC%84%B1%ED%95%98%EC%97%AC--%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%98-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A1%9C-%EB%84%A3%EC%96%B4%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>필요시 전략객체 service에서 생성하여,  메서드의 파라미터로 넣어주기</h5>
+
+<h4 id="들어간-service-변수인스턴스-변수-필요-변수확인-테스트">
+<a class="anchor" href="#%EB%93%A4%EC%96%B4%EA%B0%84-service-%EB%B3%80%EC%88%98%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EB%B3%80%EC%88%98-%ED%95%84%EC%9A%94-%EB%B3%80%EC%88%98%ED%99%95%EC%9D%B8-%ED%85%8C%EC%8A%A4%ED%8A%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>들어간 Service 변수(인스턴스 변수, 필요 변수)확인 테스트</h4>
+
+<h5 id="관리인스턴스-변수-중-vo는-getdto없이-asssertthatextracting으로-내부-인변-바로-뽑아-확인하기">
+<a class="anchor" href="#%EA%B4%80%EB%A6%AC%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EB%B3%80%EC%88%98-%EC%A4%91-vo%EB%8A%94-getdto%EC%97%86%EC%9D%B4-asssertthatextracting%EC%9C%BC%EB%A1%9C-%EB%82%B4%EB%B6%80-%EC%9D%B8%EB%B3%80-%EB%B0%94%EB%A1%9C-%EB%BD%91%EC%95%84-%ED%99%95%EC%9D%B8%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>관리(인스턴스) 변수 중 VO는 getDto없이 asssertThat().extracting으로 내부 인변 바로 뽑아 확인하기</h5>
+
+<h5 id="input정제-vo-원시값까지-받아주는-service-생성자-추가-생성">
+<a class="anchor" href="#input%EC%A0%95%EC%A0%9C-vo-%EC%9B%90%EC%8B%9C%EA%B0%92%EA%B9%8C%EC%A7%80-%EB%B0%9B%EC%95%84%EC%A3%BC%EB%8A%94-service-%EC%83%9D%EC%84%B1%EC%9E%90-%EC%B6%94%EA%B0%80-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>input정제 VO 원시값까지 받아주는 service 생성자 추가 생성</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">get_round</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">racingService</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">(</span><span class="n">carNames</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="vo-객체-개발">
+<a class="anchor" href="#vo-%EA%B0%9D%EC%B2%B4-%EA%B0%9C%EB%B0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>VO 객체 개발</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//서비스 생성자 추가</span>
+<span class="kd">public</span> <span class="nf">RacingService</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">carNames</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">round</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">cars</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Cars</span><span class="o">(</span><span class="n">carNames</span><span class="o">);</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">round</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Round</span><span class="o">(</span><span class="n">round</span><span class="o">);</span>
+<span class="o">}</span>
+
+
+<span class="c1">//VO 개발</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Round</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">round</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Round</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">round</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">round</span> <span class="o">=</span> <span class="n">round</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">equals</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Object</span> <span class="n">object</span><span class="o">)</span> <span class="o">{</span>
+
+</code></pre></div></div>
+
+<h5 id="vo를-받아서-생성하는-service를-초기화-후-extracting으로-객체-뽑아서-11비교">
+<a class="anchor" href="#vo%EB%A5%BC-%EB%B0%9B%EC%95%84%EC%84%9C-%EC%83%9D%EC%84%B1%ED%95%98%EB%8A%94-service%EB%A5%BC-%EC%B4%88%EA%B8%B0%ED%99%94-%ED%9B%84-extracting%EC%9C%BC%EB%A1%9C-%EA%B0%9D%EC%B2%B4-%EB%BD%91%EC%95%84%EC%84%9C-11%EB%B9%84%EA%B5%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>VO를 받아서 생성하는 service를 초기화 후, extracting으로 객체 뽑아서 1:1비교</h5>
+
+<ul>
+  <li>기존 서비스는 노인자 -&gt; names(stringList-&gt;일급) -&gt; names 포함한 VO까지 받아서 처리</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">get_round</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">racingService</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">(</span><span class="n">carNames</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+
+    <span class="c1">//when, then</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">racingService</span><span class="o">).</span><span class="na">extracting</span><span class="o">(</span><span class="s">"round"</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="k">new</span> <span class="nc">Round</span><span class="o">(</span><span class="mi">5</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="메인로직-tdd">
+<a class="anchor" href="#%EB%A9%94%EC%9D%B8%EB%A1%9C%EC%A7%81-tdd" aria-hidden="true"><span class="octicon octicon-link"></span></a>메인로직 TDD</h4>
+
+<h5 id="메인로직-실행">
+<a class="anchor" href="#%EB%A9%94%EC%9D%B8%EB%A1%9C%EC%A7%81-%EC%8B%A4%ED%96%89" aria-hidden="true"><span class="octicon octicon-link"></span></a>메인로직 실행</h5>
+
+<ul>
+  <li>
+    <p>일급.메서드()를 실행시키는 단순로직</p>
+
+    <ul>
+      <li>응답 값이 없는 실행 메서드다?  <code class="language-plaintext highlighter-rouge">사용객체</code>와 <code class="language-plaintext highlighter-rouge">예상객체</code>로 비교</li>
+      <li>
+<strong>랜덤값이 포함되어있으면, 그만큼 빼줘야한다… 하지만, 그냥 빼면… 일괄 적용되므로, <code class="language-plaintext highlighter-rouge">인터페이스로 빼고 -&gt; 필요한 곳에서 전략메서드 호출()</code>하도록 뺀다.</strong>
+        <ul>
+          <li>테스트에선 <code class="language-plaintext highlighter-rouge">전략객체</code> 대신 <code class="language-plaintext highlighter-rouge">최종 결과</code>값만 넣어주면 됨. (여기선 생략)</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">race</span><span class="o">()</span> <span class="o">{</span>
+      <span class="n">racingService</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">(</span><span class="n">carNames</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+    
+      <span class="n">racingService</span><span class="o">.</span><span class="na">race</span><span class="o">();</span>
+      <span class="n">racingService</span><span class="o">.</span><span class="na">race</span><span class="o">();</span>
+    
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">racingService</span><span class="o">.</span><span class="na">getCurrentCars</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="na">getPosition</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <ol>
+      <li>전략 인페 + 전략메소드 정의</li>
+      <li>전략을 구현한 랜덤인페 + 메소드 정의</li>
+      <li>전략메소드 호출시점에만, 메소드 호출하여 랜덤 시행 + 그외에는 전략객체만 파라미터로 수정</li>
+      <li>테스트에선 <strong>람다식으로 <code class="language-plaintext highlighter-rouge">인자 없이 랜덤한 return값을 직접 지정</code></strong>  () -&gt; return을 준다.</li>
+    </ol>
+  </li>
+</ul>
+
+<h4 id="메인로직-실행-횟수vo의-iterator-tdd">
+<a class="anchor" href="#%EB%A9%94%EC%9D%B8%EB%A1%9C%EC%A7%81-%EC%8B%A4%ED%96%89-%ED%9A%9F%EC%88%98vo%EC%9D%98-iterator-tdd" aria-hidden="true"><span class="octicon octicon-link"></span></a>메인로직 실행 횟수(VO)의 iterator TDD</h4>
+
+<ul>
+  <li>
+    <p>service가 만들어질 때나, 만들어진 이후 가지고 set되어야할 <code class="language-plaintext highlighter-rouge">VO</code>는 <strong>service내부 관리 변수 확인 테스트에서 처음 등장했다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">get_round</span><span class="o">()</span> <span class="o">{</span>
+      <span class="n">racingService</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">(</span><span class="n">carNames</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+    
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">racingService</span><span class="o">).</span><span class="na">extracting</span><span class="o">(</span><span class="s">"round"</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="k">new</span> <span class="nc">Round</span><span class="o">(</span><span class="mi">5</span><span class="o">));</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>컨트롤러에서 service.메인로직()을 <code class="language-plaintext highlighter-rouge">service.hasNext(VO)</code>만큼</strong> 돌려야한다.</p>
+  </li>
+</ul>
+
+<h5 id="01-service-iscontinuable---voisnotfinish---truefalse를-테스트한다">
+<a class="anchor" href="#01-service-iscontinuable---voisnotfinish---truefalse%EB%A5%BC-%ED%85%8C%EC%8A%A4%ED%8A%B8%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 service. isContinuable() -&gt; Vo.isNotFinish() -&gt; true/false를 테스트한다.</h5>
+
+<ul>
+  <li>
+    <p>hasNext패턴의 <strong>while()문에 들어갈 조건부</strong>이다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">vo_is_continuable</span><span class="o">()</span> <span class="o">{</span>
+      <span class="n">racingService</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">(</span><span class="n">carNames</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+    
+      <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">isContinuable</span> <span class="o">=</span> <span class="n">racingService</span><span class="o">.</span><span class="na">isContinuable</span><span class="o">();</span>
+    
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">isContinuable</span><span class="o">).</span><span class="na">isTrue</span><span class="o">();</span>
+  <span class="o">}</span>
+    
+  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">vo_is_not_continuable</span><span class="o">()</span> <span class="o">{</span>
+      <span class="n">racingService</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">(</span><span class="n">carNames</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+    
+      <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">isContinuable</span> <span class="o">=</span> <span class="n">racingService</span><span class="o">.</span><span class="na">isContinuable</span><span class="o">();</span>
+    
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">isContinuable</span><span class="o">).</span><span class="na">isFalse</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">//Service</span>
+  <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isContinuable</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">round</span><span class="o">.</span><span class="na">isNotFinish</span><span class="o">();</span>
+  <span class="o">}</span>
+    
+  <span class="c1">//Round</span>
+    
+  <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isNotFinish</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">round</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="02-serviceplay메인로직-내부에서---메인객체메인로직-와-동시에-돌아갈--vo감소로직-vogetnext-처리">
+<a class="anchor" href="#02-serviceplay%EB%A9%94%EC%9D%B8%EB%A1%9C%EC%A7%81-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C---%EB%A9%94%EC%9D%B8%EA%B0%9D%EC%B2%B4%EB%A9%94%EC%9D%B8%EB%A1%9C%EC%A7%81-%EC%99%80-%EB%8F%99%EC%8B%9C%EC%97%90-%EB%8F%8C%EC%95%84%EA%B0%88--vo%EA%B0%90%EC%86%8C%EB%A1%9C%EC%A7%81-vogetnext-%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 service.play메인로직() 내부에서 -&gt; <code class="language-plaintext highlighter-rouge">메인객체.메인로직() 와 동시에 돌아갈 + VO감소로직 VO.getNext();</code> 처리</h5>
+
+<ul>
+  <li>
+    <p>VO감소 -&gt; 감소된 VO반환하여 service관리 VO를 덮어쓰기</p>
+
+    <ul>
+      <li>이 과정이 <strong>while문 true 내부  메인로직 돌아갈 때 같이 돌아가야한다</strong>.</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">vo_can_decrease</span><span class="o">()</span> <span class="o">{</span>
+      <span class="n">racingService</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">(</span><span class="n">carNames</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+    
+      <span class="c1">//프로덕션코드에서는, 반복될 메인로직 실행부 메서드와 같이, race실행시 round감소를 같이시켜줘야한다.</span>
+      <span class="c1">//racingService.play();</span>
+      <span class="n">racingService</span><span class="o">.</span><span class="na">playWIthRoundDecrease</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">//Service</span>
+    
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">playWIthRoundDecrease</span><span class="o">()</span> <span class="o">{</span>
+      <span class="c1">//1. 메인(일급)객체.race()</span>
+    
+      <span class="c1">//2. decrease된 vo를 받아와야함 *값만 변화(round.decrease())하면 안됨</span>
+      <span class="n">round</span> <span class="o">=</span> <span class="n">round</span><span class="o">.</span><span class="na">getNext</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">//Round</span>
+    
+  <span class="kd">public</span> <span class="nc">Round</span> <span class="nf">getNext</span><span class="o">()</span> <span class="o">{</span>
+      <span class="c1">// 여기서는 0보다 커야한다는 검증이 있으면 0으로 갈때 에러가 나니 조심!</span>
+      <span class="c1">// 검증은 hasNext패턴을 가지는 VO는 무조건 검증을 정팩메에 주자~</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nf">Round</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">round</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">vo_can_decrease</span><span class="o">()</span> <span class="o">{</span>
+      <span class="n">racingService</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">(</span><span class="n">carNames</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+    
+      <span class="c1">//프로덕션코드에서는, 반복될 메인로직 실행부 메서드와 같이, race실행시 round감소를 같이시켜줘야한다.</span>
+      <span class="c1">//racingService.play();</span>
+      <span class="n">racingService</span><span class="o">.</span><span class="na">playWIthRoundDecrease</span><span class="o">();</span>
+    
+      <span class="c1">//내부의 round값이 변화되기 때문에 -&gt; 응답 값이 아닌 사용객체 vs 예쌍객체로 비교해야한다.</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">racingService</span><span class="o">).</span><span class="na">extracting</span><span class="o">(</span><span class="s">"round"</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="k">new</span> <span class="nc">Round</span><span class="o">(</span><span class="mi">3</span><span class="o">));</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="랜덤응답의-범위-tdd단위테스트">
+<a class="anchor" href="#%EB%9E%9C%EB%8D%A4%EC%9D%91%EB%8B%B5%EC%9D%98-%EB%B2%94%EC%9C%84-tdd%EB%8B%A8%EC%9C%84%ED%85%8C%EC%8A%A4%ED%8A%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>랜덤응답의 범위 TDD(단위테스트)</h3>
+
+<ul>
+  <li>랜덤을 생성하는 메서드를 학습하는 단위테스트
+    <ul>
+      <li>범위내로 들어오나? -&gt; <code class="language-plaintext highlighter-rouge">isBetween(a, b) </code> -&gt; <strong><code class="language-plaintext highlighter-rouge">a&lt; = &lt;= b</code>의 검사</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="값-1개의-랜덤--repeatedtest--isbetween">
+<a class="anchor" href="#%EA%B0%92-1%EA%B0%9C%EC%9D%98-%EB%9E%9C%EB%8D%A4--repeatedtest--isbetween" aria-hidden="true"><span class="octicon octicon-link"></span></a>값 1개의 랜덤:  @RepeatedTest() + .isBetween</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//사용할 객체 만들고</span>
+<span class="nc">RandomNumberGenerator</span> <span class="n">randomNumberGenerator</span><span class="o">;</span>
+
+<span class="nd">@BeforeEach</span>
+<span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+<span class="n">randomNumberGenerator</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RandomNumberGenerator</span><span class="o">();</span>
+<span class="o">}</span>
+
+
+<span class="c1">//응답값의 범위 확인을 여러번</span>
+<span class="nd">@RepeatedTest</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">range_test</span><span class="o">()</span> <span class="o">{</span>
+<span class="n">assertThat</span><span class="o">(</span><span class="n">randomNumberGenerator</span><span class="o">.</span><span class="na">generate</span><span class="o">()).</span><span class="na">isBetween</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">9</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="list의-랜덤-iterator의-hasnext패턴---객체비교">
+<a class="anchor" href="#list%EC%9D%98-%EB%9E%9C%EB%8D%A4-iterator%EC%9D%98-hasnext%ED%8C%A8%ED%84%B4---%EA%B0%9D%EC%B2%B4%EB%B9%84%EA%B5%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>List의 랜덤: iterator의 hasNext패턴 -&gt; 객체비교</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="n">Random_숫자범위_검사</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// 원래는 랜덤으로 차있는 list -&gt; iterator</span>
+    <span class="kd">final</span> <span class="nc">ListIterator</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">44</span><span class="o">,</span> <span class="mi">45</span><span class="o">).</span><span class="na">listIterator</span><span class="o">();</span>
+
+    <span class="c1">// 랜덤값들을 돌면서 검사</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">numbers</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">assertThat</span><span class="o">(</span><span class="n">numbers</span><span class="o">.</span><span class="na">next</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">isGreaterThanOrEqualTo</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">isLessThanOrEqualTo</span><span class="o">(</span><span class="mi">45</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/02/26/TDD-3-%EB%8B%A8%EC%9D%BCDto-~-Service.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
