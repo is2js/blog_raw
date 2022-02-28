@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>TDD 4 자경(controller~view~검증) | 돌범 기술블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="TDD 4 자경(controller~view~검증)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="controller View처리+Service에서 도메인검증" />
+<meta property="og:description" content="controller View처리+Service에서 도메인검증" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/02/28/TDD-4-controller~inputview~%EB%8F%84%EB%A9%94%EC%9D%B8%EA%B2%80%EC%A6%9D.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/02/28/TDD-4-controller~inputview~%EB%8F%84%EB%A9%94%EC%9D%B8%EA%B2%80%EC%A6%9D.html" />
+<meta property="og:site_name" content="돌범 기술블로그" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/wootech.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-02-28T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-02-28T00:00:00-06:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/02/28/TDD-4-controller~inputview~%EB%8F%84%EB%A9%94%EC%9D%B8%EA%B2%80%EC%A6%9D.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"TDD 4 자경(controller~view~검증)","dateModified":"2022-02-28T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/02/28/TDD-4-controller~inputview~%EB%8F%84%EB%A9%94%EC%9D%B8%EA%B2%80%EC%A6%9D.html"},"description":"controller View처리+Service에서 도메인검증","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범 기술블로그" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범 기술블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">TDD 4 자경(controller~view~검증)</h1><p class="page-description">controller View처리+Service에서 도메인검증</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-28T00:00:00-06:00" itemprop="datePublished">
+        Feb 28, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      9 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#TDD">TDD</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#강의">강의</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#controllertest-for-컨트롤러와-service-형태-결정">ControllerTest for 컨트롤러와 service 형태 결정</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#testcontroller는-inputview를-파라미터로-받는다">(test)Controller는 InputView를 파라미터로 받는다.</a></li>
+<li class="toc-entry toc-h4"><a href="#prodcontroller-생성자-내부-new-service-inputxx--초기화">(prod)Controller 생성자 내부 new Service( inputXX ) 초기화</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#01-모든-입력을-한번에-다---new-service-inputviewgetinputdto-">01 모든 입력을 한번에 다 -&gt; new Service( InputView.getInputDto() )</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#01-1-inputdtoof-개별getinput--개별getinput-형태로-return">01-1 inputDto.of( 개별getInput() , 개별getInput()) 형태로 return</a></li>
+<li class="toc-entry toc-h6"><a href="#01-2-inputdto는-of-정펙매---생성자---원시값필드---getter순으로-정의">01-2 InputDto는 of 정펙매 -&gt; 생성자 -&gt; 원시값필드 -&gt; getter순으로 정의</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#02-순차적이라면-new-service-첫input----메서드파라미터--담input-">02 순차적이라면 new Service( 첫input ) -&gt; 메서드파라미터 ( 담input )</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#02-1-첫-입력만-일단-생성자에서-개별input으로-받는다">02-1 첫 입력만 일단 생성자에서 개별input()으로 받는다.</a></li>
+<li class="toc-entry toc-h5"><a href="#02-2-개별input-in-inputview-정의">02-2 개별input() in InputView 정의</a></li>
+<li class="toc-entry toc-h5"><a href="#02-3-그에-따라-service의-생성자-정의">02-3 그에 따라 Service의 생성자 정의</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#03-inputview-콘솔입력공통검증부터의-테스트---new-controller--inputstreamnull불가">03 inputView 콘솔입력(공통검증)부터의 테스트 -&gt; new Controller + InputStream(null불가)</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#재귀추가시-fail-뜨게-되므로-valid한-input을-다시-넣어두자">재귀추가시 fail 뜨게 되므로 valid한 input을 다시 넣어두자.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#04-null를-직접하고-싶다면-바로-메서드-유틸validatorschecknulloremtpy-자체를-테스트하자">04 null를 직접하고 싶다면 바로 메서드 유틸Validators.checkNullorEmtpy 자체를 테스트하자.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#servicetest-again-for-넘어온-정제된input으로-도메인-검증">ServiceTest again for 넘어온 정제된input으로 도메인 검증</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#new-service---service메서드에서--받아주는-input-순서대로-도메인-검증하기">new Service() -&gt; service.메서드()에서  받아주는 input 순서대로 도메인 검증하기</a></li>
+<li class="toc-entry toc-h4"><a href="#01-inputview개별input-자리에-valid-테스트-데이터-입력">01 inputView.개별input() 자리에 valid 테스트 데이터 입력</a></li>
+<li class="toc-entry toc-h4"><a href="#02-invalid한-테스트-작성하면서-예외발생토록-도메인-검증-작성">02 invalid한 테스트 작성하면서, 예외발생토록 도메인 검증 작성</a></li>
+<li class="toc-entry toc-h4"><a href="#03-커스텀-예외클래스-만들기">03 커스텀 예외클래스 만들기</a></li>
+<li class="toc-entry toc-h4"><a href="#04-invalid-테스트">04 invalid 테스트</a></li>
+<li class="toc-entry toc-h4"><a href="#05-개별input서비스객체-생성---재귀메서드화-in-controller생성자">05 개별input~서비스객체 생성 -&gt; 재귀메서드화 in Controller생성자</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#재귀달린이후-테스트-틀-맞으로-구성된-sequenceinputstream">재귀달린이후 테스트: 틀-&gt;맞으로 구성된 SequenceInputStream</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#06-메서드-파라미터로-들어오는-개별input과-이미-생성되었을-service객체">06 메서드 파라미터로 들어오는 개별input과 이미 생성[되었을] service객체</a></li>
+<li class="toc-entry toc-h4"><a href="#07-invalid-case---도메인-검증-추가-작업-반복">07 invalid case -&gt; 도메인 검증 추가 작업 반복</a></li>
+<li class="toc-entry toc-h4"><a href="#08-개별input-재귀화---tdd는-하지말것">08 개별input 재귀화 -&gt; TDD는 하지말것</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#controllertest-재귀-올-개발-후-">ControllerTest (재귀 올 개발 후 )</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-재귀작성-완료후-개별input-all-맞-맞-으로-컨트롤러-생성자-테스트">01 재귀작성 완료후 [개별input ALL 맞-&gt;맞 ]으로 컨트롤러 생성자 테스트</a></li>
+<li class="toc-entry toc-h4"><a href="#02-컨트롤러-생성자withinput-전체를-셋업-올리고---controllerrun-new-ouputview-개발">02 컨트롤러 생성자withInput 전체를 셋업 올리고 -&gt; Controller.run (new OuputView()) 개발</a></li>
+<li class="toc-entry toc-h4"><a href="#03-controllerrun내부에-service로직--ouputview처리">03 controller.run()내부에 service로직 + OuputView처리</a></li>
+<li class="toc-entry toc-h4"><a href="#04-outputview-결과받아-출력-작성-with--outputview-test">04 OutputView 결과받아 출력 작성 with  OutputView Test</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#setup">setup</a></li>
+<li class="toc-entry toc-h5"><a href="#output에-들어갈-결과dto-or-dtolist를-만들어서-output에-뿌려주기">output에 들어갈 결과(dto or dtoList)를 만들어서 output에 뿌려주기</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#application으로-controllerrunnew-outputview-실행">Application으로 controller.run(new OutputView()) 실행</a></li>
+</ul><h3 id="controllertest-for-컨트롤러와-service-형태-결정">
+<a class="anchor" href="#controllertest-for-%EC%BB%A8%ED%8A%B8%EB%A1%A4%EB%9F%AC%EC%99%80-service-%ED%98%95%ED%83%9C-%EA%B2%B0%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>ControllerTest for 컨트롤러와 service 형태 결정</h3>
+
+<h4 id="testcontroller는-inputview를-파라미터로-받는다">
+<a class="anchor" href="#testcontroller%EB%8A%94-inputview%EB%A5%BC-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A1%9C-%EB%B0%9B%EB%8A%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>(test)Controller는 InputView를 파라미터로 받는다.</h4>
+
+<ul>
+  <li>Controller -&gt; <strong>ControllerTest</strong>에서 컨트롤러 생성</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">controller</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Controller</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputView</span><span class="o">());</span>
+</code></pre></div></div>
+
+<h4 id="prodcontroller-생성자-내부-new-service-inputxx--초기화">
+<a class="anchor" href="#prodcontroller-%EC%83%9D%EC%84%B1%EC%9E%90-%EB%82%B4%EB%B6%80-new-service-inputxx--%EC%B4%88%EA%B8%B0%ED%99%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>(prod)Controller 생성자 내부 new Service( inputXX ) 초기화</h4>
+
+<h5 id="01-모든-입력을-한번에-다---new-service-inputviewgetinputdto-">
+<a class="anchor" href="#01-%EB%AA%A8%EB%93%A0-%EC%9E%85%EB%A0%A5%EC%9D%84-%ED%95%9C%EB%B2%88%EC%97%90-%EB%8B%A4---new-service-inputviewgetinputdto-" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 모든 입력을 한번에 다 -&gt; new Service( InputView.getInputDto() )</h5>
+
+<ul>
+  <li>개별 try/catch는 안될 것이다.
+    <ul>
+      <li>처음부터 재입력받는 로직이 필요하다면, 여기를 함수화하고 재귀 걸어주면 될듯</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nf">Controller</span><span class="o">(</span><span class="kd">final</span> <span class="nc">InputView</span> <span class="n">inputView</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//1-1. 서비스 생성시 inputView에서 한꺼번에 inputDto로 받는 경우</span>
+    <span class="n">racingService</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">(</span><span class="n">inputView</span><span class="o">.</span><span class="na">getInputDto</span><span class="o">());</span>
+</code></pre></div></div>
+
+<h6 id="01-1-inputdtoof-개별getinput--개별getinput-형태로-return">
+<a class="anchor" href="#01-1-inputdtoof-%EA%B0%9C%EB%B3%84getinput--%EA%B0%9C%EB%B3%84getinput-%ED%98%95%ED%83%9C%EB%A1%9C-return" aria-hidden="true"><span class="octicon octicon-link"></span></a>01-1 inputDto.of( 개별getInput() , 개별getInput()) 형태로 return</h6>
+
+<ul>
+  <li>
+<strong>개별input에서는</strong>
+    <ol>
+      <li>출력문</li>
+      <li>기본 scanner input받아서, <strong>공통 <code class="language-plaintext highlighter-rouge">NullOrEmpty</code> + 숫자면<code class="language-plaintext highlighter-rouge">포맷</code></strong>
+</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">split(,-1)+trim</code> or <code class="language-plaintext highlighter-rouge">parseInt</code>의 <strong><code class="language-plaintext highlighter-rouge">정제된 형으로 변환</code></strong>
+</li>
+      <li>원시값 return</li>
+    </ol>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">InputView</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="nc">Scanner</span> <span class="no">SCANNER</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+
+    <span class="c1">//1-3. getINputDto내부에서 사용될 개별 getXXX는 getInput()스캐너에 의존한다.</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="nf">getInput</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="no">SCANNER</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="c1">//1-2. 모든 input들을 InputDto.of에 넣어서 InputDto로 반환해주는 작업.</span>
+    <span class="c1">// -&gt; dto는 일단 of(모든 속성들을 원시값으로) 받아서 -&gt; new dto( 원시값, 들로 생성)해야한다.</span>
+    <span class="kd">public</span> <span class="nc">InputDto</span> <span class="nf">getInputDto</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">InputDto</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">getNames</span><span class="o">(),</span> <span class="n">getRound</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="c1">//1-4. 개별 getInput들은 출력 + 공통input검증(nullOrEmpty/format)이 생성된다.</span>
+    <span class="c1">// 개별 getInput들은 4단계가 있다고 했다 (1)출력 (2) nullOrEmypy 검증 (3) format검증후convert or split+trim 변환 (4) return</span>
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">getNames</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"이름을 입력해주세요"</span><span class="o">);</span>
+        <span class="kd">final</span> <span class="nc">String</span> <span class="n">input</span> <span class="o">=</span> <span class="n">getInput</span><span class="o">();</span>
+        <span class="nc">Validators</span><span class="o">.</span><span class="na">checkNullOrEmpty</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+        <span class="k">return</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">input</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">","</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">))</span>
+            <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">String:</span><span class="o">:</span><span class="n">trim</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getRound</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"몇 회 진행하겠습니까?"</span><span class="o">);</span>
+        <span class="kd">final</span> <span class="nc">String</span> <span class="n">input</span> <span class="o">=</span> <span class="n">getInput</span><span class="o">();</span>
+        <span class="nc">Validators</span><span class="o">.</span><span class="na">checkNullOrEmpty</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+        <span class="nc">Validators</span><span class="o">.</span><span class="na">checkValidFormat</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+        <span class="k">return</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h6 id="01-2-inputdto는-of-정펙매---생성자---원시값필드---getter순으로-정의">
+<a class="anchor" href="#01-2-inputdto%EB%8A%94-of-%EC%A0%95%ED%8E%99%EB%A7%A4---%EC%83%9D%EC%84%B1%EC%9E%90---%EC%9B%90%EC%8B%9C%EA%B0%92%ED%95%84%EB%93%9C---getter%EC%88%9C%EC%9C%BC%EB%A1%9C-%EC%A0%95%EC%9D%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>01-2 InputDto는 of 정펙매 -&gt; 생성자 -&gt; 원시값필드 -&gt; getter순으로 정의</h6>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">InputDto</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">round</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">InputDto</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">round</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">names</span> <span class="o">=</span> <span class="n">names</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">round</span> <span class="o">=</span> <span class="n">round</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">//1-5. of에서 개별input다 받았으면, 그걸로 new생성자 -&gt; 필드 -&gt; getter까지 다 만든다.</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">InputDto</span> <span class="nf">of</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">round</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">InputDto</span><span class="o">(</span><span class="n">names</span><span class="o">,</span> <span class="n">round</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">getNames</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">names</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getRound</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">round</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="02-순차적이라면-new-service-첫input----메서드파라미터--담input-">
+<a class="anchor" href="#02-%EC%88%9C%EC%B0%A8%EC%A0%81%EC%9D%B4%EB%9D%BC%EB%A9%B4-new-service-%EC%B2%ABinput----%EB%A9%94%EC%84%9C%EB%93%9C%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0--%EB%8B%B4input-" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 순차적이라면 new Service( 첫input ) -&gt; 메서드파라미터 ( 담input )</h4>
+
+<ul>
+  <li>setter금지령으로 인해 -&gt; 메인로직에 필요한 데이터는 생성자에서 객체 생성시 받아 -&gt;  인변에 넣어줘야한다.
+    <ul>
+      <li>Controller는 service를 관리하고 있으며, 생성시service 초기화해줘야한다.
+        <ul>
+          <li>그 service 초기화시 받을 input -&gt; 좀있다가 받을 input이 따로 있는 경우</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="02-1-첫-입력만-일단-생성자에서-개별input으로-받는다">
+<a class="anchor" href="#02-1-%EC%B2%AB-%EC%9E%85%EB%A0%A5%EB%A7%8C-%EC%9D%BC%EB%8B%A8-%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90%EC%84%9C-%EA%B0%9C%EB%B3%84input%EC%9C%BC%EB%A1%9C-%EB%B0%9B%EB%8A%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>02-1 첫 입력만 일단 생성자에서 개별input()으로 받는다.</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nf">Controller</span><span class="o">(</span><span class="kd">final</span> <span class="nc">InputView</span> <span class="n">inputView</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// 첫 입력만 일단 생성자에서 개별input()으로 받는다.</span>
+	<span class="n">racingService</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">(</span><span class="n">inputView</span><span class="o">.</span><span class="na">getNames</span><span class="o">());</span>
+</code></pre></div></div>
+
+<h5 id="02-2-개별input-in-inputview-정의">
+<a class="anchor" href="#02-2-%EA%B0%9C%EB%B3%84input-in-inputview-%EC%A0%95%EC%9D%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>02-2 개별input() in InputView 정의</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">getNames</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"이름을 입력해주세요"</span><span class="o">);</span>
+    <span class="kd">final</span> <span class="nc">String</span> <span class="n">input</span> <span class="o">=</span> <span class="n">getInput</span><span class="o">();</span>
+    <span class="nc">Validators</span><span class="o">.</span><span class="na">checkNullOrEmpty</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+    <span class="k">return</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">input</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">","</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">String:</span><span class="o">:</span><span class="n">trim</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="02-3-그에-따라-service의-생성자-정의">
+<a class="anchor" href="#02-3-%EA%B7%B8%EC%97%90-%EB%94%B0%EB%9D%BC-service%EC%9D%98-%EC%83%9D%EC%84%B1%EC%9E%90-%EC%A0%95%EC%9D%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>02-3 그에 따라 Service의 생성자 정의</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nf">RacingService</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">carNames</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">cars</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Cars</span><span class="o">(</span><span class="n">carNames</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>원래 service 생성자는.. 일급 및 VO 개발시, 다 받아주는 것으로 정했었다. 여기에 추가해준다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="nf">RacingService</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">carNames</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">round</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">cars</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Cars</span><span class="o">(</span><span class="n">carNames</span><span class="o">);</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">round</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Round</span><span class="o">(</span><span class="n">round</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="03-inputview-콘솔입력공통검증부터의-테스트---new-controller--inputstreamnull불가">
+<a class="anchor" href="#03-inputview-%EC%BD%98%EC%86%94%EC%9E%85%EB%A0%A5%EA%B3%B5%ED%86%B5%EA%B2%80%EC%A6%9D%EB%B6%80%ED%84%B0%EC%9D%98-%ED%85%8C%EC%8A%A4%ED%8A%B8---new-controller--inputstreamnull%EB%B6%88%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 inputView 콘솔입력(공통검증)부터의 테스트 -&gt; new Controller + InputStream(null불가)</h4>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">new Controller( new InputView )</code>를 던지면</p>
+
+    <ul>
+      <li>Controller생성자에서 inputView.콘솔input() 이 호출된다.</li>
+      <li>여러개 개별input()이 포함되어있다면, 그만큼 <code class="language-plaintext highlighter-rouge">SequenceInputStream</code>을 던져야한다.</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">// 1. 콘솔의 개별input()호출 -&gt; 공통 검증</span>
+  <span class="kd">public</span> <span class="nf">Controller</span><span class="o">(</span><span class="kd">final</span> <span class="nc">InputView</span> <span class="n">inputView</span><span class="o">)</span> <span class="o">{</span>
+  	<span class="n">racingService</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">(</span><span class="n">inputView</span><span class="o">.</span><span class="na">getNames</span><span class="o">());</span>
+        
+  <span class="c1">// 2.정제된 input으로 -&gt; 도메인생성 -&gt; 내부에서 도메인 검증</span>
+  <span class="kd">public</span> <span class="nf">RacingService</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">carNames</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">round</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">cars</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Cars</span><span class="o">(</span><span class="n">carNames</span><span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>**테스트는 inpustream에 <code class="language-plaintext highlighter-rouge">null은 넣지못하므로 ""빈칸만</code> 테스트한다. **</p>
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">전체 다 맞는 것 + 개별input 갯수만큼 sequence</code>를 만들어줘야하므로  끝나면 <code class="language-plaintext highlighter-rouge">가장 마지막에 테스트할 예정</code>으로 바꾼다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">controller_input_test</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">String</span> <span class="n">argument</span> <span class="o">=</span> <span class="s">""</span><span class="o">;</span>
+    <span class="kd">final</span> <span class="nc">InputStream</span> <span class="n">input</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ByteArrayInputStream</span><span class="o">((</span><span class="n">argument</span> <span class="o">+</span> <span class="s">"\n"</span><span class="o">).</span><span class="na">getBytes</span><span class="o">());</span>
+
+    <span class="nc">System</span><span class="o">.</span><span class="na">setIn</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+
+    <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">Controller</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputView</span><span class="o">()))</span>
+        <span class="o">.</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">hasMessageContaining</span><span class="o">(</span><span class="s">"빈칸"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="재귀추가시-fail-뜨게-되므로-valid한-input을-다시-넣어두자">
+<a class="anchor" href="#%EC%9E%AC%EA%B7%80%EC%B6%94%EA%B0%80%EC%8B%9C-fail-%EB%9C%A8%EA%B2%8C-%EB%90%98%EB%AF%80%EB%A1%9C-valid%ED%95%9C-input%EC%9D%84-%EB%8B%A4%EC%8B%9C-%EB%84%A3%EC%96%B4%EB%91%90%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>재귀추가시 fail 뜨게 되므로 valid한 input을 다시 넣어두자.</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">input_null_or_empty_test</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">String</span> <span class="n">argument1</span> <span class="o">=</span> <span class="s">""</span><span class="o">;</span> <span class="c1">// 틀</span>
+    <span class="kd">final</span> <span class="nc">String</span> <span class="n">argument2</span> <span class="o">=</span> <span class="s">"재성, 재경"</span><span class="o">;</span> <span class="c1">// 맞아서 재귀 통과</span>
+    <span class="kd">final</span> <span class="nc">InputStream</span> <span class="n">input1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ByteArrayInputStream</span><span class="o">((</span><span class="n">argument1</span> <span class="o">+</span> <span class="s">"\n"</span><span class="o">).</span><span class="na">getBytes</span><span class="o">());</span>
+    <span class="kd">final</span> <span class="nc">InputStream</span> <span class="n">input2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ByteArrayInputStream</span><span class="o">((</span><span class="n">argument2</span> <span class="o">+</span> <span class="s">"\n"</span><span class="o">).</span><span class="na">getBytes</span><span class="o">());</span>
+
+    <span class="kd">final</span> <span class="nc">SequenceInputStream</span> <span class="n">sequenceInputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SequenceInputStream</span><span class="o">(</span><span class="n">input1</span><span class="o">,</span> <span class="n">input2</span><span class="o">);</span>
+
+    <span class="nc">System</span><span class="o">.</span><span class="na">setIn</span><span class="o">(</span><span class="n">sequenceInputStream</span><span class="o">);</span>
+
+    <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">Controller</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputView</span><span class="o">())).</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">hasMessageContaining</span><span class="o">(</span><span class="s">"빈칸"</span><span class="o">);</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<h4 id="04-null를-직접하고-싶다면-바로-메서드-유틸validatorschecknulloremtpy-자체를-테스트하자">
+<a class="anchor" href="#04-null%EB%A5%BC-%EC%A7%81%EC%A0%91%ED%95%98%EA%B3%A0-%EC%8B%B6%EB%8B%A4%EB%A9%B4-%EB%B0%94%EB%A1%9C-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%9C%A0%ED%8B%B8validatorschecknulloremtpy-%EC%9E%90%EC%B2%B4%EB%A5%BC-%ED%85%8C%EC%8A%A4%ED%8A%B8%ED%95%98%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 null를 직접하고 싶다면 바로 메서드 유틸Validators.checkNullorEmtpy 자체를 테스트하자.</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">input_null_or_empty_in_validator</span><span class="o">()</span> <span class="o">{</span>
+
+    <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="nc">Validators</span><span class="o">.</span><span class="na">checkNullOrEmpty</span><span class="o">(</span><span class="kc">null</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">hasMessageContaining</span><span class="o">(</span><span class="s">"빈칸"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="servicetest-again-for-넘어온-정제된input으로-도메인-검증">
+<a class="anchor" href="#servicetest-again-for-%EB%84%98%EC%96%B4%EC%98%A8-%EC%A0%95%EC%A0%9C%EB%90%9Cinput%EC%9C%BC%EB%A1%9C-%EB%8F%84%EB%A9%94%EC%9D%B8-%EA%B2%80%EC%A6%9D" aria-hidden="true"><span class="octicon octicon-link"></span></a>ServiceTest again for 넘어온 정제된input으로 도메인 검증</h3>
+
+<ul>
+  <li>
+    <p><strong>도메인 검증</strong>은 controller 생성자에서  <strong><code class="language-plaintext highlighter-rouge">inpuView.개별input()</code>에서 건너오는 <code class="language-plaintext highlighter-rouge">정제된 input</code>을 받아 <code class="language-plaintext highlighter-rouge">관리 도메인</code>으로 넣어주는 <code class="language-plaintext highlighter-rouge">Service 생성자</code>에서 한다</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">//controller</span>
+  <span class="n">racingService</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">(</span><span class="n">inputView</span><span class="o">.</span><span class="na">getNames</span><span class="o">());</span>
+    
+  <span class="c1">//service</span>
+  <span class="kd">public</span> <span class="nf">RacingService</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">carNames</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">this</span><span class="o">.</span><span class="na">cars</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Cars</span><span class="o">(</span><span class="n">carNames</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="new-service---service메서드에서--받아주는-input-순서대로-도메인-검증하기">
+<a class="anchor" href="#new-service---service%EB%A9%94%EC%84%9C%EB%93%9C%EC%97%90%EC%84%9C--%EB%B0%9B%EC%95%84%EC%A3%BC%EB%8A%94-input-%EC%88%9C%EC%84%9C%EB%8C%80%EB%A1%9C-%EB%8F%84%EB%A9%94%EC%9D%B8-%EA%B2%80%EC%A6%9D%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>new Service() -&gt; service.메서드()에서  받아주는 input 순서대로 도메인 검증하기</h4>
+
+<ul>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">new Service(  inputView.개별input() )</code>을 호출</strong>하면서
+    <ul>
+      <li>내부 `  this.cars = new Cars(carNames);` <strong>도메인 생성자 호출</strong>되므로,</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">inputView.개별input() </code> 자리에 <strong>원하는 인자로 테스트</strong>한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="01-inputview개별input-자리에-valid-테스트-데이터-입력">
+<a class="anchor" href="#01-inputview%EA%B0%9C%EB%B3%84input-%EC%9E%90%EB%A6%AC%EC%97%90-valid-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%9E%85%EB%A0%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 inputView.개별input() 자리에 valid 테스트 데이터 입력</h4>
+
+<ul>
+  <li>
+    <p><strong>ServiceTest에서 <code class="language-plaintext highlighter-rouge">inputView.개별input()을 받는 곳</code>을 호출하되, <code class="language-plaintext highlighter-rouge">값만 임의</code>로 넣어서 테스트한다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">valid_domain1_input_check</span><span class="o">()</span> <span class="o">{</span>
+      <span class="c1">//new RacingService(inputView.getNames())</span>
+      <span class="c1">//this.cars = new Cars(carNames);</span>
+    
+      <span class="c1">//given</span>
+      <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="s">"재경"</span><span class="o">);</span>
+    
+      <span class="c1">//when,then</span>
+      <span class="n">assertDoesNotThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">(</span><span class="n">names</span><span class="o">));</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="02-invalid한-테스트-작성하면서-예외발생토록-도메인-검증-작성">
+<a class="anchor" href="#02-invalid%ED%95%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%9E%91%EC%84%B1%ED%95%98%EB%A9%B4%EC%84%9C-%EC%98%88%EC%99%B8%EB%B0%9C%EC%83%9D%ED%86%A0%EB%A1%9D-%EB%8F%84%EB%A9%94%EC%9D%B8-%EA%B2%80%EC%A6%9D-%EC%9E%91%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 invalid한 테스트 작성하면서, 예외발생토록 도메인 검증 작성</h4>
+
+<ul>
+  <li>
+    <p>**invalid한 경우부터는 <code class="language-plaintext highlighter-rouge">도메인 검증</code>을 만들고, 예외를 발생시켜야한다. **</p>
+  </li>
+  <li>
+    <p>도메인 만의 검증을 추가한다.</p>
+
+    <ul>
+      <li>복수/일급이라면 복수에 대한 것만 추가한다.</li>
+      <li>
+<strong>validate( 정제input )</strong> -&gt; 모든 검증 나열하고 나중에, 메서드 추출하기</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="nf">Cars</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// 2-5-2.  개별 도메인 검증 메서드 생성</span>
+      <span class="n">validate</span><span class="o">(</span><span class="n">names</span><span class="o">);</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">cars</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">name</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="n">name</span><span class="o">))</span>
+          <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+  <span class="o">}</span>
+    
+  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">validate</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kt">long</span> <span class="n">distinctCountOfNames</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">distinct</span><span class="o">().</span><span class="na">count</span><span class="o">();</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">distinctCountOfNames</span> <span class="o">!=</span> <span class="n">names</span><span class="o">.</span><span class="na">size</span><span class="o">())</span> <span class="o">{</span>
+          <span class="c1">//2-5-3. thr 이후 해당 에외클래스() 생성 -&gt; 필요 예외 상속후 생성자만 메세지 파라미터 없이 정의 -&gt; 내부에서 super("message")</span>
+          <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"중복값을 입력할 수 없습니다."</span><span class="o">);</span>
+          <span class="c1">//throw new DuplicateNameException();</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="03-커스텀-예외클래스-만들기">
+<a class="anchor" href="#03-%EC%BB%A4%EC%8A%A4%ED%85%80-%EC%98%88%EC%99%B8%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 커스텀 예외클래스 만들기</h4>
+
+<ul>
+  <li>
+    <p>thrw new 다음에 발생시킬 에러에 <code class="language-plaintext highlighter-rouge">예외 클래스</code>를 명시하고</p>
+
+    <ul>
+      <li>상속할 기존 예외클래스를 <code class="language-plaintext highlighter-rouge">extends</code>한 뒤</li>
+      <li><strong>부모예외클래스에서 필요했던 파라미터를 <code class="language-plaintext highlighter-rouge">생성자</code>로 받든지 or <code class="language-plaintext highlighter-rouge">내부에서 제공할 것으로, 파라미터 없는 생성자</code>를 정의해주고</strong></li>
+      <li>부모 생성자를 그대로 빌려 <code class="language-plaintext highlighter-rouge">super()</code> 내부에서 <code class="language-plaintext highlighter-rouge">부모가 필요했던 상수를  생성자 내부에서 정의</code>해주자.</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">NameDuplicatedException</span> <span class="kd">extends</span> <span class="nc">IllegalArgumentException</span> <span class="o">{</span>
+      <span class="kd">public</span> <span class="nf">NameDuplicatedException</span><span class="o">()</span> <span class="o">{</span>
+          <span class="kd">super</span><span class="o">(</span><span class="s">"이름이 중복될 수 없습니다."</span><span class="o">);</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="04-invalid-테스트">
+<a class="anchor" href="#04-invalid-%ED%85%8C%EC%8A%A4%ED%8A%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 invalid 테스트</h4>
+
+<ul>
+  <li>valid: <code class="language-plaintext highlighter-rouge">올바른_도메인이_들어올_경우를_확인한다</code>
+</li>
+  <li>invalid: <code class="language-plaintext highlighter-rouge">도메인이_중복된_경우_예외를_발생시킨다</code>
+</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">invalid_domain2_input_exception_check</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">//given</span>
+    <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="s">"재성"</span><span class="o">);</span>
+
+    <span class="c1">//when,then</span>
+    <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">(</span><span class="n">names</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">NameDuplicatedException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">hasMessageContaining</span><span class="o">(</span><span class="s">"중복"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="05-개별input서비스객체-생성---재귀메서드화-in-controller생성자">
+<a class="anchor" href="#05-%EA%B0%9C%EB%B3%84input%EC%84%9C%EB%B9%84%EC%8A%A4%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1---%EC%9E%AC%EA%B7%80%EB%A9%94%EC%84%9C%EB%93%9C%ED%99%94-in-controller%EC%83%9D%EC%84%B1%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 개별input~서비스객체 생성 -&gt; 재귀메서드화 in Controller생성자</h4>
+
+<ul>
+  <li>
+    <p>에러시 재입력 받게 하기 위함.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="nf">Controller</span><span class="o">(</span><span class="kd">final</span> <span class="nc">InputView</span> <span class="n">inputView</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">//racingService = new RacingService(inputView.getNames());</span>
+          <span class="n">getNames</span><span class="o">(</span><span class="n">inputView</span><span class="o">);</span>
+  <span class="o">}</span>
+    
+  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">getNames</span><span class="o">(</span><span class="kd">final</span> <span class="nc">InputView</span> <span class="n">inputView</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">try</span> <span class="o">{</span>
+          <span class="n">racingService</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">(</span><span class="n">inputView</span><span class="o">.</span><span class="na">getNames</span><span class="o">());</span>
+      <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+          <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"[ERROR] "</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+          <span class="n">getNames</span><span class="o">(</span><span class="n">inputView</span><span class="o">);</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="재귀달린이후-테스트-틀-맞으로-구성된-sequenceinputstream">
+<a class="anchor" href="#%EC%9E%AC%EA%B7%80%EB%8B%AC%EB%A6%B0%EC%9D%B4%ED%9B%84-%ED%85%8C%EC%8A%A4%ED%8A%B8-%ED%8B%80-%EB%A7%9E%EC%9C%BC%EB%A1%9C-%EA%B5%AC%EC%84%B1%EB%90%9C-sequenceinputstream" aria-hidden="true"><span class="octicon octicon-link"></span></a>재귀달린이후 테스트: 틀-&gt;맞으로 구성된 SequenceInputStream</h5>
+
+<ul>
+  <li>
+    <p>재귀 달린 순간부터 SequenceInputStream아니어서, 1번 틀리면 ControllerTest 안끝남.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">input_null_or_empty_test</span><span class="o">()</span> <span class="o">{</span>
+      <span class="c1">//        final String argument = "";</span>
+      <span class="c1">//        final InputStream input = new ByteArrayInputStream((argument + "\n").getBytes());</span>
+      <span class="c1">//</span>
+      <span class="c1">//        System.setIn(input);</span>
+      <span class="kd">final</span> <span class="nc">String</span> <span class="n">argument1</span> <span class="o">=</span> <span class="s">""</span><span class="o">;</span> <span class="c1">// 틀</span>
+      <span class="kd">final</span> <span class="nc">String</span> <span class="n">argument2</span> <span class="o">=</span> <span class="s">"재성, 재경"</span><span class="o">;</span> <span class="c1">// 맞아서 재귀 통과</span>
+      <span class="kd">final</span> <span class="nc">InputStream</span> <span class="n">input1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ByteArrayInputStream</span><span class="o">((</span><span class="n">argument1</span> <span class="o">+</span> <span class="s">"\n"</span><span class="o">).</span><span class="na">getBytes</span><span class="o">());</span>
+      <span class="kd">final</span> <span class="nc">InputStream</span> <span class="n">input2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ByteArrayInputStream</span><span class="o">((</span><span class="n">argument2</span> <span class="o">+</span> <span class="s">"\n"</span><span class="o">).</span><span class="na">getBytes</span><span class="o">());</span>
+    
+      <span class="kd">final</span> <span class="nc">SequenceInputStream</span> <span class="n">sequenceInputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SequenceInputStream</span><span class="o">(</span><span class="n">input1</span><span class="o">,</span> <span class="n">input2</span><span class="o">);</span>
+    
+      <span class="nc">System</span><span class="o">.</span><span class="na">setIn</span><span class="o">(</span><span class="n">sequenceInputStream</span><span class="o">);</span>
+    
+      <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">Controller</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputView</span><span class="o">())).</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+          <span class="o">.</span><span class="na">hasMessageContaining</span><span class="o">(</span><span class="s">"빈칸"</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>문제는.. 추가되는 재귀input -&gt; 기존꺼 계속 Sequnece 이어져야함 -&gt; 재귀는 가장 나중에 달던가 [TDD는 하지말자.]</strong></p>
+  </li>
+</ul>
+
+<h4 id="06-메서드-파라미터로-들어오는-개별input과-이미-생성되었을-service객체">
+<a class="anchor" href="#06-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A1%9C-%EB%93%A4%EC%96%B4%EC%98%A4%EB%8A%94-%EA%B0%9C%EB%B3%84input%EA%B3%BC-%EC%9D%B4%EB%AF%B8-%EC%83%9D%EC%84%B1%EB%90%98%EC%97%88%EC%9D%84-service%EA%B0%9D%EC%B2%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>06 메서드 파라미터로 들어오는 개별input과 이미 생성[되었을] service객체</h4>
+
+<ol>
+  <li>
+    <p>이미 controller생성자 위쪽에서, 서비스 생성과 동시에 받아주는 input으로 <strong><code class="language-plaintext highlighter-rouge">service객체</code>를 생성한 상태이므로, <code class="language-plaintext highlighter-rouge">valid한 앞쪽 개별input을 미리 만들어주고, service객체를 만들어서</code> 테스트해줘야할 듯 싶다.</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>먼저 개발된 <code class="language-plaintext highlighter-rouge">valid_domain1_input</code>으로 <code class="language-plaintext highlighter-rouge">service객체를 먼저 만들</code>면서 <code class="language-plaintext highlighter-rouge">메서드 + domain2_input</code></strong>을 넣어주도록 한다.</p>
+      </li>
+      <li>
+        <p><strong>그래야 메서드(<code class="language-plaintext highlighter-rouge">initDomain2()</code>) 개발이 된다.</strong></p>
+      </li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="nf">valid_domain2_input_check</span><span class="o">()</span> <span class="o">{</span>
+     <span class="c1">//given</span>
+     <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">validNames</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="s">"재경"</span><span class="o">);</span>
+     <span class="kd">final</span> <span class="kt">int</span> <span class="n">round</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
+    
+     <span class="c1">//when,then</span>
+     <span class="n">assertDoesNotThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">(</span><span class="n">validNames</span><span class="o">).</span><span class="na">initiateRound</span><span class="o">(</span><span class="n">round</span><span class="o">))</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>service의 생성자에서 못받은 개별input을, service관리 인변에 넣어주자.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initiateRound</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">round</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">this</span><span class="o">.</span><span class="na">round</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Round</span><span class="o">(</span><span class="n">round</span><span class="o">);</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="07-invalid-case---도메인-검증-추가-작업-반복">
+<a class="anchor" href="#07-invalid-case---%EB%8F%84%EB%A9%94%EC%9D%B8-%EA%B2%80%EC%A6%9D-%EC%B6%94%EA%B0%80-%EC%9E%91%EC%97%85-%EB%B0%98%EB%B3%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>07 invalid case -&gt; 도메인 검증 추가 작업 반복</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">invalid_domain2_input_range_exception</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">//given</span>
+    <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">validNames</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="s">"재경"</span><span class="o">);</span>
+    <span class="kd">final</span> <span class="kt">int</span> <span class="n">round</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+
+    <span class="c1">//when,then</span>
+    <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">(</span><span class="n">validNames</span><span class="o">).</span><span class="na">initiateRound</span><span class="o">(</span><span class="n">round</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">RoundRangeException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">hasMessageContaining</span><span class="o">(</span><span class="s">"0회 이상"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="08-개별input-재귀화---tdd는-하지말것">
+<a class="anchor" href="#08-%EA%B0%9C%EB%B3%84input-%EC%9E%AC%EA%B7%80%ED%99%94---tdd%EB%8A%94-%ED%95%98%EC%A7%80%EB%A7%90%EA%B2%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>08 개별input 재귀화 -&gt; TDD는 하지말것</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">getRound</span><span class="o">(</span><span class="n">inputView</span><span class="o">);</span>
+
+<span class="kd">private</span> <span class="kt">void</span> <span class="nf">getRound</span><span class="o">(</span><span class="kd">final</span> <span class="nc">InputView</span> <span class="n">inputView</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="n">racingService</span><span class="o">.</span><span class="na">initRound</span><span class="o">(</span><span class="n">inputView</span><span class="o">.</span><span class="na">getRound</span><span class="o">());</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"[ERROR] "</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="n">getRound</span><span class="o">(</span><span class="n">inputView</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="controllertest-재귀-올-개발-후-">
+<a class="anchor" href="#controllertest-%EC%9E%AC%EA%B7%80-%EC%98%AC-%EA%B0%9C%EB%B0%9C-%ED%9B%84-" aria-hidden="true"><span class="octicon octicon-link"></span></a>ControllerTest (재귀 올 개발 후 )</h3>
+
+<h4 id="01-재귀작성-완료후-개별input-all-맞-맞-으로-컨트롤러-생성자-테스트">
+<a class="anchor" href="#01-%EC%9E%AC%EA%B7%80%EC%9E%91%EC%84%B1-%EC%99%84%EB%A3%8C%ED%9B%84-%EA%B0%9C%EB%B3%84input-all-%EB%A7%9E-%EB%A7%9E-%EC%9C%BC%EB%A1%9C-%EC%BB%A8%ED%8A%B8%EB%A1%A4%EB%9F%AC-%EC%83%9D%EC%84%B1%EC%9E%90-%ED%85%8C%EC%8A%A4%ED%8A%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 재귀작성 완료후 [개별input ALL 맞-&gt;맞 ]으로 컨트롤러 생성자 테스트</h4>
+
+<ul>
+  <li>
+    <p>재귀가 추가됨에 따라, controller생성시 <code class="language-plaintext highlighter-rouge">추가 &amp;&amp; 맞는 것으로 맞춰줘야하는 input</code>이 늘어나기 때문에, <strong>controller생성으로 인한 input테스트는 가장 나중에 해야할 것 같다.</strong></p>
+
+    <ul>
+      <li>개별input개수만큼 SequenceInputStream으로 들어가게 해준다.</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">controller_input_test</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">String</span> <span class="n">argument1</span> <span class="o">=</span> <span class="s">"재성, 재경"</span><span class="o">;</span> <span class="c1">// 틀</span>
+      <span class="kd">final</span> <span class="nc">String</span> <span class="n">argument2</span> <span class="o">=</span> <span class="s">"5"</span><span class="o">;</span> <span class="c1">// 맞아서 재귀 통과</span>
+      <span class="kd">final</span> <span class="nc">InputStream</span> <span class="n">input1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ByteArrayInputStream</span><span class="o">((</span><span class="n">argument1</span> <span class="o">+</span> <span class="s">"\n"</span><span class="o">).</span><span class="na">getBytes</span><span class="o">());</span>
+      <span class="kd">final</span> <span class="nc">InputStream</span> <span class="n">input2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ByteArrayInputStream</span><span class="o">((</span><span class="n">argument2</span> <span class="o">+</span> <span class="s">"\n"</span><span class="o">).</span><span class="na">getBytes</span><span class="o">());</span>
+    
+      <span class="nc">SequenceInputStream</span> <span class="n">sequenceInputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SequenceInputStream</span><span class="o">(</span><span class="n">input1</span><span class="o">,</span> <span class="n">input2</span><span class="o">);</span>
+    
+      <span class="nc">System</span><span class="o">.</span><span class="na">setIn</span><span class="o">(</span><span class="n">sequenceInputStream</span><span class="o">);</span>
+    
+      <span class="n">assertDoesNotThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">Controller</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputView</span><span class="o">()));</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="02-컨트롤러-생성자withinput-전체를-셋업-올리고---controllerrun-new-ouputview-개발">
+<a class="anchor" href="#02-%EC%BB%A8%ED%8A%B8%EB%A1%A4%EB%9F%AC-%EC%83%9D%EC%84%B1%EC%9E%90withinput-%EC%A0%84%EC%B2%B4%EB%A5%BC-%EC%85%8B%EC%97%85-%EC%98%AC%EB%A6%AC%EA%B3%A0---controllerrun-new-ouputview-%EA%B0%9C%EB%B0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 컨트롤러 생성자withInput 전체를 셋업 올리고 -&gt; Controller.run (new OuputView()) 개발</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Controller</span> <span class="n">controller</span><span class="o">;</span>
+
+<span class="nd">@BeforeEach</span>
+<span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">String</span> <span class="n">argument1</span> <span class="o">=</span> <span class="s">"재성, 재경"</span><span class="o">;</span> <span class="c1">// 틀</span>
+    <span class="kd">final</span> <span class="nc">String</span> <span class="n">argument2</span> <span class="o">=</span> <span class="s">"5"</span><span class="o">;</span> <span class="c1">// 맞아서 재귀 통과</span>
+    <span class="kd">final</span> <span class="nc">InputStream</span> <span class="n">input1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ByteArrayInputStream</span><span class="o">((</span><span class="n">argument1</span> <span class="o">+</span> <span class="s">"\n"</span><span class="o">).</span><span class="na">getBytes</span><span class="o">());</span>
+    <span class="kd">final</span> <span class="nc">InputStream</span> <span class="n">input2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ByteArrayInputStream</span><span class="o">((</span><span class="n">argument2</span> <span class="o">+</span> <span class="s">"\n"</span><span class="o">).</span><span class="na">getBytes</span><span class="o">());</span>
+
+    <span class="nc">SequenceInputStream</span> <span class="n">sequenceInputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SequenceInputStream</span><span class="o">(</span><span class="n">input1</span><span class="o">,</span> <span class="n">input2</span><span class="o">);</span>
+
+    <span class="nc">System</span><span class="o">.</span><span class="na">setIn</span><span class="o">(</span><span class="n">sequenceInputStream</span><span class="o">);</span>
+
+    <span class="n">controller</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Controller</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputView</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">controller_run</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">controller</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="k">new</span> <span class="nc">OutputView</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">OutputView</span> <span class="o">{</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//controller</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="kd">final</span> <span class="nc">OutputView</span> <span class="n">outputView</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//outputView의 기본 프린터 기능 쓰면서</span>
+    <span class="c1">//메인로직</span>
+    
+    <span class="c1">//메인로직이후 service에게서 결과받은 것 -&gt; ouputView가 인자로 받아서 처리</span>
+    
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="03-controllerrun내부에-service로직--ouputview처리">
+<a class="anchor" href="#03-controllerrun%EB%82%B4%EB%B6%80%EC%97%90-service%EB%A1%9C%EC%A7%81--ouputview%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 controller.run()내부에 service로직 + OuputView처리</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="kd">final</span> <span class="nc">OutputView</span> <span class="n">outputView</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="n">outputView</span><span class="o">.</span><span class="na">printStartMessage</span><span class="o">();</span>
+
+    <span class="k">while</span> <span class="o">(</span><span class="n">racingService</span><span class="o">.</span><span class="na">isContinuable</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">racingService</span><span class="o">.</span><span class="na">race</span><span class="o">(</span><span class="k">new</span> <span class="nc">RandomNumberGenerator</span><span class="o">());</span>
+        <span class="n">racingService</span><span class="o">.</span><span class="na">decreaseRound</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="n">outputView</span><span class="o">.</span><span class="na">printRoundResult</span><span class="o">(</span><span class="n">racingService</span><span class="o">.</span><span class="na">getCurrentCars</span><span class="o">());</span>
+
+    <span class="n">outputView</span><span class="o">.</span><span class="na">printWinner</span><span class="o">(</span><span class="n">racingService</span><span class="o">.</span><span class="na">getWinners</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="04-outputview-결과받아-출력-작성-with--outputview-test">
+<a class="anchor" href="#04-outputview-%EA%B2%B0%EA%B3%BC%EB%B0%9B%EC%95%84-%EC%B6%9C%EB%A0%A5-%EC%9E%91%EC%84%B1-with--outputview-test" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 OutputView 결과받아 출력 작성 with  OutputView Test</h4>
+
+<h5 id="setup">
+<a class="anchor" href="#setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>setup</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">OutputStream</span> <span class="n">output</span><span class="o">;</span>
+
+<span class="nd">@BeforeEach</span>
+<span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+	<span class="n">output</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ByteArrayOutputStream</span><span class="o">();</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">setOut</span><span class="o">(</span><span class="k">new</span> <span class="nc">PrintStream</span><span class="o">(</span><span class="n">output</span><span class="o">));</span> <span class="c1">// output.toString() -&gt; actual 로서 print된 스트링을 받아올 수 있게 된다</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="output에-들어갈-결과dto-or-dtolist를-만들어서-output에-뿌려주기">
+<a class="anchor" href="#output%EC%97%90-%EB%93%A4%EC%96%B4%EA%B0%88-%EA%B2%B0%EA%B3%BCdto-or-dtolist%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%84%9C-output%EC%97%90-%EB%BF%8C%EB%A0%A4%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>output에 들어갈 결과(dto or dtoList)를 만들어서 output에 뿌려주기</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">name</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">//(1)outputView.printRoundResult(racingService.getCurrentCars());</span>
+    <span class="c1">// racingService.getCurrentCars() -&gt; List&lt;CarDto&gt; 만들어주기</span>
+    
+    <span class="c1">//controller.run()에 사용되던 dto결과들을 단일dto.of() -&gt; dto list -&gt; dtos 까지 직접 만들어준다.</span>
+    <span class="kd">final</span> <span class="nc">CarDto</span> <span class="n">재성</span> <span class="o">=</span> <span class="nc">CarDto</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+    <span class="kd">final</span> <span class="nc">CarDto</span> <span class="n">재경</span> <span class="o">=</span> <span class="nc">CarDto</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"재경"</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
+    <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CarDto</span><span class="o">&gt;</span> <span class="n">cars</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">재성</span><span class="o">,</span> <span class="n">재경</span><span class="o">);</span>
+
+    <span class="c1">//(2) outputView객체 만들어서 print뿌려주기( output에 박히게 됨 )</span>
+    <span class="k">new</span> <span class="nf">OutputView</span><span class="o">().</span><span class="na">printRoundResult</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span>
+
+    <span class="c1">//(3) print뿌려진 output.toString()과   예상string을 비교하기</span>
+    <span class="c1">// -&gt; sout는 System.lineSeparator()로 줄바꿈한다.</span>
+    <span class="c1">// -&gt; 내부string은 \n로 작성되면 -&gt; \n 잡으면 된다.</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">output</span><span class="o">.</span><span class="na">toString</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">"재성 : -\n재경 : --\n"</span> <span class="o">+</span> <span class="nc">System</span><span class="o">.</span><span class="na">lineSeparator</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">name2</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">CarDto</span> <span class="n">재성</span> <span class="o">=</span> <span class="nc">CarDto</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+    <span class="kd">final</span> <span class="nc">CarDto</span> <span class="n">재경</span> <span class="o">=</span> <span class="nc">CarDto</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"재경"</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+    <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CarDto</span><span class="o">&gt;</span> <span class="n">cars</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">재성</span><span class="o">,</span> <span class="n">재경</span><span class="o">);</span>
+
+    <span class="kd">final</span> <span class="nc">CarsDto</span> <span class="n">carsDto</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CarsDto</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span>
+
+    <span class="k">new</span> <span class="nf">OutputView</span><span class="o">().</span><span class="na">printRoundResult</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">output</span><span class="o">.</span><span class="na">toString</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">"재성 : -\n재경 : \n"</span> <span class="o">+</span> <span class="nc">System</span><span class="o">.</span><span class="na">lineSeparator</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">name3</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">//outputView.printWinner(racingService.getWinners());</span>
+    <span class="c1">// racingService.getWinners() -&gt; CarsDto 만들어주기</span>
+
+    <span class="kd">final</span> <span class="nc">CarDto</span> <span class="n">재성</span> <span class="o">=</span> <span class="nc">CarDto</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
+    <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CarDto</span><span class="o">&gt;</span> <span class="n">cars</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">재성</span><span class="o">);</span>
+
+    <span class="kd">final</span> <span class="nc">CarsDto</span> <span class="n">carsDto</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CarsDto</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span>
+
+    <span class="k">new</span> <span class="nf">OutputView</span><span class="o">().</span><span class="na">printWinner</span><span class="o">(</span><span class="n">carsDto</span><span class="o">);</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">output</span><span class="o">.</span><span class="na">toString</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">"재성"</span> <span class="o">+</span> <span class="nc">System</span><span class="o">.</span><span class="na">lineSeparator</span><span class="o">());</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">name4</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">//outputView.printWinner(racingService.getWinners());</span>
+    <span class="c1">// racingService.getWinners() -&gt; CarsDto 만들어주기</span>
+
+    <span class="kd">final</span> <span class="nc">CarDto</span> <span class="n">재성</span> <span class="o">=</span> <span class="nc">CarDto</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"재성"</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
+    <span class="kd">final</span> <span class="nc">CarDto</span> <span class="n">재경</span> <span class="o">=</span> <span class="nc">CarDto</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"재경"</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
+    <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CarDto</span><span class="o">&gt;</span> <span class="n">cars</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">재성</span><span class="o">,</span> <span class="n">재경</span><span class="o">);</span>
+
+    <span class="kd">final</span> <span class="nc">CarsDto</span> <span class="n">carsDto</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CarsDto</span><span class="o">(</span><span class="n">cars</span><span class="o">);</span>
+
+    <span class="k">new</span> <span class="nf">OutputView</span><span class="o">().</span><span class="na">printWinner</span><span class="o">(</span><span class="n">carsDto</span><span class="o">);</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">output</span><span class="o">.</span><span class="na">toString</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">"재성, 재경"</span> <span class="o">+</span> <span class="nc">System</span><span class="o">.</span><span class="na">lineSeparator</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="application으로-controllerrunnew-outputview-실행">
+<a class="anchor" href="#application%EC%9C%BC%EB%A1%9C-controllerrunnew-outputview-%EC%8B%A4%ED%96%89" aria-hidden="true"><span class="octicon octicon-link"></span></a>Application으로 controller.run(new OutputView()) 실행</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">controller.Controller</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">view.InputView</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">view.OutputView</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">application</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">Controller</span> <span class="n">controller</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Controller</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputView</span><span class="o">());</span>
+        <span class="n">controller</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="k">new</span> <span class="nc">OutputView</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/02/28/TDD-4-controller~inputview~%EB%8F%84%EB%A9%94%EC%9D%B8%EA%B2%80%EC%A6%9D.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
