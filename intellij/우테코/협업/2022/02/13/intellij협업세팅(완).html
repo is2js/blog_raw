@@ -129,9 +129,9 @@ window.onload = wrap_img;
     <ul class="section-nav">
 <li class="toc-entry toc-h2"><a href="#인텔리제이-세팅">인텔리제이 세팅</a>
 <ul>
-<li class="toc-entry toc-h3"><a href="#gradle-및-assertj-설정">Gradle 및 assertj 설정</a>
+<li class="toc-entry toc-h3"><a href="#gradle-buildtype-변경-및-assertj-추가">Gradle buildType 변경 및 assertj 추가</a>
 <ul>
-<li class="toc-entry toc-h4"><a href="#gradle-build-type---intellij로-변경속도">gradle build Type -&gt; intellij로 변경(속도)</a></li>
+<li class="toc-entry toc-h4"><a href="#gradle-build-type-변경---intellij로-변경속도">gradle build Type 변경 -&gt; intellij로 변경(속도)</a></li>
 <li class="toc-entry toc-h4"><a href="#라이브러리에-assertj-넣어주고-리프레쉬-재ㅜ기">라이브러리에 assertj 넣어주고 리프레쉬 재ㅜ기</a></li>
 <li class="toc-entry toc-h4"><a href="#gradle의-테스트-해보기">gradle의 테스트 해보기</a></li>
 </ul>
@@ -155,10 +155,10 @@ window.onload = wrap_img;
 </ul><h2 id="인텔리제이-세팅">
 <a class="anchor" href="#%EC%9D%B8%ED%85%94%EB%A6%AC%EC%A0%9C%EC%9D%B4-%EC%84%B8%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>인텔리제이 세팅</h2>
 
-<h3 id="gradle-및-assertj-설정">
-<a class="anchor" href="#gradle-%EB%B0%8F-assertj-%EC%84%A4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gradle 및 assertj 설정</h3>
-<h4 id="gradle-build-type---intellij로-변경속도">
-<a class="anchor" href="#gradle-build-type---intellij%EB%A1%9C-%EB%B3%80%EA%B2%BD%EC%86%8D%EB%8F%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>gradle build Type -&gt; intellij로 변경(속도)</h4>
+<h3 id="gradle-buildtype-변경-및-assertj-추가">
+<a class="anchor" href="#gradle-buildtype-%EB%B3%80%EA%B2%BD-%EB%B0%8F-assertj-%EC%B6%94%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gradle buildType 변경 및 assertj 추가</h3>
+<h4 id="gradle-build-type-변경---intellij로-변경속도">
+<a class="anchor" href="#gradle-build-type-%EB%B3%80%EA%B2%BD---intellij%EB%A1%9C-%EB%B3%80%EA%B2%BD%EC%86%8D%EB%8F%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>gradle build Type 변경 -&gt; intellij로 변경(속도)</h4>
 <ul>
   <li>
 <strong><code class="language-plaintext highlighter-rouge">gradle</code>검색후 build and run <code class="language-plaintext highlighter-rouge">intellij</code>로 바꿔주기</strong>
@@ -174,6 +174,7 @@ window.onload = wrap_img;
 
     <div class="language-java highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">:</span><span class="n">assertj</span><span class="o">-</span><span class="nl">core:</span><span class="mf">3.22</span><span class="o">.</span><span class="mi">0</span><span class="err">'</span>
+  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">jupiter</span><span class="o">:</span><span class="n">junit</span><span class="o">-</span><span class="n">jupiter</span><span class="o">-</span><span class="nl">params:</span><span class="mf">5.4</span><span class="o">.</span><span class="mi">2</span><span class="err">'</span> <span class="c1">//@ParameterizedTest 안될 때</span>
 </code></pre></div>    </div>
   </li>
   <li>
