@@ -131,6 +131,8 @@ window.onload = wrap_img;
 <ul>
 <li class="toc-entry toc-h3"><a href="#gradle-및-assertj-설정">Gradle 및 assertj 설정</a>
 <ul>
+<li class="toc-entry toc-h4"><a href="#gradle-build-type---intellij로-변경속도">gradle build Type -&gt; intellij로 변경(속도)</a></li>
+<li class="toc-entry toc-h4"><a href="#라이브러리에-assertj-넣어주고-리프레쉬-재ㅜ기">라이브러리에 assertj 넣어주고 리프레쉬 재ㅜ기</a></li>
 <li class="toc-entry toc-h4"><a href="#gradle의-테스트-해보기">gradle의 테스트 해보기</a></li>
 </ul>
 </li>
@@ -155,21 +157,35 @@ window.onload = wrap_img;
 
 <h3 id="gradle-및-assertj-설정">
 <a class="anchor" href="#gradle-%EB%B0%8F-assertj-%EC%84%A4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gradle 및 assertj 설정</h3>
-
+<h4 id="gradle-build-type---intellij로-변경속도">
+<a class="anchor" href="#gradle-build-type---intellij%EB%A1%9C-%EB%B3%80%EA%B2%BD%EC%86%8D%EB%8F%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>gradle build Type -&gt; intellij로 변경(속도)</h4>
 <ul>
   <li>
-    <p><strong><code class="language-plaintext highlighter-rouge">gradle</code>검색후 build and run <code class="language-plaintext highlighter-rouge">intellij</code>로 바꿔주기</strong>
-  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213002843152.png" alt="image-20220213002843152"></p>
-  </li>
+<strong><code class="language-plaintext highlighter-rouge">gradle</code>검색후 build and run <code class="language-plaintext highlighter-rouge">intellij</code>로 바꿔주기</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213002843152.png" alt="image-20220213002843152">
+</li>
+</ul>
+
+<h4 id="라이브러리에-assertj-넣어주고-리프레쉬-재ㅜ기">
+<a class="anchor" href="#%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC%EC%97%90-assertj-%EB%84%A3%EC%96%B4%EC%A3%BC%EA%B3%A0-%EB%A6%AC%ED%94%84%EB%A0%88%EC%89%AC-%EC%9E%AC%E3%85%9C%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>라이브러리에 assertj 넣어주고 리프레쉬 재ㅜ기</h4>
+<ul>
   <li>
-    <p><code class="language-plaintext highlighter-rouge">build.gradle</code>에 assertj 넣어주기</p>
+    <p><code class="language-plaintext highlighter-rouge">build.gradle</code>의 dependency에 assertj 라이브러리 넣어주고 refresh 하기</p>
 
     <div class="language-java highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">:</span><span class="n">assertj</span><span class="o">-</span><span class="nl">core:</span><span class="mf">3.22</span><span class="o">.</span><span class="mi">0</span><span class="err">'</span>
 </code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">Ctrl+Shift+O</code> 또는 우측상단에 떠있을 <code class="language-plaintext highlighter-rouge">코끼리버튼</code>을 클릭해줘야 반영이 된다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220304164322067.png" alt="image-20220304164322067"></p>
     <ul>
-      <li>이후 test dependencies 실행한번 해주기</li>
-      <li>Test파일에 static import해주기
+      <li>
+        <p>단축키는 keymap에서 덮어써줘야 작동됨.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220304164518884.png" alt="image-20220304164518884"></p>
+      </li>
+      <li>
+        <p>그래도 잘 안되면, Test파일에 static import해놓고 reload from disk</p>
         <div class="language-java highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>  <span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.*;</span>
 </code></pre></div>        </div>
