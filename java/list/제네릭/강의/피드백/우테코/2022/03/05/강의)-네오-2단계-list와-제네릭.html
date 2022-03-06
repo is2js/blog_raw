@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>강의) 네오 2단계 List + 제네릭 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="강의) 네오 2단계 List + 제네릭" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="List(ArrayList)와 제네릭(PE-CS) 개념 설명" />
+<meta property="og:description" content="List(ArrayList)와 제네릭(PE-CS) 개념 설명" />
+<link rel="canonical" href="blog.chojaeseong.com/java/list/%EC%A0%9C%EB%84%A4%EB%A6%AD/%EA%B0%95%EC%9D%98/%ED%94%BC%EB%93%9C%EB%B0%B1/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/05/%EA%B0%95%EC%9D%98)-%EB%84%A4%EC%98%A4-2%EB%8B%A8%EA%B3%84-list%EC%99%80-%EC%A0%9C%EB%84%A4%EB%A6%AD.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/list/%EC%A0%9C%EB%84%A4%EB%A6%AD/%EA%B0%95%EC%9D%98/%ED%94%BC%EB%93%9C%EB%B0%B1/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/05/%EA%B0%95%EC%9D%98)-%EB%84%A4%EC%98%A4-2%EB%8B%A8%EA%B3%84-list%EC%99%80-%EC%A0%9C%EB%84%A4%EB%A6%AD.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-03-05T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-03-05T00:00:00-06:00","url":"blog.chojaeseong.com/java/list/%EC%A0%9C%EB%84%A4%EB%A6%AD/%EA%B0%95%EC%9D%98/%ED%94%BC%EB%93%9C%EB%B0%B1/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/05/%EA%B0%95%EC%9D%98)-%EB%84%A4%EC%98%A4-2%EB%8B%A8%EA%B3%84-list%EC%99%80-%EC%A0%9C%EB%84%A4%EB%A6%AD.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"강의) 네오 2단계 List + 제네릭","dateModified":"2022-03-05T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/list/%EC%A0%9C%EB%84%A4%EB%A6%AD/%EA%B0%95%EC%9D%98/%ED%94%BC%EB%93%9C%EB%B0%B1/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/05/%EA%B0%95%EC%9D%98)-%EB%84%A4%EC%98%A4-2%EB%8B%A8%EA%B3%84-list%EC%99%80-%EC%A0%9C%EB%84%A4%EB%A6%AD.html"},"description":"List(ArrayList)와 제네릭(PE-CS) 개념 설명","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">강의) 네오 2단계 List + 제네릭</h1><p class="page-description">List(ArrayList)와 제네릭(PE-CS) 개념 설명</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-03-05T00:00:00-06:00" itemprop="datePublished">
+        Mar 5, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      11 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#List">List</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#제네릭">제네릭</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#강의">강의</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#피드백">피드백</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#리스트">리스트</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#arraylist-vs-linkedlist">ArrayList vs LinkedList</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#arraylist">ArrayList</a></li>
+<li class="toc-entry toc-h4"><a href="#linkedlist">LinkedList</a></li>
+<li class="toc-entry toc-h4"><a href="#저장---접근-방식">저장 -&gt; 접근 방식</a></li>
+<li class="toc-entry toc-h4"><a href="#하드디스크의-물리적으로-순차적인-접근">하드디스크의 물리적으로 순차적인 접근</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#제네릭">제네릭</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#제네릭은-컴파일-타임에-처리된다">제네릭은 컴파일 타임에 처리된다.</a></li>
+<li class="toc-entry toc-h3"><a href="#장점">장점</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#my-여러-타입가능한-자료구조사용시-get하면-object로-내려와-1-타입확인-2-다운캐스팅-해서-사용했어야-했는데-사라지게-된다">my) [여러 타입가능한 자료구조]사용시 get하면 object로 내려와 (1) 타입확인 (2) 다운캐스팅 해서 사용했어야 했는데 사라지게 된다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#type과-제네릭은-영역-좁히는게-반대다">Type과 제네릭은 영역 좁히는게 반대다?</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#arraylist는-구현체-list가-인터페이스추상체">ArrayList는 구현체 List가 인터페이스(추상체)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#my-type의-경우-정의하는-변수와-파라미터는-전체-분기들을-내포되도록-추상체로-받고-사용하는-할당과-메소드호출-인자에는-분기가-결정된-구상체를-넣어주자">my) Type의 경우) 정의하는 변수와 파라미터는 전체 분기들을 내포되도록 추상체로 받고, 사용하는 할당과 메소드호출 인자에는 분기가 결정된 구상체를 넣어주자.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#정의시-변수-생략된t--형--파라미터-클래스-t형---제네릭에서의-추상체---구상체-특정형-변수">정의시, 변수 생략된T &lt;&gt; 형 + 파라미터, 클래스 &lt;T&gt;형 -&gt; 제네릭에서의 추상체 &lt;-&gt; 구상체 &lt;특정형&gt; 변수</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#제네릭-추상체-t형으로-box클래스-정의하기">제네릭 추상체 &lt;T&gt;형으로 box클래스 정의하기</a></li>
+<li class="toc-entry toc-h4"><a href="#my-제네릭은-type과-반대로-변수-및-생성자에서는-제네릭-구상체-인-특정형-변수에--할당사용시-생략된t형을-넣어줘-변수와-생성자에서-좁힌다">my) 제네릭은 Type과 반대로, 변수 및 생성자에서는 제네릭 구상체 인 &lt;특정형&gt; 변수에 , 할당(사용)시 생략된T형&lt;&gt;을 넣어줘, 변수와 생성자에서 좁힌다.</a></li>
+<li class="toc-entry toc-h4"><a href="#할당사용시-생략된t형을-넣지만--좁히는-변수와생성자-자리에-들어간특정형-변수가-추상체인-인터페이스라면--넓히는-할당-자리에-특정형-인터페이스의-구상체형들-들도-할당가능하다">할당(사용)시 생략된T형&lt;&gt;을 넣지만,  좁히는 변수와생성자 자리에 들어간&lt;특정형&gt; 변수가 추상체인 인터페이스라면,  넓히는 할당 자리에 &lt;특정형 인터페이스의 구상체형들&gt; 들도 할당가능하다</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#넓은-할당자리에-특정형을-집어넣으면-해당-클래스만-사용가능해진다">넓은 할당자리에 특정형을 집어넣으면 해당 클래스만 사용가능해진다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#좌항-좁히는-변수가-특정형의-제네릭구상체라면---마찬가지-좁히는-생성자에-들어갈-변수도-특정형으로-처리되어야함-할당사용-특정분기은-생략된t형제네릭추상체의-기본생성자-호출-불가">좌항 좁히는 변수가 &lt;특정형&gt;의 제네릭구상체라면 -&gt; 마찬가지 좁히는 생성자에 들어갈 변수도 특정형으로 처리되어야함. 할당(사용, 특정분기)은 생략된T형(제네릭추상체)의 기본생성자 호출 불가</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#변수만-좁히고-할당은-안좁혔을-때---기본-생성자에-인자가-들어간다면-넓은-할당형에-쓰던-것이-생성자로-들어갈-예정이니-에러가난다----인자를-안받는-생성자를-만들어줘서-생략된t형의-인자가-못들어가게-막아주자">변수만 좁히고, 할당은 안좁혔을 때 -&gt; 기본 생성자에 인자가 들어간다면 넓은 할당형에 쓰던 것이 생성자로 들어갈 예정이니 에러가난다 -&gt;  인자를 안받는 생성자를 만들어줘서 생략된T형의 인자가 못들어가게 막아주자.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#할당시-제네릭구상체특정형을--지정해주면-내부의-모든-것이-t-특정형으로-바뀐다-할당은-변수보다-넓어야하니-변수는-더-좁은-특정형or특정형의-구상체들로-받아줘야할-것이다">할당시 제네릭구상체&lt;특정형&gt;을  지정해주면, 내부의 모든 것이 T-&gt;특정형으로 바뀐다. 할당은 변수보다 넓어야하니 변수는 더 좁은 특정형or특정형의 구상체들로 받아줘야할 것이다.</a></li>
+<li class="toc-entry toc-h4"><a href="#좁았던-제네릭-변수정의---생성자-인자의-관계에선-type처럼-변수-추상체라면-생성자인자-구상체의-관계를-가진다">좁았던, 제네릭 변수정의 - 생성자 인자의 관계에선, Type처럼 변수-추상체라면, 생성자인자-구상체의 관계를 가진다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#실사용-와일드카드">실사용 와일드카드</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#실사용은-좁은-변수제네릭에-와일드카드를-지정해주고-넓은-할당은-생략된t형이-기본인-상태에서-넣어줄-생성자에-변수의-좁은제네릭에-들어있는-구상체or상속or와일드카드-범위의-객체를-넣어-사용해줘야한다">실사용은 좁은 변수제네릭에 와일드카드를 지정해주고 넓은 할당은 생략된T형이 기본인 상태에서, 넣어줄 생성자에 변수의 좁은제네릭에 들어있는 구상체or상속or와일드카드 범위의 객체를 넣어 사용해줘야한다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#상속자-자리에-와일드카드변수제네릭추상체-구현체를--상속한-것들도-넣어줄-수-있다">상속자 자리에 와일드카드변수(제네릭추상체) 구현체를  상속한 것들도 넣어줄 수 있다.</a></li>
+<li class="toc-entry toc-h4"><a href="#넓은-할당쪽-제네릭은-사실-생성자에-들어갈-객체의-범위가-default다">넓은 할당쪽 제네릭은 사실, 생성자에 들어갈 객체의 범위가 default다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#와일드카드에-대해-상속자들어갈놈---할당제네릭의-default가-안정해줄-경우-어떤-type으로-잡힐까">와일드카드에 대해, 상속자들어갈놈 -&gt; 할당제네릭의 default가 안정해줄 경우, 어떤 Type으로 잡힐까?</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#제네릭의-클변-메파-정의-좁-변수와--메파-제한자와x---생성자-넓-할당">제네릭의 클변 메파 정의/ 좁 변수(와) + 메파 제한자(와X) -&gt; 생성자/ 넓 할당</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#제네릭은-정의class-속-변수-method-파라미터는-te로--변수와일드카드와-method-파라미터는-t-e-좁게--생성자좁힌-것의--구현체자식들----할당은-넓게default로-두면-알아서-생성자에-사용되는-구현체에-맞게">제네릭은 정의(class 속 변수, method 파라미터)는 T(E)로 / 변수(와일드카드)와 method 파라미터는 &lt;T&gt; (&lt;E&gt;) 좁게 + 생성자(좁힌 것의  구현체&amp;자식들) +  / 할당은 넓게(default로 두면 알아서 생성자에 사용되는 구현체에 맞게)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#메소드-파라미터는-제네릭e로-정의해주지만-클래스-변수-타입-t형처럼--히는-작업이-접근제한자와-응답사이에--좁은-꺽쇠e로-정의-좁은-변수type처럼">메소드 파라미터는 제네릭E로 정의해주지만 (클래스 변수 타입 T형처럼)  /히는 작업이 접근제한자와 응답사이에  좁은 꺽쇠&lt;E&gt;로 정의 (좁은 변수Type처럼)</a></li>
+<li class="toc-entry toc-h4"><a href="#좁은-변수처럼-메소드-파라미터는-제한자-쪽에서-좁힌-type-e에-와일드카드-or-직접-꺽쇠에-제한을-걸수-있다">좁은 변수처럼, 메소드 파라미터는 제한자 쪽에서 좁힌 Type &lt;E&gt;에 와일드카드 or 직접 꺽쇠에 제한을 걸수 있다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#참고-e는-와일드카드-범위내에서-사용된-type이-추론끝나면-컴파일-타임에서-해당type으로-대체되어-사라진다">참고) E는 와일드카드 범위내에서 사용된 Type이 추론끝나면 컴파일 타임에서 해당Type으로 대체되어 사라진다.</a></li>
+<li class="toc-entry toc-h5"><a href="#참고-정의를-해주는-class옆-꺽쇠--method파라미터용-앞쪽-꺽쇠에서는-와일드카드-사용이-안된다-변수-제네릭에서만-와일드카드-가능">참고) 정의를 해주는 class옆 꺽쇠 + method파라미터용 앞쪽 꺽쇠에서는 와일드카드 사용이 안된다. 변수 제네릭에서만 와일드카드 가능</a></li>
+<li class="toc-entry toc-h5"><a href="#추가-메서드-파라미터-e를-좁힐-땐-와일드카드가-아닌-꺾쇠e-extends-로-좁히며-super불가--와이드카드-불가다">추가 메서드 파라미터 E를 좁힐 땐, 와일드카드가 아닌 꺾쇠&lt;E extends &gt;로 좁히며, super불가 + 와이드카드 불가다..</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#메서드에서-class와-동일한-타입추론-변수를-사용해도-된다-but">메서드에서 class와 동일한 타입추론 변수를 사용해도 된다. but…</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#메서드-파라미터의-변수는-지역변수라--class쪽과-다르다">메서드 파라미터의 변수는 지역변수라 … class쪽과 다르다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#p-e-c-s제네릭와일드카드-사용처">P-E C-S(제네릭와일드카드 사용처)</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#arraylist를-타고-들어가서--extends가-어디서-사용되는지-검색-해보자">ArrayList를 타고 들어가서 ? extends가 어디서 사용되는지 검색 해보자.</a></li>
+<li class="toc-entry toc-h3"><a href="#-super는-소비되는-곳에서-사용된다">? super는 소비되는 곳에서 사용된다.</a></li>
+</ul>
+</li>
+</ul><h2 id="리스트">
+<a class="anchor" href="#%EB%A6%AC%EC%8A%A4%ED%8A%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>리스트</h2>
+
+<ol>
+  <li>
+    <p>테스트부터 만든다.</p>
+
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">test&gt;java</code>에서 <code class="language-plaintext highlighter-rouge">class</code>를  앞에 <code class="language-plaintext highlighter-rouge">패키지.</code>를 붙혀 만들면 패키지 + class를 동시에 만들 수 있다.</strong>
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">list.ListTest</code></li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ListTest</span> <span class="o">{</span>
+     <span class="nd">@Test</span>
+     <span class="kt">void</span> <span class="nf">name</span><span class="o">()</span> <span class="o">{</span>
+         <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="arraylist-vs-linkedlist">
+<a class="anchor" href="#arraylist-vs-linkedlist" aria-hidden="true"><span class="octicon octicon-link"></span></a>ArrayList vs LinkedList</h3>
+
+<h4 id="arraylist">
+<a class="anchor" href="#arraylist" aria-hidden="true"><span class="octicon octicon-link"></span></a>ArrayList</h4>
+
+<ol>
+  <li>
+    <p>arrayList는 내부에 <code class="language-plaintext highlighter-rouge">단순 배열</code>을 가지고 있다. <strong><code class="language-plaintext highlighter-rouge">배열</code>을 사용하기 좋게 감싼 <code class="language-plaintext highlighter-rouge">일급컬렉션</code></strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">transient</span> <span class="nc">Object</span><span class="o">[]</span> <span class="n">elementData</span><span class="o">;</span> <span class="c1">// non-private to simplify nested class access</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>배열을 그냥 쓰면, 배열크기가 고정되어있지만, 일급으로 만들어서 크기를 유동적으로 증가 감소, 복사해서 대체해주기 등을 한다.</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">private</span> <span class="nc">Object</span><span class="o">[]</span> <span class="nf">grow</span><span class="o">(</span><span class="kt">int</span> <span class="n">minCapacity</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">return</span> <span class="n">elementData</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">elementData</span><span class="o">,</span>
+                                        <span class="n">newCapacity</span><span class="o">(</span><span class="n">minCapacity</span><span class="o">));</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="linkedlist">
+<a class="anchor" href="#linkedlist" aria-hidden="true"><span class="octicon octicon-link"></span></a>LinkedList</h4>
+
+<ol>
+  <li>
+    <p>배열이 아니라 <strong>시작과 끝<code class="language-plaintext highlighter-rouge">노드</code>를 가지고 있으며 연결</strong>되어있다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">transient</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">first</span><span class="o">;</span>
+    
+ <span class="cm">/**
+      * Pointer to last node.
+      */</span>
+ <span class="kd">transient</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">last</span><span class="o">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>연결되어있으므로 <strong>배열 공간에 미리할당할 필요없이 하나씩 node를 추가</strong>하면 된다.</p>
+  </li>
+</ol>
+
+<h4 id="저장---접근-방식">
+<a class="anchor" href="#%EC%A0%80%EC%9E%A5---%EC%A0%91%EA%B7%BC-%EB%B0%A9%EC%8B%9D" aria-hidden="true"><span class="octicon octicon-link"></span></a>저장 -&gt; 접근 방식</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220302090332448.png" alt="image-20220302090332448"></p>
+
+<ol>
+  <li>배열의 arrayList: 인덱스로 한번에 접근가능하다.
+    <ul>
+      <li>
+<strong>인덱스로 한번에 <code class="language-plaintext highlighter-rouge">중간원소 접근</code>가능</strong> -&gt; <strong>빠르다.</strong>
+        <ul>
+          <li>메모리 공간을 미리 할당해야하므로, 메모리 딸리는 상황에서는 데이터 추가시 느릴 수 있다.</li>
+        </ul>
+      </li>
+      <li><strong><code class="language-plaintext highlighter-rouge">중간원소 삭제</code>시  <code class="language-plaintext highlighter-rouge">인덱스를 한칸식 다 땡겨줘야</code>하므로 시간이 오래 걸린다.</strong></li>
+      <li>중복처리 방식
+        <ul>
+          <li>리스트 안에 리스트를 넣는방식 이용</li>
+          <li>크기가 커지면 리스트 안에 트리를 넣는 방식 이용</li>
+          <li>사이즈에 맞게 다르게 사용되어서.. api를 사용하는게 좋다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>노드의 LinkedList: 통해서 가야하는 줄줄이 노드.
+    <ul>
+      <li>
+<strong>타고가야하는 줄줄이 노드는 <code class="language-plaintext highlighter-rouge">중간원소 접근</code></strong> -&gt; <strong>느리다.</strong>
+</li>
+      <li><strong><code class="language-plaintext highlighter-rouge">중간원소 삭제</code>시  편하게 삭제</strong></li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="하드디스크의-물리적으로-순차적인-접근">
+<a class="anchor" href="#%ED%95%98%EB%93%9C%EB%94%94%EC%8A%A4%ED%81%AC%EC%9D%98-%EB%AC%BC%EB%A6%AC%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%88%9C%EC%B0%A8%EC%A0%81%EC%9D%B8-%EC%A0%91%EA%B7%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>하드디스크의 물리적으로 순차적인 접근</h4>
+
+<ul>
+  <li>옛날 하드디스크 = 물리적으로 순차적으로 메모리 배열 -&gt; arraylist와 마찬가지 방식 -&gt; 유리했었음
+    <ul>
+      <li>요즘은 linkedList가 메모리 파편화된 node들의 집합이어도 별 상관없어졌다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="제네릭">
+<a class="anchor" href="#%EC%A0%9C%EB%84%A4%EB%A6%AD" aria-hidden="true"><span class="octicon octicon-link"></span></a>제네릭</h2>
+
+<ul>
+  <li>list처럼 다양한type을 관리하는 경우, <strong>특정type으로 고정</strong>시킬 수 있다.
+    <ul>
+      <li>제네릭이 멀까?
+        <ul>
+          <li>컴파일 타임(핵심)에 처리가 되서, 그 때 버그를 잡아낼 수 있다.</li>
+          <li>클래스를 변수로 만들기?</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="제네릭은-컴파일-타임에-처리된다">
+<a class="anchor" href="#%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9D%80-%EC%BB%B4%ED%8C%8C%EC%9D%BC-%ED%83%80%EC%9E%84%EC%97%90-%EC%B2%98%EB%A6%AC%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>제네릭은 컴파일 타임에 처리된다.</h3>
+
+<ol>
+  <li>
+    <p>1을 arrayList에 넣고 출력하는 코드를 작성하고 <strong>실행시켜 컴파일</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="nf">name</span><span class="o">()</span> <span class="o">{</span>
+     <span class="kd">final</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">integers</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+     <span class="n">integers</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+    
+     <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">integers</span><span class="o">);</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">out(build)</code></strong>부터 시작되는 컴파일코드로 가서 <code class="language-plaintext highlighter-rouge">shift2번 &gt; show bytecode</code>를 쳐서 내부적으로 실행된 코드를 확인해보자.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220302093655182.png" alt="image-20220302093655182"></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c1">// access flags 0x0</span>
+   <span class="n">name</span><span class="o">()</span><span class="no">V</span>
+   <span class="nd">@Lorg</span><span class="o">/</span><span class="n">junit</span><span class="o">/</span><span class="n">jupiter</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="nc">Test</span><span class="o">;()</span>
+    <span class="no">L0</span>
+     <span class="no">LINENUMBER</span> <span class="mi">9</span> <span class="no">L0</span>
+     <span class="no">NEW</span> <span class="n">java</span><span class="o">/</span><span class="n">util</span><span class="o">/</span><span class="nc">ArrayList</span>
+     <span class="no">DUP</span>
+        <span class="c1">// ArrayList 생성할 때, 제네릭정보는 없다.</span>
+     <span class="no">INVOKESPECIAL</span> <span class="n">java</span><span class="o">/</span><span class="n">util</span><span class="o">/</span><span class="nc">ArrayList</span><span class="o">.&lt;</span><span class="n">init</span><span class="o">&gt;</span> <span class="o">()</span><span class="no">V</span>
+     <span class="no">ASTORE</span> <span class="mi">1</span>
+    <span class="no">L1</span>
+     <span class="no">LINENUMBER</span> <span class="mi">10</span> <span class="no">L1</span>
+     <span class="no">ALOAD</span> <span class="mi">1</span>
+     <span class="no">ICONST_1</span>
+     <span class="no">INVOKESTATIC</span> <span class="n">java</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="nc">Integer</span><span class="o">.</span><span class="na">valueOf</span> <span class="o">(</span><span class="no">I</span><span class="o">)</span><span class="nc">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="nc">Integer</span><span class="o">;</span>
+         <span class="c1">// integer가 들어갈 때, Object로 들어간다. -&gt; 컴파일 될 때 알아서 Type으로 떨어진다. 컴파일 타임까지만 Type실수하지않게 도와주는 것. 런타임 때는 안도와준다. </span>
+     <span class="no">INVOKEVIRTUAL</span> <span class="n">java</span><span class="o">/</span><span class="n">util</span><span class="o">/</span><span class="nc">ArrayList</span><span class="o">.</span><span class="na">add</span> <span class="o">(</span><span class="nc">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="nc">Object</span><span class="o">;)</span><span class="no">Z</span>
+     <span class="no">POP</span>
+    <span class="no">L2</span>
+     <span class="no">LINENUMBER</span> <span class="mi">12</span> <span class="no">L2</span>
+     <span class="no">GETSTATIC</span> <span class="n">java</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span> <span class="o">:</span> <span class="nc">Ljava</span><span class="o">/</span><span class="n">io</span><span class="o">/</span><span class="nc">PrintStream</span><span class="o">;</span>
+     <span class="no">ALOAD</span> <span class="mi">1</span>
+     <span class="no">INVOKEVIRTUAL</span> <span class="n">java</span><span class="o">/</span><span class="n">io</span><span class="o">/</span><span class="nc">PrintStream</span><span class="o">.</span><span class="na">println</span> <span class="o">(</span><span class="nc">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="nc">Object</span><span class="o">;)</span><span class="no">V</span>
+    <span class="no">L3</span>
+     <span class="no">LINENUMBER</span> <span class="mi">13</span> <span class="no">L3</span>
+     <span class="no">RETURN</span>
+    <span class="no">L4</span>
+     <span class="no">LOCALVARIABLE</span> <span class="k">this</span> <span class="nc">Lgeneric</span><span class="o">/</span><span class="nc">GenericTest</span><span class="o">;</span> <span class="no">L0</span> <span class="no">L4</span> <span class="mi">0</span>
+     <span class="no">LOCALVARIABLE</span> <span class="n">integers</span> <span class="nc">Ljava</span><span class="o">/</span><span class="n">util</span><span class="o">/</span><span class="nc">ArrayList</span><span class="o">;</span> <span class="no">L1</span> <span class="no">L4</span> <span class="mi">1</span>
+     <span class="c1">// signature Ljava/util/ArrayList&lt;Ljava/lang/Integer;&gt;;</span>
+     <span class="c1">// declaration: integers extends java.util.ArrayList&lt;java.lang.Integer&gt;</span>
+     <span class="no">MAXSTACK</span> <span class="o">=</span> <span class="mi">2</span>
+     <span class="no">MAXLOCALS</span> <span class="o">=</span> <span class="mi">2</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>결과적으로 <strong><code class="language-plaintext highlighter-rouge">외부에서 타입을 지정</code>할 수 있게하는 기술이다.</strong></p>
+
+    <ul>
+      <li>생성시에는 타입없이 내부에서 생성</li>
+      <li>외부인 변수에 할당시 타입지정</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">integers</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">();</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li><strong>외부에서 타입을 맘대로(나 인티져 넣을거야, 나 스트링 넣을 거야~)지정해서 편하게 사용한다.</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">final</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">integers</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+ <span class="kd">final</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">strings</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="장점">
+<a class="anchor" href="#%EC%9E%A5%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>장점</h3>
+
+<ol>
+  <li>(사용시 특정타입으로 제한하여)  타입안정성을 얻을 수 있다.</li>
+  <li>캐스팅해서 사용하던 것을 자동으로 처리되도록 됨.</li>
+</ol>
+
+<h4 id="my-여러-타입가능한-자료구조사용시-get하면-object로-내려와-1-타입확인-2-다운캐스팅-해서-사용했어야-했는데-사라지게-된다">
+<a class="anchor" href="#my-%EC%97%AC%EB%9F%AC-%ED%83%80%EC%9E%85%EA%B0%80%EB%8A%A5%ED%95%9C-%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0%EC%82%AC%EC%9A%A9%EC%8B%9C-get%ED%95%98%EB%A9%B4-object%EB%A1%9C-%EB%82%B4%EB%A0%A4%EC%99%80-1-%ED%83%80%EC%9E%85%ED%99%95%EC%9D%B8-2-%EB%8B%A4%EC%9A%B4%EC%BA%90%EC%8A%A4%ED%8C%85-%ED%95%B4%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%96%88%EC%96%B4%EC%95%BC-%ED%96%88%EB%8A%94%EB%8D%B0-%EC%82%AC%EB%9D%BC%EC%A7%80%EA%B2%8C-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) [여러 타입가능한 자료구조]사용시 get하면 object로 내려와 (1) 타입확인 (2) 다운캐스팅 해서 사용했어야 했는데 사라지게 된다.</h4>
+
+<ul>
+  <li>jdk 5부터 추가되었다.</li>
+  <li><strong>다른type, 다른형을 막아주기 때문에 <code class="language-plaintext highlighter-rouge">특별한 이유가 없으면 여러타입가능 자료구조는 무조건 generic</code>을 사용해라</strong></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">name</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">List</span> <span class="n">integersNoGeneric</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">();</span>
+    <span class="n">integersNoGeneric</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+
+    <span class="c1">// 여러타입 가능한 것에 대해 제네릭으로 타입을 안정해준다면,</span>
+    <span class="c1">// 1. &lt;받아올 때&gt; Object형으로 내려온다. -&gt; &lt;받아 사용하는 쪽에서&gt; 다운캐스팅 해야 쓸 수 있다.</span>
+    <span class="kd">final</span> <span class="nc">Object</span> <span class="n">o</span> <span class="o">=</span> <span class="n">integersNoGeneric</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+
+    <span class="c1">// -&gt; [넣은 것과 동일한 형으로 직접 다운 캐스팅]해야줘야   다시 해당 type으로 사용할 수 있다.</span>
+    <span class="kd">final</span> <span class="nc">Integer</span> <span class="n">integer</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Integer</span><span class="o">)</span> <span class="n">integersNoGeneric</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+
+    <span class="c1">// 2. 다른 Type을 넣어버릴 수 도 있어서 type불안정하다.</span>
+    <span class="n">integersNoGeneric</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"1"</span><span class="o">);</span>
+    <span class="c1">// -&gt; &lt;사용하는 쪽, 타입까지 직접확인해줘야&gt;해서 -&gt; 사용할 때 [넣은 것과 동일한지 type확인도 미리] 다운캐스팅전에 해줬어야했다.</span>
+    <span class="kd">final</span> <span class="nc">Object</span> <span class="n">o1</span> <span class="o">=</span> <span class="n">integersNoGeneric</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">o1</span> <span class="k">instanceof</span> <span class="nc">Integer</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">Integer</span> <span class="n">o11</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Integer</span><span class="o">)</span> <span class="n">o1</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="type과-제네릭은-영역-좁히는게-반대다">
+<a class="anchor" href="#type%EA%B3%BC-%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9D%80-%EC%98%81%EC%97%AD-%EC%A2%81%ED%9E%88%EB%8A%94%EA%B2%8C-%EB%B0%98%EB%8C%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Type과 제네릭은 영역 좁히는게 반대다?</h2>
+
+<h3 id="arraylist는-구현체-list가-인터페이스추상체">
+<a class="anchor" href="#arraylist%EB%8A%94-%EA%B5%AC%ED%98%84%EC%B2%B4-list%EA%B0%80-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EC%B6%94%EC%83%81%EC%B2%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>ArrayList는 구현체 List가 인터페이스(추상체)</h3>
+
+<ul>
+  <li>type을 받아줄 변수는 <code class="language-plaintext highlighter-rouge">인터페이스(추상체)</code>로 받아야, <strong>메서드들이 <code class="language-plaintext highlighter-rouge">분기를 대신하는 구상체(전략객체)를 받을 수 있는 추상체(인터페이스) 파라미터</code>로 정의되어있음을 인지해야한다.</strong>
+</li>
+</ul>
+
+<h4 id="my-type의-경우-정의하는-변수와-파라미터는-전체-분기들을-내포되도록-추상체로-받고-사용하는-할당과-메소드호출-인자에는-분기가-결정된-구상체를-넣어주자">
+<a class="anchor" href="#my-type%EC%9D%98-%EA%B2%BD%EC%9A%B0-%EC%A0%95%EC%9D%98%ED%95%98%EB%8A%94-%EB%B3%80%EC%88%98%EC%99%80-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%8A%94-%EC%A0%84%EC%B2%B4-%EB%B6%84%EA%B8%B0%EB%93%A4%EC%9D%84-%EB%82%B4%ED%8F%AC%EB%90%98%EB%8F%84%EB%A1%9D-%EC%B6%94%EC%83%81%EC%B2%B4%EB%A1%9C-%EB%B0%9B%EA%B3%A0-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%ED%95%A0%EB%8B%B9%EA%B3%BC-%EB%A9%94%EC%86%8C%EB%93%9C%ED%98%B8%EC%B6%9C-%EC%9D%B8%EC%9E%90%EC%97%90%EB%8A%94-%EB%B6%84%EA%B8%B0%EA%B0%80-%EA%B2%B0%EC%A0%95%EB%90%9C-%EA%B5%AC%EC%83%81%EC%B2%B4%EB%A5%BC-%EB%84%A3%EC%96%B4%EC%A3%BC%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) Type의 경우) 정의하는 <code class="language-plaintext highlighter-rouge">변수와 파라미터</code>는 <code class="language-plaintext highlighter-rouge">전체 분기들을 내포되도록 추상체</code>로 받고, 사용하는 <code class="language-plaintext highlighter-rouge">할당과 메소드호출 인자</code>에는 분기가 결정된 <code class="language-plaintext highlighter-rouge">구상체</code>를 넣어주자.</h4>
+
+<ol>
+  <li>
+    <p><strong>파라미터를 분기결정된 구상체</strong>로 받는다면?</p>
+
+    <ul>
+      <li><strong>다른 구상체들을 못받는다.</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kt">void</span> <span class="n">파라미터를_분기결정된_구상체로_넣는경우</span><span class="o">(</span><span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+     <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c1">// 1. default로 변수추출시 ArrayList 풀로 형이 정해지는데</span>
+ <span class="kd">final</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">integersArrayList</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+    
+ <span class="c1">// 2. vs 정의하는 변수와 파라미터는 전체분기들을 내포하는 추상체로 받아라 -&gt; 할당과 메소드호출인자에는 분기결정한 구상체를 넣어주자.</span>
+ <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">integersList</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+    
+ <span class="c1">//3. 정의하는 메소드파라미터를 분기결정된 구상체 -&gt; 해당 구상체밖에 못들어온다.</span>
+ <span class="n">파라미터를_분기결정된_구상체로_넣는경우</span><span class="o">(</span><span class="n">integersArrayList</span><span class="o">);</span> <span class="c1">// 에러안남.</span>
+ <span class="n">파라미터를_분기결정된_구상체로_넣는경우</span><span class="o">(</span><span class="n">integersList</span><span class="o">);</span> <span class="c1">// 에러남 (구상체 정의 -&gt; 추상체를 넣음)</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>파라미터를 분기내포하는 추상체(인터페이스)</strong>로 받는다면?</p>
+
+    <ul>
+      <li>파라미터를 추상체로 받는다? -&gt; 분기들을 내포하여 구상체들을 다 받을 수 있는 상황</li>
+      <li>
+<strong>인터페이스로 분리해서 내가 어떤이점을 얻고 있지? 잘활용하고 있나 고민할 것</strong>
+        <ul>
+          <li>전략패턴에서는, 파라미터를 전략인터페이스로 정의후</li>
+          <li><strong>호출시점에 전략객체.전략메서드() 호출시켜서 실시간성 부여</strong></li>
+          <li>사용하는 메인에서 <strong>메서드호출시 new 구상체를 던져 분기를 정해줌</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kt">void</span> <span class="n">파라미터를_분기내포하는_추상체로_넣는경우</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+         <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+     <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="n">파라미터를_분기내포하는_추상체로_넣는경우</span><span class="o">(</span><span class="n">integersArrayList</span><span class="o">);</span> <span class="c1">// 에러안남.</span>
+ <span class="n">파라미터를_분기내포하는_추상체로_넣는경우</span><span class="o">(</span><span class="n">integersList</span><span class="o">);</span> <span class="c1">// 이것도 에러 안남.</span>
+    
+ <span class="c1">//메소드 호출시, 여러분기들의 구상체를 다 받을 수 있다.</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="정의시-변수-생략된t--형--파라미터-클래스-t형---제네릭에서의-추상체---구상체-특정형-변수">
+<a class="anchor" href="#%EC%A0%95%EC%9D%98%EC%8B%9C-%EB%B3%80%EC%88%98-%EC%83%9D%EB%9E%B5%EB%90%9Ct--%ED%98%95--%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0-%ED%81%B4%EB%9E%98%EC%8A%A4-t%ED%98%95---%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%97%90%EC%84%9C%EC%9D%98-%EC%B6%94%EC%83%81%EC%B2%B4---%EA%B5%AC%EC%83%81%EC%B2%B4-%ED%8A%B9%EC%A0%95%ED%98%95-%EB%B3%80%EC%88%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>정의시, 변수 <code class="language-plaintext highlighter-rouge">생략된T &lt;&gt;</code> 형 + 파라미터, 클래스 <code class="language-plaintext highlighter-rouge">&lt;T&gt;</code>형 -&gt; 제네릭에서의 추상체 &lt;-&gt; <code class="language-plaintext highlighter-rouge">구상체 &lt;특정형&gt;</code> 변수</h3>
+
+<h4 id="제네릭-추상체-t형으로-box클래스-정의하기">
+<a class="anchor" href="#%EC%A0%9C%EB%84%A4%EB%A6%AD-%EC%B6%94%EC%83%81%EC%B2%B4-t%ED%98%95%EC%9C%BC%EB%A1%9C-box%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%A0%95%EC%9D%98%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>제네릭 추상체 <code class="language-plaintext highlighter-rouge">&lt;T&gt;</code>형으로 box클래스 정의하기</h4>
+
+<ol>
+  <li>
+    <p>제네릭 추상체 <code class="language-plaintext highlighter-rouge">&lt;T&gt;형</code> 클래스 만들기</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">class</span> <span class="nc">Box</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="o">{</span>
+    
+     <span class="kd">private</span> <span class="kd">final</span> <span class="no">T</span> <span class="n">value</span><span class="o">;</span> <span class="c1">// 1. T형 변수을 감싸는 클래스 box를 만든다. T형이란 미정이므로 -&gt; 2. 클래스 정의시 &lt;T&gt; 제네릭을 달아줘야한다.</span>
+    
+     <span class="c1">//3. T형변수를 변수를 생성자를 통해 초기화하고</span>
+     <span class="kd">public</span> <span class="nf">Box</span><span class="o">(</span><span class="kd">final</span> <span class="no">T</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+     <span class="o">}</span>
+    
+     <span class="c1">//4. T형 변수를 getter로 응답한다.</span>
+     <span class="kd">public</span> <span class="no">T</span> <span class="nf">getValue</span><span class="o">()</span> <span class="o">{</span>
+         <span class="k">return</span> <span class="n">value</span><span class="o">;</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="my-제네릭은-type과-반대로-변수-및-생성자에서는-제네릭-구상체-인-특정형-변수에--할당사용시-생략된t형을-넣어줘-변수와-생성자에서-좁힌다">
+<a class="anchor" href="#my-%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9D%80-type%EA%B3%BC-%EB%B0%98%EB%8C%80%EB%A1%9C-%EB%B3%80%EC%88%98-%EB%B0%8F-%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90%EC%84%9C%EB%8A%94-%EC%A0%9C%EB%84%A4%EB%A6%AD-%EA%B5%AC%EC%83%81%EC%B2%B4-%EC%9D%B8-%ED%8A%B9%EC%A0%95%ED%98%95-%EB%B3%80%EC%88%98%EC%97%90--%ED%95%A0%EB%8B%B9%EC%82%AC%EC%9A%A9%EC%8B%9C-%EC%83%9D%EB%9E%B5%EB%90%9Ct%ED%98%95%EC%9D%84-%EB%84%A3%EC%96%B4%EC%A4%98-%EB%B3%80%EC%88%98%EC%99%80-%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90%EC%84%9C-%EC%A2%81%ED%9E%8C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) 제네릭은 Type과 반대로, <code class="language-plaintext highlighter-rouge">변수 및 생성자</code>에서는 <code class="language-plaintext highlighter-rouge">제네릭 구상체</code> 인 <code class="language-plaintext highlighter-rouge">&lt;특정형&gt; 변수</code>에 , <code class="language-plaintext highlighter-rouge">할당(사용)</code>시 <code class="language-plaintext highlighter-rouge">생략된T형&lt;&gt;</code>을 넣어줘, 변수와 생성자에서 좁힌다.</h4>
+
+<ol>
+  <li>
+    <p>제네릭 추상체 <code class="language-plaintext highlighter-rouge">생략된T형 &lt;&gt;</code>변수, <strong>제네릭 구상체 <code class="language-plaintext highlighter-rouge">&lt;특정형&gt;</code> 변수</strong> 각각 생성자 대입해보기</p>
+
+    <ul>
+      <li>변수가 제네릭 구상체이라면, 할당도 해당하는 형밖에 못넣는다.특정형&gt;</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="nf">name2</span><span class="o">()</span> <span class="o">{</span>
+     <span class="kd">final</span> <span class="nc">Box</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">stringBox</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Box</span><span class="o">&lt;&gt;(</span><span class="s">""</span><span class="o">);</span>
+     <span class="c1">//final Box&lt;String&gt; stringBox = new Box&lt;&gt;(1); // 제네릭은 변수와 생성자에서 좁힌다. 할당시 제네릭추상체-생략된T&lt;&gt;형으로 넓게준다.</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="할당사용시-생략된t형을-넣지만--좁히는-변수와생성자-자리에-들어간특정형-변수가-추상체인-인터페이스라면--넓히는-할당-자리에-특정형-인터페이스의-구상체형들-들도-할당가능하다">
+<a class="anchor" href="#%ED%95%A0%EB%8B%B9%EC%82%AC%EC%9A%A9%EC%8B%9C-%EC%83%9D%EB%9E%B5%EB%90%9Ct%ED%98%95%EC%9D%84-%EB%84%A3%EC%A7%80%EB%A7%8C--%EC%A2%81%ED%9E%88%EB%8A%94-%EB%B3%80%EC%88%98%EC%99%80%EC%83%9D%EC%84%B1%EC%9E%90-%EC%9E%90%EB%A6%AC%EC%97%90-%EB%93%A4%EC%96%B4%EA%B0%84%ED%8A%B9%EC%A0%95%ED%98%95-%EB%B3%80%EC%88%98%EA%B0%80-%EC%B6%94%EC%83%81%EC%B2%B4%EC%9D%B8-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%9D%BC%EB%A9%B4--%EB%84%93%ED%9E%88%EB%8A%94-%ED%95%A0%EB%8B%B9-%EC%9E%90%EB%A6%AC%EC%97%90-%ED%8A%B9%EC%A0%95%ED%98%95-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EC%9D%98-%EA%B5%AC%EC%83%81%EC%B2%B4%ED%98%95%EB%93%A4-%EB%93%A4%EB%8F%84-%ED%95%A0%EB%8B%B9%EA%B0%80%EB%8A%A5%ED%95%98%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a><code class="language-plaintext highlighter-rouge">할당(사용)</code>시 생략된T형<code class="language-plaintext highlighter-rouge">&lt;&gt;</code>을 넣지만,  좁히는 변수와생성자 자리에 들어간<code class="language-plaintext highlighter-rouge">&lt;특정형&gt; 변수</code>가 추상체인 <code class="language-plaintext highlighter-rouge">인터페이스</code>라면,  넓히는 할당 자리에 <code class="language-plaintext highlighter-rouge">&lt;특정형 인터페이스의 구상체형들&gt;</code> 들도 할당가능하다</h4>
+
+<h5 id="넓은-할당자리에-특정형을-집어넣으면-해당-클래스만-사용가능해진다">
+<a class="anchor" href="#%EB%84%93%EC%9D%80-%ED%95%A0%EB%8B%B9%EC%9E%90%EB%A6%AC%EC%97%90-%ED%8A%B9%EC%A0%95%ED%98%95%EC%9D%84-%EC%A7%91%EC%96%B4%EB%84%A3%EC%9C%BC%EB%A9%B4-%ED%95%B4%EB%8B%B9-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A7%8C-%EC%82%AC%EC%9A%A9%EA%B0%80%EB%8A%A5%ED%95%B4%EC%A7%84%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>넓은 할당자리에 특정형을 집어넣으면 해당 클래스만 사용가능해진다.</h5>
+
+<ol>
+  <li>
+    <p>무엇이든 다 들어갈 수 있는 제네릭 추상체 <code class="language-plaintext highlighter-rouge">Box&lt;T&gt;</code>에 대해서 <strong><code class="language-plaintext highlighter-rouge">제네릭 구상체 Box&lt;특정형&gt;</code>을 지정해줬지만, 그 특정형이 구상체들을 가진다면 <code class="language-plaintext highlighter-rouge">우변에서 구상체들의 할당</code>이 가능하다</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c1">// 8.제네릭에서는 생략된T형인 Box&lt;&gt;에 비해 Box&lt;특정형&gt;은 제네릭구상체다. -&gt; 할당이 &lt;특정형&gt;의 자체 및 그 구상체들만 가능해진다.</span>
+ <span class="c1">// -&gt; Animal이 제네릭 특정형으로 들어가 그 제네릭 구상체가 되었더라도, 그것의 구상체들인 Dog, Cat은 할당될 수 있다.</span>
+ <span class="k">new</span> <span class="nc">Box</span><span class="o">&lt;</span><span class="nc">Animal</span><span class="o">&gt;();</span>
+ <span class="kd">final</span> <span class="nc">Box</span><span class="o">&lt;</span><span class="nc">Animal</span><span class="o">&gt;</span> <span class="n">animalBox</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Box</span><span class="o">&lt;</span><span class="nc">Animal</span><span class="o">&gt;();</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="좌항-좁히는-변수가-특정형의-제네릭구상체라면---마찬가지-좁히는-생성자에-들어갈-변수도-특정형으로-처리되어야함-할당사용-특정분기은-생략된t형제네릭추상체의-기본생성자-호출-불가">
+<a class="anchor" href="#%EC%A2%8C%ED%95%AD-%EC%A2%81%ED%9E%88%EB%8A%94-%EB%B3%80%EC%88%98%EA%B0%80-%ED%8A%B9%EC%A0%95%ED%98%95%EC%9D%98-%EC%A0%9C%EB%84%A4%EB%A6%AD%EA%B5%AC%EC%83%81%EC%B2%B4%EB%9D%BC%EB%A9%B4---%EB%A7%88%EC%B0%AC%EA%B0%80%EC%A7%80-%EC%A2%81%ED%9E%88%EB%8A%94-%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90-%EB%93%A4%EC%96%B4%EA%B0%88-%EB%B3%80%EC%88%98%EB%8F%84-%ED%8A%B9%EC%A0%95%ED%98%95%EC%9C%BC%EB%A1%9C-%EC%B2%98%EB%A6%AC%EB%90%98%EC%96%B4%EC%95%BC%ED%95%A8-%ED%95%A0%EB%8B%B9%EC%82%AC%EC%9A%A9-%ED%8A%B9%EC%A0%95%EB%B6%84%EA%B8%B0%EC%9D%80-%EC%83%9D%EB%9E%B5%EB%90%9Ct%ED%98%95%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%B6%94%EC%83%81%EC%B2%B4%EC%9D%98-%EA%B8%B0%EB%B3%B8%EC%83%9D%EC%84%B1%EC%9E%90-%ED%98%B8%EC%B6%9C-%EB%B6%88%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>좌항 좁히는 <code class="language-plaintext highlighter-rouge">변수</code>가 <code class="language-plaintext highlighter-rouge">&lt;특정형&gt;</code>의 제네릭구상체라면 -&gt; 마찬가지 좁히는 <code class="language-plaintext highlighter-rouge">생성자</code>에 들어갈 변수도 <code class="language-plaintext highlighter-rouge">특정형</code>으로 처리되어야함. 할당(사용, 특정분기)은 <code class="language-plaintext highlighter-rouge">생략된T형(제네릭추상체)</code>의 기본생성자 호출 <code class="language-plaintext highlighter-rouge">불가</code>
+</h4>
+
+<h5 id="변수만-좁히고-할당은-안좁혔을-때---기본-생성자에-인자가-들어간다면-넓은-할당형에-쓰던-것이-생성자로-들어갈-예정이니-에러가난다----인자를-안받는-생성자를-만들어줘서-생략된t형의-인자가-못들어가게-막아주자">
+<a class="anchor" href="#%EB%B3%80%EC%88%98%EB%A7%8C-%EC%A2%81%ED%9E%88%EA%B3%A0-%ED%95%A0%EB%8B%B9%EC%9D%80-%EC%95%88%EC%A2%81%ED%98%94%EC%9D%84-%EB%95%8C---%EA%B8%B0%EB%B3%B8-%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90-%EC%9D%B8%EC%9E%90%EA%B0%80-%EB%93%A4%EC%96%B4%EA%B0%84%EB%8B%A4%EB%A9%B4-%EB%84%93%EC%9D%80-%ED%95%A0%EB%8B%B9%ED%98%95%EC%97%90-%EC%93%B0%EB%8D%98-%EA%B2%83%EC%9D%B4-%EC%83%9D%EC%84%B1%EC%9E%90%EB%A1%9C-%EB%93%A4%EC%96%B4%EA%B0%88-%EC%98%88%EC%A0%95%EC%9D%B4%EB%8B%88-%EC%97%90%EB%9F%AC%EA%B0%80%EB%82%9C%EB%8B%A4----%EC%9D%B8%EC%9E%90%EB%A5%BC-%EC%95%88%EB%B0%9B%EB%8A%94-%EC%83%9D%EC%84%B1%EC%9E%90%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A4%98%EC%84%9C-%EC%83%9D%EB%9E%B5%EB%90%9Ct%ED%98%95%EC%9D%98-%EC%9D%B8%EC%9E%90%EA%B0%80-%EB%AA%BB%EB%93%A4%EC%96%B4%EA%B0%80%EA%B2%8C-%EB%A7%89%EC%95%84%EC%A3%BC%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>변수만 좁히고, 할당은 안좁혔을 때 -&gt; 기본 생성자에 인자가 들어간다면 넓은 할당형에 쓰던 것이 생성자로 들어갈 예정이니 에러가난다 -&gt;  인자를 안받는 생성자를 만들어줘서 생략된T형의 인자가 못들어가게 막아주자.</h5>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">List(추상) = ArrayList(구상)</code>는 내가 특정분기를 우항에서 할당하여 사용하는 것이다.</p>
+
+    <ul>
+      <li>하지만 현 상황에서는 제네릭 구상체인 <code class="language-plaintext highlighter-rouge">Box&lt;Animal&gt; (구상)</code> = <code class="language-plaintext highlighter-rouge">new Box &lt;&gt; () (추상:생략된T형)</code>을 넣는 것은 정반대로 주는 것</li>
+      <li>**<code class="language-plaintext highlighter-rouge">좌변 변수정의</code>에서 <code class="language-plaintext highlighter-rouge">구상체 특정형으로 제한</code>되어있다면, <code class="language-plaintext highlighter-rouge">뭔짓을 한들 생략된 T형 = 제네릭추상체 사용시, 생성자에 건네주는 것으로 class내부 T형 변수</code>를 초기화해줄 수 없기 때문이다. **</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">// 9. 좁히는 변수만 좁히고, 할당은 안좁혔을 때 -&gt; 기본 생성자에 인자가 들어간다면 넓은 할당형에 쓰던 것이 생성자로 들어갈 예정이니 에러가난다 </span>
+  <span class="kd">final</span> <span class="nc">Box</span><span class="o">&lt;</span><span class="nc">Animal</span><span class="o">&gt;</span> <span class="n">animalBox</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Box</span><span class="o">&lt;&gt;();</span> <span class="c1">// 생성자쪽에서 에러</span>
+  <span class="c1">// -&gt; 인자를 안받는 생성자를 만들어줘서 생략된T형의 인자가 못들어가게 막아주자.</span>
+  <span class="c1">// -&gt; default생성자(파라미터T가 안되니, 파라미터를 아예 안받고, 내부 T형은 null로 초기화시켜주는)를 추가해주자.</span>
+    
+  <span class="kd">public</span> <span class="nf">Box</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">final</span> <span class="nc">Box</span><span class="o">&lt;</span><span class="nc">Animal</span><span class="o">&gt;</span> <span class="n">animalBox</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Box</span><span class="o">&lt;&gt;();</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+<strong>마치 <code class="language-plaintext highlighter-rouge">제네릭 구상체 변수</code>에 <code class="language-plaintext highlighter-rouge">제네릭추상체 할당</code>이 가능해 보이지만, <code class="language-plaintext highlighter-rouge">생성자가 파라미터를 외부에서 아예 안받고 내부적으로 자체 처리해서 제네릭추상체를 감당</code>하고 있기 때문에 그렇게 보이기만 할 뿐이다.</strong>
+        <ul>
+          <li>특수처리되어서 에러는 사라졌으나 사용은 불가하다.?!</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="할당시-제네릭구상체특정형을--지정해주면-내부의-모든-것이-t-특정형으로-바뀐다-할당은-변수보다-넓어야하니-변수는-더-좁은-특정형or특정형의-구상체들로-받아줘야할-것이다">
+<a class="anchor" href="#%ED%95%A0%EB%8B%B9%EC%8B%9C-%EC%A0%9C%EB%84%A4%EB%A6%AD%EA%B5%AC%EC%83%81%EC%B2%B4%ED%8A%B9%EC%A0%95%ED%98%95%EC%9D%84--%EC%A7%80%EC%A0%95%ED%95%B4%EC%A3%BC%EB%A9%B4-%EB%82%B4%EB%B6%80%EC%9D%98-%EB%AA%A8%EB%93%A0-%EA%B2%83%EC%9D%B4-t-%ED%8A%B9%EC%A0%95%ED%98%95%EC%9C%BC%EB%A1%9C-%EB%B0%94%EB%80%90%EB%8B%A4-%ED%95%A0%EB%8B%B9%EC%9D%80-%EB%B3%80%EC%88%98%EB%B3%B4%EB%8B%A4-%EB%84%93%EC%96%B4%EC%95%BC%ED%95%98%EB%8B%88-%EB%B3%80%EC%88%98%EB%8A%94-%EB%8D%94-%EC%A2%81%EC%9D%80-%ED%8A%B9%EC%A0%95%ED%98%95or%ED%8A%B9%EC%A0%95%ED%98%95%EC%9D%98-%EA%B5%AC%EC%83%81%EC%B2%B4%EB%93%A4%EB%A1%9C-%EB%B0%9B%EC%95%84%EC%A4%98%EC%95%BC%ED%95%A0-%EA%B2%83%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a><code class="language-plaintext highlighter-rouge">할당</code>시 제네릭구상체<code class="language-plaintext highlighter-rouge">&lt;특정형&gt;</code>을  지정해주면, 내부의 모든 것이 T-&gt;특정형으로 바뀐다. 할당은 변수보다 넓어야하니 <code class="language-plaintext highlighter-rouge">변수</code>는 더 좁은 <code class="language-plaintext highlighter-rouge">특정형or특정형의 구상체</code>들로 받아줘야할 것이다.</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 11. 이미 좁힌 제네릭변수가 있을 때, 할당은 생략된T형 &lt;&gt;으로 넓게 줄 수 있다. (넓은 형으로 들어갈 생성자만 잘 처리되면)</span>
+<span class="kd">final</span> <span class="nc">Box</span><span class="o">&lt;</span><span class="nc">Animal</span><span class="o">&gt;</span> <span class="n">animalBox2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Box</span><span class="o">&lt;&gt;();</span>
+<span class="c1">// 12. 할당에서 특정형을 제네릭구상체로 지정해주면, 내부의 모든 로직이 해당 classType으로 바껴서</span>
+<span class="c1">// 12-1. 동일형으로 좁힌 변수에는 잘들어간다.</span>
+<span class="kd">final</span> <span class="nc">Box</span><span class="o">&lt;</span><span class="nc">Animal</span><span class="o">&gt;</span> <span class="n">animalBox3</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Box</span><span class="o">&lt;</span><span class="nc">Animal</span><span class="o">&gt;();</span>
+<span class="c1">// 12-2. 만약 넓은 할당쪽이 더 좁아졌다면? (좁힌 변수보다 더 좁은) Type과 다르게 안들어가진다. -&gt; 변수와 생성자가 더 좁아야한다.</span>
+<span class="kd">final</span> <span class="nc">Box</span><span class="o">&lt;</span><span class="nc">Animal</span><span class="o">&gt;</span> <span class="n">animalBox4</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Box</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;();</span> <span class="c1">// 에러</span>
+</code></pre></div></div>
+
+<h4 id="좁았던-제네릭-변수정의---생성자-인자의-관계에선-type처럼-변수-추상체라면-생성자인자-구상체의-관계를-가진다">
+<a class="anchor" href="#%EC%A2%81%EC%95%98%EB%8D%98-%EC%A0%9C%EB%84%A4%EB%A6%AD-%EB%B3%80%EC%88%98%EC%A0%95%EC%9D%98---%EC%83%9D%EC%84%B1%EC%9E%90-%EC%9D%B8%EC%9E%90%EC%9D%98-%EA%B4%80%EA%B3%84%EC%97%90%EC%84%A0-type%EC%B2%98%EB%9F%BC-%EB%B3%80%EC%88%98-%EC%B6%94%EC%83%81%EC%B2%B4%EB%9D%BC%EB%A9%B4-%EC%83%9D%EC%84%B1%EC%9E%90%EC%9D%B8%EC%9E%90-%EA%B5%AC%EC%83%81%EC%B2%B4%EC%9D%98-%EA%B4%80%EA%B3%84%EB%A5%BC-%EA%B0%80%EC%A7%84%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>좁았던, 제네릭 <code class="language-plaintext highlighter-rouge">변수정의</code> - <code class="language-plaintext highlighter-rouge">생성자 인자</code>의 관계에선, Type처럼 <code class="language-plaintext highlighter-rouge">변수-추상체라면, 생성자인자-구상체</code>의 관계를 가진다.</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//13. 할당시 생략된T형&lt;&gt; -&gt; 변수-생성자 인자 관계에서는, Type처럼 변수 추상체 - 생성자=메서드호출 구상체가 가능하다.</span>
+<span class="c1">//13-1. 할당시 생략된 T&lt;&gt;으로 내부가 T로 구성된 데이터에, 좁은 생성자 인자를 넣어줄 때,  추상체에 구상체가 들어가므로 괜춘하다.</span>
+<span class="kd">final</span> <span class="nc">Box</span><span class="o">&lt;</span><span class="nc">Animal</span><span class="o">&gt;</span> <span class="n">animalBox4</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Box</span><span class="o">&lt;&gt;(</span><span class="k">new</span> <span class="nc">Dog</span><span class="o">());</span>
+<span class="c1">//13-2. 할당이 넓은 상태라면,  변수-추상체 생성자-구상체로서 동일한 것도 생성자로 넣을 수 있다.</span>
+<span class="kd">final</span> <span class="nc">Box</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="n">animalBox5</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Box</span><span class="o">&lt;&gt;(</span><span class="k">new</span> <span class="nc">Dog</span><span class="o">());</span>
+</code></pre></div></div>
+
+<h2 id="실사용-와일드카드">
+<a class="anchor" href="#%EC%8B%A4%EC%82%AC%EC%9A%A9-%EC%99%80%EC%9D%BC%EB%93%9C%EC%B9%B4%EB%93%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>실사용 와일드카드</h2>
+
+<h3 id="실사용은-좁은-변수제네릭에-와일드카드를-지정해주고-넓은-할당은-생략된t형이-기본인-상태에서-넣어줄-생성자에-변수의-좁은제네릭에-들어있는-구상체or상속or와일드카드-범위의-객체를-넣어-사용해줘야한다">
+<a class="anchor" href="#%EC%8B%A4%EC%82%AC%EC%9A%A9%EC%9D%80-%EC%A2%81%EC%9D%80-%EB%B3%80%EC%88%98%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%97%90-%EC%99%80%EC%9D%BC%EB%93%9C%EC%B9%B4%EB%93%9C%EB%A5%BC-%EC%A7%80%EC%A0%95%ED%95%B4%EC%A3%BC%EA%B3%A0-%EB%84%93%EC%9D%80-%ED%95%A0%EB%8B%B9%EC%9D%80-%EC%83%9D%EB%9E%B5%EB%90%9Ct%ED%98%95%EC%9D%B4-%EA%B8%B0%EB%B3%B8%EC%9D%B8-%EC%83%81%ED%83%9C%EC%97%90%EC%84%9C-%EB%84%A3%EC%96%B4%EC%A4%84-%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90-%EB%B3%80%EC%88%98%EC%9D%98-%EC%A2%81%EC%9D%80%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%97%90-%EB%93%A4%EC%96%B4%EC%9E%88%EB%8A%94-%EA%B5%AC%EC%83%81%EC%B2%B4or%EC%83%81%EC%86%8Dor%EC%99%80%EC%9D%BC%EB%93%9C%EC%B9%B4%EB%93%9C-%EB%B2%94%EC%9C%84%EC%9D%98-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%84%A3%EC%96%B4-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%A4%98%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>실사용은 <code class="language-plaintext highlighter-rouge">좁은 변수제네릭에 와일드카드</code>를 지정해주고 <code class="language-plaintext highlighter-rouge">넓은 할당은 생략된T형</code>이 기본인 상태에서, 넣어줄 <code class="language-plaintext highlighter-rouge">생성자에 변수의 좁은제네릭에 들어있는 구상체or상속or와일드카드 범위의 객체를 넣어 사용</code>해줘야한다.</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//14. 넓은 제네릭할당에 대해</span>
+<span class="k">new</span> <span class="nc">Box</span><span class="o">&lt;&gt;();</span>
+<span class="c1">//14-1. 좁은 변수의 제네릭에 와일드카드(upper bound) 적용주자.</span>
+<span class="kd">final</span> <span class="nc">Box</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">Animal</span><span class="o">&gt;</span> <span class="n">extendsAnimalBox</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Box</span><span class="o">&lt;&gt;();</span>
+<span class="c1">//14-1-1. 실사용은 변수에 대해 생성자에 넣어줄 놈은 더 구상체로 넣어주면 된다.</span>
+<span class="kd">final</span> <span class="nc">Box</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">Animal</span><span class="o">&gt;</span> <span class="n">extendsAnimalBox2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Box</span><span class="o">&lt;&gt;(</span><span class="k">new</span> <span class="nc">Animal</span><span class="o">(){});</span>
+<span class="kd">final</span> <span class="nc">Box</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">Animal</span><span class="o">&gt;</span> <span class="n">extendsAnimalBox3</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Box</span><span class="o">&lt;&gt;(</span><span class="k">new</span> <span class="nc">Dog</span><span class="o">());</span>
+</code></pre></div></div>
+
+<h4 id="상속자-자리에-와일드카드변수제네릭추상체-구현체를--상속한-것들도-넣어줄-수-있다">
+<a class="anchor" href="#%EC%83%81%EC%86%8D%EC%9E%90-%EC%9E%90%EB%A6%AC%EC%97%90-%EC%99%80%EC%9D%BC%EB%93%9C%EC%B9%B4%EB%93%9C%EB%B3%80%EC%88%98%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%B6%94%EC%83%81%EC%B2%B4-%EA%B5%AC%ED%98%84%EC%B2%B4%EB%A5%BC--%EC%83%81%EC%86%8D%ED%95%9C-%EA%B2%83%EB%93%A4%EB%8F%84-%EB%84%A3%EC%96%B4%EC%A4%84-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>상속자 자리에 <code class="language-plaintext highlighter-rouge">와일드카드변수(제네릭추상체)</code> <code class="language-plaintext highlighter-rouge">구현체를  상속한 것들</code>도 넣어줄 수 있다.</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//15. [Animal의 구현체인 Dog]를 상속한 것들도 제네릭 상속자 자리에 넣어줄 수 있다.</span>
+<span class="c1">// -&gt; 술을 먹어서 개가 된 돌범(상속) 정의</span>
+<span class="kd">class</span> <span class="nc">Dolbum</span> <span class="kd">extends</span> <span class="nc">Dog</span> <span class="o">{</span> <span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//15-2. 제네릭 변수-상속자의 관계는 구상체 자식들 하위단계를 다 넣어줄 수 있다.</span>
+<span class="kd">final</span> <span class="nc">Box</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">Animal</span><span class="o">&gt;</span> <span class="n">extendsAnimalBox4</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Box</span><span class="o">&lt;&gt;(</span><span class="k">new</span> <span class="nc">Dolbum</span><span class="o">());</span> 
+</code></pre></div></div>
+
+<h4 id="넓은-할당쪽-제네릭은-사실-생성자에-들어갈-객체의-범위가-default다">
+<a class="anchor" href="#%EB%84%93%EC%9D%80-%ED%95%A0%EB%8B%B9%EC%AA%BD-%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9D%80-%EC%82%AC%EC%8B%A4-%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90-%EB%93%A4%EC%96%B4%EA%B0%88-%EA%B0%9D%EC%B2%B4%EC%9D%98-%EB%B2%94%EC%9C%84%EA%B0%80-default%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>넓은 할당쪽 제네릭은 사실, 생성자에 들어갈 객체의 범위가 default다.</h4>
+
+<ul>
+  <li>할당쪽 제네릭은 와일드카드 사용불가</li>
+  <li>특정형 사용시, 생성자도 그걸로</li>
+  <li>생성자를 넣어줄 시, 그거랑 동일한 것이 default</li>
+</ul>
+
+<h3 id="와일드카드에-대해-상속자들어갈놈---할당제네릭의-default가-안정해줄-경우-어떤-type으로-잡힐까">
+<a class="anchor" href="#%EC%99%80%EC%9D%BC%EB%93%9C%EC%B9%B4%EB%93%9C%EC%97%90-%EB%8C%80%ED%95%B4-%EC%83%81%EC%86%8D%EC%9E%90%EB%93%A4%EC%96%B4%EA%B0%88%EB%86%88---%ED%95%A0%EB%8B%B9%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9D%98-default%EA%B0%80-%EC%95%88%EC%A0%95%ED%95%B4%EC%A4%84-%EA%B2%BD%EC%9A%B0-%EC%96%B4%EB%96%A4-type%EC%9C%BC%EB%A1%9C-%EC%9E%A1%ED%9E%90%EA%B9%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>와일드카드에 대해, 상속자들어갈놈 -&gt; 할당제네릭의 default가 안정해줄 경우, 어떤 Type으로 잡힐까?</h3>
+
+<ul>
+  <li>
+<strong>제일 defaultType은 제일 상단</strong>이 나온다.
+    <ul>
+      <li>Type입장에서는 <strong>열려있는 최고 부모를 변수type으로 받아줘야한다.</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//16. 와일드카드에 대해, 상속자들어갈놈 -&gt; 할당제네릭의 default가 안정해줄 경우, 어떤 Type으로 잡힐까?</span>
+<span class="kd">final</span> <span class="nc">Box</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">Animal</span><span class="o">&gt;</span> <span class="n">extendsAnimalBox5</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Box</span><span class="o">&lt;&gt;();</span>
+<span class="c1">//16-1. upperbound를 가진 extends 와일드카드의 경우, 제일 상단인 Animal이 나오고</span>
+<span class="kd">final</span> <span class="nc">Animal</span> <span class="n">value</span> <span class="o">=</span> <span class="n">extendsAnimalBox5</span><span class="o">.</span><span class="na">getValue</span><span class="o">();</span>
+
+<span class="kd">final</span> <span class="nc">Box</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="nc">Animal</span><span class="o">&gt;</span> <span class="n">superAnimalBox5</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Box</span><span class="o">&lt;&gt;();</span>
+<span class="c1">//16-2. lowerbound를 가진 super의 경우, 제일 하단인 Animal이 나올 것 같지만, </span>
+<span class="c1">//    -&gt; 역시 제일 상단인 Object가 나온다.</span>
+<span class="c1">//    --&gt; 와일드카드의 default는 제일 위아래쪽 상관없이     상단 bound ~ Object까지 나오게 된다.</span>
+<span class="kd">final</span> <span class="nc">Object</span> <span class="n">value2</span> <span class="o">=</span> <span class="n">superAnimalBox5</span><span class="o">.</span><span class="na">getValue</span><span class="o">();</span>
+</code></pre></div></div>
+
+<h2 id="제네릭의-클변-메파-정의-좁-변수와--메파-제한자와x---생성자-넓-할당">
+<a class="anchor" href="#%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9D%98-%ED%81%B4%EB%B3%80-%EB%A9%94%ED%8C%8C-%EC%A0%95%EC%9D%98-%EC%A2%81-%EB%B3%80%EC%88%98%EC%99%80--%EB%A9%94%ED%8C%8C-%EC%A0%9C%ED%95%9C%EC%9E%90%EC%99%80x---%EC%83%9D%EC%84%B1%EC%9E%90-%EB%84%93-%ED%95%A0%EB%8B%B9" aria-hidden="true"><span class="octicon octicon-link"></span></a>제네릭의 클변 메파 정의/ 좁 변수(와) + 메파 제한자(와X) -&gt; 생성자/ 넓 할당</h2>
+
+<ul>
+  <li>Type은 <code class="language-plaintext highlighter-rouge">정의하는  변수, 메서드 파라미터</code>에는 추상체를 / <code class="language-plaintext highlighter-rouge">사용하는 할당, 메소드호출</code>에는 구상체를 넣어서 분기처리를 밖으로 제거해줄 수 있다.</li>
+</ul>
+
+<h3 id="제네릭은-정의class-속-변수-method-파라미터는-te로--변수와일드카드와-method-파라미터는-t-e-좁게--생성자좁힌-것의--구현체자식들----할당은-넓게default로-두면-알아서-생성자에-사용되는-구현체에-맞게">
+<a class="anchor" href="#%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9D%80-%EC%A0%95%EC%9D%98class-%EC%86%8D-%EB%B3%80%EC%88%98-method-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%8A%94-te%EB%A1%9C--%EB%B3%80%EC%88%98%EC%99%80%EC%9D%BC%EB%93%9C%EC%B9%B4%EB%93%9C%EC%99%80-method-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%8A%94-t-e-%EC%A2%81%EA%B2%8C--%EC%83%9D%EC%84%B1%EC%9E%90%EC%A2%81%ED%9E%8C-%EA%B2%83%EC%9D%98--%EA%B5%AC%ED%98%84%EC%B2%B4%EC%9E%90%EC%8B%9D%EB%93%A4----%ED%95%A0%EB%8B%B9%EC%9D%80-%EB%84%93%EA%B2%8Cdefault%EB%A1%9C-%EB%91%90%EB%A9%B4-%EC%95%8C%EC%95%84%EC%84%9C-%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90-%EC%82%AC%EC%9A%A9%EB%90%98%EB%8A%94-%EA%B5%AC%ED%98%84%EC%B2%B4%EC%97%90-%EB%A7%9E%EA%B2%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>제네릭은 <strong>정의(class 속 변수, method 파라미터)는 <code class="language-plaintext highlighter-rouge">T(E)</code>로 / 변수(와일드카드)와 method 파라미터는 <code class="language-plaintext highlighter-rouge">&lt;T&gt; (&lt;E&gt;)</code> 좁게 + 생성자(좁힌 것의  구현체&amp;자식들) +  / 할당은 넓게(default로 두면 알아서 생성자에 사용되는 구현체에 맞게)</strong>
+</h3>
+
+<h4 id="메소드-파라미터는-제네릭e로-정의해주지만-클래스-변수-타입-t형처럼--히는-작업이-접근제한자와-응답사이에--좁은-꺽쇠e로-정의-좁은-변수type처럼">
+<a class="anchor" href="#%EB%A9%94%EC%86%8C%EB%93%9C-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%8A%94-%EC%A0%9C%EB%84%A4%EB%A6%ADe%EB%A1%9C-%EC%A0%95%EC%9D%98%ED%95%B4%EC%A3%BC%EC%A7%80%EB%A7%8C-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%B3%80%EC%88%98-%ED%83%80%EC%9E%85-t%ED%98%95%EC%B2%98%EB%9F%BC--%ED%9E%88%EB%8A%94-%EC%9E%91%EC%97%85%EC%9D%B4-%EC%A0%91%EA%B7%BC%EC%A0%9C%ED%95%9C%EC%9E%90%EC%99%80-%EC%9D%91%EB%8B%B5%EC%82%AC%EC%9D%B4%EC%97%90--%EC%A2%81%EC%9D%80-%EA%BA%BD%EC%87%A0e%EB%A1%9C-%EC%A0%95%EC%9D%98-%EC%A2%81%EC%9D%80-%EB%B3%80%EC%88%98type%EC%B2%98%EB%9F%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>메소드 파라미터는 제네릭E로 정의해주지만 (클래스 변수 타입 T형처럼)  /히는 작업이 접근제한자와 응답사이에  좁은 꺽쇠<code class="language-plaintext highlighter-rouge">&lt;E&gt;</code>로 정의 (좁은 변수Type처럼)</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//1. T는 클래스의 변수 정의하느라 썼으니</span>
+<span class="c1">//   -&gt; 파라미터는 E로 받지만, 제한자 쪽에다가 꺽쇠붙인 &lt;E&gt;로 좁혀준다.</span>
+<span class="c1">//   -&gt; &lt;E&gt;는 별다르게 좁혀주지 않는 default 어느타입이든 가능임.</span>
+<span class="kd">public</span> <span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">some</span><span class="o">(</span><span class="no">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//2. 제네릭은 변수에 좁게 정의하고, 그 와일드카드에 해당 범위의 객체를 생성자에 넣어주니, 변수까지 정의해서 객체를 생성한다.</span>
+<span class="k">new</span> <span class="nc">Box</span><span class="o">&lt;&gt;();</span>
+<span class="kd">final</span> <span class="nc">Box</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="nc">Animal</span><span class="o">&gt;</span> <span class="n">superAnimalBox6</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Box</span><span class="o">&lt;&gt;();</span>
+
+<span class="kd">final</span> <span class="nc">Object</span> <span class="n">value1</span> <span class="o">=</span> <span class="n">superAnimalBox</span><span class="o">.</span><span class="na">getValue</span><span class="o">();</span> <span class="c1">// 와일드카드에 구상체 객체를 않넣어주면, T형의 인스턴스변수를 Object로 잡아 반환한다.</span>
+<span class="kd">final</span> <span class="nc">Box</span><span class="o">&lt;?&gt;</span> <span class="n">value6</span> <span class="o">=</span> <span class="n">superAnimalBox</span><span class="o">;</span> <span class="c1">//객체는 ? 와일드카드에 그냥 넣어줄 수 있다?</span>
+
+<span class="n">value6</span><span class="o">.</span><span class="na">some</span><span class="o">(</span><span class="s">""</span><span class="o">);</span> <span class="c1">// E는 기본적으로 Object부터 시작하여 -&gt; 메서드호출시 어떤Type이든지 호출 가능해진다.</span>
+<span class="n">value6</span><span class="o">.</span><span class="na">some</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span> <span class="c1">// E는 기본적으로 Object부터 다 받을 수 있다.</span>
+</code></pre></div></div>
+
+<h4 id="좁은-변수처럼-메소드-파라미터는-제한자-쪽에서-좁힌-type-e에-와일드카드-or-직접-꺽쇠에-제한을-걸수-있다">
+<a class="anchor" href="#%EC%A2%81%EC%9D%80-%EB%B3%80%EC%88%98%EC%B2%98%EB%9F%BC-%EB%A9%94%EC%86%8C%EB%93%9C-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%8A%94-%EC%A0%9C%ED%95%9C%EC%9E%90-%EC%AA%BD%EC%97%90%EC%84%9C-%EC%A2%81%ED%9E%8C-type-e%EC%97%90-%EC%99%80%EC%9D%BC%EB%93%9C%EC%B9%B4%EB%93%9C-or-%EC%A7%81%EC%A0%91-%EA%BA%BD%EC%87%A0%EC%97%90-%EC%A0%9C%ED%95%9C%EC%9D%84-%EA%B1%B8%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>좁은 변수처럼, <code class="language-plaintext highlighter-rouge">메소드 파라미터</code>는 제한자 쪽에서 <code class="language-plaintext highlighter-rouge">좁힌 Type &lt;E&gt;</code>에 <code class="language-plaintext highlighter-rouge">와일드카드 or 직접 꺽쇠에 제한</code>을 걸수 있다.</h4>
+
+<ul>
+  <li>잘보면 응답Type void보다 앞쪽에서, 파라미터에 대한 와일드카드 제한을 거는 것이다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//3. 메서드의 파라미터의 좁힘 제한은 응답Type앞쪽에서 꺽쇠&lt;E&gt;제네릭으로 걸 수 있다.</span>
+<span class="kd">public</span> <span class="o">&lt;</span><span class="no">E</span> <span class="kd">extends</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">some</span><span class="o">(</span><span class="no">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+
+<span class="o">}</span>
+
+<span class="c1">//4. </span>
+<span class="n">value6</span><span class="o">.</span><span class="na">some</span><span class="o">(</span><span class="s">""</span><span class="o">);</span> <span class="c1">// string 이하로 제한건 E에는.. string 및 string상속한 것만 들어간다.</span>
+<span class="n">value6</span><span class="o">.</span><span class="na">some</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span> <span class="c1">// 에러</span>
+</code></pre></div></div>
+
+<h5 id="참고-e는-와일드카드-범위내에서-사용된-type이-추론끝나면-컴파일-타임에서-해당type으로-대체되어-사라진다">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0-e%EB%8A%94-%EC%99%80%EC%9D%BC%EB%93%9C%EC%B9%B4%EB%93%9C-%EB%B2%94%EC%9C%84%EB%82%B4%EC%97%90%EC%84%9C-%EC%82%AC%EC%9A%A9%EB%90%9C-type%EC%9D%B4-%EC%B6%94%EB%A1%A0%EB%81%9D%EB%82%98%EB%A9%B4-%EC%BB%B4%ED%8C%8C%EC%9D%BC-%ED%83%80%EC%9E%84%EC%97%90%EC%84%9C-%ED%95%B4%EB%8B%B9type%EC%9C%BC%EB%A1%9C-%EB%8C%80%EC%B2%B4%EB%90%98%EC%96%B4-%EC%82%AC%EB%9D%BC%EC%A7%84%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고) E는 와일드카드 범위내에서 사용된 Type이 추론끝나면 컴파일 타임에서 해당Type으로 대체되어 사라진다.</h5>
+
+<h5 id="참고-정의를-해주는-class옆-꺽쇠--method파라미터용-앞쪽-꺽쇠에서는-와일드카드-사용이-안된다-변수-제네릭에서만-와일드카드-가능">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0-%EC%A0%95%EC%9D%98%EB%A5%BC-%ED%95%B4%EC%A3%BC%EB%8A%94-class%EC%98%86-%EA%BA%BD%EC%87%A0--method%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EC%9A%A9-%EC%95%9E%EC%AA%BD-%EA%BA%BD%EC%87%A0%EC%97%90%EC%84%9C%EB%8A%94-%EC%99%80%EC%9D%BC%EB%93%9C%EC%B9%B4%EB%93%9C-%EC%82%AC%EC%9A%A9%EC%9D%B4-%EC%95%88%EB%90%9C%EB%8B%A4-%EB%B3%80%EC%88%98-%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%97%90%EC%84%9C%EB%A7%8C-%EC%99%80%EC%9D%BC%EB%93%9C%EC%B9%B4%EB%93%9C-%EA%B0%80%EB%8A%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고) 정의를 해주는 class옆 꺽쇠 + method파라미터용 앞쪽 꺽쇠에서는 와일드카드 사용이 안된다. 변수 제네릭에서만 와일드카드 가능</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 와일드카드 사용 좁힘시 에러</span>
+<span class="kd">public</span> <span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">some</span><span class="o">(</span><span class="no">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+
+<span class="o">}</span>
+
+<span class="c1">// 와일드카드 사용시 에러</span>
+<span class="kd">class</span> <span class="nc">Box2</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">Animal</span><span class="o">&gt;</span> <span class="o">{</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="추가-메서드-파라미터-e를-좁힐-땐-와일드카드가-아닌-꺾쇠e-extends-로-좁히며-super불가--와이드카드-불가다">
+<a class="anchor" href="#%EC%B6%94%EA%B0%80-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0-e%EB%A5%BC-%EC%A2%81%ED%9E%90-%EB%95%90-%EC%99%80%EC%9D%BC%EB%93%9C%EC%B9%B4%EB%93%9C%EA%B0%80-%EC%95%84%EB%8B%8C-%EA%BA%BE%EC%87%A0e-extends-%EB%A1%9C-%EC%A2%81%ED%9E%88%EB%A9%B0-super%EB%B6%88%EA%B0%80--%EC%99%80%EC%9D%B4%EB%93%9C%EC%B9%B4%EB%93%9C-%EB%B6%88%EA%B0%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>추가 <code class="language-plaintext highlighter-rouge">메서드 파라미터 E</code>를 좁힐 땐, 와일드카드가 아닌 <code class="language-plaintext highlighter-rouge">꺾쇠&lt;E extends &gt;</code>로 좁히며, super불가 + 와이드카드 불가다..</h5>
+
+<h4 id="메서드에서-class와-동일한-타입추론-변수를-사용해도-된다-but">
+<a class="anchor" href="#%EB%A9%94%EC%84%9C%EB%93%9C%EC%97%90%EC%84%9C-class%EC%99%80-%EB%8F%99%EC%9D%BC%ED%95%9C-%ED%83%80%EC%9E%85%EC%B6%94%EB%A1%A0-%EB%B3%80%EC%88%98%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%B4%EB%8F%84-%EB%90%9C%EB%8B%A4-but" aria-hidden="true"><span class="octicon octicon-link"></span></a>메서드에서 class와 동일한 타입추론 변수를 사용해도 된다. but…</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">some</span><span class="o">(</span><span class="no">T</span> <span class="n">t</span><span class="o">)</span> <span class="o">{</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="메서드-파라미터의-변수는-지역변수라--class쪽과-다르다">
+<a class="anchor" href="#%EB%A9%94%EC%84%9C%EB%93%9C-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EC%9D%98-%EB%B3%80%EC%88%98%EB%8A%94-%EC%A7%80%EC%97%AD%EB%B3%80%EC%88%98%EB%9D%BC--class%EC%AA%BD%EA%B3%BC-%EB%8B%A4%EB%A5%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>메서드 파라미터의 변수는 지역변수라 … class쪽과 다르다.</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//2. class내부에서 동일한 타입추론 변수T를 사용한 메서드는.. 파라미터로 T가 추론된 Dog형만 사용가능할까?</span>
+<span class="c1">// -&gt; class정의시에서는 T로 똑같은게 사용된 것 같지만, 메서드 파라미터의 변수 -&gt; 지역변수 -&gt; class 제네릭 타입변수 T랑은 별개다.</span>
+<span class="c1">// -&gt; 타입추론한 Dog와 별개로, 제한안걸린 T로서 모든 타입이 다들어간다.</span>
+<span class="n">dogBox</span><span class="o">.</span><span class="na">some</span><span class="o">(</span><span class="k">new</span> <span class="nc">Object</span><span class="o">());</span>
+<span class="n">dogBox</span><span class="o">.</span><span class="na">some</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+<span class="n">dogBox</span><span class="o">.</span><span class="na">some</span><span class="o">(</span><span class="s">"1"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<ul>
+  <li>E로 바꿔도 똑같이 지역변수로 적용되므로… 개별적 처리가 된다.</li>
+  <li>되도록이면 이름 중복 안되게 하는게 좋다.</li>
+</ul>
+
+<h2 id="p-e-c-s제네릭와일드카드-사용처">
+<a class="anchor" href="#p-e-c-s%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%99%80%EC%9D%BC%EB%93%9C%EC%B9%B4%EB%93%9C-%EC%82%AC%EC%9A%A9%EC%B2%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>P-E C-S(제네릭와일드카드 사용처)</h2>
+
+<ul>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">생성</code>관련된 <code class="language-plaintext highlighter-rouge">메소드의 파라미터</code>에 대해서는 <code class="language-plaintext highlighter-rouge">extends 상속한 것들만 들어올 수</code> 있게</strong>
+    <ul>
+      <li>ArrayList의 <strong>생성자 파라미터</strong> 정의시</li>
+      <li>ArrayList의 <strong>add메서드들의 파라미터</strong> 정의시</li>
+    </ul>
+  </li>
+  <li>소비하는 곳에서는 super를 써서 제네릭을 정의해라</li>
+</ul>
+
+<h3 id="arraylist를-타고-들어가서--extends가-어디서-사용되는지-검색-해보자">
+<a class="anchor" href="#arraylist%EB%A5%BC-%ED%83%80%EA%B3%A0-%EB%93%A4%EC%96%B4%EA%B0%80%EC%84%9C--extends%EA%B0%80-%EC%96%B4%EB%94%94%EC%84%9C-%EC%82%AC%EC%9A%A9%EB%90%98%EB%8A%94%EC%A7%80-%EA%B2%80%EC%83%89-%ED%95%B4%EB%B3%B4%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>ArrayList를 타고 들어가서 <code class="language-plaintext highlighter-rouge">? extends</code>가 어디서 사용되는지 검색 해보자.</h3>
+
+<ul>
+  <li>
+    <p><strong>생성자 파라미터</strong>에서 <code class="language-plaintext highlighter-rouge">E의 상속한 자식들(extends)만 들어오도록 제한</code>을 걸어준다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220303003915949.png" alt="image-20220303003915949"></p>
+  </li>
+  <li>
+    <p><strong>add의 파라미터</strong>할때도 <code class="language-plaintext highlighter-rouge">? extends</code>를 사용한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220303004054586.png" alt="image-20220303004054586"></p>
+  </li>
+</ul>
+
+<h3 id="-super는-소비되는-곳에서-사용된다">
+<a class="anchor" href="#-super%EB%8A%94-%EC%86%8C%EB%B9%84%EB%90%98%EB%8A%94-%EA%B3%B3%EC%97%90%EC%84%9C-%EC%82%AC%EC%9A%A9%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a><code class="language-plaintext highlighter-rouge">? super</code>는 소비되는 곳에서 사용된다.</h3>
+
+<ul>
+  <li>
+    <p>super는 <strong>어떤 값이든 들어와도 되며</strong>, 소비되는 곳에 사용된다.</p>
+
+    <ul>
+      <li>소비만 되므로, <strong>실제 어떤 타입인지 중요하지 않다.</strong>
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220303181203578.png" alt="image-20220303181203578"></p>
+  </li>
+  <li>
+    <p>action은 람다 학습시 필요하다.</p>
+
+    <ul>
+      <li>람다로 넘겨줄 때, <strong>Consumer, Predicate 사용시 많이 이용된다.</strong>
+</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">forEachRemaining</span><span class="o">(</span><span class="nc">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="no">E</span><span class="o">&gt;</span> <span class="n">action</span><span class="o">)</span> <span class="o">{</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/java/list/%EC%A0%9C%EB%84%A4%EB%A6%AD/%EA%B0%95%EC%9D%98/%ED%94%BC%EB%93%9C%EB%B0%B1/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/05/%EA%B0%95%EC%9D%98)-%EB%84%A4%EC%98%A4-2%EB%8B%A8%EA%B3%84-list%EC%99%80-%EC%A0%9C%EB%84%A4%EB%A6%AD.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
