@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      16 min read
+      15 min read
     
 </span></p>
 
@@ -133,14 +133,6 @@ window.onload = wrap_img;
     <!-- toc가 먼저 나오므로 h3로 안내하기 -->
     <h3>📜 제목으로 보기</h3>
     <ul class="section-nav">
-<li class="toc-entry toc-h3"><a href="#arraysaslist통채로만-가변가-아니라-listof아예불변">Arrays.asList(통채로만 가변)가 아니라 List.of(아예불변)</a>
-<ul>
-<li class="toc-entry toc-h4"><a href="#결론">결론</a></li>
-<li class="toc-entry toc-h4"><a href="#returntype">returnType</a></li>
-</ul>
-</li>
-<li class="toc-entry toc-h3"><a href="#원시값-포장or일급컬렉션-변수-value-상수-minmax">원시값 포장(or일급컬렉션) 변수 value, 상수 MIN/MAX</a></li>
-<li class="toc-entry toc-h3"><a href="#일급이-중복-허용-안한다면-단일list가-대신-단일set으로-정의해도-된다">일급이 중복 허용 안한다면 단일List가 대신 단일Set으로 정의해도 된다.</a></li>
 <li class="toc-entry toc-h2"><a href="#메서드의-파라미터값-일급-및-응답값제한된-종류의-분기-응답-포장시-tdd">메서드의 파라미터(값-&gt;일급) 및 응답값(제한된 종류의 분기 응답) 포장시 TDD</a>
 <ul>
 <li class="toc-entry toc-h3"><a href="#메서드의-파라미터값-일급-및-응답값-포장시-tdd-메서드-내부-포장후--새-기준메서드-호출-및-client-배려-by-메서드-파라미터-포장-완성된-후-client일급생성-내부listof부터-가변인자-생성자-추가">메서드의 파라미터(값-&gt;일급) 및 응답값 포장시 TDD [메서드 내부 포장후 -&gt;새 기준메서드 호출] 및 [Client 배려 by 메서드 파라미터 포장 완성된 후 client일급생성 내부(List.of)부터 가변인자 생성자 추가]</a>
@@ -240,158 +232,7 @@ window.onload = wrap_img;
 </li>
 </ul>
 </li>
-</ul><h3 id="arraysaslist통채로만-가변가-아니라-listof아예불변">
-<a class="anchor" href="#arraysaslist%ED%86%B5%EC%B1%84%EB%A1%9C%EB%A7%8C-%EA%B0%80%EB%B3%80%EA%B0%80-%EC%95%84%EB%8B%88%EB%9D%BC-listof%EC%95%84%EC%98%88%EB%B6%88%EB%B3%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>Arrays.asList(통채로만 가변)가 아니라 List.of(아예불변)</h3>
-
-<ul>
-  <li><a href="https://kim-jong-hyun.tistory.com/31">참고 블로그</a></li>
-  <li>테스트메소드에서 가정된 인자로서 <strong>List input</strong>으로 받았다고 작성하려는데
-    <ul>
-      <li>
-<code class="language-plaintext highlighter-rouge">Arrays.asList(1,2,3)</code>이 아니라 <strong><code class="language-plaintext highlighter-rouge">List.of(1,2,3)</code>을 쓰더라</strong>
-</li>
-    </ul>
-  </li>
-</ul>
-
-<h4 id="결론">
-<a class="anchor" href="#%EA%B2%B0%EB%A1%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>결론</h4>
-
-<ul>
-  <li>
-<strong><code class="language-plaintext highlighter-rouge">List.of()</code></strong> , <code class="language-plaintext highlighter-rouge">List.copyof( list )</code>는 변경시 <code class="language-plaintext highlighter-rouge">UnsupportedOperationException</code>발생시키는 <strong>불변List(null도 불허)를 생성</strong>
-    <ul>
-      <li>반면 <code class="language-plaintext highlighter-rouge">Arrays.asList</code>는 <strong>add/remove만 안되는</strong> 가변List를 제공 (null허용 + <strong>통채로 add하는 set, replace 가능</strong>)
-        <ul>
-          <li>add안되니.. 테스트용 가변 객체리스트 생성시에도.. add하면서 테스트하면 안될 듯.</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h4 id="returntype">
-<a class="anchor" href="#returntype" aria-hidden="true"><span class="octicon octicon-link"></span></a>returnType</h4>
-
-<ul>
-  <li>
-    <p><code class="language-plaintext highlighter-rouge">List.of()</code>는 <strong>10개까진 가변인자 없이 하나하나 받아서</strong> -&gt;  <strong>ImmutableCollections.ListN()을 반환한다.</strong></p>
-
-    <ul>
-      <li><strong>add(), remove(), set(), replace()처럼 <code class="language-plaintext highlighter-rouge">삽입, 삭제, 변경작업을 하게 될시 UnsupportedOperationException예외가 발생</code>는 <code class="language-plaintext highlighter-rouge">불변 자료구조</code> = 이름 그대로 Immutable한 Collection을 반환해준다.</strong></li>
-    </ul>
-
-    <div class="language-java highlighter-rouge">
-<div class="highlight"><pre class="highlight"><code>  <span class="kd">static</span> <span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="nc">List</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="nf">of</span><span class="o">(</span><span class="no">E</span> <span class="n">e1</span><span class="o">,</span> <span class="no">E</span> <span class="n">e2</span><span class="o">,</span> <span class="no">E</span> <span class="n">e3</span><span class="o">,</span> <span class="no">E</span> <span class="n">e4</span><span class="o">,</span> <span class="no">E</span> <span class="n">e5</span><span class="o">,</span> <span class="no">E</span> <span class="n">e6</span><span class="o">)</span> <span class="o">{</span>
-      <span class="k">return</span> <span class="k">new</span> <span class="nc">ImmutableCollections</span><span class="o">.</span><span class="na">ListN</span><span class="o">&lt;&gt;(</span><span class="n">e1</span><span class="o">,</span> <span class="n">e2</span><span class="o">,</span> <span class="n">e3</span><span class="o">,</span> <span class="n">e4</span><span class="o">,</span> <span class="n">e5</span><span class="o">,</span>
-                                              <span class="n">e6</span><span class="o">);</span>
-  <span class="o">}</span>
-</code></pre></div>    </div>
-
-    <ul>
-      <li>
-        <p>java9부터 제공한다.</p>
-      </li>
-      <li>
-        <p>인자의 갯수( 0개 / 1~2개 / 3개이상N/ List )에 따라서 다른방식 메서드를 반환한다.</p>
-
-        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220304210552364.png" alt="image-20220304210552364"></p>
-
-        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220304210629956.png" alt="image-20220304210629956">
-  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220304210601988.png" alt="image-20220304210601988"></p>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <p>반면에 <code class="language-plaintext highlighter-rouge">Arrays.asList()</code>는 가변인자를 받으며 -&gt; new ArraysList&lt;&gt;()를 반환한다.</p>
-
-    <div class="language-java highlighter-rouge">
-<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nc">List</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">asList</span><span class="o">(</span><span class="no">T</span><span class="o">...</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
-      <span class="k">return</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">a</span><span class="o">);</span>
-  <span class="o">}</span>
-</code></pre></div>    </div>
-
-    <ul>
-      <li>가변인자는 내부 배열로 관리됨</li>
-      <li>추상메서드 <code class="language-plaintext highlighter-rouge">AbstractList&lt;E&gt;</code>를 extends하지만,
-        <ul>
-          <li>
-<code class="language-plaintext highlighter-rouge">add+remove</code>만 메서드 오버라이딩 하지 않는다.
-            <ul>
-              <li>AbstractList의 add()와 remove() 메서드를 확인해본 결과 서브클래스에서 해당 메서드를 오버라이딩 하지 않았다면, UnsupportedOperationException예외가 발생된다. Arrays.asList()의 리턴되는 <strong>ArrayList는 삽입, 삭제로 이뤄지는 구조적인 변경을 허용하지 않고</strong> <strong>내부 원소들의 값을 변경하는건 허용</strong>하는걸 알 수 있다.</li>
-            </ul>
-          </li>
-          <li>
-<code class="language-plaintext highlighter-rouge">set()</code> setter메서드만 오버라이딩함.</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="원시값-포장or일급컬렉션-변수-value-상수-minmax">
-<a class="anchor" href="#%EC%9B%90%EC%8B%9C%EA%B0%92-%ED%8F%AC%EC%9E%A5or%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98-%EB%B3%80%EC%88%98-value-%EC%83%81%EC%88%98-minmax" aria-hidden="true"><span class="octicon octicon-link"></span></a>원시값 포장(or일급컬렉션) 변수 value, 상수 MIN/MAX</h3>
-
-<ul>
-  <li>값의 포장은 앵간하면 <code class="language-plaintext highlighter-rouge">value</code>를 인스턴스 변수(상태값)으로 쓴다.
-    <ul>
-      <li>그래야 getter시  LottoNumber.getValue() 형태로 잘 빠진다.</li>
-      <li>만약, <code class="language-plaintext highlighter-rouge">LottoNumber.getLottoNumber()</code>가 될 수 도..</li>
-    </ul>
-  </li>
-  <li>상수도 마찬가지로 <strong><code class="language-plaintext highlighter-rouge">도메인Class.</code>이 앞에 붙는다고 생각하고 도메인내에서 편하게 짓자</strong>
-    <ul>
-      <li>
-<code class="language-plaintext highlighter-rouge">LottoNumber.LOTTO_NUMBER_MIN</code>이 될 수도..</li>
-      <li>
-<code class="language-plaintext highlighter-rouge">LottoNumber.MIN</code>으로 <strong>MIN, MAX</strong> 편하게 쓰자.</li>
-    </ul>
-  </li>
-</ul>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LottoNumber</span> <span class="o">{</span>
-
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">MIN</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">MAX</span> <span class="o">=</span> <span class="mi">45</span><span class="o">;</span>
-
-    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">value</span><span class="o">;</span>
-
-    <span class="c1">//LottoNumber.getValue()가 맞다.(o) -&gt;  LottoNumber.getLottoNumber() (X)</span>
-    <span class="kd">public</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">validate</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
-    <span class="o">}</span>
-
-    <span class="c1">//LottoNumber.MIN 이 맞다.(o) -&gt; LottoNumber.LOTTO_NUMBER_MIN (X)</span>
-    <span class="c1">//Integer.MAX_VALUE (o)</span>
-    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">validate</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="o">&lt;</span> <span class="no">MIN</span> <span class="o">||</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="no">MAX</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"로또 번호의 범위가 아닙니다."</span><span class="o">);</span>
-        <span class="o">}</span>
-</code></pre></div></div>
-
-<h3 id="일급이-중복-허용-안한다면-단일list가-대신-단일set으로-정의해도-된다">
-<a class="anchor" href="#%EC%9D%BC%EA%B8%89%EC%9D%B4-%EC%A4%91%EB%B3%B5-%ED%97%88%EC%9A%A9-%EC%95%88%ED%95%9C%EB%8B%A4%EB%A9%B4-%EB%8B%A8%EC%9D%BClist%EA%B0%80-%EB%8C%80%EC%8B%A0-%EB%8B%A8%EC%9D%BCset%EC%9C%BC%EB%A1%9C-%EC%A0%95%EC%9D%98%ED%95%B4%EB%8F%84-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급이 중복 허용 안한다면 단일List가 대신 단일Set으로 정의해도 된다.</h3>
-
-<ol>
-  <li>
-    <p><code class="language-plaintext highlighter-rouge">List&lt;단일&gt;</code>의 value를 <code class="language-plaintext highlighter-rouge">Set&lt;단일&gt;</code>로 바꾼다.
- <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305010218112.png" alt="image-20220305010218112"></p>
-  </li>
-  <li>
-    <p>테스트에서 생성도 <code class="language-plaintext highlighter-rouge">Set.of( 단일1, 단일2 )</code>형식으로 사용한다.</p>
-
-    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305013247242.png" alt="image-20220305013247242"></p>
-  </li>
-  <li>
-    <p><strong>Set에 들어가므로 <code class="language-plaintext highlighter-rouge">해쉬코드로 비교하는 자료구조</code>용 <code class="language-plaintext highlighter-rouge">단일객체</code>는 equals/hashCode 오버라이딩이 되어있어야한다.</strong></p>
-    <ul>
-      <li>VO뿐만 아니라 <code class="language-plaintext highlighter-rouge">단일값 포장객체</code>는 그냥 다 오버라이딩 해주자.</li>
-    </ul>
-  </li>
-</ol>
-
-<h2 id="메서드의-파라미터값-일급-및-응답값제한된-종류의-분기-응답-포장시-tdd">
+</ul><h2 id="메서드의-파라미터값-일급-및-응답값제한된-종류의-분기-응답-포장시-tdd">
 <a class="anchor" href="#%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%98-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EA%B0%92-%EC%9D%BC%EA%B8%89-%EB%B0%8F-%EC%9D%91%EB%8B%B5%EA%B0%92%EC%A0%9C%ED%95%9C%EB%90%9C-%EC%A2%85%EB%A5%98%EC%9D%98-%EB%B6%84%EA%B8%B0-%EC%9D%91%EB%8B%B5-%ED%8F%AC%EC%9E%A5%EC%8B%9C-tdd" aria-hidden="true"><span class="octicon octicon-link"></span></a>메서드의 파라미터(값-&gt;일급) 및 응답값(제한된 종류의 분기 응답) 포장시 TDD</h2>
 
 <h3 id="메서드의-파라미터값-일급-및-응답값-포장시-tdd-메서드-내부-포장후--새-기준메서드-호출-및-client-배려-by-메서드-파라미터-포장-완성된-후-client일급생성-내부listof부터-가변인자-생성자-추가">
