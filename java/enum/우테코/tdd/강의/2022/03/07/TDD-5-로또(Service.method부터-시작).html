@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>TDD 5 로또(Method부터 시작) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="TDD 5 로또(Method부터 시작)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Service.method부터 시작하여 파라미터+응답값(enum) 포장" />
+<meta property="og:description" content="Service.method부터 시작하여 파라미터+응답값(enum) 포장" />
+<link rel="canonical" href="blog.chojaeseong.com/java/enum/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/03/07/TDD-5-%EB%A1%9C%EB%98%90(Service.method%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91).html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/enum/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/03/07/TDD-5-%EB%A1%9C%EB%98%90(Service.method%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91).html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/wootech.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-03-07T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-03-07T00:00:00-06:00","url":"blog.chojaeseong.com/java/enum/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/03/07/TDD-5-%EB%A1%9C%EB%98%90(Service.method%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"TDD 5 로또(Method부터 시작)","dateModified":"2022-03-07T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/enum/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/03/07/TDD-5-%EB%A1%9C%EB%98%90(Service.method%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91).html"},"description":"Service.method부터 시작하여 파라미터+응답값(enum) 포장","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">TDD 5 로또(Method부터 시작)</h1><p class="page-description">Service.method부터 시작하여 파라미터+응답값(enum) 포장</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-03-07T00:00:00-06:00" itemprop="datePublished">
+        Mar 7, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      16 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#enum">enum</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#TDD">TDD</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#강의">강의</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#arraysaslist통채로만-가변가-아니라-listof아예불변">Arrays.asList(통채로만 가변)가 아니라 List.of(아예불변)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#결론">결론</a></li>
+<li class="toc-entry toc-h4"><a href="#returntype">returnType</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#원시값-포장or일급컬렉션-변수-value-상수-minmax">원시값 포장(or일급컬렉션) 변수 value, 상수 MIN/MAX</a></li>
+<li class="toc-entry toc-h3"><a href="#일급이-중복-허용-안한다면-단일list가-대신-단일set으로-정의해도-된다">일급이 중복 허용 안한다면 단일List가 대신 단일Set으로 정의해도 된다.</a></li>
+<li class="toc-entry toc-h2"><a href="#메서드의-파라미터값-일급-및-응답값제한된-종류의-분기-응답-포장시-tdd">메서드의 파라미터(값-&gt;일급) 및 응답값(제한된 종류의 분기 응답) 포장시 TDD</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#메서드의-파라미터값-일급-및-응답값-포장시-tdd-메서드-내부-포장후--새-기준메서드-호출-및-client-배려-by-메서드-파라미터-포장-완성된-후-client일급생성-내부listof부터-가변인자-생성자-추가">메서드의 파라미터(값-&gt;일급) 및 응답값 포장시 TDD [메서드 내부 포장후 -&gt;새 기준메서드 호출] 및 [Client 배려 by 메서드 파라미터 포장 완성된 후 client일급생성 내부(List.of)부터 가변인자 생성자 추가]</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-메변1-검증-등-필요에-의한-값-포장시-메서드복붙후-파라미터-수정---에러해결---client-인자-변경">01 메변1) 검증 등 필요에 의한 값 포장시, [메서드복붙]후 [파라미터 수정] -&gt; 에러해결 -&gt; client 인자 변경</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#기존-테스트들이-인자를-안바꿔도-유지되도록-전체-복사후-인자만-바꾼-새-기준-메서드를-만들고-에러-해결후-포장-객체로-메서드-호출-변경">기존 테스트들이 인자를 안바꿔도 유지되도록 전체 복사후 인자만 바꾼 새 기준 메서드를 만들고 에러 해결후 포장 객체로 메서드 호출 변경</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#02-도메인-속-검증-등-포장에-의해-thr나는-메서드-테스트-작성">02 도메인 속 검증 등 포장에 의해 thr나는 메서드() 테스트 작성</a></li>
+<li class="toc-entry toc-h4"><a href="#03-필요에-의해-포장이-발생된-메서드-테스트를-넘어서서-도메인-전용test에서-경계값들-테스트">03 (필요에 의해 포장이 발생된) 메서드 테스트를 넘어서서 도메인 전용Test에서 경계값들 테스트</a></li>
+<li class="toc-entry toc-h4"><a href="#04-메변2-기존-rawinput메서드는-파라미터만-유지한체-내부에서-포장---새-기준-메서드-호출-하는-포장후-호출메서드로-변경">04 메변2) [기존 rawInput메서드]는 [파라미터만 유지]한체 내부에서 포장 -&gt; 새 기준 메서드 호출 하는 [포장후 호출메서드]로 변경</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#요약-값을-단일객체-포장한다면-메서드복붙후-포장인자---에러처리---rawinput메서드는-내부포장용으로-변경">요약: 값을 단일객체 포장한다면, 메서드복붙후 포장인자 -&gt; 에러처리 -&gt; rawInput메서드는 내부포장용으로 변경</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#05-메변3-객체간-검증갯수-중복-등-필요에-의해-listof앞에-new-일급으로-포장">05 메변3) 객체간 검증(갯수, 중복) 등 필요에 의해 List.of앞에 [new 일급()]으로 포장</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#메서드-수정은-포장후-기준호출해주는-메서드가-아니라-포장인자를-받는-기준-메서드로">[메서드 수정]은 포장후 기준호출해주는 메서드가 아니라 포장인자를 받는 기준 메서드로</a></li>
+<li class="toc-entry toc-h5"><a href="#기준메서드에-listof-단일-객체-들----갯수-초과-유발필요에-의한-검증">기준메서드에 List.of( 단일, 객체, 들) -&gt;  갯수 초과 유발(필요에 의한 검증)</a></li>
+<li class="toc-entry toc-h5"><a href="#파라미터의-갯수-검증은-받는-메서드-내부에서도-해줘도-될-것-같지만-검증은-다-쏴서-포장한-도메인-생성자에서">파라미터의 갯수 검증은, 받는 메서드 내부에서도 해줘도 될 것 같지만.. [검증은 다 쏴서 포장한 도메인 생성자에서]</a></li>
+<li class="toc-entry toc-h5"><a href="#복수개-검증을-위해-listof--앞에-new-일급-생성자를-씌워서-포장-시작">복수개 검증을 위해 List.of( ) 앞에 new 일급() 생성자를 씌워서 포장 시작</a></li>
+<li class="toc-entry toc-h5"><a href="#또다시-기존-메서드-유지되도록-전체복사후-인자만-바꾼list-포장-새-기준메서드만들고---에러해결getvalue----client-호출-변경">또다시 기존 메서드 유지되도록 전체복사후 인자만 바꾼(list-&gt;포장) 새 기준메서드만들고 -&gt; 에러해결(.getValue())  -&gt; client 호출 변경</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#06-새-기준일급-메서드-에러-제거getvalue-후-도메인일급에-필요에-의한-검증갯수시-에러나도록-도메인-검증-작성---메서드-테스트로-퉁치기일급자체-테스트는-client배려로-test도-배려되면">06 새 기준(일급) 메서드 에러 제거(getValue()) 후, 도메인(일급)에 [필요에 의한 검증(갯수)]시 에러나도록 도메인 검증 작성 -&gt; 메서드 테스트로 퉁치기(일급자체 테스트는 client배려로 test도 배려되면)</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#아직-일급자체test-listof-제거된-가변인자-등의-client-배려내려가며-생성자-추가-끝나고-일급-도메인-테스트-하자">아직!) 일급자체Test List.of() 제거된 가변인자 등의 client 배려(내려가며 생성자 추가) 끝나고 일급 도메인 테스트 하자!</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#07-새-기준-메서드일급이-파라미터-수정-등-적용-대상-완성---기존-메서드의-내부에서-포장해서-새기준을-호출하도록-변경">07 새 기준 메서드(일급이 파라미터, 수정 등 적용 대상) 완성 -&gt; 기존 메서드의 내부에서 포장해서 새기준을 호출하도록 변경</a></li>
+<li class="toc-entry toc-h4"><a href="#08-client배려1-메서드-이전-단일-가변인자-일급-생성자를-추가하는데-client-listof-입력-제거---list단일-to-단일-파라미터---내부에서-list포장후-기본생성자-호출">08 client배려1) 메서드 이전 [단일... 가변인자 일급 생성자를 추가]하는데, client List.of ()입력 제거 -&gt; List&lt;단일&gt; to 단일... 파라미터 -&gt; 내부에서 list포장후 기본생성자 호출</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#일급의-기본-생성자는-그대로-단일list--검증로직을-보유하고-있는다">일급의 기본 생성자는 그대로 단일List + 검증로직을 보유하고 있는다.</a></li>
+<li class="toc-entry toc-h5"><a href="#client배려-1번은-호출시-clinet가list을-제거하고---파라미터에-가변인자를-받도록-한-뒤---내부에서는-가변인자배열을-list로-포장해서-this로-호출하도록-일급-생성자-추가">client배려 1번은 호출시 clinet가List을 제거하고 -&gt; 파라미터에 가변인자를 받도록 한 뒤 -&gt; 내부에서는 가변인자(배열)을 List로 포장해서 this()로 호출하도록 일급 생성자 추가</a></li>
+<li class="toc-entry toc-h5"><a href="#요약-기본생성자단일객체list--검증-외에-가변인자단일객체-생성자를-만들어-client의-listof호출부터-제거하자">요약: 기본생성자(단일객체List + 검증) 외에 가변인자(단일객체...) 생성자를 만들어 client의 List.of()호출부터 제거하자.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#09-client배려-2--단일-가변인자-일급생성자-직후-바로-값-가변인자-일급생성자를-추가한다">09 client배려 2)  단일... 가변인자 일급생성자 직후 바로 값... 가변인자 일급생성자를 추가한다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#요약-값-가변--값-stream--map으로-단일---단일객체stream을-만들수-있으니-값-가변인자-생성자-추가해서-clinet의-단일가변입력도-값-입력으로-대체하자">요약: 값... 가변-&gt; 값 stream + map으로 단일... -&gt; 단일객체stream을 만들수 있으니 값.. 가변인자 생성자 추가해서 clinet의 단일...가변입력도 값... 입력으로 대체하자</a></li>
+<li class="toc-entry toc-h5"><a href="#요약2-메서드-파라미터-포장이-끝난-직후부터--client배려1-listof-제거-by-단일---client-배려2-new단일-제거-by-값">요약2: 메서드 파라미터 포장이 끝난 직후부터,  client배려1 List.of 제거 by 단일... -&gt; client 배려2 new단일() 제거 by 값...</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#10-일급자체경계값test는-client배려12가-끝난-뒤---new-일급--값-가변인자-로-하면-편하다">10 일급자체(경계값)Test는 client배려1,2가 끝난 뒤 -&gt; new 일급 ( 값 가변인자) 로 하면 편하다</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#개수count-검사----중복duplicate-검사-순으로">개수(count) 검사 -&gt;  중복(duplicate) 검사 순으로</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#11-메서드-내부-일급getvalue는-메서드화하여-도메인내부-로직으로-옮겨갈-후보들">11 메서드 내부 일급.getValue()는 메서드화하여 도메인내부 로직으로 옮겨갈 후보들</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#일급메서드-객체-로-메세지를-던질-때-일급을-좌항메서드-호출하는-놈-우항에는-내부-찢어질-일급-or-단일파라미터을-배치하여-valuelist메서드를-사용하며-재활용-가능성을-생각하자">일급.메서드( 객체 )로 메세지를 던질 때, 일급을 좌항(메서드 호출하는 놈) 우항에는 내부 찢어질 일급 or 단일(파라미터)을 배치하여 value.list메서드()를 사용하며, 재활용 가능성을 생각하자.</a></li>
+<li class="toc-entry toc-h5"><a href="#일급list메서드-단일-의-메서드가-추가된다면---내부-상태value를-사용하는--내부-정의-메서드인-객체없이-호출되는-메서드가--valuelist메서드-단일-을-대체한다">일급.list메서드( 단일 )의 메서드가 추가된다면, -&gt; 내부 상태(value)를 사용하는  내부 정의 메서드인 객체없이 호출되는 메서드가  value.list메서드( 단일 )을 대체한다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#응답값-포장">응답값 포장</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#12-응답값도-포장할-수-있다-만약-제한된-종류--if분기마다-달라지는-응답값라면-enum응답-포장후--응답에-필요한-input들로-정펙매-를-호출한-뒤-내부로-분기-옮겨-응답한다-이후-if분기를-처리해줄--input-필드들---응답값을-매핑한다">12 응답값도 포장할 수 있다. 만약, 제한된 종류 + if분기마다 달라지는 응답값라면 ENUM응답 포장후  응답에 필요한 input들로 정펙매 를 호출한 뒤 내부로 분기 옮겨 응답한다. 이후 if분기를 처리해줄 &lt; input-&gt;필드들 - 응답값&gt;을 매핑한다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#제한된-종류의-응답-값포장은-enum을-활용한다--메서드-응답을-빨간줄로-바꿔-생성하자">제한된 종류의 응답 값포장은 Enum을 활용한다.  메서드 응답을 빨간줄로 바꿔 생성하자.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#13-응답에-대한-분기로직을-어떻게-응답class응답enum으로-넘길까">13 응답에 대한 분기로직을 어떻게 응답class/응답Enum으로 넘길까?</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#메서드-응답부에서-원하는-포장된-응답값인-enum객체을-뽑아-응답해주는--return-enum정펙매of-완성하기">메서드 응답부에서 원하는 포장된 응답값인 Enum객체을 뽑아 응답해주는  return Enum.정펙매of (,)완성하기</a></li>
+<li class="toc-entry toc-h5"><a href="#값-응답-로직을----포장응답값-정펙매로-잘라내서-처리하기">값 응답 로직을 -&gt;  포장응답값 정펙매로 잘라내서 처리하기</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#14-정팩메-내부로-옮긴-분기에-대해-응답값들을-enum객체로-수정해주기---없는-값0-none에-대해서도-outnone객체-만들어서-응답해주기">14 정팩메 내부로 옮긴 분기에 대해, 응답[값]들을 [Enum객체]로 수정해주기 -&gt; 없는 값(0, None)에 대해서도 OUT,NONE객체 만들어서 응답해주기</a></li>
+<li class="toc-entry toc-h4"><a href="#15-메서드-포장된-응답-테스트-작성하기">15 메서드 [포장된 응답] 테스트 작성하기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#여러분기므로-1case에-대한---1예상값-마다-테매를-작성해야한다">여러분기므로 1case에 대한 -&gt; 1예상값 마다 테매를 작성해야한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#16-if분기를-enum정팩매-내부-valuesstreamfilter-정펙매input-vs-매핑값과-비교-조건식으로-제거하기">16 if분기를 enum정팩매 내부 values().stream+filter( 정펙매input vs 매핑값과 비교 조건식)으로 제거하기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#정팩메-input으로-들어올-데이터들-中--1개를-골라-매핑-예정인-enum객체의-필드로-넣어준다">정팩메 input으로 들어올 데이터들 中  1개를 골라 (매핑 예정인) Enum객체의 필드로 넣어준다.</a></li>
+<li class="toc-entry toc-h5"><a href="#enum정팩메-내-제한된종류의-모든-if분기를--valuesstream--filter-with-input-vs-매핑field로-분기-없애기">Enum정팩메 내 [제한된종류의 모든 if분기]를  values().stream + filter with input vs 매핑field로 분기 없애기</a></li>
+<li class="toc-entry toc-h5"><a href="#특수한-경우-정팩매에서-enum매핑값-뽑기도-전에--early-return해준다">특수한 경우, 정팩매에서 ENUM매핑값 뽑기도 전에,  early return해준다.</a></li>
+<li class="toc-entry toc-h5"><a href="#enum내에서-values는-enum객체배열을-응답하며-거기에-배열stream자동완성-사용하여-enumstream-만들어-객체전체를-돌리기">Enum내에서 values()는 Enum객체배열을 응답하며 거기에 배열.stream자동완성 사용하여 EnumStream 만들어 객체전체를 돌리기</a></li>
+<li class="toc-entry toc-h5"><a href="#제한된-종류의-if분기를-valuesstream-for---filterit----input-vs-매핑field-비교-대체하기">제한된 종류의 if분기를 values().stream (for)  + filter(it -&gt;  input vs 매핑field 비교) 대체하기</a></li>
+<li class="toc-entry toc-h5"><a href="#enum-sense-각-enum객체끝은-마지막도-콤마-그-다음라인----findany후-orelse-none객체-">enum sense: 각 enum객체끝은 마지막도 콤마(,) 그 다음라인(;)  +  .findAny()후 .orElse( NONE객체 )</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#17-bi비아이-predicate--로-input된-2개-값을-다-사용하는-1개의-람다식필드--filter속-예비-조건식testab로-실행을-만들어----enum의-1-필드-매핑에-사용되는-type을-함수형인터페이스로-사용하여---정펙매-내부-들어오는-2개값-모두-사용하는-enum-만들기">17 Bi(비.아이.) Predicate&lt; , &gt;로 input된 2개 값을 다 사용하는 1개의 람다식필드 &amp;&amp; filter속 예비 조건식(.test(a,b)로 실행)을 만들어 -&gt;  [enum의 1 필드 매핑]에 사용되는 Type을 함수형인터페이스로 사용하여 -&gt; 정펙매 내부 들어오는 2개값 모두 사용하는 enum 만들기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#아직-bipredicate-적용안한-기존-코드-상금도-매핑-안된-상태">아직 BiPredicate 적용안한 기존 코드 (상금도 매핑 안된 상태)</a></li>
+<li class="toc-entry toc-h5"><a href="#enum필드에-2인자-람다식인-bipredicate를-넣어서-생성하기">Enum필드에 2인자 람다식인 BiPredicate를 넣어서 생성하기</a></li>
+<li class="toc-entry toc-h5"><a href="#아쉽게도-bipredicate는-직접-필드입력---private-final-필드-변수-생성---생산자-자동완성로-가야한다-원래는-예제---생산자---빨간줄-this필드-생성">아쉽게도 BiPredicate는 직접 필드입력 -&gt; private final 필드 변수 생성 -&gt; 생산자 자동완성로 가야한다. (원래는 예제 -&gt; 생산자 -&gt; 빨간줄 this.필드 생성)</a></li>
+<li class="toc-entry toc-h5"><a href="#valuesstream--filter분기에서-test--로-정펙매-인자를-받아-조건식-실행">values().stream + filter분기에서 .test( , )로 정펙매 인자를 받아 조건식 실행</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#18-응답값의-포장리팩토링이-다-끝났으면-자체-도메인testenum은-정펙매-테스트">18 응답값의 포장(리팩토링)이 다 끝났으면, 자체 도메인Test(Enum은 정펙매 테스트)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h3 id="arraysaslist통채로만-가변가-아니라-listof아예불변">
+<a class="anchor" href="#arraysaslist%ED%86%B5%EC%B1%84%EB%A1%9C%EB%A7%8C-%EA%B0%80%EB%B3%80%EA%B0%80-%EC%95%84%EB%8B%88%EB%9D%BC-listof%EC%95%84%EC%98%88%EB%B6%88%EB%B3%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>Arrays.asList(통채로만 가변)가 아니라 List.of(아예불변)</h3>
+
+<ul>
+  <li><a href="https://kim-jong-hyun.tistory.com/31">참고 블로그</a></li>
+  <li>테스트메소드에서 가정된 인자로서 <strong>List input</strong>으로 받았다고 작성하려는데
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">Arrays.asList(1,2,3)</code>이 아니라 <strong><code class="language-plaintext highlighter-rouge">List.of(1,2,3)</code>을 쓰더라</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="결론">
+<a class="anchor" href="#%EA%B2%B0%EB%A1%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>결론</h4>
+
+<ul>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">List.of()</code></strong> , <code class="language-plaintext highlighter-rouge">List.copyof( list )</code>는 변경시 <code class="language-plaintext highlighter-rouge">UnsupportedOperationException</code>발생시키는 <strong>불변List(null도 불허)를 생성</strong>
+    <ul>
+      <li>반면 <code class="language-plaintext highlighter-rouge">Arrays.asList</code>는 <strong>add/remove만 안되는</strong> 가변List를 제공 (null허용 + <strong>통채로 add하는 set, replace 가능</strong>)
+        <ul>
+          <li>add안되니.. 테스트용 가변 객체리스트 생성시에도.. add하면서 테스트하면 안될 듯.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="returntype">
+<a class="anchor" href="#returntype" aria-hidden="true"><span class="octicon octicon-link"></span></a>returnType</h4>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">List.of()</code>는 <strong>10개까진 가변인자 없이 하나하나 받아서</strong> -&gt;  <strong>ImmutableCollections.ListN()을 반환한다.</strong></p>
+
+    <ul>
+      <li><strong>add(), remove(), set(), replace()처럼 <code class="language-plaintext highlighter-rouge">삽입, 삭제, 변경작업을 하게 될시 UnsupportedOperationException예외가 발생</code>는 <code class="language-plaintext highlighter-rouge">불변 자료구조</code> = 이름 그대로 Immutable한 Collection을 반환해준다.</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">static</span> <span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="nc">List</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="nf">of</span><span class="o">(</span><span class="no">E</span> <span class="n">e1</span><span class="o">,</span> <span class="no">E</span> <span class="n">e2</span><span class="o">,</span> <span class="no">E</span> <span class="n">e3</span><span class="o">,</span> <span class="no">E</span> <span class="n">e4</span><span class="o">,</span> <span class="no">E</span> <span class="n">e5</span><span class="o">,</span> <span class="no">E</span> <span class="n">e6</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nc">ImmutableCollections</span><span class="o">.</span><span class="na">ListN</span><span class="o">&lt;&gt;(</span><span class="n">e1</span><span class="o">,</span> <span class="n">e2</span><span class="o">,</span> <span class="n">e3</span><span class="o">,</span> <span class="n">e4</span><span class="o">,</span> <span class="n">e5</span><span class="o">,</span>
+                                              <span class="n">e6</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p>java9부터 제공한다.</p>
+      </li>
+      <li>
+        <p>인자의 갯수( 0개 / 1~2개 / 3개이상N/ List )에 따라서 다른방식 메서드를 반환한다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220304210552364.png" alt="image-20220304210552364"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220304210629956.png" alt="image-20220304210629956">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220304210601988.png" alt="image-20220304210601988"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>반면에 <code class="language-plaintext highlighter-rouge">Arrays.asList()</code>는 가변인자를 받으며 -&gt; new ArraysList&lt;&gt;()를 반환한다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nc">List</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">asList</span><span class="o">(</span><span class="no">T</span><span class="o">...</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">a</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>가변인자는 내부 배열로 관리됨</li>
+      <li>추상메서드 <code class="language-plaintext highlighter-rouge">AbstractList&lt;E&gt;</code>를 extends하지만,
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">add+remove</code>만 메서드 오버라이딩 하지 않는다.
+            <ul>
+              <li>AbstractList의 add()와 remove() 메서드를 확인해본 결과 서브클래스에서 해당 메서드를 오버라이딩 하지 않았다면, UnsupportedOperationException예외가 발생된다. Arrays.asList()의 리턴되는 <strong>ArrayList는 삽입, 삭제로 이뤄지는 구조적인 변경을 허용하지 않고</strong> <strong>내부 원소들의 값을 변경하는건 허용</strong>하는걸 알 수 있다.</li>
+            </ul>
+          </li>
+          <li>
+<code class="language-plaintext highlighter-rouge">set()</code> setter메서드만 오버라이딩함.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="원시값-포장or일급컬렉션-변수-value-상수-minmax">
+<a class="anchor" href="#%EC%9B%90%EC%8B%9C%EA%B0%92-%ED%8F%AC%EC%9E%A5or%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98-%EB%B3%80%EC%88%98-value-%EC%83%81%EC%88%98-minmax" aria-hidden="true"><span class="octicon octicon-link"></span></a>원시값 포장(or일급컬렉션) 변수 value, 상수 MIN/MAX</h3>
+
+<ul>
+  <li>값의 포장은 앵간하면 <code class="language-plaintext highlighter-rouge">value</code>를 인스턴스 변수(상태값)으로 쓴다.
+    <ul>
+      <li>그래야 getter시  LottoNumber.getValue() 형태로 잘 빠진다.</li>
+      <li>만약, <code class="language-plaintext highlighter-rouge">LottoNumber.getLottoNumber()</code>가 될 수 도..</li>
+    </ul>
+  </li>
+  <li>상수도 마찬가지로 <strong><code class="language-plaintext highlighter-rouge">도메인Class.</code>이 앞에 붙는다고 생각하고 도메인내에서 편하게 짓자</strong>
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">LottoNumber.LOTTO_NUMBER_MIN</code>이 될 수도..</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">LottoNumber.MIN</code>으로 <strong>MIN, MAX</strong> 편하게 쓰자.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LottoNumber</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">MIN</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">MAX</span> <span class="o">=</span> <span class="mi">45</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">value</span><span class="o">;</span>
+
+    <span class="c1">//LottoNumber.getValue()가 맞다.(o) -&gt;  LottoNumber.getLottoNumber() (X)</span>
+    <span class="kd">public</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">validate</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">//LottoNumber.MIN 이 맞다.(o) -&gt; LottoNumber.LOTTO_NUMBER_MIN (X)</span>
+    <span class="c1">//Integer.MAX_VALUE (o)</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">validate</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="o">&lt;</span> <span class="no">MIN</span> <span class="o">||</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="no">MAX</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"로또 번호의 범위가 아닙니다."</span><span class="o">);</span>
+        <span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="일급이-중복-허용-안한다면-단일list가-대신-단일set으로-정의해도-된다">
+<a class="anchor" href="#%EC%9D%BC%EA%B8%89%EC%9D%B4-%EC%A4%91%EB%B3%B5-%ED%97%88%EC%9A%A9-%EC%95%88%ED%95%9C%EB%8B%A4%EB%A9%B4-%EB%8B%A8%EC%9D%BClist%EA%B0%80-%EB%8C%80%EC%8B%A0-%EB%8B%A8%EC%9D%BCset%EC%9C%BC%EB%A1%9C-%EC%A0%95%EC%9D%98%ED%95%B4%EB%8F%84-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급이 중복 허용 안한다면 단일List가 대신 단일Set으로 정의해도 된다.</h3>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">List&lt;단일&gt;</code>의 value를 <code class="language-plaintext highlighter-rouge">Set&lt;단일&gt;</code>로 바꾼다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305010218112.png" alt="image-20220305010218112"></p>
+  </li>
+  <li>
+    <p>테스트에서 생성도 <code class="language-plaintext highlighter-rouge">Set.of( 단일1, 단일2 )</code>형식으로 사용한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305013247242.png" alt="image-20220305013247242"></p>
+  </li>
+  <li>
+    <p><strong>Set에 들어가므로 <code class="language-plaintext highlighter-rouge">해쉬코드로 비교하는 자료구조</code>용 <code class="language-plaintext highlighter-rouge">단일객체</code>는 equals/hashCode 오버라이딩이 되어있어야한다.</strong></p>
+    <ul>
+      <li>VO뿐만 아니라 <code class="language-plaintext highlighter-rouge">단일값 포장객체</code>는 그냥 다 오버라이딩 해주자.</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="메서드의-파라미터값-일급-및-응답값제한된-종류의-분기-응답-포장시-tdd">
+<a class="anchor" href="#%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%98-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EA%B0%92-%EC%9D%BC%EA%B8%89-%EB%B0%8F-%EC%9D%91%EB%8B%B5%EA%B0%92%EC%A0%9C%ED%95%9C%EB%90%9C-%EC%A2%85%EB%A5%98%EC%9D%98-%EB%B6%84%EA%B8%B0-%EC%9D%91%EB%8B%B5-%ED%8F%AC%EC%9E%A5%EC%8B%9C-tdd" aria-hidden="true"><span class="octicon octicon-link"></span></a>메서드의 파라미터(값-&gt;일급) 및 응답값(제한된 종류의 분기 응답) 포장시 TDD</h2>
+
+<h3 id="메서드의-파라미터값-일급-및-응답값-포장시-tdd-메서드-내부-포장후--새-기준메서드-호출-및-client-배려-by-메서드-파라미터-포장-완성된-후-client일급생성-내부listof부터-가변인자-생성자-추가">
+<a class="anchor" href="#%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%98-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EA%B0%92-%EC%9D%BC%EA%B8%89-%EB%B0%8F-%EC%9D%91%EB%8B%B5%EA%B0%92-%ED%8F%AC%EC%9E%A5%EC%8B%9C-tdd-%EB%A9%94%EC%84%9C%EB%93%9C-%EB%82%B4%EB%B6%80-%ED%8F%AC%EC%9E%A5%ED%9B%84--%EC%83%88-%EA%B8%B0%EC%A4%80%EB%A9%94%EC%84%9C%EB%93%9C-%ED%98%B8%EC%B6%9C-%EB%B0%8F-client-%EB%B0%B0%EB%A0%A4-by-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0-%ED%8F%AC%EC%9E%A5-%EC%99%84%EC%84%B1%EB%90%9C-%ED%9B%84-client%EC%9D%BC%EA%B8%89%EC%83%9D%EC%84%B1-%EB%82%B4%EB%B6%80listof%EB%B6%80%ED%84%B0-%EA%B0%80%EB%B3%80%EC%9D%B8%EC%9E%90-%EC%83%9D%EC%84%B1%EC%9E%90-%EC%B6%94%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>메서드의 파라미터(값-&gt;일급) 및 응답값 포장시 TDD [메서드 내부 포장후 -&gt;새 기준메서드 호출] 및 [Client 배려 by 메서드 파라미터 포장 완성된 후 client일급생성 내부(List.of)부터 가변인자 생성자 추가]</h3>
+
+<h4 id="01-메변1-검증-등-필요에-의한-값-포장시-메서드복붙후-파라미터-수정---에러해결---client-인자-변경">
+<a class="anchor" href="#01-%EB%A9%94%EB%B3%801-%EA%B2%80%EC%A6%9D-%EB%93%B1-%ED%95%84%EC%9A%94%EC%97%90-%EC%9D%98%ED%95%9C-%EA%B0%92-%ED%8F%AC%EC%9E%A5%EC%8B%9C-%EB%A9%94%EC%84%9C%EB%93%9C%EB%B3%B5%EB%B6%99%ED%9B%84-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0-%EC%88%98%EC%A0%95---%EC%97%90%EB%9F%AC%ED%95%B4%EA%B2%B0---client-%EC%9D%B8%EC%9E%90-%EB%B3%80%EA%B2%BD" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 메변1) 검증 등 필요에 의한 값 포장시, [메서드복붙]후 [파라미터 수정] -&gt; 에러해결 -&gt; client 인자 변경</h4>
+
+<h5 id="기존-테스트들이-인자를-안바꿔도-유지되도록-전체-복사후-인자만-바꾼-새-기준-메서드를-만들고-에러-해결후-포장-객체로-메서드-호출-변경">
+<a class="anchor" href="#%EA%B8%B0%EC%A1%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8%EB%93%A4%EC%9D%B4-%EC%9D%B8%EC%9E%90%EB%A5%BC-%EC%95%88%EB%B0%94%EA%BF%94%EB%8F%84-%EC%9C%A0%EC%A7%80%EB%90%98%EB%8F%84%EB%A1%9D-%EC%A0%84%EC%B2%B4-%EB%B3%B5%EC%82%AC%ED%9B%84-%EC%9D%B8%EC%9E%90%EB%A7%8C-%EB%B0%94%EA%BE%BC-%EC%83%88-%EA%B8%B0%EC%A4%80-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EB%A7%8C%EB%93%A4%EA%B3%A0-%EC%97%90%EB%9F%AC-%ED%95%B4%EA%B2%B0%ED%9B%84-%ED%8F%AC%EC%9E%A5-%EA%B0%9D%EC%B2%B4%EB%A1%9C-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%98%B8%EC%B6%9C-%EB%B3%80%EA%B2%BD" aria-hidden="true"><span class="octicon octicon-link"></span></a><code class="language-plaintext highlighter-rouge">기존 테스트들이 인자를 안바꿔도 유지</code>되도록 <code class="language-plaintext highlighter-rouge">전체 복사후 인자만 바꾼 새 기준 메서드</code>를 만들고 <code class="language-plaintext highlighter-rouge">에러 해결</code>후 <code class="language-plaintext highlighter-rouge">포장 객체로 메서드 호출 변경</code>
+</h5>
+
+<ol>
+  <li>
+    <p><strong>기존 테스트는 유지한 체</strong> 값List를 받다가</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">start</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">userLotto</span><span class="o">,</span>
+                         <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">winningLotto</span><span class="o">,</span>
+                         <span class="kd">final</span> <span class="kt">int</span> <span class="n">bonusNumber</span><span class="o">)</span> <span class="o">{</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>새 테스트에서 검증 등</strong> 필요에 의해 <strong>값을 1개 포장</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">final</span> <span class="kt">int</span> <span class="n">rank</span> <span class="o">=</span> <span class="nc">LottoService</span><span class="o">.</span><span class="na">start</span><span class="o">(</span>
+         <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">100</span><span class="o">))</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>포장 Class, ClassTest생성</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">LottoNumber</span> <span class="o">{</span>
+    
+     <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">value</span><span class="o">;</span>
+    
+     <span class="kd">public</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">class</span> <span class="nc">LottoNumberTest</span> <span class="o">{</span>
+    
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>객체비교를 위해, equals,hC 오버라이딩</p>
+  </li>
+  <li>
+    <p><strong>메서드 복붙 -&gt; 파라미터 정의</strong> 변경</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">start</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">userLotto</span><span class="o">,</span>
+                         <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">winningLotto</span><span class="o">,</span>
+                         <span class="kd">final</span> <span class="nc">LottoNumber</span> <span class="n">bonusNumber</span><span class="o">)</span> <span class="o">{</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>검증 요구 새 테스트에 한해, 복붙한 새 메서드 인자를 포장</strong>시키도도록 노가다</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="nf">over</span><span class="o">()</span> <span class="o">{</span>
+     <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="nc">LottoService</span><span class="o">.</span><span class="na">start</span><span class="o">(</span>
+         <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">2</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">3</span><span class="o">),</span>
+                 <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">4</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">5</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">100</span><span class="o">)),</span>
+         <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">2</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">3</span><span class="o">),</span>
+                 <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">4</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">5</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">7</span><span class="o">)),</span>
+         <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">6</span><span class="o">)</span>
+     <span class="o">)).</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>검증, 필요에 의한 포장 테스트 -&gt; thr 나야 통과하는 테스트</strong></p>
+    <ul>
+      <li>포장 생성자에 검증을 안 넣어준 상태므로 테스트를 통과못한다.</li>
+      <li>원래 포장 객체 생성자 1개로만 테스트를 해야하는데, <strong>여기서는 메서드 전체 호출로 퉁친다.</strong>
+</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="02-도메인-속-검증-등-포장에-의해-thr나는-메서드-테스트-작성">
+<a class="anchor" href="#02-%EB%8F%84%EB%A9%94%EC%9D%B8-%EC%86%8D-%EA%B2%80%EC%A6%9D-%EB%93%B1-%ED%8F%AC%EC%9E%A5%EC%97%90-%EC%9D%98%ED%95%B4-thr%EB%82%98%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%9E%91%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 도메인 속 검증 등 포장에 의해 thr나는 메서드() 테스트 작성</h4>
+
+<ol>
+  <li>
+    <p>생성자 쪽에서 validate해준다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+     <span class="n">validate</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+     <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+ <span class="o">}</span>
+    
+ <span class="kd">private</span> <span class="kt">void</span> <span class="nf">validate</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="mi">45</span><span class="o">)</span> <span class="o">{</span>
+         <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"로또 번호의 범위가 아닙니다."</span><span class="o">);</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>테스트해서 thr나게 된다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="nf">over</span><span class="o">()</span> <span class="o">{</span>
+     <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="nc">LottoService</span><span class="o">.</span><span class="na">start</span><span class="o">(</span>
+         <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">2</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">3</span><span class="o">),</span>
+                 <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">4</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">5</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">100</span><span class="o">)),</span>
+         <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">2</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">3</span><span class="o">),</span>
+                 <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">4</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">5</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">7</span><span class="o">)),</span>
+         <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">6</span><span class="o">)</span>
+     <span class="o">)).</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="03-필요에-의해-포장이-발생된-메서드-테스트를-넘어서서-도메인-전용test에서-경계값들-테스트">
+<a class="anchor" href="#03-%ED%95%84%EC%9A%94%EC%97%90-%EC%9D%98%ED%95%B4-%ED%8F%AC%EC%9E%A5%EC%9D%B4-%EB%B0%9C%EC%83%9D%EB%90%9C-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EB%A5%BC-%EB%84%98%EC%96%B4%EC%84%9C%EC%84%9C-%EB%8F%84%EB%A9%94%EC%9D%B8-%EC%A0%84%EC%9A%A9test%EC%97%90%EC%84%9C-%EA%B2%BD%EA%B3%84%EA%B0%92%EB%93%A4-%ED%85%8C%EC%8A%A4%ED%8A%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 (필요에 의해 포장이 발생된) 메서드 테스트를 넘어서서 도메인 전용Test에서 경계값들 테스트</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">LottoNumberTest</span> <span class="o">{</span>
+
+    <span class="nd">@ParameterizedTest</span>
+    <span class="nd">@ValueSource</span><span class="o">(</span><span class="n">ints</span> <span class="o">=</span> <span class="o">{</span><span class="mi">0</span><span class="o">,</span> <span class="mi">46</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">100</span><span class="o">})</span>
+    <span class="kt">void</span> <span class="nf">range</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="n">value</span><span class="o">))</span>
+            <span class="o">.</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">hasMessageContaining</span><span class="o">(</span><span class="s">"범위"</span><span class="o">);</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="04-메변2-기존-rawinput메서드는-파라미터만-유지한체-내부에서-포장---새-기준-메서드-호출-하는-포장후-호출메서드로-변경">
+<a class="anchor" href="#04-%EB%A9%94%EB%B3%802-%EA%B8%B0%EC%A1%B4-rawinput%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A7%8C-%EC%9C%A0%EC%A7%80%ED%95%9C%EC%B2%B4-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%ED%8F%AC%EC%9E%A5---%EC%83%88-%EA%B8%B0%EC%A4%80-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%98%B8%EC%B6%9C-%ED%95%98%EB%8A%94-%ED%8F%AC%EC%9E%A5%ED%9B%84-%ED%98%B8%EC%B6%9C%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EB%B3%80%EA%B2%BD" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 메변2) [<code class="language-plaintext highlighter-rouge">기존 rawInput메서드</code>]는 [파라미터만 유지]한체 내부에서 포장 -&gt; 새 기준 메서드 호출 하는 <code class="language-plaintext highlighter-rouge">[포장후 호출메서드]로 변경</code>
+</h4>
+
+<ol>
+  <li>
+    <p>rawInput을 받는 곳의 <strong>파라미터명에 <code class="language-plaintext highlighter-rouge">raw</code>를 달아 -&gt; <code class="language-plaintext highlighter-rouge">원래 네이밍은 포장후 변수</code>로 받아줄 준비를 한다</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">match</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">rawUserLotto</span><span class="o">,</span>
+                         <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">rawWinningLotto</span><span class="o">,</span>
+                         <span class="kd">final</span> <span class="kt">int</span> <span class="n">rawBonusNumber</span><span class="o">)</span> <span class="o">{</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>내용물에 대해선 <strong>포장된 것으로 처리되는 메서드가 남아있으니, <code class="language-plaintext highlighter-rouge">rawInput은 받아서 stream().map(포장생성자).collect()의 List&lt;포장&gt;</code>만해서 그쪽으로 넘겨주기만 한다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">match</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">rawUserLotto</span><span class="o">,</span>
+                         <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">rawWinningLotto</span><span class="o">,</span>
+                         <span class="kd">final</span> <span class="kt">int</span> <span class="n">rawBonusNumber</span><span class="o">)</span> <span class="o">{</span>
+    
+     <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">userLotto</span> <span class="o">=</span> <span class="n">rawUserLotto</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+         <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">LottoNumber:</span><span class="o">:</span><span class="k">new</span><span class="o">)</span>
+         <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+    
+     <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">winningLotto</span> <span class="o">=</span> <span class="n">rawWinningLotto</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+         <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">LottoNumber:</span><span class="o">:</span><span class="k">new</span><span class="o">)</span>
+         <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+    
+     <span class="k">return</span> <span class="nf">match</span><span class="o">(</span><span class="n">userLotto</span><span class="o">,</span> <span class="n">winningLotto</span><span class="o">,</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="n">rawBonusNumber</span><span class="o">));</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="요약-값을-단일객체-포장한다면-메서드복붙후-포장인자---에러처리---rawinput메서드는-내부포장용으로-변경">
+<a class="anchor" href="#%EC%9A%94%EC%95%BD-%EA%B0%92%EC%9D%84-%EB%8B%A8%EC%9D%BC%EA%B0%9D%EC%B2%B4-%ED%8F%AC%EC%9E%A5%ED%95%9C%EB%8B%A4%EB%A9%B4-%EB%A9%94%EC%84%9C%EB%93%9C%EB%B3%B5%EB%B6%99%ED%9B%84-%ED%8F%AC%EC%9E%A5%EC%9D%B8%EC%9E%90---%EC%97%90%EB%9F%AC%EC%B2%98%EB%A6%AC---rawinput%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-%EB%82%B4%EB%B6%80%ED%8F%AC%EC%9E%A5%EC%9A%A9%EC%9C%BC%EB%A1%9C-%EB%B3%80%EA%B2%BD" aria-hidden="true"><span class="octicon octicon-link"></span></a>요약: 값을 단일객체 포장한다면, 메서드복붙후 포장인자 -&gt; 에러처리 -&gt; rawInput메서드는 내부포장용으로 변경</h5>
+
+<h4 id="05-메변3-객체간-검증갯수-중복-등-필요에-의해-listof앞에-new-일급으로-포장">
+<a class="anchor" href="#05-%EB%A9%94%EB%B3%803-%EA%B0%9D%EC%B2%B4%EA%B0%84-%EA%B2%80%EC%A6%9D%EA%B0%AF%EC%88%98-%EC%A4%91%EB%B3%B5-%EB%93%B1-%ED%95%84%EC%9A%94%EC%97%90-%EC%9D%98%ED%95%B4-listof%EC%95%9E%EC%97%90-new-%EC%9D%BC%EA%B8%89%EC%9C%BC%EB%A1%9C-%ED%8F%AC%EC%9E%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 메변3) 객체간 검증(갯수, 중복) 등 필요에 의해 List.of앞에 [new 일급()]으로 포장</h4>
+
+<h5 id="메서드-수정은-포장후-기준호출해주는-메서드가-아니라-포장인자를-받는-기준-메서드로">
+<a class="anchor" href="#%EB%A9%94%EC%84%9C%EB%93%9C-%EC%88%98%EC%A0%95%EC%9D%80-%ED%8F%AC%EC%9E%A5%ED%9B%84-%EA%B8%B0%EC%A4%80%ED%98%B8%EC%B6%9C%ED%95%B4%EC%A3%BC%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C%EA%B0%80-%EC%95%84%EB%8B%88%EB%9D%BC-%ED%8F%AC%EC%9E%A5%EC%9D%B8%EC%9E%90%EB%A5%BC-%EB%B0%9B%EB%8A%94-%EA%B8%B0%EC%A4%80-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>[메서드 수정]은 포장후 기준호출해주는 메서드가 아니라 <code class="language-plaintext highlighter-rouge">포장인자를 받는 기준 메서드</code>로</h5>
+
+<h5 id="기준메서드에-listof-단일-객체-들----갯수-초과-유발필요에-의한-검증">
+<a class="anchor" href="#%EA%B8%B0%EC%A4%80%EB%A9%94%EC%84%9C%EB%93%9C%EC%97%90-listof-%EB%8B%A8%EC%9D%BC-%EA%B0%9D%EC%B2%B4-%EB%93%A4----%EA%B0%AF%EC%88%98-%EC%B4%88%EA%B3%BC-%EC%9C%A0%EB%B0%9C%ED%95%84%EC%9A%94%EC%97%90-%EC%9D%98%ED%95%9C-%EA%B2%80%EC%A6%9D" aria-hidden="true"><span class="octicon octicon-link"></span></a>기준메서드에 List.of( 단일, 객체, 들) -&gt;  갯수 초과 유발(필요에 의한 검증)</h5>
+
+<ol>
+  <li>
+    <p><strong>rawInput을 받아 포장후 기준메서드 호출해주기도 하지만, <code class="language-plaintext highlighter-rouge">제깍적인 수정</code>을 위해서 <code class="language-plaintext highlighter-rouge">포장된 인자를 직접 받아서 내부에서 바로 처리</code>하는 메서드를 수정해줘야한다.</strong></p>
+
+    <ul>
+      <li>하나하나 다 쏴줘야, 메서드는 그렇게 오는지 알 수 있다(노가다)</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="nf">lotto7</span><span class="o">()</span> <span class="o">{</span>
+     <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="nc">LottoService</span><span class="o">.</span><span class="na">start</span><span class="o">(</span>
+         <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">2</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">3</span><span class="o">),</span>
+                 <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">4</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">5</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">6</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">7</span><span class="o">)),</span> <span class="c1">// 갯수 초과</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>갯수를 초과해서 넣었다. <strong>에러가 나야 통과인데, 현재는 에러가 안날 것이다. 포장해야한다</strong>.</li>
+    </ul>
+  </li>
+</ol>
+
+<h5 id="파라미터의-갯수-검증은-받는-메서드-내부에서도-해줘도-될-것-같지만-검증은-다-쏴서-포장한-도메인-생성자에서">
+<a class="anchor" href="#%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EC%9D%98-%EA%B0%AF%EC%88%98-%EA%B2%80%EC%A6%9D%EC%9D%80-%EB%B0%9B%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C%EB%8F%84-%ED%95%B4%EC%A4%98%EB%8F%84-%EB%90%A0-%EA%B2%83-%EA%B0%99%EC%A7%80%EB%A7%8C-%EA%B2%80%EC%A6%9D%EC%9D%80-%EB%8B%A4-%EC%8F%B4%EC%84%9C-%ED%8F%AC%EC%9E%A5%ED%95%9C-%EB%8F%84%EB%A9%94%EC%9D%B8-%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90%EC%84%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>파라미터의 갯수 검증은, 받는 메서드 내부에서도 해줘도 될 것 같지만.. [검증은 다 쏴서 포장한 도메인 생성자에서]</h5>
+
+<ul>
+  <li>관련 로직도 아닌데, if가 계속 쌓이게 될 것이다.
+    <ul>
+      <li><strong>메서드 내 파라미터를 받아 검증하는 것을 지양하자.</strong></li>
+      <li><strong>검증이 필요하면, 포장 -&gt; 도메인 분리 -&gt; 도메인 생성자에서</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="복수개-검증을-위해-listof--앞에-new-일급-생성자를-씌워서-포장-시작">
+<a class="anchor" href="#%EB%B3%B5%EC%88%98%EA%B0%9C-%EA%B2%80%EC%A6%9D%EC%9D%84-%EC%9C%84%ED%95%B4-listof--%EC%95%9E%EC%97%90-new-%EC%9D%BC%EA%B8%89-%EC%83%9D%EC%84%B1%EC%9E%90%EB%A5%BC-%EC%94%8C%EC%9B%8C%EC%84%9C-%ED%8F%AC%EC%9E%A5-%EC%8B%9C%EC%9E%91" aria-hidden="true"><span class="octicon octicon-link"></span></a>복수개 검증을 위해 <code class="language-plaintext highlighter-rouge">List.of( ) 앞</code>에 <code class="language-plaintext highlighter-rouge">new 일급() 생성자</code>를 씌워서 포장 시작</h5>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">객체List</code>인  List.of()를 new일급() 생성자를 씌워 일급객체를 만든다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="nf">lotto7</span><span class="o">()</span> <span class="o">{</span>
+     <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="nc">LottoService</span><span class="o">.</span><span class="na">start</span><span class="o">(</span>
+         <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">2</span><span class="o">),</span> 
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>일급객체도 상태가 1개 라면, <code class="language-plaintext highlighter-rouge">value</code>로 네이밍 -&gt; 나중에 <code class="language-plaintext highlighter-rouge">.getValue()</code>로 getter를 쓸 생각</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lotto</span> <span class="o">{</span>
+     <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">value</span><span class="o">;</span>
+    
+     <span class="kd">public</span> <span class="nf">Lotto</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>검증의 순서는 중복검사보다는 갯수가 있다면 갯수가 먼저다</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>     <span class="kd">public</span> <span class="nf">Lotto</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+         <span class="c1">// 중복검사(distinct.count != )보다 갯수검사(size != )가 선행되어야 한다.</span>
+         <span class="c1">// (1) 일단 6개가 들어오고 -&gt; 거기서 중복검사 해야한다.</span>
+         <span class="c1">// (2) 7개가 들어왔는데 -&gt; 중복검사 해봤자 의미 없다.</span>
+         <span class="k">if</span> <span class="o">(</span><span class="n">value</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">6</span><span class="o">)</span> <span class="o">{</span>
+             <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"로또 번호는 6개여야 합니다."</span><span class="o">);</span>
+         <span class="o">}</span>
+         <span class="k">if</span> <span class="o">(</span><span class="n">value</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">distinct</span><span class="o">().</span><span class="na">count</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">6</span><span class="o">)</span> <span class="o">{</span>
+             <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"로또 번호는 중복해서 입력할 수 없습니다."</span><span class="o">);</span>
+         <span class="o">}</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+     <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="또다시-기존-메서드-유지되도록-전체복사후-인자만-바꾼list-포장-새-기준메서드만들고---에러해결getvalue----client-호출-변경">
+<a class="anchor" href="#%EB%98%90%EB%8B%A4%EC%8B%9C-%EA%B8%B0%EC%A1%B4-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%9C%A0%EC%A7%80%EB%90%98%EB%8F%84%EB%A1%9D-%EC%A0%84%EC%B2%B4%EB%B3%B5%EC%82%AC%ED%9B%84-%EC%9D%B8%EC%9E%90%EB%A7%8C-%EB%B0%94%EA%BE%BClist-%ED%8F%AC%EC%9E%A5-%EC%83%88-%EA%B8%B0%EC%A4%80%EB%A9%94%EC%84%9C%EB%93%9C%EB%A7%8C%EB%93%A4%EA%B3%A0---%EC%97%90%EB%9F%AC%ED%95%B4%EA%B2%B0getvalue----client-%ED%98%B8%EC%B6%9C-%EB%B3%80%EA%B2%BD" aria-hidden="true"><span class="octicon octicon-link"></span></a>또다시 기존 메서드 유지되도록 <code class="language-plaintext highlighter-rouge">전체복사후 인자만 바꾼(list-&gt;포장) 새 기준메서드</code>만들고 -&gt; <code class="language-plaintext highlighter-rouge">에러해결(.getValue())</code>  -&gt; <code class="language-plaintext highlighter-rouge">client 호출 변경</code>
+</h5>
+
+<ol>
+  <li>
+    <p>복붙후 파라미터 변경</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">start</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">userLotto</span><span class="o">,</span>
+                         <span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">winningLotto</span><span class="o">,</span>
+                         <span class="kd">final</span> <span class="nc">LottoNumber</span> <span class="n">bonusNumber</span><span class="o">)</span> <span class="o">{</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>**내용물들은 일단 <code class="language-plaintext highlighter-rouge">list에 난 빨간줄</code>을 <code class="language-plaintext highlighter-rouge">.getValue()</code>를 붙여서 해결한다. **</p>
+
+    <ul>
+      <li>
+        <p>나중에 도메인 로직으로 들어갈 후보들이다.</p>
+
+        <ul>
+          <li>도메인에 넣으면 getter없이 바로 value를 쓰게 된다.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305003505785.png" alt="image-20220305003505785">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305003513722.png" alt="image-20220305003513722">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305003902488.png" alt="image-20220305003902488">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305003913582.png" alt="image-20220305003913582">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305003918375.png" alt="image-20220305003918375"></p>
+      </li>
+      <li>
+        <p>앞에 getter를 붙이면 빨간줄이 사라진다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305004044030.png" alt="image-20220305004044030">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305004054296.png" alt="image-20220305004054296"></p>
+      </li>
+    </ul>
+
+    <p><code class="language-plaintext highlighter-rouge">List.of(단일, 객체, 들)</code>을 모두 <code class="language-plaintext highlighter-rouge">new일급()</code> 다싼 뒤 -&gt; <strong><code class="language-plaintext highlighter-rouge">List&lt;단일&gt;</code>메서드의 파라미터</strong></p>
+  </li>
+</ol>
+
+<h4 id="06-새-기준일급-메서드-에러-제거getvalue-후-도메인일급에-필요에-의한-검증갯수시-에러나도록-도메인-검증-작성---메서드-테스트로-퉁치기일급자체-테스트는-client배려로-test도-배려되면">
+<a class="anchor" href="#06-%EC%83%88-%EA%B8%B0%EC%A4%80%EC%9D%BC%EA%B8%89-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%97%90%EB%9F%AC-%EC%A0%9C%EA%B1%B0getvalue-%ED%9B%84-%EB%8F%84%EB%A9%94%EC%9D%B8%EC%9D%BC%EA%B8%89%EC%97%90-%ED%95%84%EC%9A%94%EC%97%90-%EC%9D%98%ED%95%9C-%EA%B2%80%EC%A6%9D%EA%B0%AF%EC%88%98%EC%8B%9C-%EC%97%90%EB%9F%AC%EB%82%98%EB%8F%84%EB%A1%9D-%EB%8F%84%EB%A9%94%EC%9D%B8-%EA%B2%80%EC%A6%9D-%EC%9E%91%EC%84%B1---%EB%A9%94%EC%84%9C%EB%93%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EB%A1%9C-%ED%89%81%EC%B9%98%EA%B8%B0%EC%9D%BC%EA%B8%89%EC%9E%90%EC%B2%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8%EB%8A%94-client%EB%B0%B0%EB%A0%A4%EB%A1%9C-test%EB%8F%84-%EB%B0%B0%EB%A0%A4%EB%90%98%EB%A9%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>06 새 기준(일급) 메서드 에러 제거(getValue()) 후, 도메인(일급)에 [필요에 의한 검증(갯수)]시 에러나도록 도메인 검증 작성 -&gt; 메서드 테스트로 퉁치기(일급자체 테스트는 client배려로 test도 배려되면)</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lotto</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">value</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Lotto</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">value</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">distinct</span><span class="o">().</span><span class="na">count</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">6</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"로또 번호는 6개입니다."</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">duplicate</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="nc">LottoService</span><span class="o">.</span><span class="na">start</span><span class="o">(</span>
+        <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span>
+                          <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">))),</span>
+        <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">2</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">3</span><span class="o">),</span>
+                          <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">4</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">5</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">6</span><span class="o">))),</span>
+        <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">7</span><span class="o">)</span>
+    <span class="o">)).</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="아직-일급자체test-listof-제거된-가변인자-등의-client-배려내려가며-생성자-추가-끝나고-일급-도메인-테스트-하자">
+<a class="anchor" href="#%EC%95%84%EC%A7%81-%EC%9D%BC%EA%B8%89%EC%9E%90%EC%B2%B4test-listof-%EC%A0%9C%EA%B1%B0%EB%90%9C-%EA%B0%80%EB%B3%80%EC%9D%B8%EC%9E%90-%EB%93%B1%EC%9D%98-client-%EB%B0%B0%EB%A0%A4%EB%82%B4%EB%A0%A4%EA%B0%80%EB%A9%B0-%EC%83%9D%EC%84%B1%EC%9E%90-%EC%B6%94%EA%B0%80-%EB%81%9D%EB%82%98%EA%B3%A0-%EC%9D%BC%EA%B8%89-%EB%8F%84%EB%A9%94%EC%9D%B8-%ED%85%8C%EC%8A%A4%ED%8A%B8-%ED%95%98%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>아직!) 일급자체Test <code class="language-plaintext highlighter-rouge">List.of() 제거된 가변인자</code> 등의 client 배려(내려가며 생성자 추가) 끝나고 일급 도메인 테스트 하자!</h5>
+
+<h4 id="07-새-기준-메서드일급이-파라미터-수정-등-적용-대상-완성---기존-메서드의-내부에서-포장해서-새기준을-호출하도록-변경">
+<a class="anchor" href="#07-%EC%83%88-%EA%B8%B0%EC%A4%80-%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%BC%EA%B8%89%EC%9D%B4-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0-%EC%88%98%EC%A0%95-%EB%93%B1-%EC%A0%81%EC%9A%A9-%EB%8C%80%EC%83%81-%EC%99%84%EC%84%B1---%EA%B8%B0%EC%A1%B4-%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%98-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%ED%8F%AC%EC%9E%A5%ED%95%B4%EC%84%9C-%EC%83%88%EA%B8%B0%EC%A4%80%EC%9D%84-%ED%98%B8%EC%B6%9C%ED%95%98%EB%8F%84%EB%A1%9D-%EB%B3%80%EA%B2%BD" aria-hidden="true"><span class="octicon octicon-link"></span></a>07 새 기준 메서드(일급이 파라미터, 수정 등 적용 대상) 완성 -&gt; 기존 메서드의 내부에서 포장해서 새기준을 호출하도록 변경</h4>
+
+<ul>
+  <li>
+    <p>변경 전: <strong>파라미터는 포장</strong> 전인데, 모든 로직이 다 있는 상태</p>
+  </li>
+  <li>
+    <p>변경 후: 일급을 파라미터로 받는 <strong>이후 수정 등이 적용될<code class="language-plaintext highlighter-rouge">new 기준 메서드</code></strong>을 내부에서 호출하도록, <code class="language-plaintext highlighter-rouge">파라미터만 유지해서 기존 테스트코드들 유지</code></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Rank</span> <span class="nf">match</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">userLotto</span><span class="o">,</span>
+                           <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">winningLotto</span><span class="o">,</span>
+                           <span class="kd">final</span> <span class="nc">LottoNumber</span> <span class="n">bonusNumber</span><span class="o">)</span> <span class="o">{</span>
+  	<span class="c1">// 이제 로직은 새 기준메서드에 양보됨.</span>
+      <span class="c1">// 새 기준 메서드(포장객체)를 내부에서 호출만 해줌.</span>
+      <span class="k">return</span> <span class="nf">match</span><span class="o">(</span><span class="k">new</span> <span class="nc">Lotto</span><span class="o">(</span><span class="n">userLotto</span><span class="o">),</span>
+                   <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="n">winningLotto</span><span class="o">),</span>
+                   <span class="n">bonusNumber</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="08-client배려1-메서드-이전-단일-가변인자-일급-생성자를-추가하는데-client-listof-입력-제거---list단일-to-단일-파라미터---내부에서-list포장후-기본생성자-호출">
+<a class="anchor" href="#08-client%EB%B0%B0%EB%A0%A41-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%9D%B4%EC%A0%84-%EB%8B%A8%EC%9D%BC-%EA%B0%80%EB%B3%80%EC%9D%B8%EC%9E%90-%EC%9D%BC%EA%B8%89-%EC%83%9D%EC%84%B1%EC%9E%90%EB%A5%BC-%EC%B6%94%EA%B0%80%ED%95%98%EB%8A%94%EB%8D%B0-client-listof-%EC%9E%85%EB%A0%A5-%EC%A0%9C%EA%B1%B0---list%EB%8B%A8%EC%9D%BC-to-%EB%8B%A8%EC%9D%BC-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0---%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-list%ED%8F%AC%EC%9E%A5%ED%9B%84-%EA%B8%B0%EB%B3%B8%EC%83%9D%EC%84%B1%EC%9E%90-%ED%98%B8%EC%B6%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>08 client배려1) 메서드 이전 [<code class="language-plaintext highlighter-rouge">단일... 가변인자 일급 생성자를 추가</code>]하는데, client List.of ()입력 제거 -&gt; <code class="language-plaintext highlighter-rouge">List&lt;단일&gt; to 단일...</code> 파라미터 -&gt; 내부에서 list포장후 기본생성자 호출</h4>
+
+<ul>
+  <li>
+    <p>현재 client 호출</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">LottoService</span><span class="o">.</span><span class="na">start</span><span class="o">(</span>
+      <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span>
+                        <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">))),</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="일급의-기본-생성자는-그대로-단일list--검증로직을-보유하고-있는다">
+<a class="anchor" href="#%EC%9D%BC%EA%B8%89%EC%9D%98-%EA%B8%B0%EB%B3%B8-%EC%83%9D%EC%84%B1%EC%9E%90%EB%8A%94-%EA%B7%B8%EB%8C%80%EB%A1%9C-%EB%8B%A8%EC%9D%BClist--%EA%B2%80%EC%A6%9D%EB%A1%9C%EC%A7%81%EC%9D%84-%EB%B3%B4%EC%9C%A0%ED%95%98%EA%B3%A0-%EC%9E%88%EB%8A%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급의 <code class="language-plaintext highlighter-rouge">기본 생성자</code>는 그대로 <code class="language-plaintext highlighter-rouge">단일List</code> + <code class="language-plaintext highlighter-rouge">검증</code>로직을 보유하고 있는다.</h5>
+
+<ul>
+  <li>
+    <p>기존 <strong>일급 <code class="language-plaintext highlighter-rouge">기본 생성자</code></strong>:  단일List + 검증 로직이 모여있다. 계속 유지되어서 호출되어야한다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="nf">Lotto</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">value</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">distinct</span><span class="o">().</span><span class="na">count</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">6</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"로또 번호는 6개입니다."</span><span class="o">);</span>
+      <span class="o">}</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="client배려-1번은-호출시-clinet가list을-제거하고---파라미터에-가변인자를-받도록-한-뒤---내부에서는-가변인자배열을-list로-포장해서-this로-호출하도록-일급-생성자-추가">
+<a class="anchor" href="#client%EB%B0%B0%EB%A0%A4-1%EB%B2%88%EC%9D%80-%ED%98%B8%EC%B6%9C%EC%8B%9C-clinet%EA%B0%80list%EC%9D%84-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B3%A0---%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EC%97%90-%EA%B0%80%EB%B3%80%EC%9D%B8%EC%9E%90%EB%A5%BC-%EB%B0%9B%EB%8F%84%EB%A1%9D-%ED%95%9C-%EB%92%A4---%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C%EB%8A%94-%EA%B0%80%EB%B3%80%EC%9D%B8%EC%9E%90%EB%B0%B0%EC%97%B4%EC%9D%84-list%EB%A1%9C-%ED%8F%AC%EC%9E%A5%ED%95%B4%EC%84%9C-this%EB%A1%9C-%ED%98%B8%EC%B6%9C%ED%95%98%EB%8F%84%EB%A1%9D-%EC%9D%BC%EA%B8%89-%EC%83%9D%EC%84%B1%EC%9E%90-%EC%B6%94%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>client배려 1번은 <code class="language-plaintext highlighter-rouge">호출시 clinet가</code>List을 제거하고 -&gt; <code class="language-plaintext highlighter-rouge">파라미터에</code> 가변인자를 받도록 한 뒤 -&gt; <code class="language-plaintext highlighter-rouge">내부에서</code>는 가변인자(배열)을 List로 포장해서 this()로 호출하도록 <code class="language-plaintext highlighter-rouge">일급 생성자 추가</code>
+</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305083654611.png" alt="image-20220305083654611">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305083703228.png" alt="image-20220305083703228">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305083816209.png" alt="image-20220305083816209">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305083956293.png" alt="image-20220305083956293">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305084022308.png" alt="image-20220305084022308"></p>
+
+<ul>
+  <li>
+    <p>추가된 <strong>일급의 <code class="language-plaintext highlighter-rouge">가변인자 생성자</code></strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lotto</span> <span class="o">{</span>
+      <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">value</span><span class="o">;</span>
+    
+      <span class="c1">//단일객체를 가변인자로 받도록 생성자 추가</span>
+      <span class="kd">public</span> <span class="nf">Lotto</span><span class="o">(</span><span class="kd">final</span> <span class="nc">LottoNumber</span><span class="o">...</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">this</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">value</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">()));</span>
+      <span class="o">}</span>
+    
+      <span class="kd">public</span> <span class="nf">Lotto</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">value</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">distinct</span><span class="o">().</span><span class="na">count</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">6</span><span class="o">)</span> <span class="o">{</span>
+              <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"로또 번호는 6개입니다."</span><span class="o">);</span>
+          <span class="o">}</span>
+          <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+      <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="요약-기본생성자단일객체list--검증-외에-가변인자단일객체-생성자를-만들어-client의-listof호출부터-제거하자">
+<a class="anchor" href="#%EC%9A%94%EC%95%BD-%EA%B8%B0%EB%B3%B8%EC%83%9D%EC%84%B1%EC%9E%90%EB%8B%A8%EC%9D%BC%EA%B0%9D%EC%B2%B4list--%EA%B2%80%EC%A6%9D-%EC%99%B8%EC%97%90-%EA%B0%80%EB%B3%80%EC%9D%B8%EC%9E%90%EB%8B%A8%EC%9D%BC%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1%EC%9E%90%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4-client%EC%9D%98-listof%ED%98%B8%EC%B6%9C%EB%B6%80%ED%84%B0-%EC%A0%9C%EA%B1%B0%ED%95%98%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>요약: 기본생성자(단일객체List + 검증) 외에 <code class="language-plaintext highlighter-rouge">가변인자(단일객체...) 생성자</code>를 만들어 <code class="language-plaintext highlighter-rouge">client의 List.of()호출부터 제거</code>하자.</h5>
+
+<ul>
+  <li>
+    <p>가변인자로 내부에서 List화 -&gt; client List.of()가 제거된 모습</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">LottoService</span><span class="o">.</span><span class="na">start</span><span class="o">(</span>
+      <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span>
+                <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">))),</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="09-client배려-2--단일-가변인자-일급생성자-직후-바로-값-가변인자-일급생성자를-추가한다">
+<a class="anchor" href="#09-client%EB%B0%B0%EB%A0%A4-2--%EB%8B%A8%EC%9D%BC-%EA%B0%80%EB%B3%80%EC%9D%B8%EC%9E%90-%EC%9D%BC%EA%B8%89%EC%83%9D%EC%84%B1%EC%9E%90-%EC%A7%81%ED%9B%84-%EB%B0%94%EB%A1%9C-%EA%B0%92-%EA%B0%80%EB%B3%80%EC%9D%B8%EC%9E%90-%EC%9D%BC%EA%B8%89%EC%83%9D%EC%84%B1%EC%9E%90%EB%A5%BC-%EC%B6%94%EA%B0%80%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>09 client배려 2)  <code class="language-plaintext highlighter-rouge">단일... 가변인자 일급생성자</code> 직후 바로 <code class="language-plaintext highlighter-rouge">값... 가변인자 일급생성자</code>를 <code class="language-plaintext highlighter-rouge">추가</code>한다.</h4>
+
+<ul>
+  <li>new 일급( <code class="language-plaintext highlighter-rouge">List.of( 단일, 객체)</code> )
+    <ul>
+      <li>new 일급( <code class="language-plaintext highlighter-rouge">단일, 객체</code> ) :  by <code class="language-plaintext highlighter-rouge">단일... 가변인자</code>  +  stream List포장 후 this기본생성자 호출
+        <ul>
+          <li>new 일급( <code class="language-plaintext highlighter-rouge">값1, 값2</code> ) by <code class="language-plaintext highlighter-rouge">값.. 가변인자</code>(int라면 Integer…)  + stream <strong>map단일객체생성 -</strong>&gt; List포장후 this기본생성자 호출</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>단일… 가변인자 -&gt; <code class="language-plaintext highlighter-rouge">단일객체stream</code> -&gt; 단일객체List</strong>가운데 <strong><code class="language-plaintext highlighter-rouge">단일객체stream</code>을 <code class="language-plaintext highlighter-rouge">값... 가변-&gt; 값 stream + map</code>으로 만들수 있으니 값… 가변 생성자도 추가</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lotto</span> <span class="o">{</span>
+      <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">value</span><span class="o">;</span>
+    
+      <span class="c1">//2. new Lotto( 원시값, 가변으로) -&gt; List.Of() + new단일()생성자 제거</span>
+      <span class="kd">public</span> <span class="nf">Lotto</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Integer</span><span class="o">...</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">this</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">value</span><span class="o">).</span><span class="na">map</span><span class="o">(</span><span class="nl">LottoNumber:</span><span class="o">:</span><span class="k">new</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">()));</span>
+      <span class="o">}</span>
+    
+      <span class="c1">//1. new Lotto( 단일객체, 가변으로) -&gt; List.Of제거</span>
+      <span class="kd">public</span> <span class="nf">Lotto</span><span class="o">(</span><span class="kd">final</span> <span class="nc">LottoNumber</span><span class="o">...</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">this</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">value</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">()));</span>
+      <span class="o">}</span>
+    
+      <span class="kd">public</span> <span class="nf">Lotto</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">value</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">distinct</span><span class="o">().</span><span class="na">count</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">6</span><span class="o">)</span> <span class="o">{</span>
+              <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"로또 번호는 6개입니다."</span><span class="o">);</span>
+          <span class="o">}</span>
+          <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+      <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305084817763.png" alt="image-20220305084817763">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305085319446.png" alt="image-20220305085319446">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305085359886.png" alt="image-20220305085359886">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305085457733.png" alt="image-20220305085457733">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305085526086.png" alt="image-20220305085526086">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305085606702.png" alt="image-20220305085606702"></p>
+
+<p>stream에서 <code class="language-plaintext highlighter-rouge">mapToObj</code>가 뜨는 이유는 integer가 아닌 <code class="language-plaintext highlighter-rouge">int -&gt; 객체</code>로 가기 때문 -&gt; <strong>애초에 파라미터로 들어오는 원시값들을 int… 대신 <code class="language-plaintext highlighter-rouge">Integer...</code>로 box된 타입으로 받을 수 있다.</strong>
+<img src="C:%5CUsers%5Ccho_desktop%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220305085731026.png" alt="image-20220305085731026"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305085911955.png" alt="image-20220305085911955"></p>
+
+<p><strong>이제 <code class="language-plaintext highlighter-rouge">원시값으로 일급</code>을 만들 수 있게 된다.</strong></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305090007614.png" alt="image-20220305090007614"></p>
+
+<h5 id="요약-값-가변--값-stream--map으로-단일---단일객체stream을-만들수-있으니-값-가변인자-생성자-추가해서-clinet의-단일가변입력도-값-입력으로-대체하자">
+<a class="anchor" href="#%EC%9A%94%EC%95%BD-%EA%B0%92-%EA%B0%80%EB%B3%80--%EA%B0%92-stream--map%EC%9C%BC%EB%A1%9C-%EB%8B%A8%EC%9D%BC---%EB%8B%A8%EC%9D%BC%EA%B0%9D%EC%B2%B4stream%EC%9D%84-%EB%A7%8C%EB%93%A4%EC%88%98-%EC%9E%88%EC%9C%BC%EB%8B%88-%EA%B0%92-%EA%B0%80%EB%B3%80%EC%9D%B8%EC%9E%90-%EC%83%9D%EC%84%B1%EC%9E%90-%EC%B6%94%EA%B0%80%ED%95%B4%EC%84%9C-clinet%EC%9D%98-%EB%8B%A8%EC%9D%BC%EA%B0%80%EB%B3%80%EC%9E%85%EB%A0%A5%EB%8F%84-%EA%B0%92-%EC%9E%85%EB%A0%A5%EC%9C%BC%EB%A1%9C-%EB%8C%80%EC%B2%B4%ED%95%98%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>요약: <code class="language-plaintext highlighter-rouge">값... 가변-&gt; 값 stream + map</code>으로 <code class="language-plaintext highlighter-rouge">단일... -&gt; 단일객체stream</code>을 만들수 있으니 <code class="language-plaintext highlighter-rouge">값.. 가변인자 생성자 추가</code>해서 <code class="language-plaintext highlighter-rouge">clinet의 단일...가변입력도 값... 입력으로 대체하자</code>
+</h5>
+
+<ul>
+  <li>메서드 테스트로 퉁</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">duplicate</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="nc">LottoService</span><span class="o">.</span><span class="na">start</span><span class="o">(</span>
+        <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">),</span>
+        <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">),</span>
+        <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">7</span><span class="o">)</span>
+    <span class="o">)).</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="요약2-메서드-파라미터-포장이-끝난-직후부터--client배려1-listof-제거-by-단일---client-배려2-new단일-제거-by-값">
+<a class="anchor" href="#%EC%9A%94%EC%95%BD2-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0-%ED%8F%AC%EC%9E%A5%EC%9D%B4-%EB%81%9D%EB%82%9C-%EC%A7%81%ED%9B%84%EB%B6%80%ED%84%B0--client%EB%B0%B0%EB%A0%A41-listof-%EC%A0%9C%EA%B1%B0-by-%EB%8B%A8%EC%9D%BC---client-%EB%B0%B0%EB%A0%A42-new%EB%8B%A8%EC%9D%BC-%EC%A0%9C%EA%B1%B0-by-%EA%B0%92" aria-hidden="true"><span class="octicon octicon-link"></span></a>요약2: <code class="language-plaintext highlighter-rouge">메서드 파라미터 포장</code>이 끝난 직후부터,  <code class="language-plaintext highlighter-rouge">client배려1 List.of 제거 by 단일...</code> -&gt; <code class="language-plaintext highlighter-rouge">client 배려2 new단일() 제거 by 값...</code>
+</h5>
+
+<h4 id="10-일급자체경계값test는-client배려12가-끝난-뒤---new-일급--값-가변인자-로-하면-편하다">
+<a class="anchor" href="#10-%EC%9D%BC%EA%B8%89%EC%9E%90%EC%B2%B4%EA%B2%BD%EA%B3%84%EA%B0%92test%EB%8A%94-client%EB%B0%B0%EB%A0%A412%EA%B0%80-%EB%81%9D%EB%82%9C-%EB%92%A4---new-%EC%9D%BC%EA%B8%89--%EA%B0%92-%EA%B0%80%EB%B3%80%EC%9D%B8%EC%9E%90-%EB%A1%9C-%ED%95%98%EB%A9%B4-%ED%8E%B8%ED%95%98%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>10 일급자체(경계값)Test는 client배려1,2가 끝난 뒤 -&gt; new 일급 ( 값 가변인자) 로 하면 편하다</h4>
+
+<h5 id="개수count-검사----중복duplicate-검사-순으로">
+<a class="anchor" href="#%EA%B0%9C%EC%88%98count-%EA%B2%80%EC%82%AC----%EC%A4%91%EB%B3%B5duplicate-%EA%B2%80%EC%82%AC-%EC%88%9C%EC%9C%BC%EB%A1%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>개수(count) 검사 -&gt;  중복(duplicate) 검사 순으로</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">count_valid</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">assertDoesNotThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">Lotto</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">));</span>
+<span class="o">}</span>
+
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">count_under</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">Lotto</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">hasMessageContaining</span><span class="o">(</span><span class="s">"6개"</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">count_over</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">Lotto</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">7</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">hasMessageContaining</span><span class="o">(</span><span class="s">"6개"</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">duplicate</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">Lotto</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">hasMessageContaining</span><span class="o">(</span><span class="s">"6개"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="11-메서드-내부-일급getvalue는-메서드화하여-도메인내부-로직으로-옮겨갈-후보들">
+<a class="anchor" href="#11-%EB%A9%94%EC%84%9C%EB%93%9C-%EB%82%B4%EB%B6%80-%EC%9D%BC%EA%B8%89getvalue%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C%ED%99%94%ED%95%98%EC%97%AC-%EB%8F%84%EB%A9%94%EC%9D%B8%EB%82%B4%EB%B6%80-%EB%A1%9C%EC%A7%81%EC%9C%BC%EB%A1%9C-%EC%98%AE%EA%B2%A8%EA%B0%88-%ED%9B%84%EB%B3%B4%EB%93%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>11 메서드 내부 <code class="language-plaintext highlighter-rouge">일급.getValue()</code>는 <code class="language-plaintext highlighter-rouge">메서드화</code>하여 <code class="language-plaintext highlighter-rouge">도메인</code>내부 로직으로 옮겨갈 후보들</h4>
+
+<h5 id="일급메서드-객체-로-메세지를-던질-때-일급을-좌항메서드-호출하는-놈-우항에는-내부-찢어질-일급-or-단일파라미터을-배치하여-valuelist메서드를-사용하며-재활용-가능성을-생각하자">
+<a class="anchor" href="#%EC%9D%BC%EA%B8%89%EB%A9%94%EC%84%9C%EB%93%9C-%EA%B0%9D%EC%B2%B4-%EB%A1%9C-%EB%A9%94%EC%84%B8%EC%A7%80%EB%A5%BC-%EB%8D%98%EC%A7%88-%EB%95%8C-%EC%9D%BC%EA%B8%89%EC%9D%84-%EC%A2%8C%ED%95%AD%EB%A9%94%EC%84%9C%EB%93%9C-%ED%98%B8%EC%B6%9C%ED%95%98%EB%8A%94-%EB%86%88-%EC%9A%B0%ED%95%AD%EC%97%90%EB%8A%94-%EB%82%B4%EB%B6%80-%EC%B0%A2%EC%96%B4%EC%A7%88-%EC%9D%BC%EA%B8%89-or-%EB%8B%A8%EC%9D%BC%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EC%9D%84-%EB%B0%B0%EC%B9%98%ED%95%98%EC%97%AC-valuelist%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%A9%B0-%EC%9E%AC%ED%99%9C%EC%9A%A9-%EA%B0%80%EB%8A%A5%EC%84%B1%EC%9D%84-%EC%83%9D%EA%B0%81%ED%95%98%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급.메서드( 객체 )로 메세지를 던질 때, <code class="language-plaintext highlighter-rouge">일급</code>을 좌항(메서드 호출하는 놈) <code class="language-plaintext highlighter-rouge">우항</code>에는 <code class="language-plaintext highlighter-rouge">내부 찢어질 일급 or 단일</code>(파라미터)을 배치하여 <code class="language-plaintext highlighter-rouge">value.list메서드()</code>를 사용하며, <code class="language-plaintext highlighter-rouge">재활용 가능성을 생각</code>하자.</h5>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">일급.getter vs 일급</code> or <code class="language-plaintext highlighter-rouge">일급.getter vs 단일</code> 로직이면 <code class="language-plaintext highlighter-rouge">메서드화</code>해서 도메인 로직으로 옮겨가는데, <strong>일급vs일급부터 처리</strong>한다.</p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">일급</code>.메서드( 찢일 or 단일) -&gt; <code class="language-plaintext highlighter-rouge">value(일급내부 list).</code>입장에서 <code class="language-plaintext highlighter-rouge">넘어온or넘어와돌고있는 단일</code>을 List(value)의 메서드로 컨트롤할 수 있다.</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">match</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">other</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kt">int</span> <span class="n">matchCount</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+      <span class="k">for</span> <span class="o">(</span><span class="nc">LottoNumber</span> <span class="n">lottoNumber</span> <span class="o">:</span> <span class="n">other</span><span class="o">.</span><span class="na">value</span><span class="o">)</span> <span class="o">{</span>
+          <span class="c1">//일급내부list.  list메서드 (  단일   ) </span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">value</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">lottoNumber</span><span class="o">))</span> <span class="o">{</span>
+              <span class="n">matchCount</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">;</span>
+          <span class="o">}</span>
+      <span class="o">}</span>
+    
+      <span class="k">return</span> <span class="n">matchCount</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">일급.getter()</code> vs<code class="language-plaintext highlighter-rouge">단일</code>이 외부에 존재했다면</strong> 메서드화 하면</p>
+
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">value. list메서드( 단일 )</code>로 내부정의</strong> 되므로 <strong><code class="language-plaintext highlighter-rouge">일급vs일급</code> 중 <code class="language-plaintext highlighter-rouge">value.list메서드( 돌고있는 단일)</code>로  메서드가 재활용 될 가능성이 있으니 잘 확인해서 대체해주면 된다.</strong>
+</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">contains</span><span class="o">(</span><span class="kd">final</span> <span class="nc">LottoNumber</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">number</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="일급list메서드-단일-의-메서드가-추가된다면---내부-상태value를-사용하는--내부-정의-메서드인-객체없이-호출되는-메서드가--valuelist메서드-단일-을-대체한다">
+<a class="anchor" href="#%EC%9D%BC%EA%B8%89list%EB%A9%94%EC%84%9C%EB%93%9C-%EB%8B%A8%EC%9D%BC-%EC%9D%98-%EB%A9%94%EC%84%9C%EB%93%9C%EA%B0%80-%EC%B6%94%EA%B0%80%EB%90%9C%EB%8B%A4%EB%A9%B4---%EB%82%B4%EB%B6%80-%EC%83%81%ED%83%9Cvalue%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94--%EB%82%B4%EB%B6%80-%EC%A0%95%EC%9D%98-%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%B8-%EA%B0%9D%EC%B2%B4%EC%97%86%EC%9D%B4-%ED%98%B8%EC%B6%9C%EB%90%98%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C%EA%B0%80--valuelist%EB%A9%94%EC%84%9C%EB%93%9C-%EB%8B%A8%EC%9D%BC-%EC%9D%84-%EB%8C%80%EC%B2%B4%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급.list메서드( 단일 )의 메서드가 추가된다면, -&gt; 내부 상태(value)를 사용하는  내부 정의 메서드인 <code class="language-plaintext highlighter-rouge">객체없이 호출되는 메서드</code>가  value.list메서드( 단일 )을 대체한다.</h5>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">value.contains( lottoNumber )</code>  -&gt; <strong><code class="language-plaintext highlighter-rouge">contains(lottoNumber)</code></strong></p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">객체없이 호출되는 메서드</code>가 있다면 <code class="language-plaintext highlighter-rouge">내부에서 정의된, 내부 상태(value)를 이용하는 메서드</code>로 생각하자. <code class="language-plaintext highlighter-rouge">(this.)value가 쓰이는 메서드구나</code></strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">match</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">other</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kt">int</span> <span class="n">matchCount</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+      <span class="k">for</span> <span class="o">(</span><span class="nc">LottoNumber</span> <span class="n">lottoNumber</span> <span class="o">:</span> <span class="n">other</span><span class="o">.</span><span class="na">value</span><span class="o">)</span> <span class="o">{</span>
+          <span class="c1">//if (value.contains(lottoNumber)) {</span>
+          <span class="c1">// 객체없이 호출된다? 내부상태가 쓰이는 내부 정의 메서드구나~!</span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">contains</span><span class="o">(</span><span class="n">lottoNumber</span><span class="o">))</span> <span class="o">{</span>
+              <span class="n">matchCount</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">;</span>
+          <span class="o">}</span>
+      <span class="o">}</span>
+    
+      <span class="k">return</span> <span class="n">matchCount</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="응답값-포장">
+<a class="anchor" href="#%EC%9D%91%EB%8B%B5%EA%B0%92-%ED%8F%AC%EC%9E%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>응답값 포장</h3>
+
+<h4 id="12-응답값도-포장할-수-있다-만약-제한된-종류--if분기마다-달라지는-응답값라면-enum응답-포장후--응답에-필요한-input들로-정펙매-를-호출한-뒤-내부로-분기-옮겨-응답한다-이후-if분기를-처리해줄--input-필드들---응답값을-매핑한다">
+<a class="anchor" href="#12-%EC%9D%91%EB%8B%B5%EA%B0%92%EB%8F%84-%ED%8F%AC%EC%9E%A5%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4-%EB%A7%8C%EC%95%BD-%EC%A0%9C%ED%95%9C%EB%90%9C-%EC%A2%85%EB%A5%98--if%EB%B6%84%EA%B8%B0%EB%A7%88%EB%8B%A4-%EB%8B%AC%EB%9D%BC%EC%A7%80%EB%8A%94-%EC%9D%91%EB%8B%B5%EA%B0%92%EB%9D%BC%EB%A9%B4-enum%EC%9D%91%EB%8B%B5-%ED%8F%AC%EC%9E%A5%ED%9B%84--%EC%9D%91%EB%8B%B5%EC%97%90-%ED%95%84%EC%9A%94%ED%95%9C-input%EB%93%A4%EB%A1%9C-%EC%A0%95%ED%8E%99%EB%A7%A4-%EB%A5%BC-%ED%98%B8%EC%B6%9C%ED%95%9C-%EB%92%A4-%EB%82%B4%EB%B6%80%EB%A1%9C-%EB%B6%84%EA%B8%B0-%EC%98%AE%EA%B2%A8-%EC%9D%91%EB%8B%B5%ED%95%9C%EB%8B%A4-%EC%9D%B4%ED%9B%84-if%EB%B6%84%EA%B8%B0%EB%A5%BC-%EC%B2%98%EB%A6%AC%ED%95%B4%EC%A4%84--input-%ED%95%84%EB%93%9C%EB%93%A4---%EC%9D%91%EB%8B%B5%EA%B0%92%EC%9D%84-%EB%A7%A4%ED%95%91%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>12 <code class="language-plaintext highlighter-rouge">응답값도 포장</code>할 수 있다. 만약, <code class="language-plaintext highlighter-rouge">제한된 종류 + if분기마다 달라지는 응답값</code>라면 <code class="language-plaintext highlighter-rouge">ENUM응답 포장</code>후  응답에 필요한 input들로 <code class="language-plaintext highlighter-rouge">정펙매</code> 를 호출한 뒤 내부로 분기 옮겨 응답한다. 이후 <code class="language-plaintext highlighter-rouge">if분기를 처리해줄 &lt; input-&gt;필드들 - 응답값&gt;을 매핑</code>한다.</h4>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">int</code>를 포장한 뒤 -&gt; <strong>관련된 if분기 로직을 포장한 도메인으로 넘기면, <code class="language-plaintext highlighter-rouge">메서드 if문이</code> 사라진다.</strong>,</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306183403967.png" alt="image-20220306183403967"></p>
+
+<h5 id="제한된-종류의-응답-값포장은-enum을-활용한다--메서드-응답을-빨간줄로-바꿔-생성하자">
+<a class="anchor" href="#%EC%A0%9C%ED%95%9C%EB%90%9C-%EC%A2%85%EB%A5%98%EC%9D%98-%EC%9D%91%EB%8B%B5-%EA%B0%92%ED%8F%AC%EC%9E%A5%EC%9D%80-enum%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%9C%EB%8B%A4--%EB%A9%94%EC%84%9C%EB%93%9C-%EC%9D%91%EB%8B%B5%EC%9D%84-%EB%B9%A8%EA%B0%84%EC%A4%84%EB%A1%9C-%EB%B0%94%EA%BF%94-%EC%83%9D%EC%84%B1%ED%95%98%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a><code class="language-plaintext highlighter-rouge">제한된 종류의 응답 값</code>포장은 Enum을 활용한다.  메서드 응답을 빨간줄로 바꿔 생성하자.</h5>
+
+<ul>
+  <li>
+    <p>만약, 제한되지 않았다면? <code class="language-plaintext highlighter-rouge">class Rank</code>로, <strong>현재는 <code class="language-plaintext highlighter-rouge">제한된 종류</code>의 값 응답이므로 <code class="language-plaintext highlighter-rouge">Enum</code>으로 매핑해서 <code class="language-plaintext highlighter-rouge">if를 대신</code>하게 해보자.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306183754213.png" alt="image-20220306183754213"></p>
+  </li>
+  <li>
+    <p>연속된 상수라면, <code class="language-plaintext highlighter-rouge">Enum명_ 순서</code>를 활용하면 된다.</p>
+
+    <ul>
+      <li>1,2,3,4,5등 -&gt; <code class="language-plaintext highlighter-rouge">등</code>을 Enum으로 만들고 등_1,2,3,4,5; 로 선언해보자.</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kn">package</span> <span class="nn">lotto</span><span class="o">;</span>
+    
+  <span class="kd">public</span> <span class="kd">enum</span> <span class="nc">Rank</span> <span class="o">{</span>
+    
+      <span class="no">RANK_1</span><span class="o">,</span>
+      <span class="no">RANK_2</span><span class="o">,</span>
+      <span class="no">RANK_3</span><span class="o">,</span>
+      <span class="no">RANK_4</span><span class="o">,</span>
+      <span class="no">RANK_5</span><span class="o">;</span>
+  <span class="o">}</span>
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="13-응답에-대한-분기로직을-어떻게-응답class응답enum으로-넘길까">
+<a class="anchor" href="#13-%EC%9D%91%EB%8B%B5%EC%97%90-%EB%8C%80%ED%95%9C-%EB%B6%84%EA%B8%B0%EB%A1%9C%EC%A7%81%EC%9D%84-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%9D%91%EB%8B%B5class%EC%9D%91%EB%8B%B5enum%EC%9C%BC%EB%A1%9C-%EB%84%98%EA%B8%B8%EA%B9%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>13 응답에 대한 분기로직을 어떻게 응답class/응답Enum으로 넘길까?</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306184557340.png" alt="image-20220306184557340"></p>
+
+<h5 id="메서드-응답부에서-원하는-포장된-응답값인-enum객체을-뽑아-응답해주는--return-enum정펙매of-완성하기">
+<a class="anchor" href="#%EB%A9%94%EC%84%9C%EB%93%9C-%EC%9D%91%EB%8B%B5%EB%B6%80%EC%97%90%EC%84%9C-%EC%9B%90%ED%95%98%EB%8A%94-%ED%8F%AC%EC%9E%A5%EB%90%9C-%EC%9D%91%EB%8B%B5%EA%B0%92%EC%9D%B8-enum%EA%B0%9D%EC%B2%B4%EC%9D%84-%EB%BD%91%EC%95%84-%EC%9D%91%EB%8B%B5%ED%95%B4%EC%A3%BC%EB%8A%94--return-enum%EC%A0%95%ED%8E%99%EB%A7%A4of-%EC%99%84%EC%84%B1%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a><code class="language-plaintext highlighter-rouge">메서드 응답부</code>에서 원하는 포장된 응답값인 Enum객체을 뽑아 응답해주는  <code class="language-plaintext highlighter-rouge">return Enum.정펙매of (,)</code>완성하기</h5>
+
+<ul>
+  <li>
+    <p><strong>결과적으로 <code class="language-plaintext highlighter-rouge">정펙매</code>인 <code class="language-plaintext highlighter-rouge">Enum.from()</code> or <code class="language-plaintext highlighter-rouge">Enum.of( , , )</code>로 Enum객체를 응답해야한다.</strong></p>
+
+    <ul>
+      <li>원하는 Enum객체가 응답될 수 있도록 <strong>필요한 인자들을 생각해서 받아들인다.</strong>
+</li>
+      <li><strong>실제로 <code class="language-plaintext highlighter-rouge">입력값이 될 것들을 가지고 있는 사용부인 메서드 응답부에서 부터 시작</code></strong></li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p>응답부에서 <strong>Enum.정팩메로 해당하는 <code class="language-plaintext highlighter-rouge">포장응답값</code>을 <code class="language-plaintext highlighter-rouge">return</code>해 줄 예정이다.</strong></p>
+
+    <ul>
+      <li>필요한 input들이 뭐가 있는지 살펴본다.</li>
+      <li><strong>메서드호출의 결과값이 있다면, <code class="language-plaintext highlighter-rouge">input</code>이 명확하도록 따로 변수로 뽑아주자.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306190059628.png" alt="image-20220306190059628">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306190115387.png" alt="image-20220306190115387"></p>
+
+    <ul>
+      <li>
+<strong>정팩메로는 <code class="language-plaintext highlighter-rouge">Enum</code>이라는 <code class="language-plaintext highlighter-rouge">포장된 응답값</code>을 가져올 것이기 때문에 <code class="language-plaintext highlighter-rouge">return</code>과 같이 작성한다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306190225323.png" alt="image-20220306190225323">
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306190457221.png" alt="image-20220306190457221"></p>
+  </li>
+</ol>
+
+<h5 id="값-응답-로직을----포장응답값-정펙매로-잘라내서-처리하기">
+<a class="anchor" href="#%EA%B0%92-%EC%9D%91%EB%8B%B5-%EB%A1%9C%EC%A7%81%EC%9D%84----%ED%8F%AC%EC%9E%A5%EC%9D%91%EB%8B%B5%EA%B0%92-%EC%A0%95%ED%8E%99%EB%A7%A4%EB%A1%9C-%EC%9E%98%EB%9D%BC%EB%82%B4%EC%84%9C-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>값 응답 로직을 -&gt;  포장응답값 정펙매로 잘라내서 처리하기</h5>
+
+<ol>
+  <li>
+    <p>이제 값 응답로직을 그대로 잘라붙혀넣기 한다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306190736124.png" alt="image-20220306190736124"></p>
+
+    <ul>
+      <li>이동후</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306190810106.png" alt="image-20220306190810106"></p>
+  </li>
+</ol>
+
+<h4 id="14-정팩메-내부로-옮긴-분기에-대해-응답값들을-enum객체로-수정해주기---없는-값0-none에-대해서도-outnone객체-만들어서-응답해주기">
+<a class="anchor" href="#14-%EC%A0%95%ED%8C%A9%EB%A9%94-%EB%82%B4%EB%B6%80%EB%A1%9C-%EC%98%AE%EA%B8%B4-%EB%B6%84%EA%B8%B0%EC%97%90-%EB%8C%80%ED%95%B4-%EC%9D%91%EB%8B%B5%EA%B0%92%EB%93%A4%EC%9D%84-enum%EA%B0%9D%EC%B2%B4%EB%A1%9C-%EC%88%98%EC%A0%95%ED%95%B4%EC%A3%BC%EA%B8%B0---%EC%97%86%EB%8A%94-%EA%B0%920-none%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C%EB%8F%84-outnone%EA%B0%9D%EC%B2%B4-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%84%9C-%EC%9D%91%EB%8B%B5%ED%95%B4%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>14 정팩메 내부로 옮긴 분기에 대해, 응답[값]들을 [Enum객체]로 수정해주기 -&gt; 없는 값(0, None)에 대해서도 OUT,NONE객체 만들어서 응답해주기</h4>
+
+<ul>
+  <li>
+    <p>아직 바꾸기 전 응답로직</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">if</span> <span class="o">(</span><span class="n">matchCount</span> <span class="o">==</span> <span class="mi">6</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+  <span class="o">}</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">matchCount</span> <span class="o">==</span> <span class="mi">5</span> <span class="o">&amp;&amp;</span> <span class="n">matchBonus</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="mi">2</span><span class="o">;</span>
+  <span class="o">}</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">matchCount</span> <span class="o">==</span> <span class="mi">5</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="mi">3</span><span class="o">;</span>
+  <span class="o">}</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">matchCount</span> <span class="o">==</span> <span class="mi">4</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="mi">4</span><span class="o">;</span>
+  <span class="o">}</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">matchCount</span> <span class="o">==</span> <span class="mi">3</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="mi">5</span><span class="o">;</span>
+  <span class="o">}</span>
+    
+  <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>수정 + NONE객체 추가후</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kn">package</span> <span class="nn">lotto</span><span class="o">;</span>
+    
+  <span class="kd">public</span> <span class="kd">enum</span> <span class="nc">Rank</span> <span class="o">{</span>
+    
+      <span class="no">RANK_1</span><span class="o">,</span>
+      <span class="no">RANK_2</span><span class="o">,</span>
+      <span class="no">RANK_3</span><span class="o">,</span>
+      <span class="no">RANK_4</span><span class="o">,</span>
+      <span class="no">RANK_5</span><span class="o">,</span>
+      <span class="no">OUT</span><span class="o">;</span>
+    
+      <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Rank</span> <span class="nf">of</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">matchCount</span><span class="o">,</span>
+                            <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">matchBonus</span><span class="o">)</span> <span class="o">{</span>
+    
+          <span class="k">if</span> <span class="o">(</span><span class="n">matchCount</span> <span class="o">==</span> <span class="mi">6</span><span class="o">)</span> <span class="o">{</span>
+              <span class="k">return</span> <span class="no">RANK_1</span><span class="o">;</span>
+          <span class="o">}</span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">matchCount</span> <span class="o">==</span> <span class="mi">5</span> <span class="o">&amp;&amp;</span> <span class="n">matchBonus</span><span class="o">)</span> <span class="o">{</span>
+              <span class="k">return</span> <span class="no">RANK_2</span><span class="o">;</span>
+          <span class="o">}</span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">matchCount</span> <span class="o">==</span> <span class="mi">5</span><span class="o">)</span> <span class="o">{</span>
+              <span class="k">return</span> <span class="no">RANK_3</span><span class="o">;</span>
+          <span class="o">}</span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">matchCount</span> <span class="o">==</span> <span class="mi">4</span><span class="o">)</span> <span class="o">{</span>
+              <span class="k">return</span> <span class="no">RANK_4</span><span class="o">;</span>
+          <span class="o">}</span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">matchCount</span> <span class="o">==</span> <span class="mi">3</span><span class="o">)</span> <span class="o">{</span>
+              <span class="k">return</span> <span class="no">RANK_5</span><span class="o">;</span>
+          <span class="o">}</span>
+    
+          <span class="k">return</span> <span class="no">OUT</span><span class="o">;</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+    
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Rank</span> <span class="nf">match</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">userLotto</span><span class="o">,</span>
+                           <span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">winningLotto</span><span class="o">,</span>
+                           <span class="kd">final</span> <span class="nc">LottoNumber</span> <span class="n">bonusNumber</span><span class="o">)</span> <span class="o">{</span>
+    
+      <span class="kd">final</span> <span class="kt">int</span> <span class="n">matchCount</span> <span class="o">=</span> <span class="n">userLotto</span><span class="o">.</span><span class="na">match</span><span class="o">(</span><span class="n">winningLotto</span><span class="o">);</span>
+      <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">matchBonus</span> <span class="o">=</span> <span class="n">userLotto</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">bonusNumber</span><span class="o">);</span>
+    
+      <span class="k">return</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">matchCount</span><span class="o">,</span> <span class="n">matchBonus</span><span class="o">);</span>
+  <span class="o">}</span>
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="15-메서드-포장된-응답-테스트-작성하기">
+<a class="anchor" href="#15-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%8F%AC%EC%9E%A5%EB%90%9C-%EC%9D%91%EB%8B%B5-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>15 메서드 [포장된 응답] 테스트 작성하기</h4>
+
+<h5 id="여러분기므로-1case에-대한---1예상값-마다-테매를-작성해야한다">
+<a class="anchor" href="#%EC%97%AC%EB%9F%AC%EB%B6%84%EA%B8%B0%EB%AF%80%EB%A1%9C-1case%EC%97%90-%EB%8C%80%ED%95%9C---1%EC%98%88%EC%83%81%EA%B0%92-%EB%A7%88%EB%8B%A4-%ED%85%8C%EB%A7%A4%EB%A5%BC-%EC%9E%91%EC%84%B1%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>여러분기므로 1case에 대한 -&gt; 1예상값 마다 테매를 작성해야한다.</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">match_1</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">//given, when</span>
+    <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">rank</span> <span class="o">=</span> <span class="nc">LottoService</span><span class="o">.</span><span class="na">match</span><span class="o">(</span>
+        <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">),</span>
+        <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">),</span>
+        <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">7</span><span class="o">)</span>
+    <span class="o">);</span>
+
+    <span class="c1">//then</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">rank</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">RANK_1</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="16-if분기를-enum정팩매-내부-valuesstreamfilter-정펙매input-vs-매핑값과-비교-조건식으로-제거하기">
+<a class="anchor" href="#16-if%EB%B6%84%EA%B8%B0%EB%A5%BC-enum%EC%A0%95%ED%8C%A9%EB%A7%A4-%EB%82%B4%EB%B6%80-valuesstreamfilter-%EC%A0%95%ED%8E%99%EB%A7%A4input-vs-%EB%A7%A4%ED%95%91%EA%B0%92%EA%B3%BC-%EB%B9%84%EA%B5%90-%EC%A1%B0%EA%B1%B4%EC%8B%9D%EC%9C%BC%EB%A1%9C-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>16 if분기를 enum정팩매 내부 values().stream+filter( 정펙매input vs 매핑값과 비교 조건식)으로 제거하기</h4>
+
+<h5 id="정팩메-input으로-들어올-데이터들-中--1개를-골라-매핑-예정인-enum객체의-필드로-넣어준다">
+<a class="anchor" href="#%EC%A0%95%ED%8C%A9%EB%A9%94-input%EC%9C%BC%EB%A1%9C-%EB%93%A4%EC%96%B4%EC%98%AC-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%93%A4-%E4%B8%AD--1%EA%B0%9C%EB%A5%BC-%EA%B3%A8%EB%9D%BC-%EB%A7%A4%ED%95%91-%EC%98%88%EC%A0%95%EC%9D%B8-enum%EA%B0%9D%EC%B2%B4%EC%9D%98-%ED%95%84%EB%93%9C%EB%A1%9C-%EB%84%A3%EC%96%B4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>정팩메 input으로 <code class="language-plaintext highlighter-rouge">들어올 데이터</code>들 中  1개를 골라 <code class="language-plaintext highlighter-rouge">(매핑 예정인) Enum객체의 필드</code>로 넣어준다.</h5>
+
+<ul>
+  <li>
+    <p><strong>정펙매로 <code class="language-plaintext highlighter-rouge">여러 데이터</code>가 들어와 사용</strong>가 들어오지만 <code class="language-plaintext highlighter-rouge">of( matchCount, matchBonus)</code></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306222111985.png" alt="image-20220306222111985"></p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">매핑에 사용될 쉬운 변수 1개</code>만 선택하여, <code class="language-plaintext highlighter-rouge">정펙매 내부 values().stream.filter 분기</code>에서 비교할 것이다. Enum객체가 필드로 가지고 있으면 되며, 그 필드 기준으로 매핑값도 차후 배정된다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p>쉽게 <strong>Enum의 필드에 넣기</strong> 위해서는 <strong>일단 ENUM<code class="language-plaintext highlighter-rouge">(1)</code> 객체 옆에 빨간줄로 <code class="language-plaintext highlighter-rouge">원시형 예제</code>작성해준다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306222323949.png" alt="image-20220306222323949"></p>
+
+    <p><img src="C:%5CUsers%5Ccho_desktop%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220306222358375.png" alt="image-20220306222358375"></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">생성자를 생성</code>해주면서 <code class="language-plaintext highlighter-rouge">input과 똑같이 네이밍</code>후   <code class="language-plaintext highlighter-rouge">빨간줄 this.필드명 = 필드; 초기화</code>를 이용해서 필드를 생성한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306222528608.png" alt="image-20220306222528608"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306222623598.png" alt="image-20220306222623598"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306222631104.png" alt="image-20220306222631104"></p>
+  </li>
+  <li>
+    <p>나머지 객체도 데이터를 넣어준다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">enum</span> <span class="nc">Rank</span> <span class="o">{</span>
+    
+     <span class="no">RANK_1</span><span class="o">(</span><span class="mi">6</span><span class="o">),</span>
+     <span class="no">RANK_2</span><span class="o">(</span><span class="mi">5</span><span class="o">),</span>
+     <span class="no">RANK_3</span><span class="o">(</span><span class="mi">5</span><span class="o">),</span>
+     <span class="no">RANK_4</span><span class="o">(</span><span class="mi">4</span><span class="o">),</span>
+     <span class="no">RANK_5</span><span class="o">(</span><span class="mi">3</span><span class="o">),</span>
+     <span class="no">OUT</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+    
+     <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">matchCount</span><span class="o">;</span>
+    
+     <span class="nc">Rank</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">matchCount</span><span class="o">)</span> <span class="o">{</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">matchCount</span> <span class="o">=</span> <span class="n">matchCount</span><span class="o">;</span>
+     <span class="o">}</span>
+    
+     <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Rank</span> <span class="nf">of</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">matchCount</span><span class="o">,</span>
+                           <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">matchBonus</span><span class="o">)</span> <span class="o">{</span>
+    
+         <span class="k">if</span> <span class="o">(</span><span class="n">matchCount</span> <span class="o">==</span> <span class="mi">6</span><span class="o">)</span> <span class="o">{</span>
+             <span class="k">return</span> <span class="no">RANK_1</span><span class="o">;</span>
+         <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="enum정팩메-내-제한된종류의-모든-if분기를--valuesstream--filter-with-input-vs-매핑field로-분기-없애기">
+<a class="anchor" href="#enum%EC%A0%95%ED%8C%A9%EB%A9%94-%EB%82%B4-%EC%A0%9C%ED%95%9C%EB%90%9C%EC%A2%85%EB%A5%98%EC%9D%98-%EB%AA%A8%EB%93%A0-if%EB%B6%84%EA%B8%B0%EB%A5%BC--valuesstream--filter-with-input-vs-%EB%A7%A4%ED%95%91field%EB%A1%9C-%EB%B6%84%EA%B8%B0-%EC%97%86%EC%95%A0%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>Enum정팩메 내 [제한된종류의 모든 if분기]를  values().stream + filter with input vs 매핑field로 분기 없애기</h5>
+
+<h5 id="특수한-경우-정팩매에서-enum매핑값-뽑기도-전에--early-return해준다">
+<a class="anchor" href="#%ED%8A%B9%EC%88%98%ED%95%9C-%EA%B2%BD%EC%9A%B0-%EC%A0%95%ED%8C%A9%EB%A7%A4%EC%97%90%EC%84%9C-enum%EB%A7%A4%ED%95%91%EA%B0%92-%EB%BD%91%EA%B8%B0%EB%8F%84-%EC%A0%84%EC%97%90--early-return%ED%95%B4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>특수한 경우, 정팩매에서 ENUM매핑값 뽑기도 전에,  early return해준다.</h5>
+
+<ul>
+  <li>
+    <p>특수한 경우로서 2등과 3등을 먼저 <strong>필드는 안됬지만 사용해야하는 변수 matchBonus</strong>로 <strong>홀로 true인 2등을 early return한다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Rank</span> <span class="nf">of</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">matchCount</span><span class="o">,</span>
+                        <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">matchBonus</span><span class="o">)</span> <span class="o">{</span>
+    
+      <span class="k">if</span> <span class="o">(</span><span class="n">matchBonus</span> <span class="o">&amp;&amp;</span> <span class="n">matchCount</span> <span class="o">==</span> <span class="mi">5</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="no">RANK_2</span><span class="o">;</span>
+      <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="enum내에서-values는-enum객체배열을-응답하며-거기에-배열stream자동완성-사용하여-enumstream-만들어-객체전체를-돌리기">
+<a class="anchor" href="#enum%EB%82%B4%EC%97%90%EC%84%9C-values%EB%8A%94-enum%EA%B0%9D%EC%B2%B4%EB%B0%B0%EC%97%B4%EC%9D%84-%EC%9D%91%EB%8B%B5%ED%95%98%EB%A9%B0-%EA%B1%B0%EA%B8%B0%EC%97%90-%EB%B0%B0%EC%97%B4stream%EC%9E%90%EB%8F%99%EC%99%84%EC%84%B1-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-enumstream-%EB%A7%8C%EB%93%A4%EC%96%B4-%EA%B0%9D%EC%B2%B4%EC%A0%84%EC%B2%B4%EB%A5%BC-%EB%8F%8C%EB%A6%AC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>Enum내에서 values()는 Enum객체배열을 응답하며 거기에 <code class="language-plaintext highlighter-rouge">배열.stream자동완성</code> 사용하여 <code class="language-plaintext highlighter-rouge">EnumStream 만들어 객체전체를 돌리기</code>
+</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306223256714.png" alt="image-20220306223256714"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306223352829.png" alt="image-20220306223352829"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306223432081.png" alt="image-20220306223432081"></p>
+
+<h5 id="제한된-종류의-if분기를-valuesstream-for---filterit----input-vs-매핑field-비교-대체하기">
+<a class="anchor" href="#%EC%A0%9C%ED%95%9C%EB%90%9C-%EC%A2%85%EB%A5%98%EC%9D%98-if%EB%B6%84%EA%B8%B0%EB%A5%BC-valuesstream-for---filterit----input-vs-%EB%A7%A4%ED%95%91field-%EB%B9%84%EA%B5%90-%EB%8C%80%EC%B2%B4%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a><code class="language-plaintext highlighter-rouge">제한된 종류의 if분기</code>를 <code class="language-plaintext highlighter-rouge">values().stream (for)  + filter(it -&gt;  input vs 매핑field 비교)</code> 대체하기</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Rank</span> <span class="nf">of</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">matchCount</span><span class="o">,</span>
+                      <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">matchBonus</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">matchBonus</span> <span class="o">&amp;&amp;</span> <span class="n">matchCount</span> <span class="o">==</span> <span class="mi">5</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="no">RANK_2</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">values</span><span class="o">())</span>
+        <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">it</span> <span class="o">-&gt;</span> <span class="n">matchCount</span> <span class="o">==</span> <span class="n">it</span><span class="o">.</span><span class="na">matchCount</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">findAny</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">orElse</span><span class="o">(</span><span class="no">OUT</span><span class="o">);</span>
+</code></pre></div></div>
+
+<ul>
+  <li>기존 if분기들 이제 삭제
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306224423339.png" alt="image-20220306224423339">
+</li>
+</ul>
+
+<h5 id="enum-sense-각-enum객체끝은-마지막도-콤마-그-다음라인----findany후-orelse-none객체-">
+<a class="anchor" href="#enum-sense-%EA%B0%81-enum%EA%B0%9D%EC%B2%B4%EB%81%9D%EC%9D%80-%EB%A7%88%EC%A7%80%EB%A7%89%EB%8F%84-%EC%BD%A4%EB%A7%88-%EA%B7%B8-%EB%8B%A4%EC%9D%8C%EB%9D%BC%EC%9D%B8----findany%ED%9B%84-orelse-none%EA%B0%9D%EC%B2%B4-" aria-hidden="true"><span class="octicon octicon-link"></span></a>enum sense: 각 enum객체끝은 마지막도 콤마(,) 그 다음라인(;)  +  .findAny()후 .orElse( NONE객체 )</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">Rank</span> <span class="o">{</span>
+
+    <span class="no">RANK_1</span><span class="o">(</span><span class="mi">6</span><span class="o">),</span>
+    <span class="no">RANK_2</span><span class="o">(</span><span class="mi">5</span><span class="o">),</span>
+    <span class="no">RANK_3</span><span class="o">(</span><span class="mi">5</span><span class="o">),</span>
+    <span class="no">RANK_4</span><span class="o">(</span><span class="mi">4</span><span class="o">),</span>
+    <span class="no">RANK_5</span><span class="o">(</span><span class="mi">3</span><span class="o">),</span>
+    <span class="no">OUT</span><span class="o">(</span><span class="mi">0</span><span class="o">),</span>
+    <span class="o">;</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">values</span><span class="o">())</span>
+    <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">it</span> <span class="o">-&gt;</span> <span class="n">matchCount</span> <span class="o">==</span> <span class="n">it</span><span class="o">.</span><span class="na">matchCount</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">findAny</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">orElse</span><span class="o">(</span><span class="no">OUT</span><span class="o">);</span>
+
+</code></pre></div></div>
+
+<h4 id="17-bi비아이-predicate--로-input된-2개-값을-다-사용하는-1개의-람다식필드--filter속-예비-조건식testab로-실행을-만들어----enum의-1-필드-매핑에-사용되는-type을-함수형인터페이스로-사용하여---정펙매-내부-들어오는-2개값-모두-사용하는-enum-만들기">
+<a class="anchor" href="#17-bi%EB%B9%84%EC%95%84%EC%9D%B4-predicate--%EB%A1%9C-input%EB%90%9C-2%EA%B0%9C-%EA%B0%92%EC%9D%84-%EB%8B%A4-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-1%EA%B0%9C%EC%9D%98-%EB%9E%8C%EB%8B%A4%EC%8B%9D%ED%95%84%EB%93%9C--filter%EC%86%8D-%EC%98%88%EB%B9%84-%EC%A1%B0%EA%B1%B4%EC%8B%9Dtestab%EB%A1%9C-%EC%8B%A4%ED%96%89%EC%9D%84-%EB%A7%8C%EB%93%A4%EC%96%B4----enum%EC%9D%98-1-%ED%95%84%EB%93%9C-%EB%A7%A4%ED%95%91%EC%97%90-%EC%82%AC%EC%9A%A9%EB%90%98%EB%8A%94-type%EC%9D%84-%ED%95%A8%EC%88%98%ED%98%95%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC---%EC%A0%95%ED%8E%99%EB%A7%A4-%EB%82%B4%EB%B6%80-%EB%93%A4%EC%96%B4%EC%98%A4%EB%8A%94-2%EA%B0%9C%EA%B0%92-%EB%AA%A8%EB%91%90-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-enum-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>17 <code class="language-plaintext highlighter-rouge">Bi(비.아이.) Predicate&lt; , &gt;</code>로 <code class="language-plaintext highlighter-rouge">input된 2개 값을 다 사용하는 1개의 람다식필드 &amp;&amp; filter속 예비 조건식(.test(a,b)로 실행)</code>을 만들어 -&gt;  [enum의 1 필드 매핑]에 사용되는 Type을 <code class="language-plaintext highlighter-rouge">함수형인터페이스</code>로 사용하여 -&gt; 정펙매 내부 들어오는 2개값 모두 사용하는 enum 만들기</h4>
+
+<ul>
+  <li>
+<strong>BiPredicate Type은  <code class="language-plaintext highlighter-rouge">1개 함수를 가진 인터페이스 = 함수형 인터페이스</code> 중 <code class="language-plaintext highlighter-rouge">2개 인자를 받아 실행대기 중인 조건식</code>을 제공해주고 -&gt; <code class="language-plaintext highlighter-rouge">.test( a, b)</code>를 통해 외부인자를 받아서 조건식을 실행한다.</strong>
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">.test(a, b)</code>에 정팩메로 들어온 input2개를 넣어주면 된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="아직-bipredicate-적용안한-기존-코드-상금도-매핑-안된-상태">
+<a class="anchor" href="#%EC%95%84%EC%A7%81-bipredicate-%EC%A0%81%EC%9A%A9%EC%95%88%ED%95%9C-%EA%B8%B0%EC%A1%B4-%EC%BD%94%EB%93%9C-%EC%83%81%EA%B8%88%EB%8F%84-%EB%A7%A4%ED%95%91-%EC%95%88%EB%90%9C-%EC%83%81%ED%83%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>아직 BiPredicate 적용안한 기존 코드 (상금도 매핑 안된 상태)</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">Rank</span> <span class="o">{</span>
+
+    <span class="no">RANK_1</span><span class="o">(</span><span class="mi">6</span><span class="o">),</span>
+    <span class="no">RANK_2</span><span class="o">(</span><span class="mi">5</span><span class="o">),</span>
+    <span class="no">RANK_3</span><span class="o">(</span><span class="mi">5</span><span class="o">),</span>
+    <span class="no">RANK_4</span><span class="o">(</span><span class="mi">4</span><span class="o">),</span>
+    <span class="no">RANK_5</span><span class="o">(</span><span class="mi">3</span><span class="o">),</span>
+    <span class="no">OUT</span><span class="o">(</span><span class="mi">0</span><span class="o">),</span>
+    <span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">matchCount</span><span class="o">;</span>
+
+    <span class="nc">Rank</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">matchCount</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">matchCount</span> <span class="o">=</span> <span class="n">matchCount</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Rank</span> <span class="nf">of</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">matchCount</span><span class="o">,</span>
+                          <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">matchBonus</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">matchBonus</span> <span class="o">&amp;&amp;</span> <span class="n">matchCount</span> <span class="o">==</span> <span class="mi">5</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="no">RANK_2</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">values</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">it</span> <span class="o">-&gt;</span> <span class="n">matchCount</span> <span class="o">==</span> <span class="n">it</span><span class="o">.</span><span class="na">matchCount</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">findAny</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">orElse</span><span class="o">(</span><span class="no">OUT</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="enum필드에-2인자-람다식인-bipredicate를-넣어서-생성하기">
+<a class="anchor" href="#enum%ED%95%84%EB%93%9C%EC%97%90-2%EC%9D%B8%EC%9E%90-%EB%9E%8C%EB%8B%A4%EC%8B%9D%EC%9D%B8-bipredicate%EB%A5%BC-%EB%84%A3%EC%96%B4%EC%84%9C-%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>Enum필드에 2인자 람다식인 BiPredicate를 넣어서 생성하기</h5>
+
+<ol>
+  <li>이번엔 <code class="language-plaintext highlighter-rouge">Enum()</code>객체안에 input 중 1개 6,5,4.. 대신에 <strong><code class="language-plaintext highlighter-rouge">input 2필드 다 써서 1개 람다식</code>을 만들어 예제로 넣어주자.</strong>
+    <ul>
+      <li>이왕이면 다중커서로 한번에 다 입력해주자.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306231741730.png" alt="image-20220306231741730">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306231807230.png" alt="image-20220306231807230">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306231833577.png" alt="image-20220306231833577">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306231947811.png" alt="image-20220306231947811">
+</li>
+    </ul>
+  </li>
+</ol>
+
+<h5 id="아쉽게도-bipredicate는-직접-필드입력---private-final-필드-변수-생성---생산자-자동완성로-가야한다-원래는-예제---생산자---빨간줄-this필드-생성">
+<a class="anchor" href="#%EC%95%84%EC%89%BD%EA%B2%8C%EB%8F%84-bipredicate%EB%8A%94-%EC%A7%81%EC%A0%91-%ED%95%84%EB%93%9C%EC%9E%85%EB%A0%A5---private-final-%ED%95%84%EB%93%9C-%EB%B3%80%EC%88%98-%EC%83%9D%EC%84%B1---%EC%83%9D%EC%82%B0%EC%9E%90-%EC%9E%90%EB%8F%99%EC%99%84%EC%84%B1%EB%A1%9C-%EA%B0%80%EC%95%BC%ED%95%9C%EB%8B%A4-%EC%9B%90%EB%9E%98%EB%8A%94-%EC%98%88%EC%A0%9C---%EC%83%9D%EC%82%B0%EC%9E%90---%EB%B9%A8%EA%B0%84%EC%A4%84-this%ED%95%84%EB%93%9C-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>아쉽게도 BiPredicate는 <code class="language-plaintext highlighter-rouge">직접 필드입력 -&gt; private final 필드 변수 생성 -&gt; 생산자 자동완성</code>로 가야한다. (원래는 예제 -&gt; 생산자 -&gt; 빨간줄 this.필드 생성)</h5>
+
+<ul>
+  <li><strong>원래 객체( <code class="language-plaintext highlighter-rouge">원시값 등 쉬운 Type</code>)을 빨간줄 필드로 넣으면, 생성자에 파라미터 공짜 -&gt; this.로 필드 공짜 생성</strong></li>
+</ul>
+
+<ol>
+  <li>
+    <p>BiPredicate 작성</p>
+
+    <ul>
+      <li>
+<strong>받은 인자 2개는 <code class="language-plaintext highlighter-rouge">if분기에 쓰였던 input값 2개</code>다.</strong> -&gt; <code class="language-plaintext highlighter-rouge">원래 Enum의 매핑 쉬운 상수 응답값 6, 5, 4...</code>와  비교해야한다.</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">enum</span> <span class="nc">Rank</span> <span class="o">{</span>
+    
+     <span class="no">RANK_1</span><span class="o">(((</span><span class="n">matchCount</span><span class="o">,</span> <span class="n">matchBonus</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">matchCount</span> <span class="o">==</span> <span class="mi">6</span><span class="o">)),</span>
+     <span class="no">RANK_2</span><span class="o">((</span><span class="n">matchCount</span><span class="o">,</span> <span class="n">matchBonus</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">matchCount</span> <span class="o">==</span> <span class="mi">5</span> <span class="o">&amp;&amp;</span> <span class="n">matchBonus</span><span class="o">),</span>
+     <span class="no">RANK_3</span><span class="o">((</span><span class="n">matchCount</span><span class="o">,</span> <span class="n">matchBonus</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">matchCount</span> <span class="o">==</span> <span class="mi">5</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">matchBonus</span><span class="o">),</span>
+     <span class="no">RANK_4</span><span class="o">((</span><span class="n">matchCount</span><span class="o">,</span> <span class="n">matchBonus</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">matchCount</span> <span class="o">==</span> <span class="mi">4</span><span class="o">),</span>
+     <span class="no">RANK_5</span><span class="o">((</span><span class="n">matchCount</span><span class="o">,</span> <span class="n">matchBonus</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">matchCount</span> <span class="o">==</span> <span class="mi">3</span><span class="o">),</span>
+     <span class="no">OUT</span><span class="o">((</span><span class="n">matchCount</span><span class="o">,</span> <span class="n">matchBonus</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">matchCount</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">),</span>
+     <span class="o">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>필드 직접 입력 <code class="language-plaintext highlighter-rouge">private final</code></p>
+
+    <ul>
+      <li>제네릭 타입은 <strong>들어올 인자들의 Type(정팩메로 들어올 Type)을 Boxing한 타입 + <code class="language-plaintext highlighter-rouge">네이밍은 condition</code>으로 실행될 조건식임을 인지시킴</strong>
+</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">private</span> <span class="kd">final</span> <span class="nc">BiPredicate</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Boolean</span><span class="o">&gt;</span> <span class="n">condition</span><span class="o">;</span>
+</code></pre></div>    </div>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306233622030.png" alt="image-20220306233622030"></p>
+  </li>
+  <li>
+    <p>생성자 자동완성
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306233747924.png" alt="image-20220306233747924">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220306233758792.png" alt="image-20220306233758792"></p>
+  </li>
+</ol>
+
+<h5 id="valuesstream--filter분기에서-test--로-정펙매-인자를-받아-조건식-실행">
+<a class="anchor" href="#valuesstream--filter%EB%B6%84%EA%B8%B0%EC%97%90%EC%84%9C-test--%EB%A1%9C-%EC%A0%95%ED%8E%99%EB%A7%A4-%EC%9D%B8%EC%9E%90%EB%A5%BC-%EB%B0%9B%EC%95%84-%EC%A1%B0%EA%B1%B4%EC%8B%9D-%EC%8B%A4%ED%96%89" aria-hidden="true"><span class="octicon octicon-link"></span></a>values().stream + filter분기에서 <code class="language-plaintext highlighter-rouge">.test( , )로 정펙매 인자</code>를 받아 조건식 실행</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Rank</span> <span class="nf">of</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">matchCount</span><span class="o">,</span>
+                      <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">matchBonus</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">values</span><span class="o">())</span>
+        <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">it</span> <span class="o">-&gt;</span> <span class="n">it</span><span class="o">.</span><span class="na">condition</span><span class="o">.</span><span class="na">test</span><span class="o">(</span><span class="n">matchCount</span><span class="o">,</span> <span class="n">matchBonus</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">findAny</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">orElse</span><span class="o">(</span><span class="no">OUT</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="18-응답값의-포장리팩토링이-다-끝났으면-자체-도메인testenum은-정펙매-테스트">
+<a class="anchor" href="#18-%EC%9D%91%EB%8B%B5%EA%B0%92%EC%9D%98-%ED%8F%AC%EC%9E%A5%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81%EC%9D%B4-%EB%8B%A4-%EB%81%9D%EB%82%AC%EC%9C%BC%EB%A9%B4-%EC%9E%90%EC%B2%B4-%EB%8F%84%EB%A9%94%EC%9D%B8testenum%EC%9D%80-%EC%A0%95%ED%8E%99%EB%A7%A4-%ED%85%8C%EC%8A%A4%ED%8A%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>18 응답값의 포장(리팩토링)이 다 끝났으면, 자체 도메인Test(Enum은 정펙매 테스트)</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">rank_1</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">rank</span> <span class="o">=</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">6</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">rank</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">RANK_1</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">rank_2</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">rank</span> <span class="o">=</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">rank</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">RANK_2</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@ParameterizedTest</span>
+<span class="nd">@CsvSource</span><span class="o">({</span><span class="s">"5,false,RANK_3"</span><span class="o">,</span> <span class="s">"4, false, RANK_4"</span><span class="o">,</span> <span class="s">"3, false, RANK_5"</span><span class="o">})</span>
+<span class="kt">void</span> <span class="nf">rank_3_5</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">matchCount</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">matchBonus</span><span class="o">,</span> <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">expected</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">rank</span> <span class="o">=</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">matchCount</span><span class="o">,</span> <span class="n">matchBonus</span><span class="o">);</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">rank</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+
+  </div><a class="u-url" href="/java/enum/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/03/07/TDD-5-%EB%A1%9C%EB%98%90(Service.method%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
