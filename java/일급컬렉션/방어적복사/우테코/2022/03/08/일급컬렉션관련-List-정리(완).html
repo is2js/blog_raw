@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>일급컬렉션관련 가,불변 List | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="일급컬렉션관련 가,불변 List" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="테스트용 가변, input대신 불변, 일급의 List받는 생성자" />
+<meta property="og:description" content="테스트용 가변, input대신 불변, 일급의 List받는 생성자" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%EB%B0%A9%EC%96%B4%EC%A0%81%EB%B3%B5%EC%82%AC/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/08/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98%EA%B4%80%EB%A0%A8-List-%EC%A0%95%EB%A6%AC(%EC%99%84).html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%EB%B0%A9%EC%96%B4%EC%A0%81%EB%B3%B5%EC%82%AC/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/08/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98%EA%B4%80%EB%A0%A8-List-%EC%A0%95%EB%A6%AC(%EC%99%84).html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-03-08T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-03-08T00:00:00-06:00","url":"blog.chojaeseong.com/java/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%EB%B0%A9%EC%96%B4%EC%A0%81%EB%B3%B5%EC%82%AC/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/08/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98%EA%B4%80%EB%A0%A8-List-%EC%A0%95%EB%A6%AC(%EC%99%84).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"일급컬렉션관련 가,불변 List","dateModified":"2022-03-08T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%EB%B0%A9%EC%96%B4%EC%A0%81%EB%B3%B5%EC%82%AC/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/08/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98%EA%B4%80%EB%A0%A8-List-%EC%A0%95%EB%A6%AC(%EC%99%84).html"},"description":"테스트용 가변, input대신 불변, 일급의 List받는 생성자","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">일급컬렉션관련 가,불변 List</h1><p class="page-description">테스트용 가변, input대신 불변, 일급의 List받는 생성자</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-03-08T00:00:00-06:00" itemprop="datePublished">
+        Mar 8, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#일급컬렉션">일급컬렉션</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#방어적복사">방어적복사</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#test코드-등-add-허용-가변list는-new-arraylist로-생성">Test코드 등 add 허용 가변List는 new ArrayList&lt;&gt;()로 생성</a></li>
+<li class="toc-entry toc-h2"><a href="#input-가정인자검증후-완료된-인자-등-addremove-불허-불변listlistof">input 가정인자(검증후 완료된 인자) 등 add/remove 불허 불변List(List.of())</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#결론">결론</a></li>
+<li class="toc-entry toc-h4"><a href="#returntype">returnType</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#일급컬렉션의--list객체-파라미터를-받는-생성자의-방어적-복사---불변listcopyof-list--or-add-등-가변-new-arrayslist-list-">일급컬렉션의  List&lt;객체&gt; 파라미터를 받는 생성자의 방어적 복사 -&gt; 불변List.copyOf( list ) or add 등 가변 new ArraysList&lt;&gt;( list )</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#만약-생성자가-파라미터-list객체를-받으면--외부-원본-list의-메모리주소가-들어오니-끊고-재생성해라">만약, 생성자가 파라미터 List&lt;객체&gt;를 받으면,  외부 원본 list의 메모리주소가 들어오니 끊고 재생성해라.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#포장vo-or-일급컬렉션-변수명-value-상수-minmax">포장(VO or 일급컬렉션) 변수명: value, 상수 MIN/MAX</a></li>
+<li class="toc-entry toc-h2"><a href="#일급이-중복-허용-안한다면-단일list가-대신-단일set으로-정의해도-된다">일급이 중복 허용 안한다면 단일List가 대신 단일Set으로 정의해도 된다.</a></li>
+</ul><h2 id="test코드-등-add-허용-가변list는-new-arraylist로-생성">
+<a class="anchor" href="#test%EC%BD%94%EB%93%9C-%EB%93%B1-add-%ED%97%88%EC%9A%A9-%EA%B0%80%EB%B3%80list%EB%8A%94-new-arraylist%EB%A1%9C-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Test코드 등 add 허용 가변List는 <code class="language-plaintext highlighter-rouge">new ArrayList&lt;&gt;()</code>로 생성</h2>
+
+<ul>
+  <li>
+    <p>테스트코드에서 <code class="language-plaintext highlighter-rouge">.add()</code>해야하는데 <code class="language-plaintext highlighter-rouge">Arrays.asList(전체단위만 가변ex&gt;set, replace)</code> 나 <code class="language-plaintext highlighter-rouge">List.of(아예 조작 불가)</code>로 초기화 하면 UOE 예외가 발생한다.</p>
+
+    <ul>
+      <li><strong>add 등 조작이 당장 필요한 List는 <code class="language-plaintext highlighter-rouge">new ArraysList&lt;&gt;( );로 초기화</code>할 것</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="n">일급컬렉션_생성자가_파라미터로_list를_받는경우_방어적복사_테스트</span><span class="o">()</span> <span class="o">{</span>
+    
+      <span class="c1">//1. 외부에서 일급컬렉션의 포장변수(List&lt;객체&gt;)로 넘겨줄 [add가능한 가변List]를 생성</span>
+      <span class="c1">// - List.of()는 add/remove 등을 제공하지 않으니 Arrays.List()로 생성했다가 UOE 뜸. 역시 불변</span>
+      <span class="c1">//List&lt;LottoNumber&gt; lottoNumbers = List.of(new LottoNumber(1),</span>
+      <span class="c1">//List&lt;LottoNumber&gt; lottoNumbers = Arrays.asList(new LottoNumber(1),</span>
+      <span class="c1">// -&gt; 테스트에 add 등 조작하는 가변List는 new ArraysList()&lt;&gt;;로 초기화해서 사용할 것</span>
+      <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">lottoNumbers</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+      <span class="n">lottoNumbers</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span>
+          <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span>
+                  <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">2</span><span class="o">),</span>
+                  <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">3</span><span class="o">),</span>
+                  <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">4</span><span class="o">),</span>
+                  <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">5</span><span class="o">),</span>
+                  <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">6</span><span class="o">)</span>
+                 <span class="o">));</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="input-가정인자검증후-완료된-인자-등-addremove-불허-불변listlistof">
+<a class="anchor" href="#input-%EA%B0%80%EC%A0%95%EC%9D%B8%EC%9E%90%EA%B2%80%EC%A6%9D%ED%9B%84-%EC%99%84%EB%A3%8C%EB%90%9C-%EC%9D%B8%EC%9E%90-%EB%93%B1-addremove-%EB%B6%88%ED%97%88-%EB%B6%88%EB%B3%80listlistof" aria-hidden="true"><span class="octicon octicon-link"></span></a>input 가정인자(검증후 완료된 인자) 등 add/remove 불허 불변List(<code class="language-plaintext highlighter-rouge">List.of()</code>)</h2>
+
+<ul>
+  <li><a href="https://kim-jong-hyun.tistory.com/31">참고 블로그</a></li>
+  <li>TDD할 때, <strong>input</strong>으로 넘어온다고 <strong>가정한 인자</strong>로서 <strong>List</strong>를 받을 때
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">Arrays.asList(1,2,3)</code>이 아니라 <strong><code class="language-plaintext highlighter-rouge">List.of(1,2,3)</code>을 쓰더라</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="결론">
+<a class="anchor" href="#%EA%B2%B0%EB%A1%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>결론</h4>
+
+<ul>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">List.of()</code></strong> , <code class="language-plaintext highlighter-rouge">List.copyof( list )</code>는  add/remove등 **조작시 **
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">UnsupportedOperationException</code>발생</strong>시키는 <strong>불변List</strong>
+</li>
+      <li><strong>모든 가변 조작(add/remove, set/replace) 불허</strong></li>
+      <li><strong>null도 불허</strong></li>
+    </ul>
+  </li>
+  <li>반면 <code class="language-plaintext highlighter-rouge">Arrays.asList</code>는 <strong>add/remove만 안되는</strong> 전체는 가변List를 제공
+    <ul>
+      <li>
+<strong>통채로 add하는 set, replace 가능</strong>)</li>
+      <li>
+<strong>null허용</strong> +</li>
+    </ul>
+  </li>
+  <li>
+<strong>둘다 add안되니</strong>.. <strong>테스트용 가변 객체리스트 생성</strong>시에도.. add하면서 <strong>테스트하면 안될 듯.</strong>
+</li>
+</ul>
+
+<h4 id="returntype">
+<a class="anchor" href="#returntype" aria-hidden="true"><span class="octicon octicon-link"></span></a>returnType</h4>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">List.of()</code>는 <strong>10개까진 가변인자 없이 하나하나 받아서</strong> -&gt;  <strong>ImmutableCollections.ListN()을 반환한다.</strong></p>
+
+    <ul>
+      <li><strong>add(), remove(), set(), replace()처럼 <code class="language-plaintext highlighter-rouge">삽입, 삭제, 변경작업을 하게 될시 UnsupportedOperationException예외가 발생</code>는 <code class="language-plaintext highlighter-rouge">불변 자료구조</code> = 이름 그대로 Immutable한 Collection을 반환해준다.</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">static</span> <span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="nc">List</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="nf">of</span><span class="o">(</span><span class="no">E</span> <span class="n">e1</span><span class="o">,</span> <span class="no">E</span> <span class="n">e2</span><span class="o">,</span> <span class="no">E</span> <span class="n">e3</span><span class="o">,</span> <span class="no">E</span> <span class="n">e4</span><span class="o">,</span> <span class="no">E</span> <span class="n">e5</span><span class="o">,</span> <span class="no">E</span> <span class="n">e6</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nc">ImmutableCollections</span><span class="o">.</span><span class="na">ListN</span><span class="o">&lt;&gt;(</span><span class="n">e1</span><span class="o">,</span> <span class="n">e2</span><span class="o">,</span> <span class="n">e3</span><span class="o">,</span> <span class="n">e4</span><span class="o">,</span> <span class="n">e5</span><span class="o">,</span>
+                                              <span class="n">e6</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p>java9부터 제공한다.</p>
+      </li>
+      <li>
+        <p>인자의 갯수( 0개 / 1~2개 / 3개이상N/ List )에 따라서 다른방식 메서드를 반환한다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220304210552364.png" alt="image-20220304210552364"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220304210629956.png" alt="image-20220304210629956">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220304210601988.png" alt="image-20220304210601988"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>반면에 <code class="language-plaintext highlighter-rouge">Arrays.asList()</code>는 가변인자를 받으며 -&gt; new ArraysList&lt;&gt;()를 반환한다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nc">List</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">asList</span><span class="o">(</span><span class="no">T</span><span class="o">...</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">a</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>가변인자는 내부 배열로 관리됨</li>
+      <li>추상메서드 <code class="language-plaintext highlighter-rouge">AbstractList&lt;E&gt;</code>를 extends하지만,
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">add+remove</code>만 메서드 오버라이딩 하지 않는다.
+            <ul>
+              <li>AbstractList의 add()와 remove() 메서드를 확인해본 결과 서브클래스에서 해당 메서드를 오버라이딩 하지 않았다면, UnsupportedOperationException예외가 발생된다. Arrays.asList()의 리턴되는 <strong>ArrayList는 삽입, 삭제로 이뤄지는 구조적인 변경을 허용하지 않고</strong> <strong>내부 원소들의 값을 변경하는건 허용</strong>하는걸 알 수 있다.</li>
+            </ul>
+          </li>
+          <li>
+<code class="language-plaintext highlighter-rouge">set()</code> setter메서드만 오버라이딩함.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="일급컬렉션의--list객체-파라미터를-받는-생성자의-방어적-복사---불변listcopyof-list--or-add-등-가변-new-arrayslist-list-">
+<a class="anchor" href="#%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98%EC%9D%98--list%EA%B0%9D%EC%B2%B4-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A5%BC-%EB%B0%9B%EB%8A%94-%EC%83%9D%EC%84%B1%EC%9E%90%EC%9D%98-%EB%B0%A9%EC%96%B4%EC%A0%81-%EB%B3%B5%EC%82%AC---%EB%B6%88%EB%B3%80listcopyof-list--or-add-%EB%93%B1-%EA%B0%80%EB%B3%80-new-arrayslist-list-" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급컬렉션의  <code class="language-plaintext highlighter-rouge">List&lt;객체&gt;</code> 파라미터를 받는 <code class="language-plaintext highlighter-rouge">생성자</code>의 <code class="language-plaintext highlighter-rouge">방어적 복사</code> -&gt; <code class="language-plaintext highlighter-rouge">불변List.copyOf( list )</code> or add 등 <code class="language-plaintext highlighter-rouge">가변 new ArraysList&lt;&gt;( list )</code>
+</h2>
+
+<h3 id="만약-생성자가-파라미터-list객체를-받으면--외부-원본-list의-메모리주소가-들어오니-끊고-재생성해라">
+<a class="anchor" href="#%EB%A7%8C%EC%95%BD-%EC%83%9D%EC%84%B1%EC%9E%90%EA%B0%80-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0-list%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%B0%9B%EC%9C%BC%EB%A9%B4--%EC%99%B8%EB%B6%80-%EC%9B%90%EB%B3%B8-list%EC%9D%98-%EB%A9%94%EB%AA%A8%EB%A6%AC%EC%A3%BC%EC%86%8C%EA%B0%80-%EB%93%A4%EC%96%B4%EC%98%A4%EB%8B%88-%EB%81%8A%EA%B3%A0-%EC%9E%AC%EC%83%9D%EC%84%B1%ED%95%B4%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>만약, 생성자가 파라미터 <code class="language-plaintext highlighter-rouge">List&lt;객체&gt;</code>를 받으면,  외부 원본 list의 <code class="language-plaintext highlighter-rouge">메모리주소</code>가 들어오니 <code class="language-plaintext highlighter-rouge">끊고 재생성</code>해라.</h3>
+
+<ul>
+  <li>list를 내부 포장할 때, <strong>만약 생성자 파라미터로 내부 포장하는 변수와 동일한 형태의 <code class="language-plaintext highlighter-rouge">List&lt;객체&gt;</code></strong>가 들어오면, <strong><code class="language-plaintext highlighter-rouge">외부에서 온 List의 메모리주소</code>로서, 끊고 <code class="language-plaintext highlighter-rouge">재생성</code>해줘야 오염이 안된다.</strong>
+    <ul>
+      <li>list는 callByReference 로서 파라미터에 지역변수로 선언되어도 외부의 메모리주소를 가지고 있다.</li>
+      <li><strong><code class="language-plaintext highlighter-rouge">this.value = 파라미터로 온 list</code>는 메모리 주소만 대입하여 <code class="language-plaintext highlighter-rouge">포장되어있지만, 외부 변화에 오염</code>된다.</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="n">일급컬렉션_생성자가_파라미터로_list를_받는경우_방어적복사_테스트</span><span class="o">()</span> <span class="o">{</span>
+      <span class="c1">//1. add될 가변 &amp;&amp; 방어적복사로인한 메모리주소 끊음(재발급)안하면 일급컬렉션 내부 변수도 오염시키는</span>
+      <span class="c1">// -&gt; &lt;외부 원본 List&gt;</span>
+      <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">lottoNumbers</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+      <span class="n">lottoNumbers</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span>
+          <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span>
+                  <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">2</span><span class="o">),</span>
+                  <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">3</span><span class="o">),</span>
+                  <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">4</span><span class="o">),</span>
+                  <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">5</span><span class="o">),</span>
+                  <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">6</span><span class="o">)</span>
+                 <span class="o">));</span>
+    
+      <span class="c1">//2. 일급은 외부list를 생성자로 넘겨받아 --방어적복사없이 --&gt; this.value에 넣은 상태다.</span>
+      <span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">lotto</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Lotto</span><span class="o">(</span><span class="n">lottoNumbers</span><span class="o">);</span>
+    
+      <span class="c1">//3. 일급컬렉션말고, 원본에 1개를 더한다.</span>
+      <span class="n">lottoNumbers</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">7</span><span class="o">));</span>
+    
+      <span class="c1">//4. getter로 내부 상태값의 길이를 가져와보자. 6개여야하는데... 7개가 되어있을 것이다.</span>
+      <span class="kd">final</span> <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="n">lotto</span><span class="o">.</span><span class="na">getSize</span><span class="o">();</span>
+    
+      <span class="c1">//5. 7하니까 통과 ... -&gt; 외부list를 add했는데 -&gt; 일급컬렉 포장변수가 가변으로 변해버렸다.</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">size</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">7</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+<strong>파라미터로 오는 외부List의 메모리주소를 끊는 방법 2가지</strong>
+    <ol>
+      <li>
+<code class="language-plaintext highlighter-rouge">불변 일급</code> : <strong><code class="language-plaintext highlighter-rouge">List.copyOf( otherList )</code></strong>
+</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">가변 일급</code>: <strong><code class="language-plaintext highlighter-rouge">new ArraysList&lt;&gt;( ohterList )</code></strong>로 반환받아서 <code class="language-plaintext highlighter-rouge">this.value</code>에 넣어주자.</li>
+    </ol>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="nf">Lotto</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">value</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">6</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"로또 번호는 6개여야 합니다."</span><span class="o">);</span>
+      <span class="o">}</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">value</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">distinct</span><span class="o">().</span><span class="na">count</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">6</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"로또 번호는 중복해서 입력할 수 없습니다."</span><span class="o">);</span>
+      <span class="o">}</span>
+      <span class="c1">//this.value = value;</span>
+      <span class="c1">// 불변하는 일급컬렉션으로 -&gt; 1번째 방어적 복사 적용</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="nc">List</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">// 외부 add에도 6개라고 에러났다.</span>
+  <span class="n">org</span><span class="o">.</span><span class="na">opentest4j</span><span class="o">.</span><span class="na">AssertionFailedError</span><span class="o">:</span> 
+  <span class="nl">expected:</span> <span class="mi">7</span>
+   <span class="n">but</span> <span class="nl">was:</span> <span class="mi">6</span>
+  <span class="nc">Expected</span> <span class="o">:</span><span class="mi">7</span>
+  <span class="nc">Actual</span>   <span class="o">:</span><span class="mi">6</span>
+  <span class="o">&lt;</span><span class="nc">Click</span> <span class="n">to</span> <span class="n">see</span> <span class="n">difference</span><span class="o">&gt;</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="포장vo-or-일급컬렉션-변수명-value-상수-minmax">
+<a class="anchor" href="#%ED%8F%AC%EC%9E%A5vo-or-%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98-%EB%B3%80%EC%88%98%EB%AA%85-value-%EC%83%81%EC%88%98-minmax" aria-hidden="true"><span class="octicon octicon-link"></span></a>포장(VO or 일급컬렉션) 변수명: value, 상수 MIN/MAX</h2>
+
+<ul>
+  <li>값의 포장은 앵간하면 <code class="language-plaintext highlighter-rouge">value</code>를 인스턴스 변수(상태값)으로 쓴다.
+    <ul>
+      <li>그래야 getter시  LottoNumber.getValue() 형태로 잘 빠진다.</li>
+      <li>만약, <code class="language-plaintext highlighter-rouge">LottoNumber.getLottoNumber()</code>가 될 수 도..</li>
+    </ul>
+  </li>
+  <li>상수도 마찬가지로 <strong><code class="language-plaintext highlighter-rouge">도메인Class.</code>이 앞에 붙는다고 생각하고 도메인내에서 편하게 짓자</strong>
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">LottoNumber.LOTTO_NUMBER_MIN</code>이 될 수도..</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">LottoNumber.MIN</code>으로 <strong>MIN, MAX</strong> 편하게 쓰자.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LottoNumber</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">MIN</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">MAX</span> <span class="o">=</span> <span class="mi">45</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">value</span><span class="o">;</span>
+
+    <span class="c1">//LottoNumber.getValue()가 맞다.(o) -&gt;  LottoNumber.getLottoNumber() (X)</span>
+    <span class="kd">public</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">validate</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">//LottoNumber.MIN 이 맞다.(o) -&gt; LottoNumber.LOTTO_NUMBER_MIN (X)</span>
+    <span class="c1">//Integer.MAX_VALUE (o)</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">validate</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="o">&lt;</span> <span class="no">MIN</span> <span class="o">||</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="no">MAX</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"로또 번호의 범위가 아닙니다."</span><span class="o">);</span>
+        <span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="일급이-중복-허용-안한다면-단일list가-대신-단일set으로-정의해도-된다">
+<a class="anchor" href="#%EC%9D%BC%EA%B8%89%EC%9D%B4-%EC%A4%91%EB%B3%B5-%ED%97%88%EC%9A%A9-%EC%95%88%ED%95%9C%EB%8B%A4%EB%A9%B4-%EB%8B%A8%EC%9D%BClist%EA%B0%80-%EB%8C%80%EC%8B%A0-%EB%8B%A8%EC%9D%BCset%EC%9C%BC%EB%A1%9C-%EC%A0%95%EC%9D%98%ED%95%B4%EB%8F%84-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급이 중복 허용 안한다면 단일List가 대신 단일Set으로 정의해도 된다.</h2>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">List&lt;단일&gt;</code>의 value를 <code class="language-plaintext highlighter-rouge">Set&lt;단일&gt;</code>로 바꾼다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305010218112.png" alt="image-20220305010218112"></p>
+  </li>
+  <li>
+    <p>테스트에서 생성도 <code class="language-plaintext highlighter-rouge">Set.of( 단일1, 단일2 )</code>형식으로 사용한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220305013247242.png" alt="image-20220305013247242"></p>
+  </li>
+  <li>
+    <p><strong>Set에 들어가므로 <code class="language-plaintext highlighter-rouge">해쉬코드로 비교하는 자료구조</code>용 <code class="language-plaintext highlighter-rouge">단일객체</code>는 equals/hashCode 오버라이딩이 되어있어야한다.</strong></p>
+    <ul>
+      <li>VO뿐만 아니라 <code class="language-plaintext highlighter-rouge">단일값 포장객체</code>는 그냥 다 오버라이딩 해주자.</li>
+    </ul>
+  </li>
+</ol>
+
+
+  </div><a class="u-url" href="/java/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98/%EB%B0%A9%EC%96%B4%EC%A0%81%EB%B3%B5%EC%82%AC/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/08/%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98%EA%B4%80%EB%A0%A8-List-%EC%A0%95%EB%A6%AC(%EC%99%84).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
