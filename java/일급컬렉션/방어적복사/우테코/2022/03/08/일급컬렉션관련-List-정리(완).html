@@ -130,22 +130,22 @@ window.onload = wrap_img;
     <!-- toc가 먼저 나오므로 h3로 안내하기 -->
     <h3>📜 제목으로 보기</h3>
     <ul class="section-nav">
-<li class="toc-entry toc-h2"><a href="#test코드-등-add-허용-가변list는-new-arraylist로-생성">Test코드 등 add 허용 가변List는 new ArrayList&lt;&gt;()로 생성</a></li>
-<li class="toc-entry toc-h2"><a href="#input-가정인자검증후-완료된-인자-등-addremove-불허-불변listlistof">input 가정인자(검증후 완료된 인자) 등 add/remove 불허 불변List(List.of())</a>
+<li class="toc-entry toc-h2"><a href="#01-test코드-등-addremove-허용-가변list는-new-arraylist로-생성">01 Test코드 등 add/remove 허용 가변List는 new ArrayList&lt;&gt;()로 생성</a></li>
+<li class="toc-entry toc-h2"><a href="#02-input-가정인자검증후-완료된-인자-등-addremove-불허-불변listlistof">02 input 가정인자(검증후 완료된 인자) 등 add/remove 불허 불변List(List.of())</a>
 <ul>
 <li class="toc-entry toc-h4"><a href="#결론">결론</a></li>
 <li class="toc-entry toc-h4"><a href="#returntype">returnType</a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h2"><a href="#일급컬렉션의--list객체-파라미터를-받는-생성자의-방어적-복사---불변listcopyof-list--or-add-등-가변-new-arrayslist-list-">일급컬렉션의  List&lt;객체&gt; 파라미터를 받는 생성자의 방어적 복사 -&gt; 불변List.copyOf( list ) or add 등 가변 new ArraysList&lt;&gt;( list )</a>
+<li class="toc-entry toc-h2"><a href="#03-일급컬렉션의--list객체-파라미터를-받는-생성자-or-컬렉션을-return하는-getter의-return문에서의-방어적-복사---불변listcopyof-list--or-add-등-가변-new-arrayslist-list-">03 일급컬렉션의  List&lt;객체&gt; 파라미터를 받는 생성자 or 컬렉션을 return하는 getter의 return문에서의 방어적 복사 -&gt; 불변List.copyOf( list ) or add 등 가변 new ArraysList&lt;&gt;( list )</a>
 <ul>
 <li class="toc-entry toc-h3"><a href="#만약-생성자가-파라미터-list객체를-받으면--외부-원본-list의-메모리주소가-들어오니-끊고-재생성해라">만약, 생성자가 파라미터 List&lt;객체&gt;를 받으면,  외부 원본 list의 메모리주소가 들어오니 끊고 재생성해라.</a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h2"><a href="#포장vo-or-일급컬렉션-변수명-value-상수-minmax">포장(VO or 일급컬렉션) 변수명: value, 상수 MIN/MAX</a></li>
+<li class="toc-entry toc-h2"><a href="#참고-포장vo-or-일급컬렉션-변수명-value-상수-minmax">참고) 포장(VO or 일급컬렉션) 변수명: value, 상수 MIN/MAX</a></li>
 <li class="toc-entry toc-h2"><a href="#일급이-중복-허용-안한다면-단일list가-대신-단일set으로-정의해도-된다">일급이 중복 허용 안한다면 단일List가 대신 단일Set으로 정의해도 된다.</a></li>
-</ul><h2 id="test코드-등-add-허용-가변list는-new-arraylist로-생성">
-<a class="anchor" href="#test%EC%BD%94%EB%93%9C-%EB%93%B1-add-%ED%97%88%EC%9A%A9-%EA%B0%80%EB%B3%80list%EB%8A%94-new-arraylist%EB%A1%9C-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Test코드 등 add 허용 가변List는 <code class="language-plaintext highlighter-rouge">new ArrayList&lt;&gt;()</code>로 생성</h2>
+</ul><h2 id="01-test코드-등-addremove-허용-가변list는-new-arraylist로-생성">
+<a class="anchor" href="#01-test%EC%BD%94%EB%93%9C-%EB%93%B1-addremove-%ED%97%88%EC%9A%A9-%EA%B0%80%EB%B3%80list%EB%8A%94-new-arraylist%EB%A1%9C-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 Test코드 등 add/remove 허용 가변List는 <code class="language-plaintext highlighter-rouge">new ArrayList&lt;&gt;()</code>로 생성</h2>
 
 <ul>
   <li>
@@ -178,8 +178,8 @@ window.onload = wrap_img;
   </li>
 </ul>
 
-<h2 id="input-가정인자검증후-완료된-인자-등-addremove-불허-불변listlistof">
-<a class="anchor" href="#input-%EA%B0%80%EC%A0%95%EC%9D%B8%EC%9E%90%EA%B2%80%EC%A6%9D%ED%9B%84-%EC%99%84%EB%A3%8C%EB%90%9C-%EC%9D%B8%EC%9E%90-%EB%93%B1-addremove-%EB%B6%88%ED%97%88-%EB%B6%88%EB%B3%80listlistof" aria-hidden="true"><span class="octicon octicon-link"></span></a>input 가정인자(검증후 완료된 인자) 등 add/remove 불허 불변List(<code class="language-plaintext highlighter-rouge">List.of()</code>)</h2>
+<h2 id="02-input-가정인자검증후-완료된-인자-등-addremove-불허-불변listlistof">
+<a class="anchor" href="#02-input-%EA%B0%80%EC%A0%95%EC%9D%B8%EC%9E%90%EA%B2%80%EC%A6%9D%ED%9B%84-%EC%99%84%EB%A3%8C%EB%90%9C-%EC%9D%B8%EC%9E%90-%EB%93%B1-addremove-%EB%B6%88%ED%97%88-%EB%B6%88%EB%B3%80listlistof" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 input 가정인자(검증후 완료된 인자) 등 add/remove 불허 불변List(<code class="language-plaintext highlighter-rouge">List.of()</code>)</h2>
 
 <ul>
   <li><a href="https://kim-jong-hyun.tistory.com/31">참고 블로그</a></li>
@@ -278,8 +278,8 @@ window.onload = wrap_img;
   </li>
 </ul>
 
-<h2 id="일급컬렉션의--list객체-파라미터를-받는-생성자의-방어적-복사---불변listcopyof-list--or-add-등-가변-new-arrayslist-list-">
-<a class="anchor" href="#%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98%EC%9D%98--list%EA%B0%9D%EC%B2%B4-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A5%BC-%EB%B0%9B%EB%8A%94-%EC%83%9D%EC%84%B1%EC%9E%90%EC%9D%98-%EB%B0%A9%EC%96%B4%EC%A0%81-%EB%B3%B5%EC%82%AC---%EB%B6%88%EB%B3%80listcopyof-list--or-add-%EB%93%B1-%EA%B0%80%EB%B3%80-new-arrayslist-list-" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급컬렉션의  <code class="language-plaintext highlighter-rouge">List&lt;객체&gt;</code> 파라미터를 받는 <code class="language-plaintext highlighter-rouge">생성자</code>의 <code class="language-plaintext highlighter-rouge">방어적 복사</code> -&gt; <code class="language-plaintext highlighter-rouge">불변List.copyOf( list )</code> or add 등 <code class="language-plaintext highlighter-rouge">가변 new ArraysList&lt;&gt;( list )</code>
+<h2 id="03-일급컬렉션의--list객체-파라미터를-받는-생성자-or-컬렉션을-return하는-getter의-return문에서의-방어적-복사---불변listcopyof-list--or-add-등-가변-new-arrayslist-list-">
+<a class="anchor" href="#03-%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98%EC%9D%98--list%EA%B0%9D%EC%B2%B4-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A5%BC-%EB%B0%9B%EB%8A%94-%EC%83%9D%EC%84%B1%EC%9E%90-or-%EC%BB%AC%EB%A0%89%EC%85%98%EC%9D%84-return%ED%95%98%EB%8A%94-getter%EC%9D%98-return%EB%AC%B8%EC%97%90%EC%84%9C%EC%9D%98-%EB%B0%A9%EC%96%B4%EC%A0%81-%EB%B3%B5%EC%82%AC---%EB%B6%88%EB%B3%80listcopyof-list--or-add-%EB%93%B1-%EA%B0%80%EB%B3%80-new-arrayslist-list-" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 일급컬렉션의  <code class="language-plaintext highlighter-rouge">List&lt;객체&gt;</code> 파라미터를 받는 <code class="language-plaintext highlighter-rouge">생성자</code> or 컬렉션을 return하는 getter의 return문에서의 <code class="language-plaintext highlighter-rouge">방어적 복사</code> -&gt; <code class="language-plaintext highlighter-rouge">불변List.copyOf( list )</code> or add 등 <code class="language-plaintext highlighter-rouge">가변 new ArraysList&lt;&gt;( list )</code>
 </h2>
 
 <h3 id="만약-생성자가-파라미터-list객체를-받으면--외부-원본-list의-메모리주소가-들어오니-끊고-재생성해라">
@@ -357,8 +357,8 @@ window.onload = wrap_img;
   </li>
 </ul>
 
-<h2 id="포장vo-or-일급컬렉션-변수명-value-상수-minmax">
-<a class="anchor" href="#%ED%8F%AC%EC%9E%A5vo-or-%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98-%EB%B3%80%EC%88%98%EB%AA%85-value-%EC%83%81%EC%88%98-minmax" aria-hidden="true"><span class="octicon octicon-link"></span></a>포장(VO or 일급컬렉션) 변수명: value, 상수 MIN/MAX</h2>
+<h2 id="참고-포장vo-or-일급컬렉션-변수명-value-상수-minmax">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0-%ED%8F%AC%EC%9E%A5vo-or-%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98-%EB%B3%80%EC%88%98%EB%AA%85-value-%EC%83%81%EC%88%98-minmax" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고) 포장(VO or 일급컬렉션) 변수명: value, 상수 MIN/MAX</h2>
 
 <ul>
   <li>값의 포장은 앵간하면 <code class="language-plaintext highlighter-rouge">value</code>를 인스턴스 변수(상태값)으로 쓴다.
