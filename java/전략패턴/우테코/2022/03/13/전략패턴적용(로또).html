@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>전략패턴 2(자동로또-&gt;수동) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="전략패턴 2(자동로또-&gt;수동)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="자동차경주에 이어 2번째 전략패턴" />
+<meta property="og:description" content="자동차경주에 이어 2번째 전략패턴" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/13/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%A0%81%EC%9A%A9(%EB%A1%9C%EB%98%90).html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/13/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%A0%81%EC%9A%A9(%EB%A1%9C%EB%98%90).html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-03-13T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-03-13T00:00:00-06:00","url":"blog.chojaeseong.com/java/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/13/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%A0%81%EC%9A%A9(%EB%A1%9C%EB%98%90).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"전략패턴 2(자동로또-&gt;수동)","dateModified":"2022-03-13T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/13/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%A0%81%EC%9A%A9(%EB%A1%9C%EB%98%90).html"},"description":"자동차경주에 이어 2번째 전략패턴","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">전략패턴 2(자동로또-&gt;수동)</h1><p class="page-description">자동차경주에 이어 2번째 전략패턴</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-03-13T00:00:00-06:00" itemprop="datePublished">
+        Mar 13, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#전략패턴">전략패턴</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#전략-패턴-적용하기">전략 패턴 적용하기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#랜덤-최소단위-메서드를-전략메서드로-바꿔-수동도-가능하게-하기">[랜덤 최소단위 메서드]를 전략메서드로 바꿔 [수동]도 가능하게 하기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#전략부위가-만약-메서드화-안되어있으면ex조건식-메서드화-추출-등">전략부위가 만약, 메서드화 안되어있으면(ex&gt;조건식) 메서드화 (추출 등)</a></li>
+<li class="toc-entry toc-h5"><a href="#랜덤-최소단위-메서드-정의부---호출부-찾기">랜덤 최소단위 메서드 정의부 -&gt; 호출()부 찾기</a></li>
+<li class="toc-entry toc-h5"><a href="#랜덤전략객체전략메서드로----기존-랜덤-메서드-에-있던-랜덤-로직-옮겨주기">랜덤전략객체.전략메서드()로 &lt;- [ 기존 랜덤 메서드 ]에 있던 랜덤 로직 옮겨주기</a></li>
+<li class="toc-entry toc-h5"><a href="#외부주입-전략객체를---외부파라미터로-받기-위해서---실제-전략인페-정의해주기">외부주입 전략객체를 -&gt; 외부파라미터로 받기 위해서 -&gt; 실제 전략인페 정의해주기</a></li>
+<li class="toc-entry toc-h5"><a href="#new-외부전략객체-생성하던-곳으로-돌아가서----변수파라미터는-추상체로--외부주입-받아-추상체전략메서드하도록-한다">new 외부전략객체() 생성하던 곳으로 돌아가서  -&gt; 변수/파라미터는 추상체로  외부주입 받아, 추상체.전략메서드()하도록 한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#호출부-중-전략객체만-선택해서-파라미터로-추출">호출부 중 전략객체만 선택해서 파라미터로 추출</a></li>
+<li class="toc-entry toc-h5"><a href="#처음에는-내부에서-특정-전략객체를-만들어썻찌만---파라미터-추출하면-알아서-외부에서-주입된다">처음에는 내부에서 특정 전략객체를 만들어썻찌만 -&gt; 파라미터 추출하면 알아서 외부에서 주입된다</a></li>
+<li class="toc-entry toc-h5"><a href="#이제-전략인페를-impl-수동-구현만---tdd에서-수동메서드-완성해보자">이제 전략인페를 impl 수동 구현만 -&gt; TDD에서 수동메서드 완성해보자.</a></li>
+<li class="toc-entry toc-h5"><a href="#대박-전략메서드-준비물을-메서드-인자가-아닌---각-전략별-전략객체-생성자정펙매에서-받아-준비해두자">대박) 전략메서드 준비물을 [메서드() 인자]가 아닌 -&gt; 각 전략별 [전략객체 생성자/정펙매]에서 받아 준비해두자</a></li>
+<li class="toc-entry toc-h5"><a href="#초대박-테스트용-람다-전략은-전략객체-대신이-아니라-내부-전략메서호출될-응답까지를-미리-주는-것---테스트에서-내부랜덤결과전략메서드-응답type을-외부-객체주입시-넣어줄-수-있다">초대박) 테스트용 람다 전략은 전략객체 대신이 아니라 내부 전략메서호출()될 응답까지를 미리 주는 것 -&gt; 테스트에서 내부랜덤결과(전략메서드 응답type)을 외부 객체주입시 넣어줄 수 있다</a></li>
+<li class="toc-entry toc-h5"><a href="#요약-전략객체-자리에-내부전략메서드호출-끝난-응답값까지-구현하여-전달하는-람다전략">요약: [전략객체 ]자리에 내부.전략메서드()호출 끝난 응답값까지 구현하여 전달하는 람다전략</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h3 id="전략-패턴-적용하기">
+<a class="anchor" href="#%EC%A0%84%EB%9E%B5-%ED%8C%A8%ED%84%B4-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>전략 패턴 적용하기</h3>
+
+<h4 id="랜덤-최소단위-메서드를-전략메서드로-바꿔-수동도-가능하게-하기">
+<a class="anchor" href="#%EB%9E%9C%EB%8D%A4-%EC%B5%9C%EC%86%8C%EB%8B%A8%EC%9C%84-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EC%A0%84%EB%9E%B5%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EB%B0%94%EA%BF%94-%EC%88%98%EB%8F%99%EB%8F%84-%EA%B0%80%EB%8A%A5%ED%95%98%EA%B2%8C-%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>[랜덤 최소단위 메서드]를 전략메서드로 바꿔 [수동]도 가능하게 하기</h4>
+
+<h5 id="전략부위가-만약-메서드화-안되어있으면ex조건식-메서드화-추출-등">
+<a class="anchor" href="#%EC%A0%84%EB%9E%B5%EB%B6%80%EC%9C%84%EA%B0%80-%EB%A7%8C%EC%95%BD-%EB%A9%94%EC%84%9C%EB%93%9C%ED%99%94-%EC%95%88%EB%90%98%EC%96%B4%EC%9E%88%EC%9C%BC%EB%A9%B4ex%EC%A1%B0%EA%B1%B4%EC%8B%9D-%EB%A9%94%EC%84%9C%EB%93%9C%ED%99%94-%EC%B6%94%EC%B6%9C-%EB%93%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>전략부위가 만약, 메서드화 안되어있으면(ex&gt;조건식) 메서드화 (추출 등)</h5>
+
+<ul>
+  <li>메서드명을 <code class="language-plaintext highlighter-rouge">랜덤+수동다 포함하는 일반화 + 목적어 뺌(전략인페+구현전략들에 명시됨)</code>된 전략메서드로 바꿔주기</li>
+</ul>
+
+<h5 id="랜덤-최소단위-메서드-정의부---호출부-찾기">
+<a class="anchor" href="#%EB%9E%9C%EB%8D%A4-%EC%B5%9C%EC%86%8C%EB%8B%A8%EC%9C%84-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%A0%95%EC%9D%98%EB%B6%80---%ED%98%B8%EC%B6%9C%EB%B6%80-%EC%B0%BE%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a><code class="language-plaintext highlighter-rouge">랜덤 최소단위 메서드</code> 정의부 -&gt; <code class="language-plaintext highlighter-rouge">호출()부</code> 찾기</h5>
+
+<ol>
+  <li>
+    <p>랜덤 메서드 정의부 찾기
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312131559611.png" alt="image-20220312131559611"></p>
+  </li>
+  <li>
+    <p><strong>랜덤 메서드의 호출부 찾기</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312131647458.png" alt="image-20220312131647458"></p>
+  </li>
+</ol>
+
+<p>##### 랜덤 메서드 호출부에서 <code class="language-plaintext highlighter-rouge">랜덤 메서드명을 -&gt; 수동포함하는 일반화된 전략메서드명() + 목적어 제거</code>으로 변경  -&gt; <code class="language-plaintext highlighter-rouge">전략인페를 상속한 new 랜덤전략구현체 객체(). 전략메서드()</code> 인척 빨간줄 생성해주기</p>
+
+<ol>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">일반화된 메서드명</code> 상태에서 -&gt; 빨간줄로 <code class="language-plaintext highlighter-rouge">외부주입된 랜덤전략구현체 객체</code> + <code class="language-plaintext highlighter-rouge">전략메서드()</code>호출</strong>해준다.</p>
+
+    <ul>
+      <li>
+        <p>기존상태( 메서드명을 랜덤+수동다 포함하는 <strong><code class="language-plaintext highlighter-rouge">일반화된 + 목적어빠진 전략메서드명</code>으로 바꿔주기</strong>)</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312134713439.png" alt="image-20220312134713439"></p>
+
+        <ul>
+          <li><strong>전략메서드에 목적어 넣지마라</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312135004891.png" alt="image-20220312135004891"></p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Lotto</span><span class="o">&gt;</span> <span class="nf">issueLottoByCount</span><span class="o">(</span><span class="nc">LottoCount</span> <span class="n">lottoCount</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Lotto</span><span class="o">&gt;</span> <span class="n">lottos</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+      <span class="k">while</span> <span class="o">(</span><span class="n">lottoCount</span><span class="o">.</span><span class="na">isNotFinish</span><span class="o">())</span> <span class="o">{</span>
+          <span class="n">lottoCount</span> <span class="o">=</span> <span class="n">lottoCount</span><span class="o">.</span><span class="na">decrease</span><span class="o">();</span>
+          <span class="n">lottos</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">issue</span><span class="o">());</span>
+      <span class="o">}</span>
+        
+      <span class="k">return</span> <span class="n">lottos</span><span class="o">;</span>
+  <span class="o">}</span>
+        
+  <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Lotto</span> <span class="nf">issue</span><span class="o">()</span> <span class="o">{</span>
+      <span class="nc">Collections</span><span class="o">.</span><span class="na">shuffle</span><span class="o">(</span><span class="no">LOTTO_NUMBERS</span><span class="o">);</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="no">LOTTO_NUMBERS</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                       <span class="o">.</span><span class="na">limit</span><span class="o">(</span><span class="mi">6</span><span class="o">)</span>
+                       <span class="o">.</span><span class="na">sorted</span><span class="o">()</span>
+                       <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">()));</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">외부주입된 new 랜덤전략객체</code>에서 호출한 <code class="language-plaintext highlighter-rouge">전략메서드()</code>인척 해서 빨간줄로 생성하기</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312135034060.png" alt="image-20220312135034060"></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Lotto</span><span class="o">&gt;</span> <span class="nf">issueLottoByCount</span><span class="o">(</span><span class="nc">LottoCount</span> <span class="n">lottoCount</span><span class="o">)</span> <span class="o">{</span>
+     <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Lotto</span><span class="o">&gt;</span> <span class="n">lottos</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+     <span class="k">while</span> <span class="o">(</span><span class="n">lottoCount</span><span class="o">.</span><span class="na">isNotFinish</span><span class="o">())</span> <span class="o">{</span>
+         <span class="n">lottoCount</span> <span class="o">=</span> <span class="n">lottoCount</span><span class="o">.</span><span class="na">decrease</span><span class="o">();</span>
+         <span class="n">lottos</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">RandomLottoIssuer</span><span class="o">().</span><span class="na">issue</span><span class="o">());</span>
+     <span class="o">}</span>
+    
+     <span class="k">return</span> <span class="n">lottos</span><span class="o">;</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312135300826.png" alt="image-20220312135300826">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312135321651.png" alt="image-20220312135321651"></p>
+  </li>
+  <li>
+    <p>전략메서드도 작성
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312135417506.png" alt="image-20220312135417506"></p>
+  </li>
+</ol>
+
+<h5 id="랜덤전략객체전략메서드로----기존-랜덤-메서드-에-있던-랜덤-로직-옮겨주기">
+<a class="anchor" href="#%EB%9E%9C%EB%8D%A4%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EC%A0%84%EB%9E%B5%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C----%EA%B8%B0%EC%A1%B4-%EB%9E%9C%EB%8D%A4-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%97%90-%EC%9E%88%EB%8D%98-%EB%9E%9C%EB%8D%A4-%EB%A1%9C%EC%A7%81-%EC%98%AE%EA%B2%A8%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>랜덤전략객체.전략메서드()로 &lt;- [ 기존 랜덤 메서드 ]에 있던 랜덤 로직 옮겨주기</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">RandomLottoIssuer</span> <span class="o">{</span>
+    <span class="kd">static</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="no">LOTTO_NUMBERS</span><span class="o">;</span>
+
+    <span class="kd">static</span> <span class="o">{</span>
+        <span class="no">LOTTO_NUMBERS</span> <span class="o">=</span> <span class="nc">IntStream</span><span class="o">.</span><span class="na">rangeClosed</span><span class="o">(</span><span class="nc">LottoNumber</span><span class="o">.</span><span class="na">MIN</span><span class="o">,</span> <span class="nc">LottoNumber</span><span class="o">.</span><span class="na">MAX</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">mapToObj</span><span class="o">(</span><span class="nl">LottoNumber:</span><span class="o">:</span><span class="n">getInstance</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Lotto</span> <span class="nf">issue</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">Collections</span><span class="o">.</span><span class="na">shuffle</span><span class="o">(</span><span class="no">LOTTO_NUMBERS</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="no">LOTTO_NUMBERS</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                         <span class="o">.</span><span class="na">limit</span><span class="o">(</span><span class="mi">6</span><span class="o">)</span>
+                         <span class="o">.</span><span class="na">sorted</span><span class="o">()</span>
+                         <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">()));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="외부주입-전략객체를---외부파라미터로-받기-위해서---실제-전략인페-정의해주기">
+<a class="anchor" href="#%EC%99%B8%EB%B6%80%EC%A3%BC%EC%9E%85-%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%A5%BC---%EC%99%B8%EB%B6%80%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A1%9C-%EB%B0%9B%EA%B8%B0-%EC%9C%84%ED%95%B4%EC%84%9C---%EC%8B%A4%EC%A0%9C-%EC%A0%84%EB%9E%B5%EC%9D%B8%ED%8E%98-%EC%A0%95%EC%9D%98%ED%95%B4%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>외부주입 전략객체를 -&gt; 외부파라미터로 받기 위해서 -&gt; 실제 전략인페 정의해주기</h5>
+
+<ol>
+  <li>
+    <p>앞에서 정의한 랜덤전략객체를 보고 전략인페를 생성한다.</p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">RandomLottoIssuer</code> -&gt; <strong><code class="language-plaintext highlighter-rouge">LottoIssuer</code></strong>  -&gt; 앞으로 xxxxLottoIssuer 등</p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">전략인페명</code>으로 패키지를 만들어서 다같이 넣어주면 좋다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312140142253.png" alt="image-20220312140142253"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312140155431.png" alt="image-20220312140155431">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312140216397.png" alt="image-20220312140216397"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>전략메서드명은 다 통일이다. 목적어없이 동사만</p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">issue()</code></p>
+      </li>
+      <li>
+        <p><strong>특정전략메서드의 <code class="language-plaintext highlighter-rouge">반환타입을 참고</code>해서 <code class="language-plaintext highlighter-rouge">추상메서드를 정의</code>해준다.</strong></p>
+
+        <ul>
+          <li>
+            <p>랜덤전략의 메서드 반환타입 보고
+  <img src="C:%5CUsers%5Ccho_desktop%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220312140307738.png" alt="image-20220312140307738"></p>
+          </li>
+          <li>
+            <p><strong>정의부 복붙해와서 <code class="language-plaintext highlighter-rouge">반환타입 + 메서드명</code>빼고 다 달리기</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312140410033.png" alt="image-20220312140410033"></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312140421064.png" alt="image-20220312140421064"></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312140546308.png" alt="image-20220312140546308"></p>
+
+            <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">LottoIssuer</span> <span class="o">{</span>
+      <span class="nc">Lotto</span> <span class="nf">issue</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div>            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<p>​</p>
+
+<h5 id="new-외부전략객체-생성하던-곳으로-돌아가서----변수파라미터는-추상체로--외부주입-받아-추상체전략메서드하도록-한다">
+<a class="anchor" href="#new-%EC%99%B8%EB%B6%80%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1%ED%95%98%EB%8D%98-%EA%B3%B3%EC%9C%BC%EB%A1%9C-%EB%8F%8C%EC%95%84%EA%B0%80%EC%84%9C----%EB%B3%80%EC%88%98%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%8A%94-%EC%B6%94%EC%83%81%EC%B2%B4%EB%A1%9C--%EC%99%B8%EB%B6%80%EC%A3%BC%EC%9E%85-%EB%B0%9B%EC%95%84-%EC%B6%94%EC%83%81%EC%B2%B4%EC%A0%84%EB%9E%B5%EB%A9%94%EC%84%9C%EB%93%9C%ED%95%98%EB%8F%84%EB%A1%9D-%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>new 외부전략객체() 생성하던 곳으로 돌아가서  -&gt; <code class="language-plaintext highlighter-rouge">변수/파라미터는 추상체로  외부주입 받아, 추상체.전략메서드()</code>하도록 한다.</h5>
+
+<ol>
+  <li>
+    <p>기존: 외부주입없이 + 구상체로 사용</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312140728576.png" alt="image-20220312140728576"></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">LottoFactory</span> <span class="o">{</span>
+    
+     <span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Lotto</span><span class="o">&gt;</span> <span class="nf">issueLottoByCount</span><span class="o">(</span><span class="nc">LottoCount</span> <span class="n">lottoCount</span><span class="o">)</span> <span class="o">{</span>
+         <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Lotto</span><span class="o">&gt;</span> <span class="n">lottos</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+         <span class="k">while</span> <span class="o">(</span><span class="n">lottoCount</span><span class="o">.</span><span class="na">isNotFinish</span><span class="o">())</span> <span class="o">{</span>
+             <span class="n">lottoCount</span> <span class="o">=</span> <span class="n">lottoCount</span><span class="o">.</span><span class="na">decrease</span><span class="o">();</span>
+             <span class="n">lottos</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">RandomLottoIssuer</span><span class="o">().</span><span class="na">issue</span><span class="o">());</span>
+         <span class="o">}</span>
+    
+         <span class="k">return</span> <span class="n">lottos</span><span class="o">;</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+    
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="호출부-중-전략객체만-선택해서-파라미터로-추출">
+<a class="anchor" href="#%ED%98%B8%EC%B6%9C%EB%B6%80-%EC%A4%91-%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%A7%8C-%EC%84%A0%ED%83%9D%ED%95%B4%EC%84%9C-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A1%9C-%EC%B6%94%EC%B6%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>호출부 중 전략객체만 선택해서 파라미터로 추출</h5>
+
+<ol>
+  <li>
+    <p><strong>전략메서드를 제외한 전략객체만 선택해서 추출하면 된다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312140839186.png" alt="image-20220312140839186">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312140847831.png" alt="image-20220312140847831"></p>
+  </li>
+  <li>
+    <p><strong>추상체 이름과, 파라미터 Type모두 추상체로 바꿔준다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312140923314.png" alt="image-20220312140923314"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312140931250.png" alt="image-20220312140931250"></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">LottoFactory</span> <span class="o">{</span>
+    
+     <span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Lotto</span><span class="o">&gt;</span> <span class="nf">issueLottoByCount</span><span class="o">(</span><span class="nc">LottoCount</span> <span class="n">lottoCount</span><span class="o">,</span> <span class="kd">final</span> <span class="nc">LottoIssuer</span> <span class="n">lottoIssuer</span><span class="o">)</span> <span class="o">{</span>
+         <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Lotto</span><span class="o">&gt;</span> <span class="n">lottos</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+         <span class="k">while</span> <span class="o">(</span><span class="n">lottoCount</span><span class="o">.</span><span class="na">isNotFinish</span><span class="o">())</span> <span class="o">{</span>
+             <span class="n">lottoCount</span> <span class="o">=</span> <span class="n">lottoCount</span><span class="o">.</span><span class="na">decrease</span><span class="o">();</span>
+             <span class="n">lottos</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">lottoIssuer</span><span class="o">.</span><span class="na">issue</span><span class="o">());</span>
+         <span class="o">}</span>
+            
+         <span class="k">return</span> <span class="n">lottos</span><span class="o">;</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="처음에는-내부에서-특정-전략객체를-만들어썻찌만---파라미터-추출하면-알아서-외부에서-주입된다">
+<a class="anchor" href="#%EC%B2%98%EC%9D%8C%EC%97%90%EB%8A%94-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%ED%8A%B9%EC%A0%95-%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%8D%BB%EC%B0%8C%EB%A7%8C---%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0-%EC%B6%94%EC%B6%9C%ED%95%98%EB%A9%B4-%EC%95%8C%EC%95%84%EC%84%9C-%EC%99%B8%EB%B6%80%EC%97%90%EC%84%9C-%EC%A3%BC%EC%9E%85%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>처음에는 내부에서 특정 전략객체를 만들어썻찌만 -&gt; 파라미터 추출하면 알아서 외부에서 주입된다</h5>
+
+<ul>
+  <li>
+    <p>그 장소가 service라도 괜찮다. spring에서는 알아서 service에서 외부주입 받는다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312141339520.png" alt="image-20220312141339520"></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">LottoService</span> <span class="o">{</span>
+    
+      <span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Lotto</span><span class="o">&gt;</span> <span class="nf">issueByMoney</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Money</span> <span class="n">money</span><span class="o">)</span> <span class="o">{</span>
+          <span class="kd">final</span> <span class="nc">LottoCount</span> <span class="n">count</span> <span class="o">=</span> <span class="n">money</span><span class="o">.</span><span class="na">getCount</span><span class="o">();</span>
+    
+          <span class="k">return</span> <span class="nc">LottoFactory</span><span class="o">.</span><span class="na">issueLottoByCount</span><span class="o">(</span><span class="n">count</span><span class="o">,</span> <span class="k">new</span> <span class="nc">RandomLottoIssuer</span><span class="o">());</span>
+      <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="이제-전략인페를-impl-수동-구현만---tdd에서-수동메서드-완성해보자">
+<a class="anchor" href="#%EC%9D%B4%EC%A0%9C-%EC%A0%84%EB%9E%B5%EC%9D%B8%ED%8E%98%EB%A5%BC-impl-%EC%88%98%EB%8F%99-%EA%B5%AC%ED%98%84%EB%A7%8C---tdd%EC%97%90%EC%84%9C-%EC%88%98%EB%8F%99%EB%A9%94%EC%84%9C%EB%93%9C-%EC%99%84%EC%84%B1%ED%95%B4%EB%B3%B4%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>이제 전략인페를 impl 수동 구현만 -&gt; TDD에서 수동메서드 완성해보자.</h5>
+
+<ol>
+  <li>
+    <p>수동 전략impl 구현체를 생성한다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312141544414.png" alt="image-20220312141544414"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312141638620.png" alt="image-20220312141638620"></p>
+  </li>
+  <li>
+    <p>관련 테스트(LottoFactoryTest)로 가서, 해당메서드를 완성해야한다.</p>
+
+    <ul>
+      <li>
+        <p>test에서 <code class="language-plaintext highlighter-rouge">외부전략객체생성</code> 후 <code class="language-plaintext highlighter-rouge">전략메서드()</code>호출해도 아무도일도 안일어날 것이다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312141926117.png" alt="image-20220312141926117"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312141931627.png" alt="image-20220312141931627"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>미리 작성된 <code class="language-plaintext highlighter-rouge">RandomLottoIssuer</code>를 띄워놓고(tabmover -&gt; ctrl+alt+shift+D)로 참고하면서 내용을 채워나가면 된다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312142342869.png" alt="image-20220312142342869"></p>
+  </li>
+</ol>
+
+<p>​</p>
+
+<p>​</p>
+
+<p>​</p>
+
+<p>​</p>
+
+<p>​</p>
+
+<h5 id="대박-전략메서드-준비물을-메서드-인자가-아닌---각-전략별-전략객체-생성자정펙매에서-받아-준비해두자">
+<a class="anchor" href="#%EB%8C%80%EB%B0%95-%EC%A0%84%EB%9E%B5%EB%A9%94%EC%84%9C%EB%93%9C-%EC%A4%80%EB%B9%84%EB%AC%BC%EC%9D%84-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%9D%B8%EC%9E%90%EA%B0%80-%EC%95%84%EB%8B%8C---%EA%B0%81-%EC%A0%84%EB%9E%B5%EB%B3%84-%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1%EC%9E%90%EC%A0%95%ED%8E%99%EB%A7%A4%EC%97%90%EC%84%9C-%EB%B0%9B%EC%95%84-%EC%A4%80%EB%B9%84%ED%95%B4%EB%91%90%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>대박) 전략메서드 준비물을 [메서드() 인자]가 아닌 -&gt; <code class="language-plaintext highlighter-rouge">각 전략별 [전략객체 생성자/정펙매]에서 받아 준비해두자</code>
+</h5>
+
+<ul>
+  <li>
+    <p>랜덤로직을 랜덤전략객체에 옮기고 나니 <strong>랜덤에 필요한 것들이 생성자나 변수에서 처리되고 있었다.</strong></p>
+
+    <ul>
+      <li><strong>각 전략별 전략메서드 실행시 필요한 준비물은 <code class="language-plaintext highlighter-rouge">각 전략객체 생성자/정펙매에서 파라미터로 받자</code></strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312142334323.png" alt="image-20220312142334323"></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">RandomLottoIssuer</span> <span class="kd">implements</span> <span class="nc">LottoIssuer</span> <span class="o">{</span>
+      <span class="kd">static</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="no">LOTTO_NUMBERS</span><span class="o">;</span>
+    
+      <span class="kd">static</span> <span class="o">{</span>
+          <span class="no">LOTTO_NUMBERS</span> <span class="o">=</span> <span class="nc">IntStream</span><span class="o">.</span><span class="na">rangeClosed</span><span class="o">(</span><span class="nc">LottoNumber</span><span class="o">.</span><span class="na">MIN</span><span class="o">,</span> <span class="nc">LottoNumber</span><span class="o">.</span><span class="na">MAX</span><span class="o">)</span>
+              <span class="o">.</span><span class="na">mapToObj</span><span class="o">(</span><span class="nl">LottoNumber:</span><span class="o">:</span><span class="n">getInstance</span><span class="o">)</span>
+              <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+      <span class="o">}</span>
+    
+      <span class="kd">public</span> <span class="nc">Lotto</span> <span class="nf">issue</span><span class="o">()</span> <span class="o">{</span>
+          <span class="nc">Collections</span><span class="o">.</span><span class="na">shuffle</span><span class="o">(</span><span class="no">LOTTO_NUMBERS</span><span class="o">);</span>
+          <span class="k">return</span> <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="no">LOTTO_NUMBERS</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+              <span class="o">.</span><span class="na">limit</span><span class="o">(</span><span class="mi">6</span><span class="o">)</span>
+              <span class="o">.</span><span class="na">sorted</span><span class="o">()</span>
+              <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">()));</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p>수동로또준비물은 <code class="language-plaintext highlighter-rouge">수동 입력된 번호 List</code>일 것이다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312142852039.png" alt="image-20220312142852039"></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="nf">manual_issue</span><span class="o">()</span> <span class="o">{</span>
+     <span class="c1">// 전략들의 준비물은 전략메서드()에서는 따로따로 못받는다. -&gt; 전략객체 만들때 미리 준비되어있어야한다.</span>
+    
+     <span class="c1">//1. 수동로또전략의 준비물은 [1,2,3, 수동입력]이 있어야 -&gt; issue()로 [1,2,3, 수동로또]를 발급할 수 있을 것이다.</span>
+     <span class="c1">// -&gt; input은 나중에 처리하고, 정제된rawInput을 생성자에서 받아주자.</span>
+    
+     <span class="c1">//final Lotto lotto = new ManualLottoIssuer().issue();</span>
+     <span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">lotto</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ManualLottoIssuer</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">).</span><span class="na">issue</span><span class="o">();</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>일단 가변인자로 받도록 만들어놨으니… 저렇게 처리했음.</li>
+    </ul>
+  </li>
+  <li>
+    <p>전략객체 <code class="language-plaintext highlighter-rouge">생성시부터 준비물 -&gt; 변수</code>에 받아<strong>준비해두자</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ManualLottoIssuer</span> <span class="kd">implements</span> <span class="nc">LottoIssuer</span> <span class="o">{</span>
+    
+     <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Integer</span><span class="o">[]</span> <span class="n">value</span><span class="o">;</span>
+    
+     <span class="kd">public</span> <span class="nf">ManualLottoIssuer</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Integer</span><span class="o">...</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+     <span class="o">}</span>
+    
+     <span class="nd">@Override</span>
+     <span class="kd">public</span> <span class="nc">Lotto</span> <span class="nf">issue</span><span class="o">()</span> <span class="o">{</span>
+         <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnsupportedOperationException</span><span class="o">(</span><span class="s">"ManualLottoIssuer#issue not implemented."</span><span class="o">);</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>전략메서드에서 준비물을 사용해서 처리해주자.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ManualLottoIssuer</span> <span class="kd">implements</span> <span class="nc">LottoIssuer</span> <span class="o">{</span>
+    
+     <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Integer</span><span class="o">[]</span> <span class="n">value</span><span class="o">;</span>
+    
+     <span class="kd">public</span> <span class="nf">ManualLottoIssuer</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Integer</span><span class="o">...</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+     <span class="o">}</span>
+    
+     <span class="nd">@Override</span>
+     <span class="kd">public</span> <span class="nc">Lotto</span> <span class="nf">issue</span><span class="o">()</span> <span class="o">{</span>
+         <span class="c1">//throw new UnsupportedOperationException("ManualLottoIssuer#issue not implemented.");</span>
+         <span class="c1">//2. 전략객체가 생성시 받아둔 준비물을 가지고 전략메서드로 반환하자.</span>
+         <span class="k">return</span> <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>가장 기본적인 일급테스트인 size + contains만 테스트 해줬다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="nf">manual_issue</span><span class="o">()</span> <span class="o">{</span>
+     <span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">manualLotto</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ManualLottoIssuer</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">).</span><span class="na">issue</span><span class="o">();</span>
+    
+     <span class="n">assertThat</span><span class="o">(</span><span class="n">manualLotto</span><span class="o">.</span><span class="na">getValue</span><span class="o">().</span><span class="na">size</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">6</span><span class="o">);</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="nf">contains</span><span class="o">()</span> <span class="o">{</span>
+     <span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">manualLotto</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ManualLottoIssuer</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">).</span><span class="na">issue</span><span class="o">();</span>
+    
+     <span class="n">assertThat</span><span class="o">(</span><span class="n">manualLotto</span><span class="o">.</span><span class="na">getValue</span><span class="o">()).</span><span class="na">containsExactly</span><span class="o">(</span>
+         <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span>
+         <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">2</span><span class="o">),</span>
+         <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">3</span><span class="o">),</span>
+         <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">4</span><span class="o">),</span>
+         <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">5</span><span class="o">),</span>
+         <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">6</span><span class="o">)</span>
+     <span class="o">);</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="초대박-테스트용-람다-전략은-전략객체-대신이-아니라-내부-전략메서호출될-응답까지를-미리-주는-것---테스트에서-내부랜덤결과전략메서드-응답type을-외부-객체주입시-넣어줄-수-있다">
+<a class="anchor" href="#%EC%B4%88%EB%8C%80%EB%B0%95-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9-%EB%9E%8C%EB%8B%A4-%EC%A0%84%EB%9E%B5%EC%9D%80-%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4-%EB%8C%80%EC%8B%A0%EC%9D%B4-%EC%95%84%EB%8B%88%EB%9D%BC-%EB%82%B4%EB%B6%80-%EC%A0%84%EB%9E%B5%EB%A9%94%EC%84%9C%ED%98%B8%EC%B6%9C%EB%90%A0-%EC%9D%91%EB%8B%B5%EA%B9%8C%EC%A7%80%EB%A5%BC-%EB%AF%B8%EB%A6%AC-%EC%A3%BC%EB%8A%94-%EA%B2%83---%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%97%90%EC%84%9C-%EB%82%B4%EB%B6%80%EB%9E%9C%EB%8D%A4%EA%B2%B0%EA%B3%BC%EC%A0%84%EB%9E%B5%EB%A9%94%EC%84%9C%EB%93%9C-%EC%9D%91%EB%8B%B5type%EC%9D%84-%EC%99%B8%EB%B6%80-%EA%B0%9D%EC%B2%B4%EC%A3%BC%EC%9E%85%EC%8B%9C-%EB%84%A3%EC%96%B4%EC%A4%84-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>초대박) <code class="language-plaintext highlighter-rouge">테스트용 람다 전략</code>은 전략객체 대신이 아니라 <code class="language-plaintext highlighter-rouge">내부 전략메서호출()될 응답</code>까지를 미리 주는 것 -&gt; 테스트에서 내부랜덤결과(전략메서드 응답type)을 <code class="language-plaintext highlighter-rouge">외부 객체주입시 넣어줄 수 있다</code>
+</h5>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">전략객체를 주입받는 메서드(전략메서드 호출()부를 감싸는 메서드)</code>에 new 전략객체를 입력해서</p>
+
+    <ul>
+      <li>내부에서 <code class="language-plaintext highlighter-rouge">서로다른 전략메서드()</code> 호출 -&gt; <code class="language-plaintext highlighter-rouge">전략마다 다른 응답값</code>을 사용하는 것이 기본 패턴인데</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312151533837.png" alt="image-20220312151533837"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220312151549205.png" alt="image-20220312151549205"></p>
+  </li>
+  <li>
+    <p><strong>람다전략은 <code class="language-plaintext highlighter-rouge">new전략객체</code> 대신 ` () -&gt; 전략메소드의 응답(Lotto)`까지 한번에 주입한다.</strong></p>
+
+    <ol>
+      <li>
+        <p>예시1: 전략객체가 들어가던 <code class="language-plaintext highlighter-rouge">boolean응답 전략메소드</code>의 전략객체 주입</p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="n">js</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="k">new</span> <span class="nc">RandomMoveConditionStrategy</span><span class="o">());</span>
+        
+ <span class="n">js</span><span class="o">.</span><span class="na">printPosition</span><span class="o">();</span>
+</code></pre></div>        </div>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+     <span class="k">if</span><span class="o">(</span><span class="n">isMovable</span><span class="o">()){</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">position</span><span class="o">++;</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>        </div>
+
+        <ul>
+          <li><strong>전략객체 대신 <code class="language-plaintext highlighter-rouge">람다 () -&gt; boolean응답</code>까지 미리 지정해서 전략자리에 대입</strong></li>
+        </ul>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="n">jk</span><span class="o">.</span><span class="na">move</span><span class="o">(</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="kc">true</span><span class="o">);</span>
+        
+ <span class="n">jk</span><span class="o">.</span><span class="na">printPosition</span><span class="o">();</span>
+</code></pre></div>        </div>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>로또에 적용해보면, <strong>2번째 인자로 전략객체를 받아 -&gt; 그에 맞는 전략메서드()내부 호출하는 <code class="language-plaintext highlighter-rouge">issueLottoByCount( , )</code></strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Lotto</span><span class="o">&gt;</span> <span class="nf">issueLottoByCount</span><span class="o">(</span><span class="nc">LottoCount</span> <span class="n">lottoCount</span><span class="o">,</span>
+                                             <span class="kd">final</span> <span class="nc">LottoIssuer</span> <span class="n">lottoIssuer</span><span class="o">)</span> <span class="o">{</span>
+     <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Lotto</span><span class="o">&gt;</span> <span class="n">lottos</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+     <span class="k">while</span> <span class="o">(</span><span class="n">lottoCount</span><span class="o">.</span><span class="na">isNotFinish</span><span class="o">())</span> <span class="o">{</span>
+         <span class="n">lottoCount</span> <span class="o">=</span> <span class="n">lottoCount</span><span class="o">.</span><span class="na">decrease</span><span class="o">();</span>
+         <span class="n">lottos</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">lottoIssuer</span><span class="o">.</span><span class="na">issue</span><span class="o">());</span>
+     <span class="o">}</span>
+    
+     <span class="k">return</span> <span class="n">lottos</span><span class="o">;</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>여기에 2번째 인자에 <strong>테스트용 람다전략으로서 <code class="language-plaintext highlighter-rouge">전략메서드 응답값을  포함한 람다전략</code>을 대입하자</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="nf">lambda</span><span class="o">()</span> <span class="o">{</span>
+     <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Lotto</span><span class="o">&gt;</span> <span class="n">lottos</span> <span class="o">=</span> <span class="nc">LottoFactory</span><span class="o">.</span><span class="na">issueLottoByCount</span><span class="o">(</span>
+         <span class="k">new</span> <span class="nf">LottoCount</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span>
+         <span class="o">()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">Lotto</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">7</span><span class="o">));</span>
+     <span class="c1">// 외부 전략객체가 들어와야하는데, 람다(내부전략메소드 호출후 응답갑까지 미리)를 대입</span>
+    
+     <span class="n">assertDoesNotThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">lottos</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="na">contains</span><span class="o">(</span><span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">7</span><span class="o">)));</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="요약-전략객체-자리에-내부전략메서드호출-끝난-응답값까지-구현하여-전달하는-람다전략">
+<a class="anchor" href="#%EC%9A%94%EC%95%BD-%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4-%EC%9E%90%EB%A6%AC%EC%97%90-%EB%82%B4%EB%B6%80%EC%A0%84%EB%9E%B5%EB%A9%94%EC%84%9C%EB%93%9C%ED%98%B8%EC%B6%9C-%EB%81%9D%EB%82%9C-%EC%9D%91%EB%8B%B5%EA%B0%92%EA%B9%8C%EC%A7%80-%EA%B5%AC%ED%98%84%ED%95%98%EC%97%AC-%EC%A0%84%EB%8B%AC%ED%95%98%EB%8A%94-%EB%9E%8C%EB%8B%A4%EC%A0%84%EB%9E%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>요약: [전략객체 ]자리에 <code class="language-plaintext highlighter-rouge">내부.전략메서드()호출 끝난 응답값까지 구현</code>하여 전달하는 람다전략</h5>
+
+  </div><a class="u-url" href="/java/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/13/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%A0%81%EC%9A%A9(%EB%A1%9C%EB%98%90).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

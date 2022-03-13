@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>강의) 네오 3단계 피드백(블랙잭 상속) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="강의) 네오 3단계 피드백(블랙잭 상속)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="상속(+조합), 추상클래스, 업/다운캐스팅" />
+<meta property="og:description" content="상속(+조합), 추상클래스, 업/다운캐스팅" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%83%81%EC%86%8D/%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4/%EC%A1%B0%ED%95%A9/%EC%BA%90%EC%8A%A4%ED%8C%85/%EA%B0%95%EC%9D%98/%ED%94%BC%EB%93%9C%EB%B0%B1/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/15/%EA%B0%95%EC%9D%98)-%EB%84%A4%EC%98%A4-3%EB%8B%A8%EA%B3%84-%EC%83%81%EC%86%8D,%EC%A1%B0%ED%95%A9,%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4,%EC%BA%90%EC%8A%A4%ED%8C%85.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%83%81%EC%86%8D/%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4/%EC%A1%B0%ED%95%A9/%EC%BA%90%EC%8A%A4%ED%8C%85/%EA%B0%95%EC%9D%98/%ED%94%BC%EB%93%9C%EB%B0%B1/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/15/%EA%B0%95%EC%9D%98)-%EB%84%A4%EC%98%A4-3%EB%8B%A8%EA%B3%84-%EC%83%81%EC%86%8D,%EC%A1%B0%ED%95%A9,%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4,%EC%BA%90%EC%8A%A4%ED%8C%85.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-03-15T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-03-15T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%83%81%EC%86%8D/%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4/%EC%A1%B0%ED%95%A9/%EC%BA%90%EC%8A%A4%ED%8C%85/%EA%B0%95%EC%9D%98/%ED%94%BC%EB%93%9C%EB%B0%B1/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/15/%EA%B0%95%EC%9D%98)-%EB%84%A4%EC%98%A4-3%EB%8B%A8%EA%B3%84-%EC%83%81%EC%86%8D,%EC%A1%B0%ED%95%A9,%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4,%EC%BA%90%EC%8A%A4%ED%8C%85.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"강의) 네오 3단계 피드백(블랙잭 상속)","dateModified":"2022-03-15T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%83%81%EC%86%8D/%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4/%EC%A1%B0%ED%95%A9/%EC%BA%90%EC%8A%A4%ED%8C%85/%EA%B0%95%EC%9D%98/%ED%94%BC%EB%93%9C%EB%B0%B1/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/15/%EA%B0%95%EC%9D%98)-%EB%84%A4%EC%98%A4-3%EB%8B%A8%EA%B3%84-%EC%83%81%EC%86%8D,%EC%A1%B0%ED%95%A9,%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4,%EC%BA%90%EC%8A%A4%ED%8C%85.html"},"description":"상속(+조합), 추상클래스, 업/다운캐스팅","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">강의) 네오 3단계 피드백(블랙잭 상속)</h1><p class="page-description">상속(+조합), 추상클래스, 업/다운캐스팅</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-03-15T00:00:00-05:00" itemprop="datePublished">
+        Mar 15, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#상속">상속</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#추상클래스">추상클래스</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#조합">조합</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#캐스팅">캐스팅</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#강의">강의</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#피드백">피드백</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#스타버즈-커피전문점을-통한-상속-이해">스타버즈 커피전문점을 통한 상속 이해</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#기본-클래스-2개-작성">기본 클래스 2개 작성</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#coffee-클래스부터-작성한다">Coffee 클래스부터 작성한다</a></li>
+<li class="toc-entry toc-h5"><a href="#메서드들을-한눈에-볼-모든-메서드-호출-메서드-정의하기">메서드들을 한눈에 볼 모든 메서드 호출 메서드 정의하기</a></li>
+<li class="toc-entry toc-h5"><a href="#비슷한-클래스-tea클래스도-복붙해서-작성해주자">비슷한 클래스 Tea클래스도 복붙해서 작성해주자</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#상속으로-중복코드제거---공통메서드를-부모클래스를-만들어-올려서-제거super를-생략하고-쓰는-것">상속으로 중복코드제거 -&gt; 공통메서드를 부모클래스를 만들어 올려서 제거(super를 생략하고 쓰는 것)</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#클래스-다이어그램을-통해-본-코드-중복메서드-중복">클래스 다이어그램을 통해 본 코드 중복(메서드 중복)</a></li>
+<li class="toc-entry toc-h5"><a href="#01-중복메서드만을-메서드로-가지는-부모클래스-만들기">01 중복메서드만을 메서드로 가지는 부모클래스 만들기</a></li>
+<li class="toc-entry toc-h5"><a href="#02-자식들은-상속한-뒤-중복메서드---공통메서드로-올렸으니-자식에서-공메-정의부-제거---자식들은-자신만의-메서드만-가지고-있기---사용은-super생략하고-자기것처럼-쓰기">02 자식들은 상속한 뒤, 중복메서드 -&gt; 공통메서드로 올렸으니 자식에서 공메 정의부 제거 -&gt; 자식들은 자신만의 메서드만 가지고 있기 -&gt; 사용은 super.생략하고 자기것처럼 쓰기</a></li>
+<li class="toc-entry toc-h5"><a href="#03-부모한테-공통적으로-물려받아-쓰는것들에-대해서는-super을-붙혀도-된다">03 부모한테 공통적으로 물려받아 쓰는것들에 대해서는 super.을 붙혀도 된다.</a></li>
+<li class="toc-entry toc-h5"><a href="#my-추상클래스로-만든다면-강제-각자구현용-추상메서드를-추가할-수도-있다">my) 추상클래스로 만든다면, 강제 각자구현용 추상메서드를 추가할 수도 있다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#참고-상속대신-주입하는-조합으로-중복제거">참고) 상속대신 주입하는 조합으로 중복제거</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#cf-조합을-적용하여-중복코드를-객체로-박기정리용">cf) 조합을 적용하여 중복코드를 객체로 박기(정리용)</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#공통중복메서드를-뽑은-클래스를-뽑는후-조합으로-중복제거-like-전략패턴">[공통(중복)메서드를 뽑은 클래스]를 뽑는후 [조합으로 중복제거] like 전략패턴</a></li>
+<li class="toc-entry toc-h5"><a href="#참고-01-공통중복-메서드들을-잘라내기해서-뽑아낸-클래스를-따로-만든다상속의-부모클래스">참고 01 공통/중복 메서드들을 잘라내기해서 뽑아낸 클래스를 따로 만든다(상속의 부모클래스)</a></li>
+<li class="toc-entry toc-h5"><a href="#참고-02-중복제거하고-싶은-클래스coffee를-복붙해서-클래스2coffee2를-만들어-조합적용을-준비한다">참고 02 중복제거하고 싶은 클래스(Coffee)를 복붙해서 클래스2(Coffee2)를 만들어 조합적용을 준비한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#참고-03-조합은-객체-생성자로부터-외부에서-받은-전략객체같은-조합객체를-받아서-상태로-가지고-있는다-생성자---상태-초기화">참고 03 조합은, 객체 생성자로부터 외부에서 받은 전략객체같은 조합객체를 받아서 상태로 가지고 있는다 (생성자 -&gt; 상태 초기화)</a></li>
+<li class="toc-entry toc-h5"><a href="#참고-04-조합객체공통메서드-들을-호출시켜-중복을-제거한다">참고 04 조합객체.공통메서드() 들을 호출시켜 중복을 제거한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#my-조합으로-중복제거란-전략패턴-중-전략1개만-외부에서-받는-형태인-것-같다">my) 조합으로 중복제거란, 전략패턴 중 전략1개만 외부에서 받는 형태인 것 같다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#추상화">추상화</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#04-공통중복메서드를-뽑아-extrends-일반상속으로-사용하고-있다면--이것-부모클래스를-활용해--나머지-개별메서들을--추상화하는-데-활용-할-수-있다공통메서드-없어도-빈-공통-클래스로-뽑아만-놓는다면---추상화-후보들추상메서드-후보들을-추상화----뽑힌다면-추상클래스로-변경해야한다">04 공통(중복)메서드를 뽑아 extrends 일반상속으로 사용하고 있다면,  이것 부모클래스를 활용해  [나머지 개별메서들을  추상화]하는 데 활용 할 수 있다.(공통메서드 없어도 빈 공통 클래스로 뽑아만 놓는다면) -&gt; 추상화 후보들(추상메서드 후보들)을 추상화 -&gt;  뽑힌다면 추상클래스로 변경해야한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#cf-추상클래스-되는-순간---객체생성x---test코드는-에러가-난다">CF) 추상클래스 되는 순간 -&gt; 객체생성X -&gt; Test코드는 에러가 난다</a></li>
+<li class="toc-entry toc-h5"><a href="#05-구현부는-다르지만-메서드이름만-추상화-시도---커피를내린다--티백을-담근다의-추상화---abstract-returntype-내린다-로-추상화-in-상위클래스">05 구현부는 다르지만 메서드이름만 추상화 시도 -&gt; 커피를내린다 + 티백을 담근다의 추상화 -&gt; abstract returnType 내린다() 로 추상화 in 상위클래스</a></li>
+<li class="toc-entry toc-h5"><a href="#06-추상메서드를-가지는-순간---추상클래스로-바꾼다">06 추상메서드를 가지는 순간 -&gt; 추상클래스로 바꾼다.</a></li>
+<li class="toc-entry toc-h5"><a href="#my-추상클래스---공통메서드뽑은-일반부모에--구현부는-다르지만-메서드-이름만-추상화하여---자식은-extends---super생략한-체-부모에서-정의한-공통메서드-갖다쓰기--추상메서드-개별구현은-override-강제하도록-하는-일부-구현강제된-부모클래스로-해석하자">my) 추상클래스 -&gt; 공통메서드뽑은 일반부모에 + 구현부는 다르지만 메서드 이름만 추상화하여 -&gt; 자식은 extends -&gt; super생략한 체, 부모에서 정의한 공통메서드 갖다쓰기 + 추상메서드 개별구현은 override 강제하도록 하는 일부 구현강제된 부모클래스로 해석하자.</a></li>
+<li class="toc-entry toc-h5"><a href="#07-추상화가-끝났다면---추상화전-메소드들-정의부가-아닌-사용호출처부터-추상화된-이름으로-변경하여--메소드-호출하도록-바꿔준다">07 추상화가 끝났다면, -&gt; 추상화전 메소드들 정의부가 아닌 사용(호출)처부터 추상화된 이름으로 변경하여  메소드 호출하도록 바꿔준다.</a></li>
+<li class="toc-entry toc-h5"><a href="#08-추상화된-메서드-정의부는-impl오버라이딩을-impl로---내용-옮겨-주고---삭제의-과정을-가진다">08 추상화된 메서드 정의부는 impl(오버라이딩을 impl로) -&gt; 내용 옮겨 주고 - 삭제의 과정을 가진다.</a></li>
+<li class="toc-entry toc-h5"><a href="#09-추상화를-끝내고---추상화-호출부-이름변경통일로-인한-공통중복메서드가-추가로-생길-수-있다---다시-부모로-빼준다">09 추상화를 끝내고 -&gt; 추상화 호출부 이름변경(통일)로 인한 공통(중복)메서드가 추가로 생길 수 있다 -&gt; 다시 부모로 빼준다.</a></li>
+<li class="toc-entry toc-h5"><a href="#10-extends---정의도-안되어있는데-super생략한-체로-공통메서드를-실제-내부-or-외부에서-인스턴스가-사용-확인해보기">10 extends -&gt; 정의도 안되어있는데 super생략한 체로 공통메서드를 실제 내부 or 외부에서 인스턴스가 사용 확인해보기</a></li>
+<li class="toc-entry toc-h5"><a href="#추상화부터-하는-방법도-있다-정답은-없다-처음부터-완벽하게-추상화-x---공통처리부분이-발견될-시-처리하는게-좋다">추상화부터 하는 방법도 있다. 정답은 없다. 처음부터 완벽하게 추상화 x -&gt; 공통처리부분이 발견될 시 처리하는게 좋다.</a></li>
+<li class="toc-entry toc-h5"><a href="#cf-추상클래스-인스턴스화구체화-안되는-이유-구현부-없는-추상메서드-때문에-추상클래스가-됬으므로ㅋ---구현부정의와-같이-객체를-만들어줄-수도-있다">cf) 추상클래스 인스턴스화(=구체화) 안되는 이유: 구현부 없는 추상메서드 때문에 추상클래스가 됬으므로..ㅋ -&gt; 구현부정의와 같이 객체를 만들어줄 수도 있다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#quiz-추상클래스는-추메가-무조건-있어야할까">quiz) 추상클래스는 추메가 무조건 있어야할까?</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#추메를-안가지는데-추상클래스를-구현했다면-고민해봐야한다">추메를 안가지는데 추상클래스를 구현했다면 고민해봐야한다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#업캐스팅-vs-다운캐스팅">업캐스팅 vs 다운캐스팅</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#업캐스팅--다형성--추상체로-변수파라미터응답값-받기">업캐스팅 = 다형성 = 추상체로 변수,파라미터,응답값 받기</a></li>
+<li class="toc-entry toc-h4"><a href="#다운캐스팅--추상체상태에서---구상체로-돌아가-구상체만의-메서드상태-사용가능해진다">다운캐스팅 = 추상체상태에서 -&gt; 구상체로 돌아가 구상체만의 메서드/상태 사용가능해진다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#01-구상체-or-자식만의-메서드는-편하게-가질-수-있다">01 구상체 or 자식만의 메서드는 편하게 가질 수 있다.</a></li>
+<li class="toc-entry toc-h5"><a href="#02-문제는-추상체부모형으로-업캐스팅-된-상태에서는-개별구상체-본인이라도-메서드를-호출이-안된다">02 문제는 추상체/부모형으로 업캐스팅 된 상태에서는, 개별구상체 본인이라도, 메서드를 호출이 안된다.</a></li>
+<li class="toc-entry toc-h5"><a href="#03-추상체-상태의-구상체를-다운캐스팅하면-자신만의-메서드를-사용할-수-있다">03 추상체 상태의 구상체를 (다운캐스팅)하면, 자신만의 메서드를 사용할 수 있다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#04-문제는-엉뚱한-구상체를--다운캐스팅해도-호출된다--컴파일-타임에-처리-못하는-에러---캐스팅에러가-무섭다---신중하게-써야한다---다운캐스팅은-instanceof--classcast메서드와-함께-">04 문제는 엉뚱한 구상체를  다운캐스팅해도 호출()된다 == 컴파일 타임에 처리 못하는 에러 -&gt; 캐스팅에러가 무섭다. -&gt; 신중하게 써야한다. -&gt; 다운캐스팅은 instanceof + .class.cast()메서드와 함께 !!</a></li>
+</ul>
+</li>
+</ul><h3 id="스타버즈-커피전문점을-통한-상속-이해">
+<a class="anchor" href="#%EC%8A%A4%ED%83%80%EB%B2%84%EC%A6%88-%EC%BB%A4%ED%94%BC%EC%A0%84%EB%AC%B8%EC%A0%90%EC%9D%84-%ED%86%B5%ED%95%9C-%EC%83%81%EC%86%8D-%EC%9D%B4%ED%95%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>스타버즈 커피전문점을 통한 상속 이해</h3>
+
+<ul>
+  <li>
+    <p>요구사항</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  Starbuzz 커피 전문점은 커피와 차를 판매한다. 커피와 차를 준비하는 과정은 각각 다음과 같다.
+</code></pre></div>    </div>
+
+    <ul>
+      <li>커피(coffee)
+        <ul>
+          <li>물을 끓인다.</li>
+          <li>필터를 활용해 커피를 내린다.</li>
+          <li>컵에 붓는다.</li>
+          <li>설탕과 우유를 추가한다.</li>
+        </ul>
+      </li>
+      <li>차(tea)
+        <ul>
+          <li>물을 끓인다.</li>
+          <li>차 티백을 담근다.</li>
+          <li>컵에 붓는다.</li>
+          <li>레몬을 추가한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="기본-클래스-2개-작성">
+<a class="anchor" href="#%EA%B8%B0%EB%B3%B8-%ED%81%B4%EB%9E%98%EC%8A%A4-2%EA%B0%9C-%EC%9E%91%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>기본 클래스 2개 작성</h4>
+
+<h5 id="coffee-클래스부터-작성한다">
+<a class="anchor" href="#coffee-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%B6%80%ED%84%B0-%EC%9E%91%EC%84%B1%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Coffee 클래스부터 작성한다</h5>
+
+<ol>
+  <li>
+    <p>요구사항은 <code class="language-plaintext highlighter-rouge">/*</code> 로 시작하도록 옮겨놓는다.</p>
+
+    <p><img src="C:%5CUsers%5Ccho_desktop%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220313162720996.png" alt="image-20220313162720996"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313162656474.png" alt="image-20220313162656474"></p>
+  </li>
+  <li>
+    <p><strong>테스트에서 각각의 메서드부터 작성</strong>한다.</p>
+
+    <ul>
+      <li>my) 전체를 모아두는 메서드는… 각각 작성하고 통합호출시 묶어주는 것일 듯?</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313163310922.png" alt="image-20220313163310922"></p>
+  </li>
+</ol>
+
+<h5 id="메서드들을-한눈에-볼-모든-메서드-호출-메서드-정의하기">
+<a class="anchor" href="#%EB%A9%94%EC%84%9C%EB%93%9C%EB%93%A4%EC%9D%84-%ED%95%9C%EB%88%88%EC%97%90-%EB%B3%BC-%EB%AA%A8%EB%93%A0-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%98%B8%EC%B6%9C-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%A0%95%EC%9D%98%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>메서드들을 한눈에 볼 모든 메서드 호출 메서드 정의하기</h5>
+
+<ol>
+  <li>
+    <p><strong>같은 인스턴스메서드(객체 행위) 단위로서, <code class="language-plaintext highlighter-rouge">현재까지 만든 객체 메서드(행위들)을 모두 한번에 호출해주는 메서드</code>도 <code class="language-plaintext highlighter-rouge">Test</code>에서 만든 뒤, <code class="language-plaintext highlighter-rouge">테스트에서의 코드를 잘라내서 내부로 가져가자</code></strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313163505188.png" alt="image-20220313163505188">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313163514767.png" alt="image-20220313163514767"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313163531128.png" alt="image-20220313163531128"></p>
+  </li>
+  <li>
+    <p><strong>같은 객체가 호출하던 메서드를 한꺼번에 호출할려고 가져가면, -&gt; <code class="language-plaintext highlighter-rouge">바깥에서 만든 객체로 호출</code> 빨간줄 뜬다. 지워주자. 현재 class내부 = 현재 객체this가 호출하고 있는 중</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313163811348.png" alt="image-20220313163811348">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313163819861.png" alt="image-20220313163819861"></p>
+  </li>
+  <li>
+    <p>모든 메서드들보다위에 위치하도록, 가장 위로 올려준다.</p>
+  </li>
+</ol>
+
+<h5 id="비슷한-클래스-tea클래스도-복붙해서-작성해주자">
+<a class="anchor" href="#%EB%B9%84%EC%8A%B7%ED%95%9C-%ED%81%B4%EB%9E%98%EC%8A%A4-tea%ED%81%B4%EB%9E%98%EC%8A%A4%EB%8F%84-%EB%B3%B5%EB%B6%99%ED%95%B4%EC%84%9C-%EC%9E%91%EC%84%B1%ED%95%B4%EC%A3%BC%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>비슷한 클래스 Tea클래스도 복붙해서 작성해주자</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Coffee</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">prepareRecipe</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">boilWater</span><span class="o">();</span>
+        <span class="n">brewCoffeeGrinds</span><span class="o">();</span>
+        <span class="n">pourInCup</span><span class="o">();</span>
+        <span class="n">addSugarAndMilk</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">boilWater</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"물을 끓인다."</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">brewCoffeeGrinds</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"필터를 활용해 커피를 내린다."</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">pourInCup</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"컵에 붓는다."</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addSugarAndMilk</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"설탕과 우유를 추가한다."</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Tea</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">prepareRecipe</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">boilWater</span><span class="o">();</span>
+        <span class="n">steepTeaBag</span><span class="o">();</span>
+        <span class="n">pourInCup</span><span class="o">();</span>
+        <span class="n">addLemon</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">boilWater</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"물을 끓인다."</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">steepTeaBag</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"티백을 담근다."</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">pourInCup</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"컵에 붓는다."</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addLemon</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"레몬을 추가한다."</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="상속으로-중복코드제거---공통메서드를-부모클래스를-만들어-올려서-제거super를-생략하고-쓰는-것">
+<a class="anchor" href="#%EC%83%81%EC%86%8D%EC%9C%BC%EB%A1%9C-%EC%A4%91%EB%B3%B5%EC%BD%94%EB%93%9C%EC%A0%9C%EA%B1%B0---%EA%B3%B5%ED%86%B5%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EB%B6%80%EB%AA%A8%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4-%EC%98%AC%EB%A0%A4%EC%84%9C-%EC%A0%9C%EA%B1%B0super%EB%A5%BC-%EC%83%9D%EB%9E%B5%ED%95%98%EA%B3%A0-%EC%93%B0%EB%8A%94-%EA%B2%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>상속으로 중복코드제거 -&gt; 공통메서드를 부모클래스를 만들어 올려서 제거(super를 생략하고 쓰는 것)</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313164316895.png" alt="image-20220313164316895"></p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">boilWater()</code>와 <code class="language-plaintext highlighter-rouge">pourInCup()</code> 2개 메서드가 중복이다.</li>
+</ul>
+
+<h5 id="클래스-다이어그램을-통해-본-코드-중복메서드-중복">
+<a class="anchor" href="#%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%8B%A4%EC%9D%B4%EC%96%B4%EA%B7%B8%EB%9E%A8%EC%9D%84-%ED%86%B5%ED%95%B4-%EB%B3%B8-%EC%BD%94%EB%93%9C-%EC%A4%91%EB%B3%B5%EB%A9%94%EC%84%9C%EB%93%9C-%EC%A4%91%EB%B3%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>클래스 다이어그램을 통해 본 코드 중복(메서드 중복)</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313164458009.png" alt="image-20220313164458009"></p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">중복된 메서드</code>만 빼내서 따로 클래스로 분리한다.</strong></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313164603837.png" alt="image-20220313164603837"></p>
+
+<h5 id="01-중복메서드만을-메서드로-가지는-부모클래스-만들기">
+<a class="anchor" href="#01-%EC%A4%91%EB%B3%B5%EB%A9%94%EC%84%9C%EB%93%9C%EB%A7%8C%EC%9D%84-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EA%B0%80%EC%A7%80%EB%8A%94-%EB%B6%80%EB%AA%A8%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 중복메서드만을 메서드로 가지는 부모클래스 만들기</h5>
+
+<ol>
+  <li>
+    <p>중복된 2 메서드를 + 각각의 클래스명을 보고 <code class="language-plaintext highlighter-rouge">부모클래스</code>를 만든다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313164859554.png" alt="image-20220313164859554"></p>
+  </li>
+  <li>
+    <p><strong>중복된 메서드 2개를 복사해서 가져온다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313164925478.png" alt="image-20220313164925478"></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kn">package</span> <span class="nn">starbuzz</span><span class="o">;</span>
+    
+ <span class="kd">public</span> <span class="kd">class</span> <span class="nc">CaffeineBeverage</span> <span class="o">{</span>
+    
+     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">boilWater</span><span class="o">()</span> <span class="o">{</span>
+         <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"물을 끓인다."</span><span class="o">);</span>
+     <span class="o">}</span>
+    
+     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">pourInCup</span><span class="o">()</span> <span class="o">{</span>
+         <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"컵에 붓는다."</span><span class="o">);</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="02-자식들은-상속한-뒤-중복메서드---공통메서드로-올렸으니-자식에서-공메-정의부-제거---자식들은-자신만의-메서드만-가지고-있기---사용은-super생략하고-자기것처럼-쓰기">
+<a class="anchor" href="#02-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%80-%EC%83%81%EC%86%8D%ED%95%9C-%EB%92%A4-%EC%A4%91%EB%B3%B5%EB%A9%94%EC%84%9C%EB%93%9C---%EA%B3%B5%ED%86%B5%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EC%98%AC%EB%A0%B8%EC%9C%BC%EB%8B%88-%EC%9E%90%EC%8B%9D%EC%97%90%EC%84%9C-%EA%B3%B5%EB%A9%94-%EC%A0%95%EC%9D%98%EB%B6%80-%EC%A0%9C%EA%B1%B0---%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%80-%EC%9E%90%EC%8B%A0%EB%A7%8C%EC%9D%98-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A7%8C-%EA%B0%80%EC%A7%80%EA%B3%A0-%EC%9E%88%EA%B8%B0---%EC%82%AC%EC%9A%A9%EC%9D%80-super%EC%83%9D%EB%9E%B5%ED%95%98%EA%B3%A0-%EC%9E%90%EA%B8%B0%EA%B2%83%EC%B2%98%EB%9F%BC-%EC%93%B0%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 자식들은 상속한 뒤, 중복메서드 -&gt; 공통메서드로 올렸으니 <code class="language-plaintext highlighter-rouge">자식에서 공메 정의부 제거</code> -&gt; <code class="language-plaintext highlighter-rouge">자식들은 자신만의 메서드만 가지고 있기</code> -&gt; <code class="language-plaintext highlighter-rouge">사용은 super.생략하고 자기것처럼 쓰기</code>
+</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313165034914.png" alt="image-20220313165034914"></p>
+
+<ul>
+  <li>자식들이 만약 상속한 상태에서 <strong>부모가 가져간 공통메서드들을 제거해줘야한다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313165134752.png" alt="image-20220313165134752">
+</li>
+  <li>
+<strong>부모가 줄 공통메서드를 삭제해도 빨간줄이 뜨지 않는다.</strong><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313165148638.png" alt="image-20220313165148638">
+</li>
+</ul>
+
+<h5 id="03-부모한테-공통적으로-물려받아-쓰는것들에-대해서는-super을-붙혀도-된다">
+<a class="anchor" href="#03-%EB%B6%80%EB%AA%A8%ED%95%9C%ED%85%8C-%EA%B3%B5%ED%86%B5%EC%A0%81%EC%9C%BC%EB%A1%9C-%EB%AC%BC%EB%A0%A4%EB%B0%9B%EC%95%84-%EC%93%B0%EB%8A%94%EA%B2%83%EB%93%A4%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C%EB%8A%94-super%EC%9D%84-%EB%B6%99%ED%98%80%EB%8F%84-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 <code class="language-plaintext highlighter-rouge">부모한테 공통적으로 물려받아 쓰는</code>것들에 대해서는 <code class="language-plaintext highlighter-rouge">super.</code>을 붙혀도 된다.</h5>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">ctrl+ 클릭</code>하면 부모로 타고 올라간다.</p>
+  </li>
+  <li>
+    <p><strong>부모한테 물려받아 쓰는 것들은 <code class="language-plaintext highlighter-rouge">super.</code>를 앞에 달아서 <code class="language-plaintext highlighter-rouge">부모클래스한테 물려받아 쓰고 있는 메서드</code>라고 써도 된다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313165504928.png" alt="image-20220313165504928"></p>
+  </li>
+</ul>
+
+<h5 id="my-추상클래스로-만든다면-강제-각자구현용-추상메서드를-추가할-수도-있다">
+<a class="anchor" href="#my-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A1%9C-%EB%A7%8C%EB%93%A0%EB%8B%A4%EB%A9%B4-%EA%B0%95%EC%A0%9C-%EA%B0%81%EC%9E%90%EA%B5%AC%ED%98%84%EC%9A%A9-%EC%B6%94%EC%83%81%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EC%B6%94%EA%B0%80%ED%95%A0-%EC%88%98%EB%8F%84-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) 추상클래스로 만든다면, <code class="language-plaintext highlighter-rouge">강제 각자구현용 추상메서드</code>를 추가할 수도 있다.</h5>
+
+<h3 id="참고-상속대신-주입하는-조합으로-중복제거">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0-%EC%83%81%EC%86%8D%EB%8C%80%EC%8B%A0-%EC%A3%BC%EC%9E%85%ED%95%98%EB%8A%94-%EC%A1%B0%ED%95%A9%EC%9C%BC%EB%A1%9C-%EC%A4%91%EB%B3%B5%EC%A0%9C%EA%B1%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고) 상속대신 주입하는 조합으로 중복제거</h3>
+
+<h4 id="cf-조합을-적용하여-중복코드를-객체로-박기정리용">
+<a class="anchor" href="#cf-%EC%A1%B0%ED%95%A9%EC%9D%84-%EC%A0%81%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A4%91%EB%B3%B5%EC%BD%94%EB%93%9C%EB%A5%BC-%EA%B0%9D%EC%B2%B4%EB%A1%9C-%EB%B0%95%EA%B8%B0%EC%A0%95%EB%A6%AC%EC%9A%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>cf) 조합을 적용하여 중복코드를 객체로 박기(정리용)</h4>
+
+<h5 id="공통중복메서드를-뽑은-클래스를-뽑는후-조합으로-중복제거-like-전략패턴">
+<a class="anchor" href="#%EA%B3%B5%ED%86%B5%EC%A4%91%EB%B3%B5%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EB%BD%91%EC%9D%80-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A5%BC-%EB%BD%91%EB%8A%94%ED%9B%84-%EC%A1%B0%ED%95%A9%EC%9C%BC%EB%A1%9C-%EC%A4%91%EB%B3%B5%EC%A0%9C%EA%B1%B0-like-%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>[공통(중복)메서드를 뽑은 클래스]를 뽑는후 [조합으로 중복제거] like 전략패턴</h5>
+
+<h5 id="참고-01-공통중복-메서드들을-잘라내기해서-뽑아낸-클래스를-따로-만든다상속의-부모클래스">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0-01-%EA%B3%B5%ED%86%B5%EC%A4%91%EB%B3%B5-%EB%A9%94%EC%84%9C%EB%93%9C%EB%93%A4%EC%9D%84-%EC%9E%98%EB%9D%BC%EB%82%B4%EA%B8%B0%ED%95%B4%EC%84%9C-%EB%BD%91%EC%95%84%EB%82%B8-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A5%BC-%EB%94%B0%EB%A1%9C-%EB%A7%8C%EB%93%A0%EB%8B%A4%EC%83%81%EC%86%8D%EC%9D%98-%EB%B6%80%EB%AA%A8%ED%81%B4%EB%9E%98%EC%8A%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고 01 공통/중복 메서드들을 잘라내기해서 뽑아낸 클래스를 따로 만든다(상속의 부모클래스)</h5>
+
+<ul>
+  <li><strong>아래 메서드 중에 <code class="language-plaintext highlighter-rouge">boilWater()</code>과 <code class="language-plaintext highlighter-rouge">pourInCup()</code>은 다른 곳과도 중복이라 뽑아낼 준비한다.</strong></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Coffee</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">prepareRecipe</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">boilWater</span><span class="o">();</span>
+        <span class="n">brewCoffeeGrinds</span><span class="o">();</span>
+        <span class="n">pourInCup</span><span class="o">();</span>
+        <span class="n">addSugarAndMilk</span><span class="o">();</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CaffeineBeverage</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">boilWater</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"물을 끓인다."</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">pourInCup</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"컵에 붓는다."</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>중복된 메서드들을 빨간줄 상태
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313173054239.png" alt="image-20220313173054239">
+</li>
+</ul>
+
+<h5 id="참고-02-중복제거하고-싶은-클래스coffee를-복붙해서-클래스2coffee2를-만들어-조합적용을-준비한다">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0-02-%EC%A4%91%EB%B3%B5%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B3%A0-%EC%8B%B6%EC%9D%80-%ED%81%B4%EB%9E%98%EC%8A%A4coffee%EB%A5%BC-%EB%B3%B5%EB%B6%99%ED%95%B4%EC%84%9C-%ED%81%B4%EB%9E%98%EC%8A%A42coffee2%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4-%EC%A1%B0%ED%95%A9%EC%A0%81%EC%9A%A9%EC%9D%84-%EC%A4%80%EB%B9%84%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고 02 중복제거하고 싶은 클래스(Coffee)를 복붙해서 클래스2(Coffee2)를 만들어 조합적용을 준비한다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313172854779.png" alt="image-20220313172854779"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313173015622.png" alt="image-20220313173015622"></p>
+
+<h5 id="참고-03-조합은-객체-생성자로부터-외부에서-받은-전략객체같은-조합객체를-받아서-상태로-가지고-있는다-생성자---상태-초기화">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0-03-%EC%A1%B0%ED%95%A9%EC%9D%80-%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1%EC%9E%90%EB%A1%9C%EB%B6%80%ED%84%B0-%EC%99%B8%EB%B6%80%EC%97%90%EC%84%9C-%EB%B0%9B%EC%9D%80-%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EA%B0%99%EC%9D%80-%EC%A1%B0%ED%95%A9%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%B0%9B%EC%95%84%EC%84%9C-%EC%83%81%ED%83%9C%EB%A1%9C-%EA%B0%80%EC%A7%80%EA%B3%A0-%EC%9E%88%EB%8A%94%EB%8B%A4-%EC%83%9D%EC%84%B1%EC%9E%90---%EC%83%81%ED%83%9C-%EC%B4%88%EA%B8%B0%ED%99%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고 03 조합은, 객체 <code class="language-plaintext highlighter-rouge">생성자로부터 외부에서 받은</code> <code class="language-plaintext highlighter-rouge">전략객체같은 조합객체</code>를 받아서 <code class="language-plaintext highlighter-rouge">상태</code>로 가지고 있는다 (생성자 -&gt; 상태 초기화)</h5>
+
+<ol>
+  <li>나는 <strong>CoffeeTest에서 Coffee2 생성자 자동생성을 위해 코드를 작성</strong>하고 있다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313173417627.png" alt="image-20220313173417627">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313173516262.png" alt="image-20220313173516262">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313173524987.png" alt="image-20220313173524987">
+</li>
+</ol>
+
+<h5 id="참고-04-조합객체공통메서드-들을-호출시켜-중복을-제거한다">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0-04-%EC%A1%B0%ED%95%A9%EA%B0%9D%EC%B2%B4%EA%B3%B5%ED%86%B5%EB%A9%94%EC%84%9C%EB%93%9C-%EB%93%A4%EC%9D%84-%ED%98%B8%EC%B6%9C%EC%8B%9C%EC%BC%9C-%EC%A4%91%EB%B3%B5%EC%9D%84-%EC%A0%9C%EA%B1%B0%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고 04 조합객체.공통메서드() 들을 호출시켜 중복을 제거한다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313173614222.png" alt="image-20220313173614222"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Coffee2</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">CaffeineBeverage</span> <span class="n">caffeineBeverage</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Coffee2</span><span class="o">(</span><span class="kd">final</span> <span class="nc">CaffeineBeverage</span> <span class="n">caffeineBeverage</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">caffeineBeverage</span> <span class="o">=</span> <span class="n">caffeineBeverage</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">prepareRecipe</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">caffeineBeverage</span><span class="o">.</span><span class="na">boilWater</span><span class="o">();</span>
+        <span class="n">brewCoffeeGrinds</span><span class="o">();</span>
+        <span class="n">caffeineBeverage</span><span class="o">.</span><span class="na">pourInCup</span><span class="o">();</span>
+        <span class="n">addSugarAndMilk</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">brewCoffeeGrinds</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"필터를 활용해 커피를 내린다."</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addSugarAndMilk</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"설탕과 우유를 추가한다."</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="my-조합으로-중복제거란-전략패턴-중-전략1개만-외부에서-받는-형태인-것-같다">
+<a class="anchor" href="#my-%EC%A1%B0%ED%95%A9%EC%9C%BC%EB%A1%9C-%EC%A4%91%EB%B3%B5%EC%A0%9C%EA%B1%B0%EB%9E%80-%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4-%EC%A4%91-%EC%A0%84%EB%9E%B51%EA%B0%9C%EB%A7%8C-%EC%99%B8%EB%B6%80%EC%97%90%EC%84%9C-%EB%B0%9B%EB%8A%94-%ED%98%95%ED%83%9C%EC%9D%B8-%EA%B2%83-%EA%B0%99%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) 조합으로 중복제거란, 전략패턴 중 전략1개만 외부에서 받는 형태인 것 같다.</h5>
+
+<h4 id="추상화">
+<a class="anchor" href="#%EC%B6%94%EC%83%81%ED%99%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>추상화</h4>
+
+<h5 id="04-공통중복메서드를-뽑아-extrends-일반상속으로-사용하고-있다면--이것-부모클래스를-활용해--나머지-개별메서들을--추상화하는-데-활용-할-수-있다공통메서드-없어도-빈-공통-클래스로-뽑아만-놓는다면---추상화-후보들추상메서드-후보들을-추상화----뽑힌다면-추상클래스로-변경해야한다">
+<a class="anchor" href="#04-%EA%B3%B5%ED%86%B5%EC%A4%91%EB%B3%B5%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EB%BD%91%EC%95%84-extrends-%EC%9D%BC%EB%B0%98%EC%83%81%EC%86%8D%EC%9C%BC%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B3%A0-%EC%9E%88%EB%8B%A4%EB%A9%B4--%EC%9D%B4%EA%B2%83-%EB%B6%80%EB%AA%A8%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%B4--%EB%82%98%EB%A8%B8%EC%A7%80-%EA%B0%9C%EB%B3%84%EB%A9%94%EC%84%9C%EB%93%A4%EC%9D%84--%EC%B6%94%EC%83%81%ED%99%94%ED%95%98%EB%8A%94-%EB%8D%B0-%ED%99%9C%EC%9A%A9-%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4%EA%B3%B5%ED%86%B5%EB%A9%94%EC%84%9C%EB%93%9C-%EC%97%86%EC%96%B4%EB%8F%84-%EB%B9%88-%EA%B3%B5%ED%86%B5-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A1%9C-%EB%BD%91%EC%95%84%EB%A7%8C-%EB%86%93%EB%8A%94%EB%8B%A4%EB%A9%B4---%EC%B6%94%EC%83%81%ED%99%94-%ED%9B%84%EB%B3%B4%EB%93%A4%EC%B6%94%EC%83%81%EB%A9%94%EC%84%9C%EB%93%9C-%ED%9B%84%EB%B3%B4%EB%93%A4%EC%9D%84-%EC%B6%94%EC%83%81%ED%99%94----%EB%BD%91%ED%9E%8C%EB%8B%A4%EB%A9%B4-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A1%9C-%EB%B3%80%EA%B2%BD%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 공통(중복)메서드를 뽑아 extrends 일반상속으로 사용하고 있다면,  이것 부모클래스를 활용해  [나머지 개별메서들을  추상화]하는 데 활용 할 수 있다.(공통메서드 없어도 빈 공통 클래스로 뽑아만 놓는다면) -&gt; 추상화 후보들(추상메서드 후보들)을 추상화 -&gt;  뽑힌다면 추상클래스로 변경해야한다.</h5>
+
+<ul>
+  <li>공통(중복)메서드들은 <strong>100% 똑같아서 뽑아서 클래스를 만들고 -&gt; <code class="language-plaintext highlighter-rouge">super 생략하고 니것처럼 갖다쓸 수 있게</code>뽑은 클래스에서 정의해줬다.</strong>
+    <ul>
+      <li>공통메서드 빼기 -&gt; 상속하기 -&gt; <strong>개별 메서드 추상화 살펴보기</strong>의 차례다</li>
+    </ul>
+  </li>
+  <li>
+<strong>나머지 서로 다른 작업들은???</strong>
+    <ul>
+      <li>
+<strong>이제 <code class="language-plaintext highlighter-rouge">메서드 추상화 후보</code> -&gt; 부모클래스도 추상클래스 후보</strong>들일 확인해서 추상화 해야한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313180120475.png" alt="image-20220313180120475"></p>
+
+<ul>
+  <li>
+<strong>중복이 아닌 메서드들</strong>을 <strong>추상화에 도전</strong>해봐야한다.</li>
+</ul>
+
+<h5 id="cf-추상클래스-되는-순간---객체생성x---test코드는-에러가-난다">
+<a class="anchor" href="#cf-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%90%98%EB%8A%94-%EC%88%9C%EA%B0%84---%EA%B0%9D%EC%B2%B4%EC%83%9D%EC%84%B1x---test%EC%BD%94%EB%93%9C%EB%8A%94-%EC%97%90%EB%9F%AC%EA%B0%80-%EB%82%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>CF) 추상클래스 되는 순간 -&gt; 객체생성X -&gt; Test코드는 에러가 난다</h5>
+
+<ul>
+  <li>
+    <p>공통메서드 추출한 부모 클래스 -&gt; 객체 생성가능</p>
+  </li>
+  <li>
+    <p>공통메서드 + 추상화 메서드 포함  부모클래스 -&gt; 객체 생성 불가능. 상속만 이용가능</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313201218093.png" alt="image-20220313201218093"></p>
+  </li>
+</ul>
+
+<h5 id="05-구현부는-다르지만-메서드이름만-추상화-시도---커피를내린다--티백을-담근다의-추상화---abstract-returntype-내린다-로-추상화-in-상위클래스">
+<a class="anchor" href="#05-%EA%B5%AC%ED%98%84%EB%B6%80%EB%8A%94-%EB%8B%A4%EB%A5%B4%EC%A7%80%EB%A7%8C-%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%B4%EB%A6%84%EB%A7%8C-%EC%B6%94%EC%83%81%ED%99%94-%EC%8B%9C%EB%8F%84---%EC%BB%A4%ED%94%BC%EB%A5%BC%EB%82%B4%EB%A6%B0%EB%8B%A4--%ED%8B%B0%EB%B0%B1%EC%9D%84-%EB%8B%B4%EA%B7%BC%EB%8B%A4%EC%9D%98-%EC%B6%94%EC%83%81%ED%99%94---abstract-returntype-%EB%82%B4%EB%A6%B0%EB%8B%A4-%EB%A1%9C-%EC%B6%94%EC%83%81%ED%99%94-in-%EC%83%81%EC%9C%84%ED%81%B4%EB%9E%98%EC%8A%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 구현부는 다르지만 메서드이름만 추상화 시도 -&gt; <code class="language-plaintext highlighter-rouge">커피를내린다 + 티백을 담근다</code>의 추상화 -&gt; <code class="language-plaintext highlighter-rouge">abstract returnType 내린다()</code> 로 추상화 in 상위클래스</h5>
+
+<ol>
+  <li>
+    <p>2개 메서드를 추상화해서 추상메서드를 정의한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313181416692.png" alt="image-20220313181416692"></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CaffeineBeverage</span> <span class="o">{</span>
+    
+    <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">brew</span><span class="o">();</span>
+    
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">boilWater</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"물을 끓인다."</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">pourInCup</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"컵에 붓는다."</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="06-추상메서드를-가지는-순간---추상클래스로-바꾼다">
+<a class="anchor" href="#06-%EC%B6%94%EC%83%81%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EA%B0%80%EC%A7%80%EB%8A%94-%EC%88%9C%EA%B0%84---%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A1%9C-%EB%B0%94%EA%BE%BC%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>06 추상메서드를 가지는 순간 -&gt; 추상클래스로 바꾼다.</h5>
+
+<ul>
+  <li>
+    <p>추상화한 astract 메서드를 명시한 순간부터 추상클래스로 바꿔줘야 에러가 사라진다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313181755409.png" alt="image-20220313181755409"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313181803767.png" alt="image-20220313181803767"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313181815922.png" alt="image-20220313181815922"></p>
+  </li>
+  <li>
+    <p>나머지 메서드도 추상화해주자.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313181922041.png" alt="image-20220313181922041"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313181955349.png" alt="image-20220313181955349"></p>
+  </li>
+</ul>
+
+<h5 id="my-추상클래스---공통메서드뽑은-일반부모에--구현부는-다르지만-메서드-이름만-추상화하여---자식은-extends---super생략한-체-부모에서-정의한-공통메서드-갖다쓰기--추상메서드-개별구현은-override-강제하도록-하는-일부-구현강제된-부모클래스로-해석하자">
+<a class="anchor" href="#my-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4---%EA%B3%B5%ED%86%B5%EB%A9%94%EC%84%9C%EB%93%9C%EB%BD%91%EC%9D%80-%EC%9D%BC%EB%B0%98%EB%B6%80%EB%AA%A8%EC%97%90--%EA%B5%AC%ED%98%84%EB%B6%80%EB%8A%94-%EB%8B%A4%EB%A5%B4%EC%A7%80%EB%A7%8C-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%9D%B4%EB%A6%84%EB%A7%8C-%EC%B6%94%EC%83%81%ED%99%94%ED%95%98%EC%97%AC---%EC%9E%90%EC%8B%9D%EC%9D%80-extends---super%EC%83%9D%EB%9E%B5%ED%95%9C-%EC%B2%B4-%EB%B6%80%EB%AA%A8%EC%97%90%EC%84%9C-%EC%A0%95%EC%9D%98%ED%95%9C-%EA%B3%B5%ED%86%B5%EB%A9%94%EC%84%9C%EB%93%9C-%EA%B0%96%EB%8B%A4%EC%93%B0%EA%B8%B0--%EC%B6%94%EC%83%81%EB%A9%94%EC%84%9C%EB%93%9C-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%EC%9D%80-override-%EA%B0%95%EC%A0%9C%ED%95%98%EB%8F%84%EB%A1%9D-%ED%95%98%EB%8A%94-%EC%9D%BC%EB%B6%80-%EA%B5%AC%ED%98%84%EA%B0%95%EC%A0%9C%EB%90%9C-%EB%B6%80%EB%AA%A8%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A1%9C-%ED%95%B4%EC%84%9D%ED%95%98%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) 추상클래스 -&gt; 공통메서드뽑은 일반부모에 + 구현부는 다르지만 메서드 이름만 추상화하여 -&gt; 자식은 <code class="language-plaintext highlighter-rouge">extends -&gt; super생략한 체, 부모에서 정의한 공통메서드 갖다쓰기</code> + <code class="language-plaintext highlighter-rouge">추상메서드 개별구현은 override 강제</code>하도록 하는 <code class="language-plaintext highlighter-rouge">일부 구현강제된 부모클래스</code>로 해석하자.</h5>
+
+<h5 id="07-추상화가-끝났다면---추상화전-메소드들-정의부가-아닌-사용호출처부터-추상화된-이름으로-변경하여--메소드-호출하도록-바꿔준다">
+<a class="anchor" href="#07-%EC%B6%94%EC%83%81%ED%99%94%EA%B0%80-%EB%81%9D%EB%82%AC%EB%8B%A4%EB%A9%B4---%EC%B6%94%EC%83%81%ED%99%94%EC%A0%84-%EB%A9%94%EC%86%8C%EB%93%9C%EB%93%A4-%EC%A0%95%EC%9D%98%EB%B6%80%EA%B0%80-%EC%95%84%EB%8B%8C-%EC%82%AC%EC%9A%A9%ED%98%B8%EC%B6%9C%EC%B2%98%EB%B6%80%ED%84%B0-%EC%B6%94%EC%83%81%ED%99%94%EB%90%9C-%EC%9D%B4%EB%A6%84%EC%9C%BC%EB%A1%9C-%EB%B3%80%EA%B2%BD%ED%95%98%EC%97%AC--%EB%A9%94%EC%86%8C%EB%93%9C-%ED%98%B8%EC%B6%9C%ED%95%98%EB%8F%84%EB%A1%9D-%EB%B0%94%EA%BF%94%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>07 추상화가 끝났다면, -&gt; <code class="language-plaintext highlighter-rouge">추상화전 메소드들</code> 정의부가 아닌 <code class="language-plaintext highlighter-rouge">사용(호출)처</code>부터 <code class="language-plaintext highlighter-rouge">추상화된 이름으로 변경</code>하여  메소드 호출하도록 바꿔준다.</h5>
+
+<ul>
+  <li>추상화된 메서드들은 -&gt; <strong>오버라이딩으로 다시 적용해야한다. 일단 둔다.</strong>
+</li>
+  <li><strong>추상화된 메서드들을의 사용처부터 이름을 바꿔준다.</strong></li>
+</ul>
+
+<ol>
+  <li>추상화후보 메서드들이 주석처리 되서 회색상태였다. <strong>추상화된 이름의 메서드로 <code class="language-plaintext highlighter-rouge">호출</code>해주자.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313195422044.png" alt="image-20220313195422044">
+</li>
+</ol>
+
+<p>​		<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313195441115.png" alt="image-20220313195441115"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313195501491.png" alt="image-20220313195501491"></p>
+
+<h5 id="08-추상화된-메서드-정의부는-impl오버라이딩을-impl로---내용-옮겨-주고---삭제의-과정을-가진다">
+<a class="anchor" href="#08-%EC%B6%94%EC%83%81%ED%99%94%EB%90%9C-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%A0%95%EC%9D%98%EB%B6%80%EB%8A%94-impl%EC%98%A4%EB%B2%84%EB%9D%BC%EC%9D%B4%EB%94%A9%EC%9D%84-impl%EB%A1%9C---%EB%82%B4%EC%9A%A9-%EC%98%AE%EA%B2%A8-%EC%A3%BC%EA%B3%A0---%EC%82%AD%EC%A0%9C%EC%9D%98-%EA%B3%BC%EC%A0%95%EC%9D%84-%EA%B0%80%EC%A7%84%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>08 <code class="language-plaintext highlighter-rouge">추상화된 메서드 정의부</code>는 <code class="language-plaintext highlighter-rouge">impl(오버라이딩을 impl로) -&gt; 내용 옮겨 주고 - 삭제</code>의 과정을 가진다.</h5>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">Generate -&gt; Override</code>을 하면 너무 많은 메소드가 잡히니 <strong><code class="language-plaintext highlighter-rouge">implements method</code>를 통해 <code class="language-plaintext highlighter-rouge">추상메서드만 구현하여 오버라이딩</code>해준다.</strong>
+</li>
+</ul>
+
+<ol>
+  <li>
+    <p>오버라이딩이 아니라 <code class="language-plaintext highlighter-rouge">impl로 오버라이딩</code>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313200000102.png" alt="image-20220313200000102"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313200034925.png" alt="image-20220313200034925"></p>
+  </li>
+  <li>
+    <p>기존 <strong>개별 구체메서드들의 내용을 옮겨준다</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313200105005.png" alt="image-20220313200105005"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313200122910.png" alt="image-20220313200122910"></p>
+  </li>
+  <li>
+    <p><strong>기존 구체메서드들은 삭제한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313200142074.png" alt="image-20220313200142074"></p>
+  </li>
+  <li>
+    <p>동일하게 다른 클래스(Tea)에서도 <code class="language-plaintext highlighter-rouge">추메 호출부 이름바꿔주기</code> -&gt; <code class="language-plaintext highlighter-rouge">추메 정의부  impl로 내용옮겨주고 삭제</code>하기 를 진행해준다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Tea</span> <span class="kd">extends</span> <span class="nc">CaffeineBeverage</span><span class="o">{</span>
+     <span class="kt">void</span> <span class="nf">prepareRecipe</span><span class="o">()</span> <span class="o">{</span>
+         <span class="n">boilWater</span><span class="o">();</span>
+         <span class="n">brew</span><span class="o">();</span>
+         <span class="n">pourInCup</span><span class="o">();</span>
+         <span class="n">addCondiments</span><span class="o">();</span>
+     <span class="o">}</span>
+    
+     <span class="nd">@Override</span>
+     <span class="kt">void</span> <span class="nf">brew</span><span class="o">()</span> <span class="o">{</span>
+         <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"티백을 담근다."</span><span class="o">);</span>
+     <span class="o">}</span>
+    
+     <span class="nd">@Override</span>
+     <span class="kt">void</span> <span class="nf">addCondiments</span><span class="o">()</span> <span class="o">{</span>
+         <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"레몬을 추가한다."</span><span class="o">);</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+    
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Coffee</span> <span class="kd">extends</span> <span class="nc">CaffeineBeverage</span><span class="o">{</span>
+     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">prepareRecipe</span><span class="o">()</span> <span class="o">{</span>
+         <span class="n">boilWater</span><span class="o">();</span>
+         <span class="n">brew</span><span class="o">();</span>
+         <span class="n">pourInCup</span><span class="o">();</span>
+         <span class="n">addCondiments</span><span class="o">();</span>
+     <span class="o">}</span>
+    
+     <span class="nd">@Override</span>
+     <span class="kt">void</span> <span class="nf">brew</span><span class="o">()</span> <span class="o">{</span>
+         <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"필터를 활용해 커피를 내린다."</span><span class="o">);</span>
+     <span class="o">}</span>
+    
+     <span class="nd">@Override</span>
+     <span class="kt">void</span> <span class="nf">addCondiments</span><span class="o">()</span> <span class="o">{</span>
+         <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"설탕과 우유를 추가한다."</span><span class="o">);</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="09-추상화를-끝내고---추상화-호출부-이름변경통일로-인한-공통중복메서드가-추가로-생길-수-있다---다시-부모로-빼준다">
+<a class="anchor" href="#09-%EC%B6%94%EC%83%81%ED%99%94%EB%A5%BC-%EB%81%9D%EB%82%B4%EA%B3%A0---%EC%B6%94%EC%83%81%ED%99%94-%ED%98%B8%EC%B6%9C%EB%B6%80-%EC%9D%B4%EB%A6%84%EB%B3%80%EA%B2%BD%ED%86%B5%EC%9D%BC%EB%A1%9C-%EC%9D%B8%ED%95%9C-%EA%B3%B5%ED%86%B5%EC%A4%91%EB%B3%B5%EB%A9%94%EC%84%9C%EB%93%9C%EA%B0%80-%EC%B6%94%EA%B0%80%EB%A1%9C-%EC%83%9D%EA%B8%B8-%EC%88%98-%EC%9E%88%EB%8B%A4---%EB%8B%A4%EC%8B%9C-%EB%B6%80%EB%AA%A8%EB%A1%9C-%EB%B9%BC%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>09 추상화를 끝내고 -&gt; <code class="language-plaintext highlighter-rouge">추상화 호출부</code> 이름변경(통일)로 인한 공통(중복)메서드가 추가로 생길 수 있다 -&gt; 다시 부모로 빼준다.</h5>
+
+<ol>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">추상화 IMPL 오버라이딩된 정의부</code>는 서로 다르게 구현되므로 <code class="language-plaintext highlighter-rouge">이름은 같지만 공통메서드로 볼수 없다</code></strong></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">추상화 사용처()</code>는 이름이 자식들이 같아지므로, <code class="language-plaintext highlighter-rouge">공통메서드/중복메서드</code>가 생길 수 있다 -&gt; 보이면 <code class="language-plaintext highlighter-rouge">부모 클래스로 빼면 된다.</code></strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313201005975.png" alt="image-20220313201005975"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313201048960.png" alt="image-20220313201048960"></p>
+  </li>
+  <li>
+    <p><strong>메서드 순서 맞춰주기</strong>(현재 추상메서드만 위에서 정의해놨을 듯..)
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313201306665.png" alt="image-20220313201306665"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313201345337.png" alt="image-20220313201345337"></p>
+  </li>
+</ol>
+
+<h5 id="10-extends---정의도-안되어있는데-super생략한-체로-공통메서드를-실제-내부-or-외부에서-인스턴스가-사용-확인해보기">
+<a class="anchor" href="#10-extends---%EC%A0%95%EC%9D%98%EB%8F%84-%EC%95%88%EB%90%98%EC%96%B4%EC%9E%88%EB%8A%94%EB%8D%B0-super%EC%83%9D%EB%9E%B5%ED%95%9C-%EC%B2%B4%EB%A1%9C-%EA%B3%B5%ED%86%B5%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EC%8B%A4%EC%A0%9C-%EB%82%B4%EB%B6%80-or-%EC%99%B8%EB%B6%80%EC%97%90%EC%84%9C-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4%EA%B0%80-%EC%82%AC%EC%9A%A9-%ED%99%95%EC%9D%B8%ED%95%B4%EB%B3%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>10 extends -&gt; <code class="language-plaintext highlighter-rouge">정의도 안되어있는데 super생략한 체로 공통메서드</code>를 실제 <code class="language-plaintext highlighter-rouge">내부 or 외부에서 인스턴스가 사용</code> 확인해보기</h5>
+
+<ol>
+  <li>
+    <p>현재 Coffee클래스</p>
+
+    <ul>
+      <li>**<code class="language-plaintext highlighter-rouge">extends로 상속</code>하고 있다. **
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">super는 생략되어있지만 부모로 빼놨던 공통메서드를 내부에서 쓰고 있다</code></strong></li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Coffee</span> <span class="kd">extends</span> <span class="nc">CaffeineBeverage</span><span class="o">{</span>
+     <span class="nd">@Override</span>
+     <span class="kt">void</span> <span class="nf">brew</span><span class="o">()</span> <span class="o">{</span>
+         <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"필터를 활용해 커피를 내린다."</span><span class="o">);</span>
+     <span class="o">}</span>
+    
+     <span class="nd">@Override</span>
+     <span class="kt">void</span> <span class="nf">addCondiments</span><span class="o">()</span> <span class="o">{</span>
+         <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"설탕과 우유를 추가한다."</span><span class="o">);</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>**메인 메서드를 만들고 -&gt; 상속한 자식클래스 인스턴스를 만든 뒤 **</p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">Coffee 내부에는 정의되어있지 않지만, 부모에게 상속된 공통 메소드</code>를 바로 호출할 수 있다.</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Application</span> <span class="o">{</span>
+     <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+         <span class="kd">final</span> <span class="nc">Coffee</span> <span class="n">coffee</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Coffee</span><span class="o">();</span>
+    
+         <span class="n">coffee</span><span class="o">.</span><span class="na">prepareRecipe</span><span class="o">();</span> <span class="c1">// 정의 안된 메서드인데 extends 공통메서드라면 바로 사용 가능</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="추상화부터-하는-방법도-있다-정답은-없다-처음부터-완벽하게-추상화-x---공통처리부분이-발견될-시-처리하는게-좋다">
+<a class="anchor" href="#%EC%B6%94%EC%83%81%ED%99%94%EB%B6%80%ED%84%B0-%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95%EB%8F%84-%EC%9E%88%EB%8B%A4-%EC%A0%95%EB%8B%B5%EC%9D%80-%EC%97%86%EB%8B%A4-%EC%B2%98%EC%9D%8C%EB%B6%80%ED%84%B0-%EC%99%84%EB%B2%BD%ED%95%98%EA%B2%8C-%EC%B6%94%EC%83%81%ED%99%94-x---%EA%B3%B5%ED%86%B5%EC%B2%98%EB%A6%AC%EB%B6%80%EB%B6%84%EC%9D%B4-%EB%B0%9C%EA%B2%AC%EB%90%A0-%EC%8B%9C-%EC%B2%98%EB%A6%AC%ED%95%98%EB%8A%94%EA%B2%8C-%EC%A2%8B%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>추상화부터 하는 방법도 있다. 정답은 없다. 처음부터 완벽하게 추상화 x -&gt; 공통처리부분이 발견될 시 처리하는게 좋다.</h5>
+
+<h5 id="cf-추상클래스-인스턴스화구체화-안되는-이유-구현부-없는-추상메서드-때문에-추상클래스가-됬으므로ㅋ---구현부정의와-같이-객체를-만들어줄-수도-있다">
+<a class="anchor" href="#cf-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4%ED%99%94%EA%B5%AC%EC%B2%B4%ED%99%94-%EC%95%88%EB%90%98%EB%8A%94-%EC%9D%B4%EC%9C%A0-%EA%B5%AC%ED%98%84%EB%B6%80-%EC%97%86%EB%8A%94-%EC%B6%94%EC%83%81%EB%A9%94%EC%84%9C%EB%93%9C-%EB%95%8C%EB%AC%B8%EC%97%90-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EA%B0%80-%EB%90%AC%EC%9C%BC%EB%AF%80%EB%A1%9C%E3%85%8B---%EA%B5%AC%ED%98%84%EB%B6%80%EC%A0%95%EC%9D%98%EC%99%80-%EA%B0%99%EC%9D%B4-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A4%84-%EC%88%98%EB%8F%84-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>cf) 추상클래스 인스턴스화(=구체화) 안되는 이유: 구현부 없는 추상메서드 때문에 추상클래스가 됬으므로..ㅋ -&gt; 구현부정의와 같이 객체를 만들어줄 수도 있다.</h5>
+
+<ol>
+  <li>
+    <p>공통메서드를 추출한 부모클래스를 활용해서, <strong>구현부는 다르지만 <code class="language-plaintext highlighter-rouge">이름만 공통으로  추상화</code>하였다</strong> = 추상메서드 들고 있다  = 추상클래스가 부모다 &gt; 인스턴스화 안된다.<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313213710830.png" alt="image-20220313213710830"></p>
+  </li>
+  <li>
+    <p>인스턴스화를 하려면 <strong>내부에 구현부 없이 이름만 추상화한 추상메서드를 <code class="language-plaintext highlighter-rouge">인스턴스화 하면서, {}]중괄호 블럭로 자식클래스처럼 바로 클래스 구현</code>하면 된다.</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313214420188.png" alt="image-20220313214420188"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313214647373.png" alt="image-20220313214647373"></p>
+  </li>
+</ol>
+
+<ul>
+  <li>
+    <p><strong>중괄호{}로 클래스를 구현하는 것을 <code class="language-plaintext highlighter-rouge">람다</code> 와 동일하게 <code class="language-plaintext highlighter-rouge">익명클래스</code>라 부른다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313215054992.png" alt="image-20220313215054992"></p>
+
+    <ul>
+      <li>익명클래스를 자식클래스와 동일하게 작성하더라도, <strong>별개의 익명클래스다</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="quiz-추상클래스는-추메가-무조건-있어야할까">
+<a class="anchor" href="#quiz-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EB%8A%94-%EC%B6%94%EB%A9%94%EA%B0%80-%EB%AC%B4%EC%A1%B0%EA%B1%B4-%EC%9E%88%EC%96%B4%EC%95%BC%ED%95%A0%EA%B9%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>quiz) 추상클래스는 추메가 무조건 있어야할까?</h4>
+
+<ul>
+  <li>
+    <p>추메 없어도 된다.</p>
+  </li>
+  <li>
+    <p>추메 없으면 객체 생성해도될까? -&gt; <strong>구현부없는 놈을 안가지고 있어도 객체생성은 안안된다.</strong></p>
+
+    <ul>
+      <li><strong>구현할 내용이 없어도 <code class="language-plaintext highlighter-rouge">{ }</code> 중괄호 블럭 가진체로 만들어야한다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="추메를-안가지는데-추상클래스를-구현했다면-고민해봐야한다">
+<a class="anchor" href="#%EC%B6%94%EB%A9%94%EB%A5%BC-%EC%95%88%EA%B0%80%EC%A7%80%EB%8A%94%EB%8D%B0-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A5%BC-%EA%B5%AC%ED%98%84%ED%96%88%EB%8B%A4%EB%A9%B4-%EA%B3%A0%EB%AF%BC%ED%95%B4%EB%B4%90%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>추메를 안가지는데 추상클래스를 구현했다면 고민해봐야한다.</h5>
+
+<ul>
+  <li>추메 -&gt; 구현부는 다르지만 공메를 가진 부모클래스에서 <code class="language-plaintext highlighter-rouge">구현부제외 이름만 추상화</code>해놓은 것
+    <ul>
+      <li>추메가 없다? 그냥 부모가 가진 공통메서드만 super생략 갖다쓰는 일반 상속이면 된다.</li>
+      <li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="업캐스팅-vs-다운캐스팅">
+<a class="anchor" href="#%EC%97%85%EC%BA%90%EC%8A%A4%ED%8C%85-vs-%EB%8B%A4%EC%9A%B4%EC%BA%90%EC%8A%A4%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>업캐스팅 vs 다운캐스팅</h3>
+
+<h4 id="업캐스팅--다형성--추상체로-변수파라미터응답값-받기">
+<a class="anchor" href="#%EC%97%85%EC%BA%90%EC%8A%A4%ED%8C%85--%EB%8B%A4%ED%98%95%EC%84%B1--%EC%B6%94%EC%83%81%EC%B2%B4%EB%A1%9C-%EB%B3%80%EC%88%98%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EC%9D%91%EB%8B%B5%EA%B0%92-%EB%B0%9B%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>업캐스팅 = 다형성 = 추상체로 변수,파라미터,응답값 받기</h4>
+
+<ul>
+  <li>
+    <p><strong>변수/파라미터/응답Type은 추상체(up)</strong>로 받을 수 있다. 구상체들을 한번에 처리할 수 있다.</p>
+  </li>
+  <li>
+    <p><strong>List쓸 때 많이 쓰는 <code class="language-plaintext highlighter-rouge">업캐스팅</code>개념이다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313215508140.png" alt="image-20220313215508140"></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Application</span> <span class="o">{</span>
+      <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+          <span class="c1">//업캐스팅</span>
+          <span class="kd">final</span> <span class="nc">CaffeineBeverage</span> <span class="n">caffeineBeverage</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Tea</span><span class="o">();</span>
+    
+          <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Tea</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="다운캐스팅--추상체상태에서---구상체로-돌아가-구상체만의-메서드상태-사용가능해진다">
+<a class="anchor" href="#%EB%8B%A4%EC%9A%B4%EC%BA%90%EC%8A%A4%ED%8C%85--%EC%B6%94%EC%83%81%EC%B2%B4%EC%83%81%ED%83%9C%EC%97%90%EC%84%9C---%EA%B5%AC%EC%83%81%EC%B2%B4%EB%A1%9C-%EB%8F%8C%EC%95%84%EA%B0%80-%EA%B5%AC%EC%83%81%EC%B2%B4%EB%A7%8C%EC%9D%98-%EB%A9%94%EC%84%9C%EB%93%9C%EC%83%81%ED%83%9C-%EC%82%AC%EC%9A%A9%EA%B0%80%EB%8A%A5%ED%95%B4%EC%A7%84%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>다운캐스팅 = 추상체상태에서 -&gt; 구상체로 돌아가 구상체만의 메서드/상태 사용가능해진다.</h4>
+
+<h5 id="01-구상체-or-자식만의-메서드는-편하게-가질-수-있다">
+<a class="anchor" href="#01-%EA%B5%AC%EC%83%81%EC%B2%B4-or-%EC%9E%90%EC%8B%9D%EB%A7%8C%EC%9D%98-%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-%ED%8E%B8%ED%95%98%EA%B2%8C-%EA%B0%80%EC%A7%88-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 구상체 or 자식만의 메서드는 편하게 가질 수 있다.</h5>
+
+<ol>
+  <li>
+    <p>Tea에 <strong>Tea만의 메서드(some_t())</strong>가 있다고 치자.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313220308762.png" alt="image-20220313220308762"></p>
+  </li>
+</ol>
+
+<h5 id="02-문제는-추상체부모형으로-업캐스팅-된-상태에서는-개별구상체-본인이라도-메서드를-호출이-안된다">
+<a class="anchor" href="#02-%EB%AC%B8%EC%A0%9C%EB%8A%94-%EC%B6%94%EC%83%81%EC%B2%B4%EB%B6%80%EB%AA%A8%ED%98%95%EC%9C%BC%EB%A1%9C-%EC%97%85%EC%BA%90%EC%8A%A4%ED%8C%85-%EB%90%9C-%EC%83%81%ED%83%9C%EC%97%90%EC%84%9C%EB%8A%94-%EA%B0%9C%EB%B3%84%EA%B5%AC%EC%83%81%EC%B2%B4-%EB%B3%B8%EC%9D%B8%EC%9D%B4%EB%9D%BC%EB%8F%84-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%ED%98%B8%EC%B6%9C%EC%9D%B4-%EC%95%88%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 문제는 추상체/부모형으로 업캐스팅 된 상태에서는, 개별구상체 본인이라도, 메서드를 호출이 안된다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313220440461.png" alt="image-20220313220440461"></p>
+
+<ul>
+  <li>업캐스팅된 부모타입이라면, Type자체가 부모상태라 안된다.</li>
+</ul>
+
+<h5 id="03-추상체-상태의-구상체를-다운캐스팅하면-자신만의-메서드를-사용할-수-있다">
+<a class="anchor" href="#03-%EC%B6%94%EC%83%81%EC%B2%B4-%EC%83%81%ED%83%9C%EC%9D%98-%EA%B5%AC%EC%83%81%EC%B2%B4%EB%A5%BC-%EB%8B%A4%EC%9A%B4%EC%BA%90%EC%8A%A4%ED%8C%85%ED%95%98%EB%A9%B4-%EC%9E%90%EC%8B%A0%EB%A7%8C%EC%9D%98-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 추상체 상태의 구상체를 (다운캐스팅)하면, 자신만의 메서드를 사용할 수 있다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313220851635.png" alt="image-20220313220851635"></p>
+
+<ul>
+  <li>
+    <p>변수를 캐스팅하려면 괄호가 2개가 필요하다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">final</span> <span class="nc">CaffeineBeverage</span> <span class="n">beverage</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Tea</span><span class="o">();</span>
+    
+  <span class="c1">//        beverage.some_t();</span>
+  <span class="c1">//(Tea)beverage.some_t();</span>
+  <span class="o">((</span><span class="nc">Tea</span><span class="o">)</span> <span class="n">beverage</span><span class="o">).</span><span class="na">some_t</span><span class="o">();</span>
+    
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="04-문제는-엉뚱한-구상체를--다운캐스팅해도-호출된다--컴파일-타임에-처리-못하는-에러---캐스팅에러가-무섭다---신중하게-써야한다---다운캐스팅은-instanceof--classcast메서드와-함께-">
+<a class="anchor" href="#04-%EB%AC%B8%EC%A0%9C%EB%8A%94-%EC%97%89%EB%9A%B1%ED%95%9C-%EA%B5%AC%EC%83%81%EC%B2%B4%EB%A5%BC--%EB%8B%A4%EC%9A%B4%EC%BA%90%EC%8A%A4%ED%8C%85%ED%95%B4%EB%8F%84-%ED%98%B8%EC%B6%9C%EB%90%9C%EB%8B%A4--%EC%BB%B4%ED%8C%8C%EC%9D%BC-%ED%83%80%EC%9E%84%EC%97%90-%EC%B2%98%EB%A6%AC-%EB%AA%BB%ED%95%98%EB%8A%94-%EC%97%90%EB%9F%AC---%EC%BA%90%EC%8A%A4%ED%8C%85%EC%97%90%EB%9F%AC%EA%B0%80-%EB%AC%B4%EC%84%AD%EB%8B%A4---%EC%8B%A0%EC%A4%91%ED%95%98%EA%B2%8C-%EC%8D%A8%EC%95%BC%ED%95%9C%EB%8B%A4---%EB%8B%A4%EC%9A%B4%EC%BA%90%EC%8A%A4%ED%8C%85%EC%9D%80-instanceof--classcast%EB%A9%94%EC%84%9C%EB%93%9C%EC%99%80-%ED%95%A8%EA%BB%98-" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 문제는 엉뚱한 구상체를  다운캐스팅해도 호출()된다 == 컴파일 타임에 처리 못하는 에러 -&gt; 캐스팅에러가 무섭다. -&gt; 신중하게 써야한다. -&gt; 다운캐스팅은 instanceof + .class.cast()메서드와 함께 !!</h4>
+
+<ul>
+  <li>
+    <p>new <strong>Coffee</strong> 인스턴스 -&gt; 추상체 -&gt; (<strong>Tea</strong>)로 다운캐스팅 해도 <strong>some_t()가 호출시 에러는 안난다 == 컴파일시 에러가 안난다</strong>.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313221206001.png" alt="image-20220313221206001"></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Application</span> <span class="o">{</span>
+      <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+          <span class="kd">final</span> <span class="nc">CaffeineBeverage</span> <span class="n">beverage</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Coffee</span><span class="o">();</span>
+    
+          <span class="o">((</span><span class="nc">Tea</span><span class="o">)</span> <span class="n">beverage</span><span class="o">).</span><span class="na">some_t</span><span class="o">();</span>
+    
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>하지만 돌려보면, 캐스팅 에러가 난다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220313221927823.png" alt="image-20220313221927823"></p>
+  </li>
+  <li>
+    <p><strong>다운캐스팅후 자신만의 메서드호출 -&gt; <code class="language-plaintext highlighter-rouge">반드시  instanceof로 직접 확인하고 호출해줄 것</code></strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">CaffeineBeverage</span> <span class="n">beverage</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Coffee</span><span class="o">();</span>
+    
+      <span class="k">if</span> <span class="o">(</span><span class="n">beverage</span> <span class="k">instanceof</span> <span class="nc">Tea</span><span class="o">)</span> <span class="o">{</span>
+          <span class="o">((</span><span class="nc">Tea</span><span class="o">)</span> <span class="n">beverage</span><span class="o">).</span><span class="na">some_t</span><span class="o">();</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>괄호2개 캐스팅 말고 <code class="language-plaintext highlighter-rouge">가독성을 위해 -&gt; 해당클래스.class.cast( )</code>로 다운캐스팅해서 써도 된다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">if</span> <span class="o">(</span><span class="n">beverage</span> <span class="k">instanceof</span> <span class="nc">Tea</span><span class="o">)</span> <span class="o">{</span>
+      <span class="nc">Tea</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">cast</span><span class="o">(</span><span class="n">beverage</span><span class="o">).</span><span class="na">some_t</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>isinstanceof도 가독성을 위해 아래와 같이 수정할 수 있다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">if</span> <span class="o">(</span><span class="nc">Tea</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">isInstance</span><span class="o">(</span><span class="n">beverage</span><span class="o">))</span> <span class="o">{</span>
+      <span class="nc">Tea</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">cast</span><span class="o">(</span><span class="n">beverage</span><span class="o">).</span><span class="na">some_t</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/java/%EC%83%81%EC%86%8D/%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4/%EC%A1%B0%ED%95%A9/%EC%BA%90%EC%8A%A4%ED%8C%85/%EA%B0%95%EC%9D%98/%ED%94%BC%EB%93%9C%EB%B0%B1/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/15/%EA%B0%95%EC%9D%98)-%EB%84%A4%EC%98%A4-3%EB%8B%A8%EA%B3%84-%EC%83%81%EC%86%8D,%EC%A1%B0%ED%95%A9,%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4,%EC%BA%90%EC%8A%A4%ED%8C%85.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
