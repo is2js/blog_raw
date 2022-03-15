@@ -129,22 +129,39 @@ window.onload = wrap_img;
     <ul class="section-nav">
 <li class="toc-entry toc-h2"><a href="#인텔리제이-세팅">인텔리제이 세팅</a>
 <ul>
-<li class="toc-entry toc-h3"><a href="#gradle-buildtype-변경-및-assertj-추가">Gradle buildType 변경 및 assertj 추가</a>
+<li class="toc-entry toc-h3"><a href="#buildtype---assertj라이브러리">buildType &amp;  assertj라이브러리</a>
 <ul>
-<li class="toc-entry toc-h4"><a href="#gradle-build-type-변경---intellij로-변경속도-및-testname표기">gradle build Type 변경 -&gt; intellij로 변경(속도 및 TestName표기)</a></li>
-<li class="toc-entry toc-h4"><a href="#라이브러리에-assertj-넣어주고-리프레쉬-재ㅜ기">라이브러리에 assertj 넣어주고 리프레쉬 재ㅜ기</a></li>
-<li class="toc-entry toc-h4"><a href="#gradle의-테스트-해보기">gradle의 테스트 해보기</a></li>
+<li class="toc-entry toc-h4"><a href="#build-type-gradle---intellij">build Type: gradle -&gt; intellij</a></li>
+<li class="toc-entry toc-h4"><a href="#라이브러리에-assertj-추가-및-refresh">라이브러리에 assertj 추가 및 refresh</a></li>
+<li class="toc-entry toc-h4"><a href="#gradle-정상-test">gradle 정상 test</a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h3"><a href="#utf-8-설정file-encoding">utf 8 설정(file encoding)</a></li>
-<li class="toc-entry toc-h3"><a href="#save-actions--code-style--final--saveactions--auto-import-페어-컨벤션--lfeditorconfig--checkstyle">Save Actions / code style / final / saveActions / Auto import /페어 컨벤션 / LF(editorConfig) / checkstyle</a>
+<li class="toc-entry toc-h3"><a href="#루틴-설정1회성으로-보임">루틴 설정(1회성으로 보임)</a>
 <ul>
-<li class="toc-entry toc-h4"><a href="#저장시-새줄-추가-with-save-actions">저장시 새줄 추가 with Save Actions</a></li>
-<li class="toc-entry toc-h4"><a href="#code-style">code style</a></li>
-<li class="toc-entry toc-h4"><a href="#추가-method의-local-variable-final로-생성--tab말고-4space">(추가) method의 local variable final로 생성 + tab말고 4space</a></li>
-<li class="toc-entry toc-h4"><a href="#추가-변수를-final로-추출최초-1회">(추가) 변수를 final로 추출(최초 1회)</a></li>
-<li class="toc-entry toc-h4"><a href="#추가-상수를-private로-추출최초-1회">(추가) 상수를 private로 추출(최초 1회)</a></li>
-<li class="toc-entry toc-h4"><a href="#추가-auto-import-설정">(추가) Auto import 설정</a></li>
+<li class="toc-entry toc-h4"><a href="#ends-with-a-line-break">ends with a line break</a></li>
+<li class="toc-entry toc-h4"><a href="#code-style우테코">Code style(우테코)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#1회성-설정">1회성 설정</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#new-project-setup">New Project setup</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#auto-import">Auto Import</a></li>
+<li class="toc-entry toc-h5"><a href="#save-actions-개행imort최적화">Save Actions (개행+imort최적화)</a></li>
+<li class="toc-entry toc-h5"><a href="#file-encoding">file Encoding</a></li>
+<li class="toc-entry toc-h5"><a href="#tab-4space">tab (4space)</a></li>
+<li class="toc-entry toc-h5"><a href="#file-and-code-templates--method-body-template">File and Code Templates &gt; method body template</a></li>
+<li class="toc-entry toc-h5"><a href="#usages-표기">usages 표기</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#final-및-private">final 및 private</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#method의-파라미터">method의 파라미터</a></li>
+<li class="toc-entry toc-h5"><a href="#변수-추출-최초-1회">변수 추출 (최초 1회)</a></li>
+<li class="toc-entry toc-h5"><a href="#private-상수를-private로-추출최초-1회">(private) 상수를 private로 추출(최초 1회)</a></li>
+<li class="toc-entry toc-h5"><a href="#font">Font</a></li>
+</ul>
+</li>
 <li class="toc-entry toc-h4"><a href="#페어-컨벤션링크">페어 컨벤션(링크)</a></li>
 <li class="toc-entry toc-h4"><a href="#editorconfig-for--windows에서도-lf로-저장">.editorConfig for  windows에서도 LF로 저장</a></li>
 <li class="toc-entry toc-h4"><a href="#checkstyle">checkstyle</a></li>
@@ -156,19 +173,29 @@ window.onload = wrap_img;
 </ul><h2 id="인텔리제이-세팅">
 <a class="anchor" href="#%EC%9D%B8%ED%85%94%EB%A6%AC%EC%A0%9C%EC%9D%B4-%EC%84%B8%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>인텔리제이 세팅</h2>
 
-<h3 id="gradle-buildtype-변경-및-assertj-추가">
-<a class="anchor" href="#gradle-buildtype-%EB%B3%80%EA%B2%BD-%EB%B0%8F-assertj-%EC%B6%94%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gradle buildType 변경 및 assertj 추가</h3>
-<h4 id="gradle-build-type-변경---intellij로-변경속도-및-testname표기">
-<a class="anchor" href="#gradle-build-type-%EB%B3%80%EA%B2%BD---intellij%EB%A1%9C-%EB%B3%80%EA%B2%BD%EC%86%8D%EB%8F%84-%EB%B0%8F-testname%ED%91%9C%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>gradle build Type 변경 -&gt; intellij로 변경(속도 및 TestName표기)</h4>
+<h3 id="buildtype---assertj라이브러리">
+<a class="anchor" href="#buildtype---assertj%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>buildType &amp;  assertj라이브러리</h3>
+
+<h4 id="build-type-gradle---intellij">
+<a class="anchor" href="#build-type-gradle---intellij" aria-hidden="true"><span class="octicon octicon-link"></span></a>build Type: gradle -&gt; intellij</h4>
+
 <ul>
   <li>
 <strong><code class="language-plaintext highlighter-rouge">gradle</code>검색후 build and run <code class="language-plaintext highlighter-rouge">intellij</code>로 바꿔주기</strong>
+    <ul>
+      <li>빌드 속도 및</li>
+      <li>TestName표기
   <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213002843152.png" alt="image-20220213002843152">
+</li>
+    </ul>
+  </li>
+  <li>new projects에서 세팅 <code class="language-plaintext highlighter-rouge">안됨</code>
 </li>
 </ul>
 
-<h4 id="라이브러리에-assertj-넣어주고-리프레쉬-재ㅜ기">
-<a class="anchor" href="#%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC%EC%97%90-assertj-%EB%84%A3%EC%96%B4%EC%A3%BC%EA%B3%A0-%EB%A6%AC%ED%94%84%EB%A0%88%EC%89%AC-%EC%9E%AC%E3%85%9C%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>라이브러리에 assertj 넣어주고 리프레쉬 재ㅜ기</h4>
+<h4 id="라이브러리에-assertj-추가-및-refresh">
+<a class="anchor" href="#%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC%EC%97%90-assertj-%EC%B6%94%EA%B0%80-%EB%B0%8F-refresh" aria-hidden="true"><span class="octicon octicon-link"></span></a>라이브러리에 assertj 추가 및 refresh</h4>
+
 <ul>
   <li>
     <p><code class="language-plaintext highlighter-rouge">build.gradle</code>의 dependency에 assertj 라이브러리 넣어주고 refresh 하기</p>
@@ -179,8 +206,9 @@ window.onload = wrap_img;
 </code></pre></div>    </div>
   </li>
   <li>
-    <p><code class="language-plaintext highlighter-rouge">Ctrl+Shift+O</code> 또는 우측상단에 떠있을 <code class="language-plaintext highlighter-rouge">코끼리버튼</code>을 클릭해줘야 반영이 된다.
+    <p><strong><code class="language-plaintext highlighter-rouge">Ctrl+Shift+O</code> 또는 우측상단에 떠있을 <code class="language-plaintext highlighter-rouge">코끼리버튼</code>을 클릭</strong>해줘야 반영이 된다.
   <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220304164322067.png" alt="image-20220304164322067"></p>
+
     <ul>
       <li>
         <p>단축키는 keymap에서 덮어써줘야 작동됨.
@@ -196,8 +224,8 @@ window.onload = wrap_img;
   </li>
 </ul>
 
-<h4 id="gradle의-테스트-해보기">
-<a class="anchor" href="#gradle%EC%9D%98-%ED%85%8C%EC%8A%A4%ED%8A%B8-%ED%95%B4%EB%B3%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>gradle의 테스트 해보기</h4>
+<h4 id="gradle-정상-test">
+<a class="anchor" href="#gradle-%EC%A0%95%EC%83%81-test" aria-hidden="true"><span class="octicon octicon-link"></span></a>gradle 정상 test</h4>
 
 <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20211206150651962.png" alt="image-20211206150651962"></p>
 
@@ -213,63 +241,24 @@ window.onload = wrap_img;
   </li>
 </ol>
 
-<h3 id="utf-8-설정file-encoding">
-<a class="anchor" href="#utf-8-%EC%84%A4%EC%A0%95file-encoding" aria-hidden="true"><span class="octicon octicon-link"></span></a>utf 8 설정(file encoding)</h3>
+<h3 id="루틴-설정1회성으로-보임">
+<a class="anchor" href="#%EB%A3%A8%ED%8B%B4-%EC%84%A4%EC%A0%951%ED%9A%8C%EC%84%B1%EC%9C%BC%EB%A1%9C-%EB%B3%B4%EC%9E%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>루틴 설정(1회성으로 보임)</h3>
+
+<h4 id="ends-with-a-line-break">
+<a class="anchor" href="#ends-with-a-line-break" aria-hidden="true"><span class="octicon octicon-link"></span></a>ends with a line break</h4>
 
 <ul>
   <li>
-    <p>utf8, lf설정 되어있나 확인하기</p>
-
-    <ul>
-      <li><strong>editor &gt; <code class="language-plaintext highlighter-rouge">File Encodings</code> &gt; 체크 3가지 모두 utf-8</strong></li>
-    </ul>
-  </li>
-  <li>
-    <p><del>shift 2번연속 클릭 (search everywhere)</del></p>
-
-    <ul>
-      <li>
-<code class="language-plaintext highlighter-rouge">vm</code>검색
-        <ul>
-          <li>Edit Custom VM option 클릭</li>
-          <li><strong>맨 마지막 줄에 <code class="language-plaintext highlighter-rouge">-Dfile.encoding=UTF-8</code>  추가</strong></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <p><del>build.gradle 설정 추가</del></p>
-
-    <div class="language-plaintext highlighter-rouge">
-<div class="highlight"><pre class="highlight"><code>compileJava.options.encoding = 'UTF-8' // UTF-8 설정
-compileTestJava.options.encoding = 'UTF-8'
-</code></pre></div>    </div>
-  </li>
-</ul>
-
-<h3 id="save-actions--code-style--final--saveactions--auto-import-페어-컨벤션--lfeditorconfig--checkstyle">
-<a class="anchor" href="#save-actions--code-style--final--saveactions--auto-import-%ED%8E%98%EC%96%B4-%EC%BB%A8%EB%B2%A4%EC%85%98--lfeditorconfig--checkstyle" aria-hidden="true"><span class="octicon octicon-link"></span></a>Save Actions / code style / final / saveActions / Auto import /페어 컨벤션 / <del>LF(editorConfig)</del> / <del>checkstyle</del>
-</h3>
-
-<h4 id="저장시-새줄-추가-with-save-actions">
-<a class="anchor" href="#%EC%A0%80%EC%9E%A5%EC%8B%9C-%EC%83%88%EC%A4%84-%EC%B6%94%EA%B0%80-with-save-actions" aria-hidden="true"><span class="octicon octicon-link"></span></a>저장시 새줄 추가 with Save Actions</h4>
-
-<ul>
-  <li>
-<strong><code class="language-plaintext highlighter-rouge">Plugins &gt; market &gt; save actions</code></strong>를 검색해서 설치한다.
-    <ul>
-      <li>아래와 같은 3개를 체크해준다.
-  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213040420120.png" alt="image-20220213040420120">
-</li>
-    </ul>
-  </li>
-  <li>Editor &gt; General &gt; 에서 해당 박스를 체크한다.
+<strong>Editor &gt; <code class="language-plaintext highlighter-rouge">General</code> &gt; on Save 탭 &gt; <code class="language-plaintext highlighter-rouge">ends with a line break에서 해당 박스를 체크</code>한다.</strong>
   <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213035939709.png" alt="image-20220213035939709">
 </li>
 </ul>
 
-<h4 id="code-style">
-<a class="anchor" href="#code-style" aria-hidden="true"><span class="octicon octicon-link"></span></a>code style</h4>
+<p>​</p>
+
+<h4 id="code-style우테코">
+<a class="anchor" href="#code-style%EC%9A%B0%ED%85%8C%EC%BD%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code style(우테코)</h4>
+
 <ol>
   <li>
 <a href="https://github.com/is2js/is2js/archive/refs/heads/main.zip">우테코javastyleXML, naverConventionXML 다운로드</a>
@@ -288,53 +277,153 @@ compileTestJava.options.encoding = 'UTF-8'
   </li>
 </ol>
 
-<h4 id="추가-method의-local-variable-final로-생성--tab말고-4space">
-<a class="anchor" href="#%EC%B6%94%EA%B0%80-method%EC%9D%98-local-variable-final%EB%A1%9C-%EC%83%9D%EC%84%B1--tab%EB%A7%90%EA%B3%A0-4space" aria-hidden="true"><span class="octicon octicon-link"></span></a>(추가) method의 local variable final로 생성 + tab말고 4space</h4>
+<h3 id="1회성-설정">
+<a class="anchor" href="#1%ED%9A%8C%EC%84%B1-%EC%84%A4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>1회성 설정</h3>
+
+<h4 id="new-project-setup">
+<a class="anchor" href="#new-project-setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>New Project setup</h4>
+
 <ul>
   <li>
-    <p><strong>Editor &gt; <code class="language-plaintext highlighter-rouge">Code style</code> &gt; java &gt; Code generation &gt;  [x] <code class="language-plaintext highlighter-rouge">make ~ final</code> 체크박스 2개</strong>
-  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220224105047.png" alt="image-20220220224105047"></p>
+    <p>File &gt; <code class="language-plaintext highlighter-rouge">New Projects Setup</code> &gt; <code class="language-plaintext highlighter-rouge">Settings for New projects</code>&gt;</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220315202847089.png" alt="image-20220315202847089"></p>
+  </li>
+</ul>
+
+<h5 id="auto-import">
+<a class="anchor" href="#auto-import" aria-hidden="true"><span class="octicon octicon-link"></span></a>Auto Import</h5>
+
+<ul class="task-list">
+  <li>Always -&gt; <code class="language-plaintext highlighter-rouge">Ask</code>로 변경(복붙후 library 선택)</li>
+  <li class="task-list-item">
+    <p><input type="checkbox" class="task-list-item-checkbox" disabled checked>Add unambiguous import on the fly 체크</p>
+  </li>
+  <li class="task-list-item">
+    <p><input type="checkbox" class="task-list-item-checkbox" disabled checked>Optimize imports on the fly (for current project) 체크</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220315203045513.png" alt="image-20220315203045513"></p>
+  </li>
+</ul>
+
+<h5 id="save-actions-개행imort최적화">
+<a class="anchor" href="#save-actions-%EA%B0%9C%ED%96%89imort%EC%B5%9C%EC%A0%81%ED%99%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>Save Actions (개행+imort최적화)</h5>
+
+<ul>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">Plugins &gt; market &gt; save actions</code></strong>를 검색해서 설치한다.</p>
+
+    <p><strong>import최적화(삭제) + 리포맷팅 자동</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213040420120.png" alt="image-20220213040420120"></p>
+  </li>
+</ul>
+
+<h5 id="file-encoding">
+<a class="anchor" href="#file-encoding" aria-hidden="true"><span class="octicon octicon-link"></span></a>file Encoding</h5>
+
+<ul>
+  <li>3가지 전부 <code class="language-plaintext highlighter-rouge">UTF-8</code>확인
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220315203339807.png" alt="image-20220315203339807">
+</li>
+</ul>
+
+<h5 id="tab-4space">
+<a class="anchor" href="#tab-4space" aria-hidden="true"><span class="octicon octicon-link"></span></a>tab (4space)</h5>
+
+<ul>
+  <li>**Editor &gt; <code class="language-plaintext highlighter-rouge">Code style</code> &gt; java &gt;<code class="language-plaintext highlighter-rouge"> tabs and indents</code> &gt; **
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">[ ] Use tab character 체크해제</code></strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">Continuation indent 8-&gt;4</code></strong></li>
+    </ul>
+  </li>
+  <li>OS마다 tab의 크기가 다르므로 space를 사용하게 <code class="language-plaintext highlighter-rouge">tab사용 체크해제</code>하는 것
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220315204350637.png" alt="image-20220315204350637">
+</li>
+</ul>
+
+<h5 id="file-and-code-templates--method-body-template">
+<a class="anchor" href="#file-and-code-templates--method-body-template" aria-hidden="true"><span class="octicon octicon-link"></span></a>File and Code Templates &gt; method body template</h5>
+
+<ul>
+  <li>
+    <p>베루스 추천</p>
   </li>
   <li>
-    <p><strong>Editor &gt; <code class="language-plaintext highlighter-rouge">Code style</code> &gt; java &gt; tabs and indents &gt; <code class="language-plaintext highlighter-rouge">[ ] Use tab character 체크해제</code> + <code class="language-plaintext highlighter-rouge">Continuation indent 8-&gt;4</code></strong></p>
+    <p>settings &gt; <strong><code class="language-plaintext highlighter-rouge">File and Code Templates</code></strong> &gt; <strong><code class="language-plaintext highlighter-rouge">code</code> 탭에서</strong></p>
+
     <ul>
-      <li>OS마다 tab의 크기가 다르므로 space를 사용하게 <code class="language-plaintext highlighter-rouge">tab사용 체크해제</code>하는 것</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">implemented</code> + <code class="language-plaintext highlighter-rouge">new</code> + <code class="language-plaintext highlighter-rouge">Overriden</code> <strong>Method Body</strong>부분에</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="err">##</span><span class="k">if</span> <span class="o">(</span> <span class="n">$RETURN_TYPE</span> <span class="o">!=</span> <span class="s">"void"</span> <span class="o">)</span><span class="k">return</span> <span class="n">$DEFAULT_RETURN_VALUE</span><span class="o">;</span><span class="err">#</span><span class="n">end</span>
+  <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnsupportedOperationException</span><span class="o">(</span><span class="s">"${SIMPLE_CLASS_NAME}#${METHOD_NAME} not implemented."</span><span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="usages-표기">
+<a class="anchor" href="#usages-%ED%91%9C%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>usages 표기</h5>
+
+<ul>
+  <li>preferences - <strong>editor - inlay hints - java - <code class="language-plaintext highlighter-rouge">code vision</code></strong>
+    <ul>
+      <li>usages 2가지체크
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220315205737289.png" alt="image-20220315205737289">
+</li>
     </ul>
   </li>
 </ul>
 
-<h4 id="추가-변수를-final로-추출최초-1회">
-<a class="anchor" href="#%EC%B6%94%EA%B0%80-%EB%B3%80%EC%88%98%EB%A5%BC-final%EB%A1%9C-%EC%B6%94%EC%B6%9C%EC%B5%9C%EC%B4%88-1%ED%9A%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>(추가) 변수를 final로 추출(최초 1회)</h4>
+<h4 id="final-및-private">
+<a class="anchor" href="#final-%EB%B0%8F-private" aria-hidden="true"><span class="octicon octicon-link"></span></a>final 및 private</h4>
+
+<h5 id="method의-파라미터">
+<a class="anchor" href="#method%EC%9D%98-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>method의 파라미터</h5>
+
 <ul>
-  <li>추출할 때, <code class="language-plaintext highlighter-rouge">ctrl + alt + v</code>를 <strong>2번 눌러서, <code class="language-plaintext highlighter-rouge">Declare final</code>체크</strong>
-<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220221123901716.png" alt="image-20220221123901716">
+  <li>
+<strong>Editor &gt; <code class="language-plaintext highlighter-rouge">Code style</code> &gt; java &gt; Code generation &gt;  [x] <code class="language-plaintext highlighter-rouge">make ~ final</code> 체크박스 2개</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220224105047.png" alt="image-20220220224105047">
 </li>
 </ul>
 
-<h4 id="추가-상수를-private로-추출최초-1회">
-<a class="anchor" href="#%EC%B6%94%EA%B0%80-%EC%83%81%EC%88%98%EB%A5%BC-private%EB%A1%9C-%EC%B6%94%EC%B6%9C%EC%B5%9C%EC%B4%88-1%ED%9A%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>(추가) 상수를 private로 추출(최초 1회)</h4>
+<h5 id="변수-추출-최초-1회">
+<a class="anchor" href="#%EB%B3%80%EC%88%98-%EC%B6%94%EC%B6%9C-%EC%B5%9C%EC%B4%88-1%ED%9A%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>변수 추출 (최초 1회)</h5>
 <ul>
-  <li>추출할 때, <code class="language-plaintext highlighter-rouge">ctrl + alt + c</code>를 <strong>2번 눌러서, public -&gt; private로 옮겨놓기</strong>
+  <li>추출할 때, <code class="language-plaintext highlighter-rouge">ctrl + alt + v</code>를 **2번 눌러서, **
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">Declare final</code>체크</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220221123901716.png" alt="image-20220221123901716">
 </li>
-</ul>
-
-<h4 id="추가-auto-import-설정">
-<a class="anchor" href="#%EC%B6%94%EA%B0%80-auto-import-%EC%84%A4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>(추가) Auto import 설정</h4>
-<ul>
-  <li>코드 복붙하거나 할 때 빨간 줄 안없어져서 고생을 많이 했음.</li>
-  <li>Settings &gt; Editor &gt; General &gt; <strong><code class="language-plaintext highlighter-rouge">Auto Import</code>(바로 검색) 후</strong>
-    <ol class="task-list">
-      <li>Always -&gt; <code class="language-plaintext highlighter-rouge">Ask</code>로 변경(복붙후 library 선택)</li>
-      <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled checked>Add unambiguous import on the fly 체크</li>
-      <li class="task-list-item">
-<input type="checkbox" class="task-list-item-checkbox" disabled checked>Optimize imports on the fly (for current project) 체크</li>
-    </ol>
+    </ul>
   </li>
+</ul>
+
+<h5 id="private-상수를-private로-추출최초-1회">
+<a class="anchor" href="#private-%EC%83%81%EC%88%98%EB%A5%BC-private%EB%A1%9C-%EC%B6%94%EC%B6%9C%EC%B5%9C%EC%B4%88-1%ED%9A%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>(private) 상수를 private로 추출(최초 1회)</h5>
+
+<ul>
+  <li>추출할 때, <code class="language-plaintext highlighter-rouge">ctrl + alt + c</code>를 **2번 눌러서, **
+    <ul>
+      <li><strong>public -&gt; private로 옮겨놓기</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="font">
+<a class="anchor" href="#font" aria-hidden="true"><span class="octicon octicon-link"></span></a>Font</h5>
+
+<ul>
+  <li>editor &gt; font &gt; jetbrain Mono -&gt; fira code + ligature 허용</li>
 </ul>
 
 <h4 id="페어-컨벤션링크">
 <a class="anchor" href="#%ED%8E%98%EC%96%B4-%EC%BB%A8%EB%B2%A4%EC%85%98%EB%A7%81%ED%81%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>페어 컨벤션(<a href="https://docs.google.com/spreadsheets/d/1cIsXu4xGRyDqdafsNY4bLwtEjO7Ve0ECKjUx5LzGTzI/edit#gid=0">링크</a>)</h4>
+
 <ul>
   <li>구글 스프레트 시트 <a href="https://docs.google.com/spreadsheets/d/1cIsXu4xGRyDqdafsNY4bLwtEjO7Ve0ECKjUx5LzGTzI/edit#gid=0">링크</a>로 매번 업데이트 된 것 활용하기</li>
 </ul>
@@ -389,11 +478,12 @@ compileTestJava.options.encoding = 'UTF-8'
   max_line_length <span class="o">=</span> 120
     
 </code></pre></div>    </div>
-    <h4 id="checkstyle">
-<a class="anchor" href="#checkstyle" aria-hidden="true"><span class="octicon octicon-link"></span></a><del>checkstyle</del>
-</h4>
   </li>
 </ul>
+
+<h4 id="checkstyle">
+<a class="anchor" href="#checkstyle" aria-hidden="true"><span class="octicon octicon-link"></span></a><del>checkstyle</del>
+</h4>
 
 <ol>
   <li>
