@@ -160,6 +160,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h5"><a href="#변수-추출-최초-1회">변수 추출 (최초 1회)</a></li>
 <li class="toc-entry toc-h5"><a href="#private-상수를-private로-추출최초-1회">(private) 상수를 private로 추출(최초 1회)</a></li>
 <li class="toc-entry toc-h5"><a href="#font">Font</a></li>
+<li class="toc-entry toc-h5"><a href="#한글-워닝-제거">한글 워닝 제거</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h4"><a href="#페어-컨벤션링크">페어 컨벤션(링크)</a></li>
@@ -359,7 +360,13 @@ window.onload = wrap_img;
 
     <div class="language-java highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>  <span class="err">##</span><span class="k">if</span> <span class="o">(</span> <span class="n">$RETURN_TYPE</span> <span class="o">!=</span> <span class="s">"void"</span> <span class="o">)</span><span class="k">return</span> <span class="n">$DEFAULT_RETURN_VALUE</span><span class="o">;</span><span class="err">#</span><span class="n">end</span>
+        
   <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnsupportedOperationException</span><span class="o">(</span><span class="s">"${SIMPLE_CLASS_NAME}#${METHOD_NAME} not implemented."</span><span class="o">);</span>
+    
+  <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnsupportedOperationException</span><span class="o">(</span><span class="s">"${SIMPLE_CLASS_NAME}#${METHOD_NAME} not write."</span><span class="o">);</span>
+    
+  <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnsupportedOperationException</span><span class="o">(</span><span class="s">"${SIMPLE_CLASS_NAME}#${METHOD_NAME} not overide."</span><span class="o">);</span>
+    
 </code></pre></div>    </div>
   </li>
 </ul>
@@ -420,6 +427,16 @@ window.onload = wrap_img;
 <ul>
   <li>editor &gt; font &gt; jetbrain Mono -&gt; fira code + ligature 허용</li>
 </ul>
+
+<h5 id="한글-워닝-제거">
+<a class="anchor" href="#%ED%95%9C%EA%B8%80-%EC%9B%8C%EB%8B%9D-%EC%A0%9C%EA%B1%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>한글 워닝 제거</h5>
+
+<ul>
+  <li>Editor &gt; <code class="language-plaintext highlighter-rouge">inspections</code> &gt; <code class="language-plaintext highlighter-rouge">non-ascii</code>검색 &gt; <strong>체크해제</strong>
+</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220315210658024.png" alt="image-20220315210658024"></p>
 
 <h4 id="페어-컨벤션링크">
 <a class="anchor" href="#%ED%8E%98%EC%96%B4-%EC%BB%A8%EB%B2%A4%EC%85%98%EB%A7%81%ED%81%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>페어 컨벤션(<a href="https://docs.google.com/spreadsheets/d/1cIsXu4xGRyDqdafsNY4bLwtEjO7Ve0ECKjUx5LzGTzI/edit#gid=0">링크</a>)</h4>
