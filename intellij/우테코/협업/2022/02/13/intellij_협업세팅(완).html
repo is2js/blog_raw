@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      4 min read
+      5 min read
     
 </span></p>
 
@@ -146,12 +146,14 @@ window.onload = wrap_img;
 <ul>
 <li class="toc-entry toc-h4"><a href="#new-project-setup">New Project setup</a>
 <ul>
-<li class="toc-entry toc-h5"><a href="#auto-import">Auto Import</a></li>
 <li class="toc-entry toc-h5"><a href="#save-actions-개행imort최적화">Save Actions (개행+imort최적화)</a></li>
 <li class="toc-entry toc-h5"><a href="#file-encoding">file Encoding</a></li>
 <li class="toc-entry toc-h5"><a href="#tab-4space">tab (4space)</a></li>
 <li class="toc-entry toc-h5"><a href="#file-and-code-templates--method-body-template">File and Code Templates &gt; method body template</a></li>
+<li class="toc-entry toc-h5"><a href="#auto-import">Auto Import</a></li>
+<li class="toc-entry toc-h5"><a href="#parameter-name-hints">parameter name hints</a></li>
 <li class="toc-entry toc-h5"><a href="#usages-표기">usages 표기</a></li>
+<li class="toc-entry toc-h5"><a href="#go-to-test">go to test</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h4"><a href="#final-및-private">final 및 private</a>
@@ -292,21 +294,6 @@ window.onload = wrap_img;
   </li>
 </ul>
 
-<h5 id="auto-import">
-<a class="anchor" href="#auto-import" aria-hidden="true"><span class="octicon octicon-link"></span></a>Auto Import</h5>
-
-<ul class="task-list">
-  <li>Always -&gt; <code class="language-plaintext highlighter-rouge">Ask</code>로 변경(복붙후 library 선택)</li>
-  <li class="task-list-item">
-    <p><input type="checkbox" class="task-list-item-checkbox" disabled checked>Add unambiguous import on the fly 체크</p>
-  </li>
-  <li class="task-list-item">
-    <p><input type="checkbox" class="task-list-item-checkbox" disabled checked>Optimize imports on the fly (for current project) 체크</p>
-
-    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220315203045513.png" alt="image-20220315203045513"></p>
-  </li>
-</ul>
-
 <h5 id="save-actions-개행imort최적화">
 <a class="anchor" href="#save-actions-%EA%B0%9C%ED%96%89imort%EC%B5%9C%EC%A0%81%ED%99%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>Save Actions (개행+imort최적화)</h5>
 
@@ -371,6 +358,33 @@ window.onload = wrap_img;
   </li>
 </ul>
 
+<h5 id="auto-import">
+<a class="anchor" href="#auto-import" aria-hidden="true"><span class="octicon octicon-link"></span></a>Auto Import</h5>
+<ul>
+  <li>Editor &gt; general &gt; <code class="language-plaintext highlighter-rouge">auto import</code> 검색 후
+    <ul class="task-list">
+      <li>Always -&gt; <code class="language-plaintext highlighter-rouge">Ask</code>로 변경(복붙후 library 선택)</li>
+      <li class="task-list-item">
+        <p><input type="checkbox" class="task-list-item-checkbox" disabled checked>Add unambiguous import on the fly 체크</p>
+      </li>
+      <li class="task-list-item">
+        <p><input type="checkbox" class="task-list-item-checkbox" disabled checked>Optimize imports on the fly (for current project) 체크</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220315203045513.png" alt="image-20220315203045513"></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="parameter-name-hints">
+<a class="anchor" href="#parameter-name-hints" aria-hidden="true"><span class="octicon octicon-link"></span></a>parameter name hints</h5>
+
+<ul>
+  <li>Editor &gt; general &gt; <code class="language-plaintext highlighter-rouge">code completoin</code> 검색 후 &gt; Parameter Info 탭 &gt; [x] show parameter name hints on completion 체크
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220316005833191.png" alt="image-20220316005833191">
+</li>
+</ul>
+
 <h5 id="usages-표기">
 <a class="anchor" href="#usages-%ED%91%9C%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>usages 표기</h5>
 
@@ -380,6 +394,17 @@ window.onload = wrap_img;
       <li>usages 2가지체크
  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220315205737289.png" alt="image-20220315205737289">
 </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="go-to-test">
+<a class="anchor" href="#go-to-test" aria-hidden="true"><span class="octicon octicon-link"></span></a>go to test</h5>
+
+<ul>
+  <li>keymap &gt; <code class="language-plaintext highlighter-rouge">go to test</code> 검색  후 단축키 지정 : <strong><code class="language-plaintext highlighter-rouge">ctrl+shift+ T</code> -&gt; 나머지 <code class="language-plaintext highlighter-rouge">leave</code></strong>
+    <ul>
+      <li>테스트 없으면 생성, 있으면 이동 시켜주게 된다.</li>
     </ul>
   </li>
 </ul>
