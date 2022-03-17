@@ -154,12 +154,12 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h5"><a href="#parameter-name-hints">parameter name hints</a></li>
 <li class="toc-entry toc-h5"><a href="#usages-표기">usages 표기</a></li>
 <li class="toc-entry toc-h5"><a href="#go-to-test">go to test</a></li>
-<li class="toc-entry toc-h5"><a href="#method의-파라미터">method의 파라미터</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h4"><a href="#final-및-private">final 및 private</a>
 <ul>
-<li class="toc-entry toc-h5"><a href="#변수-추출-최초-1회">변수 추출 (최초 1회)</a></li>
+<li class="toc-entry toc-h5"><a href="#method의-파라미터-앞에-final">method의 파라미터 앞에 final</a></li>
+<li class="toc-entry toc-h5"><a href="#변수-추출시-final-최초-1회">변수 추출시 final (최초 1회)</a></li>
 <li class="toc-entry toc-h5"><a href="#private-상수를-private로-추출최초-1회">(private) 상수를 private로 추출(최초 1회)</a></li>
 <li class="toc-entry toc-h5"><a href="#font">Font</a></li>
 <li class="toc-entry toc-h5"><a href="#한글-워닝-제거">한글 워닝 제거</a></li>
@@ -342,7 +342,7 @@ window.onload = wrap_img;
 
     <ul>
       <li>
-<code class="language-plaintext highlighter-rouge">implemented</code> + <code class="language-plaintext highlighter-rouge">new</code> + <code class="language-plaintext highlighter-rouge">Overriden</code> <strong>Method Body</strong>부분에</li>
+<code class="language-plaintext highlighter-rouge">implemented</code> + <code class="language-plaintext highlighter-rouge">new</code> <del><code class="language-plaintext highlighter-rouge">Overriden</code></del> <strong>Method Body</strong>부분에</li>
     </ul>
 
     <div class="language-java highlighter-rouge">
@@ -351,8 +351,11 @@ window.onload = wrap_img;
   <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnsupportedOperationException</span><span class="o">(</span><span class="s">"${SIMPLE_CLASS_NAME}#${METHOD_NAME} not implemented."</span><span class="o">);</span>
     
   <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnsupportedOperationException</span><span class="o">(</span><span class="s">"${SIMPLE_CLASS_NAME}#${METHOD_NAME} not write."</span><span class="o">);</span>
-    
-  <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnsupportedOperationException</span><span class="o">(</span><span class="s">"${SIMPLE_CLASS_NAME}#${METHOD_NAME} not overide."</span><span class="o">);</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="err">##</span> <span class="n">오버라이딩은</span> <span class="n">그냥</span> <span class="n">쓴다</span><span class="o">.</span> <span class="n">부모의</span> <span class="n">것</span> <span class="n">상속</span> <span class="n">받을</span> <span class="n">때인데</span><span class="o">,</span> <span class="kd">super</span><span class="o">()</span> <span class="n">등</span> <span class="n">메서드</span> <span class="n">그대로</span> <span class="n">호출시켜줘야함</span><span class="o">.</span>
+  <span class="err">##</span><span class="k">throw</span> <span class="k">new</span> <span class="nc">UnsupportedOperationException</span><span class="o">(</span><span class="s">"${SIMPLE_CLASS_NAME}#${METHOD_NAME} not override."</span><span class="o">);</span>
     
 </code></pre></div>    </div>
   </li>
@@ -409,8 +412,11 @@ window.onload = wrap_img;
   </li>
 </ul>
 
-<h5 id="method의-파라미터">
-<a class="anchor" href="#method%EC%9D%98-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>method의 파라미터</h5>
+<h4 id="final-및-private">
+<a class="anchor" href="#final-%EB%B0%8F-private" aria-hidden="true"><span class="octicon octicon-link"></span></a>final 및 private</h4>
+
+<h5 id="method의-파라미터-앞에-final">
+<a class="anchor" href="#method%EC%9D%98-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0-%EC%95%9E%EC%97%90-final" aria-hidden="true"><span class="octicon octicon-link"></span></a>method의 파라미터 앞에 final</h5>
 
 <ul>
   <li>
@@ -419,11 +425,8 @@ window.onload = wrap_img;
 </li>
 </ul>
 
-<h4 id="final-및-private">
-<a class="anchor" href="#final-%EB%B0%8F-private" aria-hidden="true"><span class="octicon octicon-link"></span></a>final 및 private</h4>
-
-<h5 id="변수-추출-최초-1회">
-<a class="anchor" href="#%EB%B3%80%EC%88%98-%EC%B6%94%EC%B6%9C-%EC%B5%9C%EC%B4%88-1%ED%9A%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>변수 추출 (최초 1회)</h5>
+<h5 id="변수-추출시-final-최초-1회">
+<a class="anchor" href="#%EB%B3%80%EC%88%98-%EC%B6%94%EC%B6%9C%EC%8B%9C-final-%EC%B5%9C%EC%B4%88-1%ED%9A%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>변수 추출시 final (최초 1회)</h5>
 <ul>
   <li>추출할 때, <code class="language-plaintext highlighter-rouge">ctrl + alt + v</code>를 **2번 눌러서, **
     <ul>
