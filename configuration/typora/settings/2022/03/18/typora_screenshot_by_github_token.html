@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>typora screenshot uploader(token) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="typora screenshot uploader(token)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="typora screenshot uploader setting by token" />
+<meta property="og:description" content="typora screenshot uploader setting by token" />
+<link rel="canonical" href="blog.chojaeseong.com/configuration/typora/settings/2022/03/18/typora_screenshot_by_github_token.html" />
+<meta property="og:url" content="blog.chojaeseong.com/configuration/typora/settings/2022/03/18/typora_screenshot_by_github_token.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/config.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-03-18T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-03-18T00:00:00-05:00","url":"blog.chojaeseong.com/configuration/typora/settings/2022/03/18/typora_screenshot_by_github_token.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/config.png","headline":"typora screenshot uploader(token)","dateModified":"2022-03-18T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/configuration/typora/settings/2022/03/18/typora_screenshot_by_github_token.html"},"description":"typora screenshot uploader setting by token","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">typora screenshot uploader(token)</h1><p class="page-description">typora screenshot uploader setting by token</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-03-18T00:00:00-05:00" itemprop="datePublished">
+        Mar 18, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      1 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#configuration">configuration</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#typora">typora</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#settings">settings</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h4"><a href="#스샷-레포-생성-후-토큰-생성">스샷 레포 생성 후 토큰 생성</a></li>
+<li class="toc-entry toc-h4"><a href="#typora에-적용">TYPORA에 적용</a></li>
+<li class="toc-entry toc-h4"><a href="#사용-중-레포지토리만-교체">사용 중 레포지토리만 교체</a></li>
+</ul><h4 id="스샷-레포-생성-후-토큰-생성">
+<a class="anchor" href="#%EC%8A%A4%EC%83%B7-%EB%A0%88%ED%8F%AC-%EC%83%9D%EC%84%B1-%ED%9B%84-%ED%86%A0%ED%81%B0-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>스샷 레포 생성 후 토큰 생성</h4>
+
+<ul>
+  <li><a href="https://taeuk-gang.github.io/wiki/Typora%20%EC%8B%A0%EA%B8%B0%EB%8A%A5%20-%20%EC%9D%B4%EB%AF%B8%EC%A7%80%20%EC%9E%90%EB%8F%99%20%EC%97%85%EB%A1%9C%EB%93%9C/">레포 설정 참고 블로그</a></li>
+</ul>
+
+<ol>
+  <li>
+    <p>빈 github_id로 로그인해서 스크린샷 레포를 만든다.</p>
+
+    <p><img src="C:%5CUsers%5Ccho_desktop%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220317230902061.png" alt="image-20220317230902061">
+ <img src="C:%5CUsers%5Ccho_desktop%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220317231006766.png" alt="image-20220317231006766"></p>
+  </li>
+  <li>
+    <p>프로필 &gt; Settings &gt; <code class="language-plaintext highlighter-rouge">Developer settings</code>로 넘어간다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220317231044509.png" alt="image-20220317231044509">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220317231116510.png" alt="image-20220317231116510"></p>
+  </li>
+  <li>
+    <p>Personal aceess tokens로 넘어와 &gt; <code class="language-plaintext highlighter-rouge">Generate new token</code>을 만든다.
+ <img src="C:%5CUsers%5Ccho_desktop%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220317231202549.png" alt="image-20220317231202549">
+ <img src="C:%5CUsers%5Ccho_desktop%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220317231225140.png" alt="image-20220317231225140"></p>
+
+    <ul>
+      <li>
+        <p>각종 필요한 설정을 해준다.</p>
+
+        <ul>
+          <li>
+            <p>Note: 아무거나
+  <img src="C:%5CUsers%5Ccho_desktop%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220317231322305.png" alt="image-20220317231322305"></p>
+          </li>
+          <li>
+            <p>Expiration: 무기한으로</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220317231340789.png" alt="image-20220317231340789"></p>
+          </li>
+          <li>
+            <p>scopes</p>
+
+            <ul>
+              <li>
+                <p>repo 전체 체크</p>
+              </li>
+              <li>
+                <p>write: packages 체크</p>
+              </li>
+              <li>
+                <p>admin:repo_hook 체크</p>
+              </li>
+              <li>
+                <p>write: discussion 체크</p>
+
+                <p><img src="C:%5CUsers%5Ccho_desktop%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220317231402898.png" alt="image-20220317231402898">
+  <img src="C:%5CUsers%5Ccho_desktop%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220317231429258.png" alt="image-20220317231429258">
+  <img src="C:%5CUsers%5Ccho_desktop%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220317231511028.png" alt="image-20220317231511028">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220317231533045.png" alt="image-20220317231533045"></p>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p>토큰을 챙겨놓는다.</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="typora에-적용">
+<a class="anchor" href="#typora%EC%97%90-%EC%A0%81%EC%9A%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>TYPORA에 적용</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220317235240441.png" alt="image-20220317235240441"></p>
+
+<ul>
+  <li>
+    <p>서식 &gt; 이미지 &gt; <code class="language-plaintext highlighter-rouge">전역 이미지 설정</code></p>
+
+    <ol>
+      <li>
+        <p><strong>when Insert : <code class="language-plaintext highlighter-rouge">upload image</code>로 선택</strong></p>
+      </li>
+      <li>
+        <p><strong>[x] <code class="language-plaintext highlighter-rouge">로컬 이미지에 위 규칙을 적용</code> 체크</strong></p>
+      </li>
+      <li>
+        <p><strong>image Uploader: <code class="language-plaintext highlighter-rouge">PicGo-Core(command line)</code> 선택</strong></p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">Open Config File</code>클릭후 아래 템플릿대로 작성</strong></p>
+
+        <ul>
+          <li>예시</li>
+        </ul>
+
+        <div class="language-json highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="w"> </span><span class="p">{</span><span class="w">
+     </span><span class="nl">"picBed"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+         </span><span class="nl">"current"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github"</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"github"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+             </span><span class="nl">"repo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"is2js/screenshots"</span><span class="p">,</span><span class="w"> </span><span class="err">//변경</span><span class="w">
+             </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ghp_8nmOf//ymaH8bBHqXNsLRtoTHUEN8j1B6vh/"</span><span class="p">,</span><span class="w"> </span><span class="err">//변경</span><span class="w">
+             </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+             </span><span class="nl">"customUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://raw.githubusercontent.com/is2js/screenshots/main"</span><span class="p">,</span><span class="w"> </span><span class="err">//변경</span><span class="w">
+             </span><span class="nl">"branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"main"</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+     </span><span class="p">},</span><span class="w">
+     </span><span class="nl">"settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+         </span><span class="nl">"showUpdateTip"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"autoStart"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"uploadNotification"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+         </span><span class="nl">"miniWindowOntop"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+     </span><span class="p">},</span><span class="w">
+     </span><span class="nl">"needReload"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+     </span><span class="nl">"picgoPlugins"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w">
+ </span><span class="p">}</span><span class="w">
+</span></code></pre></div>        </div>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<h4 id="사용-중-레포지토리만-교체">
+<a class="anchor" href="#%EC%82%AC%EC%9A%A9-%EC%A4%91-%EB%A0%88%ED%8F%AC%EC%A7%80%ED%86%A0%EB%A6%AC%EB%A7%8C-%EA%B5%90%EC%B2%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>사용 중 레포지토리만 교체</h4>
+
+<ul>
+  <li>
+    <p>typora &gt; 서식 &gt; 이미지 &gt; 전역이미지 설정 &gt; <code class="language-plaintext highlighter-rouge">Open config file</code> &gt;</p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">"repo"</code>와 <code class="language-plaintext highlighter-rouge">"customUrl"</code>에서 폴더명만 바꿔주면 된다.</strong></p>
+      </li>
+      <li>
+        <p>토큰은 계속 유지중이니.. 레포만 바꿔주면 끝.</p>
+
+        <p><img src="C:%5CUsers%5Ccho_desktop%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220317232429326.png" alt="image-20220317232429326"></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/configuration/typora/settings/2022/03/18/typora_screenshot_by_github_token.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
