@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>강의) 네오 3단계 블랙잭 피드백(4/4) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="강의) 네오 3단계 블랙잭 피드백(4/4)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="블랙잭 시작과 상태 패턴에 강의4" />
+<meta property="og:description" content="블랙잭 시작과 상태 패턴에 강의4" />
+<link rel="canonical" href="blog.chojaeseong.com/java/pattern/state/blackjack/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/03/27/%EA%B0%95%EC%9D%98)-%EB%84%A4%EC%98%A4-3%EB%8B%A8%EA%B3%84-%EB%B8%94%EB%9E%99%EC%9E%AD%EA%B3%BC-%EC%83%81%ED%83%9C%ED%8C%A8%ED%84%B44.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/pattern/state/blackjack/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/03/27/%EA%B0%95%EC%9D%98)-%EB%84%A4%EC%98%A4-3%EB%8B%A8%EA%B3%84-%EB%B8%94%EB%9E%99%EC%9E%AD%EA%B3%BC-%EC%83%81%ED%83%9C%ED%8C%A8%ED%84%B44.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/wootech.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-03-27T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-03-27T00:00:00-05:00","url":"blog.chojaeseong.com/java/pattern/state/blackjack/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/03/27/%EA%B0%95%EC%9D%98)-%EB%84%A4%EC%98%A4-3%EB%8B%A8%EA%B3%84-%EB%B8%94%EB%9E%99%EC%9E%AD%EA%B3%BC-%EC%83%81%ED%83%9C%ED%8C%A8%ED%84%B44.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"강의) 네오 3단계 블랙잭 피드백(4/4)","dateModified":"2022-03-27T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/pattern/state/blackjack/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/03/27/%EA%B0%95%EC%9D%98)-%EB%84%A4%EC%98%A4-3%EB%8B%A8%EA%B3%84-%EB%B8%94%EB%9E%99%EC%9E%AD%EA%B3%BC-%EC%83%81%ED%83%9C%ED%8C%A8%ED%84%B44.html"},"description":"블랙잭 시작과 상태 패턴에 강의4","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">강의) 네오 3단계 블랙잭 피드백(4/4)</h1><p class="page-description">블랙잭 시작과 상태 패턴에 강의4</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-03-27T00:00:00-05:00" itemprop="datePublished">
+        Mar 27, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      13 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#pattern">pattern</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#state">state</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#blackjack">blackjack</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#TDD">TDD</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#강의">강의</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#추상화레벨-맞추기는-나중에">추상화레벨 맞추기는 나중에</a></li>
+<li class="toc-entry toc-h3"><a href="#중요-클라이언트-관점에서-더-필요한-기능이-남았는지-꼭데기-인터페이스에서-고민하기">중요) 클라이언트 관점에서 더 필요한 기능이 남았는지 꼭데기 인터페이스에서 고민하기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#중요-기존-상태패턴용-인페-메서드들-고민해보기">중요) 기존 [상태패턴용 인페 메서드]들 고민해보기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#my-깨닮음--메서드는-1인자-파라미터로-오는-추가정보가-있냐없냐에-따라----추가정보을-유발된-상태값-업데이트냐-원래-상태값의-조회해서-처리냐를-구분--2--응답값을-통해--추상체-or-객체냐상태값값이냐----처리내용이-같은-상카아래의-구현체-중-1개-객체-생성이냐-내부값-단순-조회-연산이냐가-나눠진다">my+ 깨닮음 ) 메서드는 (1)(인자-&gt;파라미터로 오는) 추가정보가 있냐/없냐에 따라  -&gt; 추가정보을 유발된 상태값 업데이트냐/ 원래 상태값의 조회해서 처리냐를 구분 + (2)  응답값을 통해  추상체 or 객체냐/상태값/값이냐 -&gt;  처리내용이 같은 상카아래의 구현체 중 1개 객체 생성이냐/ 내부값 단순 조회/ 연산이냐가 나눠진다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#54--상태패턴-상카에서-빠진-기능-살펴보기">54)  상태패턴 상카에서 빠진 기능 살펴보기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#현재-상태-종류-1-끝난-상태-3개--2-최초시작진행가능-상태-1개--3-중간-진행가능상태-1">현재 상태 종류 (1) 끝난 상태 3개  (2) 최초시작&amp;&amp;진행가능 상태 1개  (3) 중간 진행가능상태 (1)</a></li>
+<li class="toc-entry toc-h5"><a href="#상태-상카의-현재기능-1상태변화-트리거draw추정---2-자의종료상태-만들기stay--3현재상태-상태값gettercards----중복제거으로-올렸더니-자식들-개별구현시-상태값-뽑아쓰기용">상태 상카의 현재기능 (1)상태변화 트리거(draw(추정)) +  (2) (자의)종료상태 만들기(stay) + (3)현재상태 상태값getter(cards)  - (중복제거으로 올렸더니 자식들 개별구현시 상태값 뽑아쓰기용)</a></li>
+<li class="toc-entry toc-h5"><a href="#3개-기능-이외에-더-필요한-기능은--4-매번-끝났느지-안끝났는지-확인하는-기능은-필수로-제공되어야한다">3개 기능 이외에 더 필요한 기능은?  (4) 매번 끝났느지 안끝났는지 확인하는 기능은 필수로 제공되어야한다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#중요-특정클래스추상클래스-중카에-속하는지-확인하기-위해-개별객체-isinstanceof-클래스class-대신----객체is특정추클--특정클래스는-true-나머지클래스는-false를-반환하는--is특정클래스의-이름을-딴boolean확인메서드를-새-메서드로서-추메전메에-올려서-구현한다">중요) 특정클래스(추상클래스, 중카)에 속하는지 확인하기 위해 개별객체. isInstanceof 클래스.class 대신 -&gt;  객체.is특정추클?  특정클래스는 true/ 나머지클래스는 false를 반환하는 &amp;&amp; is특정클래스()의 이름을 딴boolean확인메서드를 새 메서드로서 추메/전메에 올려서 구현한다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#55-isinstanceof중카class-안쓰고-매번-끝난-상태중카-추상클래스인지-아닌지-확인하는-기능---해당끝난상태-중카true-vs-나머지-중카false를-반환하는-확인클래스이름을-딴-boolean확인메서드를-상카에-추가하기">55) isInstanceof(중카.class) 안쓰고 매번 끝난 상태(중카, 추상클래스)인지 아닌지 확인하는 기능 -&gt; 해당(끝난상태) 중카true vs 나머지 중카false를 반환하는 [확인클래스이름을 딴 boolean확인메서드]를 상카에 추가하기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#까먹-finished처럼-중카추클-전체에-적용되는-메서드들은-자식들이-딴짓-못하게-final로-막아주기">까먹) Finished처럼, 중카/추클 전체에 적용되는 메서드들은, 자식들이 딴짓 못하게 final로 막아주기</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#중요-instanceof를-썼다면-잘못된-설계다---메서드에-메세지보내서-t나머지f를-받을-수-있게-메서드로-관리하자">중요) instanceof를 썼다면, 잘못된 설계다? -&gt; 메서드에 메세지보내서 t/나머지f를 받을 수 있게 메서드로 관리하자.</a></li>
+<li class="toc-entry toc-h4"><a href="#56-특정추클이-맞는지-확인메서드이지만-모든-상태-객체가-대상이다---새-메서드는-일단-추메전메에-올려서-먼저-개발">56) 특정추클이 맞는지 확인메서드이지만, 모든 상태 객체가 대상이다 -&gt; 새 메서드는 일단 추메/전메에 올려서 먼저 개발</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#상카인페에-새-추메전메를-올릴-때-인페-안에서-접근제한자-생략---자동public-이므로-returntype--파라미터의-시그니처만-정의한다">상카인페에 새 추메/전메를 올릴 때 인페 안에서 접근제한자 생략 -&gt; 자동public 이므로 returnType + 파라미터의 시그니처만 정의한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#중요-개별구현이-예상되면tf확인메서드---개별구현되는-곳까지-중간에-추클들은-무시하고-내려가서-구현해야한다--중간추클에-구현-impl--중복코드-제거용으로-다시-추상메서드를-정의하지말고-무시하면---자식들이-화내면서-개별구현해야한다----즉-개별구현해야된다면-중간추클을-만나더라도-추상메서드-줄-필요없이-무시하면-개별구현자식들에게-자동전과되서-빨간줄-띄운다">중요) 개별구현이 예상되면(t/f확인메서드) -&gt; 개별구현되는 곳까지 중간에 추클들은 무시하고 내려가서 구현해야한다.  중간/추클에 구현 impl == 중복코드 제거용으로 다시 추상메서드를 정의하지말고 무시하면 -&gt; 자식들이 화내면서 개별구현해야한다  -&gt; 즉, 개별구현해야된다면, 중간추클을 만나더라도 추상메서드 줄 필요없이 무시하면 개별구현자식들에게 자동전과되서 빨간줄 띄운다</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#최상위-중카인-started가-있지만-finished---그외-중카의-개별구현이-예상되면-개별구현되는-상위-중카추클까지-내려가서-구현한다-최상위-중카를-무시하고-내려가면-자식들에게-전과되어-개별구현하게-한다">최상위 중카인 Started가 있지만, Finished &lt;-&gt; 그외 중카의 개별구현이 예상되면, 개별구현되는 상위 중카추클까지 내려가서 구현한다. (최상위 중카를 무시하고 내려가면, 자식들에게 전과되어 개별구현하게 한다)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#암기-상카-인터페이스에서-추메전메로-올려서-개발시작하되-개별구현되는-곳까지는-중카-추클을-무시해서-개별구현-전과를-돌려도-된다---중간에-있다고-해서-미구현-추상메서드로-구현해-둘-필요없다">암기) 상카 인터페이스에서 추메/전메로 올려서 개발시작하되, 개별구현되는 곳까지는 중카-추클을 무시해서 개별구현 전과를 돌려도 된다 -&gt; 중간에 있다고 해서 미구현 추상메서드로 구현해 둘 필요없다</a></li>
+<li class="toc-entry toc-h4"><a href="#57-isxxxx-대상-중카추클까지-내려가서-개별구현으로서-true를-반환해준다">57) isXXXX() 대상 중카/추클까지 내려가서 개별구현으로서 true를 반환해준다</a></li>
+<li class="toc-entry toc-h4"><a href="#깜빡-중복제거를-위해-상카-추메전메---중카추클에서-먹어서-정의하러-왔으면-중카추클-정의시는-항상-final로-자식-딴짓-못하게-막기">깜빡!) 중복제거를 위해 상카-추메/전메 -&gt; 중카/추클에서 먹어서 정의하러 왔으면, 중카/추클 정의시는 항상 final로 자식 딴짓 못하게 막기</a></li>
+<li class="toc-entry toc-h4"><a href="#58-isfinished-개별구현-책임이-전과된--isfinished-중카추클에-속하지-않은-중카추클이-아닌-개별구현체들---중복코드제거-해줄-추클이-위에-없다면-전과받은-개별구현체들이-모두-직접-구현">58) isFinished() 개별구현 책임이 전과된  isFinished 중카추클에 속하지 않은 중카추클이 아닌 개별구현체들 -&gt; 중복코드제거 해줄 추클이 위에 없다면, 전과받은 개별구현체들이 모두 직접 구현</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#중요-또-상태패턴의-상카-인터페이스에서-빠진-기능이-없는지-확인한다-블랙잭-라이브러리를-받아와서-이-기능들로-다-구현가능한지를-생각해보면-된다">중요) 또 상태패턴의 상카 인터페이스에서 빠진 기능이 없는지 확인한다 블랙잭 라이브러리를 받아와서 이 기능들로 다 구현가능한지를 생각해보면 된다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#중요-상태패턴의-상태객체가-cards정보를-가지고-있으니---필수-기능외에-계산로직도--상태-상카의-추메전메로-추가해준다">중요) 상태패턴의 상태객체가 cards정보를 가지고 있으니 -&gt; 필수 기능외에 계산로직도  상태 상카의 추메/전메로 추가해준다.</a></li>
+<li class="toc-entry toc-h4"><a href="#중요-계산profit-하려면-상태객체마다-isbust인지--isblackjack--isstay-인지-구현체상태객체-종류마다-isinstanceof-대신-boolean확인메서드가-필요해지는데">중요) 계산profit() 하려면, 상태객체마다. isBust()인지 / isBlackjack() / isStay() 인지 구현체(상태객체) 종류마다 [isinstanceof 대신 boolean확인메서드]가 필요해지는데???</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#초대박-isinstanceof-특정-중카추클을-대신하는--boolean확인메서드가-아니라-개별-구현체마다-확인이-필요하다면-boolean확인메서드가-구현체-종류마다-필요해지고-나머지는-모두-예외처리해야만-한다---개별구현체마다-다른-로직을-가지고-있으면서--굳이-종료상태냐-확인할-필요없다면--추메전메---중카무시의-개별구현-책임전과를-통해-구현체마다-다른-로직을-구현해서-다형성에서-알아서-처리되도록-구현하자">초대박) isinstanceof 특정 중카(추클)을 대신하는  boolean확인메서드가 아니라 개별 구현체마다 확인이 필요하다면, boolean확인메서드가 구현체 종류마다 필요해지고, 나머지는 모두 예외처리?해야만 한다 -&gt; 개별구현체마다 다른 로직을 가지고 있으면서 &amp;&amp; 굳이 (종료상태냐?) 확인할 필요없다면 : 추메/전메 -&gt; [중카무시의 개별구현 책임전과]를 통해 [구현체마다 다른 로직을 구현]해서 다형성에서 알아서 처리되도록 구현하자</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#암기-같은-카테고린데-개별구현해야한다면--isinstanceof-x---is특정구현체-x그룹일경우만---묻지말고-전략메서드처럼-추메전메로-개별구현해서-알아서-작동하도록">암기) 같은 카테고린데, 개별구현해야한다면?  isInstanceof (x) -&gt; is특정구현체? (x,그룹일경우만) -&gt; 묻지말고 전략메서드처럼 추메/전메로 개별구현해서 알아서 작동하도록</a></li>
+<li class="toc-entry toc-h4"><a href="#my-전체가-크게-나뉘는-종료상태들-진행상태들-등그룹에-대한-확인이면서--isintanceof인지-꼭-물어봐야한다-isboolean메서드를-추메전메-올려서-개별구현까지-가서-구현">my) 전체가 크게 나뉘는 (종료상태들&lt;-&gt;진행상태들 등)그룹에 대한 확인이면서 &amp;&amp; isintanceof인지 꼭 물어봐야한다? isBoolean메서드를 추메/전메 올려서 개별구현까지 가서 구현</a></li>
+<li class="toc-entry toc-h4"><a href="#my-모든-구현체마다-다르게-구현되고--물어보면서-그에-따른-로직이-정해져있다----공통메서드-로-추메전메에-올리고---물어보지말고-구현체들마다--직접-개별구현-시키자">my) 모든 구현체마다 다르게 구현되고 &amp;&amp; 물어보면서 그에 따른 로직이 정해져있다? -&gt;  공통메서드 로 추메/전메에 올리고 -&gt; 물어보지말고 구현체들마다  직접 개별구현 시키자</a></li>
+<li class="toc-entry toc-h4"><a href="#my깨닮음-어떤-것을-할-때마다-해당-상태객채인지-물어보고--거기에-맞는-로직까지-정해져있다---근데-그-상태가-제한된-종류로서-묶인다---상카-구현체들로서-안물어보고-추메전메로-전략패턴처럼-만들어주면---구현체마다-알아서-작동하도록-개별구현해놓으면----if-instanceof가-사라진다">my+깨닮음) 어떤 것을 할 때마다, 해당 상태(객채)인지 물어보고 + 거기에 맞는 로직까지 정해져있다 -&gt; 근데 그 상태가 제한된 종류로서 묶인다? -&gt; 상카-구현체들로서 안물어보고 추메/전메로 전략패턴처럼 만들어주면 -&gt; 구현체마다 알아서 작동하도록 개별구현해놓으면 -&gt;  if instanceof가 사라진다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#중요-상태패턴에서-state구현체들은-다음state의-판단을-위해-상태값에-정보를-가져야만한다---정보를-상태값으로-가졌다면-계산로직도-거기state-구현체-상태객체들에서-구현다르다변-추메전메---개별구현-되어야한다">중요) 상태패턴에서 state구현체들은, 다음state의 판단을 위해 상태값에 정보를 가져야만한다. -&gt; 정보를 상태값으로 가졌다면, 계산로직도 거기(state 구현체, 상태객체들)에서 구현(다르다변 추메/전메 -&gt; 개별구현) 되어야한다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#59-state의-구현체들이-정보인-cards를-상태값도-가지고-있으니-계산로직도-여기서-처리해야한다-계산-대상은-finished된-state들만-대상이-되며-계산기본-정보로-계산-중-외부-입력을-받아--정보바탕으로-계산-input으로-들어온-betmoneydouble을-구현체별-다르게-계산-로직-구현하여---새로운-계산값을-output-응답하는-계산이-있다">59) state의 구현체들이 정보인 cards를 상태값도 가지고 있으니, 계산로직도 여기서 처리해야한다. 계산: 대상은 Finished된 state들만 대상이 되며, 계산(기본 정보로 계산) 중 &lt;외부 입력을 받아 + 정보바탕으로 계산&gt;: input으로 들어온 betMoney(double)을 [구현체별 다르게 계산 로직 구현]하여 -&gt; 새로운 계산값을 output 응답하는 계산이 있다.</a></li>
+<li class="toc-entry toc-h4"><a href="#my-정보를-통한-계산이-아니라-외부-금액input-등-정보를-가진-곳에서-계산로직을-가질-때--외부재료를-input으로-받아서---가진-상태객체의-정보cards를-바탕으로---새-재료로-return응답-해주는-계산로직도-생각하자--계산로직은-state패턴의-구현체객체들-중-finished에-해당한-애들만-계산로직을-가질-수-있다">my) 정보를 통한 계산이 아니라, 외부 금액input 등 정보를 가진 곳에서 계산로직을 가질 때,  외부재료를 input으로 받아서 -&gt; 가진 상태객체의 정보cards를 바탕으로 -&gt; 새 재료?로 return응답 해주는 계산로직도 생각하자. + 계산로직은 State패턴의 구현체객체들 중 finished에 해당한 애들만 계산로직을 가질 수 있다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#my-계산시-외부재료가-필요한-경우도-있다-그-외부재료에-계산한-값을-돌려주는-경우가-있다는-것을-생각">my) 계산시 외부재료가 필요한 경우도 있다. 그 외부재료에 계산한 값을 돌려주는 경우가 있다는 것을 생각</a></li>
+<li class="toc-entry toc-h5"><a href="#참고-돈-계산의-원시형은-일단-double로-받아서-double로-내어주자">참고) 돈 계산의 원시형은 일단 double로 받아서 double로 내어주자</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#60-외부재료받아-계산하는-로직의-구현체마다-다르게-개별-구현-finished-아래-구현체들만">60) 외부재료받아 계산하는 로직의 [구현체마다 다르게 개별 구현] (finished 아래 구현체들만)</a></li>
+<li class="toc-entry toc-h4"><a href="#61-개별-구현체-상태에서의-계산이-추가-정보가-필요한-상태---임의로-input-그대로-응답해놓는-버릇을-들여보자">61) 개별 구현체 상태에서의 계산이… 추가 정보가 필요한 상태 -&gt; 임의로 input 그대로 응답해놓는 버릇을 들여보자.</a></li>
+<li class="toc-entry toc-h4"><a href="#62-추가-처리가-필요한-예외상황---바깥에서-처리하기로-하고-도메인내-자신의-역할만-생각해서-완성한다">62) 추가 처리가 필요한 예외상황 -&gt; 바깥에서 처리하기로 하고, 도메인내 자신의 역할만 생각해서 완성한다</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#참고-상호작용의-검증조건이-있더라도-개별-도메인-작성시에는-자기역할만-순수하게-완성한다">참고) 상호작용의 검증/조건이 있더라도, 개별 도메인 작성시에는 자기역할만 순수하게 완성한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#63-hit와-ready는-profit계산자체가-불가---input있는-계산함수라도-개별구현시-예외처리">63) hit와 ready는 profit계산자체가 불가 -&gt; input있는 계산함수라도 개별구현시 예외처리</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#대박-개별구현-하다가-중복코드가-보인다-무시했던-추클에서-impl---후-중복부분만-구현중클추카-구현-메서드면-final--개별구현체마다-다른-부분--개별class들이-아는-부분----abstract메서드로-빼서-내려주기">대박) 개별구현 하다가 중복코드가 보인다? 무시했던 추클에서 impl -&gt; 후 중복부분만 구현(중클/추카 구현 메서드면 final) &amp;&amp; 개별구현체마다 다른 부분 = 개별class들이 아는 부분  -&gt; abstract메서드로 빼서 내려주기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#중요-중카추클이-무시하고-내려보내---개별-구현된-메서드들-중에서-상수-or-일부분만-중복이어도---중카추클에서-중복제거용impl-구현시행-상수일부분만-다시-abstract로-내려보내주기">중요) 중카/추클이 무시하고 내려보내 -&gt; 개별 구현된 메서드들 중에서 상수 or 일부분만 중복이어도 -&gt; 중카/추클에서 중복제거용impl 구현시행 &amp;&amp;상수(일부분)만 다시 abstract로 내려보내주기</a></li>
+<li class="toc-entry toc-h4"><a href="#중요암기-개별구현-전과시키려고-impl구현-무시한-중카추클-내에서-새로운-중복-발견인-경우-impl구현-무시한-곳---impl시행하여-아래부분-중복제거를-시행하며---상수든-뭐든-구현체별로-달라지는-부분은-상수라도----메서드응답으로-빼고---abstract-메서드로-정의해서-자식들에게-응답메서드로-상수일부분-개별구현으로-내려주기">중요+암기) 개별구현 전과시키려고 [impl구현 무시한 중카/추클 내]에서 새로운 중복 발견인 경우, impl구현 무시한 곳 -&gt; impl시행하여 아래부분 중복제거를 시행하며 -&gt; 상수든 뭐든 구현체별로 달라지는 부분은 상수라도  -&gt; 메서드응답으로 빼고 -&gt; abstract 메서드로 정의해서 자식들에게 [응답메서드로 상수(일부분) 개별구현]으로 내려주기</a></li>
+<li class="toc-entry toc-h4"><a href="#64-finished내부-상수만-구현체별로-다르고-메서드가-중복된다면---제한된-중카추클로만-올린-뒤-달라지는-부분만-메서드로-추출하여-응답받도록-한-뒤----abstract메서드로-내려보내서-자식들이-상수응답하도록-하기">64) Finished내부, 상수만 구현체별로 다르고 메서드가 중복된다면? -&gt; 제한된 중카/추클로만 올린 뒤, 달라지는 부분만 메서드로 추출하여 응답받도록 한 뒤 -&gt;  abstract메서드로 내려보내서 자식들이 상수응답하도록 하기</a></li>
+<li class="toc-entry toc-h4"><a href="#중요-중카추클은-상카-존재-시-개별구현---무시하고-내려보내기-or-중복제거---final로-막아두고-구현--or-중카추클-자식들의-중복시---자신이-추메전메처럼-abstract로-정의해서-뿌려준다--상수도-응답-메서드로서-뺀-뒤---protected-abstract로--정의하여-추메전메처럼-내려준다">중요) 중카/추클은 상카 존재 시 개별구현 -&gt; 무시하고 내려보내기 or 중복제거 -&gt; final로 막아두고 구현  or 중카/추클 자식들의 중복시 -&gt; 자신이 추메/전메처럼 abstract로 정의해서 뿌려준다. + 상수도 응답 메서드로서 뺀 뒤 -&gt; protected? abstract로  정의하여, 추메/전메처럼 내려준다</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#암기-중카-추클이-개별구현을-내려줘야한다면-중복제거-코드내라도-가능하며-상수--일부분이라도-1-메서드로-빼고---2abstract로-내려준다">암기) 중카-추클이 개별구현을 내려줘야한다면, 중복제거 코드내라도 가능하며, 상수,  일부분이라도 (1) 메서드로 빼고 -&gt; (2)abstract로 내려준다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#중복제거-등-추상화상속-관련작업이-끝날-때마다-diagram을-보자">중복제거 등, 추상화/상속 관련작업이 끝날 때마다, diagram을 보자</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#참고-중카추클부모클래스의--usageextends를-확인해보면-같은-레벨의-자식들만-볼-수-도-있어서---레벨이-맞는지-확인할-수-있다">참고) 중카/추클(부모클래스)의  usage(extends)를 확인해보면, 같은 레벨의 자식들만 볼 수 도 있어서 -&gt; 레벨이 맞는지 확인할 수 있다</a></li>
+<li class="toc-entry toc-h4"><a href="#65-2개-남은-쌩구현체들에-대해-공통메서드-확인후-중카추클-추가해서-묶어주기">65) 2개 남은 쌩구현체들에 대해, 공통메서드 확인후 중카/추클 추가해서 묶어주기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#중카추클아래-구현체자식들은-본인의-역할만-잘하고-있는-것-같은데-hit와-ready는-좀-더러운-것-같다">중카/추클아래 구현체(자식들)은 본인의 역할만 잘하고 있는 것 같은데, hit와 ready는 좀 더러운 것 같다</a></li>
+<li class="toc-entry toc-h5"><a href="#쌩구현체들의-공통점-찾기">쌩구현체들의 공통점 찾기</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#66-반대편-추클과-동일한-레벨의-추상화중카추클-만든-후-기존에-개별구현들은-무시하여-자식들에게-전과된-체-두고--중복제거용-메서드들만-뽑아서-impl하여-final---자식들의-중복코드-제거한다">66) 반대편 추클과 동일한 레벨의 추상화(중카/추클) 만든 후, 기존에 개별구현들은 무시하여 자식들에게 전과된 체 두고 + 중복제거용 메서드들만 뽑아서 impl하여 final -&gt; 자식들의 중복코드 제거한다</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#중카추클-생성하는데-더-위의-중카추클이-상태값생성자-for-getter-내려준다면-super로-내려주는-상태값-초기화는-기본적으로-해줘야함">중카/추클 생성하는데, 더 위의 중카/추클이, 상태값+생성자 (for getter?) 내려준다면, super()로 내려주는 상태값 초기화는 기본적으로 해줘야함</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#67-추가-중카추클은-기존-개별구현-메서드들을-제외시키면서--중복처리를-해줄-메서드들을----implement-methods--상카의-추메전메들-중-선택해서-처리한다">67) 추가 중카/추클은 기존 개별구현 메서드들을 제외시키면서 &amp;&amp; 중복처리를 해줄 메서드들을 -&gt;  [implement Methods...] -&gt;상카의 추메/전메들 중 선택해서 처리한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#중요-중복처리하는-중카추클의-중복처리-메서드는-final로-자식딴짓못하게-막아야하며-final을-달아줬다면---자식들이-extends-추가한-중카추클하도록-넘어가자">중요) 중복처리하는 중카/추클의 중복처리 메서드는 final로 자식딴짓못하게 막아야하며, final을 달아줬다면 -&gt; 자식들이 extends 추가한 중카/추클하도록 넘어가자</a></li>
+<li class="toc-entry toc-h4"><a href="#68-추클상-정의하는-메서드들은-무조건-접근제한자-확인할-것-추클상-중복처리한다면-자식에선-딴짓-못하게-final도-함께">68) 추클상 정의하는 메서드들은 무조건 접근제한자 확인할 것! 추클상 중복처리한다면, 자식에선 딴짓 못하게 final도 함께!!</a></li>
+<li class="toc-entry toc-h4"><a href="#69-final--중복처리-메서드로-중복처리까지-끝냈다면---새로운-자식들에게-가서-자식들이-extends--기존-중복코드들-제거해주기">69) final  중복처리 메서드로 중복처리까지 끝냈다면 -&gt; 새로운 자식들에게 가서 자식들이 extends &amp;&amp; 기존 중복코드들 제거해주기</a></li>
+<li class="toc-entry toc-h4"><a href="#중요암기-추상클래스에서--중복처리시-final을-달아서-처리해주면---기존-개별구현하던-자식들이--extends한-순간부터-딴짓했다고-빨간줄내면서지워달라고-해준다">중요+암기) 추상클래스에서  중복처리시 final을 달아서 처리해주면 -&gt; 기존 개별구현하던 자식들이  extends한 순간부터 딴짓했다고 빨간줄내면서지워달라고 해준다.</a></li>
+<li class="toc-entry toc-h4"><a href="#70-최종-다이어그램-확인하기">70) 최종 다이어그램 확인하기</a></li>
+<li class="toc-entry toc-h4"><a href="#중요-추상클래스에서-전메추메의-abstract가-나온다면-protected로서-자식들이-개별구현하도록-풀어준다-ex--final-중복처리-메서드-내부에서-상수만-개별구현">중요) 추상클래스에서 전메/추메의 abstract가 나온다면, protected로서 자식들이 개별구현하도록 풀어준다. ex&gt;  final 중복처리 메서드 내부에서 상수만 개별구현</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#중요-상태패턴-최종-기능파악--인터페이스로-약속만-정의---바깥에서-인페-추상체-state를-상태값으로-가진다면-내부-구현-정보를-모르고-사용만-한다-인페-추상체는-밖에서-주입해도-되고-내부에서-즈그들끼리-변해도-되고-모른다---state를-추클로-정의하면-바깥에서--내부-정의를-다안다">중요) 상태패턴 최종 기능파악 + 인터페이스로 약속만 정의 -&gt; 바깥에서 인페 추상체 state를 상태값으로 가진다면, 내부 구현 정보를 모르고 사용만 한다. (인페 추상체는 밖에서 주입해도 되고, 내부에서 즈그들끼리 변해도 되고.. 모른다) &lt;-&gt; state를 추클로 정의하면, 바깥에서  내부 정의를 다안다.?</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#인페는-말그대로-인터페이스만-제공해주고-내부구현은-모른다---인터페이스로-연결되었다면-player입장에서는-state-가-어떻게-동작하는지-1도-모른다-내부동작을-모른다">인페는 말그대로 인터페이스만 제공해주고, 내부구현은 모른다. -&gt; 인터페이스로 연결되었다면, Player입장에서는 state 가 어떻게 동작하는지 1도 모른다. (내부동작을 모른다)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#인페로-정의한-state는-사용자가-내용은-모른체-원하는-대로-사용할-수-있다">인페로 정의한 State는 사용자가 내용은 모른체, 원하는 대로 사용할 수 있다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#71-player가-인터페이스-객체추상체의--state를-상태값으로-가지는-순간-그-내부-구현은-모르게-된다">71) Player가 인터페이스 객체(추상체)의  state를 상태값으로 가지는 순간, 그 내부 구현은 모르게 된다.</a></li>
+<li class="toc-entry toc-h4"><a href="#중요-상태객체가-단독-public으로-열린-최초시작상태ready-객체가-있다면-시작이-그것-밖에-없으니-생성자가-아니더라도-필드에서-바로-new-ready--최초시작상태-객체로-초기화해줘도-된다">중요) 상태객체가 단독 public으로 열린 최초시작상태Ready 객체가 있다면, 시작이 그것 밖에 없으니, 생성자가 아니더라도 필드에서 바로 new Ready(); = (최초시작상태 객체)로 초기화`해줘도 된다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#암기-상태패턴은-필드에서부터-열려있는-접근제어자는-ready객체-밖에-없어서-private-state-state--new-ready로-시작">암기) 상태패턴은 필드에서부터 열려있는 접근제어자는 Ready객체 밖에 없어서 private State state = new Ready();로 시작</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#72-상태사용자-player-등은-상태업데이트-메서드-statedrawcard를-사용하는-메서드를-한번더-만들어줘야한다-객체를-포장하는-조합처럼---이-때-필요한-재료card를-바로-줄지-아니면-더-바깥상태의-재료를-받아서--내부에서-꺼내서서-넘길지deckpick---card는-사용자-맘이다---어떻게-되었든-player는-인터페이스로-연결된--state를-모른다">72) 상태사용자 Player 등은, 상태업데이트 메서드 state.draw(card)를 사용하는 메서드를 한번더 만들어줘야한다( 객체를 포장하는 조합처럼).  + 이 때, 필요한 재료(card)를 바로 줄지, 아니면 더 바깥상태의 재료를 받아서  내부에서 꺼내서서 넘길지(Deck.pick() -&gt; card)는 사용자 맘이다. -&gt; 어떻게 되었든 Player는 인터페이스로 연결된  State를 모른다.</a></li>
+<li class="toc-entry toc-h4"><a href="#73-사용자-가-끝나기전-호출가능-메서드들draw-stay을-호출하는-메서드를-작성할-때는--항상-내부에서-현재state가-아직-안-끝난-상태인지-확인후-호출되도록-해야한다">73) 사용자 가 끝나기전 호출가능 메서드들(draw, stay)을 호출하는 메서드를 작성할 때는,  항상 내부에서 현재State가 아직 안 끝난 상태인지 확인후 호출되도록 해야한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#74-state사용자가-상태변화메서드draw의-재료뭉태기를-파라미터로--while--is끝난상태객체-될대까지로-돌리면-한번에-계속-호출할-수-도-있다">74) state사용자가 상태변화메서드draw()의 재료뭉태기를 파라미터로 + while + is끝난상태객체 될대까지로 돌리면 한번에 계속 호출할 수 도 있다.</a></li>
+<li class="toc-entry toc-h4"><a href="#my-매번-끝났는지-확인가능--끝날때까지-재료가-매번-제공되면---if로-1동작만-할-것을---while로-여러동작할-수-있다">my) 매번 끝났는지 확인가능 + 끝날때까지 재료가 매번 제공되면 -&gt; if로 1동작만 할 것을 -&gt; while로 여러동작할 수 있다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#남은일">남은일</a></li>
+</ul><h3 id="추상화레벨-맞추기는-나중에">
+<a class="anchor" href="#%EC%B6%94%EC%83%81%ED%99%94%EB%A0%88%EB%B2%A8-%EB%A7%9E%EC%B6%94%EA%B8%B0%EB%8A%94-%EB%82%98%EC%A4%91%EC%97%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>추상화레벨 맞추기는 나중에</h3>
+
+<h3 id="중요-클라이언트-관점에서-더-필요한-기능이-남았는지-꼭데기-인터페이스에서-고민하기">
+<a class="anchor" href="#%EC%A4%91%EC%9A%94-%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8-%EA%B4%80%EC%A0%90%EC%97%90%EC%84%9C-%EB%8D%94-%ED%95%84%EC%9A%94%ED%95%9C-%EA%B8%B0%EB%8A%A5%EC%9D%B4-%EB%82%A8%EC%95%98%EB%8A%94%EC%A7%80-%EA%BC%AD%EB%8D%B0%EA%B8%B0-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EC%97%90%EC%84%9C-%EA%B3%A0%EB%AF%BC%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>중요) <code class="language-plaintext highlighter-rouge">클라이언트 관점에서 더 필요한 기능</code>이 남았는지 <code class="language-plaintext highlighter-rouge">꼭데기 인터페이스에서 고민</code>하기</h3>
+
+<h4 id="중요-기존-상태패턴용-인페-메서드들-고민해보기">
+<a class="anchor" href="#%EC%A4%91%EC%9A%94-%EA%B8%B0%EC%A1%B4-%EC%83%81%ED%83%9C%ED%8C%A8%ED%84%B4%EC%9A%A9-%EC%9D%B8%ED%8E%98-%EB%A9%94%EC%84%9C%EB%93%9C%EB%93%A4-%EA%B3%A0%EB%AF%BC%ED%95%B4%EB%B3%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>중요) 기존 [상태패턴용 인페 <code class="language-plaintext highlighter-rouge">메서드]들 고민</code>해보기</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220323122456918.png" alt="image-20220323122456918"></p>
+
+<h5 id="my-깨닮음--메서드는-1인자-파라미터로-오는-추가정보가-있냐없냐에-따라----추가정보을-유발된-상태값-업데이트냐-원래-상태값의-조회해서-처리냐를-구분--2--응답값을-통해--추상체-or-객체냐상태값값이냐----처리내용이-같은-상카아래의-구현체-중-1개-객체-생성이냐-내부값-단순-조회-연산이냐가-나눠진다">
+<a class="anchor" href="#my-%EA%B9%A8%EB%8B%AE%EC%9D%8C--%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-1%EC%9D%B8%EC%9E%90-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A1%9C-%EC%98%A4%EB%8A%94-%EC%B6%94%EA%B0%80%EC%A0%95%EB%B3%B4%EA%B0%80-%EC%9E%88%EB%83%90%EC%97%86%EB%83%90%EC%97%90-%EB%94%B0%EB%9D%BC----%EC%B6%94%EA%B0%80%EC%A0%95%EB%B3%B4%EC%9D%84-%EC%9C%A0%EB%B0%9C%EB%90%9C-%EC%83%81%ED%83%9C%EA%B0%92-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EB%83%90-%EC%9B%90%EB%9E%98-%EC%83%81%ED%83%9C%EA%B0%92%EC%9D%98-%EC%A1%B0%ED%9A%8C%ED%95%B4%EC%84%9C-%EC%B2%98%EB%A6%AC%EB%83%90%EB%A5%BC-%EA%B5%AC%EB%B6%84--2--%EC%9D%91%EB%8B%B5%EA%B0%92%EC%9D%84-%ED%86%B5%ED%95%B4--%EC%B6%94%EC%83%81%EC%B2%B4-or-%EA%B0%9D%EC%B2%B4%EB%83%90%EC%83%81%ED%83%9C%EA%B0%92%EA%B0%92%EC%9D%B4%EB%83%90----%EC%B2%98%EB%A6%AC%EB%82%B4%EC%9A%A9%EC%9D%B4-%EA%B0%99%EC%9D%80-%EC%83%81%EC%B9%B4%EC%95%84%EB%9E%98%EC%9D%98-%EA%B5%AC%ED%98%84%EC%B2%B4-%EC%A4%91-1%EA%B0%9C-%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1%EC%9D%B4%EB%83%90-%EB%82%B4%EB%B6%80%EA%B0%92-%EB%8B%A8%EC%88%9C-%EC%A1%B0%ED%9A%8C-%EC%97%B0%EC%82%B0%EC%9D%B4%EB%83%90%EA%B0%80-%EB%82%98%EB%88%A0%EC%A7%84%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my+ 깨닮음 ) 메서드는 (1)<code class="language-plaintext highlighter-rouge">(인자-&gt;파라미터로 오는) 추가정보가 있냐/없냐</code>에 따라  -&gt; <code class="language-plaintext highlighter-rouge">추가정보을 유발된 상태값 업데이트냐/ 원래 상태값의 조회해서 처리냐</code>를 구분 + (2)  <code class="language-plaintext highlighter-rouge">응답값</code>을 통해  <code class="language-plaintext highlighter-rouge">추상체 or 객체냐/상태값/값이냐</code> -&gt;  처리내용이 <code class="language-plaintext highlighter-rouge">같은 상카아래의 구현체 중 1개 객체 생성이냐/ 내부값 단순 조회/ 연산</code>이냐가 나눠진다.</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">State</span> <span class="o">{</span>
+    <span class="nc">State</span> <span class="nf">draw</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Card</span> <span class="n">card</span><span class="o">);</span>
+    <span class="c1">// [추가 정보]를 받아서 [상태값을 업데이트해서 -&gt; 새 객체를 만들어내겠군]</span>
+    <span class="c1">// 응답이 추상체(인터페이스)? -&gt; 서로 다른 구현체로 바뀔 수도 있겠군</span>
+    <span class="c1">// 구현체끼리 바뀌려면 -&gt; 같은 상태값 &amp;&amp; 상태값을 재료로 받는 생성자가 있어야겠지</span>
+
+    <span class="nc">State</span> <span class="nf">stay</span><span class="o">();</span>
+    <span class="c1">// 추가 정보가 없는 메서드? 상태값을 업데이트보단 [조회해서 처리] 확률이 높겠다.</span>
+    <span class="c1">// -&gt; 아무래도 [현재 상태값을 조회하여 -&gt; 무엇인가 처리]할텐데,</span>
+    <span class="c1">// -&gt; 응답값 [추상체다? ] -&gt;  [조회해서 다른 구현체 객체]로도 갈 수 있을 듯?</span>
+
+    <span class="nc">Cards</span> <span class="nf">cards</span><span class="o">();</span>
+    <span class="c1">// 추가 정보가 없는 메서드? 상태값을 업데이트보단 [조회해서 처리] 화률이 높겠다.</span>
+    <span class="c1">// -&gt; 아무래도 [현재 상태값을 조회하여 -&gt; 무엇인가 처리]할텐데,</span>
+    <span class="c1">// -&gt; 응답값이 </span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<h4 id="54--상태패턴-상카에서-빠진-기능-살펴보기">
+<a class="anchor" href="#54--%EC%83%81%ED%83%9C%ED%8C%A8%ED%84%B4-%EC%83%81%EC%B9%B4%EC%97%90%EC%84%9C-%EB%B9%A0%EC%A7%84-%EA%B8%B0%EB%8A%A5-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>54)  상태패턴 상카에서 빠진 기능 살펴보기</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">State</span> <span class="o">{</span>
+    <span class="nc">State</span> <span class="nf">draw</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Card</span> <span class="n">card</span><span class="o">);</span>
+
+    <span class="nc">State</span> <span class="nf">stay</span><span class="o">();</span>
+
+    <span class="nc">Cards</span> <span class="nf">cards</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="현재-상태-종류-1-끝난-상태-3개--2-최초시작진행가능-상태-1개--3-중간-진행가능상태-1">
+<a class="anchor" href="#%ED%98%84%EC%9E%AC-%EC%83%81%ED%83%9C-%EC%A2%85%EB%A5%98-1-%EB%81%9D%EB%82%9C-%EC%83%81%ED%83%9C-3%EA%B0%9C--2-%EC%B5%9C%EC%B4%88%EC%8B%9C%EC%9E%91%EC%A7%84%ED%96%89%EA%B0%80%EB%8A%A5-%EC%83%81%ED%83%9C-1%EA%B0%9C--3-%EC%A4%91%EA%B0%84-%EC%A7%84%ED%96%89%EA%B0%80%EB%8A%A5%EC%83%81%ED%83%9C-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>현재 상태 종류 (1) 끝난 상태 3개  (2) 최초시작&amp;&amp;진행가능 상태 1개  (3) 중간 진행가능상태 (1)</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220324104540574.png" alt="image-20220324104540574"></p>
+
+<h5 id="상태-상카의-현재기능-1상태변화-트리거draw추정---2-자의종료상태-만들기stay--3현재상태-상태값gettercards----중복제거으로-올렸더니-자식들-개별구현시-상태값-뽑아쓰기용">
+<a class="anchor" href="#%EC%83%81%ED%83%9C-%EC%83%81%EC%B9%B4%EC%9D%98-%ED%98%84%EC%9E%AC%EA%B8%B0%EB%8A%A5-1%EC%83%81%ED%83%9C%EB%B3%80%ED%99%94-%ED%8A%B8%EB%A6%AC%EA%B1%B0draw%EC%B6%94%EC%A0%95---2-%EC%9E%90%EC%9D%98%EC%A2%85%EB%A3%8C%EC%83%81%ED%83%9C-%EB%A7%8C%EB%93%A4%EA%B8%B0stay--3%ED%98%84%EC%9E%AC%EC%83%81%ED%83%9C-%EC%83%81%ED%83%9C%EA%B0%92gettercards----%EC%A4%91%EB%B3%B5%EC%A0%9C%EA%B1%B0%EC%9C%BC%EB%A1%9C-%EC%98%AC%EB%A0%B8%EB%8D%94%EB%8B%88-%EC%9E%90%EC%8B%9D%EB%93%A4-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%EC%8B%9C-%EC%83%81%ED%83%9C%EA%B0%92-%EB%BD%91%EC%95%84%EC%93%B0%EA%B8%B0%EC%9A%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>상태 상카의 현재기능 (1)상태변화 트리거(draw(추정)) +  (2) (자의)종료상태 만들기(stay) + (3)현재상태 상태값getter(cards)  - (중복제거으로 올렸더니 자식들 개별구현시 상태값 뽑아쓰기용)</h5>
+
+<h5 id="3개-기능-이외에-더-필요한-기능은--4-매번-끝났느지-안끝났는지-확인하는-기능은-필수로-제공되어야한다">
+<a class="anchor" href="#3%EA%B0%9C-%EA%B8%B0%EB%8A%A5-%EC%9D%B4%EC%99%B8%EC%97%90-%EB%8D%94-%ED%95%84%EC%9A%94%ED%95%9C-%EA%B8%B0%EB%8A%A5%EC%9D%80--4-%EB%A7%A4%EB%B2%88-%EB%81%9D%EB%82%AC%EB%8A%90%EC%A7%80-%EC%95%88%EB%81%9D%EB%82%AC%EB%8A%94%EC%A7%80-%ED%99%95%EC%9D%B8%ED%95%98%EB%8A%94-%EA%B8%B0%EB%8A%A5%EC%9D%80-%ED%95%84%EC%88%98%EB%A1%9C-%EC%A0%9C%EA%B3%B5%EB%90%98%EC%96%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>3개 기능 이외에 더 필요한 기능은?  (4) 매번 <code class="language-plaintext highlighter-rouge">끝났느지 안끝났는지 확인하는 기능은 필수</code>로 제공되어야한다.</h5>
+
+<h3 id="중요-특정클래스추상클래스-중카에-속하는지-확인하기-위해-개별객체-isinstanceof-클래스class-대신----객체is특정추클--특정클래스는-true-나머지클래스는-false를-반환하는--is특정클래스의-이름을-딴boolean확인메서드를-새-메서드로서-추메전메에-올려서-구현한다">
+<a class="anchor" href="#%EC%A4%91%EC%9A%94-%ED%8A%B9%EC%A0%95%ED%81%B4%EB%9E%98%EC%8A%A4%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%A4%91%EC%B9%B4%EC%97%90-%EC%86%8D%ED%95%98%EB%8A%94%EC%A7%80-%ED%99%95%EC%9D%B8%ED%95%98%EA%B8%B0-%EC%9C%84%ED%95%B4-%EA%B0%9C%EB%B3%84%EA%B0%9D%EC%B2%B4-isinstanceof-%ED%81%B4%EB%9E%98%EC%8A%A4class-%EB%8C%80%EC%8B%A0----%EA%B0%9D%EC%B2%B4is%ED%8A%B9%EC%A0%95%EC%B6%94%ED%81%B4--%ED%8A%B9%EC%A0%95%ED%81%B4%EB%9E%98%EC%8A%A4%EB%8A%94-true-%EB%82%98%EB%A8%B8%EC%A7%80%ED%81%B4%EB%9E%98%EC%8A%A4%EB%8A%94-false%EB%A5%BC-%EB%B0%98%ED%99%98%ED%95%98%EB%8A%94--is%ED%8A%B9%EC%A0%95%ED%81%B4%EB%9E%98%EC%8A%A4%EC%9D%98-%EC%9D%B4%EB%A6%84%EC%9D%84-%EB%94%B4boolean%ED%99%95%EC%9D%B8%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EC%83%88-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C%EC%84%9C-%EC%B6%94%EB%A9%94%EC%A0%84%EB%A9%94%EC%97%90-%EC%98%AC%EB%A0%A4%EC%84%9C-%EA%B5%AC%ED%98%84%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>중요) 특정클래스(추상클래스, 중카)에 속하는지 확인하기 위해 개별객체. isInstanceof 클래스.class 대신 -&gt;  <code class="language-plaintext highlighter-rouge">객체.is특정추클?  특정클래스는 true/ 나머지클래스는 false를 반환하는 &amp;&amp; is특정클래스()의 이름을 딴boolean확인메서드</code>를 <code class="language-plaintext highlighter-rouge">새 메서드로서 추메/전메에 올려서 구현</code>한다.</h3>
+
+<h4 id="55-isinstanceof중카class-안쓰고-매번-끝난-상태중카-추상클래스인지-아닌지-확인하는-기능---해당끝난상태-중카true-vs-나머지-중카false를-반환하는-확인클래스이름을-딴-boolean확인메서드를-상카에-추가하기">
+<a class="anchor" href="#55-isinstanceof%EC%A4%91%EC%B9%B4class-%EC%95%88%EC%93%B0%EA%B3%A0-%EB%A7%A4%EB%B2%88-%EB%81%9D%EB%82%9C-%EC%83%81%ED%83%9C%EC%A4%91%EC%B9%B4-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EC%9D%B8%EC%A7%80-%EC%95%84%EB%8B%8C%EC%A7%80-%ED%99%95%EC%9D%B8%ED%95%98%EB%8A%94-%EA%B8%B0%EB%8A%A5---%ED%95%B4%EB%8B%B9%EB%81%9D%EB%82%9C%EC%83%81%ED%83%9C-%EC%A4%91%EC%B9%B4true-vs-%EB%82%98%EB%A8%B8%EC%A7%80-%EC%A4%91%EC%B9%B4false%EB%A5%BC-%EB%B0%98%ED%99%98%ED%95%98%EB%8A%94-%ED%99%95%EC%9D%B8%ED%81%B4%EB%9E%98%EC%8A%A4%EC%9D%B4%EB%A6%84%EC%9D%84-%EB%94%B4-boolean%ED%99%95%EC%9D%B8%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EC%83%81%EC%B9%B4%EC%97%90-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>55) isInstanceof(중카.class) 안쓰고 <code class="language-plaintext highlighter-rouge">매번 끝난 상태(중카, 추상클래스)인지 아닌지 확인하는 기능</code> -&gt; <code class="language-plaintext highlighter-rouge">해당(끝난상태) 중카true vs 나머지 중카false를 반환하는 [확인클래스이름을 딴 boolean확인메서드]를 상카에 추가</code>하기</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220324110056739.png" alt="image-20220324110056739"></p>
+
+<h5 id="까먹-finished처럼-중카추클-전체에-적용되는-메서드들은-자식들이-딴짓-못하게-final로-막아주기">
+<a class="anchor" href="#%EA%B9%8C%EB%A8%B9-finished%EC%B2%98%EB%9F%BC-%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4-%EC%A0%84%EC%B2%B4%EC%97%90-%EC%A0%81%EC%9A%A9%EB%90%98%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C%EB%93%A4%EC%9D%80-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%B4-%EB%94%B4%EC%A7%93-%EB%AA%BB%ED%95%98%EA%B2%8C-final%EB%A1%9C-%EB%A7%89%EC%95%84%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>까먹) Finished처럼, 중카/추클 전체에 적용되는 메서드들은, 자식들이 딴짓 못하게 final로 막아주기</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325092602060.png" alt="image-20220325092602060">
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325092707516.png" alt="image-20220325092707516"></p>
+
+<h4 id="중요-instanceof를-썼다면-잘못된-설계다---메서드에-메세지보내서-t나머지f를-받을-수-있게-메서드로-관리하자">
+<a class="anchor" href="#%EC%A4%91%EC%9A%94-instanceof%EB%A5%BC-%EC%8D%BC%EB%8B%A4%EB%A9%B4-%EC%9E%98%EB%AA%BB%EB%90%9C-%EC%84%A4%EA%B3%84%EB%8B%A4---%EB%A9%94%EC%84%9C%EB%93%9C%EC%97%90-%EB%A9%94%EC%84%B8%EC%A7%80%EB%B3%B4%EB%82%B4%EC%84%9C-t%EB%82%98%EB%A8%B8%EC%A7%80f%EB%A5%BC-%EB%B0%9B%EC%9D%84-%EC%88%98-%EC%9E%88%EA%B2%8C-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EA%B4%80%EB%A6%AC%ED%95%98%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>중요) instanceof를 썼다면, 잘못된 설계다? -&gt; 메서드에 메세지보내서 t/나머지f를 받을 수 있게 메서드로 관리하자.</h4>
+
+<h4 id="56-특정추클이-맞는지-확인메서드이지만-모든-상태-객체가-대상이다---새-메서드는-일단-추메전메에-올려서-먼저-개발">
+<a class="anchor" href="#56-%ED%8A%B9%EC%A0%95%EC%B6%94%ED%81%B4%EC%9D%B4-%EB%A7%9E%EB%8A%94%EC%A7%80-%ED%99%95%EC%9D%B8%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%B4%EC%A7%80%EB%A7%8C-%EB%AA%A8%EB%93%A0-%EC%83%81%ED%83%9C-%EA%B0%9D%EC%B2%B4%EA%B0%80-%EB%8C%80%EC%83%81%EC%9D%B4%EB%8B%A4---%EC%83%88-%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-%EC%9D%BC%EB%8B%A8-%EC%B6%94%EB%A9%94%EC%A0%84%EB%A9%94%EC%97%90-%EC%98%AC%EB%A0%A4%EC%84%9C-%EB%A8%BC%EC%A0%80-%EA%B0%9C%EB%B0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>56) <code class="language-plaintext highlighter-rouge">특정추클</code>이 맞는지 <code class="language-plaintext highlighter-rouge">확인메서드</code>이지만, 모든 상태 객체가 대상이다 -&gt; 새 메서드는 일단 추메/전메에 올려서 먼저 개발</h4>
+
+<h5 id="상카인페에-새-추메전메를-올릴-때-인페-안에서-접근제한자-생략---자동public-이므로-returntype--파라미터의-시그니처만-정의한다">
+<a class="anchor" href="#%EC%83%81%EC%B9%B4%EC%9D%B8%ED%8E%98%EC%97%90-%EC%83%88-%EC%B6%94%EB%A9%94%EC%A0%84%EB%A9%94%EB%A5%BC-%EC%98%AC%EB%A6%B4-%EB%95%8C-%EC%9D%B8%ED%8E%98-%EC%95%88%EC%97%90%EC%84%9C-%EC%A0%91%EA%B7%BC%EC%A0%9C%ED%95%9C%EC%9E%90-%EC%83%9D%EB%9E%B5---%EC%9E%90%EB%8F%99public-%EC%9D%B4%EB%AF%80%EB%A1%9C-returntype--%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EC%9D%98-%EC%8B%9C%EA%B7%B8%EB%8B%88%EC%B2%98%EB%A7%8C-%EC%A0%95%EC%9D%98%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>상카인페에 새 추메/전메를 올릴 때 <code class="language-plaintext highlighter-rouge">인페 안에서 접근제한자 생략 -&gt; 자동public</code> 이므로 <code class="language-plaintext highlighter-rouge">returnType + 파라미터의 시그니처</code>만 정의한다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220324111327885.png" alt="image-20220324111327885"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">State</span> <span class="o">{</span>
+    <span class="nc">State</span> <span class="nf">draw</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Card</span> <span class="n">card</span><span class="o">);</span>
+
+    <span class="nc">State</span> <span class="nf">stay</span><span class="o">();</span>
+
+    <span class="nc">Cards</span> <span class="nf">cards</span><span class="o">();</span>
+
+    <span class="c1">// 하위 특정클래스 확인후 t/f를 반환해줄 메서드 추가</span>
+    <span class="kt">boolean</span> <span class="nf">isFinished</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="중요-개별구현이-예상되면tf확인메서드---개별구현되는-곳까지-중간에-추클들은-무시하고-내려가서-구현해야한다--중간추클에-구현-impl--중복코드-제거용으로-다시-추상메서드를-정의하지말고-무시하면---자식들이-화내면서-개별구현해야한다----즉-개별구현해야된다면-중간추클을-만나더라도-추상메서드-줄-필요없이-무시하면-개별구현자식들에게-자동전과되서-빨간줄-띄운다">
+<a class="anchor" href="#%EC%A4%91%EC%9A%94-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%EC%9D%B4-%EC%98%88%EC%83%81%EB%90%98%EB%A9%B4tf%ED%99%95%EC%9D%B8%EB%A9%94%EC%84%9C%EB%93%9C---%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%EB%90%98%EB%8A%94-%EA%B3%B3%EA%B9%8C%EC%A7%80-%EC%A4%91%EA%B0%84%EC%97%90-%EC%B6%94%ED%81%B4%EB%93%A4%EC%9D%80-%EB%AC%B4%EC%8B%9C%ED%95%98%EA%B3%A0-%EB%82%B4%EB%A0%A4%EA%B0%80%EC%84%9C-%EA%B5%AC%ED%98%84%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4--%EC%A4%91%EA%B0%84%EC%B6%94%ED%81%B4%EC%97%90-%EA%B5%AC%ED%98%84-impl--%EC%A4%91%EB%B3%B5%EC%BD%94%EB%93%9C-%EC%A0%9C%EA%B1%B0%EC%9A%A9%EC%9C%BC%EB%A1%9C-%EB%8B%A4%EC%8B%9C-%EC%B6%94%EC%83%81%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EC%A0%95%EC%9D%98%ED%95%98%EC%A7%80%EB%A7%90%EA%B3%A0-%EB%AC%B4%EC%8B%9C%ED%95%98%EB%A9%B4---%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%B4-%ED%99%94%EB%82%B4%EB%A9%B4%EC%84%9C-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4----%EC%A6%89-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%ED%95%B4%EC%95%BC%EB%90%9C%EB%8B%A4%EB%A9%B4-%EC%A4%91%EA%B0%84%EC%B6%94%ED%81%B4%EC%9D%84-%EB%A7%8C%EB%82%98%EB%8D%94%EB%9D%BC%EB%8F%84-%EC%B6%94%EC%83%81%EB%A9%94%EC%84%9C%EB%93%9C-%EC%A4%84-%ED%95%84%EC%9A%94%EC%97%86%EC%9D%B4-%EB%AC%B4%EC%8B%9C%ED%95%98%EB%A9%B4-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%EC%9E%90%EC%8B%9D%EB%93%A4%EC%97%90%EA%B2%8C-%EC%9E%90%EB%8F%99%EC%A0%84%EA%B3%BC%EB%90%98%EC%84%9C-%EB%B9%A8%EA%B0%84%EC%A4%84-%EB%9D%84%EC%9A%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>중요) 개별구현이 예상되면(t/f확인메서드) -&gt; 개별구현되는 곳까지 <code class="language-plaintext highlighter-rouge">중간에 추클들은 무시하고 내려가</code>서 구현해야한다.  <code class="language-plaintext highlighter-rouge">중간/추클에 구현 impl == 중복코드 제거용으로 다시 추상메서드를 정의하지말고 무시하면 -&gt; 자식들이 화내면서 개별구현해야한다 </code> -&gt; 즉, 개별구현해야된다면, 중간추클을 만나더라도 추상메서드 줄 필요없이 무시하면 개별구현자식들에게 자동전과되서 빨간줄 띄운다</h4>
+
+<h5 id="최상위-중카인-started가-있지만-finished---그외-중카의-개별구현이-예상되면-개별구현되는-상위-중카추클까지-내려가서-구현한다-최상위-중카를-무시하고-내려가면-자식들에게-전과되어-개별구현하게-한다">
+<a class="anchor" href="#%EC%B5%9C%EC%83%81%EC%9C%84-%EC%A4%91%EC%B9%B4%EC%9D%B8-started%EA%B0%80-%EC%9E%88%EC%A7%80%EB%A7%8C-finished---%EA%B7%B8%EC%99%B8-%EC%A4%91%EC%B9%B4%EC%9D%98-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%EC%9D%B4-%EC%98%88%EC%83%81%EB%90%98%EB%A9%B4-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%EB%90%98%EB%8A%94-%EC%83%81%EC%9C%84-%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4%EA%B9%8C%EC%A7%80-%EB%82%B4%EB%A0%A4%EA%B0%80%EC%84%9C-%EA%B5%AC%ED%98%84%ED%95%9C%EB%8B%A4-%EC%B5%9C%EC%83%81%EC%9C%84-%EC%A4%91%EC%B9%B4%EB%A5%BC-%EB%AC%B4%EC%8B%9C%ED%95%98%EA%B3%A0-%EB%82%B4%EB%A0%A4%EA%B0%80%EB%A9%B4-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%97%90%EA%B2%8C-%EC%A0%84%EA%B3%BC%EB%90%98%EC%96%B4-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%ED%95%98%EA%B2%8C-%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>최상위 중카인 Started가 있지만, <code class="language-plaintext highlighter-rouge">Finished</code> &lt;-&gt; <code class="language-plaintext highlighter-rouge">그외 중카</code>의 개별구현이 예상되면, <code class="language-plaintext highlighter-rouge">개별구현되는 상위 중카추클까지 내려가서 구현</code>한다. (최상위 중카를 무시하고 내려가면, 자식들에게 전과되어 개별구현하게 한다)</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220324112657561.png" alt="image-20220324112657561"></p>
+
+<h4 id="암기-상카-인터페이스에서-추메전메로-올려서-개발시작하되-개별구현되는-곳까지는-중카-추클을-무시해서-개별구현-전과를-돌려도-된다---중간에-있다고-해서-미구현-추상메서드로-구현해-둘-필요없다">
+<a class="anchor" href="#%EC%95%94%EA%B8%B0-%EC%83%81%EC%B9%B4-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EC%97%90%EC%84%9C-%EC%B6%94%EB%A9%94%EC%A0%84%EB%A9%94%EB%A1%9C-%EC%98%AC%EB%A0%A4%EC%84%9C-%EA%B0%9C%EB%B0%9C%EC%8B%9C%EC%9E%91%ED%95%98%EB%90%98-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%EB%90%98%EB%8A%94-%EA%B3%B3%EA%B9%8C%EC%A7%80%EB%8A%94-%EC%A4%91%EC%B9%B4-%EC%B6%94%ED%81%B4%EC%9D%84-%EB%AC%B4%EC%8B%9C%ED%95%B4%EC%84%9C-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84-%EC%A0%84%EA%B3%BC%EB%A5%BC-%EB%8F%8C%EB%A0%A4%EB%8F%84-%EB%90%9C%EB%8B%A4---%EC%A4%91%EA%B0%84%EC%97%90-%EC%9E%88%EB%8B%A4%EA%B3%A0-%ED%95%B4%EC%84%9C-%EB%AF%B8%EA%B5%AC%ED%98%84-%EC%B6%94%EC%83%81%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EA%B5%AC%ED%98%84%ED%95%B4-%EB%91%98-%ED%95%84%EC%9A%94%EC%97%86%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>암기) 상카 인터페이스에서 추메/전메로 올려서 개발시작하되, <code class="language-plaintext highlighter-rouge">개별구현되는 곳까지는 중카-추클을 무시해서 개별구현 전과를 돌려도 된다</code> -&gt; <code class="language-plaintext highlighter-rouge">중간에 있다고 해서 미구현 추상메서드로 구현해 둘 필요없다</code>
+</h4>
+
+<h4 id="57-isxxxx-대상-중카추클까지-내려가서-개별구현으로서-true를-반환해준다">
+<a class="anchor" href="#57-isxxxx-%EB%8C%80%EC%83%81-%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4%EA%B9%8C%EC%A7%80-%EB%82%B4%EB%A0%A4%EA%B0%80%EC%84%9C-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%EC%9C%BC%EB%A1%9C%EC%84%9C-true%EB%A5%BC-%EB%B0%98%ED%99%98%ED%95%B4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>57) isXXXX() 대상 중카/추클까지 내려가서 개별구현으로서 true를 반환해준다</h4>
+
+<ol>
+  <li>
+    <p>상카인 <code class="language-plaintext highlighter-rouge">State</code>에서 추메/전메로 올려서 시작했으면서 &amp;&amp; <strong>중카인 <code class="language-plaintext highlighter-rouge">Started</code>를 건너띄</strong>었다면?</p>
+
+    <ul>
+      <li>
+        <p>(추가 중카인 Finished 역시 필수 구현체X &amp; 중복코드라도 아직은 구현안해준 상태)에서</p>
+
+        <p>**<code class="language-plaintext highlighter-rouge">중카 추클이 구현impl을 무시했다면, 개별구현 책임이 자식들한테 넘어가 화가나있다</code> **</p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220324113025894.png" alt="image-20220324113025894"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>일단 isFinished()의 true를 대답해줄 그룹에 대해서 <code class="language-plaintext highlighter-rouge">추클에 중복코드로서 구현</code>해준다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220324113117322.png" alt="image-20220324113117322">
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220324113202372.png" alt="image-20220324113202372"></p>
+  </li>
+</ol>
+
+<h4 id="깜빡-중복제거를-위해-상카-추메전메---중카추클에서-먹어서-정의하러-왔으면-중카추클-정의시는-항상-final로-자식-딴짓-못하게-막기">
+<a class="anchor" href="#%EA%B9%9C%EB%B9%A1-%EC%A4%91%EB%B3%B5%EC%A0%9C%EA%B1%B0%EB%A5%BC-%EC%9C%84%ED%95%B4-%EC%83%81%EC%B9%B4-%EC%B6%94%EB%A9%94%EC%A0%84%EB%A9%94---%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4%EC%97%90%EC%84%9C-%EB%A8%B9%EC%96%B4%EC%84%9C-%EC%A0%95%EC%9D%98%ED%95%98%EB%9F%AC-%EC%99%94%EC%9C%BC%EB%A9%B4-%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4-%EC%A0%95%EC%9D%98%EC%8B%9C%EB%8A%94-%ED%95%AD%EC%83%81-final%EB%A1%9C-%EC%9E%90%EC%8B%9D-%EB%94%B4%EC%A7%93-%EB%AA%BB%ED%95%98%EA%B2%8C-%EB%A7%89%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>깜빡!) <code class="language-plaintext highlighter-rouge">중복제거를 위해</code> 상카-추메/전메 -&gt; <code class="language-plaintext highlighter-rouge">중카/추클에서 먹어서 정의</code>하러 왔으면, <code class="language-plaintext highlighter-rouge">중카/추클 정의시는 항상 final로 자식 딴짓 못하게 막</code>기</h4>
+
+<ul>
+  <li>아래 일부사진들을 보면 중복제거용 부모 먹어주는 코드인 <code class="language-plaintext highlighter-rouge">isFinished</code>가 <strong>final이 안달려있다.</strong>
+</li>
+</ul>
+
+<h4 id="58-isfinished-개별구현-책임이-전과된--isfinished-중카추클에-속하지-않은-중카추클이-아닌-개별구현체들---중복코드제거-해줄-추클이-위에-없다면-전과받은-개별구현체들이-모두-직접-구현">
+<a class="anchor" href="#58-isfinished-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84-%EC%B1%85%EC%9E%84%EC%9D%B4-%EC%A0%84%EA%B3%BC%EB%90%9C--isfinished-%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4%EC%97%90-%EC%86%8D%ED%95%98%EC%A7%80-%EC%95%8A%EC%9D%80-%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4%EC%9D%B4-%EC%95%84%EB%8B%8C-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%EC%B2%B4%EB%93%A4---%EC%A4%91%EB%B3%B5%EC%BD%94%EB%93%9C%EC%A0%9C%EA%B1%B0-%ED%95%B4%EC%A4%84-%EC%B6%94%ED%81%B4%EC%9D%B4-%EC%9C%84%EC%97%90-%EC%97%86%EB%8B%A4%EB%A9%B4-%EC%A0%84%EA%B3%BC%EB%B0%9B%EC%9D%80-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%EC%B2%B4%EB%93%A4%EC%9D%B4-%EB%AA%A8%EB%91%90-%EC%A7%81%EC%A0%91-%EA%B5%AC%ED%98%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>58) isFinished() 개별구현 책임이 전과된  <code class="language-plaintext highlighter-rouge">isFinished 중카추클에 속하지 않은</code> <code class="language-plaintext highlighter-rouge">중카추클이 아닌 개별구현체들</code> -&gt; <code class="language-plaintext highlighter-rouge">중복코드제거 해줄 추클이 위에 없다면, 전과받은 개별구현체들이 모두 직접 구현</code>
+</h4>
+
+<ul>
+  <li>
+    <p>현재 isFinished가 아닌 Ready와 Hit에 불이 나있다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220324113345677.png" alt="image-20220324113345677"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220324113356859.png" alt="image-20220324113356859"></p>
+
+    <ul>
+      <li>
+        <p>Ready</p>
+
+        <ul>
+          <li>
+            <p>전과된 직접 개별구현 -&gt; <strong>끝난상태냐? false</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220324113450756.png" alt="image-20220324113450756">
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220324113512463.png" alt="image-20220324113512463"></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>Hit 역시 마찬가지 -&gt; <strong>끝난상태냐? false</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220324113534925.png" alt="image-20220324113534925"></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="중요-또-상태패턴의-상카-인터페이스에서-빠진-기능이-없는지-확인한다-블랙잭-라이브러리를-받아와서-이-기능들로-다-구현가능한지를-생각해보면-된다">
+<a class="anchor" href="#%EC%A4%91%EC%9A%94-%EB%98%90-%EC%83%81%ED%83%9C%ED%8C%A8%ED%84%B4%EC%9D%98-%EC%83%81%EC%B9%B4-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EC%97%90%EC%84%9C-%EB%B9%A0%EC%A7%84-%EA%B8%B0%EB%8A%A5%EC%9D%B4-%EC%97%86%EB%8A%94%EC%A7%80-%ED%99%95%EC%9D%B8%ED%95%9C%EB%8B%A4-%EB%B8%94%EB%9E%99%EC%9E%AD-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC%EB%A5%BC-%EB%B0%9B%EC%95%84%EC%99%80%EC%84%9C-%EC%9D%B4-%EA%B8%B0%EB%8A%A5%EB%93%A4%EB%A1%9C-%EB%8B%A4-%EA%B5%AC%ED%98%84%EA%B0%80%EB%8A%A5%ED%95%9C%EC%A7%80%EB%A5%BC-%EC%83%9D%EA%B0%81%ED%95%B4%EB%B3%B4%EB%A9%B4-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>중요) 또 <code class="language-plaintext highlighter-rouge">상태패턴의 상카 인터페이스</code>에서 <code class="language-plaintext highlighter-rouge">빠진 기능이 없는지 확인</code>한다 <code class="language-plaintext highlighter-rouge">블랙잭 라이브러리</code>를 받아와서 <code class="language-plaintext highlighter-rouge">이 기능들로 다 구현가능한지</code>를 생각해보면 된다.</h3>
+
+<ol>
+  <li>상태변화 유발 메서드 with 파라미터(추가정보) -&gt; draw(card)</li>
+  <li>자의로 끝난상태로 종료시키기 -&gt; stay</li>
+  <li>구현체에서 부모상태값정보 받아먹기용 getter -&gt;  cards</li>
+  <li>
+<strong>현재 끝난 상태인지 확인</strong> -&gt; isFinished</li>
+  <li><strong>???</strong></li>
+</ol>
+
+<h4 id="중요-상태패턴의-상태객체가-cards정보를-가지고-있으니---필수-기능외에-계산로직도--상태-상카의-추메전메로-추가해준다">
+<a class="anchor" href="#%EC%A4%91%EC%9A%94-%EC%83%81%ED%83%9C%ED%8C%A8%ED%84%B4%EC%9D%98-%EC%83%81%ED%83%9C%EA%B0%9D%EC%B2%B4%EA%B0%80-cards%EC%A0%95%EB%B3%B4%EB%A5%BC-%EA%B0%80%EC%A7%80%EA%B3%A0-%EC%9E%88%EC%9C%BC%EB%8B%88---%ED%95%84%EC%88%98-%EA%B8%B0%EB%8A%A5%EC%99%B8%EC%97%90-%EA%B3%84%EC%82%B0%EB%A1%9C%EC%A7%81%EB%8F%84--%EC%83%81%ED%83%9C-%EC%83%81%EC%B9%B4%EC%9D%98-%EC%B6%94%EB%A9%94%EC%A0%84%EB%A9%94%EB%A1%9C-%EC%B6%94%EA%B0%80%ED%95%B4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>중요) 상태패턴의 상태객체가 cards정보를 가지고 있으니 -&gt; 필수 기능외에 <code class="language-plaintext highlighter-rouge">계산로직도  상태 상카의 추메/전메</code>로 추가해준다.</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">State</span> <span class="o">{</span>
+    <span class="nc">State</span> <span class="nf">draw</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Card</span> <span class="n">card</span><span class="o">);</span>
+
+    <span class="nc">State</span> <span class="nf">stay</span><span class="o">();</span>
+
+    <span class="nc">Cards</span> <span class="nf">cards</span><span class="o">();</span>
+
+    <span class="kt">boolean</span> <span class="nf">isFinished</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="중요-계산profit-하려면-상태객체마다-isbust인지--isblackjack--isstay-인지-구현체상태객체-종류마다-isinstanceof-대신-boolean확인메서드가-필요해지는데">
+<a class="anchor" href="#%EC%A4%91%EC%9A%94-%EA%B3%84%EC%82%B0profit-%ED%95%98%EB%A0%A4%EB%A9%B4-%EC%83%81%ED%83%9C%EA%B0%9D%EC%B2%B4%EB%A7%88%EB%8B%A4-isbust%EC%9D%B8%EC%A7%80--isblackjack--isstay-%EC%9D%B8%EC%A7%80-%EA%B5%AC%ED%98%84%EC%B2%B4%EC%83%81%ED%83%9C%EA%B0%9D%EC%B2%B4-%EC%A2%85%EB%A5%98%EB%A7%88%EB%8B%A4-isinstanceof-%EB%8C%80%EC%8B%A0-boolean%ED%99%95%EC%9D%B8%EB%A9%94%EC%84%9C%EB%93%9C%EA%B0%80-%ED%95%84%EC%9A%94%ED%95%B4%EC%A7%80%EB%8A%94%EB%8D%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>중요) 계산profit() 하려면, 상태객체마다. isBust()인지 / isBlackjack() / isStay() 인지 <code class="language-plaintext highlighter-rouge">구현체(상태객체) 종류마다 [isinstanceof 대신 boolean확인메서드]가 필요해지는데???</code>
+</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220324114902170.png" alt="image-20220324114902170"></p>
+
+<h3 id="초대박-isinstanceof-특정-중카추클을-대신하는--boolean확인메서드가-아니라-개별-구현체마다-확인이-필요하다면-boolean확인메서드가-구현체-종류마다-필요해지고-나머지는-모두-예외처리해야만-한다---개별구현체마다-다른-로직을-가지고-있으면서--굳이-종료상태냐-확인할-필요없다면--추메전메---중카무시의-개별구현-책임전과를-통해-구현체마다-다른-로직을-구현해서-다형성에서-알아서-처리되도록-구현하자">
+<a class="anchor" href="#%EC%B4%88%EB%8C%80%EB%B0%95-isinstanceof-%ED%8A%B9%EC%A0%95-%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4%EC%9D%84-%EB%8C%80%EC%8B%A0%ED%95%98%EB%8A%94--boolean%ED%99%95%EC%9D%B8%EB%A9%94%EC%84%9C%EB%93%9C%EA%B0%80-%EC%95%84%EB%8B%88%EB%9D%BC-%EA%B0%9C%EB%B3%84-%EA%B5%AC%ED%98%84%EC%B2%B4%EB%A7%88%EB%8B%A4-%ED%99%95%EC%9D%B8%EC%9D%B4-%ED%95%84%EC%9A%94%ED%95%98%EB%8B%A4%EB%A9%B4-boolean%ED%99%95%EC%9D%B8%EB%A9%94%EC%84%9C%EB%93%9C%EA%B0%80-%EA%B5%AC%ED%98%84%EC%B2%B4-%EC%A2%85%EB%A5%98%EB%A7%88%EB%8B%A4-%ED%95%84%EC%9A%94%ED%95%B4%EC%A7%80%EA%B3%A0-%EB%82%98%EB%A8%B8%EC%A7%80%EB%8A%94-%EB%AA%A8%EB%91%90-%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC%ED%95%B4%EC%95%BC%EB%A7%8C-%ED%95%9C%EB%8B%A4---%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%EC%B2%B4%EB%A7%88%EB%8B%A4-%EB%8B%A4%EB%A5%B8-%EB%A1%9C%EC%A7%81%EC%9D%84-%EA%B0%80%EC%A7%80%EA%B3%A0-%EC%9E%88%EC%9C%BC%EB%A9%B4%EC%84%9C--%EA%B5%B3%EC%9D%B4-%EC%A2%85%EB%A3%8C%EC%83%81%ED%83%9C%EB%83%90-%ED%99%95%EC%9D%B8%ED%95%A0-%ED%95%84%EC%9A%94%EC%97%86%EB%8B%A4%EB%A9%B4--%EC%B6%94%EB%A9%94%EC%A0%84%EB%A9%94---%EC%A4%91%EC%B9%B4%EB%AC%B4%EC%8B%9C%EC%9D%98-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84-%EC%B1%85%EC%9E%84%EC%A0%84%EA%B3%BC%EB%A5%BC-%ED%86%B5%ED%95%B4-%EA%B5%AC%ED%98%84%EC%B2%B4%EB%A7%88%EB%8B%A4-%EB%8B%A4%EB%A5%B8-%EB%A1%9C%EC%A7%81%EC%9D%84-%EA%B5%AC%ED%98%84%ED%95%B4%EC%84%9C-%EB%8B%A4%ED%98%95%EC%84%B1%EC%97%90%EC%84%9C-%EC%95%8C%EC%95%84%EC%84%9C-%EC%B2%98%EB%A6%AC%EB%90%98%EB%8F%84%EB%A1%9D-%EA%B5%AC%ED%98%84%ED%95%98%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>초대박) isinstanceof 특정 중카(추클)을 대신하는  boolean확인메서드가 아니라 <code class="language-plaintext highlighter-rouge">개별 구현체마다 확인이 필요하다면, boolean확인메서드가 구현체 종류마다 필요해지고, 나머지는 모두 예외처리?</code>해야만 한다 -&gt; <code class="language-plaintext highlighter-rouge">개별구현체마다 다른 로직을 가지고 있으면서 &amp;&amp; 굳이 (종료상태냐?) 확인할 필요없다면 : 추메/전메 -&gt; [중카무시의 개별구현 책임전과]를 통해 [구현체마다 다른 로직을 구현]해서 다형성에서 알아서 처리되도록 구현</code>하자</h3>
+
+<h4 id="암기-같은-카테고린데-개별구현해야한다면--isinstanceof-x---is특정구현체-x그룹일경우만---묻지말고-전략메서드처럼-추메전메로-개별구현해서-알아서-작동하도록">
+<a class="anchor" href="#%EC%95%94%EA%B8%B0-%EA%B0%99%EC%9D%80-%EC%B9%B4%ED%85%8C%EA%B3%A0%EB%A6%B0%EB%8D%B0-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4%EB%A9%B4--isinstanceof-x---is%ED%8A%B9%EC%A0%95%EA%B5%AC%ED%98%84%EC%B2%B4-x%EA%B7%B8%EB%A3%B9%EC%9D%BC%EA%B2%BD%EC%9A%B0%EB%A7%8C---%EB%AC%BB%EC%A7%80%EB%A7%90%EA%B3%A0-%EC%A0%84%EB%9E%B5%EB%A9%94%EC%84%9C%EB%93%9C%EC%B2%98%EB%9F%BC-%EC%B6%94%EB%A9%94%EC%A0%84%EB%A9%94%EB%A1%9C-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%ED%95%B4%EC%84%9C-%EC%95%8C%EC%95%84%EC%84%9C-%EC%9E%91%EB%8F%99%ED%95%98%EB%8F%84%EB%A1%9D" aria-hidden="true"><span class="octicon octicon-link"></span></a>암기) 같은 카테고린데, 개별구현해야한다면?  isInstanceof (x) -&gt; is특정구현체? (x,그룹일경우만) -&gt; 묻지말고 전략메서드처럼 추메/전메로 개별구현해서 알아서 작동하도록</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220324232549837.png" alt="image-20220324232549837"></p>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220324232639391.png" alt="image-20220324232639391"></p>
+
+<h4 id="my-전체가-크게-나뉘는-종료상태들-진행상태들-등그룹에-대한-확인이면서--isintanceof인지-꼭-물어봐야한다-isboolean메서드를-추메전메-올려서-개별구현까지-가서-구현">
+<a class="anchor" href="#my-%EC%A0%84%EC%B2%B4%EA%B0%80-%ED%81%AC%EA%B2%8C-%EB%82%98%EB%89%98%EB%8A%94-%EC%A2%85%EB%A3%8C%EC%83%81%ED%83%9C%EB%93%A4-%EC%A7%84%ED%96%89%EC%83%81%ED%83%9C%EB%93%A4-%EB%93%B1%EA%B7%B8%EB%A3%B9%EC%97%90-%EB%8C%80%ED%95%9C-%ED%99%95%EC%9D%B8%EC%9D%B4%EB%A9%B4%EC%84%9C--isintanceof%EC%9D%B8%EC%A7%80-%EA%BC%AD-%EB%AC%BC%EC%96%B4%EB%B4%90%EC%95%BC%ED%95%9C%EB%8B%A4-isboolean%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EC%B6%94%EB%A9%94%EC%A0%84%EB%A9%94-%EC%98%AC%EB%A0%A4%EC%84%9C-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%EA%B9%8C%EC%A7%80-%EA%B0%80%EC%84%9C-%EA%B5%AC%ED%98%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) <code class="language-plaintext highlighter-rouge">전체가 크게 나뉘는 (종료상태들&lt;-&gt;진행상태들 등)그룹에 대한 확인</code>이면서 &amp;&amp; <code class="language-plaintext highlighter-rouge">isintanceof인지 꼭 물어봐야</code>한다? <code class="language-plaintext highlighter-rouge">isBoolean메서드를 추메/전메 올려서 개별구현까지 가서 구현</code>
+</h4>
+
+<h4 id="my-모든-구현체마다-다르게-구현되고--물어보면서-그에-따른-로직이-정해져있다----공통메서드-로-추메전메에-올리고---물어보지말고-구현체들마다--직접-개별구현-시키자">
+<a class="anchor" href="#my-%EB%AA%A8%EB%93%A0-%EA%B5%AC%ED%98%84%EC%B2%B4%EB%A7%88%EB%8B%A4-%EB%8B%A4%EB%A5%B4%EA%B2%8C-%EA%B5%AC%ED%98%84%EB%90%98%EA%B3%A0--%EB%AC%BC%EC%96%B4%EB%B3%B4%EB%A9%B4%EC%84%9C-%EA%B7%B8%EC%97%90-%EB%94%B0%EB%A5%B8-%EB%A1%9C%EC%A7%81%EC%9D%B4-%EC%A0%95%ED%95%B4%EC%A0%B8%EC%9E%88%EB%8B%A4----%EA%B3%B5%ED%86%B5%EB%A9%94%EC%84%9C%EB%93%9C-%EB%A1%9C-%EC%B6%94%EB%A9%94%EC%A0%84%EB%A9%94%EC%97%90-%EC%98%AC%EB%A6%AC%EA%B3%A0---%EB%AC%BC%EC%96%B4%EB%B3%B4%EC%A7%80%EB%A7%90%EA%B3%A0-%EA%B5%AC%ED%98%84%EC%B2%B4%EB%93%A4%EB%A7%88%EB%8B%A4--%EC%A7%81%EC%A0%91-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84-%EC%8B%9C%ED%82%A4%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) <code class="language-plaintext highlighter-rouge">모든 구현체마다 다르게 구현</code>되고 &amp;&amp; <code class="language-plaintext highlighter-rouge">물어보면서 그에 따른 로직이 정해져있다?</code> -&gt;  공통메서드 로 추메/전메에 올리고 -&gt; <code class="language-plaintext highlighter-rouge">물어보지말고 구현체들마다  직접 개별구현</code> 시키자</h4>
+
+<h4 id="my깨닮음-어떤-것을-할-때마다-해당-상태객채인지-물어보고--거기에-맞는-로직까지-정해져있다---근데-그-상태가-제한된-종류로서-묶인다---상카-구현체들로서-안물어보고-추메전메로-전략패턴처럼-만들어주면---구현체마다-알아서-작동하도록-개별구현해놓으면----if-instanceof가-사라진다">
+<a class="anchor" href="#my%EA%B9%A8%EB%8B%AE%EC%9D%8C-%EC%96%B4%EB%96%A4-%EA%B2%83%EC%9D%84-%ED%95%A0-%EB%95%8C%EB%A7%88%EB%8B%A4-%ED%95%B4%EB%8B%B9-%EC%83%81%ED%83%9C%EA%B0%9D%EC%B1%84%EC%9D%B8%EC%A7%80-%EB%AC%BC%EC%96%B4%EB%B3%B4%EA%B3%A0--%EA%B1%B0%EA%B8%B0%EC%97%90-%EB%A7%9E%EB%8A%94-%EB%A1%9C%EC%A7%81%EA%B9%8C%EC%A7%80-%EC%A0%95%ED%95%B4%EC%A0%B8%EC%9E%88%EB%8B%A4---%EA%B7%BC%EB%8D%B0-%EA%B7%B8-%EC%83%81%ED%83%9C%EA%B0%80-%EC%A0%9C%ED%95%9C%EB%90%9C-%EC%A2%85%EB%A5%98%EB%A1%9C%EC%84%9C-%EB%AC%B6%EC%9D%B8%EB%8B%A4---%EC%83%81%EC%B9%B4-%EA%B5%AC%ED%98%84%EC%B2%B4%EB%93%A4%EB%A1%9C%EC%84%9C-%EC%95%88%EB%AC%BC%EC%96%B4%EB%B3%B4%EA%B3%A0-%EC%B6%94%EB%A9%94%EC%A0%84%EB%A9%94%EB%A1%9C-%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%B2%98%EB%9F%BC-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A3%BC%EB%A9%B4---%EA%B5%AC%ED%98%84%EC%B2%B4%EB%A7%88%EB%8B%A4-%EC%95%8C%EC%95%84%EC%84%9C-%EC%9E%91%EB%8F%99%ED%95%98%EB%8F%84%EB%A1%9D-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%ED%95%B4%EB%86%93%EC%9C%BC%EB%A9%B4----if-instanceof%EA%B0%80-%EC%82%AC%EB%9D%BC%EC%A7%84%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my+깨닮음) 어떤 것을 할 때마다, <code class="language-plaintext highlighter-rouge">해당 상태(객채)인지 물어보고 + 거기에 맞는 로직까지 정해져있다</code> -&gt; 근데 <code class="language-plaintext highlighter-rouge">그 상태가 제한된 종류로서 묶인다?</code> -&gt; <code class="language-plaintext highlighter-rouge">상카-구현체들</code>로서 안물어보고 <code class="language-plaintext highlighter-rouge">추메/전메로 전략패턴처럼 만들어주면 -&gt; 구현체마다 알아서 작동하도록 개별구현</code>해놓으면 -&gt;  <code class="language-plaintext highlighter-rouge">if instanceof가 사라진다.</code>
+</h4>
+
+<h3 id="중요-상태패턴에서-state구현체들은-다음state의-판단을-위해-상태값에-정보를-가져야만한다---정보를-상태값으로-가졌다면-계산로직도-거기state-구현체-상태객체들에서-구현다르다변-추메전메---개별구현-되어야한다">
+<a class="anchor" href="#%EC%A4%91%EC%9A%94-%EC%83%81%ED%83%9C%ED%8C%A8%ED%84%B4%EC%97%90%EC%84%9C-state%EA%B5%AC%ED%98%84%EC%B2%B4%EB%93%A4%EC%9D%80-%EB%8B%A4%EC%9D%8Cstate%EC%9D%98-%ED%8C%90%EB%8B%A8%EC%9D%84-%EC%9C%84%ED%95%B4-%EC%83%81%ED%83%9C%EA%B0%92%EC%97%90-%EC%A0%95%EB%B3%B4%EB%A5%BC-%EA%B0%80%EC%A0%B8%EC%95%BC%EB%A7%8C%ED%95%9C%EB%8B%A4---%EC%A0%95%EB%B3%B4%EB%A5%BC-%EC%83%81%ED%83%9C%EA%B0%92%EC%9C%BC%EB%A1%9C-%EA%B0%80%EC%A1%8C%EB%8B%A4%EB%A9%B4-%EA%B3%84%EC%82%B0%EB%A1%9C%EC%A7%81%EB%8F%84-%EA%B1%B0%EA%B8%B0state-%EA%B5%AC%ED%98%84%EC%B2%B4-%EC%83%81%ED%83%9C%EA%B0%9D%EC%B2%B4%EB%93%A4%EC%97%90%EC%84%9C-%EA%B5%AC%ED%98%84%EB%8B%A4%EB%A5%B4%EB%8B%A4%EB%B3%80-%EC%B6%94%EB%A9%94%EC%A0%84%EB%A9%94---%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84-%EB%90%98%EC%96%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>중요) 상태패턴에서 state구현체들은, <code class="language-plaintext highlighter-rouge">다음state의 판단을 위해 상태값에 정보를 가져야만</code>한다. -&gt; <code class="language-plaintext highlighter-rouge">정보를 상태값으로 가졌다면, 계산로직도 거기(state 구현체, 상태객체들)에서 구현(다르다변 추메/전메 -&gt; 개별구현)</code> 되어야한다.</h3>
+
+<h4 id="59-state의-구현체들이-정보인-cards를-상태값도-가지고-있으니-계산로직도-여기서-처리해야한다-계산-대상은-finished된-state들만-대상이-되며-계산기본-정보로-계산-중-외부-입력을-받아--정보바탕으로-계산-input으로-들어온-betmoneydouble을-구현체별-다르게-계산-로직-구현하여---새로운-계산값을-output-응답하는-계산이-있다">
+<a class="anchor" href="#59-state%EC%9D%98-%EA%B5%AC%ED%98%84%EC%B2%B4%EB%93%A4%EC%9D%B4-%EC%A0%95%EB%B3%B4%EC%9D%B8-cards%EB%A5%BC-%EC%83%81%ED%83%9C%EA%B0%92%EB%8F%84-%EA%B0%80%EC%A7%80%EA%B3%A0-%EC%9E%88%EC%9C%BC%EB%8B%88-%EA%B3%84%EC%82%B0%EB%A1%9C%EC%A7%81%EB%8F%84-%EC%97%AC%EA%B8%B0%EC%84%9C-%EC%B2%98%EB%A6%AC%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4-%EA%B3%84%EC%82%B0-%EB%8C%80%EC%83%81%EC%9D%80-finished%EB%90%9C-state%EB%93%A4%EB%A7%8C-%EB%8C%80%EC%83%81%EC%9D%B4-%EB%90%98%EB%A9%B0-%EA%B3%84%EC%82%B0%EA%B8%B0%EB%B3%B8-%EC%A0%95%EB%B3%B4%EB%A1%9C-%EA%B3%84%EC%82%B0-%EC%A4%91-%EC%99%B8%EB%B6%80-%EC%9E%85%EB%A0%A5%EC%9D%84-%EB%B0%9B%EC%95%84--%EC%A0%95%EB%B3%B4%EB%B0%94%ED%83%95%EC%9C%BC%EB%A1%9C-%EA%B3%84%EC%82%B0-input%EC%9C%BC%EB%A1%9C-%EB%93%A4%EC%96%B4%EC%98%A8-betmoneydouble%EC%9D%84-%EA%B5%AC%ED%98%84%EC%B2%B4%EB%B3%84-%EB%8B%A4%EB%A5%B4%EA%B2%8C-%EA%B3%84%EC%82%B0-%EB%A1%9C%EC%A7%81-%EA%B5%AC%ED%98%84%ED%95%98%EC%97%AC---%EC%83%88%EB%A1%9C%EC%9A%B4-%EA%B3%84%EC%82%B0%EA%B0%92%EC%9D%84-output-%EC%9D%91%EB%8B%B5%ED%95%98%EB%8A%94-%EA%B3%84%EC%82%B0%EC%9D%B4-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>59) state의 구현체들이 정보인 cards를 상태값도 가지고 있으니, 계산로직도 여기서 처리해야한다. <code class="language-plaintext highlighter-rouge">계산: 대상은 Finished된 state들만 대상</code>이 되며, <code class="language-plaintext highlighter-rouge">계산(기본 정보로 계산) 중 &lt;외부 입력을 받아 + 정보바탕으로 계산&gt;: input으로 들어온 betMoney(double)을 [구현체별 다르게 계산 로직 구현]하여 -&gt; 새로운 계산값을 output 응답</code>하는 계산이 있다.</h4>
+
+<h4 id="my-정보를-통한-계산이-아니라-외부-금액input-등-정보를-가진-곳에서-계산로직을-가질-때--외부재료를-input으로-받아서---가진-상태객체의-정보cards를-바탕으로---새-재료로-return응답-해주는-계산로직도-생각하자--계산로직은-state패턴의-구현체객체들-중-finished에-해당한-애들만-계산로직을-가질-수-있다">
+<a class="anchor" href="#my-%EC%A0%95%EB%B3%B4%EB%A5%BC-%ED%86%B5%ED%95%9C-%EA%B3%84%EC%82%B0%EC%9D%B4-%EC%95%84%EB%8B%88%EB%9D%BC-%EC%99%B8%EB%B6%80-%EA%B8%88%EC%95%A1input-%EB%93%B1-%EC%A0%95%EB%B3%B4%EB%A5%BC-%EA%B0%80%EC%A7%84-%EA%B3%B3%EC%97%90%EC%84%9C-%EA%B3%84%EC%82%B0%EB%A1%9C%EC%A7%81%EC%9D%84-%EA%B0%80%EC%A7%88-%EB%95%8C--%EC%99%B8%EB%B6%80%EC%9E%AC%EB%A3%8C%EB%A5%BC-input%EC%9C%BC%EB%A1%9C-%EB%B0%9B%EC%95%84%EC%84%9C---%EA%B0%80%EC%A7%84-%EC%83%81%ED%83%9C%EA%B0%9D%EC%B2%B4%EC%9D%98-%EC%A0%95%EB%B3%B4cards%EB%A5%BC-%EB%B0%94%ED%83%95%EC%9C%BC%EB%A1%9C---%EC%83%88-%EC%9E%AC%EB%A3%8C%EB%A1%9C-return%EC%9D%91%EB%8B%B5-%ED%95%B4%EC%A3%BC%EB%8A%94-%EA%B3%84%EC%82%B0%EB%A1%9C%EC%A7%81%EB%8F%84-%EC%83%9D%EA%B0%81%ED%95%98%EC%9E%90--%EA%B3%84%EC%82%B0%EB%A1%9C%EC%A7%81%EC%9D%80-state%ED%8C%A8%ED%84%B4%EC%9D%98-%EA%B5%AC%ED%98%84%EC%B2%B4%EA%B0%9D%EC%B2%B4%EB%93%A4-%EC%A4%91-finished%EC%97%90-%ED%95%B4%EB%8B%B9%ED%95%9C-%EC%95%A0%EB%93%A4%EB%A7%8C-%EA%B3%84%EC%82%B0%EB%A1%9C%EC%A7%81%EC%9D%84-%EA%B0%80%EC%A7%88-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) 정보를 통한 계산이 아니라, 외부 금액input 등 <code class="language-plaintext highlighter-rouge">정보를 가진 곳에서 계산로직</code>을 가질 때,  <code class="language-plaintext highlighter-rouge">외부재료를 input으로 받아서 -&gt; 가진 상태객체의 정보cards를 바탕으로 -&gt; 새 재료?로 return응답 해주는 계산</code>로직도 생각하자. + <code class="language-plaintext highlighter-rouge">계산로직은 State패턴의 구현체객체들 중 finished에 해당한 애들만 계산로직을 가질 수 있다.</code>
+</h4>
+
+<ol>
+  <li>
+    <p><strong>상태에 따라, <code class="language-plaintext highlighter-rouge">외부input인 배팅금액</code>을 받아 -&gt; <code class="language-plaintext highlighter-rouge">상태마다 개별적으로 다르게 계산</code>해서 <code class="language-plaintext highlighter-rouge">새로운 배팅금액을 output으로 응답</code>한다.</strong></p>
+
+    <ul>
+      <li><strong>이 때, Finished아래의 구현체들만 <code class="language-plaintext highlighter-rouge">결과</code> 계산 로직을 가진다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220324235238449.png" alt="image-20220324235238449"></p>
+  </li>
+</ol>
+
+<h5 id="my-계산시-외부재료가-필요한-경우도-있다-그-외부재료에-계산한-값을-돌려주는-경우가-있다는-것을-생각">
+<a class="anchor" href="#my-%EA%B3%84%EC%82%B0%EC%8B%9C-%EC%99%B8%EB%B6%80%EC%9E%AC%EB%A3%8C%EA%B0%80-%ED%95%84%EC%9A%94%ED%95%9C-%EA%B2%BD%EC%9A%B0%EB%8F%84-%EC%9E%88%EB%8B%A4-%EA%B7%B8-%EC%99%B8%EB%B6%80%EC%9E%AC%EB%A3%8C%EC%97%90-%EA%B3%84%EC%82%B0%ED%95%9C-%EA%B0%92%EC%9D%84-%EB%8F%8C%EB%A0%A4%EC%A3%BC%EB%8A%94-%EA%B2%BD%EC%9A%B0%EA%B0%80-%EC%9E%88%EB%8B%A4%EB%8A%94-%EA%B2%83%EC%9D%84-%EC%83%9D%EA%B0%81" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) 계산시 외부재료가 필요한 경우도 있다. <code class="language-plaintext highlighter-rouge">그 외부재료에 계산한 값을 돌려주는 경우가 있다는 것을 생각</code>
+</h5>
+
+<h5 id="참고-돈-계산의-원시형은-일단-double로-받아서-double로-내어주자">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0-%EB%8F%88-%EA%B3%84%EC%82%B0%EC%9D%98-%EC%9B%90%EC%8B%9C%ED%98%95%EC%9D%80-%EC%9D%BC%EB%8B%A8-double%EB%A1%9C-%EB%B0%9B%EC%95%84%EC%84%9C-double%EB%A1%9C-%EB%82%B4%EC%96%B4%EC%A3%BC%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고) 돈 계산의 원시형은 일단 double로 받아서 double로 내어주자</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">State</span> <span class="o">{</span>
+    <span class="nc">State</span> <span class="nf">draw</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Card</span> <span class="n">card</span><span class="o">);</span>
+
+    <span class="nc">State</span> <span class="nf">stay</span><span class="o">();</span>
+
+    <span class="nc">Cards</span> <span class="nf">cards</span><span class="o">();</span>
+
+    <span class="kt">boolean</span> <span class="nf">isFinished</span><span class="o">();</span>
+
+    <span class="kt">double</span> <span class="nf">profit</span><span class="o">(</span><span class="kt">double</span> <span class="n">money</span><span class="o">);</span> <span class="c1">// 계산 중에 외부에서 받은 것을 계산해서 응답해준다.</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="60-외부재료받아-계산하는-로직의-구현체마다-다르게-개별-구현-finished-아래-구현체들만">
+<a class="anchor" href="#60-%EC%99%B8%EB%B6%80%EC%9E%AC%EB%A3%8C%EB%B0%9B%EC%95%84-%EA%B3%84%EC%82%B0%ED%95%98%EB%8A%94-%EB%A1%9C%EC%A7%81%EC%9D%98-%EA%B5%AC%ED%98%84%EC%B2%B4%EB%A7%88%EB%8B%A4-%EB%8B%A4%EB%A5%B4%EA%B2%8C-%EA%B0%9C%EB%B3%84-%EA%B5%AC%ED%98%84-finished-%EC%95%84%EB%9E%98-%EA%B5%AC%ED%98%84%EC%B2%B4%EB%93%A4%EB%A7%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>60) 외부재료받아 계산하는 로직의 [구현체마다 다르게 개별 구현] (finished 아래 구현체들만)</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325000036685.png" alt="image-20220325000036685"></p>
+
+<ol>
+  <li>
+    <p>blackjack -&gt; <code class="language-plaintext highlighter-rouge">외부재료(input money)를 * 2</code> 하는 계산후 응답해준다.</p>
+
+    <ul>
+      <li>
+        <p>개별구현을 위해 중카/추클에서 impl무시하면, 자식들이 불나있다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325000142884.png" alt="image-20220325000142884"></p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Blackjack</span> <span class="kd">extends</span> <span class="nc">Finished</span> <span class="o">{</span>
+        
+      <span class="nc">Blackjack</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Cards</span> <span class="n">cards</span><span class="o">)</span> <span class="o">{</span>
+          <span class="kd">super</span><span class="o">(</span><span class="n">cards</span><span class="o">);</span>
+      <span class="o">}</span>
+        
+      <span class="nd">@Override</span>
+      <span class="kd">public</span> <span class="kt">double</span> <span class="nf">profit</span><span class="o">(</span><span class="kd">final</span> <span class="kt">double</span> <span class="n">money</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="n">money</span> <span class="o">*</span> <span class="mf">1.5</span><span class="o">;</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>bust : <strong>외부입력만큼, 손해로 작용한다면 <code class="language-plaintext highlighter-rouge">* -1</code>을 해주면 된다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Bust</span> <span class="kd">extends</span> <span class="nc">Finished</span> <span class="o">{</span>
+    
+     <span class="nc">Bust</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Cards</span> <span class="n">cards</span><span class="o">)</span> <span class="o">{</span>
+         <span class="kd">super</span><span class="o">(</span><span class="n">cards</span><span class="o">);</span>
+     <span class="o">}</span>
+    
+     <span class="nd">@Override</span>
+     <span class="kd">public</span> <span class="kt">double</span> <span class="nf">profit</span><span class="o">(</span><span class="kd">final</span> <span class="kt">double</span> <span class="n">money</span><span class="o">)</span> <span class="o">{</span>
+         <span class="k">return</span> <span class="n">money</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="61-개별-구현체-상태에서의-계산이-추가-정보가-필요한-상태---임의로-input-그대로-응답해놓는-버릇을-들여보자">
+<a class="anchor" href="#61-%EA%B0%9C%EB%B3%84-%EA%B5%AC%ED%98%84%EC%B2%B4-%EC%83%81%ED%83%9C%EC%97%90%EC%84%9C%EC%9D%98-%EA%B3%84%EC%82%B0%EC%9D%B4-%EC%B6%94%EA%B0%80-%EC%A0%95%EB%B3%B4%EA%B0%80-%ED%95%84%EC%9A%94%ED%95%9C-%EC%83%81%ED%83%9C---%EC%9E%84%EC%9D%98%EB%A1%9C-input-%EA%B7%B8%EB%8C%80%EB%A1%9C-%EC%9D%91%EB%8B%B5%ED%95%B4%EB%86%93%EB%8A%94-%EB%B2%84%EB%A6%87%EC%9D%84-%EB%93%A4%EC%97%AC%EB%B3%B4%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>61) 개별 구현체 상태에서의 계산이… <code class="language-plaintext highlighter-rouge">추가 정보가 필요한 상태 -&gt; 임의로 input 그대로 응답해놓는 버릇</code>을 들여보자.</h4>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">stay</code>상태에서는 <strong><code class="language-plaintext highlighter-rouge">추가정보로서 딜러의 cards와 비교</code>를 해야한다. -&gt; <code class="language-plaintext highlighter-rouge">일단 무시하고 원본을 돌려놓는다.</code></strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Stay</span> <span class="kd">extends</span> <span class="nc">Finished</span> <span class="o">{</span>
+    
+      <span class="nc">Stay</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Cards</span> <span class="n">cards</span><span class="o">)</span> <span class="o">{</span>
+          <span class="kd">super</span><span class="o">(</span><span class="n">cards</span><span class="o">);</span>
+      <span class="o">}</span>
+    
+      <span class="nd">@Override</span>
+      <span class="kd">public</span> <span class="kt">double</span> <span class="nf">profit</span><span class="o">(</span><span class="kd">final</span> <span class="kt">double</span> <span class="n">money</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="n">money</span><span class="o">;</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="62-추가-처리가-필요한-예외상황---바깥에서-처리하기로-하고-도메인내-자신의-역할만-생각해서-완성한다">
+<a class="anchor" href="#62-%EC%B6%94%EA%B0%80-%EC%B2%98%EB%A6%AC%EA%B0%80-%ED%95%84%EC%9A%94%ED%95%9C-%EC%98%88%EC%99%B8%EC%83%81%ED%99%A9---%EB%B0%94%EA%B9%A5%EC%97%90%EC%84%9C-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B8%B0%EB%A1%9C-%ED%95%98%EA%B3%A0-%EB%8F%84%EB%A9%94%EC%9D%B8%EB%82%B4-%EC%9E%90%EC%8B%A0%EC%9D%98-%EC%97%AD%ED%95%A0%EB%A7%8C-%EC%83%9D%EA%B0%81%ED%95%B4%EC%84%9C-%EC%99%84%EC%84%B1%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>62) 추가 처리가 필요한 예외상황 -&gt; 바깥에서 처리하기로 하고, <code class="language-plaintext highlighter-rouge">도메인내 자신의 역할만 생각해서 완성</code>한다</h4>
+
+<h5 id="참고-상호작용의-검증조건이-있더라도-개별-도메인-작성시에는-자기역할만-순수하게-완성한다">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0-%EC%83%81%ED%98%B8%EC%9E%91%EC%9A%A9%EC%9D%98-%EA%B2%80%EC%A6%9D%EC%A1%B0%EA%B1%B4%EC%9D%B4-%EC%9E%88%EB%8D%94%EB%9D%BC%EB%8F%84-%EA%B0%9C%EB%B3%84-%EB%8F%84%EB%A9%94%EC%9D%B8-%EC%9E%91%EC%84%B1%EC%8B%9C%EC%97%90%EB%8A%94-%EC%9E%90%EA%B8%B0%EC%97%AD%ED%95%A0%EB%A7%8C-%EC%88%9C%EC%88%98%ED%95%98%EA%B2%8C-%EC%99%84%EC%84%B1%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고) 상호작용의 검증/조건이 있더라도, 개별 도메인 작성시에는 자기역할만 순수하게 완성한다.</h5>
+
+<ul>
+  <li>현재 state가 blackjack 일때? <strong>상대도 blackjack?</strong>
+    <ul>
+      <li>체스로 치면 king이 움직이는 것?
+        <ul>
+          <li><strong>앞에 기물이 있는 예외상황은 바깥(board)에서 처리하고 일단 king자신 이 갈 수 있는 조건으로 계산한다.</strong></li>
+        </ul>
+      </li>
+      <li><strong>상대방도 blackjack이면, 이익은 0배로 무승부인데?, <code class="language-plaintext highlighter-rouge">일단 내가 blacjakc일때의 상금 1.5배만 생각해서 완성</code>한다</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="63-hit와-ready는-profit계산자체가-불가---input있는-계산함수라도-개별구현시-예외처리">
+<a class="anchor" href="#63-hit%EC%99%80-ready%EB%8A%94-profit%EA%B3%84%EC%82%B0%EC%9E%90%EC%B2%B4%EA%B0%80-%EB%B6%88%EA%B0%80---input%EC%9E%88%EB%8A%94-%EA%B3%84%EC%82%B0%ED%95%A8%EC%88%98%EB%9D%BC%EB%8F%84-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%EC%8B%9C-%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>63) hit와 ready는 profit계산자체가 불가 -&gt; input있는 계산함수라도 개별구현시 예외처리</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">double</span> <span class="nf">profit</span><span class="o">(</span><span class="kd">final</span> <span class="kt">double</span> <span class="n">money</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="대박-개별구현-하다가-중복코드가-보인다-무시했던-추클에서-impl---후-중복부분만-구현중클추카-구현-메서드면-final--개별구현체마다-다른-부분--개별class들이-아는-부분----abstract메서드로-빼서-내려주기">
+<a class="anchor" href="#%EB%8C%80%EB%B0%95-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84-%ED%95%98%EB%8B%A4%EA%B0%80-%EC%A4%91%EB%B3%B5%EC%BD%94%EB%93%9C%EA%B0%80-%EB%B3%B4%EC%9D%B8%EB%8B%A4-%EB%AC%B4%EC%8B%9C%ED%96%88%EB%8D%98-%EC%B6%94%ED%81%B4%EC%97%90%EC%84%9C-impl---%ED%9B%84-%EC%A4%91%EB%B3%B5%EB%B6%80%EB%B6%84%EB%A7%8C-%EA%B5%AC%ED%98%84%EC%A4%91%ED%81%B4%EC%B6%94%EC%B9%B4-%EA%B5%AC%ED%98%84-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A9%B4-final--%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%EC%B2%B4%EB%A7%88%EB%8B%A4-%EB%8B%A4%EB%A5%B8-%EB%B6%80%EB%B6%84--%EA%B0%9C%EB%B3%84class%EB%93%A4%EC%9D%B4-%EC%95%84%EB%8A%94-%EB%B6%80%EB%B6%84----abstract%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EB%B9%BC%EC%84%9C-%EB%82%B4%EB%A0%A4%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>대박) 개별구현 하다가 중복코드가 보인다? <code class="language-plaintext highlighter-rouge">무시했던 추클에서 impl</code> -&gt; 후 <code class="language-plaintext highlighter-rouge">중복부분만 구현(중클/추카 구현 메서드면 final)</code> &amp;&amp; <code class="language-plaintext highlighter-rouge">개별구현체마다 다른 부분 = 개별class들이 아는 부분  -&gt; abstract메서드로 빼서 내려주기</code>
+</h3>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325094739499.png" alt="image-20220325094739499"></p>
+
+<h4 id="중요-중카추클이-무시하고-내려보내---개별-구현된-메서드들-중에서-상수-or-일부분만-중복이어도---중카추클에서-중복제거용impl-구현시행-상수일부분만-다시-abstract로-내려보내주기">
+<a class="anchor" href="#%EC%A4%91%EC%9A%94-%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4%EC%9D%B4-%EB%AC%B4%EC%8B%9C%ED%95%98%EA%B3%A0-%EB%82%B4%EB%A0%A4%EB%B3%B4%EB%82%B4---%EA%B0%9C%EB%B3%84-%EA%B5%AC%ED%98%84%EB%90%9C-%EB%A9%94%EC%84%9C%EB%93%9C%EB%93%A4-%EC%A4%91%EC%97%90%EC%84%9C-%EC%83%81%EC%88%98-or-%EC%9D%BC%EB%B6%80%EB%B6%84%EB%A7%8C-%EC%A4%91%EB%B3%B5%EC%9D%B4%EC%96%B4%EB%8F%84---%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4%EC%97%90%EC%84%9C-%EC%A4%91%EB%B3%B5%EC%A0%9C%EA%B1%B0%EC%9A%A9impl-%EA%B5%AC%ED%98%84%EC%8B%9C%ED%96%89-%EC%83%81%EC%88%98%EC%9D%BC%EB%B6%80%EB%B6%84%EB%A7%8C-%EB%8B%A4%EC%8B%9C-abstract%EB%A1%9C-%EB%82%B4%EB%A0%A4%EB%B3%B4%EB%82%B4%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>중요) <code class="language-plaintext highlighter-rouge">중카/추클이 무시하고 내려보내 -&gt; 개별 구현된 메서드들</code> 중에서 <code class="language-plaintext highlighter-rouge">상수 or 일부분만 중복이어도 -&gt; 중카/추클에서 중복제거용impl 구현시행 &amp;&amp;상수(일부분)만 다시 abstract로 내려보내주기</code>
+</h4>
+
+<h4 id="중요암기-개별구현-전과시키려고-impl구현-무시한-중카추클-내에서-새로운-중복-발견인-경우-impl구현-무시한-곳---impl시행하여-아래부분-중복제거를-시행하며---상수든-뭐든-구현체별로-달라지는-부분은-상수라도----메서드응답으로-빼고---abstract-메서드로-정의해서-자식들에게-응답메서드로-상수일부분-개별구현으로-내려주기">
+<a class="anchor" href="#%EC%A4%91%EC%9A%94%EC%95%94%EA%B8%B0-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84-%EC%A0%84%EA%B3%BC%EC%8B%9C%ED%82%A4%EB%A0%A4%EA%B3%A0-impl%EA%B5%AC%ED%98%84-%EB%AC%B4%EC%8B%9C%ED%95%9C-%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4-%EB%82%B4%EC%97%90%EC%84%9C-%EC%83%88%EB%A1%9C%EC%9A%B4-%EC%A4%91%EB%B3%B5-%EB%B0%9C%EA%B2%AC%EC%9D%B8-%EA%B2%BD%EC%9A%B0-impl%EA%B5%AC%ED%98%84-%EB%AC%B4%EC%8B%9C%ED%95%9C-%EA%B3%B3---impl%EC%8B%9C%ED%96%89%ED%95%98%EC%97%AC-%EC%95%84%EB%9E%98%EB%B6%80%EB%B6%84-%EC%A4%91%EB%B3%B5%EC%A0%9C%EA%B1%B0%EB%A5%BC-%EC%8B%9C%ED%96%89%ED%95%98%EB%A9%B0---%EC%83%81%EC%88%98%EB%93%A0-%EB%AD%90%EB%93%A0-%EA%B5%AC%ED%98%84%EC%B2%B4%EB%B3%84%EB%A1%9C-%EB%8B%AC%EB%9D%BC%EC%A7%80%EB%8A%94-%EB%B6%80%EB%B6%84%EC%9D%80-%EC%83%81%EC%88%98%EB%9D%BC%EB%8F%84----%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%91%EB%8B%B5%EC%9C%BC%EB%A1%9C-%EB%B9%BC%EA%B3%A0---abstract-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EC%A0%95%EC%9D%98%ED%95%B4%EC%84%9C-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%97%90%EA%B2%8C-%EC%9D%91%EB%8B%B5%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EC%83%81%EC%88%98%EC%9D%BC%EB%B6%80%EB%B6%84-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%EC%9C%BC%EB%A1%9C-%EB%82%B4%EB%A0%A4%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>중요+암기) <code class="language-plaintext highlighter-rouge">개별구현 전과시키려고 [impl구현 무시한 중카/추클 내]에서 새로운 중복 발견</code>인 경우, <code class="language-plaintext highlighter-rouge">impl구현 무시한 곳 -&gt; impl시행하여 아래부분 중복제거</code>를 시행하며 -&gt; <code class="language-plaintext highlighter-rouge">상수든 뭐든 구현체별로 달라지는 부분</code>은 <code class="language-plaintext highlighter-rouge">상수라도  -&gt; 메서드응답으로 빼고 -&gt; abstract 메서드로 정의해서 자식들에게 [응답메서드로 상수(일부분) 개별구현]으로 내려주기</code>
+</h4>
+
+<h4 id="64-finished내부-상수만-구현체별로-다르고-메서드가-중복된다면---제한된-중카추클로만-올린-뒤-달라지는-부분만-메서드로-추출하여-응답받도록-한-뒤----abstract메서드로-내려보내서-자식들이-상수응답하도록-하기">
+<a class="anchor" href="#64-finished%EB%82%B4%EB%B6%80-%EC%83%81%EC%88%98%EB%A7%8C-%EA%B5%AC%ED%98%84%EC%B2%B4%EB%B3%84%EB%A1%9C-%EB%8B%A4%EB%A5%B4%EA%B3%A0-%EB%A9%94%EC%84%9C%EB%93%9C%EA%B0%80-%EC%A4%91%EB%B3%B5%EB%90%9C%EB%8B%A4%EB%A9%B4---%EC%A0%9C%ED%95%9C%EB%90%9C-%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4%EB%A1%9C%EB%A7%8C-%EC%98%AC%EB%A6%B0-%EB%92%A4-%EB%8B%AC%EB%9D%BC%EC%A7%80%EB%8A%94-%EB%B6%80%EB%B6%84%EB%A7%8C-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EC%B6%94%EC%B6%9C%ED%95%98%EC%97%AC-%EC%9D%91%EB%8B%B5%EB%B0%9B%EB%8F%84%EB%A1%9D-%ED%95%9C-%EB%92%A4----abstract%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EB%82%B4%EB%A0%A4%EB%B3%B4%EB%82%B4%EC%84%9C-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%B4-%EC%83%81%EC%88%98%EC%9D%91%EB%8B%B5%ED%95%98%EB%8F%84%EB%A1%9D-%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>64) Finished내부, 상수만 구현체별로 다르고 메서드가 중복된다면? -&gt; 제한된 중카/추클로만 올린 뒤, 달라지는 부분만 <code class="language-plaintext highlighter-rouge">메서드로 추출하여 응답</code>받도록 한 뒤 -&gt;  <code class="language-plaintext highlighter-rouge">abstract메서드로 내려보내서 자식들이 상수응답</code>하도록 하기</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325095200582.png" alt="image-20220325095200582"></p>
+
+<ol>
+  <li>
+    <p>Finished에서 <code class="language-plaintext highlighter-rouge">무시했던 노필수 impl구현</code>을 해줘서, 중복제거용 코드로 먹어준다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325095241479.png" alt="image-20220325095241479">
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325095256481.png" alt="image-20220325095256481"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325095310605.png" alt="image-20220325095310605"></p>
+  </li>
+</ol>
+
+<h4 id="중요-중카추클은-상카-존재-시-개별구현---무시하고-내려보내기-or-중복제거---final로-막아두고-구현--or-중카추클-자식들의-중복시---자신이-추메전메처럼-abstract로-정의해서-뿌려준다--상수도-응답-메서드로서-뺀-뒤---protected-abstract로--정의하여-추메전메처럼-내려준다">
+<a class="anchor" href="#%EC%A4%91%EC%9A%94-%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4%EC%9D%80-%EC%83%81%EC%B9%B4-%EC%A1%B4%EC%9E%AC-%EC%8B%9C-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84---%EB%AC%B4%EC%8B%9C%ED%95%98%EA%B3%A0-%EB%82%B4%EB%A0%A4%EB%B3%B4%EB%82%B4%EA%B8%B0-or-%EC%A4%91%EB%B3%B5%EC%A0%9C%EA%B1%B0---final%EB%A1%9C-%EB%A7%89%EC%95%84%EB%91%90%EA%B3%A0-%EA%B5%AC%ED%98%84--or-%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%98-%EC%A4%91%EB%B3%B5%EC%8B%9C---%EC%9E%90%EC%8B%A0%EC%9D%B4-%EC%B6%94%EB%A9%94%EC%A0%84%EB%A9%94%EC%B2%98%EB%9F%BC-abstract%EB%A1%9C-%EC%A0%95%EC%9D%98%ED%95%B4%EC%84%9C-%EB%BF%8C%EB%A0%A4%EC%A4%80%EB%8B%A4--%EC%83%81%EC%88%98%EB%8F%84-%EC%9D%91%EB%8B%B5-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C%EC%84%9C-%EB%BA%80-%EB%92%A4---protected-abstract%EB%A1%9C--%EC%A0%95%EC%9D%98%ED%95%98%EC%97%AC-%EC%B6%94%EB%A9%94%EC%A0%84%EB%A9%94%EC%B2%98%EB%9F%BC-%EB%82%B4%EB%A0%A4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>중요) 중카/추클은 <code class="language-plaintext highlighter-rouge">상카 존재</code> 시 <code class="language-plaintext highlighter-rouge">개별구현 -&gt; 무시하고 내려보내기</code> or <code class="language-plaintext highlighter-rouge">중복제거 -&gt; final로 막아두고 구현 </code> or <code class="language-plaintext highlighter-rouge">중카/추클 자식들의 중복시 -&gt; 자신이 추메/전메처럼 abstract로 정의해서 뿌려준다.</code> + <code class="language-plaintext highlighter-rouge">상수도 응답 메서드로서 뺀 뒤 -&gt; protected? abstract로  정의하여, 추메/전메처럼 내려준다</code>
+</h4>
+
+<ol>
+  <li>
+    <p>**개별 클래스들이 알고 있는 부분(메서드 구현 뿐만 아니라 <code class="language-plaintext highlighter-rouge">상수</code>도!!)은 <code class="language-plaintext highlighter-rouge">개별 클래스(구현체)들이 응답해줄 abstract메서드로 뺀다</code> **</p>
+
+    <ul>
+      <li><strong>상수를 메서드로 뺄 때, <code class="language-plaintext highlighter-rouge">상수이름을 메서드로 네이밍()</code>해주는 센스</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325095607389.png" alt="image-20220325095607389">
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325095652729.png" alt="image-20220325095652729"></p>
+
+    <ul>
+      <li>
+        <p>중카/추클에 정의하는데 <strong>final로 중복구현 vs <code class="language-plaintext highlighter-rouge">개별구현의 최상위라면, 중복코드는 final로 정의해주되, 내부에 개별구현 코드가 보인다면, 메서드로 뺀 뒤 -&gt; 추메/전메처럼 뿌려주려면, abstract 메서드로 내려주기</code></strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325095801077.png" alt="image-20220325095801077"></p>
+      </li>
+      <li>
+        <p>개별구현시키려고 <code class="language-plaintext highlighter-rouge">abstract메서드</code>로 뽑았더니, <code class="language-plaintext highlighter-rouge">자식들 구현하라고 protected</code>로 찍혀있다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325102200707.png" alt="image-20220325102200707"></p>
+      </li>
+      <li>
+        <p>abstract로 추메/전메처럼 개별구현으로 내려보내면 -&gt; 자식들 불 들어온다.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325103913176.png" alt="image-20220325103913176"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325103928342.png" alt="image-20220325103928342"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h5 id="암기-중카-추클이-개별구현을-내려줘야한다면-중복제거-코드내라도-가능하며-상수--일부분이라도-1-메서드로-빼고---2abstract로-내려준다">
+<a class="anchor" href="#%EC%95%94%EA%B8%B0-%EC%A4%91%EC%B9%B4-%EC%B6%94%ED%81%B4%EC%9D%B4-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%EC%9D%84-%EB%82%B4%EB%A0%A4%EC%A4%98%EC%95%BC%ED%95%9C%EB%8B%A4%EB%A9%B4-%EC%A4%91%EB%B3%B5%EC%A0%9C%EA%B1%B0-%EC%BD%94%EB%93%9C%EB%82%B4%EB%9D%BC%EB%8F%84-%EA%B0%80%EB%8A%A5%ED%95%98%EB%A9%B0-%EC%83%81%EC%88%98--%EC%9D%BC%EB%B6%80%EB%B6%84%EC%9D%B4%EB%9D%BC%EB%8F%84-1-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EB%B9%BC%EA%B3%A0---2abstract%EB%A1%9C-%EB%82%B4%EB%A0%A4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>암기) 중카-추클이 개별구현을 내려줘야한다면, <code class="language-plaintext highlighter-rouge">중복제거 코드내</code>라도 가능하며, <code class="language-plaintext highlighter-rouge">상수,  일부분이라도 (1) 메서드로 빼고</code> -&gt; <code class="language-plaintext highlighter-rouge">(2)abstract로 내려준다</code>.</h5>
+
+<ol>
+  <li>
+    <p>개별 구현체들이 <strong>알고 있는 개별 상수들을 메서드로 구현해준다.</strong></p>
+
+    <ul>
+      <li>
+        <p>blackjack</p>
+
+        <ol>
+          <li>
+            <p>올린 중복코드는 제거한다.
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325105446778.png" alt="image-20220325105446778"></p>
+          </li>
+          <li>
+            <p><strong>중복코드를 제외한 <code class="language-plaintext highlighter-rouge">상수의 개별구현</code>을 abs -&gt; impl해줘서 응답해준다.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325105633867.png" alt="image-20220325105633867"></p>
+
+            <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Blackjack</span> <span class="kd">extends</span> <span class="nc">Finished</span> <span class="o">{</span>
+            
+     <span class="nc">Blackjack</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Cards</span> <span class="n">cards</span><span class="o">)</span> <span class="o">{</span>
+         <span class="kd">super</span><span class="o">(</span><span class="n">cards</span><span class="o">);</span>
+     <span class="o">}</span>
+            
+     <span class="nd">@Override</span>
+     <span class="kd">protected</span> <span class="kt">double</span> <span class="nf">earningRate</span><span class="o">()</span> <span class="o">{</span>
+         <span class="k">return</span> <span class="mf">1.5</span><span class="o">;</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>            </div>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <p>나머지 들도, 중복코드를 삭제하고, 상수를 응답하는 개별구현 메서드를 구현한다</p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325110406014.png" alt="image-20220325110406014"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325110733677.png" alt="image-20220325110733677"></p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Bust</span> <span class="kd">extends</span> <span class="nc">Finished</span> <span class="o">{</span>
+        
+      <span class="nc">Bust</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Cards</span> <span class="n">cards</span><span class="o">)</span> <span class="o">{</span>
+          <span class="kd">super</span><span class="o">(</span><span class="n">cards</span><span class="o">);</span>
+      <span class="o">}</span>
+        
+      <span class="nd">@Override</span>
+      <span class="kd">protected</span> <span class="kt">double</span> <span class="nf">earningRate</span><span class="o">()</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>stay: 원본 그대로 돌려주고 밖에서 나중에 예외처 계산함</p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Stay</span> <span class="kd">extends</span> <span class="nc">Finished</span> <span class="o">{</span>
+        
+      <span class="nc">Stay</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Cards</span> <span class="n">cards</span><span class="o">)</span> <span class="o">{</span>
+          <span class="kd">super</span><span class="o">(</span><span class="n">cards</span><span class="o">);</span>
+      <span class="o">}</span>
+        
+      <span class="nd">@Override</span>
+      <span class="kd">protected</span> <span class="kt">double</span> <span class="nf">earningRate</span><span class="o">()</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="중복제거-등-추상화상속-관련작업이-끝날-때마다-diagram을-보자">
+<a class="anchor" href="#%EC%A4%91%EB%B3%B5%EC%A0%9C%EA%B1%B0-%EB%93%B1-%EC%B6%94%EC%83%81%ED%99%94%EC%83%81%EC%86%8D-%EA%B4%80%EB%A0%A8%EC%9E%91%EC%97%85%EC%9D%B4-%EB%81%9D%EB%82%A0-%EB%95%8C%EB%A7%88%EB%8B%A4-diagram%EC%9D%84-%EB%B3%B4%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>중복제거 등, 추상화/상속 관련작업이 끝날 때마다, diagram을 보자</h3>
+
+<p>​	<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325111156348.png" alt="image-20220325111156348"></p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">profit()</code>중복코드로서 중카/추클에서 정의해줬다
+    <ul>
+      <li>중복코드 -&gt; 외부에서 호출할 놈 -&gt; public</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">profit()</code>내에서 <strong>구현체별 달라지는 부분(상수)</strong>는 내부에서 메서드추출 -&gt; <strong><code class="language-plaintext highlighter-rouge">추카/중클에서 (protected)abstract로 전메/추메처럼 개별구현으로 내려보낸다</code></strong>
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">earningRate()</code>는 개별구현체별 다르게 구현되는 상수를 추출한 메서드</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325111949359.png" alt="image-20220325111949359"></p>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325120054391.png" alt="image-20220325120054391"></p>
+
+<h4 id="참고-중카추클부모클래스의--usageextends를-확인해보면-같은-레벨의-자식들만-볼-수-도-있어서---레벨이-맞는지-확인할-수-있다">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0-%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4%EB%B6%80%EB%AA%A8%ED%81%B4%EB%9E%98%EC%8A%A4%EC%9D%98--usageextends%EB%A5%BC-%ED%99%95%EC%9D%B8%ED%95%B4%EB%B3%B4%EB%A9%B4-%EA%B0%99%EC%9D%80-%EB%A0%88%EB%B2%A8%EC%9D%98-%EC%9E%90%EC%8B%9D%EB%93%A4%EB%A7%8C-%EB%B3%BC-%EC%88%98-%EB%8F%84-%EC%9E%88%EC%96%B4%EC%84%9C---%EB%A0%88%EB%B2%A8%EC%9D%B4-%EB%A7%9E%EB%8A%94%EC%A7%80-%ED%99%95%EC%9D%B8%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고) <code class="language-plaintext highlighter-rouge">중카/추클(부모클래스)의  usage(extends)</code>를 확인해보면, <code class="language-plaintext highlighter-rouge">같은 레벨의 자식들</code>만 볼 수 도 있어서 -&gt; <code class="language-plaintext highlighter-rouge">레벨이 맞는지 확인</code>할 수 있다</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325121321953.png" alt="image-20220325121321953"></p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">Started</code>의 추클에서 <code class="language-plaintext highlighter-rouge">usage(shift+F12)</code>를 통해, <strong>extends자식들이 어떤 것들이 있는지를 보고 레벨을 확인해보자.</strong>
+    <ul>
+      <li>추클Finished</li>
+      <li>구현체Hit</li>
+      <li>구현체Ready</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="65-2개-남은-쌩구현체들에-대해-공통메서드-확인후-중카추클-추가해서-묶어주기">
+<a class="anchor" href="#65-2%EA%B0%9C-%EB%82%A8%EC%9D%80-%EC%8C%A9%EA%B5%AC%ED%98%84%EC%B2%B4%EB%93%A4%EC%97%90-%EB%8C%80%ED%95%B4-%EA%B3%B5%ED%86%B5%EB%A9%94%EC%84%9C%EB%93%9C-%ED%99%95%EC%9D%B8%ED%9B%84-%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4-%EC%B6%94%EA%B0%80%ED%95%B4%EC%84%9C-%EB%AC%B6%EC%96%B4%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>65) 2개 남은 쌩구현체들에 대해, 공통메서드 확인후 중카/추클 추가해서 묶어주기</h4>
+
+<h5 id="중카추클아래-구현체자식들은-본인의-역할만-잘하고-있는-것-같은데-hit와-ready는-좀-더러운-것-같다">
+<a class="anchor" href="#%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4%EC%95%84%EB%9E%98-%EA%B5%AC%ED%98%84%EC%B2%B4%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%80-%EB%B3%B8%EC%9D%B8%EC%9D%98-%EC%97%AD%ED%95%A0%EB%A7%8C-%EC%9E%98%ED%95%98%EA%B3%A0-%EC%9E%88%EB%8A%94-%EA%B2%83-%EA%B0%99%EC%9D%80%EB%8D%B0-hit%EC%99%80-ready%EB%8A%94-%EC%A2%80-%EB%8D%94%EB%9F%AC%EC%9A%B4-%EA%B2%83-%EA%B0%99%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>중카/추클아래 구현체(자식들)은 본인의 역할만 잘하고 있는 것 같은데, hit와 ready는 좀 더러운 것 같다</h5>
+
+<ul>
+  <li>
+    <p>blackjack</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Blackjack</span> <span class="kd">extends</span> <span class="nc">Finished</span> <span class="o">{</span>
+    
+      <span class="nc">Blackjack</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Cards</span> <span class="n">cards</span><span class="o">)</span> <span class="o">{</span>
+          <span class="kd">super</span><span class="o">(</span><span class="n">cards</span><span class="o">);</span>
+      <span class="o">}</span>
+    
+      <span class="nd">@Override</span>
+      <span class="kd">protected</span> <span class="kt">double</span> <span class="nf">earningRate</span><span class="o">()</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="mf">1.5</span><span class="o">;</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="쌩구현체들의-공통점-찾기">
+<a class="anchor" href="#%EC%8C%A9%EA%B5%AC%ED%98%84%EC%B2%B4%EB%93%A4%EC%9D%98-%EA%B3%B5%ED%86%B5%EC%A0%90-%EC%B0%BE%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>쌩구현체들의 공통점 찾기</h5>
+
+<ul>
+  <li>
+    <p>Hit</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>      <span class="nd">@Override</span>
+      <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isFinished</span><span class="o">()</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+      <span class="o">}</span>
+    
+      <span class="nd">@Override</span>
+      <span class="kd">public</span> <span class="kt">double</span> <span class="nf">profit</span><span class="o">(</span><span class="kd">final</span> <span class="kt">double</span> <span class="n">money</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">();</span>
+      <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Ready</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>      <span class="nd">@Override</span>
+      <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isFinished</span><span class="o">()</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+      <span class="o">}</span>
+    
+      <span class="nd">@Override</span>
+      <span class="kd">public</span> <span class="kt">double</span> <span class="nf">profit</span><span class="o">(</span><span class="kd">final</span> <span class="kt">double</span> <span class="n">money</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">();</span>
+      <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="66-반대편-추클과-동일한-레벨의-추상화중카추클-만든-후-기존에-개별구현들은-무시하여-자식들에게-전과된-체-두고--중복제거용-메서드들만-뽑아서-impl하여-final---자식들의-중복코드-제거한다">
+<a class="anchor" href="#66-%EB%B0%98%EB%8C%80%ED%8E%B8-%EC%B6%94%ED%81%B4%EA%B3%BC-%EB%8F%99%EC%9D%BC%ED%95%9C-%EB%A0%88%EB%B2%A8%EC%9D%98-%EC%B6%94%EC%83%81%ED%99%94%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4-%EB%A7%8C%EB%93%A0-%ED%9B%84-%EA%B8%B0%EC%A1%B4%EC%97%90-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%EB%93%A4%EC%9D%80-%EB%AC%B4%EC%8B%9C%ED%95%98%EC%97%AC-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%97%90%EA%B2%8C-%EC%A0%84%EA%B3%BC%EB%90%9C-%EC%B2%B4-%EB%91%90%EA%B3%A0--%EC%A4%91%EB%B3%B5%EC%A0%9C%EA%B1%B0%EC%9A%A9-%EB%A9%94%EC%84%9C%EB%93%9C%EB%93%A4%EB%A7%8C-%EB%BD%91%EC%95%84%EC%84%9C-impl%ED%95%98%EC%97%AC-final---%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%98-%EC%A4%91%EB%B3%B5%EC%BD%94%EB%93%9C-%EC%A0%9C%EA%B1%B0%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>66) 반대편 추클과 동일한 레벨의 추상화(중카/추클) 만든 후, <code class="language-plaintext highlighter-rouge">기존에 개별구현들은 무시하여 자식들에게 전과된 체 두고</code> + <code class="language-plaintext highlighter-rouge">중복제거용 메서드들만 뽑아서 impl하여 final -&gt; 자식들의 중복코드 제거</code>한다</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220323000036426.png" alt="image-20220323000036426"></p>
+
+<ol>
+  <li>
+    <p>Finished의 반대 Running(중카/추클)만들기</p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325135456421.png" alt="image-20220325135456421"></p>
+  </li>
+</ol>
+
+<h5 id="중카추클-생성하는데-더-위의-중카추클이-상태값생성자-for-getter-내려준다면-super로-내려주는-상태값-초기화는-기본적으로-해줘야함">
+<a class="anchor" href="#%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4-%EC%83%9D%EC%84%B1%ED%95%98%EB%8A%94%EB%8D%B0-%EB%8D%94-%EC%9C%84%EC%9D%98-%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4%EC%9D%B4-%EC%83%81%ED%83%9C%EA%B0%92%EC%83%9D%EC%84%B1%EC%9E%90-for-getter-%EB%82%B4%EB%A0%A4%EC%A4%80%EB%8B%A4%EB%A9%B4-super%EB%A1%9C-%EB%82%B4%EB%A0%A4%EC%A3%BC%EB%8A%94-%EC%83%81%ED%83%9C%EA%B0%92-%EC%B4%88%EA%B8%B0%ED%99%94%EB%8A%94-%EA%B8%B0%EB%B3%B8%EC%A0%81%EC%9C%BC%EB%A1%9C-%ED%95%B4%EC%A4%98%EC%95%BC%ED%95%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>중카/추클 생성하는데, <code class="language-plaintext highlighter-rouge">더 위의 중카/추클이, 상태값+생성자 (for getter?) 내려준다면</code>, super()로 내려주는 상태값 초기화는 기본적으로 해줘야함</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325135602358.png" alt="image-20220325135602358"></p>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220325135612199.png" alt="image-20220325135612199"></p>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">Running</code> &lt;-&gt; Finished</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Running</span> <span class="kd">extends</span> <span class="nc">Started</span> <span class="o">{</span>
+      <span class="kd">protected</span> <span class="nf">Running</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Cards</span> <span class="n">cards</span><span class="o">)</span> <span class="o">{</span>
+          <span class="kd">super</span><span class="o">(</span><span class="n">cards</span><span class="o">);</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="67-추가-중카추클은-기존-개별구현-메서드들을-제외시키면서--중복처리를-해줄-메서드들을----implement-methods--상카의-추메전메들-중-선택해서-처리한다">
+<a class="anchor" href="#67-%EC%B6%94%EA%B0%80-%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4%EC%9D%80-%EA%B8%B0%EC%A1%B4-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84-%EB%A9%94%EC%84%9C%EB%93%9C%EB%93%A4%EC%9D%84-%EC%A0%9C%EC%99%B8%EC%8B%9C%ED%82%A4%EB%A9%B4%EC%84%9C--%EC%A4%91%EB%B3%B5%EC%B2%98%EB%A6%AC%EB%A5%BC-%ED%95%B4%EC%A4%84-%EB%A9%94%EC%84%9C%EB%93%9C%EB%93%A4%EC%9D%84----implement-methods--%EC%83%81%EC%B9%B4%EC%9D%98-%EC%B6%94%EB%A9%94%EC%A0%84%EB%A9%94%EB%93%A4-%EC%A4%91-%EC%84%A0%ED%83%9D%ED%95%B4%EC%84%9C-%EC%B2%98%EB%A6%AC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>67) 추가 중카/추클은 <code class="language-plaintext highlighter-rouge">기존 개별구현 메서드들을 제외시키면서 &amp;&amp; 중복처리를 해줄 메서드들</code>을 -&gt;  <code class="language-plaintext highlighter-rouge">[implement Methods...] -&gt;상카의 추메/전메들 중 선택</code>해서 처리한다.</h4>
+
+<ol>
+  <li>
+    <p>중간에 추가된 Finished대항마 <code class="language-plaintext highlighter-rouge">Running</code>은 <strong>impl해서 중복들을 상카-추메/전메중에 확인해서 처리해야한다.</strong><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220326004301736.png" alt="image-20220326004301736"><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220326004319447.png" alt="image-20220326004319447"></p>
+  </li>
+  <li>
+    <p><strong>isFinihsed는 피니쉬의 대항마 추상레이어로서 아래 똑같이 중복 <code class="language-plaintext highlighter-rouge">return false</code></strong></p>
+
+    <p>마찬가지로 profit도 <strong>아직 안끝났으면, 수익률계산불가 -&gt; 예외처리</strong>를을 중복처리한다.
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220326004609632.png" alt="image-20220326004609632">
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220326004717375.png" alt="image-20220326004717375"></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Running</span> <span class="kd">extends</span> <span class="nc">Started</span> <span class="o">{</span>
+     <span class="kd">protected</span> <span class="nf">Running</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Cards</span> <span class="n">cards</span><span class="o">)</span> <span class="o">{</span>
+         <span class="kd">super</span><span class="o">(</span><span class="n">cards</span><span class="o">);</span>
+     <span class="o">}</span>
+    
+     <span class="nd">@Override</span>
+     <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isFinished</span><span class="o">()</span> <span class="o">{</span>
+         <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+     <span class="o">}</span>
+    
+     <span class="nd">@Override</span>
+     <span class="kd">public</span> <span class="kt">double</span> <span class="nf">profit</span><span class="o">(</span><span class="kd">final</span> <span class="kt">double</span> <span class="n">money</span><span class="o">)</span> <span class="o">{</span>
+         <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">();</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="중요-중복처리하는-중카추클의-중복처리-메서드는-final로-자식딴짓못하게-막아야하며-final을-달아줬다면---자식들이-extends-추가한-중카추클하도록-넘어가자">
+<a class="anchor" href="#%EC%A4%91%EC%9A%94-%EC%A4%91%EB%B3%B5%EC%B2%98%EB%A6%AC%ED%95%98%EB%8A%94-%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4%EC%9D%98-%EC%A4%91%EB%B3%B5%EC%B2%98%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-final%EB%A1%9C-%EC%9E%90%EC%8B%9D%EB%94%B4%EC%A7%93%EB%AA%BB%ED%95%98%EA%B2%8C-%EB%A7%89%EC%95%84%EC%95%BC%ED%95%98%EB%A9%B0-final%EC%9D%84-%EB%8B%AC%EC%95%84%EC%A4%AC%EB%8B%A4%EB%A9%B4---%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%B4-extends-%EC%B6%94%EA%B0%80%ED%95%9C-%EC%A4%91%EC%B9%B4%EC%B6%94%ED%81%B4%ED%95%98%EB%8F%84%EB%A1%9D-%EB%84%98%EC%96%B4%EA%B0%80%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>중요) 중복처리하는 <code class="language-plaintext highlighter-rouge">중카/추클의 중복처리 메서드는 final</code>로 자식딴짓못하게 막아야하며, <code class="language-plaintext highlighter-rouge">final을 달아줬다면 -&gt; 자식들이 extends 추가한 중카/추클</code>하도록 넘어가자</h4>
+
+<h4 id="68-추클상-정의하는-메서드들은-무조건-접근제한자-확인할-것-추클상-중복처리한다면-자식에선-딴짓-못하게-final도-함께">
+<a class="anchor" href="#68-%EC%B6%94%ED%81%B4%EC%83%81-%EC%A0%95%EC%9D%98%ED%95%98%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C%EB%93%A4%EC%9D%80-%EB%AC%B4%EC%A1%B0%EA%B1%B4-%EC%A0%91%EA%B7%BC%EC%A0%9C%ED%95%9C%EC%9E%90-%ED%99%95%EC%9D%B8%ED%95%A0-%EA%B2%83-%EC%B6%94%ED%81%B4%EC%83%81-%EC%A4%91%EB%B3%B5%EC%B2%98%EB%A6%AC%ED%95%9C%EB%8B%A4%EB%A9%B4-%EC%9E%90%EC%8B%9D%EC%97%90%EC%84%A0-%EB%94%B4%EC%A7%93-%EB%AA%BB%ED%95%98%EA%B2%8C-final%EB%8F%84-%ED%95%A8%EA%BB%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>68) 추클상 정의하는 메서드들은 무조건 접근제한자 확인할 것! <code class="language-plaintext highlighter-rouge">추클상 중복처리한다면, 자식에선 딴짓 못하게 final도 함께!!</code>
+</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220326004809362.png" alt="image-20220326004809362">
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220326004907140.png" alt="image-20220326004907140"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Running</span> <span class="kd">extends</span> <span class="nc">Started</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="nf">Running</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Cards</span> <span class="n">cards</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">cards</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="nf">isFinished</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="kt">double</span> <span class="nf">profit</span><span class="o">(</span><span class="kd">final</span> <span class="kt">double</span> <span class="n">money</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="69-final--중복처리-메서드로-중복처리까지-끝냈다면---새로운-자식들에게-가서-자식들이-extends--기존-중복코드들-제거해주기">
+<a class="anchor" href="#69-final--%EC%A4%91%EB%B3%B5%EC%B2%98%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EC%A4%91%EB%B3%B5%EC%B2%98%EB%A6%AC%EA%B9%8C%EC%A7%80-%EB%81%9D%EB%83%88%EB%8B%A4%EB%A9%B4---%EC%83%88%EB%A1%9C%EC%9A%B4-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%97%90%EA%B2%8C-%EA%B0%80%EC%84%9C-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%B4-extends--%EA%B8%B0%EC%A1%B4-%EC%A4%91%EB%B3%B5%EC%BD%94%EB%93%9C%EB%93%A4-%EC%A0%9C%EA%B1%B0%ED%95%B4%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>69) <code class="language-plaintext highlighter-rouge">final  중복처리 메서드</code>로 중복처리까지 끝냈다면 -&gt; 새로운 자식들에게 가서 <code class="language-plaintext highlighter-rouge">자식들이 extends &amp;&amp; 기존 중복코드들 제거</code>해주기</h4>
+
+<ul>
+  <li>Running
+    <ul>
+      <li>Hit</li>
+      <li>Stay</li>
+    </ul>
+  </li>
+</ul>
+
+ 	1. 새 부모로서 extends
+ 	 <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220326010751296.png" alt="image-20220326010751296">
+ 	 <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220326010820149.png" alt="image-20220326010820149">
+
+<ol>
+  <li>
+    <p><strong>처리된 중복메서드만 삭제(<code class="language-plaintext highlighter-rouge">final로 막아놔서 -&gt; extends한 자식은 @Override시 빨간줄</code>)</strong>
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220326010912352.png" alt="image-20220326010912352"></p>
+  </li>
+  <li>
+    <p>Ready도 똑같이 처리한다.</p>
+  </li>
+</ol>
+
+<h4 id="중요암기-추상클래스에서--중복처리시-final을-달아서-처리해주면---기존-개별구현하던-자식들이--extends한-순간부터-딴짓했다고-빨간줄내면서지워달라고-해준다">
+<a class="anchor" href="#%EC%A4%91%EC%9A%94%EC%95%94%EA%B8%B0-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EC%97%90%EC%84%9C--%EC%A4%91%EB%B3%B5%EC%B2%98%EB%A6%AC%EC%8B%9C-final%EC%9D%84-%EB%8B%AC%EC%95%84%EC%84%9C-%EC%B2%98%EB%A6%AC%ED%95%B4%EC%A3%BC%EB%A9%B4---%EA%B8%B0%EC%A1%B4-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%ED%95%98%EB%8D%98-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%B4--extends%ED%95%9C-%EC%88%9C%EA%B0%84%EB%B6%80%ED%84%B0-%EB%94%B4%EC%A7%93%ED%96%88%EB%8B%A4%EA%B3%A0-%EB%B9%A8%EA%B0%84%EC%A4%84%EB%82%B4%EB%A9%B4%EC%84%9C%EC%A7%80%EC%9B%8C%EB%8B%AC%EB%9D%BC%EA%B3%A0-%ED%95%B4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>중요+암기) 추상클래스에서  중복처리시 final을 달아서 처리해주면 -&gt; 기존 개별구현하던 자식들이  extends한 순간부터 딴짓했다고 빨간줄내면서지워달라고 해준다.</h4>
+
+<h4 id="70-최종-다이어그램-확인하기">
+<a class="anchor" href="#70-%EC%B5%9C%EC%A2%85-%EB%8B%A4%EC%9D%B4%EC%96%B4%EA%B7%B8%EB%9E%A8-%ED%99%95%EC%9D%B8%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>70) 최종 다이어그램 확인하기</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220326011957666.png" alt="image-20220326011957666"></p>
+
+<h4 id="중요-추상클래스에서-전메추메의-abstract가-나온다면-protected로서-자식들이-개별구현하도록-풀어준다-ex--final-중복처리-메서드-내부에서-상수만-개별구현">
+<a class="anchor" href="#%EC%A4%91%EC%9A%94-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EC%97%90%EC%84%9C-%EC%A0%84%EB%A9%94%EC%B6%94%EB%A9%94%EC%9D%98-abstract%EA%B0%80-%EB%82%98%EC%98%A8%EB%8B%A4%EB%A9%B4-protected%EB%A1%9C%EC%84%9C-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%B4-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%ED%95%98%EB%8F%84%EB%A1%9D-%ED%92%80%EC%96%B4%EC%A4%80%EB%8B%A4-ex--final-%EC%A4%91%EB%B3%B5%EC%B2%98%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%EC%83%81%EC%88%98%EB%A7%8C-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>중요) <code class="language-plaintext highlighter-rouge">추상클래스에서 전메/추메의 abstract</code>가 나온다면, <code class="language-plaintext highlighter-rouge">protected로서 자식들이 개별구현</code>하도록 풀어준다. <code class="language-plaintext highlighter-rouge">ex&gt;  final 중복처리 메서드 내부에서 상수만 개별구현</code>
+</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220326015147128.png" alt="image-20220326015147128"></p>
+
+<h3 id="중요-상태패턴-최종-기능파악--인터페이스로-약속만-정의---바깥에서-인페-추상체-state를-상태값으로-가진다면-내부-구현-정보를-모르고-사용만-한다-인페-추상체는-밖에서-주입해도-되고-내부에서-즈그들끼리-변해도-되고-모른다---state를-추클로-정의하면-바깥에서--내부-정의를-다안다">
+<a class="anchor" href="#%EC%A4%91%EC%9A%94-%EC%83%81%ED%83%9C%ED%8C%A8%ED%84%B4-%EC%B5%9C%EC%A2%85-%EA%B8%B0%EB%8A%A5%ED%8C%8C%EC%95%85--%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%A1%9C-%EC%95%BD%EC%86%8D%EB%A7%8C-%EC%A0%95%EC%9D%98---%EB%B0%94%EA%B9%A5%EC%97%90%EC%84%9C-%EC%9D%B8%ED%8E%98-%EC%B6%94%EC%83%81%EC%B2%B4-state%EB%A5%BC-%EC%83%81%ED%83%9C%EA%B0%92%EC%9C%BC%EB%A1%9C-%EA%B0%80%EC%A7%84%EB%8B%A4%EB%A9%B4-%EB%82%B4%EB%B6%80-%EA%B5%AC%ED%98%84-%EC%A0%95%EB%B3%B4%EB%A5%BC-%EB%AA%A8%EB%A5%B4%EA%B3%A0-%EC%82%AC%EC%9A%A9%EB%A7%8C-%ED%95%9C%EB%8B%A4-%EC%9D%B8%ED%8E%98-%EC%B6%94%EC%83%81%EC%B2%B4%EB%8A%94-%EB%B0%96%EC%97%90%EC%84%9C-%EC%A3%BC%EC%9E%85%ED%95%B4%EB%8F%84-%EB%90%98%EA%B3%A0-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%EC%A6%88%EA%B7%B8%EB%93%A4%EB%81%BC%EB%A6%AC-%EB%B3%80%ED%95%B4%EB%8F%84-%EB%90%98%EA%B3%A0-%EB%AA%A8%EB%A5%B8%EB%8B%A4---state%EB%A5%BC-%EC%B6%94%ED%81%B4%EB%A1%9C-%EC%A0%95%EC%9D%98%ED%95%98%EB%A9%B4-%EB%B0%94%EA%B9%A5%EC%97%90%EC%84%9C--%EB%82%B4%EB%B6%80-%EC%A0%95%EC%9D%98%EB%A5%BC-%EB%8B%A4%EC%95%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>중요) 상태패턴 최종 기능파악 + 인터페이스로 약속만 정의 -&gt; 바깥에서 인페 추상체 state를 상태값으로 가진다면, 내부 구현 정보를 모르고 사용만 한다. (인페 추상체는 밖에서 주입해도 되고, 내부에서 즈그들끼리 변해도 되고.. 모른다) &lt;-&gt; state를 추클로 정의하면, 바깥에서  내부 정의를 다안다.?</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">State</span> <span class="o">{</span>
+    <span class="nc">State</span> <span class="nf">draw</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Card</span> <span class="n">card</span><span class="o">);</span>
+
+    <span class="nc">State</span> <span class="nf">stay</span><span class="o">();</span>
+
+    <span class="nc">Cards</span> <span class="nf">cards</span><span class="o">();</span>
+
+    <span class="kt">boolean</span> <span class="nf">isFinished</span><span class="o">();</span>
+
+    <span class="kt">double</span> <span class="nf">profit</span><span class="o">(</span><span class="kt">double</span> <span class="n">money</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ol>
+  <li>
+<code class="language-plaintext highlighter-rouge">isFinished()</code>가 판단가능해서
+    <ol>
+      <li>
+<strong>끝나지 않았으면, 추가정보로 계속 상태변화</strong> <code class="language-plaintext highlighter-rouge">draw( )</code>
+</li>
+      <li>
+<strong>끝났으면, 그 상태에서 결과계산</strong> <code class="language-plaintext highlighter-rouge">profit( )</code>
+</li>
+    </ol>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">stay()</code>로 <strong>주체(Player)가 원할 때, isFinished()에 걸리도록 끝내주고</strong>
+    <ul>
+      <li>종료도.. 종료상태를 먼저 만들어주고, isFinished()에 걸려야하는 구나!</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">cards()</code>로 <strong>출력이나, 상태업데이트를 위해 현재상태를 가져온다</strong>
+</li>
+</ol>
+
+<h4 id="인페는-말그대로-인터페이스만-제공해주고-내부구현은-모른다---인터페이스로-연결되었다면-player입장에서는-state-가-어떻게-동작하는지-1도-모른다-내부동작을-모른다">
+<a class="anchor" href="#%EC%9D%B8%ED%8E%98%EB%8A%94-%EB%A7%90%EA%B7%B8%EB%8C%80%EB%A1%9C-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%A7%8C-%EC%A0%9C%EA%B3%B5%ED%95%B4%EC%A3%BC%EA%B3%A0-%EB%82%B4%EB%B6%80%EA%B5%AC%ED%98%84%EC%9D%80-%EB%AA%A8%EB%A5%B8%EB%8B%A4---%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%A1%9C-%EC%97%B0%EA%B2%B0%EB%90%98%EC%97%88%EB%8B%A4%EB%A9%B4-player%EC%9E%85%EC%9E%A5%EC%97%90%EC%84%9C%EB%8A%94-state-%EA%B0%80-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%8F%99%EC%9E%91%ED%95%98%EB%8A%94%EC%A7%80-1%EB%8F%84-%EB%AA%A8%EB%A5%B8%EB%8B%A4-%EB%82%B4%EB%B6%80%EB%8F%99%EC%9E%91%EC%9D%84-%EB%AA%A8%EB%A5%B8%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>인페는 말그대로 인터페이스만 제공해주고, 내부구현은 모른다. -&gt; 인터페이스로 연결되었다면, Player입장에서는 state 가 어떻게 동작하는지 1도 모른다. (내부동작을 모른다)</h4>
+
+<ul>
+  <li>인터페이스는 <strong>바깥에서 사용할 때, 내부 구현을 모르는 상테로, <code class="language-plaintext highlighter-rouge">약속에만 맞게 동작하는구나</code>정도만 알 수 있다</strong>
+    <ul>
+      <li>Player -&gt; <code class="language-plaintext highlighter-rouge">private State state;</code>로 상태값으로 가지긴 하지만, <strong>인페 객체(추상체)를 갖다쓰는 순간 내부 구현고  직접 구현체가 들어갈 때만 거기에 맞게 작동하므로)</strong>
+</li>
+    </ul>
+  </li>
+  <li>인터페이스가 좋다고 해도, 많아지면 장황해진다</li>
+  <li>추클과의 논쟁은 끝이 없다.</li>
+</ul>
+
+<h3 id="인페로-정의한-state는-사용자가-내용은-모른체-원하는-대로-사용할-수-있다">
+<a class="anchor" href="#%EC%9D%B8%ED%8E%98%EB%A1%9C-%EC%A0%95%EC%9D%98%ED%95%9C-state%EB%8A%94-%EC%82%AC%EC%9A%A9%EC%9E%90%EA%B0%80-%EB%82%B4%EC%9A%A9%EC%9D%80-%EB%AA%A8%EB%A5%B8%EC%B2%B4-%EC%9B%90%ED%95%98%EB%8A%94-%EB%8C%80%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>인페로 정의한 State는 사용자가 내용은 모른체, 원하는 대로 사용할 수 있다.</h3>
+
+<h4 id="71-player가-인터페이스-객체추상체의--state를-상태값으로-가지는-순간-그-내부-구현은-모르게-된다">
+<a class="anchor" href="#71-player%EA%B0%80-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4-%EA%B0%9D%EC%B2%B4%EC%B6%94%EC%83%81%EC%B2%B4%EC%9D%98--state%EB%A5%BC-%EC%83%81%ED%83%9C%EA%B0%92%EC%9C%BC%EB%A1%9C-%EA%B0%80%EC%A7%80%EB%8A%94-%EC%88%9C%EA%B0%84-%EA%B7%B8-%EB%82%B4%EB%B6%80-%EA%B5%AC%ED%98%84%EC%9D%80-%EB%AA%A8%EB%A5%B4%EA%B2%8C-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>71) Player가 인터페이스 객체(추상체)의  state를 상태값으로 가지는 순간, 그 내부 구현은 모르게 된다.</h4>
+
+<ol>
+  <li>
+    <p>state와는 다른 <code class="language-plaintext highlighter-rouge">.player패키지</code> -&gt; <code class="language-plaintext highlighter-rouge">Player</code>를 만들기</p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220327104900319.png" alt="image-20220327104900319"></p>
+  </li>
+  <li>
+    <p><strong>State의 사용처는 <code class="language-plaintext highlighter-rouge">인페객체 = 추상체</code>를 <code class="language-plaintext highlighter-rouge">상태값</code>으로 가져, 내부구현은 모른다.</strong>
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220327104505110.png" alt="image-20220327104505110"></p>
+  </li>
+</ol>
+
+<h4 id="중요-상태객체가-단독-public으로-열린-최초시작상태ready-객체가-있다면-시작이-그것-밖에-없으니-생성자가-아니더라도-필드에서-바로-new-ready--최초시작상태-객체로-초기화해줘도-된다">
+<a class="anchor" href="#%EC%A4%91%EC%9A%94-%EC%83%81%ED%83%9C%EA%B0%9D%EC%B2%B4%EA%B0%80-%EB%8B%A8%EB%8F%85-public%EC%9C%BC%EB%A1%9C-%EC%97%B4%EB%A6%B0-%EC%B5%9C%EC%B4%88%EC%8B%9C%EC%9E%91%EC%83%81%ED%83%9Cready-%EA%B0%9D%EC%B2%B4%EA%B0%80-%EC%9E%88%EB%8B%A4%EB%A9%B4-%EC%8B%9C%EC%9E%91%EC%9D%B4-%EA%B7%B8%EA%B2%83-%EB%B0%96%EC%97%90-%EC%97%86%EC%9C%BC%EB%8B%88-%EC%83%9D%EC%84%B1%EC%9E%90%EA%B0%80-%EC%95%84%EB%8B%88%EB%8D%94%EB%9D%BC%EB%8F%84-%ED%95%84%EB%93%9C%EC%97%90%EC%84%9C-%EB%B0%94%EB%A1%9C-new-ready--%EC%B5%9C%EC%B4%88%EC%8B%9C%EC%9E%91%EC%83%81%ED%83%9C-%EA%B0%9D%EC%B2%B4%EB%A1%9C-%EC%B4%88%EA%B8%B0%ED%99%94%ED%95%B4%EC%A4%98%EB%8F%84-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>중요) 상태객체가 <code class="language-plaintext highlighter-rouge">단독 public으로 열린 최초시작상태Ready 객체</code>가 있다면, 시작이 그것 밖에 없으니, 생성자가 아니더라도 <code class="language-plaintext highlighter-rouge">필드에서 바로 new Ready(); = (최초시작상태 객체)</code>로 초기화`해줘도 된다.</h4>
+
+<h5 id="암기-상태패턴은-필드에서부터-열려있는-접근제어자는-ready객체-밖에-없어서-private-state-state--new-ready로-시작">
+<a class="anchor" href="#%EC%95%94%EA%B8%B0-%EC%83%81%ED%83%9C%ED%8C%A8%ED%84%B4%EC%9D%80-%ED%95%84%EB%93%9C%EC%97%90%EC%84%9C%EB%B6%80%ED%84%B0-%EC%97%B4%EB%A0%A4%EC%9E%88%EB%8A%94-%EC%A0%91%EA%B7%BC%EC%A0%9C%EC%96%B4%EC%9E%90%EB%8A%94-ready%EA%B0%9D%EC%B2%B4-%EB%B0%96%EC%97%90-%EC%97%86%EC%96%B4%EC%84%9C-private-state-state--new-ready%EB%A1%9C-%EC%8B%9C%EC%9E%91" aria-hidden="true"><span class="octicon octicon-link"></span></a>암기) 상태패턴은 필드에서부터 <code class="language-plaintext highlighter-rouge">열려있는 접근제어자는 Ready객체 밖에 없어서</code> <code class="language-plaintext highlighter-rouge">private State state = new Ready();</code>로 시작</h5>
+
+<ol>
+  <li>
+    <p><strong>Ready로 시작할 수 밖에 없다면, 생성자에서 초기화 안하고 필드에서 해도 된다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Player</span> <span class="o">{</span>
+    
+    <span class="kd">private</span> <span class="nc">State</span> <span class="n">state</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Ready</span><span class="o">();</span>
+    
+<span class="o">}</span>
+</code></pre></div>    </div>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220327105735001.png" alt="image-20220327105735001"></p>
+  </li>
+</ol>
+
+<h4 id="72-상태사용자-player-등은-상태업데이트-메서드-statedrawcard를-사용하는-메서드를-한번더-만들어줘야한다-객체를-포장하는-조합처럼---이-때-필요한-재료card를-바로-줄지-아니면-더-바깥상태의-재료를-받아서--내부에서-꺼내서서-넘길지deckpick---card는-사용자-맘이다---어떻게-되었든-player는-인터페이스로-연결된--state를-모른다">
+<a class="anchor" href="#72-%EC%83%81%ED%83%9C%EC%82%AC%EC%9A%A9%EC%9E%90-player-%EB%93%B1%EC%9D%80-%EC%83%81%ED%83%9C%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EB%A9%94%EC%84%9C%EB%93%9C-statedrawcard%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%ED%95%9C%EB%B2%88%EB%8D%94-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A4%98%EC%95%BC%ED%95%9C%EB%8B%A4-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%ED%8F%AC%EC%9E%A5%ED%95%98%EB%8A%94-%EC%A1%B0%ED%95%A9%EC%B2%98%EB%9F%BC---%EC%9D%B4-%EB%95%8C-%ED%95%84%EC%9A%94%ED%95%9C-%EC%9E%AC%EB%A3%8Ccard%EB%A5%BC-%EB%B0%94%EB%A1%9C-%EC%A4%84%EC%A7%80-%EC%95%84%EB%8B%88%EB%A9%B4-%EB%8D%94-%EB%B0%94%EA%B9%A5%EC%83%81%ED%83%9C%EC%9D%98-%EC%9E%AC%EB%A3%8C%EB%A5%BC-%EB%B0%9B%EC%95%84%EC%84%9C--%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%EA%BA%BC%EB%82%B4%EC%84%9C%EC%84%9C-%EB%84%98%EA%B8%B8%EC%A7%80deckpick---card%EB%8A%94-%EC%82%AC%EC%9A%A9%EC%9E%90-%EB%A7%98%EC%9D%B4%EB%8B%A4---%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%90%98%EC%97%88%EB%93%A0-player%EB%8A%94-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%A1%9C-%EC%97%B0%EA%B2%B0%EB%90%9C--state%EB%A5%BC-%EB%AA%A8%EB%A5%B8%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>72) 상태사용자 Player 등은, 상태업데이트 메서드 state.draw(card)를 사용하는 메서드를 한번더 만들어줘야한다( 객체를 포장하는 조합처럼).  + 이 때, <code class="language-plaintext highlighter-rouge">필요한 재료(card)를 바로 줄지</code>, 아니면 <code class="language-plaintext highlighter-rouge">더 바깥상태의 재료</code>를 받아서  <code class="language-plaintext highlighter-rouge">내부에서 꺼내서서 넘길지(Deck.pick() -&gt; card)</code>는 사용자 맘이다. -&gt; 어떻게 되었든 Player는 인터페이스로 연결된  State를 모른다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220327113038534.png" alt="image-20220327113038534"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Player</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="nc">State</span> <span class="n">state</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Ready</span><span class="o">();</span>
+
+    <span class="c1">// state사용 객체 입장에서, 재료 뭉태기를 한번에?</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">(</span><span class="nc">Deck</span> <span class="n">deck</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="na">draw</span><span class="o">(</span><span class="n">deck</span><span class="o">.</span><span class="na">pick</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="c1">//or 1개 재료만? -&gt; 선택 가능함.</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">(</span><span class="nc">Card</span> <span class="n">card</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="na">draw</span><span class="o">(</span><span class="n">card</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="73-사용자-가-끝나기전-호출가능-메서드들draw-stay을-호출하는-메서드를-작성할-때는--항상-내부에서-현재state가-아직-안-끝난-상태인지-확인후-호출되도록-해야한다">
+<a class="anchor" href="#73-%EC%82%AC%EC%9A%A9%EC%9E%90-%EA%B0%80-%EB%81%9D%EB%82%98%EA%B8%B0%EC%A0%84-%ED%98%B8%EC%B6%9C%EA%B0%80%EB%8A%A5-%EB%A9%94%EC%84%9C%EB%93%9C%EB%93%A4draw-stay%EC%9D%84-%ED%98%B8%EC%B6%9C%ED%95%98%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EC%9E%91%EC%84%B1%ED%95%A0-%EB%95%8C%EB%8A%94--%ED%95%AD%EC%83%81-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%ED%98%84%EC%9E%ACstate%EA%B0%80-%EC%95%84%EC%A7%81-%EC%95%88-%EB%81%9D%EB%82%9C-%EC%83%81%ED%83%9C%EC%9D%B8%EC%A7%80-%ED%99%95%EC%9D%B8%ED%9B%84-%ED%98%B8%EC%B6%9C%EB%90%98%EB%8F%84%EB%A1%9D-%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>73) 사용자 가 <code class="language-plaintext highlighter-rouge">끝나기전 호출가능 메서드들(draw, stay)을 호출</code>하는 메서드를 작성할 때는,  <code class="language-plaintext highlighter-rouge">항상 내부에서 현재State가 아직 안 끝난 상태인지 확인후 호출</code>되도록 해야한다.</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">State</span> <span class="o">{</span>
+    <span class="nc">State</span> <span class="nf">draw</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Card</span> <span class="n">card</span><span class="o">);</span>
+
+    <span class="nc">State</span> <span class="nf">stay</span><span class="o">();</span>
+
+    <span class="nc">Cards</span> <span class="nf">cards</span><span class="o">();</span>
+
+    <span class="kt">boolean</span> <span class="nf">isFinished</span><span class="o">();</span>
+
+    <span class="kt">double</span> <span class="nf">profit</span><span class="o">(</span><span class="kt">double</span> <span class="n">money</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220327112607614.png" alt="image-20220327112607614"></p>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220327113038534.png" alt="image-20220327113038534"></p>
+
+<h4 id="74-state사용자가-상태변화메서드draw의-재료뭉태기를-파라미터로--while--is끝난상태객체-될대까지로-돌리면-한번에-계속-호출할-수-도-있다">
+<a class="anchor" href="#74-state%EC%82%AC%EC%9A%A9%EC%9E%90%EA%B0%80-%EC%83%81%ED%83%9C%EB%B3%80%ED%99%94%EB%A9%94%EC%84%9C%EB%93%9Cdraw%EC%9D%98-%EC%9E%AC%EB%A3%8C%EB%AD%89%ED%83%9C%EA%B8%B0%EB%A5%BC-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A1%9C--while--is%EB%81%9D%EB%82%9C%EC%83%81%ED%83%9C%EA%B0%9D%EC%B2%B4-%EB%90%A0%EB%8C%80%EA%B9%8C%EC%A7%80%EB%A1%9C-%EB%8F%8C%EB%A6%AC%EB%A9%B4-%ED%95%9C%EB%B2%88%EC%97%90-%EA%B3%84%EC%86%8D-%ED%98%B8%EC%B6%9C%ED%95%A0-%EC%88%98-%EB%8F%84-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>74) state사용자가 <code class="language-plaintext highlighter-rouge">상태변화메서드draw()의 재료뭉태기</code>를 파라미터로 + <code class="language-plaintext highlighter-rouge">while + is끝난상태객체 될대까지</code>로 돌리면 한번에 계속 호출할 수 도 있다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220327112946101.png" alt="image-20220327112946101"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Player</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="nc">State</span> <span class="n">state</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Ready</span><span class="o">();</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">(</span><span class="nc">Deck</span> <span class="n">deck</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">while</span> <span class="o">(!</span><span class="n">state</span><span class="o">.</span><span class="na">isFinished</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="na">draw</span><span class="o">(</span><span class="n">deck</span><span class="o">.</span><span class="na">pick</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="my-매번-끝났는지-확인가능--끝날때까지-재료가-매번-제공되면---if로-1동작만-할-것을---while로-여러동작할-수-있다">
+<a class="anchor" href="#my-%EB%A7%A4%EB%B2%88-%EB%81%9D%EB%82%AC%EB%8A%94%EC%A7%80-%ED%99%95%EC%9D%B8%EA%B0%80%EB%8A%A5--%EB%81%9D%EB%82%A0%EB%95%8C%EA%B9%8C%EC%A7%80-%EC%9E%AC%EB%A3%8C%EA%B0%80-%EB%A7%A4%EB%B2%88-%EC%A0%9C%EA%B3%B5%EB%90%98%EB%A9%B4---if%EB%A1%9C-1%EB%8F%99%EC%9E%91%EB%A7%8C-%ED%95%A0-%EA%B2%83%EC%9D%84---while%EB%A1%9C-%EC%97%AC%EB%9F%AC%EB%8F%99%EC%9E%91%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) <code class="language-plaintext highlighter-rouge">매번 끝났는지 확인가능</code> + <code class="language-plaintext highlighter-rouge">끝날때까지 재료가 매번 제공되면</code> -&gt; if로 1동작만 할 것을 -&gt; while로 여러동작할 수 있다.</h4>
+
+<ul>
+  <li>
+    <p><strong>메서드가 card를 파라미터로 받는다고 해서 외부에서 card를 직접꺼내주지말고, <code class="language-plaintext highlighter-rouge">외부에서는 card덩어리의 객체</code>를 파라미터로 받아보자</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220327113342252.png" alt="image-20220327113342252"></p>
+
+    <ul>
+      <li>
+        <p>Player</p>
+
+        <ul>
+          <li>draw &lt;- <code class="language-plaintext highlighter-rouge">Deck</code>  ( = cards by .pick() )
+            <ul>
+              <li>if   !  isFinished()
+                <ul>
+                  <li>state &lt;- card &lt;- Deck.pick()</li>
+                </ul>
+              </li>
+              <li>
+<strong>while !  isFinished()</strong>
+                <ul>
+                  <li>state &lt;- card &lt;- Deck.pick()</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>draw &lt;- <code class="language-plaintext highlighter-rouge">card</code>
+            <ul>
+              <li>if   !  isFinished()
+                <ul>
+                  <li>state &lt;- card</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Player</span> <span class="o">{</span>
+        
+      <span class="kd">private</span> <span class="nc">State</span> <span class="n">state</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Ready</span><span class="o">();</span>
+        
+      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">(</span><span class="nc">Deck</span> <span class="n">deck</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">while</span> <span class="o">(!</span><span class="n">state</span><span class="o">.</span><span class="na">isFinished</span><span class="o">())</span> <span class="o">{</span>
+              <span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="na">draw</span><span class="o">(</span><span class="n">deck</span><span class="o">.</span><span class="na">pick</span><span class="o">());</span>
+          <span class="o">}</span>
+      <span class="o">}</span>
+        
+      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">(</span><span class="nc">Card</span> <span class="n">card</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">if</span> <span class="o">(!</span><span class="n">state</span><span class="o">.</span><span class="na">isFinished</span><span class="o">())</span> <span class="o">{</span>
+              <span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="na">draw</span><span class="o">(</span><span class="n">card</span><span class="o">);</span>
+          <span class="o">}</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="남은일">
+<a class="anchor" href="#%EB%82%A8%EC%9D%80%EC%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>남은일</h3>
+
+<ul>
+  <li>상태패턴에서 stay일 때  profit구현(임시로 money 1배로 반환)</li>
+</ul>
+
+
+  </div><a class="u-url" href="/java/pattern/state/blackjack/%EC%9A%B0%ED%85%8C%EC%BD%94/tdd/%EA%B0%95%EC%9D%98/2022/03/27/%EA%B0%95%EC%9D%98)-%EB%84%A4%EC%98%A4-3%EB%8B%A8%EA%B3%84-%EB%B8%94%EB%9E%99%EC%9E%AD%EA%B3%BC-%EC%83%81%ED%83%9C%ED%8C%A8%ED%84%B44.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

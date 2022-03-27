@@ -161,6 +161,9 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h5"><a href="#method의-파라미터-앞에-final">method의 파라미터 앞에 final</a></li>
 <li class="toc-entry toc-h5"><a href="#변수-추출시-final-최초-1회">변수 추출시 final (최초 1회)</a></li>
 <li class="toc-entry toc-h5"><a href="#private-상수를-private로-추출최초-1회">(private) 상수를 private로 추출(최초 1회)</a></li>
+<li class="toc-entry toc-h5"><a href="#test-method-템플릿에-displayname-추가해주기">Test Method 템플릿에 @DisplayName(“”) 추가해주기</a></li>
+<li class="toc-entry toc-h5"><a href="#파라미터-힌트-항상-보이게-하기">파라미터 힌트 항상 보이게 하기</a></li>
+<li class="toc-entry toc-h5"><a href="#keymap-추출하고-사용하기">keymap 추출하고 사용하기</a></li>
 <li class="toc-entry toc-h5"><a href="#font">Font</a></li>
 <li class="toc-entry toc-h5"><a href="#한글-워닝-제거">한글 워닝 제거</a></li>
 </ul>
@@ -448,6 +451,63 @@ window.onload = wrap_img;
     </ul>
   </li>
 </ul>
+
+<h5 id="test-method-템플릿에-displayname-추가해주기">
+<a class="anchor" href="#test-method-%ED%85%9C%ED%94%8C%EB%A6%BF%EC%97%90-displayname-%EC%B6%94%EA%B0%80%ED%95%B4%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>Test Method 템플릿에 @DisplayName(“”) 추가해주기</h5>
+
+<ol>
+  <li>
+    <p>세팅 &gt; <code class="language-plaintext highlighter-rouge">file and code templates</code> 검색 &gt; <code class="language-plaintext highlighter-rouge">Code</code>탭 &gt; <strong>JUnit Test Method에 아래 코드 추가</strong></p>
+
+    <p><code class="language-plaintext highlighter-rouge">@org.junit.jupiter.api.DisplayName("")</code></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220324012209534.png" alt="image-20220324012209534"></p>
+  </li>
+</ol>
+
+<h5 id="파라미터-힌트-항상-보이게-하기">
+<a class="anchor" href="#%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0-%ED%9E%8C%ED%8A%B8-%ED%95%AD%EC%83%81-%EB%B3%B4%EC%9D%B4%EA%B2%8C-%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>파라미터 힌트 항상 보이게 하기</h5>
+
+<ul>
+  <li>settings &gt; <code class="language-plaintext highlighter-rouge">Parameter hint</code>검색 &gt; Editor &gt; Inlay Hints &gt; Java &gt; Parameter hints &gt;
+    <ul class="task-list">
+      <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked><code class="language-plaintext highlighter-rouge">Paramters with names ~</code> 체크
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220321213836753.png" alt="image-20220321213836753">
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="keymap-추출하고-사용하기">
+<a class="anchor" href="#keymap-%EC%B6%94%EC%B6%9C%ED%95%98%EA%B3%A0-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>keymap 추출하고 사용하기</h5>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">F1(search everywhere)</code>에서 <code class="language-plaintext highlighter-rouge">export settings</code>를 검색한다
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220322222836715.png" alt="image-20220322222836715"></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">Select None</code>을 한번 누르고 <code class="language-plaintext highlighter-rouge">keymaps(schemes)</code>만 선택 한 뒤, 저장경로에서 <strong><code class="language-plaintext highlighter-rouge">settings.zip</code>에 날짜기입</strong>까지 해주고 <code class="language-plaintext highlighter-rouge">OK</code>로 export한다.</p>
+
+    <ul>
+      <li>
+        <p>사용시에는 반대로 <code class="language-plaintext highlighter-rouge">F1 &gt; import settings</code>를 검색한 뒤, zip을 선택만 해주면 된다.</p>
+      </li>
+      <li>
+        <p><strong>까보면, plugins까지 다 포함되어있다.</strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220322223313994.png" alt="image-20220322223313994">
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220322223335312.png" alt="image-20220322223335312">
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220322223443114.png" alt="image-20220322223443114"></p>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220322223037924.png" alt="image-20220322223037924">
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220322223043641.png" alt="image-20220322223043641">
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220322223154449.png" alt="image-20220322223154449">
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220322223223604.png" alt="image-20220322223223604"></p>
+  </li>
+</ol>
 
 <h5 id="font">
 <a class="anchor" href="#font" aria-hidden="true"><span class="octicon octicon-link"></span></a>Font</h5>
