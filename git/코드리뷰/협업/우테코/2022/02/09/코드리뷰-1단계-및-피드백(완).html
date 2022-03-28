@@ -142,7 +142,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h3"><a href="#협업-시작-a와-b">협업 시작 (A와 B)</a>
 <ul>
 <li class="toc-entry toc-h4"><a href="#작업레포local-a-정하기">작업레포(local, A) 정하기</a></li>
-<li class="toc-entry toc-h4"><a href="#a-fork레포remote-2---b-local레포">A fork레포(remote 2) -&gt; B local레포</a></li>
+<li class="toc-entry toc-h4"><a href="#a-fork레포remote-2-fetchmerge-b-local레포">A fork레포(remote 2) —fetch/merge–&gt; B local레포</a></li>
 <li class="toc-entry toc-h4"><a href="#a-fork레포remote2---b-fork레포remote1">A fork레포(remote2) -&gt; B fork레포(remote1)</a></li>
 <li class="toc-entry toc-h4"><a href="#사실-b-local---b-fork로-가는게-맞다">사실… B local -&gt; B fork로 가는게 맞다?</a></li>
 </ul>
@@ -372,8 +372,8 @@ window.onload = wrap_img;
   </li>
 </ul>
 
-<h4 id="a-fork레포remote-2---b-local레포">
-<a class="anchor" href="#a-fork%EB%A0%88%ED%8F%ACremote-2---b-local%EB%A0%88%ED%8F%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>A fork레포(remote 2) -&gt; B local레포</h4>
+<h4 id="a-fork레포remote-2-fetchmerge-b-local레포">
+<a class="anchor" href="#a-fork%EB%A0%88%ED%8F%ACremote-2-fetchmerge-b-local%EB%A0%88%ED%8F%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>A fork레포(remote 2) —fetch/merge–&gt; B local레포</h4>
 
 <ol>
   <li>
@@ -426,12 +426,11 @@ window.onload = wrap_img;
     <p>fetch로 내역들을 확인했으면 merge한다.</p>
 
     <div class="language-shell highlighter-rouge">
-<div class="highlight"><pre class="highlight"><code> git merge pair step1
+<div class="highlight"><pre class="highlight"><code> git merge pair/step1
 </code></pre></div>    </div>
 
     <ul>
-      <li>안되면 git merge <code class="language-plaintext highlighter-rouge">pair/step1</code>
-</li>
+      <li>fetch는 띄워쓰기 / merge는 fetch된 것을 <code class="language-plaintext highlighter-rouge">/</code>로 연결</li>
     </ul>
   </li>
 </ol>
