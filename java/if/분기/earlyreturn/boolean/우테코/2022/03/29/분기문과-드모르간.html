@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>분기문과 드모르간 법칙 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="분기문과 드모르간 법칙" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A &amp;&amp; B 이전에 return되도록   로 만들어 찢자." />
+<meta property="og:description" content="A &amp;&amp; B 이전에 return되도록   로 만들어 찢자." />
+<link rel="canonical" href="blog.chojaeseong.com/java/if/%EB%B6%84%EA%B8%B0/earlyreturn/boolean/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/29/%EB%B6%84%EA%B8%B0%EB%AC%B8%EA%B3%BC-%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/if/%EB%B6%84%EA%B8%B0/earlyreturn/boolean/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/29/%EB%B6%84%EA%B8%B0%EB%AC%B8%EA%B3%BC-%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-03-29T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-03-29T00:00:00-05:00","url":"blog.chojaeseong.com/java/if/%EB%B6%84%EA%B8%B0/earlyreturn/boolean/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/29/%EB%B6%84%EA%B8%B0%EB%AC%B8%EA%B3%BC-%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"분기문과 드모르간 법칙","dateModified":"2022-03-29T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/if/%EB%B6%84%EA%B8%B0/earlyreturn/boolean/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/29/%EB%B6%84%EA%B8%B0%EB%AC%B8%EA%B3%BC-%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84.html"},"description":"A &amp;&amp; B 이전에 return되도록   로 만들어 찢자.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">분기문과 드모르간 법칙</h1><p class="page-description">A && B 이전에 return되도록 ||로 만들어 찢자.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-03-29T00:00:00-05:00" itemprop="datePublished">
+        Mar 29, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#if">if</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#분기">분기</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#earlyreturn">earlyreturn</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#boolean">boolean</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#분기문에-적용하는-드모르간">분기문에 적용하는 드모르간</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#문제-상황">문제 상황</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#boolean식-분기-적용법-----으로-분리후---드모르간-적용">boolean식 분기 적용법: ` &amp;&amp; -&gt; ||으로 분리후 -&gt; 드모르간 적용`</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-return-a--b-로-작성해놓았다면-replace-with-로-분리한다">01 return A &amp;&amp; B 로 작성해놓았다면, replace with ||로 분리한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#02-가장-바깥--는-무시한-체-return--는-순서가-중요---아래쪽-순서대로-if-return-true문으로-찢는다">02 가장 바깥 !( )는 무시한 체, return || 는 순서가 중요 -&gt; 아래쪽 순서대로 if return true문으로 찢는다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#-에서-앞에것-통과-못했으면---if-분기에서-위에-것-통과-못했으면으로-동치다">` ||에서 앞에것 통과 못했으면  == if 분기에서 위에 것 통과 못했으면`으로 동치다</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#03-return--오른쪽-끝까지-모두-통과x---false-이므로-if-return-true-여러개-맨-아래-까지-통과x시---return-false">03 return || 오른쪽 끝까지 모두 통과X -&gt; false 이므로 if return true; 여러개 맨 아래 까지 통과x시 -&gt; return false;</a></li>
+<li class="toc-entry toc-h4"><a href="#04-무시했던-바깥-을-적용시키려고-return-truefalse-반대로작성하기">04 무시했던 바깥 !()을 적용시키려고 return true/false 반대로작성하기</a></li>
+<li class="toc-entry toc-h4"><a href="#05-암기-및-정리--if를-다지난-마지막-자동-a--b에서-retun-true를-주고--if-nota-return-false---if-notb-return-false">05 암기 및 정리:  (if를 다지난 마지막 자동 A &amp;&amp; B에서 )retun true를 주고 -&gt;if notA return false -&gt; if notB return false;</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#기본-로직-적용법-및-암기법--a--b는-if-nota---if-notb---맨마지막-자동-a--b에서-처리되도록">기본 로직 적용법 및 암기법:  A &amp;&amp; B는 if notA -&gt; if notB -&gt; 맨마지막 자동 A &amp;&amp; B에서 처리되도록</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#예시1-row--col의-대각선">예시1) row &amp;&amp; col의 대각선</a></li>
+<li class="toc-entry toc-h4"><a href="#예시2-누구-king이-잡혔냐----자동-둘다-안잡힌-상황">예시2) 누구 king이 잡혔냐? -&gt;  (자동 둘다 &amp;&amp;안잡힌 상황)</a></li>
+<li class="toc-entry toc-h4"><a href="#예시3-boolean에서-a--b">예시3) boolean에서 A &amp;&amp; B</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#01--자동으로-될-a--b를-주석처리와-함께맨-끝에서-return-true">01  (자동으로 될 A &amp;&amp; B를 주석처리와 함께)맨 끝에서 return true</a></li>
+<li class="toc-entry toc-h5"><a href="#02-if-not-a를-만들고-return-false">02 if not A를 만들고 return false;</a></li>
+<li class="toc-entry toc-h5"><a href="#03-마지막-if-not-b-만들고-return-false">03 마지막 if not B 만들고 return false;</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#my-로직에서-해당하지-않는-경우-ealry-return하는-것처럼-분기식의-해당하지-않는-경우들자동-ab-return-true전까지-if-nota-if-notb에다가----early-false-return을-쓴다">my) 로직에서 해당하지 않는 경우 ealry return;하는 것처럼 분기식의 해당하지 않는 경우들(자동 A&amp;&amp;B return true전까지 if notA if notB에다가 -&gt; ) early false return을 쓴다</a></li>
+</ul><h3 id="분기문에-적용하는-드모르간">
+<a class="anchor" href="#%EB%B6%84%EA%B8%B0%EB%AC%B8%EC%97%90-%EC%A0%81%EC%9A%A9%ED%95%98%EB%8A%94-%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>분기문에 적용하는 드모르간</h3>
+
+<h4 id="문제-상황">
+<a class="anchor" href="#%EB%AC%B8%EC%A0%9C-%EC%83%81%ED%99%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>문제 상황</h4>
+
+<ul>
+  <li>
+    <p>루피 피드백 중 1개를 발취</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="nf">isMovable</span><span class="o">(</span><span class="nc">Position</span> <span class="n">source</span><span class="o">,</span> <span class="nc">Position</span> <span class="n">target</span><span class="o">,</span> <span class="nc">ChessBoard</span> <span class="n">chessBoard</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="o">!</span><span class="n">existSameColorPiece</span><span class="o">(</span><span class="n">source</span><span class="o">,</span> <span class="n">target</span><span class="o">,</span> <span class="n">chessBoard</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">isMovableByDirection</span><span class="o">(</span><span class="n">source</span><span class="o">,</span> <span class="n">target</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><a href="https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&amp;blogId=asd7979&amp;logNo=30106982953">드모르간의 법칙</a>을 참고하면 아래와 같이 변경할 수 있을 것 같아요.</p>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">&amp;&amp;</code> : 작성자는 이해하기 쉬운 경우이나
+        <ul>
+          <li>라인 수는 줄어들지만 <strong>라인을 끝까지 다 읽어봐야 이해</strong>할 수 있을 것 같아요.</li>
+        </ul>
+      </li>
+      <li>
+<code class="language-plaintext highlighter-rouge">&amp;&amp; -&gt; || -&gt; if문 분기로 찢</code> : 반대로 분리해서 if 문으로 연산을 제거하면
+        <ul>
+          <li>
+<strong>라인 수는 늘어나지만 어떤 조건에서 if 조건을 실행하는지 좀 더 이해하기 쉬워</strong>질 것 같은데요.</li>
+          <li>저는 <strong>최대한 and 연산을 지양</strong>하고 or <strong><code class="language-plaintext highlighter-rouge">연산을 변환한 뒤 if 문으로 분리</code></strong>하는 편 입니다 ㅎㅎ</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="nf">isMovable</span><span class="o">(</span><span class="nc">Position</span> <span class="n">source</span><span class="o">,</span> <span class="nc">Position</span> <span class="n">target</span><span class="o">,</span> <span class="nc">ChessBoard</span> <span class="n">chessBoard</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">existSameColorPiece</span><span class="o">(</span><span class="n">source</span><span class="o">,</span> <span class="n">target</span><span class="o">,</span> <span class="n">chessBoard</span><span class="o">))</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+      <span class="o">}</span>
+      <span class="k">if</span> <span class="o">(!</span><span class="n">isMovableByDirection</span><span class="o">(</span><span class="n">source</span><span class="o">,</span> <span class="n">target</span><span class="o">))</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+      <span class="o">}</span>
+      <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="boolean식-분기-적용법-----으로-분리후---드모르간-적용">
+<a class="anchor" href="#boolean%EC%8B%9D-%EB%B6%84%EA%B8%B0-%EC%A0%81%EC%9A%A9%EB%B2%95-----%EC%9C%BC%EB%A1%9C-%EB%B6%84%EB%A6%AC%ED%9B%84---%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84-%EC%A0%81%EC%9A%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>boolean식 분기 적용법: ` &amp;&amp; -&gt; ||으로 분리후 -&gt; 드모르간 적용`</h3>
+
+<h4 id="01-return-a--b-로-작성해놓았다면-replace-with-로-분리한다">
+<a class="anchor" href="#01-return-a--b-%EB%A1%9C-%EC%9E%91%EC%84%B1%ED%95%B4%EB%86%93%EC%95%98%EB%8B%A4%EB%A9%B4-replace-with-%EB%A1%9C-%EB%B6%84%EB%A6%AC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 return <code class="language-plaintext highlighter-rouge">A &amp;&amp; B</code> 로 작성해놓았다면, <code class="language-plaintext highlighter-rouge">replace with ||</code>로 분리한다.</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isRunning</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">gameSwitch</span><span class="o">.</span><span class="na">isOn</span><span class="o">()</span> <span class="o">&amp;&amp;</span> <span class="n">state</span><span class="o">.</span><span class="na">isRunning</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220402125535074.png" alt="image-20220402125535074"></p>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220402125712283.png" alt="image-20220402125712283"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isRunning</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="o">!(!</span><span class="n">gameSwitch</span><span class="o">.</span><span class="na">isOn</span><span class="o">()</span> <span class="o">||</span> <span class="o">!</span><span class="n">state</span><span class="o">.</span><span class="na">isRunning</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="02-가장-바깥--는-무시한-체-return--는-순서가-중요---아래쪽-순서대로-if-return-true문으로-찢는다">
+<a class="anchor" href="#02-%EA%B0%80%EC%9E%A5-%EB%B0%94%EA%B9%A5--%EB%8A%94-%EB%AC%B4%EC%8B%9C%ED%95%9C-%EC%B2%B4-return--%EB%8A%94-%EC%88%9C%EC%84%9C%EA%B0%80-%EC%A4%91%EC%9A%94---%EC%95%84%EB%9E%98%EC%AA%BD-%EC%88%9C%EC%84%9C%EB%8C%80%EB%A1%9C-if-return-true%EB%AC%B8%EC%9C%BC%EB%A1%9C-%EC%B0%A2%EB%8A%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 가장 바깥<code class="language-plaintext highlighter-rouge"> !( )는 무시</code>한 체, <code class="language-plaintext highlighter-rouge">return || </code>는 순서가 중요 -&gt; 아래쪽 순서대로 <code class="language-plaintext highlighter-rouge">if return true</code>문으로 찢는다.</h4>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">||</code>의 or는 <strong><code class="language-plaintext highlighter-rouge">앞에 것 통과하면 뒤에것 안보고 통과</code>하는 성격이 있다.</strong></p>
+
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">if 앞에 것 통과시 return</code>되도로 if문으로 찢어보자.</strong><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220402130318565.png" alt="image-20220402130318565">
+</li>
+      <li>아래에다가 점진적으로 찢어보자.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220402130551816.png" alt="image-20220402130551816">
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220402130616456.png" alt="image-20220402130616456">
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="-에서-앞에것-통과-못했으면---if-분기에서-위에-것-통과-못했으면으로-동치다">
+<a class="anchor" href="#-%EC%97%90%EC%84%9C-%EC%95%9E%EC%97%90%EA%B2%83-%ED%86%B5%EA%B3%BC-%EB%AA%BB%ED%96%88%EC%9C%BC%EB%A9%B4---if-%EB%B6%84%EA%B8%B0%EC%97%90%EC%84%9C-%EC%9C%84%EC%97%90-%EA%B2%83-%ED%86%B5%EA%B3%BC-%EB%AA%BB%ED%96%88%EC%9C%BC%EB%A9%B4%EC%9C%BC%EB%A1%9C-%EB%8F%99%EC%B9%98%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>` ||에서 앞에것 통과 못했으면<code class="language-plaintext highlighter-rouge">  == </code>if 분기에서 위에 것 통과 못했으면`으로 동치다</h5>
+
+<ul>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>`</td>
+          <td> </td>
+          <td>에서 앞에것 통과 못했으면<code class="language-plaintext highlighter-rouge">  == </code>if 분기에서 위에 것 통과 못했으면`으로 동치다</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul>
+      <li><strong>순서가 중요한 <code class="language-plaintext highlighter-rouge">||</code>와 <code class="language-plaintext highlighter-rouge">if분기</code></strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220402131147526.png" alt="image-20220402131147526"></p>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isRunning</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="o">!(</span>
+
+        <span class="o">!</span><span class="n">gameSwitch</span><span class="o">.</span><span class="na">isOn</span><span class="o">()</span> <span class="o">||</span> <span class="o">!</span><span class="n">state</span><span class="o">.</span><span class="na">isRunning</span><span class="o">()</span>
+
+    <span class="o">);</span>
+    <span class="c1">//A통과</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">gameSwitch</span><span class="o">.</span><span class="na">isOn</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">//(notA) B통과</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">state</span><span class="o">.</span><span class="na">isRunning</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="03-return--오른쪽-끝까지-모두-통과x---false-이므로-if-return-true-여러개-맨-아래-까지-통과x시---return-false">
+<a class="anchor" href="#03-return--%EC%98%A4%EB%A5%B8%EC%AA%BD-%EB%81%9D%EA%B9%8C%EC%A7%80-%EB%AA%A8%EB%91%90-%ED%86%B5%EA%B3%BCx---false-%EC%9D%B4%EB%AF%80%EB%A1%9C-if-return-true-%EC%97%AC%EB%9F%AC%EA%B0%9C-%EB%A7%A8-%EC%95%84%EB%9E%98-%EA%B9%8C%EC%A7%80-%ED%86%B5%EA%B3%BCx%EC%8B%9C---return-false" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 <code class="language-plaintext highlighter-rouge">return || 오른쪽 끝까지 모두 통과X -&gt; false</code> 이므로 <code class="language-plaintext highlighter-rouge">if return true; 여러개 맨 아래 까지 통과x시 -&gt; return false;</code>
+</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220402131135784.png" alt="image-20220402131135784"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isRunning</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="o">!(</span>
+
+        <span class="o">!</span><span class="n">gameSwitch</span><span class="o">.</span><span class="na">isOn</span><span class="o">()</span> <span class="o">||</span> <span class="o">!</span><span class="n">state</span><span class="o">.</span><span class="na">isRunning</span><span class="o">()</span>
+
+    <span class="o">);</span>
+    <span class="c1">//A통과</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">gameSwitch</span><span class="o">.</span><span class="na">isOn</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">//(notA) B통과</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">state</span><span class="o">.</span><span class="na">isRunning</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">//(자동 notA &amp;&amp; notB) ||에서 순서대로 다 통과못할시 false다</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<h4 id="04-무시했던-바깥-을-적용시키려고-return-truefalse-반대로작성하기">
+<a class="anchor" href="#04-%EB%AC%B4%EC%8B%9C%ED%96%88%EB%8D%98-%EB%B0%94%EA%B9%A5-%EC%9D%84-%EC%A0%81%EC%9A%A9%EC%8B%9C%ED%82%A4%EB%A0%A4%EA%B3%A0-return-truefalse-%EB%B0%98%EB%8C%80%EB%A1%9C%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 무시했던 <code class="language-plaintext highlighter-rouge">바깥 !()</code>을 적용시키려고 <code class="language-plaintext highlighter-rouge">return true/false 반대로작성하기</code>
+</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220402131355763.png" alt="image-20220402131355763"></p>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220402132027199.png" alt="image-20220402132027199"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isRunning</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">//A통과 -&gt;!() 적용시켜서 A false -&gt; not A</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">gameSwitch</span><span class="o">.</span><span class="na">isOn</span><span class="o">())</span> <span class="o">{</span>
+        <span class="c1">//return true;</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">//(notA) B통과 -&gt;!() 적용시켜서 (A) B false -&gt; not B</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">state</span><span class="o">.</span><span class="na">isRunning</span><span class="o">())</span> <span class="o">{</span>
+        <span class="c1">//return true;</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">//(자동 notA &amp;&amp; notB) -&gt;!() 적용시켜서 ( A &amp;&amp; B )</span>
+    <span class="c1">//return false;</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="05-암기-및-정리--if를-다지난-마지막-자동-a--b에서-retun-true를-주고--if-nota-return-false---if-notb-return-false">
+<a class="anchor" href="#05-%EC%95%94%EA%B8%B0-%EB%B0%8F-%EC%A0%95%EB%A6%AC--if%EB%A5%BC-%EB%8B%A4%EC%A7%80%EB%82%9C-%EB%A7%88%EC%A7%80%EB%A7%89-%EC%9E%90%EB%8F%99-a--b%EC%97%90%EC%84%9C-retun-true%EB%A5%BC-%EC%A3%BC%EA%B3%A0--if-nota-return-false---if-notb-return-false" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 암기 및 정리:  <code class="language-plaintext highlighter-rouge">(if를 다지난 마지막 자동 A &amp;&amp; B에서 )retun true</code>를 주고 -&gt;<code class="language-plaintext highlighter-rouge">if notA return false</code> -&gt; <code class="language-plaintext highlighter-rouge">if notB return false;</code>
+</h4>
+
+<h3 id="기본-로직-적용법-및-암기법--a--b는-if-nota---if-notb---맨마지막-자동-a--b에서-처리되도록">
+<a class="anchor" href="#%EA%B8%B0%EB%B3%B8-%EB%A1%9C%EC%A7%81-%EC%A0%81%EC%9A%A9%EB%B2%95-%EB%B0%8F-%EC%95%94%EA%B8%B0%EB%B2%95--a--b%EB%8A%94-if-nota---if-notb---%EB%A7%A8%EB%A7%88%EC%A7%80%EB%A7%89-%EC%9E%90%EB%8F%99-a--b%EC%97%90%EC%84%9C-%EC%B2%98%EB%A6%AC%EB%90%98%EB%8F%84%EB%A1%9D" aria-hidden="true"><span class="octicon octicon-link"></span></a>기본 로직 적용법 및 암기법:  <code class="language-plaintext highlighter-rouge">A &amp;&amp; B</code>는 <code class="language-plaintext highlighter-rouge">if notA -&gt; if notB -&gt; 맨마지막 자동 A &amp;&amp; B에서 처리되도록</code>
+</h3>
+
+<h4 id="예시1-row--col의-대각선">
+<a class="anchor" href="#%EC%98%88%EC%8B%9C1-row--col%EC%9D%98-%EB%8C%80%EA%B0%81%EC%84%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>예시1) row &amp;&amp; col의 대각선</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220402132446828.png" alt="image-20220402132446828"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Position</span><span class="o">&gt;</span> <span class="nf">pathTo</span><span class="o">(</span><span class="nc">Position</span> <span class="n">otherPosition</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Row</span><span class="o">&gt;</span> <span class="n">rowPath</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="na">pathTo</span><span class="o">(</span><span class="n">otherPosition</span><span class="o">.</span><span class="na">row</span><span class="o">);</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Column</span><span class="o">&gt;</span> <span class="n">columnPath</span> <span class="o">=</span> <span class="n">column</span><span class="o">.</span><span class="na">pathTo</span><span class="o">(</span><span class="n">otherPosition</span><span class="o">.</span><span class="na">column</span><span class="o">);</span>
+    <span class="c1">// 2. [ not A ] row(X) -&gt; rowSize == 0 (자동으로 col) 부터 한다</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">rowPath</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">==</span> <span class="no">NO_SIZE</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">getVerticalPositions</span><span class="o">(</span><span class="n">columnPath</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="c1">// 3. (A &amp;&amp;) [ not B ] col(X) -&gt; colSize == 0 (자동으로 row) 을 한다 </span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">columnPath</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">==</span> <span class="no">NO_SIZE</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">getHorizontalPositions</span><span class="o">(</span><span class="n">rowPath</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="c1">// 1. [ ( A &amp;&amp; B ) ] row &amp;&amp; col == 대각선 -&gt; 맨 뒤에서 자동으로</span>
+    <span class="k">return</span> <span class="nf">getDiagonalPositions</span><span class="o">(</span><span class="n">rowPath</span><span class="o">,</span> <span class="n">columnPath</span><span class="o">);</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<h4 id="예시2-누구-king이-잡혔냐----자동-둘다-안잡힌-상황">
+<a class="anchor" href="#%EC%98%88%EC%8B%9C2-%EB%88%84%EA%B5%AC-king%EC%9D%B4-%EC%9E%A1%ED%98%94%EB%83%90----%EC%9E%90%EB%8F%99-%EB%91%98%EB%8B%A4-%EC%95%88%EC%9E%A1%ED%9E%8C-%EC%83%81%ED%99%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>예시2) 누구 king이 잡혔냐? -&gt;  (자동 둘다 &amp;&amp;안잡힌 상황)</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">static</span> <span class="nc">GameResult</span> <span class="nf">findWinner</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Board</span> <span class="n">board</span><span class="o">,</span>
+                                     <span class="kd">final</span> <span class="kt">double</span> <span class="n">statusOfWhite</span><span class="o">,</span>
+                                     <span class="kd">final</span> <span class="kt">double</span> <span class="n">statusOfBlack</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// 2. not A -&gt; black잡힘</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">board</span><span class="o">.</span><span class="na">hasBlackKingCaptured</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">GameResult</span><span class="o">.</span><span class="na">WHITE_WIN</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">// 3. (black안잡혔는데 ) not B -&gt; white잡힘</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">board</span><span class="o">.</span><span class="na">hasWhiteKingCaptured</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">GameResult</span><span class="o">.</span><span class="na">BLACK_WIN</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">// 1. ( 자동 black안잡힘 &amp;&amp; white안잡힘 ) -&gt; 점수 비교 로직</span>
+    <span class="k">return</span> <span class="nf">getResultWhenNoKingCaptured</span><span class="o">(</span><span class="n">statusOfWhite</span><span class="o">,</span> <span class="n">statusOfBlack</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="예시3-boolean에서-a--b">
+<a class="anchor" href="#%EC%98%88%EC%8B%9C3-boolean%EC%97%90%EC%84%9C-a--b" aria-hidden="true"><span class="octicon octicon-link"></span></a>예시3) boolean에서 A &amp;&amp; B</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220402132609689.png" alt="image-20220402132609689"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isStatusInRunning</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">gameSwitch</span><span class="o">.</span><span class="na">isOn</span><span class="o">()</span> <span class="o">&amp;&amp;</span> <span class="n">state</span><span class="o">.</span><span class="na">isStatus</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="01--자동으로-될-a--b를-주석처리와-함께맨-끝에서-return-true">
+<a class="anchor" href="#01--%EC%9E%90%EB%8F%99%EC%9C%BC%EB%A1%9C-%EB%90%A0-a--b%EB%A5%BC-%EC%A3%BC%EC%84%9D%EC%B2%98%EB%A6%AC%EC%99%80-%ED%95%A8%EA%BB%98%EB%A7%A8-%EB%81%9D%EC%97%90%EC%84%9C-return-true" aria-hidden="true"><span class="octicon octicon-link"></span></a>01  <code class="language-plaintext highlighter-rouge">(자동으로 될 A &amp;&amp; B를 주석처리와 함께)맨 끝에서 return true</code>
+</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220402133159521.png" alt="image-20220402133159521"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isStatusInRunning</span><span class="o">()</span> <span class="o">{</span>
+
+    <span class="c1">//gameSwitch.isOn() &amp;&amp; state.isStatus();</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="02-if-not-a를-만들고-return-false">
+<a class="anchor" href="#02-if-not-a%EB%A5%BC-%EB%A7%8C%EB%93%A4%EA%B3%A0-return-false" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 if not A를 만들고 return false;</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220402133631373.png" alt="image-20220402133631373"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isStatusInRunning</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// if not A -&gt; return false; 주기</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">gameSwitch</span><span class="o">.</span><span class="na">isOn</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// (자동 gameSwitch.isOn() &amp;&amp; state.isStatus();)</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<h5 id="03-마지막-if-not-b-만들고-return-false">
+<a class="anchor" href="#03-%EB%A7%88%EC%A7%80%EB%A7%89-if-not-b-%EB%A7%8C%EB%93%A4%EA%B3%A0-return-false" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 마지막 if not B 만들고 return false;</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220402134530213.png" alt="image-20220402134530213"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isStatusInRunning</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// if not A -&gt; return false; 주기</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">gameSwitch</span><span class="o">.</span><span class="na">isOn</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">// if not B -&gt; return false; 주기</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">state</span><span class="o">.</span><span class="na">isStatus</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">// (자동 gameSwitch.isOn() &amp;&amp; state.isStatus();)</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<h3 id="my-로직에서-해당하지-않는-경우-ealry-return하는-것처럼-분기식의-해당하지-않는-경우들자동-ab-return-true전까지-if-nota-if-notb에다가----early-false-return을-쓴다">
+<a class="anchor" href="#my-%EB%A1%9C%EC%A7%81%EC%97%90%EC%84%9C-%ED%95%B4%EB%8B%B9%ED%95%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EA%B2%BD%EC%9A%B0-ealry-return%ED%95%98%EB%8A%94-%EA%B2%83%EC%B2%98%EB%9F%BC-%EB%B6%84%EA%B8%B0%EC%8B%9D%EC%9D%98-%ED%95%B4%EB%8B%B9%ED%95%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EA%B2%BD%EC%9A%B0%EB%93%A4%EC%9E%90%EB%8F%99-ab-return-true%EC%A0%84%EA%B9%8C%EC%A7%80-if-nota-if-notb%EC%97%90%EB%8B%A4%EA%B0%80----early-false-return%EC%9D%84-%EC%93%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) 로직에서 해당하지 않는 경우 ealry return;하는 것처럼 <code class="language-plaintext highlighter-rouge">분기식의 해당하지 않는 경우들(자동 A&amp;&amp;B return true전까지 if notA if notB에다가 -&gt; ) early false return</code>을 쓴다</h3>
+
+
+  </div><a class="u-url" href="/java/if/%EB%B6%84%EA%B8%B0/earlyreturn/boolean/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/29/%EB%B6%84%EA%B8%B0%EB%AC%B8%EA%B3%BC-%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

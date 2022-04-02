@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      3 min read
+      4 min read
     
 </span></p>
 
@@ -144,7 +144,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h4"><a href="#어떤-객체-로직이-타-객체행위-성공여부에-따라-갈린다면-응답값을-억지로-받지말고-----타-객체-context-내부로-넘기자">어떤 객체 로직이 [타 객체.행위() 성공여부]에 따라 갈린다면, 응답값을 억지로 받지말고  -&gt;  [타 객체 context] 내부로 넘기자</a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h3"><a href="#타-객체-context로-현재-로직-넘기기">타 객체 context로 현재 로직 넘기기</a>
+<li class="toc-entry toc-h3"><a href="#예시1-thr가능성있는-타객체메세지-이후의-로직들을-타객체메세지보낼때-같이-보내기">예시1: thr가능성있는 타객체.메세지() 이후의 로직들을 타객체메세지보낼때 같이 보내기</a>
 <ul>
 <li class="toc-entry toc-h4"><a href="#01-넘기고-싶은-로직을-----람다를-이용하여-함형을-만든다">01 넘기고 싶은 로직을 () -&gt; {}; 람다를 이용하여 함형을 만든다.</a></li>
 <li class="toc-entry toc-h4"><a href="#02-타-객체가-내부에-사용됬다면-람다식의-input---으로-받아---함형메서드-this-로-사용되도록-해야한다">02 타 객체가 내부에 사용됬다면, 람다식의 (input) -&gt; {};으로 받아 -&gt; 함형.메서드( this );로 사용되도록 해야한다.</a></li>
@@ -152,6 +152,15 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h4"><a href="#04-타-객체의-메서드인자로-넘겨주기-위해-함형의--제외한-우항만-메서드-추출">04 타 객체의 메서드(인자)로 넘겨주기 위해, 함형의 = 제외한 우항만 메서드 추출</a></li>
 <li class="toc-entry toc-h4"><a href="#05-추출한-로직의-함형을-타객체-메서드에-건네줘서---내부에서-this를-사용해-실행되도록-옮긴다">05 추출한 로직의 함형을, 타객체 메서드에 건네줘서 -&gt; 내부에서 this를 사용해 실행되도록 옮긴다.</a></li>
 <li class="toc-entry toc-h4"><a href="#06-함형으로-로직을-넘겨받은-타-객체는-내부에서-this를-인자로-주고-호출한다">06 함형으로 로직을 넘겨받은 타 객체는 내부에서 (this)를 인자로 주고 호출한다</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#예시2-아래쪽-분기별-outputview-로직이-도메인-샌드위치-사이에-위치한-경우----runnable객체면-consumer로-위쪽-도메인-메서드-인자에-함형메서드로-쏴서-넘겨주기">예시2: 아래쪽 분기별 OutputView 로직이 도메인 샌드위치 사이에 위치한 경우 -&gt;  Runnable?객체면 Consumer?로 위쪽 도메인 메서드 인자에 함형메서드로 쏴서 넘겨주기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#문제상황">문제상황</a></li>
+<li class="toc-entry toc-h4"><a href="#01-view로직을-도메인-메서드-안에서-출력시키고-싶은데-view-사용--view를-알면-안된다---view는-알면-안되지만-함수형-인터페이스는-알아도-된다---view로직-전체----람다를-통한-함형---메서드추출후-응답에-함형">01 view로직을 도메인 메서드 안에서 출력시키고 싶은데, view 사용 == view를 알면 안된다. -&gt; view는 알면 안되지만, 함수형 인터페이스는 알아도 된다 -&gt; view로직 전체  -&gt; 람다를 통한 함형 -&gt; 메서드추출후 응답에 함형</a></li>
+<li class="toc-entry toc-h4"><a href="#02-도메인메서드의-인자에-함형-응답-메서드호출로-인한-함형인자를-추가하기">02 도메인메서드의 인자에 함형 응답 메서드호출로 인한 함형인자를 추가하기</a></li>
+<li class="toc-entry toc-h4"><a href="#03-view로직을-함형으로-넘겨받은-도메인-메서드에서는-함형메서드로-가동시키기">03 view로직을 함형으로 넘겨받은 도메인 메서드에서는 함형.메서드()로 가동시키기</a></li>
+<li class="toc-entry toc-h4"><a href="#04-샌드위치를-만들던-도메인로직2도-해당분기에-맞게-도메인-내부로-옮겨준다">04 샌드위치를 만들던 도메인로직2도 해당분기에 맞게 도메인 내부로 옮겨준다.</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h3"><a href="#람다식을-통한-함형이-유용할-경우-3가지">[람다식을 통한 함형]이 유용할 경우 3가지</a>
@@ -194,8 +203,8 @@ window.onload = wrap_img;
   </li>
 </ul>
 
-<h3 id="타-객체-context로-현재-로직-넘기기">
-<a class="anchor" href="#%ED%83%80-%EA%B0%9D%EC%B2%B4-context%EB%A1%9C-%ED%98%84%EC%9E%AC-%EB%A1%9C%EC%A7%81-%EB%84%98%EA%B8%B0%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>타 객체 context로 현재 로직 넘기기</h3>
+<h3 id="예시1-thr가능성있는-타객체메세지-이후의-로직들을-타객체메세지보낼때-같이-보내기">
+<a class="anchor" href="#%EC%98%88%EC%8B%9C1-thr%EA%B0%80%EB%8A%A5%EC%84%B1%EC%9E%88%EB%8A%94-%ED%83%80%EA%B0%9D%EC%B2%B4%EB%A9%94%EC%84%B8%EC%A7%80-%EC%9D%B4%ED%9B%84%EC%9D%98-%EB%A1%9C%EC%A7%81%EB%93%A4%EC%9D%84-%ED%83%80%EA%B0%9D%EC%B2%B4%EB%A9%94%EC%84%B8%EC%A7%80%EB%B3%B4%EB%82%BC%EB%95%8C-%EA%B0%99%EC%9D%B4-%EB%B3%B4%EB%82%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>예시1: <code class="language-plaintext highlighter-rouge">thr가능성있는 타객체.메세지() </code>이후의 로직들을 타객체메세지보낼때 같이 보내기</h3>
 
 <h4 id="01-넘기고-싶은-로직을-----람다를-이용하여-함형을-만든다">
 <a class="anchor" href="#01-%EB%84%98%EA%B8%B0%EA%B3%A0-%EC%8B%B6%EC%9D%80-%EB%A1%9C%EC%A7%81%EC%9D%84-----%EB%9E%8C%EB%8B%A4%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%ED%95%A8%ED%98%95%EC%9D%84-%EB%A7%8C%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 넘기고 싶은 로직을 <code class="language-plaintext highlighter-rouge">() -&gt; {};</code> 람다를 이용하여 함형을 만든다.</h4>
@@ -340,6 +349,127 @@ window.onload = wrap_img;
         <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="no">NOT_MOVABLE_POSITION</span><span class="o">);</span>
     <span class="o">}</span>
     <span class="n">moveFunction</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="예시2-아래쪽-분기별-outputview-로직이-도메인-샌드위치-사이에-위치한-경우----runnable객체면-consumer로-위쪽-도메인-메서드-인자에-함형메서드로-쏴서-넘겨주기">
+<a class="anchor" href="#%EC%98%88%EC%8B%9C2-%EC%95%84%EB%9E%98%EC%AA%BD-%EB%B6%84%EA%B8%B0%EB%B3%84-outputview-%EB%A1%9C%EC%A7%81%EC%9D%B4-%EB%8F%84%EB%A9%94%EC%9D%B8-%EC%83%8C%EB%93%9C%EC%9C%84%EC%B9%98-%EC%82%AC%EC%9D%B4%EC%97%90-%EC%9C%84%EC%B9%98%ED%95%9C-%EA%B2%BD%EC%9A%B0----runnable%EA%B0%9D%EC%B2%B4%EB%A9%B4-consumer%EB%A1%9C-%EC%9C%84%EC%AA%BD-%EB%8F%84%EB%A9%94%EC%9D%B8-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%9D%B8%EC%9E%90%EC%97%90-%ED%95%A8%ED%98%95%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EC%8F%B4%EC%84%9C-%EB%84%98%EA%B2%A8%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>예시2: <code class="language-plaintext highlighter-rouge">아래쪽 분기별 OutputView 로직</code>이 <code class="language-plaintext highlighter-rouge">도메인 샌드위치 사이</code>에 위치한 경우 -&gt;  Runnable?객체면 Consumer?로 <code class="language-plaintext highlighter-rouge">위쪽 도메인 메서드 인자</code>에 <code class="language-plaintext highlighter-rouge">함형메서드로 쏴서 넘겨주기</code>
+</h3>
+
+<h4 id="문제상황">
+<a class="anchor" href="#%EB%AC%B8%EC%A0%9C%EC%83%81%ED%99%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>문제상황</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">OutputView</span><span class="o">.</span><span class="na">printStartMessage</span><span class="o">();</span>
+
+    <span class="k">while</span> <span class="o">(</span><span class="n">gameSwitch</span><span class="o">.</span><span class="na">isOn</span><span class="o">())</span> <span class="o">{</span>
+        <span class="c1">//도메인로직</span>
+        <span class="kd">final</span> <span class="nc">String</span> <span class="n">command</span> <span class="o">=</span> <span class="nc">InputView</span><span class="o">.</span><span class="na">inputCommand</span><span class="o">();</span>
+        <span class="kd">final</span> <span class="nc">GameCommand</span> <span class="n">gameCommand</span> <span class="o">=</span> <span class="nc">GameCommand</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">command</span><span class="o">);</span>
+        <span class="n">gameCommand</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">command</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+
+        <span class="c1">//view로직 ( State에 따라서 출력 )</span>
+        <span class="n">printBoardInfo</span><span class="o">();</span>
+        
+        <span class="c1">//도메인로직2 (샌드위치유발) -&gt; 특정상태인 경우, 다시 돌려주는 로직</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">state</span><span class="o">.</span><span class="na">isStatus</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="na">toRunningState</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+
+<span class="kd">private</span> <span class="kt">void</span> <span class="nf">printBoardAndBeRunningIfStatus</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">isReadyOrRunning</span><span class="o">())</span> <span class="o">{</span>
+        <span class="nc">OutputView</span><span class="o">.</span><span class="na">printBoard</span><span class="o">(</span><span class="n">getBoard</span><span class="o">());</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">isStatusInRunning</span><span class="o">())</span> <span class="o">{</span>
+        <span class="nc">OutputView</span><span class="o">.</span><span class="na">printStatus</span><span class="o">(</span><span class="n">calculateStatus</span><span class="o">());</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">isFinishedAndGameEnd</span><span class="o">())</span> <span class="o">{</span>
+        <span class="nc">OutputView</span><span class="o">.</span><span class="na">printFinalStatus</span><span class="o">(</span><span class="n">calculateStatus</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="01-view로직을-도메인-메서드-안에서-출력시키고-싶은데-view-사용--view를-알면-안된다---view는-알면-안되지만-함수형-인터페이스는-알아도-된다---view로직-전체----람다를-통한-함형---메서드추출후-응답에-함형">
+<a class="anchor" href="#01-view%EB%A1%9C%EC%A7%81%EC%9D%84-%EB%8F%84%EB%A9%94%EC%9D%B8-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%95%88%EC%97%90%EC%84%9C-%EC%B6%9C%EB%A0%A5%EC%8B%9C%ED%82%A4%EA%B3%A0-%EC%8B%B6%EC%9D%80%EB%8D%B0-view-%EC%82%AC%EC%9A%A9--view%EB%A5%BC-%EC%95%8C%EB%A9%B4-%EC%95%88%EB%90%9C%EB%8B%A4---view%EB%8A%94-%EC%95%8C%EB%A9%B4-%EC%95%88%EB%90%98%EC%A7%80%EB%A7%8C-%ED%95%A8%EC%88%98%ED%98%95-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%8A%94-%EC%95%8C%EC%95%84%EB%8F%84-%EB%90%9C%EB%8B%A4---view%EB%A1%9C%EC%A7%81-%EC%A0%84%EC%B2%B4----%EB%9E%8C%EB%8B%A4%EB%A5%BC-%ED%86%B5%ED%95%9C-%ED%95%A8%ED%98%95---%EB%A9%94%EC%84%9C%EB%93%9C%EC%B6%94%EC%B6%9C%ED%9B%84-%EC%9D%91%EB%8B%B5%EC%97%90-%ED%95%A8%ED%98%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 view로직을 도메인 메서드 안에서 출력시키고 싶은데, view 사용 == view를 알면 안된다. -&gt; <code class="language-plaintext highlighter-rouge">view는 알면 안되지만, 함수형 인터페이스는 알아도 된다</code> -&gt; view로직 전체  -&gt; 람다를 통한 함형 -&gt; 메서드추출후 응답에 함형</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="nc">Runnable</span> <span class="nf">printBoardInfo</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">isReadyOrRunning</span><span class="o">())</span> <span class="o">{</span>
+            <span class="nc">OutputView</span><span class="o">.</span><span class="na">printBoard</span><span class="o">(</span><span class="n">getBoard</span><span class="o">());</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">isStatusInRunning</span><span class="o">())</span> <span class="o">{</span>
+            <span class="nc">OutputView</span><span class="o">.</span><span class="na">printStatus</span><span class="o">(</span><span class="n">calculateStatus</span><span class="o">());</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">isFinishedAndGameEnd</span><span class="o">())</span> <span class="o">{</span>
+            <span class="nc">OutputView</span><span class="o">.</span><span class="na">printFinalStatus</span><span class="o">(</span><span class="n">calculateStatus</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">};</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="02-도메인메서드의-인자에-함형-응답-메서드호출로-인한-함형인자를-추가하기">
+<a class="anchor" href="#02-%EB%8F%84%EB%A9%94%EC%9D%B8%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%98-%EC%9D%B8%EC%9E%90%EC%97%90-%ED%95%A8%ED%98%95-%EC%9D%91%EB%8B%B5-%EB%A9%94%EC%84%9C%EB%93%9C%ED%98%B8%EC%B6%9C%EB%A1%9C-%EC%9D%B8%ED%95%9C-%ED%95%A8%ED%98%95%EC%9D%B8%EC%9E%90%EB%A5%BC-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 도메인메서드의 인자에 <code class="language-plaintext highlighter-rouge">함형 응답 메서드호출로 인한 함형인자</code>를 추가하기</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">OutputView</span><span class="o">.</span><span class="na">printStartMessage</span><span class="o">();</span>
+
+    <span class="k">while</span> <span class="o">(</span><span class="n">gameSwitch</span><span class="o">.</span><span class="na">isOn</span><span class="o">())</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">String</span> <span class="n">command</span> <span class="o">=</span> <span class="nc">InputView</span><span class="o">.</span><span class="na">inputCommand</span><span class="o">();</span>
+        <span class="kd">final</span> <span class="nc">GameCommand</span> <span class="n">gameCommand</span> <span class="o">=</span> <span class="nc">GameCommand</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">command</span><span class="o">);</span>
+        <span class="n">gameCommand</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">command</span><span class="o">,</span> <span class="k">this</span><span class="o">,</span> <span class="n">printBoardInfo</span><span class="o">());</span>
+        
+        <span class="c1">//도메인로직2 (샌드위치유발) -&gt; 특정상태인 경우, 다시 돌려주는 로직</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">state</span><span class="o">.</span><span class="na">isStatus</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="na">toRunningState</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="03-view로직을-함형으로-넘겨받은-도메인-메서드에서는-함형메서드로-가동시키기">
+<a class="anchor" href="#03-view%EB%A1%9C%EC%A7%81%EC%9D%84-%ED%95%A8%ED%98%95%EC%9C%BC%EB%A1%9C-%EB%84%98%EA%B2%A8%EB%B0%9B%EC%9D%80-%EB%8F%84%EB%A9%94%EC%9D%B8-%EB%A9%94%EC%84%9C%EB%93%9C%EC%97%90%EC%84%9C%EB%8A%94-%ED%95%A8%ED%98%95%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EA%B0%80%EB%8F%99%EC%8B%9C%ED%82%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 <code class="language-plaintext highlighter-rouge">view로직을 함형으로 넘겨받은 도메인 메서드</code>에서는 함형.메서드()로 가동시키기</h4>
+
+<ul>
+  <li>함형으로 넘겨서 실행만 시키면 <strong><code class="language-plaintext highlighter-rouge">도메인은</code> view를 모르고 <code class="language-plaintext highlighter-rouge">view로직이 담겨 실행직전인 함수형인터페이스</code>만 알아도 된다.</strong>
+</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220402171414317.png" alt="image-20220402171414317"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Status</span> <span class="kd">implements</span> <span class="nc">CommandStrategy</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">command</span><span class="o">,</span>
+                        <span class="kd">final</span> <span class="nc">ChessGame</span> <span class="n">chessGame</span><span class="o">,</span>
+                        <span class="kd">final</span> <span class="nc">Runnable</span> <span class="n">runnable</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">chessGame</span><span class="o">.</span><span class="na">status</span><span class="o">();</span>
+
+        <span class="n">runnable</span><span class="o">.</span><span class="na">run</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="04-샌드위치를-만들던-도메인로직2도-해당분기에-맞게-도메인-내부로-옮겨준다">
+<a class="anchor" href="#04-%EC%83%8C%EB%93%9C%EC%9C%84%EC%B9%98%EB%A5%BC-%EB%A7%8C%EB%93%A4%EB%8D%98-%EB%8F%84%EB%A9%94%EC%9D%B8%EB%A1%9C%EC%A7%812%EB%8F%84-%ED%95%B4%EB%8B%B9%EB%B6%84%EA%B8%B0%EC%97%90-%EB%A7%9E%EA%B2%8C-%EB%8F%84%EB%A9%94%EC%9D%B8-%EB%82%B4%EB%B6%80%EB%A1%9C-%EC%98%AE%EA%B2%A8%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 샌드위치를 만들던 도메인로직2도 해당분기에 맞게 도메인 내부로 옮겨준다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220402171724717.png" alt="image-20220402171724717"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Status</span> <span class="kd">implements</span> <span class="nc">CommandStrategy</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">command</span><span class="o">,</span>
+                        <span class="kd">final</span> <span class="nc">ChessGame</span> <span class="n">chessGame</span><span class="o">,</span>
+                        <span class="kd">final</span> <span class="nc">Runnable</span> <span class="n">runnable</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">chessGame</span><span class="o">.</span><span class="na">status</span><span class="o">();</span>
+
+        <span class="n">runnable</span><span class="o">.</span><span class="na">run</span><span class="o">();</span>
+
+<span class="c1">//        if (state.isStatus()) {</span>
+<span class="c1">//            state = state.toRunningState();</span>
+<span class="c1">//        }</span>
+        <span class="n">chessGame</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+    <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div></div>
 
