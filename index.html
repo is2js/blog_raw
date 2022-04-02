@@ -23,8 +23,9 @@ image: images/logo_github.png
 <a href="/about"><i>&nbsp;&nbsp;&nbsp;&nbsp;more…</i></a></p>
 
 <h2 id="posts">Posts</h2>
-&nbsp;|&nbsp; <a href="/search" target="_blank">검색</a>
-/&nbsp; <a href="/categories">태그</a>
+<!-- &nbsp;|&nbsp; <a href="/search" target="_blank">검색</a> -->
+<!-- /&nbsp; -->
+&nbsp;|&nbsp; <a href="/categories">태그</a>
 
 &nbsp;|&nbsp; <a href="https://blog.chojaeseong.com/intellij/%EC%9A%B0%ED%85%8C%EC%BD%94/%ED%98%91%EC%97%85/2022/02/13/intellij_%ED%98%91%EC%97%85%EC%84%B8%ED%8C%85(%EC%99%84).html" target="_blank">세팅</a>
 /&nbsp; <a href="https://blog.chojaeseong.com/intellij/%EC%9A%B0%ED%85%8C%EC%BD%94/%EB%8B%A8%EC%B6%95%ED%82%A4/%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8/2022/02/13/intellij_%EB%8B%A8%EC%B6%95%ED%82%A4(%EC%99%84).html" target="_blank">단축키</a>
@@ -45,12 +46,14 @@ image: images/logo_github.png
 <br />
 
 <!-- main에 search코드 일단 복붙해봄 -->
+<br>
+<br>
 <script type="text/javascript" src="{{ '/assets/js/search.js' | relative_url }}"></script>
 <script type="text/javascript" src="{{ '/assets/js/vendor/lunr.min.js' | relative_url }}"></script>
 
 <div class="search">
     <div class="search-input-wrap">
-    <input type="text" class="js-search-input search-input input-block form-control" tabindex="0" placeholder="Search {{ site.title }}" aria-label="Search {{ site.title }}는 영어만 검색 가능합니다." autocomplete="off">
+    <input type="text" class="js-search-input search-input input-block form-control" tabindex="0" placeholder="Search {{ site.title }}는 영어로만 검색가능 합니다." aria-label="Search {{ site.title }}" autocomplete="off">
     </div>
     <br>
     <div class="js-search-results search-results-wrap"></div>
