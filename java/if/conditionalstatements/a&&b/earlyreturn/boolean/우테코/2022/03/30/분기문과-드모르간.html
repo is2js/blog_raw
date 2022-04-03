@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      4 min read
+      5 min read
     
 </span></p>
 
@@ -172,9 +172,16 @@ window.onload = wrap_img;
 </li>
 </ul>
 </li>
-<li class="toc-entry toc-h3"><a href="#my-boolean이라면-or에서-앞에것들-통과-못할시-빠르게-처리되도록---if로-찢어--if-not-return-false시켜버린다">my) boolean이라면, OR(||)에서 앞에것들 통과 못할시 빠르게 처리되도록 -&gt; if로 찢어  if not return false시켜버린다.</a></li>
-<li class="toc-entry toc-h3"><a href="#my-boolean이라면-if-not-a---return-false-이후-or-맨-끝에-하나-남은-분기식은-바로-return-b해버려도-된다--if-not-b로직이-필요없는-상황">my) boolean이라면, if not A -&gt; return false; 이후 OR(||) 맨 끝에 하나 남은 분기식은 바로 return B해버려도 된다. ( if not B로직이 필요없는 상황)</a></li>
-<li class="toc-entry toc-h3"><a href="#my-boolean처럼-로직도-if-nota-return---if-notb-return---자동-a--b-return-을-사용한다">my) boolean처럼 로직도 if notA return -&gt; if notB return -&gt; 자동 A &amp;&amp; B return 을 사용한다.</a></li>
+<li class="toc-entry toc-h3"><a href="#my-a--b의-처리는-if-a부터-처리-못한다if-not-a---바로-탈락return-false-시킨다--or로-본다면-앞에거-먼저-만족하면-return-true로-전체-종료되는-개념과-유사하다">my) A &amp;&amp; B의 처리는 if A부터 처리 못한다?(if not A) -&gt; 바로 탈락(return false;) 시킨다.  OR로 본다면 앞에거 먼저 만족하면 return True로 전체 종료되는 개념과 유사하다.</a></li>
+<li class="toc-entry toc-h3"><a href="#my-boolean-ab-이라면-nota--notb--원랜-앞에것-통과시-true로-끝-but-여기선-땜에-return-false---a부터-만족-못할시-빠르게-false로-종료처리되도록---if로-찢어--if-not-return-false시켜버린다">my) boolean A&amp;&amp;B 이라면, notA || notB + 원랜 앞에것 통과시 true로 끝 But 여기선 !땜에 return false; -&gt; A부터 만족 못할시 빠르게 false로 종료처리되도록 -&gt; if로 찢어  if not return false시켜버린다.</a></li>
+<li class="toc-entry toc-h3"><a href="#my-boolean이라면-if-not-앞쪽a---return-false-이후-if문-아래쪽은-자동-a-상태이므로-마지막-분기식은-바로-return-자동a-b해버려도-된다--if-not-b로직이-필요없는-상황">my) boolean이라면, if not 앞쪽A -&gt; return false; 이후 (if문 아래쪽은 자동 A &amp;&amp;상태이므로) 마지막 분기식은 바로 return (자동A&amp;&amp;) B해버려도 된다. ( if not B로직이 필요없는 상황)</a></li>
+<li class="toc-entry toc-h3"><a href="#my-boolean처럼-로직도-if-nota-return---if-notb-return---자동-a--b-return-을-사용한다">my) boolean처럼 로직도 if notA return -&gt; if notB return -&gt; (자동 A &amp;&amp; B) return 을 사용한다.</a></li>
+<li class="toc-entry toc-h3"><a href="#my-역-if-return-false---a--b-조건에서-앞쪽-a를-먼저-만족시키지못해-애초에-탈락이구나----not-a-상황이라서--b보기전에-빨리-거르기--밑으로는-a-상태구나">my-역) if return false -&gt; A &amp;&amp; B 조건에서 앞쪽 A를 먼저 만족시키지못해 애초에 탈락이구나 -&gt;  not A 상황이라서 &amp;&amp; B보기전에 빨리 거르기 + 밑으로는 (A &amp;&amp;)상태구나</a></li>
+<li class="toc-entry toc-h3"><a href="#my-역-if-return-false--return-b---ab의-앞쪽-a라-nota라-거르고-밑에서-a--b-이며-true시-true니까--a--b시-true리턴이구나">my-역) if return false + return B -&gt; A||B의 앞쪽 A라 notA라 거르고, 밑에서 A &amp;&amp; B 이며, true시 true니까..  A &amp;&amp; B시 true리턴이구나..</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#해석-연습해보기">해석 연습해보기</a></li>
+</ul>
+</li>
 </ul><h3 id="분기문에-적용하는-드모르간">
 <a class="anchor" href="#%EB%B6%84%EA%B8%B0%EB%AC%B8%EC%97%90-%EC%A0%81%EC%9A%A9%ED%95%98%EB%8A%94-%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>분기문에 적용하는 드모르간</h3>
 
@@ -487,12 +494,51 @@ window.onload = wrap_img;
 
 </code></pre></div></div>
 
-<h3 id="my-boolean이라면-or에서-앞에것들-통과-못할시-빠르게-처리되도록---if로-찢어--if-not-return-false시켜버린다">
-<a class="anchor" href="#my-boolean%EC%9D%B4%EB%9D%BC%EB%A9%B4-or%EC%97%90%EC%84%9C-%EC%95%9E%EC%97%90%EA%B2%83%EB%93%A4-%ED%86%B5%EA%B3%BC-%EB%AA%BB%ED%95%A0%EC%8B%9C-%EB%B9%A0%EB%A5%B4%EA%B2%8C-%EC%B2%98%EB%A6%AC%EB%90%98%EB%8F%84%EB%A1%9D---if%EB%A1%9C-%EC%B0%A2%EC%96%B4--if-not-return-false%EC%8B%9C%EC%BC%9C%EB%B2%84%EB%A6%B0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) boolean이라면, OR(||)에서 앞에것들 통과 못할시 빠르게 처리되도록 -&gt; if로 찢어  <code class="language-plaintext highlighter-rouge">if not return false</code>시켜버린다.</h3>
-<h3 id="my-boolean이라면-if-not-a---return-false-이후-or-맨-끝에-하나-남은-분기식은-바로-return-b해버려도-된다--if-not-b로직이-필요없는-상황">
-<a class="anchor" href="#my-boolean%EC%9D%B4%EB%9D%BC%EB%A9%B4-if-not-a---return-false-%EC%9D%B4%ED%9B%84-or-%EB%A7%A8-%EB%81%9D%EC%97%90-%ED%95%98%EB%82%98-%EB%82%A8%EC%9D%80-%EB%B6%84%EA%B8%B0%EC%8B%9D%EC%9D%80-%EB%B0%94%EB%A1%9C-return-b%ED%95%B4%EB%B2%84%EB%A0%A4%EB%8F%84-%EB%90%9C%EB%8B%A4--if-not-b%EB%A1%9C%EC%A7%81%EC%9D%B4-%ED%95%84%EC%9A%94%EC%97%86%EB%8A%94-%EC%83%81%ED%99%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) boolean이라면, if not A -&gt; return false; 이후 <code class="language-plaintext highlighter-rouge">OR(||) 맨 끝에 하나 남은 분기식은 바로 return B</code>해버려도 된다. ( if not B로직이 필요없는 상황)</h3>
+<h3 id="my-a--b의-처리는-if-a부터-처리-못한다if-not-a---바로-탈락return-false-시킨다--or로-본다면-앞에거-먼저-만족하면-return-true로-전체-종료되는-개념과-유사하다">
+<a class="anchor" href="#my-a--b%EC%9D%98-%EC%B2%98%EB%A6%AC%EB%8A%94-if-a%EB%B6%80%ED%84%B0-%EC%B2%98%EB%A6%AC-%EB%AA%BB%ED%95%9C%EB%8B%A4if-not-a---%EB%B0%94%EB%A1%9C-%ED%83%88%EB%9D%BDreturn-false-%EC%8B%9C%ED%82%A8%EB%8B%A4--or%EB%A1%9C-%EB%B3%B8%EB%8B%A4%EB%A9%B4-%EC%95%9E%EC%97%90%EA%B1%B0-%EB%A8%BC%EC%A0%80-%EB%A7%8C%EC%A1%B1%ED%95%98%EB%A9%B4-return-true%EB%A1%9C-%EC%A0%84%EC%B2%B4-%EC%A2%85%EB%A3%8C%EB%90%98%EB%8A%94-%EA%B0%9C%EB%85%90%EA%B3%BC-%EC%9C%A0%EC%82%AC%ED%95%98%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) A &amp;&amp; B의 처리는 <code class="language-plaintext highlighter-rouge">if A부터 처리 못한다?(if not A) -&gt; 바로 탈락(return false;)</code> 시킨다.  OR로 본다면 앞에거 먼저 만족하면 return True로 전체 종료되는 개념과 유사하다.</h3>
+<h3 id="my-boolean-ab-이라면-nota--notb--원랜-앞에것-통과시-true로-끝-but-여기선-땜에-return-false---a부터-만족-못할시-빠르게-false로-종료처리되도록---if로-찢어--if-not-return-false시켜버린다">
+<a class="anchor" href="#my-boolean-ab-%EC%9D%B4%EB%9D%BC%EB%A9%B4-nota--notb--%EC%9B%90%EB%9E%9C-%EC%95%9E%EC%97%90%EA%B2%83-%ED%86%B5%EA%B3%BC%EC%8B%9C-true%EB%A1%9C-%EB%81%9D-but-%EC%97%AC%EA%B8%B0%EC%84%A0-%EB%95%9C%EC%97%90-return-false---a%EB%B6%80%ED%84%B0-%EB%A7%8C%EC%A1%B1-%EB%AA%BB%ED%95%A0%EC%8B%9C-%EB%B9%A0%EB%A5%B4%EA%B2%8C-false%EB%A1%9C-%EC%A2%85%EB%A3%8C%EC%B2%98%EB%A6%AC%EB%90%98%EB%8F%84%EB%A1%9D---if%EB%A1%9C-%EC%B0%A2%EC%96%B4--if-not-return-false%EC%8B%9C%EC%BC%9C%EB%B2%84%EB%A6%B0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) boolean A&amp;&amp;B 이라면, <code class="language-plaintext highlighter-rouge">notA || notB</code> + <code class="language-plaintext highlighter-rouge">원랜 앞에것 통과시 true로 끝 But 여기선 !땜에 return false;</code> -&gt; <code class="language-plaintext highlighter-rouge">A부터 만족 못할시 빠르게 false로 종료처리</code>되도록 -&gt; if로 찢어  <code class="language-plaintext highlighter-rouge">if not return false</code>시켜버린다.</h3>
+<h3 id="my-boolean이라면-if-not-앞쪽a---return-false-이후-if문-아래쪽은-자동-a-상태이므로-마지막-분기식은-바로-return-자동a-b해버려도-된다--if-not-b로직이-필요없는-상황">
+<a class="anchor" href="#my-boolean%EC%9D%B4%EB%9D%BC%EB%A9%B4-if-not-%EC%95%9E%EC%AA%BDa---return-false-%EC%9D%B4%ED%9B%84-if%EB%AC%B8-%EC%95%84%EB%9E%98%EC%AA%BD%EC%9D%80-%EC%9E%90%EB%8F%99-a-%EC%83%81%ED%83%9C%EC%9D%B4%EB%AF%80%EB%A1%9C-%EB%A7%88%EC%A7%80%EB%A7%89-%EB%B6%84%EA%B8%B0%EC%8B%9D%EC%9D%80-%EB%B0%94%EB%A1%9C-return-%EC%9E%90%EB%8F%99a-b%ED%95%B4%EB%B2%84%EB%A0%A4%EB%8F%84-%EB%90%9C%EB%8B%A4--if-not-b%EB%A1%9C%EC%A7%81%EC%9D%B4-%ED%95%84%EC%9A%94%EC%97%86%EB%8A%94-%EC%83%81%ED%99%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) boolean이라면, if not 앞쪽A -&gt; return false; 이후 <code class="language-plaintext highlighter-rouge">(if문 아래쪽은 자동 A &amp;&amp;상태이므로) 마지막 분기식은 바로 return (자동A&amp;&amp;) B</code>해버려도 된다. ( if not B로직이 필요없는 상황)</h3>
 <h3 id="my-boolean처럼-로직도-if-nota-return---if-notb-return---자동-a--b-return-을-사용한다">
-<a class="anchor" href="#my-boolean%EC%B2%98%EB%9F%BC-%EB%A1%9C%EC%A7%81%EB%8F%84-if-nota-return---if-notb-return---%EC%9E%90%EB%8F%99-a--b-return-%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) boolean처럼 로직도 <code class="language-plaintext highlighter-rouge">if notA return -&gt; if notB return -&gt; 자동 A &amp;&amp; B return</code> 을 사용한다.</h3>
+<a class="anchor" href="#my-boolean%EC%B2%98%EB%9F%BC-%EB%A1%9C%EC%A7%81%EB%8F%84-if-nota-return---if-notb-return---%EC%9E%90%EB%8F%99-a--b-return-%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) boolean처럼 로직도 <code class="language-plaintext highlighter-rouge">if notA return -&gt; if notB return -&gt; (자동 A &amp;&amp; B) return</code> 을 사용한다.</h3>
+<h3 id="my-역-if-return-false---a--b-조건에서-앞쪽-a를-먼저-만족시키지못해-애초에-탈락이구나----not-a-상황이라서--b보기전에-빨리-거르기--밑으로는-a-상태구나">
+<a class="anchor" href="#my-%EC%97%AD-if-return-false---a--b-%EC%A1%B0%EA%B1%B4%EC%97%90%EC%84%9C-%EC%95%9E%EC%AA%BD-a%EB%A5%BC-%EB%A8%BC%EC%A0%80-%EB%A7%8C%EC%A1%B1%EC%8B%9C%ED%82%A4%EC%A7%80%EB%AA%BB%ED%95%B4-%EC%95%A0%EC%B4%88%EC%97%90-%ED%83%88%EB%9D%BD%EC%9D%B4%EA%B5%AC%EB%82%98----not-a-%EC%83%81%ED%99%A9%EC%9D%B4%EB%9D%BC%EC%84%9C--b%EB%B3%B4%EA%B8%B0%EC%A0%84%EC%97%90-%EB%B9%A8%EB%A6%AC-%EA%B1%B0%EB%A5%B4%EA%B8%B0--%EB%B0%91%EC%9C%BC%EB%A1%9C%EB%8A%94-a-%EC%83%81%ED%83%9C%EA%B5%AC%EB%82%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>my-역) <code class="language-plaintext highlighter-rouge">if return false</code> -&gt; <code class="language-plaintext highlighter-rouge">A &amp;&amp; B 조건에서 앞쪽 A를 먼저 만족시키지못해 애초에 탈락</code>이구나 -&gt;  <code class="language-plaintext highlighter-rouge">not A 상황이라서 &amp;&amp; B보기전에 빨리 거르기 + 밑으로는 (A &amp;&amp;)상태구나</code>
+</h3>
+<h3 id="my-역-if-return-false--return-b---ab의-앞쪽-a라-nota라-거르고-밑에서-a--b-이며-true시-true니까--a--b시-true리턴이구나">
+<a class="anchor" href="#my-%EC%97%AD-if-return-false--return-b---ab%EC%9D%98-%EC%95%9E%EC%AA%BD-a%EB%9D%BC-nota%EB%9D%BC-%EA%B1%B0%EB%A5%B4%EA%B3%A0-%EB%B0%91%EC%97%90%EC%84%9C-a--b-%EC%9D%B4%EB%A9%B0-true%EC%8B%9C-true%EB%8B%88%EA%B9%8C--a--b%EC%8B%9C-true%EB%A6%AC%ED%84%B4%EC%9D%B4%EA%B5%AC%EB%82%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>my-역) <code class="language-plaintext highlighter-rouge">if return false</code> + <code class="language-plaintext highlighter-rouge">return B</code> -&gt; <code class="language-plaintext highlighter-rouge">A||B의 앞쪽 A라 notA라 거르고, 밑에서 A &amp;&amp; B 이며, true시 true니까..  A &amp;&amp; B시 true리턴이구나..</code>
+</h3>
+
+<h4 id="해석-연습해보기">
+<a class="anchor" href="#%ED%95%B4%EC%84%9D-%EC%97%B0%EC%8A%B5%ED%95%B4%EB%B3%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>해석 연습해보기</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isRunning</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">gameSwitch</span><span class="o">.</span><span class="na">isOff</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span> <span class="c1">// 1. return false -&gt; A &amp;&amp; B에서 A를 만족못시키는 [not A라서 빨리 걸러지는구나]</span>
+    <span class="o">}</span>
+    <span class="c1">// 2. 자동 A &amp;&amp; 상태== gameSwtich.isON()이어야하는 구나 &amp;&amp;</span>
+
+    <span class="c1">// 3. return t/f아닌 [return boolean식 -&gt; if boolean식]으로 생각하면 된다.</span>
+    <span class="c1">// -&gt; 자동A(게임 on) &amp;&amp; !nonRun -&gt;   게임 중 &amp;&amp; running상태여야 true구나.</span>
+    <span class="k">return</span> <span class="o">!</span><span class="n">isNotRunning</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isStatusInRunning</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">gameSwitch</span><span class="o">.</span><span class="na">isOff</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span><span class="c1">//1. false -&gt; 빨리 걸러지는 상황으로 [앞쪽 not A -&gt; off ]</span>
+    <span class="o">}</span>
+    <span class="c1">//2. (자동 A -&gt; on &amp;&amp;) 상태에서   if status상태여야 true구나.</span>
+    <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="na">isStatus</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isEndInRunning</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">gameSwitch</span><span class="o">.</span><span class="na">isOff</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span> <span class="c1">// 1. not A 가 off로 먼저 걸러진다 -&gt;  A = on상태 &amp;&amp;</span>
+    <span class="o">}</span>
+    <span class="c1">//2. on &amp;&amp; finihsed상태여야 true</span>
+    <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="na">isFinished</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
 
 
   </div><a class="u-url" href="/java/if/conditionalstatements/a&&b/earlyreturn/boolean/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/30/%EB%B6%84%EA%B8%B0%EB%AC%B8%EA%B3%BC-%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84.html" hidden></a>
