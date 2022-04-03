@@ -10,14 +10,14 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="A &amp;&amp; B 이전에 return되도록   로 만들어 찢자." />
 <meta property="og:description" content="A &amp;&amp; B 이전에 return되도록   로 만들어 찢자." />
-<link rel="canonical" href="blog.chojaeseong.com/java/if/%EB%B6%84%EA%B8%B0/earlyreturn/boolean/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/29/%EB%B6%84%EA%B8%B0%EB%AC%B8%EA%B3%BC-%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84.html" />
-<meta property="og:url" content="blog.chojaeseong.com/java/if/%EB%B6%84%EA%B8%B0/earlyreturn/boolean/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/29/%EB%B6%84%EA%B8%B0%EB%AC%B8%EA%B3%BC-%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84.html" />
+<link rel="canonical" href="blog.chojaeseong.com/java/if/conditionalstatements/a&&b/earlyreturn/boolean/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/30/%EB%B6%84%EA%B8%B0%EB%AC%B8%EA%B3%BC-%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/if/conditionalstatements/a&&b/earlyreturn/boolean/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/30/%EB%B6%84%EA%B8%B0%EB%AC%B8%EA%B3%BC-%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84.html" />
 <meta property="og:site_name" content="돌범텤놑" />
 <meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2022-03-29T00:00:00-05:00" />
+<meta property="article:published_time" content="2022-03-30T00:00:00-05:00" />
 <script type="application/ld+json">
-{"datePublished":"2022-03-29T00:00:00-05:00","url":"blog.chojaeseong.com/java/if/%EB%B6%84%EA%B8%B0/earlyreturn/boolean/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/29/%EB%B6%84%EA%B8%B0%EB%AC%B8%EA%B3%BC-%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"분기문과 드모르간 법칙","dateModified":"2022-03-29T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/if/%EB%B6%84%EA%B8%B0/earlyreturn/boolean/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/29/%EB%B6%84%EA%B8%B0%EB%AC%B8%EA%B3%BC-%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84.html"},"description":"A &amp;&amp; B 이전에 return되도록   로 만들어 찢자.","@context":"https://schema.org"}</script>
+{"datePublished":"2022-03-30T00:00:00-05:00","url":"blog.chojaeseong.com/java/if/conditionalstatements/a&&b/earlyreturn/boolean/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/30/%EB%B6%84%EA%B8%B0%EB%AC%B8%EA%B3%BC-%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"분기문과 드모르간 법칙","dateModified":"2022-03-30T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/if/conditionalstatements/a&&b/earlyreturn/boolean/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/30/%EB%B6%84%EA%B8%B0%EB%AC%B8%EA%B3%BC-%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84.html"},"description":"A &amp;&amp; B 이전에 return되도록   로 만들어 찢자.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <!-- 폰트추가를 위한 link태그 삽입 -->
   <!-- 폰트1:  기본 spoqa 웹폰트 -->
@@ -96,8 +96,8 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">분기문과 드모르간 법칙</h1><p class="page-description">A && B 이전에 return되도록 ||로 만들어 찢자.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-03-29T00:00:00-05:00" itemprop="datePublished">
-        Mar 29, 2022
+    <h1 class="post-title p-name" itemprop="name headline">분기문과 드모르간 법칙</h1><p class="page-description">A && B 이전에 return되도록 ||로 만들어 찢자.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-03-30T00:00:00-05:00" itemprop="datePublished">
+        Mar 30, 2022
       </time>
        • <span class="read-time" title="Estimated read time">
     
@@ -115,7 +115,10 @@ window.onload = wrap_img;
         <a class="category-tags-link" href="/categories/#if">if</a>
         &nbsp;
       
-        <a class="category-tags-link" href="/categories/#분기">분기</a>
+        <a class="category-tags-link" href="/categories/#conditionalStatements">conditionalStatements</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#A&&B">A&&B</a>
         &nbsp;
       
         <a class="category-tags-link" href="/categories/#earlyreturn">earlyreturn</a>
@@ -146,12 +149,13 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h4"><a href="#01-return-a--b-로-작성해놓았다면-replace-with-로-분리한다">01 return A &amp;&amp; B 로 작성해놓았다면, replace with ||로 분리한다.</a></li>
 <li class="toc-entry toc-h4"><a href="#02-가장-바깥--는-무시한-체-return--는-순서가-중요---아래쪽-순서대로-if-return-true문으로-찢는다">02 가장 바깥 !( )는 무시한 체, return || 는 순서가 중요 -&gt; 아래쪽 순서대로 if return true문으로 찢는다.</a>
 <ul>
-<li class="toc-entry toc-h5"><a href="#-에서-앞에것-통과-못했으면---if-분기에서-위에-것-통과-못했으면으로-동치다">` ||에서 앞에것 통과 못했으면  == if 분기에서 위에 것 통과 못했으면`으로 동치다</a></li>
+<li class="toc-entry toc-h5"><a href="#-에서-앞에것-통과-못했으면---if-분기에서-위에-것-통과-못했으면으로-동치다---if-a-오른쪽orif아래쪽은-자동nota">` ||에서 앞에것 통과 못했으면  == if 분기에서 위에 것 통과 못했으면으로 동치다 -&gt; if A? ||오른쪽orif아래쪽은 자동notA`</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h4"><a href="#03-return--오른쪽-끝까지-모두-통과x---false-이므로-if-return-true-여러개-맨-아래-까지-통과x시---return-false">03 return || 오른쪽 끝까지 모두 통과X -&gt; false 이므로 if return true; 여러개 맨 아래 까지 통과x시 -&gt; return false;</a></li>
 <li class="toc-entry toc-h4"><a href="#04-무시했던-바깥-을-적용시키려고-return-truefalse-반대로작성하기">04 무시했던 바깥 !()을 적용시키려고 return true/false 반대로작성하기</a></li>
-<li class="toc-entry toc-h4"><a href="#05-암기-및-정리--if를-다지난-마지막-자동-a--b에서-retun-true를-주고--if-nota-return-false---if-notb-return-false">05 암기 및 정리:  (if를 다지난 마지막 자동 A &amp;&amp; B에서 )retun true를 주고 -&gt;if notA return false -&gt; if notB return false;</a></li>
+<li class="toc-entry toc-h4"><a href="#05-암기-및-정리--if를-다지난-마지막자리에-주석-a--b와-함께-자동-자리에retun-true를-주고--if-nota-return-false---if-notb-return-false">05 암기 및 정리:  (if를 다지난 마지막자리에 주석 //A &amp;&amp; B와 함께 자동 자리에)retun true를 주고 -&gt;if notA return false -&gt; if notB return false;</a></li>
+<li class="toc-entry toc-h4"><a href="#06-사실-boolean이라면-if-not-a---자동a-return-b를-해버리면-된다-로직일-경우-not-b도-개별-처리해줘야하니까-다름">06 사실 boolean이라면 if not A -&gt; (자동A) return B를 해버리면 된다. (로직일 경우 not B도 개별 처리해줘야하니까 다름)</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h3"><a href="#기본-로직-적용법-및-암기법--a--b는-if-nota---if-notb---맨마지막-자동-a--b에서-처리되도록">기본 로직 적용법 및 암기법:  A &amp;&amp; B는 if notA -&gt; if notB -&gt; 맨마지막 자동 A &amp;&amp; B에서 처리되도록</a>
@@ -162,12 +166,15 @@ window.onload = wrap_img;
 <ul>
 <li class="toc-entry toc-h5"><a href="#01--자동으로-될-a--b를-주석처리와-함께맨-끝에서-return-true">01  (자동으로 될 A &amp;&amp; B를 주석처리와 함께)맨 끝에서 return true</a></li>
 <li class="toc-entry toc-h5"><a href="#02-if-not-a를-만들고-return-false">02 if not A를 만들고 return false;</a></li>
-<li class="toc-entry toc-h5"><a href="#03-마지막-if-not-b-만들고-return-false">03 마지막 if not B 만들고 return false;</a></li>
+<li class="toc-entry toc-h5"><a href="#03-if-not-b-만들고-return-false">03 if not B 만들고 return false;</a></li>
+<li class="toc-entry toc-h5"><a href="#04-boolean이라-따로-로직이-필요없다면--if-not-a-return-false후---return--자동-a--b">04 boolean이라 따로 로직이 필요없다면  if not A return false;후 -&gt; return  (자동 A &amp;&amp;) B</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-entry toc-h3"><a href="#my-로직에서-해당하지-않는-경우-ealry-return하는-것처럼-분기식의-해당하지-않는-경우들자동-ab-return-true전까지-if-nota-if-notb에다가----early-false-return을-쓴다">my) 로직에서 해당하지 않는 경우 ealry return;하는 것처럼 분기식의 해당하지 않는 경우들(자동 A&amp;&amp;B return true전까지 if notA if notB에다가 -&gt; ) early false return을 쓴다</a></li>
+<li class="toc-entry toc-h3"><a href="#my-boolean이라면-or에서-앞에것들-통과-못할시-빠르게-처리되도록---if로-찢어--if-not-return-false시켜버린다">my) boolean이라면, OR(||)에서 앞에것들 통과 못할시 빠르게 처리되도록 -&gt; if로 찢어  if not return false시켜버린다.</a></li>
+<li class="toc-entry toc-h3"><a href="#my-boolean이라면-if-not-a---return-false-이후-or-맨-끝에-하나-남은-분기식은-바로-return-b해버려도-된다--if-not-b로직이-필요없는-상황">my) boolean이라면, if not A -&gt; return false; 이후 OR(||) 맨 끝에 하나 남은 분기식은 바로 return B해버려도 된다. ( if not B로직이 필요없는 상황)</a></li>
+<li class="toc-entry toc-h3"><a href="#my-boolean처럼-로직도-if-nota-return---if-notb-return---자동-a--b-return-을-사용한다">my) boolean처럼 로직도 if notA return -&gt; if notB return -&gt; 자동 A &amp;&amp; B return 을 사용한다.</a></li>
 </ul><h3 id="분기문에-적용하는-드모르간">
 <a class="anchor" href="#%EB%B6%84%EA%B8%B0%EB%AC%B8%EC%97%90-%EC%A0%81%EC%9A%A9%ED%95%98%EB%8A%94-%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>분기문에 적용하는 드모르간</h3>
 
@@ -259,20 +266,12 @@ window.onload = wrap_img;
   </li>
 </ul>
 
-<h5 id="-에서-앞에것-통과-못했으면---if-분기에서-위에-것-통과-못했으면으로-동치다">
-<a class="anchor" href="#-%EC%97%90%EC%84%9C-%EC%95%9E%EC%97%90%EA%B2%83-%ED%86%B5%EA%B3%BC-%EB%AA%BB%ED%96%88%EC%9C%BC%EB%A9%B4---if-%EB%B6%84%EA%B8%B0%EC%97%90%EC%84%9C-%EC%9C%84%EC%97%90-%EA%B2%83-%ED%86%B5%EA%B3%BC-%EB%AA%BB%ED%96%88%EC%9C%BC%EB%A9%B4%EC%9C%BC%EB%A1%9C-%EB%8F%99%EC%B9%98%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>` ||에서 앞에것 통과 못했으면<code class="language-plaintext highlighter-rouge">  == </code>if 분기에서 위에 것 통과 못했으면`으로 동치다</h5>
+<h5 id="-에서-앞에것-통과-못했으면---if-분기에서-위에-것-통과-못했으면으로-동치다---if-a-오른쪽orif아래쪽은-자동nota">
+<a class="anchor" href="#-%EC%97%90%EC%84%9C-%EC%95%9E%EC%97%90%EA%B2%83-%ED%86%B5%EA%B3%BC-%EB%AA%BB%ED%96%88%EC%9C%BC%EB%A9%B4---if-%EB%B6%84%EA%B8%B0%EC%97%90%EC%84%9C-%EC%9C%84%EC%97%90-%EA%B2%83-%ED%86%B5%EA%B3%BC-%EB%AA%BB%ED%96%88%EC%9C%BC%EB%A9%B4%EC%9C%BC%EB%A1%9C-%EB%8F%99%EC%B9%98%EB%8B%A4---if-a-%EC%98%A4%EB%A5%B8%EC%AA%BDorif%EC%95%84%EB%9E%98%EC%AA%BD%EC%9D%80-%EC%9E%90%EB%8F%99nota" aria-hidden="true"><span class="octicon octicon-link"></span></a>` ||에서 앞에것 통과 못했으면<code class="language-plaintext highlighter-rouge">  == </code>if 분기에서 위에 것 통과 못했으면<code class="language-plaintext highlighter-rouge">으로 동치다 -&gt; if A? </code>||오른쪽<code class="language-plaintext highlighter-rouge">or</code>if아래쪽<code class="language-plaintext highlighter-rouge">은 </code>자동notA`</h5>
 
 <ul>
   <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>`</td>
-          <td> </td>
-          <td>에서 앞에것 통과 못했으면<code class="language-plaintext highlighter-rouge">  == </code>if 분기에서 위에 것 통과 못했으면`으로 동치다</td>
-        </tr>
-      </tbody>
-    </table>
+    <p><code class="language-plaintext highlighter-rouge">||에서 앞에것 통과 못했으면</code>  == <code class="language-plaintext highlighter-rouge">if 분기에서 위에 것 통과 못했으면</code>으로 동치다</p>
 
     <ul>
       <li><strong>순서가 중요한 <code class="language-plaintext highlighter-rouge">||</code>와 <code class="language-plaintext highlighter-rouge">if분기</code></strong></li>
@@ -351,9 +350,12 @@ window.onload = wrap_img;
 <span class="o">}</span>
 </code></pre></div></div>
 
-<h4 id="05-암기-및-정리--if를-다지난-마지막-자동-a--b에서-retun-true를-주고--if-nota-return-false---if-notb-return-false">
-<a class="anchor" href="#05-%EC%95%94%EA%B8%B0-%EB%B0%8F-%EC%A0%95%EB%A6%AC--if%EB%A5%BC-%EB%8B%A4%EC%A7%80%EB%82%9C-%EB%A7%88%EC%A7%80%EB%A7%89-%EC%9E%90%EB%8F%99-a--b%EC%97%90%EC%84%9C-retun-true%EB%A5%BC-%EC%A3%BC%EA%B3%A0--if-nota-return-false---if-notb-return-false" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 암기 및 정리:  <code class="language-plaintext highlighter-rouge">(if를 다지난 마지막 자동 A &amp;&amp; B에서 )retun true</code>를 주고 -&gt;<code class="language-plaintext highlighter-rouge">if notA return false</code> -&gt; <code class="language-plaintext highlighter-rouge">if notB return false;</code>
+<h4 id="05-암기-및-정리--if를-다지난-마지막자리에-주석-a--b와-함께-자동-자리에retun-true를-주고--if-nota-return-false---if-notb-return-false">
+<a class="anchor" href="#05-%EC%95%94%EA%B8%B0-%EB%B0%8F-%EC%A0%95%EB%A6%AC--if%EB%A5%BC-%EB%8B%A4%EC%A7%80%EB%82%9C-%EB%A7%88%EC%A7%80%EB%A7%89%EC%9E%90%EB%A6%AC%EC%97%90-%EC%A3%BC%EC%84%9D-a--b%EC%99%80-%ED%95%A8%EA%BB%98-%EC%9E%90%EB%8F%99-%EC%9E%90%EB%A6%AC%EC%97%90retun-true%EB%A5%BC-%EC%A3%BC%EA%B3%A0--if-nota-return-false---if-notb-return-false" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 암기 및 정리:  <code class="language-plaintext highlighter-rouge">(if를 다지난 마지막자리에 주석 //A &amp;&amp; B와 함께 자동 자리에)retun true</code>를 주고 -&gt;<code class="language-plaintext highlighter-rouge">if notA return false</code> -&gt; <code class="language-plaintext highlighter-rouge">if notB return false;</code>
 </h4>
+
+<h4 id="06-사실-boolean이라면-if-not-a---자동a-return-b를-해버리면-된다-로직일-경우-not-b도-개별-처리해줘야하니까-다름">
+<a class="anchor" href="#06-%EC%82%AC%EC%8B%A4-boolean%EC%9D%B4%EB%9D%BC%EB%A9%B4-if-not-a---%EC%9E%90%EB%8F%99a-return-b%EB%A5%BC-%ED%95%B4%EB%B2%84%EB%A6%AC%EB%A9%B4-%EB%90%9C%EB%8B%A4-%EB%A1%9C%EC%A7%81%EC%9D%BC-%EA%B2%BD%EC%9A%B0-not-b%EB%8F%84-%EA%B0%9C%EB%B3%84-%EC%B2%98%EB%A6%AC%ED%95%B4%EC%A4%98%EC%95%BC%ED%95%98%EB%8B%88%EA%B9%8C-%EB%8B%A4%EB%A6%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>06 사실 boolean이라면 <code class="language-plaintext highlighter-rouge">if not A</code> -&gt; <code class="language-plaintext highlighter-rouge">(자동A) return B</code>를 해버리면 된다. (로직일 경우 not B도 개별 처리해줘야하니까 다름)</h4>
 
 <h3 id="기본-로직-적용법-및-암기법--a--b는-if-nota---if-notb---맨마지막-자동-a--b에서-처리되도록">
 <a class="anchor" href="#%EA%B8%B0%EB%B3%B8-%EB%A1%9C%EC%A7%81-%EC%A0%81%EC%9A%A9%EB%B2%95-%EB%B0%8F-%EC%95%94%EA%B8%B0%EB%B2%95--a--b%EB%8A%94-if-nota---if-notb---%EB%A7%A8%EB%A7%88%EC%A7%80%EB%A7%89-%EC%9E%90%EB%8F%99-a--b%EC%97%90%EC%84%9C-%EC%B2%98%EB%A6%AC%EB%90%98%EB%8F%84%EB%A1%9D" aria-hidden="true"><span class="octicon octicon-link"></span></a>기본 로직 적용법 및 암기법:  <code class="language-plaintext highlighter-rouge">A &amp;&amp; B</code>는 <code class="language-plaintext highlighter-rouge">if notA -&gt; if notB -&gt; 맨마지막 자동 A &amp;&amp; B에서 처리되도록</code>
@@ -440,8 +442,8 @@ window.onload = wrap_img;
 
 </code></pre></div></div>
 
-<h5 id="03-마지막-if-not-b-만들고-return-false">
-<a class="anchor" href="#03-%EB%A7%88%EC%A7%80%EB%A7%89-if-not-b-%EB%A7%8C%EB%93%A4%EA%B3%A0-return-false" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 마지막 if not B 만들고 return false;</h5>
+<h5 id="03-if-not-b-만들고-return-false">
+<a class="anchor" href="#03-if-not-b-%EB%A7%8C%EB%93%A4%EA%B3%A0-return-false" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 if not B 만들고 return false;</h5>
 
 <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220402134530213.png" alt="image-20220402134530213"></p>
 
@@ -460,11 +462,40 @@ window.onload = wrap_img;
 
 </code></pre></div></div>
 
-<h3 id="my-로직에서-해당하지-않는-경우-ealry-return하는-것처럼-분기식의-해당하지-않는-경우들자동-ab-return-true전까지-if-nota-if-notb에다가----early-false-return을-쓴다">
-<a class="anchor" href="#my-%EB%A1%9C%EC%A7%81%EC%97%90%EC%84%9C-%ED%95%B4%EB%8B%B9%ED%95%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EA%B2%BD%EC%9A%B0-ealry-return%ED%95%98%EB%8A%94-%EA%B2%83%EC%B2%98%EB%9F%BC-%EB%B6%84%EA%B8%B0%EC%8B%9D%EC%9D%98-%ED%95%B4%EB%8B%B9%ED%95%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EA%B2%BD%EC%9A%B0%EB%93%A4%EC%9E%90%EB%8F%99-ab-return-true%EC%A0%84%EA%B9%8C%EC%A7%80-if-nota-if-notb%EC%97%90%EB%8B%A4%EA%B0%80----early-false-return%EC%9D%84-%EC%93%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) 로직에서 해당하지 않는 경우 ealry return;하는 것처럼 <code class="language-plaintext highlighter-rouge">분기식의 해당하지 않는 경우들(자동 A&amp;&amp;B return true전까지 if notA if notB에다가 -&gt; ) early false return</code>을 쓴다</h3>
+<h5 id="04-boolean이라-따로-로직이-필요없다면--if-not-a-return-false후---return--자동-a--b">
+<a class="anchor" href="#04-boolean%EC%9D%B4%EB%9D%BC-%EB%94%B0%EB%A1%9C-%EB%A1%9C%EC%A7%81%EC%9D%B4-%ED%95%84%EC%9A%94%EC%97%86%EB%8B%A4%EB%A9%B4--if-not-a-return-false%ED%9B%84---return--%EC%9E%90%EB%8F%99-a--b" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 boolean이라 따로 로직이 필요없다면  if not A return false;후 -&gt; return  (자동 A &amp;&amp;) B</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220402134530213.png" alt="image-20220402134530213"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isStatusInRunning</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// if not A -&gt; return false; 주기</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">gameSwitch</span><span class="o">.</span><span class="na">isOn</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">// if not B -&gt; return false; 주기</span>
+    <span class="c1">//if (!state.isStatus()) {</span>
+    <span class="c1">//    return false;</span>
+    <span class="c1">//}</span>
+    
+    <span class="c1">// (자동 A &amp;&amp; B == gameSwitch.isOn() &amp;&amp; state.isStatus();)</span>
+    <span class="c1">//return true;</span>
+
+    <span class="c1">// (자동A ) </span>
+    <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="na">isStatus</span><span class="o">();</span>
+    
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<h3 id="my-boolean이라면-or에서-앞에것들-통과-못할시-빠르게-처리되도록---if로-찢어--if-not-return-false시켜버린다">
+<a class="anchor" href="#my-boolean%EC%9D%B4%EB%9D%BC%EB%A9%B4-or%EC%97%90%EC%84%9C-%EC%95%9E%EC%97%90%EA%B2%83%EB%93%A4-%ED%86%B5%EA%B3%BC-%EB%AA%BB%ED%95%A0%EC%8B%9C-%EB%B9%A0%EB%A5%B4%EA%B2%8C-%EC%B2%98%EB%A6%AC%EB%90%98%EB%8F%84%EB%A1%9D---if%EB%A1%9C-%EC%B0%A2%EC%96%B4--if-not-return-false%EC%8B%9C%EC%BC%9C%EB%B2%84%EB%A6%B0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) boolean이라면, OR(||)에서 앞에것들 통과 못할시 빠르게 처리되도록 -&gt; if로 찢어  <code class="language-plaintext highlighter-rouge">if not return false</code>시켜버린다.</h3>
+<h3 id="my-boolean이라면-if-not-a---return-false-이후-or-맨-끝에-하나-남은-분기식은-바로-return-b해버려도-된다--if-not-b로직이-필요없는-상황">
+<a class="anchor" href="#my-boolean%EC%9D%B4%EB%9D%BC%EB%A9%B4-if-not-a---return-false-%EC%9D%B4%ED%9B%84-or-%EB%A7%A8-%EB%81%9D%EC%97%90-%ED%95%98%EB%82%98-%EB%82%A8%EC%9D%80-%EB%B6%84%EA%B8%B0%EC%8B%9D%EC%9D%80-%EB%B0%94%EB%A1%9C-return-b%ED%95%B4%EB%B2%84%EB%A0%A4%EB%8F%84-%EB%90%9C%EB%8B%A4--if-not-b%EB%A1%9C%EC%A7%81%EC%9D%B4-%ED%95%84%EC%9A%94%EC%97%86%EB%8A%94-%EC%83%81%ED%99%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) boolean이라면, if not A -&gt; return false; 이후 <code class="language-plaintext highlighter-rouge">OR(||) 맨 끝에 하나 남은 분기식은 바로 return B</code>해버려도 된다. ( if not B로직이 필요없는 상황)</h3>
+<h3 id="my-boolean처럼-로직도-if-nota-return---if-notb-return---자동-a--b-return-을-사용한다">
+<a class="anchor" href="#my-boolean%EC%B2%98%EB%9F%BC-%EB%A1%9C%EC%A7%81%EB%8F%84-if-nota-return---if-notb-return---%EC%9E%90%EB%8F%99-a--b-return-%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) boolean처럼 로직도 <code class="language-plaintext highlighter-rouge">if notA return -&gt; if notB return -&gt; 자동 A &amp;&amp; B return</code> 을 사용한다.</h3>
 
 
-  </div><a class="u-url" href="/java/if/%EB%B6%84%EA%B8%B0/earlyreturn/boolean/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/29/%EB%B6%84%EA%B8%B0%EB%AC%B8%EA%B3%BC-%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84.html" hidden></a>
+  </div><a class="u-url" href="/java/if/conditionalstatements/a&&b/earlyreturn/boolean/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/30/%EB%B6%84%EA%B8%B0%EB%AC%B8%EA%B3%BC-%EB%93%9C%EB%AA%A8%EB%A5%B4%EA%B0%84.html" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
