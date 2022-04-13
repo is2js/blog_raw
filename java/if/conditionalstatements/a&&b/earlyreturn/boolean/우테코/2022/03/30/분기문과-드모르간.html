@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      5 min read
+      7 min read
     
 </span></p>
 
@@ -177,9 +177,11 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h3"><a href="#my-boolean이라면-if-not-앞쪽a---return-false-이후-if문-아래쪽은-자동-a-상태이므로-마지막-분기식은-바로-return-자동a-b해버려도-된다--if-not-b로직이-필요없는-상황">my) boolean이라면, if not 앞쪽A -&gt; return false; 이후 (if문 아래쪽은 자동 A &amp;&amp;상태이므로) 마지막 분기식은 바로 return (자동A&amp;&amp;) B해버려도 된다. ( if not B로직이 필요없는 상황)</a></li>
 <li class="toc-entry toc-h3"><a href="#my-boolean처럼-로직도-if-nota-return---if-notb-return---자동-a--b-return-을-사용한다">my) boolean처럼 로직도 if notA return -&gt; if notB return -&gt; (자동 A &amp;&amp; B) return 을 사용한다.</a></li>
 <li class="toc-entry toc-h3"><a href="#my-역-if-return-false---a--b-조건에서-앞쪽-a를-먼저-만족시키지못해-애초에-탈락이구나----not-a-상황이라서--b보기전에-빨리-거르기--밑으로는-a-상태구나">my-역) if return false -&gt; A &amp;&amp; B 조건에서 앞쪽 A를 먼저 만족시키지못해 애초에 탈락이구나 -&gt;  not A 상황이라서 &amp;&amp; B보기전에 빨리 거르기 + 밑으로는 (A &amp;&amp;)상태구나</a></li>
-<li class="toc-entry toc-h3"><a href="#my-역-if-return-false--return-b---ab의-앞쪽-a라-nota라-거르고-밑에서-a--b-이며-true시-true니까--a--b시-true리턴이구나">my-역) if return false + return B -&gt; A||B의 앞쪽 A라 notA라 거르고, 밑에서 A &amp;&amp; B 이며, true시 true니까..  A &amp;&amp; B시 true리턴이구나..</a>
+<li class="toc-entry toc-h3"><a href="#my-역-if-return-false--return-b---ab의-앞쪽-a라-nota라-거르고-밑에서-a--b-이며-true시-true니까--a--b시-true리턴이구나">my-역) if return false + return B -&gt; A||B의 앞쪽 A라 notA라 거르고, 밑에서 A &amp;&amp; B 이며, true시 true니까..  A &amp;&amp; B시 true리턴이구나..</a></li>
+<li class="toc-entry toc-h3"><a href="#해석-연습해보기">해석 연습해보기</a>
 <ul>
-<li class="toc-entry toc-h4"><a href="#해석-연습해보기">해석 연습해보기</a></li>
+<li class="toc-entry toc-h4"><a href="#boolean-中-and-조건문">BOOLEAN 中 and 조건문</a></li>
+<li class="toc-entry toc-h4"><a href="#boolean이-아닌-단순-경우의-수라면---마지막-경우의수만-자동으로-가져간다---복잡한-조건을-뒤에서-if없이-자동으로-가져가게-하자">BOOLEAN이 아닌 단순 경우의 수라면? -&gt; 마지막 경우의수만 자동으로 가져간다.?! -&gt; 복잡한 조건을 뒤에서 if없이 자동으로 가져가게 하자.</a></li>
 </ul>
 </li>
 </ul><h3 id="분기문에-적용하는-드모르간">
@@ -509,34 +511,106 @@ window.onload = wrap_img;
 <a class="anchor" href="#my-%EC%97%AD-if-return-false--return-b---ab%EC%9D%98-%EC%95%9E%EC%AA%BD-a%EB%9D%BC-nota%EB%9D%BC-%EA%B1%B0%EB%A5%B4%EA%B3%A0-%EB%B0%91%EC%97%90%EC%84%9C-a--b-%EC%9D%B4%EB%A9%B0-true%EC%8B%9C-true%EB%8B%88%EA%B9%8C--a--b%EC%8B%9C-true%EB%A6%AC%ED%84%B4%EC%9D%B4%EA%B5%AC%EB%82%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>my-역) <code class="language-plaintext highlighter-rouge">if return false</code> + <code class="language-plaintext highlighter-rouge">return B</code> -&gt; <code class="language-plaintext highlighter-rouge">A||B의 앞쪽 A라 notA라 거르고, 밑에서 A &amp;&amp; B 이며, true시 true니까..  A &amp;&amp; B시 true리턴이구나..</code>
 </h3>
 
-<h4 id="해석-연습해보기">
-<a class="anchor" href="#%ED%95%B4%EC%84%9D-%EC%97%B0%EC%8A%B5%ED%95%B4%EB%B3%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>해석 연습해보기</h4>
+<h3 id="해석-연습해보기">
+<a class="anchor" href="#%ED%95%B4%EC%84%9D-%EC%97%B0%EC%8A%B5%ED%95%B4%EB%B3%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>해석 연습해보기</h3>
+<h4 id="boolean-中-and-조건문">
+<a class="anchor" href="#boolean-%E4%B8%AD-and-%EC%A1%B0%EA%B1%B4%EB%AC%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>BOOLEAN 中 <code class="language-plaintext highlighter-rouge">and 조건문</code>
+</h4>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isRunning</span><span class="o">()</span> <span class="o">{</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">gameSwitch</span><span class="o">.</span><span class="na">isOff</span><span class="o">())</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span> <span class="c1">// 1. return false -&gt; A &amp;&amp; B에서 A를 만족못시키는 [not A라서 빨리 걸러지는구나]</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span> <span class="c1">// 1. return false -&gt; end boolean식이 전제이며, A &amp;&amp; B에서 A를 만족못시키는 [A &amp;&amp; B에서 not A라서 먼저  false;로 걸러지는구나]</span>
     <span class="o">}</span>
-    <span class="c1">// 2. 자동 A &amp;&amp; 상태== gameSwtich.isON()이어야하는 구나 &amp;&amp;</span>
+    <span class="c1">// 2. 자동 not A(! .isOff() == isOn()) 상태 &amp;&amp; 로서    A(스위치On)&amp;&amp;이면서 B가 와야하구나.</span>
 
-    <span class="c1">// 3. return t/f아닌 [return boolean식 -&gt; if boolean식]으로 생각하면 된다.</span>
-    <span class="c1">// -&gt; 자동A(게임 on) &amp;&amp; !nonRun -&gt;   게임 중 &amp;&amp; running상태여야 true구나.</span>
+    <span class="c1">// 3. 만약, 조건식이 1개가 남았다면 바로 return 조건문으로 끝낸다.</span>
+    <span class="c1">// -&gt; [ (자동 isOn &amp;&amp;)  !notRunning 이어야 end조건의 boolean식이 최종 true가 되는 구나]</span>
+    <span class="c1">// -&gt; is ON &amp;&amp; running 상태여야 true</span>
     <span class="k">return</span> <span class="o">!</span><span class="n">isNotRunning</span><span class="o">();</span>
 <span class="o">}</span>
 
+<span class="err">```</span><span class="n">java</span>
 <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isStatusInRunning</span><span class="o">()</span> <span class="o">{</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">gameSwitch</span><span class="o">.</span><span class="na">isOff</span><span class="o">())</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span><span class="c1">//1. false -&gt; 빨리 걸러지는 상황으로 [앞쪽 not A -&gt; off ]</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span><span class="c1">//1. early false -&gt; and조건에서 빨리 걸러지는 상황으로 [앞쪽 not A -&gt; off ]</span>
     <span class="o">}</span>
     <span class="c1">//2. (자동 A -&gt; on &amp;&amp;) 상태에서   if status상태여야 true구나.</span>
     <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="na">isStatus</span><span class="o">();</span>
 <span class="o">}</span>
+</code></pre></div></div>
 
-<span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isEndInRunning</span><span class="o">()</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isEndInRunning</span><span class="o">()</span> <span class="o">{</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">gameSwitch</span><span class="o">.</span><span class="na">isOff</span><span class="o">())</span> <span class="o">{</span>
         <span class="k">return</span> <span class="kc">false</span><span class="o">;</span> <span class="c1">// 1. not A 가 off로 먼저 걸러진다 -&gt;  A = on상태 &amp;&amp;</span>
     <span class="o">}</span>
     <span class="c1">//2. on &amp;&amp; finihsed상태여야 true</span>
     <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="na">isFinished</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="boolean이-아닌-단순-경우의-수라면---마지막-경우의수만-자동으로-가져간다---복잡한-조건을-뒤에서-if없이-자동으로-가져가게-하자">
+<a class="anchor" href="#boolean%EC%9D%B4-%EC%95%84%EB%8B%8C-%EB%8B%A8%EC%88%9C-%EA%B2%BD%EC%9A%B0%EC%9D%98-%EC%88%98%EB%9D%BC%EB%A9%B4---%EB%A7%88%EC%A7%80%EB%A7%89-%EA%B2%BD%EC%9A%B0%EC%9D%98%EC%88%98%EB%A7%8C-%EC%9E%90%EB%8F%99%EC%9C%BC%EB%A1%9C-%EA%B0%80%EC%A0%B8%EA%B0%84%EB%8B%A4---%EB%B3%B5%EC%9E%A1%ED%95%9C-%EC%A1%B0%EA%B1%B4%EC%9D%84-%EB%92%A4%EC%97%90%EC%84%9C-if%EC%97%86%EC%9D%B4-%EC%9E%90%EB%8F%99%EC%9C%BC%EB%A1%9C-%EA%B0%80%EC%A0%B8%EA%B0%80%EA%B2%8C-%ED%95%98%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>BOOLEAN이 아닌 단순 경우의 수라면? -&gt; 마지막 경우의수만 자동으로 가져간다.?! -&gt; 복잡한 조건을 뒤에서 if없이 자동으로 가져가게 하자.</h4>
+
+<ul>
+  <li>A OR B OR C 경우의수: <strong>편한 순서대로 ealry return하면서 <code class="language-plaintext highlighter-rouge">마지막 경우의 수만 if없이 자동으로 가져간다</code></strong>
+    <ul>
+      <li>참고: boolean <code class="language-plaintext highlighter-rouge">OR 조건문</code> -&gt; <strong>(이왕이면 잘 걸리는 것을 앞A에 배치해놓고)early true return으로 빨리 끝내기</strong> (&amp;&amp;조건문시 앞에것부터 early false return처럼)</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">(</span><span class="nc">Position</span> <span class="n">beforePosition</span><span class="o">,</span> <span class="nc">Position</span> <span class="n">afterPosition</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Piece</span> <span class="n">beforePiece</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">value</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">beforePosition</span><span class="o">);</span>
+    <span class="c1">// 로직 or : 순서 상관없이 [early return] + 마지막만 자동 경우의수로 가져가기**</span>
+    <span class="c1">// 단순 같은위상의 3가지 경우의 수 -&gt; 순서상관엇이 if A return 로직A; if B return 로직B; (if없이 자동 자동3번째) 로직C;</span>
+    <span class="c1">// A: after에 빈칸이 있을 경우</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">isMoveToBlank</span><span class="o">(</span><span class="n">afterPosition</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">beforePiece</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="n">beforePosition</span><span class="o">,</span> <span class="n">afterPosition</span><span class="o">,</span> <span class="n">moveFunction</span><span class="o">(</span><span class="n">beforePosition</span><span class="o">,</span> <span class="n">afterPosition</span><span class="o">));</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">// B: after에 적이 있을 경우</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">isMoveToOtherCampPiece</span><span class="o">(</span><span class="n">beforePosition</span><span class="o">,</span> <span class="n">afterPosition</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">beforePiece</span><span class="o">.</span><span class="na">capture</span><span class="o">(</span><span class="n">beforePosition</span><span class="o">,</span> <span class="n">afterPosition</span><span class="o">,</span> <span class="n">moveFunction</span><span class="o">(</span><span class="n">beforePosition</span><span class="o">,</span> <span class="n">afterPosition</span><span class="o">));</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">// C: (자동 빈칸도X 적X) -&gt; (자동 after에 같은편이 있을 경우)</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="no">CANT_MOVE_TO_SAME_CAMP</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>A OR B OR C -&gt; A+B OR C로 통합된 경우 -&gt; 마찬가지 마지막 경우의수만 if없이 자동
+    <ul>
+      <li>if OR의 경우의수 2개를 통합했더니 -&gt; <strong>A와 B의 로직이 다르면, 내부에서 다시 나눠야하는 부작용 있었음.</strong>
+</li>
+      <li>A+B통합이 더 크므로, 차라리 C OR A+B로 보고 규모가 작은 것을 앞에 배치시키면 <code class="language-plaintext highlighter-rouge">if문 없이 자동이 편해짐</code>(아래서 함)</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">(</span><span class="nc">Position</span> <span class="n">beforePosition</span><span class="o">,</span> <span class="nc">Position</span> <span class="n">afterPosition</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 빈칸 + 적의 내부로직이 통합됨 OR로 연결됨 - ( A OR B = D) </span>
+        <span class="c1">// D OR C -&gt; if D return 로직D; (자동C)-&gt; if A return(true); 자동B</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">board</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">beforePosition</span><span class="o">).</span><span class="na">isNullPiece</span><span class="o">()</span> <span class="o">||</span> <span class="o">!</span><span class="n">board</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">beforePosition</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">isSameCampWith</span><span class="o">(</span><span class="n">board</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">afterPosition</span><span class="o">)))</span> <span class="o">{</span>
+            <span class="n">movePiece</span><span class="o">(</span><span class="n">beforePosition</span><span class="o">,</span> <span class="n">afterPosition</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span> <span class="c1">// OR는 early (true) return 필수다. 로직이라면 그냥 earyl return;필수</span>
+        <span class="o">}</span>
+        <span class="c1">// (자동C: 같은 진영의 기물인 경우)</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="no">CANT_MOVE_TO_SAME_CAMP</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>A+B OR C라면 <strong>규모가 작은 C를 먼저 ealry return</strong>
+</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Positions</span> <span class="n">positions</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">isAfterPieceSameCamp</span><span class="o">(</span><span class="n">positions</span><span class="o">))</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="no">CANT_MOVE_TO_SAME_CAMP</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="n">movePiece</span><span class="o">(</span><span class="n">positions</span><span class="o">);</span>
 <span class="o">}</span>
 </code></pre></div></div>
 
