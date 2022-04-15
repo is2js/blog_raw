@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      1 min read
+      4 min read
     
 </span></p>
 
@@ -147,7 +147,13 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h4"><a href="#04-에러발생시-다시시작하고-싶은-부분입력부분부터-try로-째려보게-한다---에러안나도-재귀함수는-flag에-걸리기전까지-반복해야하므로-재귀호출부까지-다-째려본다">04 에러발생시 다시시작하고 싶은 부분(입력부분)부터 try{}로 째려보게 한다. -&gt; 에러안나도 재귀함수는 flag에 걸리기전까지 반복해야하므로 재귀호출부까지 다 째려본다</a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h3"><a href="#꼬리재귀">꼬리재귀</a></li>
+<li class="toc-entry toc-h3"><a href="#꼬리재귀">꼬리재귀</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#재귀-사용-이유">재귀 사용 이유</a></li>
+<li class="toc-entry toc-h4"><a href="#재귀-작성법">재귀 작성법</a></li>
+<li class="toc-entry toc-h4"><a href="#꼬리재귀-연습">꼬리재귀 연습</a></li>
+</ul>
+</li>
 </ul><h3 id="반복문while-to-재귀">
 <a class="anchor" href="#%EB%B0%98%EB%B3%B5%EB%AC%B8while-to-%EC%9E%AC%EA%B7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>반복문(while) to 재귀</h3>
 
@@ -258,8 +264,166 @@ window.onload = wrap_img;
 <a class="anchor" href="#%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>꼬리재귀</h3>
 
 <ul>
-  <li>
+  <li><a href="https://velog.io/@eddy_song/you-can-solve-recursion">참고블로그</a></li>
 </ul>
+
+<h4 id="재귀-사용-이유">
+<a class="anchor" href="#%EC%9E%AC%EA%B7%80-%EC%82%AC%EC%9A%A9-%EC%9D%B4%EC%9C%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>재귀 사용 이유</h4>
+
+<ol>
+  <li>반복문보다 <code class="language-plaintext highlighter-rouge">가독성</code>이 좋다
+    <ul>
+      <li>f(n) = f(n - 1) + f(n - 2) ) : f(n)을 구하기 위해선 f(n - 1), f(n - 2)라는 자기자신의 함수를 인자만 바꾸고 다시 호출해야 한다.</li>
+    </ul>
+  </li>
+  <li>변수가 줄어들어 -&gt; 사이드이펙트가 줄어든다.</li>
+  <li>가독성 = 유지보수비용 &gt; 성능유지비용</li>
+  <li>꼬리재귀를 사용하면, 단점인 스택오버플로우를 방지할 수 있다.
+    <ul>
+      <li><strong>실행할 작업을 없애 함수 호출 위치를 저장하지 않도록하여 스택이 넘치는 경우를 방지</strong></li>
+      <li>파일 옵션에서 코드 최적화가 되도록 설정해 주어야 한다.</li>
+      <li>꼬리 재귀는 결국 반복문 실행이기 때문에 일반 재귀 함수에서 발생하는 스택 오버 플로우나 성능저하가 발생하지 않는다.</li>
+    </ul>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">연산을 재귀함수의 인자에서만</code>시행하여</strong>
+    <ul>
+      <li>재귀의 업데이트되는 상태변수(count, n)의 시작값 뿐만 아니라  누적연산 등 연산의 초기값도 같이 가져간다.</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="재귀-작성법">
+<a class="anchor" href="#%EC%9E%AC%EA%B7%80-%EC%9E%91%EC%84%B1%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>재귀 작성법</h4>
+
+<ol>
+  <li>
+    <p>base case를 <code class="language-plaintext highlighter-rouge">input을 0 또는1</code>과 관련지어서 생각한다.</p>
+
+    <ul>
+      <li>
+        <p>문제에서 주어진 요구사항 및 예시를 무시하고 0 또는 1과 관련지어서 생각하자</p>
+
+        <ul>
+          <li>
+<strong>예시로 주어진 인풋값을 보고, 어떻게 이걸 답으로 만들지? 라고 생각하면 안 된다</strong>. 자꾸 함수 실행 순서를 생각하게 되기 때문이다.</li>
+          <li><strong>최대한 재귀적으로 생각하지 않고, 마치 1차원 문제인 것처럼 푸는 게 우리 전략이다.</strong></li>
+        </ul>
+
+        <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  이 때 가장 간단한 인풋값은 0 혹은 1인 경우가 많다.
+        
+  만약 정수 타입이 들어온다면,
+  인풋이 0이나 1인 상황을 생각해보자.
+        
+  만약 배열이 들어온다면?
+  그러면 배열의 길이가 0인 경우(빈 배열), 배열의 길이가 1인 경우를 생각해보자.
+        
+  만약 트리가 들어온다면?
+  인풋값이 nil인 경우, 혹은 자식 노드가 nil(잎 노드)인 경우를 생각해보자.
+        
+  만약 인풋값이 2차원이라면?
+  인풋값이 m x n 그리드 (이차원 배열)이라면,
+  둘 다 0이거나 (m = 0, n = 0),
+  둘 중 하나가 1이거나 (m = 0, n = 1) (m = 1, n = 0)
+  둘 다 1인 (m=1, n=1) 케이스를 생각해보자.
+        
+  0과 1을 사용한 인풋값이 들어왔을 때 즉각 답을 구할 수 있는가?
+  만약 YES라면, 그게 베이스 조건과, 베이스 조건에서의 결과값이 된다.
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="꼬리재귀-연습">
+<a class="anchor" href="#%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80-%EC%97%B0%EC%8A%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>꼬리재귀 연습</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyTest</span> <span class="o">{</span>
+    <span class="c1">//https://velog.io/@eddy_song/you-can-solve-recursion</span>
+    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">""</span><span class="o">)</span>
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">for_loop</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="c1">// 0부터 100까지 누적합</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">sum</span> <span class="o">+=</span> <span class="n">i</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"sum = "</span> <span class="o">+</span> <span class="n">sum</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">""</span><span class="o">)</span>
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">recursive</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">//1. 재귀함수는 일단 메서드를 호출해서 실행하므로, 메서드부터 만든다.</span>
+        <span class="c1">// -&gt; 기본적으로 인자는 시행횟수가 들어가서 +1, -1, /2 등으로 업데이트되서 다음 재귀를 호출한다.</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"recursiveSum(100) = "</span> <span class="o">+</span> <span class="n">recursiveSum</span><span class="o">(</span><span class="mi">100</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="nf">recursiveSum</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//1. 줄어들면서, input과 0과 1과 관련시켜 가장 간단한 base case를 찾아 문제를 풀어 return하기</span>
+        <span class="c1">// 0 -&gt; 0까지의 합 return 0</span>
+        <span class="c1">// 1 -&gt; 1까지의 합 return 0 + 1</span>
+        <span class="c1">// 2 -&gt; return 0 + 1 + 2</span>
+
+        <span class="c1">//2. base값에 가까운 윗단계로 input값 조정 후 input(n)과 관련지어 계산하기</span>
+        <span class="c1">// 3 -&gt; 0 + 1 + 2 + 3  = f(2) + n</span>
+
+        <span class="c1">// 0 + 1 까지의 합에서 base는 n=0이 들어오는 경우이다.</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="nf">recursiveSum</span><span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="n">n</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">""</span><span class="o">)</span>
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">recursive_to_tail</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">//        recursiveSumByTail(100);</span>
+        <span class="c1">//1. 연산(덧셈)의 초기값(0) 또한 파라미터로 건네주어, 인자내에서 연산 후 다음 재귀의 초기값으로 호출되게 한다.</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"recursiveSumByTail(100, 0) = "</span> <span class="o">+</span> <span class="n">recursiveSumByTail</span><span class="o">(</span><span class="mi">100</span><span class="o">,</span> <span class="mi">0</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="nf">recursiveSumByTail</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">n</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">acc</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//2. 종착역에서 반환값이 있었다면, 꼬리재귀에서는 해당재귀호출()자체가 최종 값이 되므로</span>
+        <span class="c1">// -&gt; 최종값이 아니라-&gt; 연산의 결과 파라미터를 찍어주면 된다.</span>
+        <span class="c1">// -&gt; 종착역에서 연산이 이루어지지 않고 [return 연산변수]로 끝나기 때문에, 종착역을 마지막연산n보다 1개 더갔을 때 연산변수를 반환하도록 한다.</span>
+        <span class="c1">//        if (n == 0) {</span>
+        <span class="c1">//            return 0;</span>
+        <span class="c1">//            return acc;</span>
+        <span class="c1">//        }</span>
+
+        <span class="c1">// 종착역을 최종연산지점보다 1개 더 주어서 걸리게하고, 직전까지의 계산 = n최종지점까지의연산 의 결과인 acc를 return한다.</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">acc</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="nf">recursiveSumByTail</span><span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">,</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">n</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">""</span><span class="o">)</span>
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">zero_to_100_sum_by_tail</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">//1. 꼬리재귀는 [횟수관련 초기값] + [연산관련 초기값] 모두를 가지고 들어간다.</span>
+        <span class="c1">// - 0부터 시작하고, 덧셈의 초기값은 0이다</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"recursiveSumReverse(0, 0) = "</span> <span class="o">+</span> <span class="n">recursiveSumReverse</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="nf">recursiveSumReverse</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">count</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">acc</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//2. basecase는 0,1과 관련지어서 input을 만들어 풀어주는데, 여기서 종착역은 99, 100이다.</span>
+        <span class="c1">// -&gt; 꼬리재귀에서는 종착역을  최종지점(100)을 1단계 넘어서 지정해준다.</span>
+        <span class="c1">// -&gt; 직전까지 = 최종지점(100)까지의 [파라미터에서 연산]한 결과물이 [오버지점 파라미터]로 들어왔을 것이니까 그것을 반환해준다.</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">acc</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="c1">//3. 횟수변수 및 연산변수를 [파라미터에서 연산 하여 업데이트]해준다.</span>
+        <span class="c1">// -&gt; 직전까지의 연산값 acc를 현재n번째 (count) 와 관련시켜 연산해주면 된다.</span>
+        <span class="k">return</span> <span class="nf">recursiveSumReverse</span><span class="o">(</span><span class="n">count</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">count</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
 
   </div><a class="u-url" href="/java/try/catch/%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98/%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98/%EC%9E%AC%EC%9E%85%EB%A0%A5/%EC%B2%B4%EC%8A%A4/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/04/04/%EB%B0%98%EB%B3%B5%EB%AC%B8(while)-to-%EC%9E%AC%EA%B7%80(%EA%BC%AC%EB%A6%AC%EB%AC%B4%EB%8A%94).html" hidden></a>
 </article>
