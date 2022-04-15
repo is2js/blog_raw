@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>while 분기속 if break; 리팩토링 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="while 분기속 if break; 리팩토링" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="반복문 속에서 if 종료조건 break;을 처리하기" />
+<meta property="og:description" content="반복문 속에서 if 종료조건 break;을 처리하기" />
+<link rel="canonical" href="blog.chojaeseong.com/java/break/%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81/%EC%B2%B4%EC%8A%A4/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/04/02/while-if-break;%EB%A5%BC-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81-%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/break/%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81/%EC%B2%B4%EC%8A%A4/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/04/02/while-if-break;%EB%A5%BC-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81-%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-04-02T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-04-02T00:00:00-05:00","url":"blog.chojaeseong.com/java/break/%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81/%EC%B2%B4%EC%8A%A4/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/04/02/while-if-break;%EB%A5%BC-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81-%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"while 분기속 if break; 리팩토링","dateModified":"2022-04-02T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/break/%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81/%EC%B2%B4%EC%8A%A4/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/04/02/while-if-break;%EB%A5%BC-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81-%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95.html"},"description":"반복문 속에서 if 종료조건 break;을 처리하기","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">while 분기속 if break; 리팩토링</h1><p class="page-description">반복문 속에서 if 종료조건 break;을 처리하기</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-04-02T00:00:00-05:00" itemprop="datePublished">
+        Apr 2, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      11 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#break">break</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#리팩토링">리팩토링</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#체스">체스</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#whiletrue-if-break-로-먼저-작성하기">while(true) if break; 로 먼저 작성하기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-whileture의-무한반복문에서-break분기부터-작성해보기">01 while(ture)의 무한반복문에서 break;분기부터 작성해보기</a></li>
+<li class="toc-entry toc-h4"><a href="#02-break를-가진-분기를-만들었다면-편하게-나머지-분기들을-늘려도-된다-대신-if-속-break는-flag로-밖에-처리-못하니-while문-맨-끝에-배치하고-위로-채워가자">02 break;를 가진 분기를 만들었다면, 편하게 나머지 분기들을 늘려도 된다. 대신, if 속 break;는 flag로 밖에 처리 못하니, while문 맨 끝에 배치하고, 위로 채워가자?!</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#여기선-if-종료버튼-눌른-뒤-if-특정조건-아니면-break종료를-안한다-게임-결과-출력은-finished상태가-아니라-runningtofinished되는-gameend호출-순간이다">여기선, if 종료버튼 눌른 뒤, if 특정조건 아니면 break;종료를 안한다. (게임 결과 출력은 Finished상태가 아니라, RunningToFinished되는 game.end()호출 순간이다.)</a></li>
+<li class="toc-entry toc-h5"><a href="#state패턴으로서-start명령어가-있다면-ready가-기본이-된다-end만-있을-땐-running을-기본으로-해서-게임-종료되는-상황-연출">state패턴으로서 start명령어가 있다면, ready가 기본이 된다. (end만 있을 땐 running을 기본으로 해서 게임-&gt;종료되는 상황 연출)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#03-아주-만약-모든-분기마다-자기일-끝나고-맨-마지막에-공통로직을-처리해줘야한다면-굳이-continue반복문의-ealry-return로-아래로-내려가는-것을-안-막는다">03 아주 만약, 모든 분기마다 자기일 끝나고 맨 마지막에 공통로직을 처리해줘야한다면, 굳이 continue;(반복문의 ealry return)로 아래로 내려가는 것을 안 막는다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#각-분기-중-택1을-작업후-다-제끼고-내려와-분기없이-실행되는-로직ex-무한반복문-아니라면--while조건속에-들어갈-count변수-업데이트">각 분기 중 택1을 작업후, 다 제끼고 내려와, 분기없이 실행되는 로직(ex&gt; 무한반복문 아니라면  while조건속에 들어갈 count++변수 업데이트?)</a></li>
+<li class="toc-entry toc-h5"><a href="#my-반복문-속-분기이후-공통로직업데이트로직이-있는-남아있다면-continue를-안쓴다-만약--맨-아래-공통로직-없이-분기-택1의-로직만-일어난다면-continue로-아래로-내려가는-것을-막아-검사조차-안되게-하자">my) 반복문 속 분기이후 공통로직/업데이트로직이 있는 남아있다면, continue;를 안쓴다. 만약,  맨 아래 공통로직 없이 분기 택1의 로직만 일어난다면 continue;로 아래로 내려가는 것을 막아 검사조차 안되게 하자.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#whiletrue-반복문-속-if-break의-메서드-추출">while(true) 반복문 속 if break;의 메서드 추출</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-if-종료조건-break-는-메서드-추출을-위해----if-종료조건-flag변수enum-off처리--continue로-while조건문으로-보낸-뒤---while조건문에-flag검사-not-isoff-로-변경한다">01 if 종료조건 break; 는 메서드 추출을 위해  -&gt; if 종료조건 flag변수(Enum) Off처리; + continue;로 while조건문으로 보낸 뒤 -&gt; while조건문에 flag검사( not isOff()? )로 변경한다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#break-대신-돌아가는-로직-객체의-flag변수enum에-end처리를-하고-continue로-아래론-못가고-while문으로-가서-조건-검사를-바로-하게-한다">break; 대신 돌아가는 로직 객체의 flag변수(enum)에 .end()처리를 하고, continue;로 아래론 못가고, while문으로 가서 조건 검사를 바로 하게 한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#02-flag-off-처리후-continue로-올라간-조건문-검사를-while-true-----플래그변수가isoff인지-검사로-변경한다">02 flag .off() 처리후 continue;로 올라간 조건문 검사를 while (true) -&gt;   플래그변수가.isOff()인지 검사로 변경한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#03-if-break---if-flagoff--contine--while-flag-isoff검사-해줬어도-if조건식에-extract-method는-depth를-못-줄인다">03 if break; -&gt; if flagOff + contine + while flag isOff()검사 해줬어도 if조건식에 extract method는 depth를 못 줄인다</a></li>
+<li class="toc-entry toc-h4"><a href="#04-if조건문의-메서드추출은-수동으로-통째로">04 if조건문의 메서드추출은 수동으로 통째로</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#if-문-위에-추출할-메서드를-빨간줄-작성후-생성">if 문 위에 추출할 메서드를 빨간줄 작성후 생성</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#05-복붙으로-코드-옮겨가고-flag변수off-처리후--continue-대신----1-early-return---2-추출메서드를-while문-맨-뒤에-배치하여-flag처리-직후-while조건문-검사하는-continue효과내기">05 복붙으로 코드 옮겨가고 flag변수.Off() 처리후  continue; 대신 -&gt;  1) early return;  + 2) 추출메서드를 while문 맨 뒤에 배치하여 flag처리 직후 while조건문 검사하는 continue;효과내기</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#while문을--재귀로-고치기">while문을  재귀로 고치기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-while속-돌아가는-모든-분기로직들을-통으로-1개-메서드로-추출">01 while속 돌아가는 모든 (분기)로직들을 통으로 1개 메서드로 추출</a></li>
+<li class="toc-entry toc-h4"><a href="#02-while-endflag-조건문--flag-확인문---재귀-속-breakendflag하는-종착역으로서-먼저-if-early-return로-정의해주기">02 while !EndFlag 조건문 = flag 확인문 -&gt; 재귀 속 break(EndFlag)하는 종착역으로서 먼저 if early return로 정의해주기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#재귀함수는-종착역인-if-flag-isend-return이--반복문의-break와-동일하게-반복을-제거한다">재귀함수는 종착역인 if flag isEND() :return;이  반복문의 break와 동일하게 반복을 제거한다</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#03-반복되던-로직의-if-return종착역까지-완성됬으면---함수-끝날-때-자신메서드-부르기">03 반복되던 로직의 if return종착역까지 완성됬으면 -&gt; 함수 끝날 때 자신(메서드) 부르기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#내부-if-return의-종착역만-있다면-편하게-마지막에-한번-더-호출하여-반복하는-재귀함수를-만들-수-있다">내부 if return의 종착역만 있다면, 편하게 마지막에 한번 더 호출하여 반복하는 재귀함수를 만들 수 있다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#04-while-to-재귀로-만든-이유----inputview가-포함된입력받는-것부터-시작하는-로직은-try로-살펴보는-시작이-input부터이면서--catch시-다시-input부터-시작하도록-재귀함수형태를-만들어하므로">04 while to 재귀로 만든 이유 -&gt;  inputView가 포함된&amp;&amp;입력받는 것부터 시작하는 로직은 try로 살펴보는 시작이 input부터이면서 &amp;&amp; catch시 다시 input부터 시작하도록 재귀함수형태를 만들어하므로</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#01--1번만-성공적으로-input받는-로직과-다르게-try-끝에-성공했어도-반복되기-위해-재귀호출을-한다-1번만-호출되려면-catch로-실패시-재귀호출하여-시도함">01  1번만 성공적으로 input받는 로직과 다르게 try 끝에 성공했어도 반복되기 위해 재귀호출을 한다. 1번만 호출되려면 catch로 실패시 재귀호출하여 시도함</a></li>
+<li class="toc-entry toc-h5"><a href="#02-catch에서-실패한-경우-input부터-다시-받기-위한-재귀호출-vs-try끝에-thr없는-성공했는데도-반복을-위한-재귀호출">02 catch에서 실패한 경우 input부터 다시 받기 위한 재귀호출 vs try끝에 thr없는 성공했는데도 반복을 위한 재귀호출</a></li>
+<li class="toc-entry toc-h5"><a href="#my-input부터-시작하는-로직을-재귀함수로-만들면-try-input부터-살펴보는-중에-실패하면---catch에서-재귀호출하여-다시-input부터-시작할-수-있다">my) input부터 시작하는 로직을 재귀함수로 만들면, try input부터 살펴보는 중에 실패하면 -&gt; catch에서 재귀호출하여 다시 input부터 시작할 수 있다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#enum과-명령어-문자열-캡슐화--외부input시-검증까지">Enum과 명령어 문자열 캡슐화 + 외부input시 검증까지</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-갯수가-정해진-input명령어들문자열상수은-분기비교에-사용시-enum객체필드에-캡슐화해놓고-사용하기">01 갯수가 정해진 input명령어들(문자열상수)은 분기비교에 사용시 enum객체필드에 캡슐화해놓고 사용하기</a></li>
+<li class="toc-entry toc-h4"><a href="#02-일단은-분기-속-input문자열-vs-비교문자열---enum-from정펙매-input---vs-enum객체로-바꿔서-비교하기">02 일단은 분기 속 input문자열 vs 비교문자열 -&gt; Enum from정펙매( input )  VS enum객체로 바꿔서 비교하기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#my-컨트롤러에서-상수-쓰지말고input을-정펙매에-넣어-찾아진-enum객체-vs--상수캡슐화한-enum으로-비교--enum은-스태틱변수라-메모리값-1개---equals-안써도-된다">my) 컨트롤러에서 상수 쓰지말고input을 정펙매에 넣어 찾아진 ENum객체 vs  상수캡슐화한 enum으로 비교 + enum은 스태틱변수라 메모리값 1개 -&gt; equals 안써도 된다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#03-외부-input으로-찾는-enum정펙매은-기본적으로-이넘객체들에-캡슐화되어매핑된-문자열들로---contains-thr-검증이-자동-되며--외부input-nullorempty를-여기서도-할-수-있다">03 외부 input으로 찾는 Enum정펙매은 기본적으로 이넘객체들에 캡슐화되어매핑된 문자열들로 -&gt; contains thr 검증이 자동 되며 + 외부input NullOrEmpty를 여기서도 할 수 있다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#enum-외부input-검증01---기본적으로-filter사용--contains-검증----filter에서-외부input이-내부캡슐화된-문자열에-속하지-않아-못찾으면-orelsethrow에서-에러thr나게-됨">enum 외부input 검증01 - 기본적으로 filter사용 == contains 검증  :  filter에서 외부input이 내부캡슐화된 문자열에 속하지 않아 못찾으면 orElseThrow에서 에러thr나게 됨.</a></li>
+<li class="toc-entry toc-h5"><a href="#enum-외부input-검증02---추가적으로-checknullorempty---찾아들어가기전에-외부-input의-nullorempty검사를-정펙매-여기서-해줄-수-있다--왜냐-재귀에서-input부터-처다보고-있는-상황이니까-반복됨">enum 외부input 검증02 - 추가적으로 checkNullOrEmpty  : 찾아들어가기전에 외부 input의 nullOrEmpty검사를 정펙매 여기서 해줄 수 있다.  왜냐? 재귀에서 input부터 처다보고 있는 상황이니까 반복됨.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#외부input으로-찾는--enum의-filter에-정규식을-쓰면">외부input으로 찾는  Enum의 filter에 정규식을 쓰면?</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-equals는-patternmatches에-포함되며-일치를-포함하여--일치를-포함하여-패턴을-가지는-문자열도-처리">01 equals()는 Pattern.matches()에 포함되며 일치를 포함하여  일치를 포함하여 패턴을 가지는 문자열도 처리</a></li>
+<li class="toc-entry toc-h4"><a href="#02-equals---patternmatches로-교환했다면-nullorempty-검증도-패턴매칭에-포함된다">02 equals() -&gt; Pattern.matches()로 교환했다면 nullOrempty 검증도 패턴매칭에 포함된다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#enum-외부input-검증03---pattermatches를-쓸-경우--nullorempty검증도-매칭안되는-것에-걸려-검증된다">enum 외부input 검증03 - Patter.matches()를 쓸 경우 : nullOrEmpty검증도 매칭안되는 것에 걸려 검증된다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#enum으로-분기-제거까지-적용하려면">enum으로 분기 제거까지 적용하려면?</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#외부input--정펙매로-해당-enum객체---해당-분기로직을-분기별-해당enum-field에-함수형인터페이스-필드--전략객체들-생성자---호출까지-따로-or-함수형인터페이스-1개-지정---람다식-가져가야한다">외부input + 정펙매로 해당 enum객체 -&gt; 해당 분기로직을 분기별 해당enum field에 함수형인터페이스 필드-&gt; 전략객체들 생성자 -&gt; 호출까지 따로 or 함수형인터페이스 1개 지정 -&gt; 람다식 가져가야한다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#01-분기-제거를-가정하려면--추상화된-객체인페orenum메서드로-빨간줄을-만든다">01 분기 제거를 가정하려면,  추상화된 객체(인페orEnum).메서드()로 빨간줄을 만든다.</a></li>
+<li class="toc-entry toc-h5"><a href="#01-if-정펙매-input---예상enum의-분기마다-알아서-작동하게-하려면-분기내-로직을-모두-해당enum의-field로-가져올-수-있는지-봐야한다">01 if 정펙매( input ) == 예상Enum의 분기마다 알아서 작동하게 하려면, 분기내 로직을 모두 해당Enum의 field로 가져올 수 있는지 봐야한다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h3 id="whiletrue-if-break-로-먼저-작성하기">
+<a class="anchor" href="#whiletrue-if-break-%EB%A1%9C-%EB%A8%BC%EC%A0%80-%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>while(true) if break; 로 먼저 작성하기</h3>
+
+<h4 id="01-whileture의-무한반복문에서-break분기부터-작성해보기">
+<a class="anchor" href="#01-whileture%EC%9D%98-%EB%AC%B4%ED%95%9C%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%97%90%EC%84%9C-break%EB%B6%84%EA%B8%B0%EB%B6%80%ED%84%B0-%EC%9E%91%EC%84%B1%ED%95%B4%EB%B3%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 while(ture)의 무한반복문에서 break;분기부터 작성해보기</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyApplication</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 0. input객체 + 메인로직 특정객체 미리 만들어두기 </span>
+        <span class="kd">final</span> <span class="nc">InputView</span> <span class="n">inputView</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">InputView</span><span class="o">();</span>
+        <span class="kd">final</span> <span class="n">특정객체</span> <span class="n">특정객체</span> <span class="o">=</span> <span class="k">new</span> <span class="n">특정객체</span><span class="o">();</span>
+
+        <span class="c1">// 1. 일단 while(true) {} 로 돌아가면서 break부터 생각해본다.</span>
+        <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// 1-1. 매번 받는 입력도 돌아가야한다. </span>
+            <span class="kd">final</span> <span class="nc">String</span> <span class="n">inputCommand</span> <span class="o">=</span> <span class="n">inputView</span><span class="o">.</span><span class="na">inputCommand</span><span class="o">();</span>
+            <span class="c1">// 1-2. 가장 간단한 경우부터 생각해본다. 어차피 if break; if continue; 일듯 싶어서</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"end"</span><span class="o">))</span> <span class="o">{</span>
+                
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">특정객체</span> <span class="o">{</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyApplication</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">InputView</span> <span class="n">inputView</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">InputView</span><span class="o">();</span>
+        <span class="kd">final</span> <span class="n">특정객체</span> <span class="n">특정객체</span> <span class="o">=</span> <span class="k">new</span> <span class="n">특정객체</span><span class="o">();</span>
+
+        <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">final</span> <span class="nc">String</span> <span class="n">inputCommand</span> <span class="o">=</span> <span class="n">inputView</span><span class="o">.</span><span class="na">inputCommand</span><span class="o">();</span>
+            <span class="c1">// 1-3. if 종료버튼 + if 특정객체 종료조건 까지 걸려서 멈춘다고 한다.</span>
+            <span class="c1">// -&gt; end를 눌럿을 때, ready / running / finished 중 finished 상태만 -&gt; 로직종료 + 입력도 종료(break;) </span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"end"</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">특정객체</span><span class="o">.</span><span class="na">isNotRunning</span><span class="o">())</span> <span class="o">{</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">특정객체</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isNotRunning</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="02-break를-가진-분기를-만들었다면-편하게-나머지-분기들을-늘려도-된다-대신-if-속-break는-flag로-밖에-처리-못하니-while문-맨-끝에-배치하고-위로-채워가자">
+<a class="anchor" href="#02-break%EB%A5%BC-%EA%B0%80%EC%A7%84-%EB%B6%84%EA%B8%B0%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%97%88%EB%8B%A4%EB%A9%B4-%ED%8E%B8%ED%95%98%EA%B2%8C-%EB%82%98%EB%A8%B8%EC%A7%80-%EB%B6%84%EA%B8%B0%EB%93%A4%EC%9D%84-%EB%8A%98%EB%A0%A4%EB%8F%84-%EB%90%9C%EB%8B%A4-%EB%8C%80%EC%8B%A0-if-%EC%86%8D-break%EB%8A%94-flag%EB%A1%9C-%EB%B0%96%EC%97%90-%EC%B2%98%EB%A6%AC-%EB%AA%BB%ED%95%98%EB%8B%88-while%EB%AC%B8-%EB%A7%A8-%EB%81%9D%EC%97%90-%EB%B0%B0%EC%B9%98%ED%95%98%EA%B3%A0-%EC%9C%84%EB%A1%9C-%EC%B1%84%EC%9B%8C%EA%B0%80%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 break;를 가진 분기를 만들었다면, 편하게 나머지 분기들을 늘려도 된다. 대신, if 속 break;는 flag로 밖에 처리 못하니, while문 맨 끝에 배치하고, 위로 채워가자?!</h4>
+
+<h5 id="여기선-if-종료버튼-눌른-뒤-if-특정조건-아니면-break종료를-안한다-게임-결과-출력은-finished상태가-아니라-runningtofinished되는-gameend호출-순간이다">
+<a class="anchor" href="#%EC%97%AC%EA%B8%B0%EC%84%A0-if-%EC%A2%85%EB%A3%8C%EB%B2%84%ED%8A%BC-%EB%88%8C%EB%A5%B8-%EB%92%A4-if-%ED%8A%B9%EC%A0%95%EC%A1%B0%EA%B1%B4-%EC%95%84%EB%8B%88%EB%A9%B4-break%EC%A2%85%EB%A3%8C%EB%A5%BC-%EC%95%88%ED%95%9C%EB%8B%A4-%EA%B2%8C%EC%9E%84-%EA%B2%B0%EA%B3%BC-%EC%B6%9C%EB%A0%A5%EC%9D%80-finished%EC%83%81%ED%83%9C%EA%B0%80-%EC%95%84%EB%8B%88%EB%9D%BC-runningtofinished%EB%90%98%EB%8A%94-gameend%ED%98%B8%EC%B6%9C-%EC%88%9C%EA%B0%84%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>여기선, if 종료버튼 눌른 뒤, if 특정조건 아니면 break;종료를 안한다. (게임 결과 출력은 Finished상태가 아니라, <code class="language-plaintext highlighter-rouge">RunningToFinished되는 game.end()호출 순간</code>이다.)</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyApplication</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">InputView</span> <span class="n">inputView</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">InputView</span><span class="o">();</span>
+        <span class="kd">final</span> <span class="n">특정객체</span> <span class="n">특정객체</span> <span class="o">=</span> <span class="k">new</span> <span class="n">특정객체</span><span class="o">();</span>
+
+        <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">final</span> <span class="nc">String</span> <span class="n">inputCommand</span> <span class="o">=</span> <span class="n">inputView</span><span class="o">.</span><span class="na">inputCommand</span><span class="o">();</span>
+            <span class="c1">// 1-3. if에 if 특정객체에 조건 까지 걸려서 멈춘다고 한다.</span>
+            <span class="c1">// -&gt; end를 눌럿을 때, ready / running / finished 중 finished 상태만 -&gt; 로직종료 + 입력도 종료(break;)</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"end"</span><span class="o">))</span> <span class="o">{</span>
+                <span class="c1">// 1-4-1. end눌렀을 때   상태3개 중 ready/running/finished , 바로 finished 상태면 바로 종료?? ready -&gt; 바로 종료</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">특정객체</span><span class="o">.</span><span class="na">isNotRunning</span><span class="o">())</span> <span class="o">{</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="o">}</span>
+                <span class="c1">//1-4-2.  break;로 바로 종료(ready/finished)의 배반인 running 상태</span>
+                <span class="c1">//  -&gt;  if early return처럼 early break 아래부분도 [if의 배반]이다.</span>
+                <span class="c1">//  -&gt; end 눌렀는데 아직 특정객체가 Running 중 이라면?</span>
+                <span class="c1">// (1) running중인 정보(board)를 가지고 finished상태로 만들도록 명령한 뒤</span>
+                <span class="n">특정객체</span><span class="o">.</span><span class="na">end</span><span class="o">();</span>
+                <span class="c1">// (2) 이 때만(ready(X), finsihed(X) running to finished by .end() )시에만  게임결과를 출력한다.</span>
+                <span class="c1">// my) running -&gt; finished 순간을 캐취해서 게임결과를 출력해줘야한다. (가만히 있는 finished는 출력할 필요도 없이 종료)</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"게임 하다가 끝났기 때문에, 게임 결과를 출력합니다."</span><span class="o">);</span>
+            <span class="o">}</span>
+
+
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">특정객체</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="nc">String</span> <span class="n">state</span><span class="o">;</span>
+
+        <span class="kd">public</span> <span class="n">특정객체</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">state</span> <span class="o">=</span> <span class="s">"running"</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isNotRunning</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"running"</span><span class="o">))</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"running상태입니다."</span><span class="o">);</span>
+                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"ready or finished상태입니다."</span><span class="o">);</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span> <span class="c1">// ready나 finished상태</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">end</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"상태가 running -&gt; finished"</span><span class="o">);</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">state</span> <span class="o">=</span> <span class="s">"finished"</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="state패턴으로서-start명령어가-있다면-ready가-기본이-된다-end만-있을-땐-running을-기본으로-해서-게임-종료되는-상황-연출">
+<a class="anchor" href="#state%ED%8C%A8%ED%84%B4%EC%9C%BC%EB%A1%9C%EC%84%9C-start%EB%AA%85%EB%A0%B9%EC%96%B4%EA%B0%80-%EC%9E%88%EB%8B%A4%EB%A9%B4-ready%EA%B0%80-%EA%B8%B0%EB%B3%B8%EC%9D%B4-%EB%90%9C%EB%8B%A4-end%EB%A7%8C-%EC%9E%88%EC%9D%84-%EB%95%90-running%EC%9D%84-%EA%B8%B0%EB%B3%B8%EC%9C%BC%EB%A1%9C-%ED%95%B4%EC%84%9C-%EA%B2%8C%EC%9E%84-%EC%A2%85%EB%A3%8C%EB%90%98%EB%8A%94-%EC%83%81%ED%99%A9-%EC%97%B0%EC%B6%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>state패턴으로서 start명령어가 있다면, ready가 기본이 된다. (end만 있을 땐 running을 기본으로 해서 게임-&gt;종료되는 상황 연출)</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyApplication</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">InputView</span> <span class="n">inputView</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">InputView</span><span class="o">();</span>
+        <span class="kd">final</span> <span class="n">특정객체</span> <span class="n">특정객체</span> <span class="o">=</span> <span class="k">new</span> <span class="n">특정객체</span><span class="o">();</span>
+
+        <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">final</span> <span class="nc">String</span> <span class="n">inputCommand</span> <span class="o">=</span> <span class="n">inputView</span><span class="o">.</span><span class="na">inputCommand</span><span class="o">();</span>
+
+            <span class="c1">//1-5-1. start명령어를 받는 순간부터, ready가 default이며, start에 의해 ready to Running으로 넘어간다.</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"end"</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">특정객체</span><span class="o">.</span><span class="na">isNotRunning</span><span class="o">())</span> <span class="o">{</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="o">}</span>
+                <span class="c1">// (1) running중인 정보(board)를 가지고 finished상태로 만들도록 명령한 뒤</span>
+                <span class="n">특정객체</span><span class="o">.</span><span class="na">end</span><span class="o">();</span>
+                <span class="c1">// (2) 이 때만(ready(X), finsihed(X) running to finished by .end() )시에만  게임결과를 출력한다.</span>
+                <span class="c1">// my) running -&gt; finished 순간을 캐취해서 게임결과를 출력해줘야한다. (가만히 있는 finished는 출력할 필요도 없이 종료)</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"게임 하다가 끝났기 때문에, 게임 결과를 출력합니다."</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">특정객체</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="nc">String</span> <span class="n">state</span><span class="o">;</span>
+
+        <span class="kd">public</span> <span class="n">특정객체</span><span class="o">()</span> <span class="o">{</span>
+<span class="c1">//            this.state = "running";</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">state</span> <span class="o">=</span> <span class="s">"ready"</span><span class="o">;</span> <span class="c1">// 1-5-2. start명령어가 있다면, ready가 기본이 된다.</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isNotRunning</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">state</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"running"</span><span class="o">))</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"running상태입니다."</span><span class="o">);</span>
+                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"ready or finished상태입니다."</span><span class="o">);</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span> <span class="c1">// ready나 finished상태</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">end</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"상태가 running -&gt; finished"</span><span class="o">);</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">state</span> <span class="o">=</span> <span class="s">"finished"</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="03-아주-만약-모든-분기마다-자기일-끝나고-맨-마지막에-공통로직을-처리해줘야한다면-굳이-continue반복문의-ealry-return로-아래로-내려가는-것을-안-막는다">
+<a class="anchor" href="#03-%EC%95%84%EC%A3%BC-%EB%A7%8C%EC%95%BD-%EB%AA%A8%EB%93%A0-%EB%B6%84%EA%B8%B0%EB%A7%88%EB%8B%A4-%EC%9E%90%EA%B8%B0%EC%9D%BC-%EB%81%9D%EB%82%98%EA%B3%A0-%EB%A7%A8-%EB%A7%88%EC%A7%80%EB%A7%89%EC%97%90-%EA%B3%B5%ED%86%B5%EB%A1%9C%EC%A7%81%EC%9D%84-%EC%B2%98%EB%A6%AC%ED%95%B4%EC%A4%98%EC%95%BC%ED%95%9C%EB%8B%A4%EB%A9%B4-%EA%B5%B3%EC%9D%B4-continue%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%98-ealry-return%EB%A1%9C-%EC%95%84%EB%9E%98%EB%A1%9C-%EB%82%B4%EB%A0%A4%EA%B0%80%EB%8A%94-%EA%B2%83%EC%9D%84-%EC%95%88-%EB%A7%89%EB%8A%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 아주 만약, 모든 분기마다 자기일 끝나고 맨 마지막에 공통로직을 처리해줘야한다면, 굳이 continue;(반복문의 ealry return)로 아래로 내려가는 것을 안 막는다.</h4>
+
+<h5 id="각-분기-중-택1을-작업후-다-제끼고-내려와-분기없이-실행되는-로직ex-무한반복문-아니라면--while조건속에-들어갈-count변수-업데이트">
+<a class="anchor" href="#%EA%B0%81-%EB%B6%84%EA%B8%B0-%EC%A4%91-%ED%83%9D1%EC%9D%84-%EC%9E%91%EC%97%85%ED%9B%84-%EB%8B%A4-%EC%A0%9C%EB%81%BC%EA%B3%A0-%EB%82%B4%EB%A0%A4%EC%99%80-%EB%B6%84%EA%B8%B0%EC%97%86%EC%9D%B4-%EC%8B%A4%ED%96%89%EB%90%98%EB%8A%94-%EB%A1%9C%EC%A7%81ex-%EB%AC%B4%ED%95%9C%EB%B0%98%EB%B3%B5%EB%AC%B8-%EC%95%84%EB%8B%88%EB%9D%BC%EB%A9%B4--while%EC%A1%B0%EA%B1%B4%EC%86%8D%EC%97%90-%EB%93%A4%EC%96%B4%EA%B0%88-count%EB%B3%80%EC%88%98-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>각 분기 중 택1을 작업후, 다 제끼고 내려와, 분기없이 실행되는 로직(ex&gt; 무한반복문 아니라면  while조건속에 들어갈 count++변수 업데이트?)</h5>
+
+<h5 id="my-반복문-속-분기이후-공통로직업데이트로직이-있는-남아있다면-continue를-안쓴다-만약--맨-아래-공통로직-없이-분기-택1의-로직만-일어난다면-continue로-아래로-내려가는-것을-막아-검사조차-안되게-하자">
+<a class="anchor" href="#my-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EC%86%8D-%EB%B6%84%EA%B8%B0%EC%9D%B4%ED%9B%84-%EA%B3%B5%ED%86%B5%EB%A1%9C%EC%A7%81%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EB%A1%9C%EC%A7%81%EC%9D%B4-%EC%9E%88%EB%8A%94-%EB%82%A8%EC%95%84%EC%9E%88%EB%8B%A4%EB%A9%B4-continue%EB%A5%BC-%EC%95%88%EC%93%B4%EB%8B%A4-%EB%A7%8C%EC%95%BD--%EB%A7%A8-%EC%95%84%EB%9E%98-%EA%B3%B5%ED%86%B5%EB%A1%9C%EC%A7%81-%EC%97%86%EC%9D%B4-%EB%B6%84%EA%B8%B0-%ED%83%9D1%EC%9D%98-%EB%A1%9C%EC%A7%81%EB%A7%8C-%EC%9D%BC%EC%96%B4%EB%82%9C%EB%8B%A4%EB%A9%B4-continue%EB%A1%9C-%EC%95%84%EB%9E%98%EB%A1%9C-%EB%82%B4%EB%A0%A4%EA%B0%80%EB%8A%94-%EA%B2%83%EC%9D%84-%EB%A7%89%EC%95%84-%EA%B2%80%EC%82%AC%EC%A1%B0%EC%B0%A8-%EC%95%88%EB%90%98%EA%B2%8C-%ED%95%98%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) 반복문 속 분기이후 공통로직/업데이트로직이 있는 남아있다면, continue;를 안쓴다. 만약,  <code class="language-plaintext highlighter-rouge">맨 아래 공통로직 없이 분기 택1의 로직만 일어난다면 continue;로 아래로 내려가는 것을 막아 검사조차 안되게 하자.</code>
+</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">InputView</span> <span class="n">inputView</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">InputView</span><span class="o">();</span>
+    <span class="kd">final</span> <span class="n">특정객체</span> <span class="n">특정객체</span> <span class="o">=</span> <span class="k">new</span> <span class="n">특정객체</span><span class="o">();</span>
+
+    <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">String</span> <span class="n">inputCommand</span> <span class="o">=</span> <span class="n">inputView</span><span class="o">.</span><span class="na">inputCommand</span><span class="o">();</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"start"</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">특정객체</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"게임을 시작합니다."</span><span class="o">);</span>
+            <span class="c1">//continue; // while continue 여부는 분기외에 아래 달릴 로직을 거치느냐 안거치느냐 차이</span>
+            <span class="c1">// -&gt; [공통로직 ]있으면 continue를 빼고 거치게 하지만, 택1의 분기라면 continue;를 달아주자.</span>
+            <span class="c1">// -&gt; 지금은 맨 아래 print가 공통로직이라고 치고 있으니 continue;를 제거하자.</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"end"</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">특정객체</span><span class="o">.</span><span class="na">isNotRunning</span><span class="o">())</span> <span class="o">{</span>
+                <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">특정객체</span><span class="o">.</span><span class="na">end</span><span class="o">();</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"게임 하다가 끝났기 때문에, 게임 결과를 출력합니다."</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 공통로직을 매 입력-회전마다 거치는 경우에는 continue;를 쓰면 안된다.</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"공통로직입니다. 한바퀴돌고 재입력받기 직전입니다."</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="whiletrue-반복문-속-if-break의-메서드-추출">
+<a class="anchor" href="#whiletrue-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EC%86%8D-if-break%EC%9D%98-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%B6%94%EC%B6%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>while(true) 반복문 속 <code class="language-plaintext highlighter-rouge">if break;</code>의 메서드 추출</h3>
+
+<h4 id="01-if-종료조건-break-는-메서드-추출을-위해----if-종료조건-flag변수enum-off처리--continue로-while조건문으로-보낸-뒤---while조건문에-flag검사-not-isoff-로-변경한다">
+<a class="anchor" href="#01-if-%EC%A2%85%EB%A3%8C%EC%A1%B0%EA%B1%B4-break-%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%B6%94%EC%B6%9C%EC%9D%84-%EC%9C%84%ED%95%B4----if-%EC%A2%85%EB%A3%8C%EC%A1%B0%EA%B1%B4-flag%EB%B3%80%EC%88%98enum-off%EC%B2%98%EB%A6%AC--continue%EB%A1%9C-while%EC%A1%B0%EA%B1%B4%EB%AC%B8%EC%9C%BC%EB%A1%9C-%EB%B3%B4%EB%82%B8-%EB%92%A4---while%EC%A1%B0%EA%B1%B4%EB%AC%B8%EC%97%90-flag%EA%B2%80%EC%82%AC-not-isoff-%EB%A1%9C-%EB%B3%80%EA%B2%BD%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 if 종료조건 <code class="language-plaintext highlighter-rouge">break;</code> 는 메서드 추출을 위해  -&gt; if 종료조건 <code class="language-plaintext highlighter-rouge">flag변수(Enum) Off처리; + continue;</code>로 while조건문으로 보낸 뒤 -&gt; <code class="language-plaintext highlighter-rouge">while조건문에 flag검사( not isOff()? )</code>로 변경한다.</h4>
+
+<h5 id="break-대신-돌아가는-로직-객체의-flag변수enum에-end처리를-하고-continue로-아래론-못가고-while문으로-가서-조건-검사를-바로-하게-한다">
+<a class="anchor" href="#break-%EB%8C%80%EC%8B%A0-%EB%8F%8C%EC%95%84%EA%B0%80%EB%8A%94-%EB%A1%9C%EC%A7%81-%EA%B0%9D%EC%B2%B4%EC%9D%98-flag%EB%B3%80%EC%88%98enum%EC%97%90-end%EC%B2%98%EB%A6%AC%EB%A5%BC-%ED%95%98%EA%B3%A0-continue%EB%A1%9C-%EC%95%84%EB%9E%98%EB%A1%A0-%EB%AA%BB%EA%B0%80%EA%B3%A0-while%EB%AC%B8%EC%9C%BC%EB%A1%9C-%EA%B0%80%EC%84%9C-%EC%A1%B0%EA%B1%B4-%EA%B2%80%EC%82%AC%EB%A5%BC-%EB%B0%94%EB%A1%9C-%ED%95%98%EA%B2%8C-%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a><code class="language-plaintext highlighter-rouge">break;</code> 대신 돌아가는 로직 객체의 <code class="language-plaintext highlighter-rouge">flag변수(enum)에 .end()</code>처리를 하고, <code class="language-plaintext highlighter-rouge">continue;</code>로 아래론 못가고, while문으로 가서 조건 검사를 바로 하게 한다.</h5>
+
+<ul>
+  <li>
+    <p>그림에선 boolean변수에 true/false를 주지만 <strong>캡슐화 및 확장성을 고려하여 enum으로 flag변수를 가지게 한다.</strong></p>
+
+    <ul>
+      <li>메인로직을 담당하는 객체에 <code class="language-plaintext highlighter-rouge">flag(enum)변수를 항상 변할수있는 상태값</code>으로 가지게 한다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220330220416263.png" alt="image-20220330220416263"></p>
+
+    <p>​	<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220330215932336.png" alt="image-20220330215932336">
+  ​	<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220330220001144.png" alt="image-20220330220001144"></p>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">String</span> <span class="n">inputCommand</span> <span class="o">=</span> <span class="n">inputView</span><span class="o">.</span><span class="na">inputCommand</span><span class="o">();</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"start"</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">특정객체</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"게임을 시작합니다."</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"end"</span><span class="o">))</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">특정객체</span><span class="o">.</span><span class="na">isNotRunning</span><span class="o">())</span> <span class="o">{</span>
+            <span class="c1">//break;</span>
+            <span class="n">특정객체</span><span class="o">.</span><span class="na">exit</span><span class="o">();</span> <span class="c1">// flag isEnd = true;</span>
+            <span class="k">continue</span><span class="o">;</span> <span class="c1">// break; 대신 밑으로 못내려가게 일단 막아주자.</span>
+        <span class="o">}</span>
+        <span class="n">특정객체</span><span class="o">.</span><span class="na">end</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"게임 하다가 끝났기 때문에, 게임 결과를 출력합니다."</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"status"</span><span class="o">))</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"갑자기 결과를 출력합니다. "</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">특정객체</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">state</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">isEnd</span><span class="o">;</span>
+
+    <span class="c1">//...</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">exit</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">isEnd</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="02-flag-off-처리후-continue로-올라간-조건문-검사를-while-true-----플래그변수가isoff인지-검사로-변경한다">
+<a class="anchor" href="#02-flag-off-%EC%B2%98%EB%A6%AC%ED%9B%84-continue%EB%A1%9C-%EC%98%AC%EB%9D%BC%EA%B0%84-%EC%A1%B0%EA%B1%B4%EB%AC%B8-%EA%B2%80%EC%82%AC%EB%A5%BC-while-true-----%ED%94%8C%EB%9E%98%EA%B7%B8%EB%B3%80%EC%88%98%EA%B0%80isoff%EC%9D%B8%EC%A7%80-%EA%B2%80%EC%82%AC%EB%A1%9C-%EB%B3%80%EA%B2%BD%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 flag .off() 처리후 continue;로 올라간 조건문 검사를 <code class="language-plaintext highlighter-rouge">while (true)</code> -&gt;   <code class="language-plaintext highlighter-rouge">플래그변수가.isOff()인지 검사</code>로 변경한다.</h4>
+
+<ul>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">flag isEnd = true;</code> 하는 순간, 다 <code class="language-plaintext highlighter-rouge">continue</code> (</strong>or return되서 ) <strong>while 조건문으로 보내야한다</strong>
+    <ul>
+      <li><strong>조건문에서는 flag를 확인하여 입력과 반복을 종료시킨다</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220330220812721.png" alt="image-20220330220812721"></p>
+
+<ul>
+  <li>
+<strong>반복문은 <code class="language-plaintext highlighter-rouge">break;였던 자리가 flag에 걸려서 종료</code>되기 전까지 돌아야한다</strong>
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">!</code>를 달아준다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220330220852278.png" alt="image-20220330220852278"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyApplication</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">InputView</span> <span class="n">inputView</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">InputView</span><span class="o">();</span>
+        <span class="kd">final</span> <span class="n">특정객체</span> <span class="n">특정객체</span> <span class="o">=</span> <span class="k">new</span> <span class="n">특정객체</span><span class="o">();</span>
+
+        <span class="c1">//while (true) {</span>
+        <span class="k">while</span> <span class="o">(!</span><span class="n">특정객체</span><span class="o">.</span><span class="na">isEnd</span><span class="o">())</span> <span class="o">{</span>
+            <span class="kd">final</span> <span class="nc">String</span> <span class="n">inputCommand</span> <span class="o">=</span> <span class="n">inputView</span><span class="o">.</span><span class="na">inputCommand</span><span class="o">();</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"start"</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">특정객체</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"게임을 시작합니다."</span><span class="o">);</span>
+            <span class="o">}</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"end"</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">특정객체</span><span class="o">.</span><span class="na">isNotRunning</span><span class="o">())</span> <span class="o">{</span>
+                    <span class="c1">//break;</span>
+                    <span class="n">특정객체</span><span class="o">.</span><span class="na">exit</span><span class="o">();</span> <span class="c1">// flag isEnd = true;</span>
+                    <span class="k">continue</span><span class="o">;</span> <span class="c1">// break; 대신 밑으로 못내려가게 일단 막아주자.</span>
+                <span class="o">}</span>
+                <span class="n">특정객체</span><span class="o">.</span><span class="na">end</span><span class="o">();</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"게임 하다가 끝났기 때문에, 게임 결과를 출력합니다."</span><span class="o">);</span>
+            <span class="o">}</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"status"</span><span class="o">))</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"갑자기 결과를 출력합니다. "</span><span class="o">);</span>
+            <span class="o">}</span>
+
+        <span class="o">}</span>
+
+    <span class="o">}</span>
+
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">특정객체</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="nc">String</span> <span class="n">state</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">isEnd</span><span class="o">;</span>
+
+        <span class="c1">//...</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isEnd</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">isEnd</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="03-if-break---if-flagoff--contine--while-flag-isoff검사-해줬어도-if조건식에-extract-method는-depth를-못-줄인다">
+<a class="anchor" href="#03-if-break---if-flagoff--contine--while-flag-isoff%EA%B2%80%EC%82%AC-%ED%95%B4%EC%A4%AC%EC%96%B4%EB%8F%84-if%EC%A1%B0%EA%B1%B4%EC%8B%9D%EC%97%90-extract-method%EB%8A%94-depth%EB%A5%BC-%EB%AA%BB-%EC%A4%84%EC%9D%B8%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 <code class="language-plaintext highlighter-rouge">if break;</code> -&gt; <code class="language-plaintext highlighter-rouge">if flagOff + contine + while flag isOff()검사</code> 해줬어도 if조건식에 extract method는 <code class="language-plaintext highlighter-rouge">depth를 못 줄인다</code>
+</h4>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">if + if</code>전체를 추출하려고 하면,</p>
+
+    <ul>
+      <li><strong>바깥if의 <code class="language-plaintext highlighter-rouge">boolean문만  파라미터 추출 -&gt; t/f 메서드로 추출</code>하여 통째로 넘어간다</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220330222235402.png" alt="image-20220330222235402"></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">내부if</code> 부분만 추출하려고 하면</p>
+
+    <ul>
+      <li>
+        <p><strong>내부 if 조건문 속 <code class="language-plaintext highlighter-rouge">boolean문만  파라미터 추출 -&gt; true/false의 메서드 추출</code>하여 통째로 넘어간다</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220330222344369.png" alt="image-20220330222344369"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220330222404824.png" alt="image-20220330222404824"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="04-if조건문의-메서드추출은-수동으로-통째로">
+<a class="anchor" href="#04-if%EC%A1%B0%EA%B1%B4%EB%AC%B8%EC%9D%98-%EB%A9%94%EC%84%9C%EB%93%9C%EC%B6%94%EC%B6%9C%EC%9D%80-%EC%88%98%EB%8F%99%EC%9C%BC%EB%A1%9C-%ED%86%B5%EC%A7%B8%EB%A1%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 <code class="language-plaintext highlighter-rouge">if조건문의 메서드추출</code>은 <code class="language-plaintext highlighter-rouge">수동으로 통째로</code>
+</h4>
+
+<h5 id="if-문-위에-추출할-메서드를-빨간줄-작성후-생성">
+<a class="anchor" href="#if-%EB%AC%B8-%EC%9C%84%EC%97%90-%EC%B6%94%EC%B6%9C%ED%95%A0-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EB%B9%A8%EA%B0%84%EC%A4%84-%EC%9E%91%EC%84%B1%ED%9B%84-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>if 문 위에 <code class="language-plaintext highlighter-rouge">추출할 메서드를 빨간줄 작성후 생성</code>
+</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220330223037054.png" alt="image-20220330223037054"></p>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220330223046454.png" alt="image-20220330223046454"></p>
+
+<h4 id="05-복붙으로-코드-옮겨가고-flag변수off-처리후--continue-대신----1-early-return---2-추출메서드를-while문-맨-뒤에-배치하여-flag처리-직후-while조건문-검사하는-continue효과내기">
+<a class="anchor" href="#05-%EB%B3%B5%EB%B6%99%EC%9C%BC%EB%A1%9C-%EC%BD%94%EB%93%9C-%EC%98%AE%EA%B2%A8%EA%B0%80%EA%B3%A0-flag%EB%B3%80%EC%88%98off-%EC%B2%98%EB%A6%AC%ED%9B%84--continue-%EB%8C%80%EC%8B%A0----1-early-return---2-%EC%B6%94%EC%B6%9C%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-while%EB%AC%B8-%EB%A7%A8-%EB%92%A4%EC%97%90-%EB%B0%B0%EC%B9%98%ED%95%98%EC%97%AC-flag%EC%B2%98%EB%A6%AC-%EC%A7%81%ED%9B%84-while%EC%A1%B0%EA%B1%B4%EB%AC%B8-%EA%B2%80%EC%82%AC%ED%95%98%EB%8A%94-continue%ED%9A%A8%EA%B3%BC%EB%82%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 복붙으로 코드 옮겨가고 flag변수.Off() 처리후  <code class="language-plaintext highlighter-rouge">continue;</code> 대신 -&gt;  <code class="language-plaintext highlighter-rouge">1) early return;</code>  + <code class="language-plaintext highlighter-rouge">2) 추출메서드를 while문 맨 뒤에 배치</code>하여 flag처리 직후 while조건문 검사하는 <code class="language-plaintext highlighter-rouge">continue;효과내기</code>
+</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220330223125430.png" alt="image-20220330223125430"></p>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220330223457502.png" alt="image-20220330223457502"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">InputView</span> <span class="n">inputView</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">InputView</span><span class="o">();</span>
+    <span class="kd">final</span> <span class="n">특정객체</span> <span class="n">특정객체</span> <span class="o">=</span> <span class="k">new</span> <span class="n">특정객체</span><span class="o">();</span>
+
+    <span class="c1">//while (true) {</span>
+    <span class="k">while</span> <span class="o">(!</span><span class="n">특정객체</span><span class="o">.</span><span class="na">isEnd</span><span class="o">())</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">String</span> <span class="n">inputCommand</span> <span class="o">=</span> <span class="n">inputView</span><span class="o">.</span><span class="na">inputCommand</span><span class="o">();</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"start"</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">특정객체</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"게임을 시작합니다."</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"end"</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">depth줄이기위한if통째로추출</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"status"</span><span class="o">))</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"갑자기 결과를 출력합니다. "</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="n">depth줄이기위한if통째로추출</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">특정객체</span><span class="o">.</span><span class="na">isNotRunning</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">특정객체</span><span class="o">.</span><span class="na">exit</span><span class="o">();</span> <span class="c1">// flag isEnd = true;</span>
+        <span class="c1">//continue;</span>
+        <span class="k">return</span><span class="o">;</span> <span class="c1">// 통째로 추출이기 때문에 return;하면  해당 분기 종료되므로 break; continue; early return기능은 있지만 + flag처리 직후 while조건문 검사기능은 구현불가능하다.</span>
+        <span class="c1">// -&gt; 지금은 분기 택1의 로직만 일어나므로 바로 while문 검사하러 간다.</span>
+        <span class="c1">// -&gt; 만약, return 아래로 더 내려간다면? 남은로직 or 공통로직이 있다면? -&gt; continue;를 return;후에 처버려야할듯?</span>
+        <span class="c1">// depth추출 메서드를 빠져나갔는데 바로 while문으로 안가면 -&gt; 빠져나가 만나는 분기마다 continue;</span>
+    <span class="o">}</span>
+    <span class="n">특정객체</span><span class="o">.</span><span class="na">end</span><span class="o">();</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"게임 하다가 끝났기 때문에, 게임 결과를 출력합니다."</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="while문을--재귀로-고치기">
+<a class="anchor" href="#while%EB%AC%B8%EC%9D%84--%EC%9E%AC%EA%B7%80%EB%A1%9C-%EA%B3%A0%EC%B9%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>while문을  재귀로 고치기</h3>
+
+<h4 id="01-while속-돌아가는-모든-분기로직들을-통으로-1개-메서드로-추출">
+<a class="anchor" href="#01-while%EC%86%8D-%EB%8F%8C%EC%95%84%EA%B0%80%EB%8A%94-%EB%AA%A8%EB%93%A0-%EB%B6%84%EA%B8%B0%EB%A1%9C%EC%A7%81%EB%93%A4%EC%9D%84-%ED%86%B5%EC%9C%BC%EB%A1%9C-1%EA%B0%9C-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EC%B6%94%EC%B6%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 while속 돌아가는 모든 (분기)로직들을 통으로 1개 메서드로 추출</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331002019692.png" alt="image-20220331002019692">
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331002123213.png" alt="image-20220331002123213"></p>
+
+<ul>
+  <li>
+    <p><strong>inputView는 원래 컨트롤러 속이라면 상태값을 가지고 있을 예정이기 때문에 일단 파라미터에 제외시켜야함</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331002226404.png" alt="image-20220331002226404"></p>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">InputView</span> <span class="n">inputView</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">InputView</span><span class="o">();</span>
+    <span class="kd">final</span> <span class="n">특정객체</span> <span class="n">특정객체</span> <span class="o">=</span> <span class="k">new</span> <span class="n">특정객체</span><span class="o">();</span>
+
+    <span class="k">while</span> <span class="o">(!</span><span class="n">특정객체</span><span class="o">.</span><span class="na">isEnd</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">playGame</span><span class="o">(</span><span class="n">특정객체</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">playGame</span><span class="o">(</span><span class="kd">final</span> <span class="n">특정객체</span> <span class="n">특정객체</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">String</span> <span class="n">inputCommand</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">InputView</span><span class="o">().</span><span class="na">inputCommand</span><span class="o">();</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"start"</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">특정객체</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"게임을 시작합니다."</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"end"</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">depth줄이기위한if통째로추출</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"status"</span><span class="o">))</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"갑자기 결과를 출력합니다. "</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="02-while-endflag-조건문--flag-확인문---재귀-속-breakendflag하는-종착역으로서-먼저-if-early-return로-정의해주기">
+<a class="anchor" href="#02-while-endflag-%EC%A1%B0%EA%B1%B4%EB%AC%B8--flag-%ED%99%95%EC%9D%B8%EB%AC%B8---%EC%9E%AC%EA%B7%80-%EC%86%8D-breakendflag%ED%95%98%EB%8A%94-%EC%A2%85%EC%B0%A9%EC%97%AD%EC%9C%BC%EB%A1%9C%EC%84%9C-%EB%A8%BC%EC%A0%80-if-early-return%EB%A1%9C-%EC%A0%95%EC%9D%98%ED%95%B4%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 <code class="language-plaintext highlighter-rouge">while !EndFlag 조건문</code> = flag 확인문 -&gt; <code class="language-plaintext highlighter-rouge">재귀 속 break(EndFlag)하는 종착역으로서 먼저 if early return로 정의해주기</code>
+</h4>
+
+<ul>
+  <li>
+    <p><strong>기존 while (<code class="language-plaintext highlighter-rouge">! 끝나는 조건</code>)</strong> -&gt; <strong>if <code class="language-plaintext highlighter-rouge">끝나는조건</code> : 재귀함수 return</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331002453301.png" alt="image-20220331002453301"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331002520859.png" alt="image-20220331002520859"></p>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331002534034.png" alt="image-20220331002534034"></p>
+
+<h5 id="재귀함수는-종착역인-if-flag-isend-return이--반복문의-break와-동일하게-반복을-제거한다">
+<a class="anchor" href="#%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98%EB%8A%94-%EC%A2%85%EC%B0%A9%EC%97%AD%EC%9D%B8-if-flag-isend-return%EC%9D%B4--%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%98-break%EC%99%80-%EB%8F%99%EC%9D%BC%ED%95%98%EA%B2%8C-%EB%B0%98%EB%B3%B5%EC%9D%84-%EC%A0%9C%EA%B1%B0%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>재귀함수는 종착역인 if flag isEND() :<code class="language-plaintext highlighter-rouge">return;</code>이  <code class="language-plaintext highlighter-rouge">반복문의 break</code>와 동일하게 반복을 제거한다</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331002702251.png" alt="image-20220331002702251"></p>
+
+<h4 id="03-반복되던-로직의-if-return종착역까지-완성됬으면---함수-끝날-때-자신메서드-부르기">
+<a class="anchor" href="#03-%EB%B0%98%EB%B3%B5%EB%90%98%EB%8D%98-%EB%A1%9C%EC%A7%81%EC%9D%98-if-return%EC%A2%85%EC%B0%A9%EC%97%AD%EA%B9%8C%EC%A7%80-%EC%99%84%EC%84%B1%EB%90%AC%EC%9C%BC%EB%A9%B4---%ED%95%A8%EC%88%98-%EB%81%9D%EB%82%A0-%EB%95%8C-%EC%9E%90%EC%8B%A0%EB%A9%94%EC%84%9C%EB%93%9C-%EB%B6%80%EB%A5%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 반복되던 로직의 if return종착역까지 완성됬으면 -&gt; <code class="language-plaintext highlighter-rouge">함수 끝날 때 자신(메서드) 부르기</code>
+</h4>
+
+<h5 id="내부-if-return의-종착역만-있다면-편하게-마지막에-한번-더-호출하여-반복하는-재귀함수를-만들-수-있다">
+<a class="anchor" href="#%EB%82%B4%EB%B6%80-if-return%EC%9D%98-%EC%A2%85%EC%B0%A9%EC%97%AD%EB%A7%8C-%EC%9E%88%EB%8B%A4%EB%A9%B4-%ED%8E%B8%ED%95%98%EA%B2%8C-%EB%A7%88%EC%A7%80%EB%A7%89%EC%97%90-%ED%95%9C%EB%B2%88-%EB%8D%94-%ED%98%B8%EC%B6%9C%ED%95%98%EC%97%AC-%EB%B0%98%EB%B3%B5%ED%95%98%EB%8A%94-%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98%EB%A5%BC-%EB%A7%8C%EB%93%A4-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>내부 if return의 종착역만 있다면, 편하게 마지막에 한번 더 호출하여 반복하는 재귀함수를 만들 수 있다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331002820538.png" alt="image-20220331002820538"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="n">특정객체</span> <span class="n">특정객체</span> <span class="o">=</span> <span class="k">new</span> <span class="n">특정객체</span><span class="o">();</span>
+    <span class="n">playGame</span><span class="o">(</span><span class="n">특정객체</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">playGame</span><span class="o">(</span><span class="kd">final</span> <span class="n">특정객체</span> <span class="n">특정객체</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">특정객체</span><span class="o">.</span><span class="na">isEnd</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">final</span> <span class="nc">String</span> <span class="n">inputCommand</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">InputView</span><span class="o">().</span><span class="na">inputCommand</span><span class="o">();</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"start"</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">특정객체</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"게임을 시작합니다."</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"end"</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">depth줄이기위한if통째로추출</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"status"</span><span class="o">))</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"갑자기 결과를 출력합니다. "</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="n">playGame</span><span class="o">(</span><span class="n">특정객체</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="04-while-to-재귀로-만든-이유----inputview가-포함된입력받는-것부터-시작하는-로직은-try로-살펴보는-시작이-input부터이면서--catch시-다시-input부터-시작하도록-재귀함수형태를-만들어하므로">
+<a class="anchor" href="#04-while-to-%EC%9E%AC%EA%B7%80%EB%A1%9C-%EB%A7%8C%EB%93%A0-%EC%9D%B4%EC%9C%A0----inputview%EA%B0%80-%ED%8F%AC%ED%95%A8%EB%90%9C%EC%9E%85%EB%A0%A5%EB%B0%9B%EB%8A%94-%EA%B2%83%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91%ED%95%98%EB%8A%94-%EB%A1%9C%EC%A7%81%EC%9D%80-try%EB%A1%9C-%EC%82%B4%ED%8E%B4%EB%B3%B4%EB%8A%94-%EC%8B%9C%EC%9E%91%EC%9D%B4-input%EB%B6%80%ED%84%B0%EC%9D%B4%EB%A9%B4%EC%84%9C--catch%EC%8B%9C-%EB%8B%A4%EC%8B%9C-input%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91%ED%95%98%EB%8F%84%EB%A1%9D-%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98%ED%98%95%ED%83%9C%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4%ED%95%98%EB%AF%80%EB%A1%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 <code class="language-plaintext highlighter-rouge">while to 재귀</code>로 만든 이유 -&gt;  <code class="language-plaintext highlighter-rouge">inputView가 포함된&amp;&amp;입력받는 것부터 시작하는 로직</code>은 <code class="language-plaintext highlighter-rouge">try로 살펴보는 시작이 input부터</code>이면서 &amp;&amp; <code class="language-plaintext highlighter-rouge">catch시 다시 input부터 시작하도록 재귀함수</code>형태를 만들어하므로</h4>
+
+<h5 id="01--1번만-성공적으로-input받는-로직과-다르게-try-끝에-성공했어도-반복되기-위해-재귀호출을-한다-1번만-호출되려면-catch로-실패시-재귀호출하여-시도함">
+<a class="anchor" href="#01--1%EB%B2%88%EB%A7%8C-%EC%84%B1%EA%B3%B5%EC%A0%81%EC%9C%BC%EB%A1%9C-input%EB%B0%9B%EB%8A%94-%EB%A1%9C%EC%A7%81%EA%B3%BC-%EB%8B%A4%EB%A5%B4%EA%B2%8C-try-%EB%81%9D%EC%97%90-%EC%84%B1%EA%B3%B5%ED%96%88%EC%96%B4%EB%8F%84-%EB%B0%98%EB%B3%B5%EB%90%98%EA%B8%B0-%EC%9C%84%ED%95%B4-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%EC%9D%84-%ED%95%9C%EB%8B%A4-1%EB%B2%88%EB%A7%8C-%ED%98%B8%EC%B6%9C%EB%90%98%EB%A0%A4%EB%A9%B4-catch%EB%A1%9C-%EC%8B%A4%ED%8C%A8%EC%8B%9C-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%ED%95%98%EC%97%AC-%EC%8B%9C%EB%8F%84%ED%95%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>01  1번만 성공적으로 input받는 로직과 다르게 <code class="language-plaintext highlighter-rouge">try 끝에 성공했어도 반복되기 위해 재귀호출</code>을 한다. 1번만 호출되려면 <code class="language-plaintext highlighter-rouge">catch로 실패시 재귀호출하여 시도함</code>
+</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331004253109.png" alt="image-20220331004253109"></p>
+
+<h5 id="02-catch에서-실패한-경우-input부터-다시-받기-위한-재귀호출-vs-try끝에-thr없는-성공했는데도-반복을-위한-재귀호출">
+<a class="anchor" href="#02-catch%EC%97%90%EC%84%9C-%EC%8B%A4%ED%8C%A8%ED%95%9C-%EA%B2%BD%EC%9A%B0-input%EB%B6%80%ED%84%B0-%EB%8B%A4%EC%8B%9C-%EB%B0%9B%EA%B8%B0-%EC%9C%84%ED%95%9C-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C-vs-try%EB%81%9D%EC%97%90-thr%EC%97%86%EB%8A%94-%EC%84%B1%EA%B3%B5%ED%96%88%EB%8A%94%EB%8D%B0%EB%8F%84-%EB%B0%98%EB%B3%B5%EC%9D%84-%EC%9C%84%ED%95%9C-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 <code class="language-plaintext highlighter-rouge">catch에서 실패한 경우 input부터 다시 받기 위한 재귀호출</code> vs <code class="language-plaintext highlighter-rouge">try끝에 thr없는 성공했는데도 반복을 위한 재귀호출</code>
+</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331004446677.png" alt="image-20220331004446677"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">playGame</span><span class="o">(</span><span class="kd">final</span> <span class="n">특정객체</span> <span class="n">특정객체</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">특정객체</span><span class="o">.</span><span class="na">isEnd</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">//1. 일단 input부터 try로 살펴봐야한다.</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">String</span> <span class="n">inputCommand</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">InputView</span><span class="o">().</span><span class="na">inputCommand</span><span class="o">();</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"start"</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">특정객체</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"게임을 시작합니다."</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"end"</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">depth줄이기위한if통째로추출</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"status"</span><span class="o">))</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"갑자기 결과를 출력합니다. "</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="c1">//2. 실패하지 않았지만, if 종착역 = flag걸리기 전까지 반복을 위해 재귀호출</span>
+        <span class="n">playGame</span><span class="o">(</span><span class="n">특정객체</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"[ERROR] "</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="c1">//3. try로 [input부터 시작하는 로직]살펴보다가 thr걸릴 때, [input부터 다시 받기 위한 재귀 호출]</span>
+        <span class="n">playGame</span><span class="o">(</span><span class="n">특정객체</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="my-input부터-시작하는-로직을-재귀함수로-만들면-try-input부터-살펴보는-중에-실패하면---catch에서-재귀호출하여-다시-input부터-시작할-수-있다">
+<a class="anchor" href="#my-input%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91%ED%95%98%EB%8A%94-%EB%A1%9C%EC%A7%81%EC%9D%84-%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98%EB%A1%9C-%EB%A7%8C%EB%93%A4%EB%A9%B4-try-input%EB%B6%80%ED%84%B0-%EC%82%B4%ED%8E%B4%EB%B3%B4%EB%8A%94-%EC%A4%91%EC%97%90-%EC%8B%A4%ED%8C%A8%ED%95%98%EB%A9%B4---catch%EC%97%90%EC%84%9C-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%ED%95%98%EC%97%AC-%EB%8B%A4%EC%8B%9C-input%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) input부터 시작하는 로직을 재귀함수로 만들면, try input부터 살펴보는 중에 실패하면 -&gt; catch에서 재귀호출하여 다시 input부터 시작할 수 있다.</h5>
+
+<h3 id="enum과-명령어-문자열-캡슐화--외부input시-검증까지">
+<a class="anchor" href="#enum%EA%B3%BC-%EB%AA%85%EB%A0%B9%EC%96%B4-%EB%AC%B8%EC%9E%90%EC%97%B4-%EC%BA%A1%EC%8A%90%ED%99%94--%EC%99%B8%EB%B6%80input%EC%8B%9C-%EA%B2%80%EC%A6%9D%EA%B9%8C%EC%A7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>Enum과 명령어 <code class="language-plaintext highlighter-rouge">문자열 캡슐화</code> + <code class="language-plaintext highlighter-rouge">외부input시 검증까지</code>
+</h3>
+
+<h4 id="01-갯수가-정해진-input명령어들문자열상수은-분기비교에-사용시-enum객체필드에-캡슐화해놓고-사용하기">
+<a class="anchor" href="#01-%EA%B0%AF%EC%88%98%EA%B0%80-%EC%A0%95%ED%95%B4%EC%A7%84-input%EB%AA%85%EB%A0%B9%EC%96%B4%EB%93%A4%EB%AC%B8%EC%9E%90%EC%97%B4%EC%83%81%EC%88%98%EC%9D%80-%EB%B6%84%EA%B8%B0%EB%B9%84%EA%B5%90%EC%97%90-%EC%82%AC%EC%9A%A9%EC%8B%9C-enum%EA%B0%9D%EC%B2%B4%ED%95%84%EB%93%9C%EC%97%90-%EC%BA%A1%EC%8A%90%ED%99%94%ED%95%B4%EB%86%93%EA%B3%A0-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 갯수가 정해진 input명령어들(문자열상수)은 분기비교에 사용시 enum객체필드에 캡슐화해놓고 사용하기</h4>
+
+<ul>
+  <li>명령어 객체 -&gt; 복붙해서 문자열에 넣고 소문자로 만들기</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331101847530.png" alt="image-20220331101847530"></p>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331101902320.png" alt="image-20220331101902320"></p>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331102141704.png" alt="image-20220331102141704"></p>
+
+<h4 id="02-일단은-분기-속-input문자열-vs-비교문자열---enum-from정펙매-input---vs-enum객체로-바꿔서-비교하기">
+<a class="anchor" href="#02-%EC%9D%BC%EB%8B%A8%EC%9D%80-%EB%B6%84%EA%B8%B0-%EC%86%8D-input%EB%AC%B8%EC%9E%90%EC%97%B4-vs-%EB%B9%84%EA%B5%90%EB%AC%B8%EC%9E%90%EC%97%B4---enum-from%EC%A0%95%ED%8E%99%EB%A7%A4-input---vs-enum%EA%B0%9D%EC%B2%B4%EB%A1%9C-%EB%B0%94%EA%BF%94%EC%84%9C-%EB%B9%84%EA%B5%90%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 일단은 분기 속 input문자열 vs 비교문자열 -&gt; <code class="language-plaintext highlighter-rouge">Enum from정펙매( input )</code>  VS <code class="language-plaintext highlighter-rouge">enum객체</code>로 바꿔서 비교하기</h4>
+
+<h5 id="my-컨트롤러에서-상수-쓰지말고input을-정펙매에-넣어-찾아진-enum객체-vs--상수캡슐화한-enum으로-비교--enum은-스태틱변수라-메모리값-1개---equals-안써도-된다">
+<a class="anchor" href="#my-%EC%BB%A8%ED%8A%B8%EB%A1%A4%EB%9F%AC%EC%97%90%EC%84%9C-%EC%83%81%EC%88%98-%EC%93%B0%EC%A7%80%EB%A7%90%EA%B3%A0input%EC%9D%84-%EC%A0%95%ED%8E%99%EB%A7%A4%EC%97%90-%EB%84%A3%EC%96%B4-%EC%B0%BE%EC%95%84%EC%A7%84-enum%EA%B0%9D%EC%B2%B4-vs--%EC%83%81%EC%88%98%EC%BA%A1%EC%8A%90%ED%99%94%ED%95%9C-enum%EC%9C%BC%EB%A1%9C-%EB%B9%84%EA%B5%90--enum%EC%9D%80-%EC%8A%A4%ED%83%9C%ED%8B%B1%EB%B3%80%EC%88%98%EB%9D%BC-%EB%A9%94%EB%AA%A8%EB%A6%AC%EA%B0%92-1%EA%B0%9C---equals-%EC%95%88%EC%8D%A8%EB%8F%84-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) 컨트롤러에서 상수 쓰지말고<code class="language-plaintext highlighter-rouge">input을 정펙매에 넣어 찾아진 ENum객체</code> vs  <code class="language-plaintext highlighter-rouge">상수캡슐화한 enum</code>으로 비교 + enum은 스태틱변수라 메모리값 1개 -&gt; equals 안써도 된다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331103118517.png" alt="image-20220331103118517"></p>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331103128084.png" alt="image-20220331103128084"></p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">input</code> -&gt; 정펙메에서 <code class="language-plaintext highlighter-rouge">전체 돌기 + filter</code>로 해당 <code class="language-plaintext highlighter-rouge">enum객체를 구분하여 생성</code>한다</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331105121856.png" alt="image-20220331105121856">
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331105155099.png" alt="image-20220331105155099"></p>
+
+<ul>
+  <li>마찬가지로
+    <ul>
+      <li>input -&gt; <code class="language-plaintext highlighter-rouge">enum.from(</code> input <code class="language-plaintext highlighter-rouge">)</code>
+</li>
+      <li>“문자열” -&gt; <code class="language-plaintext highlighter-rouge">Enum.문자열캡슐화한객체</code>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331105431143.png" alt="image-20220331105431143">
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331111137534.png" alt="image-20220331111137534"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">playGame</span><span class="o">(</span><span class="kd">final</span> <span class="n">특정객체</span> <span class="n">특정객체</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">특정객체</span><span class="o">.</span><span class="na">isEnd</span><span class="o">())</span> <span class="o">{</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">String</span> <span class="n">inputCommand</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">InputView</span><span class="o">().</span><span class="na">inputCommand</span><span class="o">();</span>
+
+
+        <span class="c1">//if (inputCommand.equals("start")) {</span>
+        <span class="k">if</span> <span class="o">(</span><span class="nc">MyCommand</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">inputCommand</span><span class="o">)</span> <span class="o">==</span> <span class="nc">MyCommand</span><span class="o">.</span><span class="na">START</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">특정객체</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"게임을 시작합니다."</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="nc">MyCommand</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">inputCommand</span><span class="o">)</span> <span class="o">==</span> <span class="nc">MyCommand</span><span class="o">.</span><span class="na">END</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">depth줄이기위한if통째로추출</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="nc">MyCommand</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">inputCommand</span><span class="o">)</span> <span class="o">==</span> <span class="nc">MyCommand</span><span class="o">.</span><span class="na">STATUS</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"갑자기 결과를 출력합니다. "</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">playGame</span><span class="o">(</span><span class="n">특정객체</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"[ERROR] "</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="n">playGame</span><span class="o">(</span><span class="n">특정객체</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="03-외부-input으로-찾는-enum정펙매은-기본적으로-이넘객체들에-캡슐화되어매핑된-문자열들로---contains-thr-검증이-자동-되며--외부input-nullorempty를-여기서도-할-수-있다">
+<a class="anchor" href="#03-%EC%99%B8%EB%B6%80-input%EC%9C%BC%EB%A1%9C-%EC%B0%BE%EB%8A%94-enum%EC%A0%95%ED%8E%99%EB%A7%A4%EC%9D%80-%EA%B8%B0%EB%B3%B8%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%9D%B4%EB%84%98%EA%B0%9D%EC%B2%B4%EB%93%A4%EC%97%90-%EC%BA%A1%EC%8A%90%ED%99%94%EB%90%98%EC%96%B4%EB%A7%A4%ED%95%91%EB%90%9C-%EB%AC%B8%EC%9E%90%EC%97%B4%EB%93%A4%EB%A1%9C---contains-thr-%EA%B2%80%EC%A6%9D%EC%9D%B4-%EC%9E%90%EB%8F%99-%EB%90%98%EB%A9%B0--%EC%99%B8%EB%B6%80input-nullorempty%EB%A5%BC-%EC%97%AC%EA%B8%B0%EC%84%9C%EB%8F%84-%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 <code class="language-plaintext highlighter-rouge">외부 input으로 찾는 Enum정펙매</code>은 <code class="language-plaintext highlighter-rouge">기본적으로 이넘객체들에 캡슐화되어매핑된 문자열들로 -&gt; contains thr 검증이 자동 되며</code> + <code class="language-plaintext highlighter-rouge">외부input NullOrEmpty</code>를 여기서도 할 수 있다.</h4>
+
+<h5 id="enum-외부input-검증01---기본적으로-filter사용--contains-검증----filter에서-외부input이-내부캡슐화된-문자열에-속하지-않아-못찾으면-orelsethrow에서-에러thr나게-됨">
+<a class="anchor" href="#enum-%EC%99%B8%EB%B6%80input-%EA%B2%80%EC%A6%9D01---%EA%B8%B0%EB%B3%B8%EC%A0%81%EC%9C%BC%EB%A1%9C-filter%EC%82%AC%EC%9A%A9--contains-%EA%B2%80%EC%A6%9D----filter%EC%97%90%EC%84%9C-%EC%99%B8%EB%B6%80input%EC%9D%B4-%EB%82%B4%EB%B6%80%EC%BA%A1%EC%8A%90%ED%99%94%EB%90%9C-%EB%AC%B8%EC%9E%90%EC%97%B4%EC%97%90-%EC%86%8D%ED%95%98%EC%A7%80-%EC%95%8A%EC%95%84-%EB%AA%BB%EC%B0%BE%EC%9C%BC%EB%A9%B4-orelsethrow%EC%97%90%EC%84%9C-%EC%97%90%EB%9F%ACthr%EB%82%98%EA%B2%8C-%EB%90%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a><code class="language-plaintext highlighter-rouge">enum 외부input 검증01 - 기본적으로 filter사용 == contains 검증</code>  :  filter에서 <code class="language-plaintext highlighter-rouge">외부input이 내부캡슐화된 문자열에 속하지 않아 못찾으면</code> orElseThrow에서 에러thr나게 됨.</h5>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">외부 input</code> -&gt; Enum정펙매 from -&gt; <strong>filter</strong>( <code class="language-plaintext highlighter-rouge">캡슐화된 문자열</code> .equals  <code class="language-plaintext highlighter-rouge">외부 input</code>)</p>
+
+    <ul>
+      <li><strong>filter에 안걸리는 것 = 캡슐화된 문자열에 속하지 않은 것 -&gt; thr</strong></li>
+      <li><strong>try로 input부터 보고있었으면 검증되서 다시 받는다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331104055905.png" alt="image-20220331104055905"></p>
+  </li>
+</ul>
+
+<h5 id="enum-외부input-검증02---추가적으로-checknullorempty---찾아들어가기전에-외부-input의-nullorempty검사를-정펙매-여기서-해줄-수-있다--왜냐-재귀에서-input부터-처다보고-있는-상황이니까-반복됨">
+<a class="anchor" href="#enum-%EC%99%B8%EB%B6%80input-%EA%B2%80%EC%A6%9D02---%EC%B6%94%EA%B0%80%EC%A0%81%EC%9C%BC%EB%A1%9C-checknullorempty---%EC%B0%BE%EC%95%84%EB%93%A4%EC%96%B4%EA%B0%80%EA%B8%B0%EC%A0%84%EC%97%90-%EC%99%B8%EB%B6%80-input%EC%9D%98-nullorempty%EA%B2%80%EC%82%AC%EB%A5%BC-%EC%A0%95%ED%8E%99%EB%A7%A4-%EC%97%AC%EA%B8%B0%EC%84%9C-%ED%95%B4%EC%A4%84-%EC%88%98-%EC%9E%88%EB%8B%A4--%EC%99%9C%EB%83%90-%EC%9E%AC%EA%B7%80%EC%97%90%EC%84%9C-input%EB%B6%80%ED%84%B0-%EC%B2%98%EB%8B%A4%EB%B3%B4%EA%B3%A0-%EC%9E%88%EB%8A%94-%EC%83%81%ED%99%A9%EC%9D%B4%EB%8B%88%EA%B9%8C-%EB%B0%98%EB%B3%B5%EB%90%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a><code class="language-plaintext highlighter-rouge">enum 외부input 검증02 - 추가적으로 checkNullOrEmpty</code>  : 찾아들어가기전에 <code class="language-plaintext highlighter-rouge">외부 input의 nullOrEmpty검사를 정펙매 여기서</code> 해줄 수 있다.  왜냐? 재귀에서 input부터 처다보고 있는 상황이니까 반복됨.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331104153335.png" alt="image-20220331104153335"></p>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331114403058.png" alt="image-20220331114403058"></p>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331114440977.png" alt="image-20220331114440977"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">MyCommand</span> <span class="o">{</span>
+    <span class="no">START</span><span class="o">(</span><span class="s">"start"</span><span class="o">),</span>
+
+    <span class="no">END</span><span class="o">(</span><span class="s">"end"</span><span class="o">),</span>
+
+    <span class="no">STATUS</span><span class="o">(</span><span class="s">"status"</span><span class="o">),</span>
+    <span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">value</span><span class="o">;</span>
+
+    <span class="nc">MyCommand</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">MyCommand</span> <span class="nf">from</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">inputCommand</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">checkNullOrEmpty</span><span class="o">(</span><span class="n">inputCommand</span><span class="o">);</span>
+        
+        <span class="k">return</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="nc">MyCommand</span><span class="o">.</span><span class="na">values</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">it</span> <span class="o">-&gt;</span> <span class="n">it</span><span class="o">.</span><span class="na">value</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">inputCommand</span><span class="o">))</span>
+            <span class="o">.</span><span class="na">findFirst</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">orElseThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">IllegalArgumentException</span><span class="o">(</span><span class="s">"잘못된 명령어입니다."</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">checkNullOrEmpty</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">inputCommand</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Objects</span><span class="o">.</span><span class="na">requireNonNull</span><span class="o">(</span><span class="n">inputCommand</span><span class="o">,</span> <span class="s">"빈칸 입력은 허용하지 않는다."</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">trim</span><span class="o">().</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"빈칸 입력은 허용하지 않는다."</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="외부input으로-찾는--enum의-filter에-정규식을-쓰면">
+<a class="anchor" href="#%EC%99%B8%EB%B6%80input%EC%9C%BC%EB%A1%9C-%EC%B0%BE%EB%8A%94--enum%EC%9D%98-filter%EC%97%90-%EC%A0%95%EA%B7%9C%EC%8B%9D%EC%9D%84-%EC%93%B0%EB%A9%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>외부input으로 찾는  Enum의 filter에 정규식을 쓰면?</h3>
+
+<h4 id="01-equals는-patternmatches에-포함되며-일치를-포함하여--일치를-포함하여-패턴을-가지는-문자열도-처리">
+<a class="anchor" href="#01-equals%EB%8A%94-patternmatches%EC%97%90-%ED%8F%AC%ED%95%A8%EB%90%98%EB%A9%B0-%EC%9D%BC%EC%B9%98%EB%A5%BC-%ED%8F%AC%ED%95%A8%ED%95%98%EC%97%AC--%EC%9D%BC%EC%B9%98%EB%A5%BC-%ED%8F%AC%ED%95%A8%ED%95%98%EC%97%AC-%ED%8C%A8%ED%84%B4%EC%9D%84-%EA%B0%80%EC%A7%80%EB%8A%94-%EB%AC%B8%EC%9E%90%EC%97%B4%EB%8F%84-%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 <code class="language-plaintext highlighter-rouge">equals()는 Pattern.matches()에 포함되</code>며 일치를 포함하여  <code class="language-plaintext highlighter-rouge">일치를 포함하여 패턴을 가지는 문자열도 처리</code>
+</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331121417522.png" alt="image-20220331121417522"></p>
+
+<ul>
+  <li>
+<strong>추가 캡슐화 문자열 -&gt; Enum객체가 생겼다.</strong>
+    <ul>
+      <li><strong>어차피 개별 비교라서 상관은 없다</strong></li>
+    </ul>
+  </li>
+  <li>
+<strong>하지만 개별비교가 equals에서 패턴매칭으로 달라진다면?</strong>
+    <ul>
+      <li><strong>상관없다. <code class="language-plaintext highlighter-rouge">패턴매칭은 equals를 포함</code>한다</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331121541190.png" alt="image-20220331121541190"></p>
+
+<ul>
+  <li>
+    <p>원래 Pattern 클래스는 .complie()로 패턴을 만들고</p>
+
+    <ul>
+      <li>
+        <p>이후 Matcher.matches()를 써서 비교했던 것 같은데</p>
+
+        <ul>
+          <li><strong>Matches없이 한번에 matches()로 t/f를 반환시킬 수 있다.</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331121937513.png" alt="image-20220331121937513"></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="02-equals---patternmatches로-교환했다면-nullorempty-검증도-패턴매칭에-포함된다">
+<a class="anchor" href="#02-equals---patternmatches%EB%A1%9C-%EA%B5%90%ED%99%98%ED%96%88%EB%8B%A4%EB%A9%B4-nullorempty-%EA%B2%80%EC%A6%9D%EB%8F%84-%ED%8C%A8%ED%84%B4%EB%A7%A4%EC%B9%AD%EC%97%90-%ED%8F%AC%ED%95%A8%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 equals() -&gt; Pattern.matches()로 교환했다면 <code class="language-plaintext highlighter-rouge">nullOrempty 검증도 패턴매칭에 포함된다.</code>
+</h4>
+
+<h5 id="enum-외부input-검증03---pattermatches를-쓸-경우--nullorempty검증도-매칭안되는-것에-걸려-검증된다">
+<a class="anchor" href="#enum-%EC%99%B8%EB%B6%80input-%EA%B2%80%EC%A6%9D03---pattermatches%EB%A5%BC-%EC%93%B8-%EA%B2%BD%EC%9A%B0--nullorempty%EA%B2%80%EC%A6%9D%EB%8F%84-%EB%A7%A4%EC%B9%AD%EC%95%88%EB%90%98%EB%8A%94-%EA%B2%83%EC%97%90-%EA%B1%B8%EB%A0%A4-%EA%B2%80%EC%A6%9D%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a><code class="language-plaintext highlighter-rouge">enum 외부input 검증03 - Patter.matches()를 쓸 경우</code> : nullOrEmpty검증도 매칭안되는 것에 걸려 검증된다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331122232452.png" alt="image-20220331122232452"></p>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331122653488.png" alt="image-20220331122653488"></p>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331123339958.png" alt="image-20220331123339958"></p>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220331123347150.png" alt="image-20220331123347150"></p>
+
+<h3 id="enum으로-분기-제거까지-적용하려면">
+<a class="anchor" href="#enum%EC%9C%BC%EB%A1%9C-%EB%B6%84%EA%B8%B0-%EC%A0%9C%EA%B1%B0%EA%B9%8C%EC%A7%80-%EC%A0%81%EC%9A%A9%ED%95%98%EB%A0%A4%EB%A9%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>enum으로 분기 제거까지 적용하려면?</h3>
+
+<h4 id="외부input--정펙매로-해당-enum객체---해당-분기로직을-분기별-해당enum-field에-함수형인터페이스-필드--전략객체들-생성자---호출까지-따로-or-함수형인터페이스-1개-지정---람다식-가져가야한다">
+<a class="anchor" href="#%EC%99%B8%EB%B6%80input--%EC%A0%95%ED%8E%99%EB%A7%A4%EB%A1%9C-%ED%95%B4%EB%8B%B9-enum%EA%B0%9D%EC%B2%B4---%ED%95%B4%EB%8B%B9-%EB%B6%84%EA%B8%B0%EB%A1%9C%EC%A7%81%EC%9D%84-%EB%B6%84%EA%B8%B0%EB%B3%84-%ED%95%B4%EB%8B%B9enum-field%EC%97%90-%ED%95%A8%EC%88%98%ED%98%95%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4-%ED%95%84%EB%93%9C--%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%93%A4-%EC%83%9D%EC%84%B1%EC%9E%90---%ED%98%B8%EC%B6%9C%EA%B9%8C%EC%A7%80-%EB%94%B0%EB%A1%9C-or-%ED%95%A8%EC%88%98%ED%98%95%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4-1%EA%B0%9C-%EC%A7%80%EC%A0%95---%EB%9E%8C%EB%8B%A4%EC%8B%9D-%EA%B0%80%EC%A0%B8%EA%B0%80%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>외부input + 정펙매로 해당 enum객체 -&gt; <code class="language-plaintext highlighter-rouge">해당 분기로직</code>을 <code class="language-plaintext highlighter-rouge">분기별 해당enum field</code>에 <code class="language-plaintext highlighter-rouge">함수형인터페이스 필드-&gt; 전략객체들 생성자 -&gt; 호출까지 따로</code> or <code class="language-plaintext highlighter-rouge">함수형인터페이스 1개 지정 -&gt; 람다식</code> 가져가야한다.</h4>
+
+<h5 id="01-분기-제거를-가정하려면--추상화된-객체인페orenum메서드로-빨간줄을-만든다">
+<a class="anchor" href="#01-%EB%B6%84%EA%B8%B0-%EC%A0%9C%EA%B1%B0%EB%A5%BC-%EA%B0%80%EC%A0%95%ED%95%98%EB%A0%A4%EB%A9%B4--%EC%B6%94%EC%83%81%ED%99%94%EB%90%9C-%EA%B0%9D%EC%B2%B4%EC%9D%B8%ED%8E%98orenum%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EB%B9%A8%EA%B0%84%EC%A4%84%EC%9D%84-%EB%A7%8C%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 <code class="language-plaintext highlighter-rouge">분기 제거를 가정</code>하려면,  <code class="language-plaintext highlighter-rouge">추상화된 객체(인페orEnum)</code>.<code class="language-plaintext highlighter-rouge">메서드()</code>로 빨간줄을 만든다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220401105653305.png" alt="image-20220401105653305"></p>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220401110145559.png" alt="image-20220401110145559"></p>
+
+<h5 id="01-if-정펙매-input---예상enum의-분기마다-알아서-작동하게-하려면-분기내-로직을-모두-해당enum의-field로-가져올-수-있는지-봐야한다">
+<a class="anchor" href="#01-if-%EC%A0%95%ED%8E%99%EB%A7%A4-input---%EC%98%88%EC%83%81enum%EC%9D%98-%EB%B6%84%EA%B8%B0%EB%A7%88%EB%8B%A4-%EC%95%8C%EC%95%84%EC%84%9C-%EC%9E%91%EB%8F%99%ED%95%98%EA%B2%8C-%ED%95%98%EB%A0%A4%EB%A9%B4-%EB%B6%84%EA%B8%B0%EB%82%B4-%EB%A1%9C%EC%A7%81%EC%9D%84-%EB%AA%A8%EB%91%90-%ED%95%B4%EB%8B%B9enum%EC%9D%98-field%EB%A1%9C-%EA%B0%80%EC%A0%B8%EC%98%AC-%EC%88%98-%EC%9E%88%EB%8A%94%EC%A7%80-%EB%B4%90%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 <code class="language-plaintext highlighter-rouge">if 정펙매( input ) == 예상Enum의 분기</code>마다 알아서 작동하게 하려면, <code class="language-plaintext highlighter-rouge">분기내 로직을 모두 해당Enum의 field</code>로 가져올 수 있는지 봐야한다.</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private boolean isRunning() {
+    if (gameSwitch.isOff()) {
+        return false;
+    }
+    return !isNotRunning();
+}
+
+private boolean isStatusInRunning() {
+    if (gameSwitch.isOff()) {
+        return false;
+    }
+    return state.isStatus();
+}
+
+private boolean isEndInRunning() {
+    if (gameSwitch.isOff()) {
+        return false;
+    }
+    return state.isFinished();
+}
+</code></pre></div></div>
+
+
+  </div><a class="u-url" href="/java/break/%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81/%EC%B2%B4%EC%8A%A4/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/04/02/while-if-break;%EB%A5%BC-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81-%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

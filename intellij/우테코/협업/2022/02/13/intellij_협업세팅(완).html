@@ -132,7 +132,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h3"><a href="#buildtype---assertj라이브러리">buildType &amp;  assertj라이브러리</a>
 <ul>
 <li class="toc-entry toc-h4"><a href="#build-type-gradle---intellij">build Type: gradle -&gt; intellij</a></li>
-<li class="toc-entry toc-h4"><a href="#라이브러리에-assertj-추가-및-refresh">라이브러리에 assertj 추가 및 refresh</a></li>
+<li class="toc-entry toc-h4"><a href="#buildgradle-라이브러리에-assertj-추가-및-refresh">build.gradle 라이브러리에 assertj 추가 및 refresh</a></li>
 <li class="toc-entry toc-h4"><a href="#gradle-정상-test">gradle 정상 test</a></li>
 </ul>
 </li>
@@ -154,6 +154,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h5"><a href="#parameter-name-hints">parameter name hints</a></li>
 <li class="toc-entry toc-h5"><a href="#usages-표기">usages 표기</a></li>
 <li class="toc-entry toc-h5"><a href="#go-to-test">go to test</a></li>
+<li class="toc-entry toc-h5"><a href="#lombok-라이브러리-이후-anno적용-안될-때">lombok 라이브러리 이후 @anno적용 안될 때</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h4"><a href="#final-및-private">final 및 private</a>
@@ -199,16 +200,20 @@ window.onload = wrap_img;
 </li>
 </ul>
 
-<h4 id="라이브러리에-assertj-추가-및-refresh">
-<a class="anchor" href="#%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC%EC%97%90-assertj-%EC%B6%94%EA%B0%80-%EB%B0%8F-refresh" aria-hidden="true"><span class="octicon octicon-link"></span></a>라이브러리에 assertj 추가 및 refresh</h4>
+<h4 id="buildgradle-라이브러리에-assertj-추가-및-refresh">
+<a class="anchor" href="#buildgradle-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC%EC%97%90-assertj-%EC%B6%94%EA%B0%80-%EB%B0%8F-refresh" aria-hidden="true"><span class="octicon octicon-link"></span></a>build.gradle 라이브러리에 assertj 추가 및 refresh</h4>
 
 <ul>
   <li>
     <p><code class="language-plaintext highlighter-rouge">build.gradle</code>의 dependency에 assertj 라이브러리 넣어주고 refresh 하기</p>
 
     <div class="language-java highlighter-rouge">
-<div class="highlight"><pre class="highlight"><code>  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">:</span><span class="n">assertj</span><span class="o">-</span><span class="nl">core:</span><span class="mf">3.22</span><span class="o">.</span><span class="mi">0</span><span class="err">'</span>
-  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">jupiter</span><span class="o">:</span><span class="n">junit</span><span class="o">-</span><span class="n">jupiter</span><span class="o">-</span><span class="nl">params:</span><span class="mf">5.4</span><span class="o">.</span><span class="mi">2</span><span class="err">'</span> <span class="c1">//@ParameterizedTest 안될 때</span>
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">// Assertions</span>
+  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">:</span><span class="n">assertj</span><span class="o">-</span><span class="nl">core:</span><span class="mf">3.22</span><span class="o">.</span><span class="mi">0</span><span class="err">'</span>
+  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">jupiter</span><span class="o">:</span><span class="n">junit</span><span class="o">-</span><span class="n">jupiter</span><span class="o">-</span><span class="nl">params:</span><span class="mf">5.4</span><span class="o">.</span><span class="mi">2</span><span class="err">'</span> 
+  <span class="c1">// lombok</span>
+  <span class="n">compileOnly</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">projectlombok</span><span class="o">:</span><span class="n">lombok</span><span class="err">'</span>
+  <span class="n">annotationProcessor</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">projectlombok</span><span class="o">:</span><span class="n">lombok</span><span class="err">'</span>
 </code></pre></div>    </div>
   </li>
   <li>
@@ -216,16 +221,9 @@ window.onload = wrap_img;
   <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220304164322067.png" alt="image-20220304164322067"></p>
 
     <ul>
-      <li>
-        <p>단축키는 keymap에서 덮어써줘야 작동됨.
-  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220304164518884.png" alt="image-20220304164518884"></p>
-      </li>
-      <li>
-        <p>그래도 잘 안되면, Test파일에 static import해놓고 reload from disk</p>
-        <div class="language-java highlighter-rouge">
-<div class="highlight"><pre class="highlight"><code>  <span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.*;</span>
-</code></pre></div>        </div>
-      </li>
+      <li>단축키는 keymap에서 덮어써줘야 작동됨.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220304164518884.png" alt="image-20220304164518884">
+</li>
     </ul>
   </li>
 </ul>
@@ -411,6 +409,16 @@ window.onload = wrap_img;
   <li>keymap &gt; <code class="language-plaintext highlighter-rouge">go to test</code> 검색  후 단축키 지정 : <strong><code class="language-plaintext highlighter-rouge">ctrl+shift+ T</code> -&gt; 나머지 <code class="language-plaintext highlighter-rouge">remove</code></strong>
     <ul>
       <li>테스트 없으면 생성, 있으면 이동 시켜주게 된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="lombok-라이브러리-이후-anno적용-안될-때">
+<a class="anchor" href="#lombok-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC-%EC%9D%B4%ED%9B%84-anno%EC%A0%81%EC%9A%A9-%EC%95%88%EB%90%A0-%EB%95%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>lombok 라이브러리 이후 @anno적용 안될 때</h5>
+<ul>
+  <li>lombok 라이브러리를 추가한 후
+    <ul>
+      <li>Settings &gt; Build &gt; Compiler &gt; Annotation Processors 에서 [x] <code class="language-plaintext highlighter-rouge">Enable annotation processing</code> 을 체크해야 롬복을 사용할 수 있다.(안될 경우)</li>
     </ul>
   </li>
 </ul>
