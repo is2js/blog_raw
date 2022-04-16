@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>피드백) 1-3(블랙잭) 코드리뷰 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="피드백) 1-3(블랙잭) 코드리뷰" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="레벨1 3단계 블랙잭 피드백 1,2차 모음" />
+<meta property="og:description" content="레벨1 3단계 블랙잭 피드백 1,2차 모음" />
+<link rel="canonical" href="blog.chojaeseong.com/java/feedback/review/%EB%B8%94%EB%9E%99%EC%9E%AD/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/31/%EB%B8%94%EB%9E%99%EC%9E%AD-%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/feedback/review/%EB%B8%94%EB%9E%99%EC%9E%AD/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/31/%EB%B8%94%EB%9E%99%EC%9E%AD-%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-03-31T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-03-31T00:00:00-05:00","url":"blog.chojaeseong.com/java/feedback/review/%EB%B8%94%EB%9E%99%EC%9E%AD/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/31/%EB%B8%94%EB%9E%99%EC%9E%AD-%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"피드백) 1-3(블랙잭) 코드리뷰","dateModified":"2022-03-31T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/feedback/review/%EB%B8%94%EB%9E%99%EC%9E%AD/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/31/%EB%B8%94%EB%9E%99%EC%9E%AD-%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0.html"},"description":"레벨1 3단계 블랙잭 피드백 1,2차 모음","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">피드백) 1-3(블랙잭) 코드리뷰</h1><p class="page-description">레벨1 3단계 블랙잭 피드백 1,2차 모음</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-03-31T00:00:00-05:00" itemprop="datePublished">
+        Mar 31, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#feedback">feedback</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#review">review</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#블랙잭">블랙잭</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#pr">PR</a></li>
+<li class="toc-entry toc-h3"><a href="#블랙잭-1단계-피드백">블랙잭 1단계 피드백</a></li>
+<li class="toc-entry toc-h3"><a href="#블랙잭-2단계베팅-피드백">블랙잭 2단계(베팅) 피드백</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#구초리">구초리</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#페어간-새롭게-안-사실들">페어간 새롭게 안 사실들</a></li>
+</ul><h3 id="pr">
+<a class="anchor" href="#pr" aria-hidden="true"><span class="octicon octicon-link"></span></a>PR</h3>
+
+<ul>
+  <li><a href="https://github.com/woowacourse/java-blackjack/pull/295">1단계 PR</a></li>
+  <li><a href="https://github.com/woowacourse/java-blackjack/pull/306">2단계 PR</a></li>
+</ul>
+
+<h3 id="블랙잭-1단계-피드백">
+<a class="anchor" href="#%EB%B8%94%EB%9E%99%EC%9E%AD-1%EB%8B%A8%EA%B3%84-%ED%94%BC%EB%93%9C%EB%B0%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>블랙잭 1단계 피드백</h3>
+
+<ol>
+  <li>
+    <p>domain package내에서도 쌓인 class들을 용도에 package를 구분해라.
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416003949029.png" alt="image-20220416003949029"></p>
+  </li>
+  <li>
+    <p><strong>큰규모가 아니면, Contoller를 쓰지말고 Game/Program/Machine을 run하자.</strong></p>
+  </li>
+  <li>
+    <p><strong>자식class에서 상속받은 메서드에 대해 @Override는 강제가아니지만 표기하자</strong></p>
+  </li>
+  <li>
+    <p>확인할 때는, 실제로 계산로직과 별개로, 확인만 하는 메서드를 만들자</p>
+
+    <ul>
+      <li>예를 들어, isBust()를 확인할 때, 카드를 직접 받아서 Bust를 만들어보고 rollback이 아니라 <strong>카드를 받아서 계산하는 실제 로직과 비슷하더라도 로직을 포함해 물어보자</strong>
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416004447756.png" alt="image-20220416004447756"></p>
+  </li>
+  <li>
+    <p><strong>getXXX는 getter가 아니면 다른 용어를 쓰자. ex&gt; <code class="language-plaintext highlighter-rouge">.receiveXXXX()</code></strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416004542849.png" alt="image-20220416004542849"></p>
+  </li>
+  <li>
+    <p><strong>블랙잭-CardDeck <code class="language-plaintext highlighter-rouge">요소는 정해져 있지만 셔플로 랜덤</code>이 생기는 경우도 <code class="language-plaintext highlighter-rouge">전략패턴으로 외부주입</code> 가능하게 해서 테스트</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416005238650.png" alt="image-20220416005238650"></p>
+
+    <ul>
+      <li>
+        <p>자동차경주: <code class="language-plaintext highlighter-rouge">랜덤한 조건식</code>을 <code class="language-plaintext highlighter-rouge">테스트</code>를 위해 전략패턴으로 빼서 외부주입
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416005535429.png" alt="image-20220416005535429"></p>
+      </li>
+      <li>
+        <p>로또: <code class="language-plaintext highlighter-rouge">랜덤</code>로또<code class="language-plaintext highlighter-rouge">생성</code>을 <code class="language-plaintext highlighter-rouge">테스트</code>하기 위해 전략패턴으로 빼서 외부주입</p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416005617380.png" alt="image-20220416005617380"></p>
+      </li>
+      <li>
+        <p>블랙잭: 요소들은 정해져있지만 <code class="language-plaintext highlighter-rouge">셔플</code>된 CardDeck을 <code class="language-plaintext highlighter-rouge">테스트</code>하기 위해 전략패턴으로 빼서 외부주입</p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416005853044.png" alt="image-20220416005853044"></p>
+      </li>
+      <li>
+        <p>체스: <strong>(예정) 요소들은 정해져있지만 <code class="language-plaintext highlighter-rouge">너무 규모가 커서 테스트하기 힘든</code> map을 <code class="language-plaintext highlighter-rouge">작은 Map.of(,)</code>으로 만들어서 <code class="language-plaintext highlighter-rouge">테스트</code>하기 위해 전략패턴으로 빼서 외부 주입</strong></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>java에서는 Stack대신 Deque자료구조를 사용</p>
+  </li>
+  <li>
+    <p><strong>Enum도 결과 계산로직 등 중요로직을 가지고 있으면 EnumTest하기</strong>
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416010211939.png" alt="image-20220416010211939"></p>
+  </li>
+  <li>
+    <p>list와 단일요소를 합칠 때는 .stream() + Stream.of() 으로 stream으로 통일한 뒤, concat하여 묶음을 만들 수 도 있다. 다만 묶은 Stream을 forEach를 사용할 경우는 생각해봐야한다.
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416010614312.png" alt="image-20220416010614312"></p>
+  </li>
+  <li>
+    <p>my) <strong>이미 정해진 자료를 db가 아닌 프로그램에서 초기화하려면,</strong></p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">프로그램 시작부터 초기화</code>는 <code class="language-plaintext highlighter-rouge">상수static final</code>변수에 -&gt; <code class="language-plaintext highlighter-rouge">static { }</code>블럭에서 초기화시키면 된다.</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">RandomCardGenerator</span> <span class="kd">implements</span> <span class="nc">CardGenerator</span> <span class="o">{</span>
+    <span class="kd">static</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">PlayingCard</span><span class="o">&gt;</span> <span class="n">cardDeck</span><span class="o">;</span>
+    
+    <span class="kd">static</span> <span class="o">{</span>
+        <span class="n">cardDeck</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">values</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="nl">RandomCardGenerator:</span><span class="o">:</span><span class="n">getPlayingCardStream</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+    <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>초기화되어있는 컬렉션을 <code class="language-plaintext highlighter-rouge">Collections.shuflle()</code>만 해줘도 랜덤이다.</p>
+
+    <ul>
+      <li>원본을 보호하고 싶다면, <code class="language-plaintext highlighter-rouge">new ArrayDeque&lt;&gt;  ( 컬랙션 )</code>처럼 복사후 shuffle하고 return해준다?!</li>
+    </ul>
+  </li>
+  <li>
+    <p>입력받은 값을 <strong>확인하는 메서드 내에서 바로 t/f return이 아닌, return전 또다시 <code class="language-plaintext highlighter-rouge">물어본 대답에 따라 로직을 수행</code>후 return t/f return하는 경우도 있다.<code class="language-plaintext highlighter-rouge">** -&gt; **</code>isXXX Then YYY ()`</strong></p>
+
+    <ul>
+      <li>
+        <p>만약 카드받는 로직이 없이 <strong>물어보기만</strong> 했다면?</p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isHit</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Player</span> <span class="n">gambler</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">BlackJackCommand</span> <span class="n">inputCommand</span> <span class="o">=</span> <span class="n">askHitOrStay</span><span class="o">(</span><span class="n">gambler</span><span class="o">);</span>
+      <span class="k">return</span> <span class="n">inputCommand</span><span class="o">.</span><span class="na">isHit</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p><strong>물어본 대답에 따라 로직이 추가되는 경우</strong> -&gt; xxxThenyyy()</p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isHitThenReceiveCard</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Player</span> <span class="n">gambler</span><span class="o">,</span> <span class="kd">final</span> <span class="nc">CardDeck</span> <span class="n">cardDeck</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">BlackJackCommand</span> <span class="n">inputCommand</span> <span class="o">=</span> <span class="n">askHitOrStay</span><span class="o">(</span><span class="n">gambler</span><span class="o">);</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">inputCommand</span><span class="o">.</span><span class="na">isHit</span><span class="o">())</span> <span class="o">{</span>
+          <span class="n">gambler</span><span class="o">.</span><span class="na">receiveCard</span><span class="o">(</span><span class="n">cardDeck</span><span class="o">);</span> <span class="c1">// isHit인 경우, 추가로직 수행후, return한다.</span>
+          <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+      <span class="o">}</span>
+      <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+  <span class="o">}</span>
+        
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="블랙잭-2단계베팅-피드백">
+<a class="anchor" href="#%EB%B8%94%EB%9E%99%EC%9E%AD-2%EB%8B%A8%EA%B3%84%EB%B2%A0%ED%8C%85-%ED%94%BC%EB%93%9C%EB%B0%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>블랙잭 2단계(베팅) 피드백</h3>
+
+<ol>
+  <li>
+<strong>같은 상태값을 공유하는 테스트들만 따로 @Nested를 적용해줘도 된다.</strong>
+    <ul>
+      <li>예를 들어, setUp에 <code class="language-plaintext highlighter-rouge">버스트의 상황이 없는 경우에 한하여</code>테스를 작성할 때
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416011626420.png" alt="image-20220416011626420">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>전략패턴으로 빼고 <code class="language-plaintext highlighter-rouge">랜덤까지만 production의 domain 패키지에</code>, 테스트를 위한 <code class="language-plaintext highlighter-rouge">수동전략객체Class</code>는 <code class="language-plaintext highlighter-rouge">test코드&gt; testutil&gt; XXXXFixtureGenerator</code>로 만들어준다.</strong></p>
+
+    <ul>
+      <li>전략객체라도 <strong>테스트를 위한 수동전략객체는 -&gt; production에 생성하면안된다.</strong>
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416012550687.png" alt="image-20220416012550687"></p>
+
+    <ol>
+      <li>
+        <p><strong>getter가 아니라면 -&gt; <code class="language-plaintext highlighter-rouge">.receiveXXX()</code> or <code class="language-plaintext highlighter-rouge">.createXXXX()</code></strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416114248957.png" alt="image-20220416114248957"></p>
+      </li>
+      <li>
+        <p><strong>조건이 여러개 있을 땐, 포함관계인지 확인하자</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416114832209.png" alt="image-20220416114832209"></p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>객체에 역할수행을 위해 메세지를 보낼 때, <code class="language-plaintext highlighter-rouge">역할수행에 필요한 재료들만</code>를 보내야지, <code class="language-plaintext highlighter-rouge">역할을 가진 도메인</code>을 보내지마라</strong>
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416122953119.png" alt="image-20220416122953119"></p>
+
+    <ul>
+      <li>
+        <p><strong>역할을 가진 cardDeck을, 역할을 가진 players에게 보낸다??</strong> -&gt; (X) -&gt; (O)</p>
+
+        <ul>
+          <li>
+            <p>내부에서 cardDeck이 역할을 수행해야하는데, <strong>다른 도메인내부에서 다른 도메인이 역할하게 하지말고 재료만 보내자.</strong></p>
+          </li>
+          <li>
+            <p><strong>만약, players에 있는 복수의 player에게 서로 다른 재료를 제공하려면, <code class="language-plaintext highlighter-rouge">복수의 재료</code>를 제공해야하고, <code class="language-plaintext highlighter-rouge">매번 1개씩 재료를 제공해준다면, 재료를 1개씩 제공하는 역할의 도메인</code>은 넘겨도 된다.</strong></p>
+          </li>
+          <li>
+            <p><strong>중요한 것은, <code class="language-plaintext highlighter-rouge">메세지를 받는 players, player를,  다시 내부에서 재료로 들어간 cardDeck 역할 수행시, 그 재료로 쓰면 안된다.</code></strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416121640285.png" alt="image-20220416121640285">
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416121652940.png" alt="image-20220416121652940"></p>
+          </li>
+        </ul>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">spreadCards</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Players</span> <span class="n">players</span><span class="o">,</span> <span class="kd">final</span> <span class="nc">CardDeck</span> <span class="n">cardDeck</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// 변경 전:</span>
+      <span class="c1">//players.receiveCard(cardDeck);</span>
+        
+      <span class="c1">// 중간 변경:</span>
+      <span class="c1">// 컬렉션(복수)에 넘겨주는 재료는 &lt;-- 1개만 주면 안된다.</span>
+      <span class="c1">//players.receiveCard(cardDeck.pop());</span>
+        
+      <span class="c1">// 최종 변경:</span>
+      <span class="c1">// 컬렉션(복수)에 메세지 던질 때는, 재료컬렉션(복수)나, 재료를 매번 제공해주는 역할의 도메인을 넘겨도 된다.</span>
+      <span class="c1">// 복수 &lt;-- 재료도 복수 or 내부에서 복수재료를 만드는 역할은 수행해도 된다.</span>
+      <span class="n">players</span><span class="o">.</span><span class="na">receiveCard</span><span class="o">(</span><span class="n">cardDeck</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">receiveCard</span><span class="o">(</span><span class="kd">final</span> <span class="nc">CardDeck</span> <span class="n">cardDeck</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">for</span> <span class="o">(</span><span class="nc">Player</span> <span class="n">player</span> <span class="o">:</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+          <span class="c1">//cardDeck.drawTo(player, DEFAULT_DRAW_COUNT);</span>
+        
+          <span class="c1">// player들을 돌면서, 매번 새로운 재료를 공급받는다.</span>
+          <span class="kd">final</span> <span class="nc">PlayingCard</span> <span class="n">firstCard</span> <span class="o">=</span> <span class="n">cardDeck</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+          <span class="n">player</span><span class="o">.</span><span class="na">receiveCard</span><span class="o">(</span><span class="n">firstCard</span><span class="o">);</span>
+        
+          <span class="c1">// 2장씩 제공받는다. -&gt; 2번이라서 반복문 굳이 안써도 된다??</span>
+          <span class="kd">final</span> <span class="nc">PlayingCard</span> <span class="n">secondCard</span> <span class="o">=</span> <span class="n">cardDeck</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+          <span class="n">player</span><span class="o">.</span><span class="na">receiveCard</span><span class="o">(</span><span class="n">secondCard</span><span class="o">);</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>상한이 있는 경우, 점수보정은 작은 것으로 출발하는 것이 좋다.</strong></p>
+
+    <ul>
+      <li>blackjack의 ace를 1or11 중 큰 점수를 유지하고 싶어서 default 11로 하고, -10점씩 보정시켜줬지만</li>
+      <li>
+<strong>애초에 상한 점수(21)점이 정해져있으면,  ace 3장을 가져도 33으로의 보정은 아예 불가능한 상황이기 때문이다.</strong>
+        <ul>
+          <li>ace2장만 있다고 치더라도, 22점은 아예 불가능한 점수기 때문에, <strong>ace를 작은 점수 1을 default로 하고, <code class="language-plaintext highlighter-rouge">보정도 22를 못넘어도록 1번만 +10보정</code>이 가능하므로 while문을 돌릴 필요도 없다</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416132126829.png" alt="image-20220416132126829">
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416132136198.png" alt="image-20220416132136198">
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416132151870.png" alt="image-20220416132151870"></p>
+  </li>
+</ol>
+
+<h4 id="구초리">
+<a class="anchor" href="#%EA%B5%AC%EC%B4%88%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>구초리</h4>
+
+<ol>
+  <li>
+    <p>domain과 view(m&lt;-&gt;v)분리할 수없다면, mvc패턴이 아니므로 <strong>컨트롤러를 쓰지마라</strong></p>
+  </li>
+  <li>
+    <p>inputView에도</p>
+
+    <ol>
+      <li>input메서드() 전에 출력로직이 있어야한다.</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">.scanXXX() 애매</code> -&gt; 탐색/검색의 의미임. -&gt; <code class="language-plaintext highlighter-rouge">.inputXXX()</code>로 가자,</li>
+      <li>
+<strong>view에서 형변환까지 완료해서 return</strong> 해보면 어떻까? 고민</li>
+    </ol>
+  </li>
+  <li>
+    <p>view로직이 조금이라도 포함된다면? domain패키지에서 빼라</p>
+  </li>
+  <li>
+    <p><strong>지역변수 추출을  활용해서 가독성을 높이자</strong></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">scanAndGetBetMoney</code> : <strong>controller에서 내부 2가지 하는 일(로직 + 출력)을 하도록 묶은 메서드</strong>에 대해
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416093332369.png" alt="image-20220416093332369"></p>
+
+    <ol>
+      <li><strong>메서드명에 내부 여러가지 일을 명시하여 노출하면 <code class="language-plaintext highlighter-rouge">캡슐화 위배</code></strong></li>
+      <li>controller(M+V가 섞인 class)에서 <strong><code class="language-plaintext highlighter-rouge">메인로직</code> + <code class="language-plaintext highlighter-rouge">View출력</code>을 1개 함수로 묶지마라</strong>
+</li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>controller or M+V메인로직에서 반복문 등 로직을 수행하지마라 -&gt; <code class="language-plaintext highlighter-rouge">로직을 담당하는 클래스에 메세지를 보내 책임을 넘겨라</code></strong></p>
+
+    <ul>
+      <li>메인로직 클래스가 일이 많아지거나 로직을 수행하게되면 객체에게 넘겨라
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416100144907.png" alt="image-20220416100144907">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>scanAndGetBetMoney -&gt;</p>
+
+    <ul>
+      <li>내부 .scanXXXX() -&gt; 의미상 <code class="language-plaintext highlighter-rouge">inputXXXX()</code>으로 변경</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">scanAnGet</code>BetMoney -&gt; <code class="language-plaintext highlighter-rouge">create</code>BetMoney로 변경
+        <ul>
+          <li><strong>get -&gt; getter아니면 <code class="language-plaintext highlighter-rouge">receive(다른데서 받기) or create(생성)</code></strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>A &amp;&amp; B &amp;&amp; C -&gt; 드모르간으로 단순화시킬 수 있다.</p>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">not A  return false;</code></li>
+      <li><code class="language-plaintext highlighter-rouge">not B return false;</code></li>
+      <li><code class="language-plaintext highlighter-rouge">(자동 A &amp;&amp; B) return C</code></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416094333155.png" alt="image-20220416094333155"></p>
+  </li>
+  <li>
+    <p><strong>스트림의 결과를 변수로 추출하라</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416113823119.png" alt="image-20220416113823119"></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c1">//변경 전</span>
+ <span class="kd">public</span> <span class="kd">static</span> <span class="nc">BlackJackResult</span> <span class="nf">from</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Players</span> <span class="n">players</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">return</span> <span class="k">new</span> <span class="nf">BlackJackResult</span><span class="o">(</span><span class="n">players</span><span class="o">.</span><span class="na">getGamblers</span><span class="o">()</span>
+                                <span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                                <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toMap</span><span class="o">(</span>
+                                    <span class="nc">Function</span><span class="o">.</span><span class="na">identity</span><span class="o">(),</span>
+                                    <span class="n">gambler</span> <span class="o">-&gt;</span> <span class="n">calculateProfit</span><span class="o">(</span><span class="n">players</span><span class="o">,</span> <span class="n">gambler</span><span class="o">),</span>
+                                    <span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">y</span><span class="o">,</span>
+                                    <span class="nl">LinkedHashMap:</span><span class="o">:</span><span class="k">new</span><span class="o">)</span>
+                                        <span class="o">));</span>
+        
+ <span class="c1">//변수로 추출</span>
+     <span class="kd">public</span> <span class="kd">static</span> <span class="nc">BlackJackResult</span> <span class="nf">from</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Players</span> <span class="n">players</span><span class="o">)</span> <span class="o">{</span>
+         <span class="kd">final</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Player</span><span class="o">,</span> <span class="nc">Double</span><span class="o">&gt;</span> <span class="nc">ProfitsPerPlayer</span> <span class="o">=</span> <span class="n">players</span><span class="o">.</span><span class="na">getGamblers</span><span class="o">()</span>
+             <span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+             <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">toMap</span><span class="o">(</span><span class="nc">Function</span><span class="o">.</span><span class="na">identity</span><span class="o">(),</span>
+                            <span class="n">gambler</span> <span class="o">-&gt;</span> <span class="n">calculateProfit</span><span class="o">(</span><span class="n">players</span><span class="o">,</span> <span class="n">gambler</span><span class="o">),</span>
+                            <span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">y</span><span class="o">,</span>
+                            <span class="nl">LinkedHashMap:</span><span class="o">:</span><span class="k">new</span><span class="o">));</span>
+    
+         <span class="k">return</span> <span class="k">new</span> <span class="nf">BlackJackResult</span><span class="o">(</span><span class="nc">ProfitsPerPlayer</span><span class="o">);</span>
+     <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c1">//변경 전</span>
+ <span class="kd">public</span> <span class="kt">double</span> <span class="nf">calculateDealerProfit</span><span class="o">()</span> <span class="o">{</span>
+     <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">value</span><span class="o">.</span><span class="na">values</span><span class="o">()</span>
+         <span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+         <span class="o">.</span><span class="na">mapToDouble</span><span class="o">(</span><span class="nl">Double:</span><span class="o">:</span><span class="n">valueOf</span><span class="o">)</span>
+         <span class="o">.</span><span class="na">sum</span><span class="o">()</span> <span class="o">*</span> <span class="no">DEALER_FLIP_UNIT</span><span class="o">;</span>
+ <span class="o">}</span>
+    
+ <span class="c1">//변수로 추출</span>
+ <span class="kd">public</span> <span class="kt">double</span> <span class="nf">calculateDealerProfit</span><span class="o">()</span> <span class="o">{</span>
+     <span class="kd">final</span> <span class="kt">double</span> <span class="n">dealerTotalProfit</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">value</span><span class="o">.</span><span class="na">values</span><span class="o">()</span>
+         <span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+         <span class="o">.</span><span class="na">mapToDouble</span><span class="o">(</span><span class="nl">Double:</span><span class="o">:</span><span class="n">valueOf</span><span class="o">)</span>
+         <span class="o">.</span><span class="na">sum</span><span class="o">();</span>
+     <span class="k">return</span> <span class="n">dealerTotalProfit</span> <span class="o">*</span> <span class="no">DEALER_FLIP_UNIT</span><span class="o">;</span>
+ <span class="o">}</span>
+    
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>dto -&gt; 필요case : 시스템커졌을때, 레이어 나눠서 (도-&gt;서) 관리, 계층넘어갈때 문제</p>
+  </li>
+</ol>
+
+<h3 id="페어간-새롭게-안-사실들">
+<a class="anchor" href="#%ED%8E%98%EC%96%B4%EA%B0%84-%EC%83%88%EB%A1%AD%EA%B2%8C-%EC%95%88-%EC%82%AC%EC%8B%A4%EB%93%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>페어간 새롭게 안 사실들</h3>
+
+<ol>
+  <li>
+    <p>추상클래스를 사용하는 많은 경우가 <strong>인페에서는 공통적으로 못쓰는 <code class="language-plaintext highlighter-rouge">공통 상태값을 공유</code>하기 위해서</strong></p>
+  </li>
+  <li>
+    <p>여러 구상체(자식들) 존재시 <strong>변수는 무조건 추상체</strong>로 받아 -&gt; <strong><code class="language-plaintext highlighter-rouge">컬렉션&lt;추상체&gt;</code>로 묶어서 처리가 가능</strong></p>
+
+    <ul>
+      <li>
+        <p>변수, 파라미터, 응답값 모두 추상체로 주기</p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">// given</span>
+  <span class="nc">String</span> <span class="n">expected</span> <span class="o">=</span> <span class="s">"pobi"</span><span class="o">;</span>
+  <span class="kd">final</span> <span class="nc">Player</span> <span class="n">pobi</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Gambler</span><span class="o">(</span><span class="n">expected</span><span class="o">);</span>
+        
+  <span class="kd">final</span> <span class="nc">Player</span> <span class="n">rich</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Dealer</span><span class="o">(</span><span class="s">"rich"</span><span class="o">);</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>만약 <code class="language-plaintext highlighter-rouge">단수로 구현체로 받는 경우</code>는 , <strong>추상체로 묶어 사용할 것을 포기한 상태로, 구현체 전용 메서드를 사용하는 순간이다.</strong></p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"딜러는 현재 합산 17이상인지 확인할 수 있다"</span><span class="o">)</span>
+  <span class="kt">void</span> <span class="nf">over_than_sixteen</span><span class="o">()</span> <span class="o">{</span>
+      <span class="c1">// given</span>
+      <span class="kd">final</span> <span class="nc">Dealer</span> <span class="n">rich</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Dealer</span><span class="o">(</span><span class="s">"rich"</span><span class="o">);</span>
+      <span class="n">rich</span><span class="o">.</span><span class="na">addCard</span><span class="o">(</span><span class="nc">PlayingCard</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">HEARTS</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">KING</span><span class="o">));</span>
+      <span class="n">rich</span><span class="o">.</span><span class="na">addCard</span><span class="o">(</span><span class="nc">PlayingCard</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">SPADES</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">KING</span><span class="o">));</span>
+        
+      <span class="c1">// when</span>
+      <span class="kt">boolean</span> <span class="n">actual</span> <span class="o">=</span> <span class="n">rich</span><span class="o">.</span><span class="na">isUnderSixteen</span><span class="o">();</span>
+        
+      <span class="c1">// then</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isFalse</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>값 비교시, null가능한 값은 메서드 파라미터로, <code class="language-plaintext highlighter-rouge">확실한 값만 좌항</code>으로 + 소문자 가능하려면 <code class="language-plaintext highlighter-rouge">equalsIgnoreCase</code></p>
+
+    <ul>
+      <li>
+        <p>비교시 확실한 값을 왼쪽에 넣어서 null에러 안나게 + ignoreCase</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220309104525346.png" alt="image-20220309104525346"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>싱글톤</p>
+
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">static + final</code></strong>으로 <code class="language-plaintext highlighter-rouge">클래스변수</code>로서 <strong>애초에 <code class="language-plaintext highlighter-rouge">생성</code>해놓고 초기화도</strong>해놓음</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">정펙매</code>로 <strong>이미 생성된 것만 반환</strong>함 ( <strong>객체 생성 생성자 제공 안함. getInstance로만 사용</strong>함.)
+        <ul>
+          <li>my) 프로그램 시작시부터 생성되어야할 놈들
+            <ul>
+              <li>static +final 상수 변수에 담아야함</li>
+              <li>static { } 블럭에 초기화 - &gt; 프로그램 작동중에 다시 초기화할 때는?</li>
+              <li>싱글톤 -&gt;  <strong>new 기본생성자 제공도 안함.?!</strong>
+</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>디버깅 찍고 싶은데, 아래 아무것도 없으면 sout만들어놓고, 그 위에 디버깅 표시</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220309103940334.png" alt="image-20220309103940334">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220309114901690.png" alt="image-20220309114901690"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220309114924625.png" alt="image-20220309114924625">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220309114946747.png" alt="image-20220309114946747">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220309115012495.png" alt="image-20220309115012495"></p>
+  </li>
+  <li>
+    <p><strong>도메인1 vs 도메인2 비교계산 로직</strong>이 <strong>같은 객체/일급컬렉션이 아닐 때의 비교 -&gt; 결과도메인이 1,2를 각각알고 서로는 모르게</strong></p>
+
+    <ol>
+      <li>
+        <p><strong>my) 같은형의 일급컬렉션 or 객체</strong>면, 상관없이 그냥 메세지&gt; 도메인1.메세지( 도메인2 )</p>
+      </li>
+      <li>
+        <p><strong>서로 전혀 다른 도메인인데,  각 도메인에서 최종결과값만 꺼내서 비교될 예정이라면?</strong> -&gt; <strong>제3의 도메인을 만들어서 비교</strong></p>
+
+        <ul>
+          <li>
+            <p>dealer  vs  players  점수비교하여 승패비교</p>
+
+            <ul>
+              <li>dealer. compare ( players )?</li>
+              <li>players . compare ( dealer)?</li>
+              <li><strong>Result.of ( dealer, players )</strong></li>
+            </ul>
+
+            <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416135340360.png" alt="image-20220416135340360"></p>
+          </li>
+          <li>
+            <p>로또 비교도 마찬가지..?</p>
+
+            <ul>
+              <li><strong>LottoResult.of( winningLotto, Lottos )</strong></li>
+            </ul>
+
+            <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416135403911.png" alt="image-20220416135403911"></p>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+  </div><a class="u-url" href="/java/feedback/review/%EB%B8%94%EB%9E%99%EC%9E%AD/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/31/%EB%B8%94%EB%9E%99%EC%9E%AD-%EC%BD%94%EB%93%9C%EB%A6%AC%EB%B7%B0.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
