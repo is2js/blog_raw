@@ -4,7 +4,7 @@ layout: post
 categories: [rdp, iptime, 원격, configuration]
 
 title: 데스크탑 iptime RDP 설정
-description:  chodesktop.iptime.org:4444
+description:  chodesktop.iptime.org:4444 > cho_desktop 
 
 image: "images/posts/config.png"
 
