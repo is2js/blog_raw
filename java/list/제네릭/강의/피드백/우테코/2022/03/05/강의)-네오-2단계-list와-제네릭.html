@@ -165,8 +165,9 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h4"><a href="#my-type의-경우-정의하는-변수와-파라미터는-전체-분기들을-내포되도록-추상체로-받고-사용하는-할당과-메소드호출-인자에는-분기가-결정된-구상체를-넣어주자">my) Type의 경우) 정의하는 변수와 파라미터는 전체 분기들을 내포되도록 추상체로 받고, 사용하는 할당과 메소드호출 인자에는 분기가 결정된 구상체를 넣어주자.</a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h3"><a href="#정의시-변수-생략된t--형--파라미터-클래스-t형---제네릭에서의-추상체---구상체-특정형-변수">정의시, 변수 생략된T &lt;&gt; 형 + 파라미터, 클래스 &lt;T&gt;형 -&gt; 제네릭에서의 추상체 &lt;-&gt; 구상체 &lt;특정형&gt; 변수</a>
+<li class="toc-entry toc-h3"><a href="#선언시-변수-생략된t--형--파라미터-클래스-t형의-제네릭에서의-추상체--호출시구상체-특정형-을-지정해서-사용한다">선언시, 변수 생략된T &lt;&gt; 형 + 파라미터, 클래스 &lt;T&gt;형의 제네릭에서의 추상체 &lt;—&gt; 호출시구상체 &lt;특정형&gt; 을 지정해서 사용한다.</a>
 <ul>
+<li class="toc-entry toc-h4"><a href="#my--intellij의-생성자-파라미터를-t로-지정하여-generic을-생성한-선t---호구지-선언시-t형---호출시-구상형을-지정해서-사용">my)  intellij의 생성자 파라미터를 T로 지정하여 Generic을 생성한 선T -&gt; 호구지 (선언시 T형 -&gt; 호출시 구상형을 지정해서 사용)</a></li>
 <li class="toc-entry toc-h4"><a href="#제네릭-추상체-t형으로-box클래스-정의하기">제네릭 추상체 &lt;T&gt;형으로 box클래스 정의하기</a></li>
 <li class="toc-entry toc-h4"><a href="#my-제네릭은-type과-반대로-변수-및-생성자에서는-제네릭-구상체-인-특정형-변수에--할당사용시-생략된t형을-넣어줘-변수와-생성자에서-좁힌다">my) 제네릭은 Type과 반대로, 변수 및 생성자에서는 제네릭 구상체 인 &lt;특정형&gt; 변수에 , 할당(사용)시 생략된T형&lt;&gt;을 넣어줘, 변수와 생성자에서 좁힌다.</a></li>
 <li class="toc-entry toc-h4"><a href="#할당사용시-생략된t형을-넣지만--좁히는-변수와생성자-자리에-들어간특정형-변수가-추상체인-인터페이스라면--넓히는-할당-자리에-특정형-인터페이스의-구상체형들-들도-할당가능하다">할당(사용)시 생략된T형&lt;&gt;을 넣지만,  좁히는 변수와생성자 자리에 들어간&lt;특정형&gt; 변수가 추상체인 인터페이스라면,  넓히는 할당 자리에 &lt;특정형 인터페이스의 구상체형들&gt; 들도 할당가능하다</a>
@@ -551,11 +552,27 @@ window.onload = wrap_img;
   </li>
 </ol>
 
-<h3 id="정의시-변수-생략된t--형--파라미터-클래스-t형---제네릭에서의-추상체---구상체-특정형-변수">
-<a class="anchor" href="#%EC%A0%95%EC%9D%98%EC%8B%9C-%EB%B3%80%EC%88%98-%EC%83%9D%EB%9E%B5%EB%90%9Ct--%ED%98%95--%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0-%ED%81%B4%EB%9E%98%EC%8A%A4-t%ED%98%95---%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%97%90%EC%84%9C%EC%9D%98-%EC%B6%94%EC%83%81%EC%B2%B4---%EA%B5%AC%EC%83%81%EC%B2%B4-%ED%8A%B9%EC%A0%95%ED%98%95-%EB%B3%80%EC%88%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>정의시, 변수 <code class="language-plaintext highlighter-rouge">생략된T &lt;&gt;</code> 형 + 파라미터, 클래스 <code class="language-plaintext highlighter-rouge">&lt;T&gt;</code>형 -&gt; 제네릭에서의 추상체 &lt;-&gt; <code class="language-plaintext highlighter-rouge">구상체 &lt;특정형&gt;</code> 변수</h3>
+<h3 id="선언시-변수-생략된t--형--파라미터-클래스-t형의-제네릭에서의-추상체--호출시구상체-특정형-을-지정해서-사용한다">
+<a class="anchor" href="#%EC%84%A0%EC%96%B8%EC%8B%9C-%EB%B3%80%EC%88%98-%EC%83%9D%EB%9E%B5%EB%90%9Ct--%ED%98%95--%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0-%ED%81%B4%EB%9E%98%EC%8A%A4-t%ED%98%95%EC%9D%98-%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%97%90%EC%84%9C%EC%9D%98-%EC%B6%94%EC%83%81%EC%B2%B4--%ED%98%B8%EC%B6%9C%EC%8B%9C%EA%B5%AC%EC%83%81%EC%B2%B4-%ED%8A%B9%EC%A0%95%ED%98%95-%EC%9D%84-%EC%A7%80%EC%A0%95%ED%95%B4%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>선언시, 변수 <code class="language-plaintext highlighter-rouge">생략된T &lt;&gt;</code> 형 + 파라미터, 클래스 <code class="language-plaintext highlighter-rouge">&lt;T&gt;</code>형의 제네릭에서의 추상체 &lt;—&gt; 호출시<code class="language-plaintext highlighter-rouge">구상체 &lt;특정형&gt;</code> 을 지정해서 사용한다.</h3>
+
+<h4 id="my--intellij의-생성자-파라미터를-t로-지정하여-generic을-생성한-선t---호구지-선언시-t형---호출시-구상형을-지정해서-사용">
+<a class="anchor" href="#my--intellij%EC%9D%98-%EC%83%9D%EC%84%B1%EC%9E%90-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A5%BC-t%EB%A1%9C-%EC%A7%80%EC%A0%95%ED%95%98%EC%97%AC-generic%EC%9D%84-%EC%83%9D%EC%84%B1%ED%95%9C-%EC%84%A0t---%ED%98%B8%EA%B5%AC%EC%A7%80-%EC%84%A0%EC%96%B8%EC%8B%9C-t%ED%98%95---%ED%98%B8%EC%B6%9C%EC%8B%9C-%EA%B5%AC%EC%83%81%ED%98%95%EC%9D%84-%EC%A7%80%EC%A0%95%ED%95%B4%EC%84%9C-%EC%82%AC%EC%9A%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>my)  intellij의 생성자 파라미터를 T로 지정하여 Generic을 생성한 선T -&gt; 호구지 (선언시 T형 -&gt; 호출시 구상형을 지정해서 사용)</h4>
+
+<ul>
+  <li>호출부에서 T형을 집어넣을 수 없으니  -&gt; 일단 아무형이나 넣어서 생성자에 넣고 내부에서 T로 바꿔서 정의한다.</li>
+  <li>T형으로 파라미터를 받아도, T는 빨간줄이다. 빨간줄 <code class="language-plaintext highlighter-rouge">[Create  type T paramter] </code> 를 통해 class 전체를 선택해서 클래스자체도 <code class="language-plaintext highlighter-rouge">Class&lt;T&gt;</code>형으로 지정해준다.
+    <ul>
+      <li><strong>필드가 아닌, 파라미터 속 T에 대해서만 해당 T형 파라미터 자동생성이 활성화된다.</strong></li>
+    </ul>
+  </li>
+</ul>
 
 <h4 id="제네릭-추상체-t형으로-box클래스-정의하기">
 <a class="anchor" href="#%EC%A0%9C%EB%84%A4%EB%A6%AD-%EC%B6%94%EC%83%81%EC%B2%B4-t%ED%98%95%EC%9C%BC%EB%A1%9C-box%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%A0%95%EC%9D%98%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>제네릭 추상체 <code class="language-plaintext highlighter-rouge">&lt;T&gt;</code>형으로 box클래스 정의하기</h4>
+
+<ul>
+  <li>외부에서 생성자를 통해 빨간줄로 생성할 땐, 아무형이나 집어넣고 -&gt; 내부에서 T형으로 정의후 -&gt; <code class="language-plaintext highlighter-rouge">Create T type parameter</code>를 통해 class에도 <code class="language-plaintext highlighter-rouge">&lt;T&gt;</code>로 선언되도록 해야한다. (선T호구지)</li>
+</ul>
 
 <ol>
   <li>
