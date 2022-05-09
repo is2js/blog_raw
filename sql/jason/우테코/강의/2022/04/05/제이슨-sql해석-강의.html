@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>강의) 제이슨 SQL 기본 강의 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="강의) 제이슨 SQL 기본 강의" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="SQL 호출 순서와 예제 3가지" />
+<meta property="og:description" content="SQL 호출 순서와 예제 3가지" />
+<link rel="canonical" href="blog.chojaeseong.com/sql/jason/%EC%9A%B0%ED%85%8C%EC%BD%94/%EA%B0%95%EC%9D%98/2022/04/05/%EC%A0%9C%EC%9D%B4%EC%8A%A8-sql%ED%95%B4%EC%84%9D-%EA%B0%95%EC%9D%98.html" />
+<meta property="og:url" content="blog.chojaeseong.com/sql/jason/%EC%9A%B0%ED%85%8C%EC%BD%94/%EA%B0%95%EC%9D%98/2022/04/05/%EC%A0%9C%EC%9D%B4%EC%8A%A8-sql%ED%95%B4%EC%84%9D-%EA%B0%95%EC%9D%98.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/wootech.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-04-05T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-04-05T00:00:00-05:00","url":"blog.chojaeseong.com/sql/jason/%EC%9A%B0%ED%85%8C%EC%BD%94/%EA%B0%95%EC%9D%98/2022/04/05/%EC%A0%9C%EC%9D%B4%EC%8A%A8-sql%ED%95%B4%EC%84%9D-%EA%B0%95%EC%9D%98.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"강의) 제이슨 SQL 기본 강의","dateModified":"2022-04-05T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/sql/jason/%EC%9A%B0%ED%85%8C%EC%BD%94/%EA%B0%95%EC%9D%98/2022/04/05/%EC%A0%9C%EC%9D%B4%EC%8A%A8-sql%ED%95%B4%EC%84%9D-%EA%B0%95%EC%9D%98.html"},"description":"SQL 호출 순서와 예제 3가지","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">강의) 제이슨 SQL 기본 강의</h1><p class="page-description">SQL 호출 순서와 예제 3가지</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-04-05T00:00:00-05:00" itemprop="datePublished">
+        Apr 5, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      13 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#sql">sql</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#jason">jason</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#SQL">SQL</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#강의">강의</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#sql">SQL</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#update">update</a></li>
+<li class="toc-entry toc-h3"><a href="#distinct-와-groupby로-중복제거">distinct 와 groupby로 중복제거</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#select쎌렉">select(쎌렉!)</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#보는-순서">보는 순서</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#from부터-where-group-by-having까지-내려가되-select한-뒤-order-bylimit">from부터 where, group by, having까지 내려가되, select한 뒤 order by+limit</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#쎌렉이-제일-마지막-같지만-5쏄렉에서-지정한-alias를----6-order-by--limit에서-사용할-수-있다---where은-fw-gh-다음-select이라-select의-별칭이-안먹힌다">쎌렉이 제일 마지막 같지만, 5.쏄렉에서 지정한 alias를 -&gt;  6. order by + limit에서 사용할 수 있다. -&gt; where은 fw gh 다음 select이라 select의 별칭이 안먹힌다</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#sql해석방법">sql해석방법</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#해석시-쎌렉은-fw-gh--다음인줄알았는데-직접-작성시에는-groupby까지하고-쎌렉에-집계메서드로-집계해놓고---그대로-칼럼처럼-가져와-having에-조건을-추가한다">해석시 쎌렉은 fw-gh- 다음인줄알았는데, 직접 작성시에는 groupby까지하고 쎌렉에 집계메서드로 집계해놓고 -&gt; 그대로 칼럼처럼 가져와 having에 조건을 추가한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#심지어-order-by에서도-쎌렉에-있는-집계칼럼메서드를-칼럼으로-그대로-가져다-쓴다">심지어 order by에서도 쎌렉에 있는 [[집계칼럼메서드를 칼럼]]으로 그대로 가져다 쓴다.</a></li>
+<li class="toc-entry toc-h4"><a href="#주의-작성은-쎌렉-집계후-having에서-갖다썼지만-실행은-having후-쎌렉이라서--having절where절에-쎌렉alias못쓴다">주의! 작성은 쎌렉 집계후 having에서 갖다썼지만, 실행은 having후 쎌렉이라서-&gt; having절(+where절)에 쎌렉alias못쓴다!</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#실습">실습</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#주의점-서브쿼리x--innerjon외-left-or-right-1개만-섞을-것">주의점: 서브쿼리X + innerjon외 left or right 1개만 섞을 것</a></li>
+<li class="toc-entry toc-h3"><a href="#문제1">문제1</a></li>
+<li class="toc-entry toc-h3"><a href="#풀이1">풀이1</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#쎌렉에-집계-alias-리팩토링-for-order-by-limit">쎌렉에 집계 alias 리팩토링 for order by, limit</a></li>
+<li class="toc-entry toc-h4"><a href="#fromjoin에서-에만-테이블-as-소문자--별칭---이후-fw-gh-select까지-보이는-테이블-모두-alias주는-리팩토링">from(+join)에서 에만 테이블 as 소문자  별칭 -&gt; 이후 fw-gh-select까지 보이는 테이블 모두 alias주는 리팩토링</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#문제2">문제2</a></li>
+<li class="toc-entry toc-h3"><a href="#풀이2">풀이2</a></li>
+<li class="toc-entry toc-h3"><a href="#문제3">문제3</a></li>
+<li class="toc-entry toc-h3"><a href="#풀이3">풀이3</a></li>
+</ul>
+</li>
+</ul><h2 id="sql">
+<a class="anchor" href="#sql" aria-hidden="true"><span class="octicon octicon-link"></span></a>SQL</h2>
+
+<h3 id="update">
+<a class="anchor" href="#update" aria-hidden="true"><span class="octicon octicon-link"></span></a>update</h3>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">where</code>을 안주면 테이블 전체가 바뀐다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220405141338494.png" alt="image-20220405141338494"></p>
+  </li>
+</ul>
+
+<h3 id="distinct-와-groupby로-중복제거">
+<a class="anchor" href="#distinct-%EC%99%80-groupby%EB%A1%9C-%EC%A4%91%EB%B3%B5%EC%A0%9C%EA%B1%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>distinct 와 groupby로 중복제거</h3>
+
+<ul>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">distinct</code> : 종류별로 1개만 남기도록 중복제거</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220405141509213.png" alt="image-20220405141509213"></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">group by </code>로 인해 그루핑으로 <code class="language-plaintext highlighter-rouge">기준칼럼별 중복제거된 데이터로 보기가 편해진다</code></strong></p>
+
+    <ul>
+      <li>select이니까 결국엔 보이는 중복만 제거하지만, <strong><code class="language-plaintext highlighter-rouge">같은 그룹기준</code>별로 보여주니 <code class="language-plaintext highlighter-rouge">그룹기준칼럼이 종류별로 1개가 되는 점</code> + 그 1개에 대한 여러 중복데이터들은 필요시 강제집계을 이용하는 것이다.</strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220405141606148.png" alt="image-20220405141606148">
+</li>
+      <li>
+<strong>원래 그룹바이는 1000000개의 데이터를 <code class="language-plaintext highlighter-rouge">보기 편하게 묶어서 보기</code>위함이다.</strong>
+        <ul>
+          <li>그 과정에서 그룹의 기준이되는 칼럼은 중복이 제거되어 1개가 된다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">group by</code>이 궁극적인 목적은 기준칼럼의 중복제거가 아니라 -&gt; <code class="language-plaintext highlighter-rouge">중복제거된 기준칼럼에 속하는 단일  or 여러데이터들의 집계</code>가 목적이다</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220405142118500.png" alt="image-20220405142118500"></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">having</code>으로 그루핑한 상태에서 where를 걸 수 있다.</p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">select(셀렉)시 limit 100, limit 1000</code>을 버릇화해야한다.</strong></p>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">order by</code></li>
+      <li>
+<code class="language-plaintext highlighter-rouge">limit</code>
+        <ul>
+          <li>체스게임 같은 경우, 생성날짜가 있다면 orderby limit1을 적용할 수 있다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="select쎌렉">
+<a class="anchor" href="#select%EC%8E%8C%EB%A0%89" aria-hidden="true"><span class="octicon octicon-link"></span></a>select(쎌렉!)</h2>
+
+<h3 id="보는-순서">
+<a class="anchor" href="#%EB%B3%B4%EB%8A%94-%EC%88%9C%EC%84%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>보는 순서</h3>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220405142426693.png" alt="image-20220405142426693"></p>
+
+<h4 id="from부터-where-group-by-having까지-내려가되-select한-뒤-order-bylimit">
+<a class="anchor" href="#from%EB%B6%80%ED%84%B0-where-group-by-having%EA%B9%8C%EC%A7%80-%EB%82%B4%EB%A0%A4%EA%B0%80%EB%90%98-select%ED%95%9C-%EB%92%A4-order-bylimit" aria-hidden="true"><span class="octicon octicon-link"></span></a>from부터 where, group by, having까지 내려가되, select한 뒤 order by+limit</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220405142535482.png" alt="image-20220405142535482"></p>
+
+<ol>
+  <li>
+    <p><strong>from 부터 볼 건데 <code class="language-plaintext highlighter-rouge">join이 올 수 도 있다.</code></strong></p>
+  </li>
+  <li><strong>where로 조건을 줘서 <code class="language-plaintext highlighter-rouge">어떤 범위들을 볼 지 조건으로 지정</code>하고</strong></li>
+  <li><strong>group by로 <code class="language-plaintext highlighter-rouge">그룹별로 묶어서 보고</code></strong></li>
+  <li>
+    <p><strong>having <code class="language-plaintext highlighter-rouge">그룹 중 어떤 그룹을 볼지 조건으로 지정</code>하고</strong></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">f(j)-w/g-h</code>으로 만들어진 데이터 중 <strong>select으로 <code class="language-plaintext highlighter-rouge">어떤 데이터만 골라</code>서 볼 것이며</strong></p>
+  </li>
+  <li>select이후 <strong>order by, limit으로 <code class="language-plaintext highlighter-rouge">어떤 정렬로, 얼만큼 짤라 볼 것</code>인지 지정한다</strong>
+</li>
+</ol>
+
+<h5 id="쎌렉이-제일-마지막-같지만-5쏄렉에서-지정한-alias를----6-order-by--limit에서-사용할-수-있다---where은-fw-gh-다음-select이라-select의-별칭이-안먹힌다">
+<a class="anchor" href="#%EC%8E%8C%EB%A0%89%EC%9D%B4-%EC%A0%9C%EC%9D%BC-%EB%A7%88%EC%A7%80%EB%A7%89-%EA%B0%99%EC%A7%80%EB%A7%8C-5%EC%8F%84%EB%A0%89%EC%97%90%EC%84%9C-%EC%A7%80%EC%A0%95%ED%95%9C-alias%EB%A5%BC----6-order-by--limit%EC%97%90%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4---where%EC%9D%80-fw-gh-%EB%8B%A4%EC%9D%8C-select%EC%9D%B4%EB%9D%BC-select%EC%9D%98-%EB%B3%84%EC%B9%AD%EC%9D%B4-%EC%95%88%EB%A8%B9%ED%9E%8C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>쎌렉이 제일 마지막 같지만, <code class="language-plaintext highlighter-rouge">5.쏄렉</code>에서 지정한 alias를 -&gt;  <code class="language-plaintext highlighter-rouge">6. order by + limit</code>에서 사용할 수 있다. -&gt; <code class="language-plaintext highlighter-rouge">where은 fw gh 다음 select이라 select의 별칭이 안먹힌다</code>
+</h5>
+
+<h3 id="sql해석방법">
+<a class="anchor" href="#sql%ED%95%B4%EC%84%9D%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>sql해석방법</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from부터 내려가면서 [어떤 테이블f에 어떤범위w로부터 그룹핑g을 한다면, 어떻 그룹h을 골라볼 것인지 정해지면 -&gt;  어떤데이터s만 골라서 볼지 정한 뒤 -&gt;  그 데이터를 어떻게 정렬orderby하고 어떻게 짜를limit 것인지는  [쎌렉이후 칼럼선택 + alias주고] 본다
+</code></pre></div></div>
+
+<h4 id="해석시-쎌렉은-fw-gh--다음인줄알았는데-직접-작성시에는-groupby까지하고-쎌렉에-집계메서드로-집계해놓고---그대로-칼럼처럼-가져와-having에-조건을-추가한다">
+<a class="anchor" href="#%ED%95%B4%EC%84%9D%EC%8B%9C-%EC%8E%8C%EB%A0%89%EC%9D%80-fw-gh--%EB%8B%A4%EC%9D%8C%EC%9D%B8%EC%A4%84%EC%95%8C%EC%95%98%EB%8A%94%EB%8D%B0-%EC%A7%81%EC%A0%91-%EC%9E%91%EC%84%B1%EC%8B%9C%EC%97%90%EB%8A%94-groupby%EA%B9%8C%EC%A7%80%ED%95%98%EA%B3%A0-%EC%8E%8C%EB%A0%89%EC%97%90-%EC%A7%91%EA%B3%84%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EC%A7%91%EA%B3%84%ED%95%B4%EB%86%93%EA%B3%A0---%EA%B7%B8%EB%8C%80%EB%A1%9C-%EC%B9%BC%EB%9F%BC%EC%B2%98%EB%9F%BC-%EA%B0%80%EC%A0%B8%EC%99%80-having%EC%97%90-%EC%A1%B0%EA%B1%B4%EC%9D%84-%EC%B6%94%EA%B0%80%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>해석시 쎌렉은 fw-gh- 다음인줄알았는데, 직접 작성시에는 groupby까지하고 쎌렉에 집계메서드로 집계해놓고 -&gt; 그대로 칼럼처럼 가져와 having에 조건을 추가한다.</h4>
+
+<h4 id="심지어-order-by에서도-쎌렉에-있는-집계칼럼메서드를-칼럼으로-그대로-가져다-쓴다">
+<a class="anchor" href="#%EC%8B%AC%EC%A7%80%EC%96%B4-order-by%EC%97%90%EC%84%9C%EB%8F%84-%EC%8E%8C%EB%A0%89%EC%97%90-%EC%9E%88%EB%8A%94-%EC%A7%91%EA%B3%84%EC%B9%BC%EB%9F%BC%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EC%B9%BC%EB%9F%BC%EC%9C%BC%EB%A1%9C-%EA%B7%B8%EB%8C%80%EB%A1%9C-%EA%B0%80%EC%A0%B8%EB%8B%A4-%EC%93%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>심지어 order by에서도 쎌렉에 있는 [[집계칼럼메서드를 칼럼]]으로 그대로 가져다 쓴다.</h4>
+
+<h4 id="주의-작성은-쎌렉-집계후-having에서-갖다썼지만-실행은-having후-쎌렉이라서--having절where절에-쎌렉alias못쓴다">
+<a class="anchor" href="#%EC%A3%BC%EC%9D%98-%EC%9E%91%EC%84%B1%EC%9D%80-%EC%8E%8C%EB%A0%89-%EC%A7%91%EA%B3%84%ED%9B%84-having%EC%97%90%EC%84%9C-%EA%B0%96%EB%8B%A4%EC%8D%BC%EC%A7%80%EB%A7%8C-%EC%8B%A4%ED%96%89%EC%9D%80-having%ED%9B%84-%EC%8E%8C%EB%A0%89%EC%9D%B4%EB%9D%BC%EC%84%9C--having%EC%A0%88where%EC%A0%88%EC%97%90-%EC%8E%8C%EB%A0%89alias%EB%AA%BB%EC%93%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>주의! 작성은 쎌렉 집계후 having에서 갖다썼지만, <code class="language-plaintext highlighter-rouge">실행은 having후 쎌렉이라서-&gt; having절(+where절)에 쎌렉alias못쓴다!</code>
+</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220405143443056.png" alt="image-20220405143443056"></p>
+
+<h2 id="실습">
+<a class="anchor" href="#%EC%8B%A4%EC%8A%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>실습</h2>
+
+<ul>
+  <li>실습 사이트 w3schools: https://www.w3schools.com/sql/trymysql.asp?filename=trysql_func_mysql_concat
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220405140006243.png" alt="image-20220405140006243">
+</li>
+</ul>
+
+<h3 id="주의점-서브쿼리x--innerjon외-left-or-right-1개만-섞을-것">
+<a class="anchor" href="#%EC%A3%BC%EC%9D%98%EC%A0%90-%EC%84%9C%EB%B8%8C%EC%BF%BC%EB%A6%ACx--innerjon%EC%99%B8-left-or-right-1%EA%B0%9C%EB%A7%8C-%EC%84%9E%EC%9D%84-%EA%B2%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>주의점: 서브쿼리X + innerjon외 left or right 1개만 섞을 것</h3>
+
+<h3 id="문제1">
+<a class="anchor" href="#%EB%AC%B8%EC%A0%9C1" aria-hidden="true"><span class="octicon octicon-link"></span></a>문제1</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">1. 200개 이상 팔린 상품명과 그 수량을 수량 기준 내림차순으로 보여주세요.</code></li>
+</ul>
+
+<h3 id="풀이1">
+<a class="anchor" href="#%ED%92%80%EC%9D%B41" aria-hidden="true"><span class="octicon octicon-link"></span></a>풀이1</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="mi">1</span><span class="p">.</span> <span class="mi">200</span><span class="err">개</span> <span class="err">이상</span> <span class="err">팔린</span> <span class="err">상품명과</span> <span class="err">그</span> <span class="err">수량을</span> <span class="err">수량</span> <span class="err">기준</span> <span class="err">내림차순으로</span> <span class="err">보여주세요</span><span class="p">.</span>
+
+<span class="o">##</span> <span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="p">.</span> <span class="err">재료가</span> <span class="err">일단</span> <span class="err">어디있는지</span><span class="p">,</span> <span class="err">재료가</span> <span class="err">속한</span> <span class="o">&lt;</span><span class="err">테이블</span><span class="o">&gt;</span> <span class="err">찾는다</span><span class="p">.</span> <span class="p">[</span><span class="err">상품명</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="err">수량</span><span class="p">]</span> <span class="err">단독</span> <span class="err">재료같지만</span><span class="p">,</span> <span class="p">[</span><span class="err">상품명</span><span class="p">]</span> <span class="err">앞에</span> <span class="mi">200</span><span class="err">개</span> <span class="err">이상</span> <span class="err">팔린</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="err">연결된</span> <span class="err">조건재료</span><span class="p">)</span><span class="err">에</span> <span class="err">속한다</span><span class="p">.</span>
+<span class="o">##</span>      <span class="p">[</span><span class="err">상품명</span><span class="p">]</span><span class="err">은</span> <span class="err">왠지</span> <span class="n">Products</span><span class="err">테이블에</span> <span class="err">있을</span> <span class="err">것</span> <span class="err">같다</span>
+<span class="c1">-- select * from Products; -- 지금은 77개 밖이지만, 테이블 전체데이터 쎌렉시 limit 100, 1000을 고려하자</span>
+<span class="c1">--  * from Products limit 100;</span>
+
+<span class="o">##</span> <span class="n">ProductName</span><span class="err">의</span> <span class="p">[</span><span class="err">상품명</span><span class="p">]</span><span class="err">이</span> <span class="err">있는</span> <span class="err">테이블을</span> <span class="err">찾았다</span><span class="p">.</span>
+
+<span class="o">##</span> <span class="mi">1</span><span class="o">-</span><span class="mi">2</span><span class="p">.</span> <span class="p">[</span><span class="err">재료</span><span class="p">:</span><span class="err">상품명</span><span class="p">]</span><span class="err">에</span> <span class="p">(</span><span class="err">수식어</span><span class="p">)</span><span class="err">가</span> <span class="err">있으니</span> <span class="p">([</span><span class="err">재료</span><span class="p">]</span><span class="err">와</span> <span class="err">연결된</span><span class="o">=</span><span class="err">찾은테이블</span><span class="o">+</span><span class="n">Id</span><span class="err">를</span> <span class="n">Fk</span><span class="err">로</span> <span class="err">가져</span> <span class="err">연결이</span> <span class="err">가능한</span> <span class="p">(</span><span class="err">조건</span> <span class="err">연결재료</span><span class="p">))</span><span class="err">로서</span> <span class="p">(</span><span class="mi">200</span><span class="err">개</span> <span class="err">이상</span> <span class="err">팔린</span><span class="p">)</span><span class="err">의</span> <span class="p">(</span><span class="err">주문량</span><span class="p">,</span><span class="err">팔린량</span><span class="p">)</span><span class="err">을</span> <span class="err">가진</span> <span class="o">&lt;</span><span class="err">테이블</span><span class="o">&gt;</span><span class="err">을</span> <span class="err">찾아야한다</span><span class="p">.</span> 
+<span class="o">##</span> <span class="p">(</span><span class="err">팔린</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="err">주문과</span> <span class="err">관련있는</span> <span class="err">것</span> <span class="err">같아서</span> <span class="o">&lt;</span><span class="n">Orders</span><span class="o">&gt;</span><span class="err">테이블을</span> <span class="err">조회해본다</span><span class="p">.</span>
+<span class="c1">-- select * from Orders limit 100;</span>
+<span class="c1">-- OrderID	CustomerID	EmployeeID	OrderDate	ShipperID</span>
+
+<span class="o">##</span> <span class="err">뭐야</span> <span class="p">(</span><span class="err">팔린량</span><span class="p">,</span><span class="err">주문량</span><span class="p">)</span><span class="err">도</span> <span class="err">없고</span> <span class="p">[</span><span class="err">상품명과</span> <span class="err">연결될</span> <span class="n">ProductId</span><span class="p">]</span><span class="err">도</span> <span class="err">안가지고</span> <span class="err">있다</span><span class="p">.</span>
+
+<span class="o">##</span> <span class="err">다시</span> <span class="err">테이블을</span> <span class="err">보니</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">OrderDetails</span><span class="o">&gt;</span><span class="err">가</span> <span class="err">있다</span><span class="p">.</span>
+
+<span class="c1">-- select * from OrderDetails limit 100;</span>
+<span class="c1">-- OrderDetailID	OrderID	ProductID	Quantity</span>
+<span class="c1">-- 1	10248	11	12</span>
+<span class="c1">-- 2	10248	42	10</span>
+<span class="c1">-- 3	10248	72	5</span>
+
+<span class="o">##</span> <span class="err">여기에</span> <span class="p">[</span><span class="err">상품명</span><span class="p">]</span><span class="err">과</span> <span class="err">연결시켜주는</span> <span class="p">[</span><span class="n">ProductID</span><span class="p">]</span><span class="err">와</span> <span class="o">+</span> <span class="p">(</span><span class="err">주문량</span><span class="p">,</span> <span class="err">팔린량</span> <span class="n">Quantity</span><span class="p">)</span><span class="err">가</span> <span class="err">동시에</span> <span class="err">있다</span><span class="p">.</span>
+<span class="o">##</span> <span class="n">my</span><span class="p">)</span> <span class="err">수식어</span><span class="p">,</span> <span class="err">조건</span> <span class="err">재료를</span> <span class="err">찾을</span> <span class="err">때는</span> <span class="p">(</span><span class="err">수식재료</span><span class="p">)</span> <span class="err">뿐만</span> <span class="err">아니라</span> <span class="p">[</span><span class="err">원본재료의</span> <span class="err">테이블과</span> <span class="err">연결된</span> <span class="err">원본재료테이블</span><span class="n">ID</span><span class="p">]</span><span class="err">도</span> <span class="err">가지고</span> <span class="err">있어야한다</span><span class="p">.</span>
+
+
+<span class="o">##</span> <span class="n">FK</span><span class="err">인</span> <span class="n">ProductId</span><span class="err">는</span><span class="p">,</span> <span class="n">Product</span><span class="err">테이블입장에서</span> <span class="p">[</span><span class="err">상품명</span><span class="p">]</span><span class="err">을</span> <span class="err">대표하는</span> <span class="err">그야말로</span> <span class="n">Id</span><span class="err">이므로</span><span class="p">,</span> 
+<span class="o">##</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="err">연결재료</span><span class="p">)</span><span class="err">찾을</span> <span class="err">시</span> <span class="p">[</span><span class="n">FK</span><span class="err">테이블</span><span class="o">+</span><span class="n">ID</span><span class="p">]</span><span class="err">의</span> <span class="n">FK</span><span class="err">자체를</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="err">연결된</span> <span class="err">기존재료</span><span class="p">]</span><span class="err">로</span> <span class="err">해석해도</span> <span class="err">된다</span><span class="p">.</span>
+<span class="o">##</span> <span class="c1">--&gt; [FK 테이블Id]를 [상품명]등 [재료]로 바꿔보기위해선 join이 필요한 것</span>
+
+<span class="c1">-- OrderID	ProductID	Quantity</span>
+<span class="c1">-- 10248	   11	 	   12</span>
+<span class="o">##</span>    <span class="n">ex</span><span class="o">&gt;</span> <span class="n">ProductId</span><span class="p">(</span><span class="n">FK</span><span class="p">)</span><span class="err">가</span> <span class="mi">11</span><span class="err">인</span> <span class="err">것은</span> <span class="err">주문량이</span> <span class="mi">12</span><span class="err">다</span>
+<span class="o">##</span>        <span class="o">=</span> <span class="p">[</span><span class="err">해당</span> <span class="mi">11</span><span class="err">번</span> <span class="err">상품명</span><span class="p">]</span><span class="err">은</span> <span class="mi">12</span><span class="err">개</span> <span class="err">팔렸다</span>
+<span class="o">##</span>        <span class="o">-&gt;</span> <span class="k">join</span><span class="err">으로</span> <span class="err">연결해서보면</span> <span class="p">[</span><span class="mi">11</span><span class="err">번</span> <span class="err">상품명</span><span class="p">]</span> <span class="p">[</span><span class="err">주문량</span> <span class="mi">12</span><span class="err">개</span> <span class="err">팔림</span><span class="p">]</span><span class="err">으로</span> <span class="err">보인다</span><span class="p">.</span>
+
+
+<span class="o">##</span> <span class="mi">1</span><span class="o">-</span><span class="mi">3</span><span class="p">.</span> <span class="err">재료들을</span> <span class="err">다</span> <span class="err">찾았다면</span><span class="p">,</span> <span class="k">join</span><span class="err">해서</span> <span class="err">보는</span> <span class="err">것으로</span> <span class="err">결정낸다</span><span class="p">.</span>
+<span class="o">##</span>     <span class="o">-&gt;</span> <span class="k">join</span><span class="err">시</span> <span class="k">on</span><span class="err">자리에</span> <span class="o">&lt;</span><span class="err">기존테이블</span><span class="o">&gt;</span><span class="p">.[</span><span class="err">기존재료</span><span class="p">]</span><span class="err">의</span><span class="n">PK_ID</span> <span class="c1">---- &lt;연결재료테이블&gt;.(연결 재료)를 찾을 때 보이던 [FK_id]로 연결해주면 된다.</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">Products</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">OrderDetails</span> <span class="k">on</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductId</span> <span class="o">=</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">ProductID</span><span class="p">;</span>
+
+<span class="o">##</span> <span class="err">이</span> <span class="err">때</span><span class="p">,</span> <span class="n">Products</span> <span class="o">&gt;-</span> <span class="n">Orders</span> <span class="p">:</span> <span class="p">(</span><span class="err">고객이</span><span class="p">)</span> <span class="err">상품을</span> <span class="err">주문한다</span> <span class="o">-&gt;</span> <span class="err">주문</span><span class="p">:</span><span class="err">상품</span> <span class="o">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">m</span> <span class="err">관계다</span><span class="p">.</span> 
+<span class="o">##</span> <span class="o">-&gt;</span> <span class="mi">1</span><span class="err">주문당</span> <span class="err">여러개의</span> <span class="err">상품을</span> <span class="err">가질</span> <span class="err">수있으며</span> <span class="o">-&gt;</span> <span class="err">주문들을</span> <span class="err">모아놓은</span> <span class="err">테이블은</span><span class="p">,</span> <span class="err">각</span> <span class="err">주문마다의</span> <span class="err">상품들이</span> <span class="err">겹칠</span> <span class="err">수</span> <span class="err">밖에</span> <span class="err">없다</span><span class="p">.</span>
+<span class="o">##</span> <span class="err">즉</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="n">m</span> <span class="err">을</span> <span class="k">join</span><span class="err">했다면</span><span class="p">,</span> <span class="mi">1</span><span class="p">(</span><span class="err">주문량</span><span class="p">,</span> <span class="err">상품</span><span class="n">FK</span><span class="p">)</span><span class="err">에서</span> <span class="n">m</span><span class="err">에</span> <span class="err">있는</span> <span class="err">정보</span><span class="p">(</span><span class="err">상품명</span> <span class="k">with</span> <span class="err">상품</span><span class="n">PK</span><span class="p">)</span><span class="err">를</span> <span class="err">얻기위해</span> <span class="err">붙인</span> <span class="err">것으로</span> <span class="p">[</span><span class="err">중복이</span> <span class="err">발생할</span> <span class="err">수</span> <span class="err">밖에</span><span class="p">]</span> <span class="err">없다</span>
+</code></pre></div></div>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">##</span> <span class="mi">2</span><span class="p">.</span> <span class="err">재료들을</span> <span class="err">합친</span> <span class="err">상태라면</span><span class="p">,</span> <span class="err">이제</span> <span class="p">(</span><span class="err">조건재료</span><span class="p">)</span><span class="err">속</span> <span class="err">조건</span> <span class="k">or</span> <span class="err">요구사항을</span> <span class="err">만족시켜줘야한다</span><span class="p">.</span>
+<span class="c1">-- select * from Products</span>
+<span class="c1">-- inner join OrderDetails on Products.ProductId = OrderDetails.ProductID;</span>
+
+<span class="o">##</span> <span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">.</span> <span class="p">(</span><span class="mi">200</span><span class="err">개</span> <span class="err">이상</span> <span class="err">팔린</span><span class="p">)</span> <span class="p">[</span><span class="err">상품명</span><span class="p">]</span><span class="err">의</span> <span class="p">(</span><span class="err">요구사항</span><span class="p">)</span><span class="err">은</span> <span class="err">어떻게</span> <span class="err">처리</span><span class="o">?</span>
+
+<span class="o">##</span> <span class="mi">2</span><span class="o">-</span><span class="mi">2</span><span class="p">.</span> <span class="mi">1</span><span class="p">:</span><span class="n">m</span><span class="err">의</span> <span class="k">join</span><span class="err">에서</span> <span class="mi">1</span><span class="k">order</span><span class="err">당</span> <span class="n">mProduct</span><span class="err">명</span> <span class="o">-&gt;</span> <span class="n">n</span> <span class="k">order</span> <span class="p">:</span> <span class="n">n</span> <span class="n">x</span> <span class="n">m</span> <span class="n">Product</span> <span class="o">-&gt;</span> <span class="n">n</span> <span class="n">X</span> <span class="n">m</span><span class="err">개의</span> <span class="k">row</span><span class="err">속에</span> <span class="err">중복이</span> <span class="err">무조건</span> <span class="err">존재한다</span><span class="p">.</span>
+<span class="o">##</span>     <span class="o">-&gt;</span> <span class="err">일단</span> <span class="n">m</span><span class="err">쪽에서</span> <span class="err">제공해준</span> <span class="n">FK</span><span class="err">을</span> <span class="p">[[</span> <span class="err">쎌렉</span> <span class="k">distinct</span><span class="p">(</span> <span class="n">FK</span> <span class="p">)</span> <span class="p">]]</span><span class="err">로</span> <span class="err">중복제외한</span> <span class="err">종류별로</span> <span class="mi">1</span><span class="err">개씩이라면</span> <span class="err">총</span> <span class="err">몇개가</span> <span class="err">사용됬는지</span> <span class="err">확인한다</span><span class="p">.</span>
+<span class="o">##</span>     <span class="o">-&gt;</span> <span class="k">on</span><span class="err">에</span> <span class="err">걸린</span> <span class="err">아무</span><span class="n">FK</span> <span class="k">or</span> <span class="n">PK</span><span class="err">를</span> <span class="err">가져와서</span> <span class="err">쎌렉으로</span> <span class="err">복붙해서</span> <span class="o">*</span> <span class="err">대신</span> <span class="o">-&gt;</span> <span class="k">distinct</span><span class="p">(</span> <span class="n">FK</span> <span class="p">)</span><span class="err">를</span> <span class="err">넣어준다</span>
+<span class="o">##</span>     <span class="c1">--&gt; 1쪽인 order도 자기가 가졌던 m개의 product에 대해 모두 같은 orderId를 가져 중복이 된다.</span>
+<span class="o">##</span>     <span class="c1">--&gt; 1쪽은 1:m으로 1order라도, m쪽에서 본다면, m개의 order를 가지게 되는 것. </span>
+<span class="o">##</span>     <span class="n">my</span><span class="p">)</span> <span class="mi">1</span><span class="p">:</span><span class="n">m</span><span class="err">에서</span> <span class="mi">1</span><span class="err">개</span> <span class="err">데이터라도</span> <span class="n">m</span><span class="err">입장에서는</span> <span class="err">기본</span> <span class="n">m</span><span class="err">개</span> <span class="err">중복이네</span><span class="o">!</span>
+<span class="o">##</span>     <span class="n">my</span><span class="p">)</span> <span class="err">오히려</span> <span class="mi">1</span><span class="err">입장에서</span> <span class="mi">1</span><span class="err">개</span> <span class="err">데이터라면</span><span class="p">,</span> <span class="n">m</span><span class="err">은</span> <span class="err">중복없기</span> <span class="err">수량칼럼을</span> <span class="err">가질</span> <span class="err">듯</span><span class="p">.</span> 
+<span class="o">##</span>     <span class="n">my</span><span class="p">)</span> <span class="mi">1</span><span class="p">:</span><span class="n">m</span><span class="err">은</span> <span class="k">join</span><span class="err">전에는</span> <span class="n">m</span><span class="err">이</span> <span class="err">미중복</span><span class="p">,</span> <span class="mi">1</span><span class="err">은</span> <span class="n">m</span><span class="err">개만큼</span> <span class="err">중복</span> <span class="o">-&gt;</span> <span class="p">[[</span><span class="mi">1</span><span class="err">개</span> <span class="err">데이터일</span> <span class="err">땐</span> <span class="err">미중복</span> <span class="n">m</span><span class="err">개의</span> <span class="err">데이터</span><span class="p">]]</span>  <span class="k">join</span><span class="err">후</span> <span class="p">[[</span><span class="mi">1</span><span class="err">이었떤</span> <span class="k">order</span><span class="err">가</span> <span class="err">늘어남에</span> <span class="err">따라</span> <span class="n">m</span><span class="err">에서도</span> <span class="err">중복이</span> <span class="err">생길</span> <span class="err">가능성이</span> <span class="err">높아진다</span><span class="p">]]</span>
+
+
+<span class="o">##</span> <span class="mi">2</span><span class="o">-</span><span class="mi">3</span><span class="p">.</span> <span class="o">&lt;&lt;</span><span class="k">distinct</span><span class="p">()</span><span class="o">&gt;&gt;</span><span class="err">로</span> <span class="p">[</span><span class="k">join</span><span class="err">전</span> <span class="mi">1</span><span class="err">개</span> <span class="k">order</span><span class="err">에</span> <span class="err">대해</span> <span class="err">미중복이던</span> <span class="n">m</span><span class="err">쪽</span> <span class="n">Product</span><span class="p">]</span><span class="err">가</span> <span class="k">join</span><span class="err">후</span> <span class="err">중복됬는데</span><span class="p">,</span> 
+<span class="o">##</span>     <span class="o">&lt;&lt;</span> <span class="k">join</span><span class="err">으로</span> <span class="err">생긴</span> <span class="err">중복들</span> <span class="err">속에</span> <span class="p">[[</span> <span class="err">실제</span> <span class="err">사용된</span> <span class="n">m</span><span class="err">쪽의</span> <span class="err">데이터</span><span class="p">]]</span><span class="err">는</span><span class="o">?&gt;&gt;</span> <span class="k">by</span> <span class="o">&lt;&lt;</span><span class="k">distinct</span><span class="p">(</span> <span class="k">on</span><span class="err">에</span> <span class="err">걸려있는</span> <span class="n">m</span><span class="err">의</span> <span class="n">FK</span><span class="p">)</span><span class="o">&gt;&gt;</span>
+<span class="c1">-- select * from Products -- 2155</span>
+<span class="c1">-- inner join OrderDetails on Products.ProductId = OrderDetails.ProductID;</span>
+
+<span class="c1">-- 77 : 중복이 발생한 m Product 중에 실제로는 77종류(distinct종류별 1개씩이니)만 사용되었다.</span>
+<span class="k">select</span> <span class="k">distinct</span><span class="p">(</span><span class="n">Products</span><span class="p">.</span><span class="n">ProductId</span><span class="p">)</span>  
+<span class="k">from</span> <span class="n">Products</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">OrderDetails</span> 
+	<span class="k">on</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductId</span> <span class="o">=</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">ProductID</span><span class="p">;</span>
+</code></pre></div></div>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="mi">3</span><span class="p">.</span> <span class="k">join</span><span class="err">후</span> <span class="err">생긴</span> <span class="n">m</span><span class="err">쪽</span> <span class="n">Product</span><span class="err">가</span> <span class="err">중복된</span> <span class="err">상황에서</span> <span class="p">(</span><span class="mi">77</span><span class="err">개</span> <span class="o">-&gt;</span> <span class="mi">2155</span><span class="err">개</span> <span class="err">데이터로</span> <span class="err">중복된</span> <span class="err">상태</span><span class="p">)</span>
+<span class="o">##</span>  <span class="o">-</span> <span class="n">cf</span><span class="p">)</span> <span class="mi">1</span><span class="err">쪽</span> <span class="k">Order</span><span class="err">는</span> <span class="mi">1</span><span class="err">개의</span> <span class="k">order</span><span class="err">에</span> <span class="err">대해</span> <span class="n">m</span><span class="err">개의</span> <span class="n">OrderId</span><span class="err">가</span> <span class="err">동일한</span> <span class="err">중복상태</span> <span class="o">-&gt;</span> <span class="k">join</span><span class="err">하더라도</span><span class="p">,</span> <span class="k">order</span><span class="err">의</span> <span class="err">갯수만큼만</span> <span class="k">distinct</span><span class="err">함</span><span class="p">.</span>
+<span class="o">##</span>  <span class="o">-</span> <span class="n">my</span><span class="p">)</span> <span class="mi">1</span><span class="err">쪽은</span> <span class="k">join</span><span class="err">시</span><span class="p">,</span> <span class="err">달라붙는</span> <span class="k">order</span><span class="err">만</span> <span class="err">추가되고</span> <span class="err">매번</span> <span class="err">그</span> <span class="err">안의</span> <span class="n">m</span><span class="err">개</span> <span class="n">Product</span><span class="err">에</span> <span class="err">대해</span> <span class="err">중복이므로</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="k">Order</span><span class="err">의</span> <span class="k">row</span><span class="err">수</span> <span class="o">==</span> <span class="k">join</span><span class="err">시</span> <span class="k">distinct</span><span class="p">()</span><span class="err">한</span> <span class="n">orderId</span><span class="err">수</span> <span class="err">동일함</span><span class="p">.</span>
+<span class="o">##</span>  <span class="o">-</span> <span class="n">my</span><span class="p">)</span> <span class="n">m</span><span class="err">쪽은</span> <span class="mi">1</span><span class="k">order</span><span class="err">시</span> <span class="err">중복없다가</span><span class="p">,</span> <span class="k">join</span><span class="err">시</span> <span class="err">중복이</span> <span class="err">발생할</span> <span class="err">가능성이</span> <span class="err">있으니</span> <span class="p">[[</span><span class="n">m</span><span class="err">쪽만</span> <span class="err">중복을</span> <span class="err">필수</span> <span class="err">확인</span><span class="p">]]</span><span class="err">해야함</span><span class="p">.</span>
+<span class="c1">-- select distinct(Products.ProductId)  </span>
+<span class="c1">-- from Products</span>
+<span class="c1">-- inner join OrderDetails </span>
+<span class="c1">--    on Products.ProductId = OrderDetails.ProductID;</span>
+    
+<span class="o">##</span> <span class="mi">3</span><span class="o">-</span><span class="mi">1</span> <span class="err">요구사항을</span> <span class="err">보면</span> <span class="p">(</span><span class="mi">200</span><span class="err">개</span> <span class="err">이상</span> <span class="err">팔린</span><span class="p">)</span> <span class="p">[</span><span class="err">상품명</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="err">중복가능성이</span> <span class="err">있는</span> <span class="n">m</span><span class="err">쪽이므로</span>
+<span class="o">##</span> <span class="o">-&gt;</span> <span class="k">distinct</span><span class="err">가</span> <span class="err">아닌</span> <span class="p">[[</span><span class="n">m</span><span class="err">쪽의</span> <span class="n">Id</span><span class="err">로</span> <span class="n">groupby</span><span class="p">]]</span><span class="err">해서</span> <span class="err">중복을</span> <span class="err">제거와</span> <span class="err">함께</span> <span class="err">집게해야</span> <span class="p">[</span><span class="err">수량</span><span class="p">]</span><span class="err">을</span> <span class="err">판단할</span> <span class="err">수</span> <span class="err">있게</span> <span class="err">된다</span><span class="p">.</span>
+<span class="k">select</span> <span class="o">*</span>
+<span class="k">from</span> <span class="n">Products</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">OrderDetails</span> 
+   <span class="k">on</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductId</span> <span class="o">=</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">ProductID</span>
+<span class="k">group</span> <span class="k">by</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductID</span><span class="p">;</span>
+<span class="c1">-- 77;</span>
+<span class="c1">-- Number of Records: 77</span>
+<span class="o">##</span> <span class="p">(</span><span class="n">m</span><span class="err">쪽</span><span class="n">id</span><span class="p">)</span><span class="err">로</span> <span class="n">groupby</span><span class="err">하여</span> <span class="err">집계를</span> <span class="err">하면</span><span class="p">,</span> <span class="k">distinct</span><span class="p">(</span><span class="n">m</span><span class="err">쪽</span><span class="n">Id</span><span class="p">)</span><span class="err">한</span> <span class="err">것과</span> <span class="err">동일한</span> <span class="err">갯수가</span> <span class="err">나온다</span> <span class="o">-&gt;</span> <span class="err">집계로</span> <span class="err">중복제거</span>
+
+<span class="o">####</span> <span class="err">근데</span> <span class="err">집계함수를</span> <span class="err">안쓰고</span> <span class="k">group</span> <span class="k">by</span> <span class="err">만</span> <span class="err">상태</span> <span class="o">-&gt;</span> <span class="k">distinct</span><span class="err">하기만</span> <span class="err">하고</span> <span class="err">집계는</span> <span class="err">안되어있는</span> <span class="err">상태다</span><span class="o">!</span>
+<span class="o">####</span> <span class="o">-&gt;</span> <span class="k">group</span> <span class="k">by</span><span class="err">는</span> <span class="err">되어있는데</span><span class="p">,</span> <span class="err">첫데이터만</span> <span class="err">대표로</span> <span class="err">내어놓은</span> <span class="err">상태</span>
+</code></pre></div></div>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="mi">4</span><span class="p">.</span> <span class="err">집계준비가</span> <span class="err">되었다면</span><span class="p">,</span> <span class="err">쎌렉에서</span> <span class="err">집계한다</span><span class="p">.</span>
+<span class="o">##</span>  <span class="err">현재</span> <span class="p">[</span><span class="k">group</span> <span class="k">by</span> <span class="err">재료</span><span class="n">ID</span><span class="p">]</span><span class="err">로</span> <span class="o">-&gt;</span> <span class="p">[</span> <span class="k">distinct</span><span class="err">한</span> <span class="n">mProduct</span><span class="err">별로</span> <span class="err">집계된</span> <span class="err">데이터</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="err">쎌렉에서</span> <span class="err">집계는</span> <span class="err">안해줬다면</span><span class="p">,</span> <span class="err">첫데이터만</span><span class="p">..</span>
+
+<span class="o">##</span> <span class="mi">4</span><span class="o">-</span><span class="mi">1</span><span class="p">.</span> <span class="err">일단</span> <span class="err">쎌렉절에</span> <span class="err">각</span> <span class="err">테이블에서</span> <span class="err">가져온</span> <span class="p">[</span><span class="err">재료</span><span class="p">]</span><span class="err">들과</span> <span class="err">그</span> <span class="p">[</span><span class="n">ID</span><span class="p">]</span><span class="err">까지</span> <span class="err">쎌렉해야한다</span><span class="p">.</span> <span class="k">group</span> <span class="k">by</span><span class="err">는</span> <span class="n">id</span><span class="err">로</span> <span class="err">하는</span> <span class="err">것이다</span><span class="p">.</span>
+<span class="o">##</span>     <span class="o">-&gt;</span> <span class="o">&lt;</span><span class="err">타테이블</span><span class="o">&gt;</span><span class="p">.(</span><span class="err">연결재료</span><span class="p">)</span><span class="err">는</span> <span class="err">꼭</span> <span class="n">ID</span><span class="err">가</span> <span class="err">없어도</span> <span class="err">되긴한다</span><span class="p">.</span>
+<span class="o">##</span>     <span class="o">-&gt;</span> <span class="err">마지막으로</span> <span class="err">집계</span><span class="p">(</span><span class="err">연결재료</span><span class="p">)</span> <span class="err">등</span> <span class="err">집계대상을</span> <span class="err">집계해준다</span><span class="p">.</span>
+<span class="o">##</span>     <span class="c1">--&gt;   &lt;해당테이블&gt;.[재료ID] &lt;해당테이블&gt;.[재료(상품명)]  &lt;타테이블&gt;.(연결재료)</span>
+<span class="o">##</span>     <span class="c1">--&gt;   &lt;해당테이블&gt;.[재료ID] &lt;해당테이블&gt;.[재료(상품명)]  sum (    &lt;타테이블&gt;.(연결재료)   )</span>
+<span class="c1">-- select *</span>
+<span class="c1">-- select Products.ProductID, Products.ProductName, OrderDetails.Quantity</span>
+<span class="k">select</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductID</span><span class="p">,</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductName</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">Quantity</span> <span class="p">)</span>
+<span class="k">from</span> <span class="n">Products</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">OrderDetails</span> 
+   <span class="k">on</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductId</span> <span class="o">=</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">ProductID</span>
+<span class="k">group</span> <span class="k">by</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductID</span><span class="p">;</span>
+
+<span class="c1">-- Number of Records: 77</span>
+<span class="c1">-- ProductID	ProductName	sum( OrderDetails.Quantity )</span>
+<span class="c1">-- 1	Chais	828</span>
+<span class="c1">-- 2	Chang	1057</span>
+<span class="c1">-- 3	Aniseed Syrup	328</span>
+</code></pre></div></div>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">##</span> <span class="mi">4</span><span class="o">-</span><span class="mi">2</span><span class="p">.</span> <span class="err">집계가</span> <span class="err">완료된</span> <span class="err">데이터에서</span> <span class="k">having</span><span class="err">을</span> <span class="err">건다</span><span class="p">.</span> 
+<span class="o">##</span> <span class="n">my</span><span class="p">)</span> <span class="err">해석시</span> <span class="err">쎌렉은</span> <span class="n">fw</span><span class="o">-</span><span class="n">gh</span><span class="o">-</span> <span class="err">다음인줄알았는데</span><span class="p">,</span> <span class="err">직접</span> <span class="err">작성시에는</span> <span class="n">groupby</span><span class="err">까지하고</span> <span class="err">쎌렉에</span> <span class="err">집계해놓고</span> <span class="o">-&gt;</span> <span class="err">그대로</span> <span class="err">가져와</span> <span class="k">having</span><span class="err">에</span> <span class="err">조건을</span> <span class="err">추가한다</span><span class="p">.</span>
+<span class="o">##</span> <span class="o">-&gt;</span> <span class="err">쏄렉</span><span class="p">:</span> <span class="k">sum</span><span class="p">(</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">Quantity</span> <span class="p">)</span>  <span class="o">-&gt;</span> <span class="k">having</span> <span class="p">:</span> <span class="k">sum</span><span class="p">(</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">Quantity</span> <span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">200</span>
+<span class="k">select</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductID</span><span class="p">,</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductName</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">Quantity</span> <span class="p">)</span>
+<span class="k">from</span> <span class="n">Products</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">OrderDetails</span> 
+   <span class="k">on</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductId</span> <span class="o">=</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">ProductID</span>
+<span class="k">group</span> <span class="k">by</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductID</span>
+<span class="k">having</span> <span class="k">sum</span><span class="p">(</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">Quantity</span> <span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">;</span>
+</code></pre></div></div>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">##</span> <span class="mi">4</span><span class="o">-</span><span class="mi">3</span><span class="p">.</span> <span class="err">심지어</span> <span class="k">order</span> <span class="k">by</span><span class="err">에서도</span> <span class="err">쎌렉에</span> <span class="err">있는</span> <span class="p">[[</span><span class="err">집계칼럼메서드를</span> <span class="err">칼럼</span><span class="p">]]</span><span class="err">으로</span> <span class="err">그대로</span> <span class="err">가져다</span> <span class="err">쓴다</span><span class="p">.</span>
+<span class="k">select</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductID</span><span class="p">,</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductName</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">Quantity</span> <span class="p">)</span>
+<span class="k">from</span> <span class="n">Products</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">OrderDetails</span> 
+   <span class="k">on</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductId</span> <span class="o">=</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">ProductID</span>
+<span class="k">group</span> <span class="k">by</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductID</span>
+<span class="k">having</span> <span class="k">sum</span><span class="p">(</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">Quantity</span> <span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">200</span>
+<span class="k">order</span> <span class="k">by</span> <span class="k">sum</span><span class="p">(</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">Quantity</span> <span class="p">)</span> <span class="k">desc</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h4 id="쎌렉에-집계-alias-리팩토링-for-order-by-limit">
+<a class="anchor" href="#%EC%8E%8C%EB%A0%89%EC%97%90-%EC%A7%91%EA%B3%84-alias-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81-for-order-by-limit" aria-hidden="true"><span class="octicon octicon-link"></span></a>쎌렉에 집계 alias 리팩토링 for order by, limit</h4>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">##</span> <span class="mi">4</span><span class="o">-</span><span class="mi">4</span><span class="p">.</span> <span class="err">이제</span> <span class="err">쎌렉을</span> <span class="err">가져다</span> <span class="err">쓰는</span> <span class="err">놈들</span><span class="p">(</span><span class="k">order</span> <span class="k">by</span><span class="p">,</span> <span class="k">limit</span> <span class="p">)</span> <span class="err">을</span> <span class="err">위해</span> <span class="p">[[</span> <span class="err">쎌렉에</span> <span class="k">alias</span><span class="err">주는</span> <span class="err">리팩토링</span> <span class="p">]]</span> <span class="err">하기</span>
+<span class="o">##</span>   <span class="o">-&gt;</span> <span class="err">주의</span><span class="o">!</span> <span class="err">작성은</span> <span class="err">쎌렉후</span> <span class="k">having</span><span class="err">에서</span> <span class="err">갖다썼지만</span><span class="p">,</span> <span class="err">실행은</span> <span class="k">having</span><span class="err">후</span> <span class="err">쎌렉</span> <span class="o">-&gt;</span> <span class="k">having</span><span class="err">절에</span> <span class="err">쎌렉</span><span class="k">alias</span><span class="err">못쓴다</span><span class="o">!</span>
+<span class="o">##</span> <span class="mi">1</span><span class="p">)</span> <span class="k">select</span> <span class="err">집계에</span> <span class="k">alias</span><span class="err">주기</span> <span class="o">-&gt;</span> <span class="n">total</span>
+<span class="o">##</span> <span class="mi">2</span><span class="p">)</span> <span class="k">order</span> <span class="k">by</span><span class="p">,</span> <span class="k">limit</span><span class="err">에서</span> <span class="k">alias</span><span class="err">로</span> <span class="err">바꾸기</span>
+<span class="k">select</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductID</span><span class="p">,</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductName</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">Quantity</span> <span class="p">)</span> <span class="k">as</span> <span class="n">total</span> 
+<span class="k">from</span> <span class="n">Products</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">OrderDetails</span> 
+   <span class="k">on</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductId</span> <span class="o">=</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">ProductID</span>
+<span class="k">group</span> <span class="k">by</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductID</span>
+<span class="k">having</span> <span class="k">sum</span><span class="p">(</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">Quantity</span> <span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">200</span>
+<span class="k">order</span> <span class="k">by</span> <span class="n">total</span> <span class="k">desc</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h4 id="fromjoin에서-에만-테이블-as-소문자--별칭---이후-fw-gh-select까지-보이는-테이블-모두-alias주는-리팩토링">
+<a class="anchor" href="#fromjoin%EC%97%90%EC%84%9C-%EC%97%90%EB%A7%8C-%ED%85%8C%EC%9D%B4%EB%B8%94-as-%EC%86%8C%EB%AC%B8%EC%9E%90--%EB%B3%84%EC%B9%AD---%EC%9D%B4%ED%9B%84-fw-gh-select%EA%B9%8C%EC%A7%80-%EB%B3%B4%EC%9D%B4%EB%8A%94-%ED%85%8C%EC%9D%B4%EB%B8%94-%EB%AA%A8%EB%91%90-alias%EC%A3%BC%EB%8A%94-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81" aria-hidden="true"><span class="octicon octicon-link"></span></a>from(+join)에서 에만 <code class="language-plaintext highlighter-rouge">테이블 as 소문자</code>  별칭 -&gt; 이후 <code class="language-plaintext highlighter-rouge">fw-gh-select까지 보이는 테이블 모두 alias주는 리팩토링</code>
+</h4>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">##</span> <span class="mi">4</span><span class="o">-</span><span class="mi">5</span><span class="p">.</span> <span class="k">from</span><span class="p">(</span><span class="o">+</span><span class="k">join</span><span class="p">)</span><span class="err">에</span> <span class="err">주어지는</span> <span class="err">테이블의</span> <span class="err">대문자만</span> <span class="err">따서</span> <span class="k">alias</span><span class="err">로</span> <span class="err">주는</span> <span class="err">리팩토링</span> <span class="o">-&gt;</span> <span class="n">fw</span><span class="o">-</span><span class="n">gh</span><span class="o">-</span><span class="n">s</span><span class="err">까지</span> <span class="err">다</span> <span class="err">리팩토링</span> <span class="err">가능해진다</span><span class="p">.</span>
+<span class="o">##</span>      <span class="k">from</span><span class="err">에만</span> <span class="k">as</span> <span class="err">소문자</span> <span class="o">-&gt;</span> <span class="err">그</span> <span class="err">뒤로는</span> <span class="err">테이블들</span> <span class="err">모조리</span> <span class="err">소문자로</span> <span class="err">변경</span>
+<span class="k">select</span> <span class="n">p</span><span class="p">.</span><span class="n">ProductID</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">ProductName</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span> <span class="n">od</span><span class="p">.</span><span class="n">Quantity</span> <span class="p">)</span> <span class="k">as</span> <span class="n">total</span> 
+<span class="k">from</span> <span class="n">Products</span> <span class="k">as</span> <span class="n">p</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">OrderDetails</span> <span class="k">as</span> <span class="n">od</span>
+   <span class="k">on</span> <span class="n">p</span><span class="p">.</span><span class="n">ProductId</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">ProductID</span>
+<span class="k">group</span> <span class="k">by</span> <span class="n">p</span><span class="p">.</span><span class="n">ProductID</span>
+<span class="k">having</span> <span class="k">sum</span><span class="p">(</span> <span class="n">od</span><span class="p">.</span><span class="n">Quantity</span> <span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">200</span>
+<span class="k">order</span> <span class="k">by</span> <span class="n">total</span> <span class="k">desc</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="문제2">
+<a class="anchor" href="#%EB%AC%B8%EC%A0%9C2" aria-hidden="true"><span class="octicon octicon-link"></span></a>문제2</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">2. 많이 주문한 순으로 고객 리스트(ID, 고객명)를 구해주세요. (고객별 구매한 물품 총 갯수)</code></li>
+</ul>
+
+<h3 id="풀이2">
+<a class="anchor" href="#%ED%92%80%EC%9D%B42" aria-hidden="true"><span class="octicon octicon-link"></span></a>풀이2</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- 후니</span>
+<span class="k">select</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerName</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">od</span><span class="p">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="n">total</span> <span class="k">from</span> <span class="n">Customers</span> <span class="k">c</span>
+<span class="k">join</span> <span class="n">Orders</span> <span class="n">o</span> <span class="k">on</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">join</span> <span class="n">OrderDetails</span> <span class="n">od</span> <span class="k">on</span> <span class="n">o</span><span class="p">.</span><span class="n">OrderID</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">OrderID</span>
+<span class="k">group</span> <span class="k">by</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">order</span> <span class="k">by</span> <span class="n">total</span> <span class="k">desc</span><span class="p">;</span>
+
+
+<span class="c1">-- 아리</span>
+<span class="k">SELECT</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerID</span> <span class="p">,</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerName</span> <span class="p">,</span> <span class="n">SUB</span><span class="p">.</span><span class="n">Quantity</span>
+<span class="k">FROM</span> <span class="n">Customers</span>
+<span class="k">JOIN</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">Orders</span><span class="p">.</span><span class="n">CustomerID</span> <span class="k">AS</span> <span class="n">ID</span> <span class="p">,</span> <span class="k">SUM</span><span class="p">(</span><span class="n">OrderDetails</span><span class="p">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="k">AS</span> <span class="n">Quantity</span>
+	<span class="k">FROM</span> <span class="n">Orders</span>
+	<span class="k">JOIN</span> <span class="n">OrderDetails</span>
+	<span class="k">ON</span> <span class="n">Orders</span><span class="p">.</span><span class="n">OrderID</span> <span class="o">=</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">OrderID</span>
+	<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">Orders</span><span class="p">.</span><span class="n">CustomerID</span>
+	<span class="p">)</span> <span class="k">AS</span> <span class="n">SUB</span>
+<span class="k">ON</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="n">SUB</span><span class="p">.</span><span class="n">ID</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">SUB</span><span class="p">.</span><span class="n">Quantity</span> <span class="k">DESC</span><span class="p">;</span>
+
+<span class="c1">-- 아서</span>
+<span class="k">SELECT</span> <span class="k">c</span><span class="p">.</span><span class="n">customerid</span> <span class="nv">"고객 ID"</span><span class="p">,</span> <span class="k">c</span><span class="p">.</span><span class="n">customername</span> <span class="nv">"고객 이름"</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">od</span><span class="p">.</span><span class="n">quantity</span><span class="p">)</span> <span class="nv">"총 주문갯수"</span>
+<span class="k">FROM</span> <span class="n">Customers</span> <span class="k">c</span> <span class="k">join</span> <span class="n">Orders</span> <span class="n">o</span> <span class="k">ON</span> <span class="k">c</span><span class="p">.</span><span class="n">customerid</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">customerid</span> <span class="k">JOIN</span> <span class="n">OrderDetails</span> <span class="n">od</span> <span class="k">ON</span> <span class="n">o</span><span class="p">.</span><span class="n">orderid</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">orderid</span> <span class="k">JOIN</span> <span class="n">Products</span> <span class="n">p</span> <span class="k">ON</span> <span class="n">p</span><span class="p">.</span><span class="n">productID</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">productId</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="k">c</span><span class="p">.</span><span class="n">customerid</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="k">SUM</span><span class="p">(</span><span class="n">od</span><span class="p">.</span><span class="n">quantity</span><span class="p">)</span> <span class="k">DESC</span>
+
+<span class="c1">-- 필즈</span>
+<span class="k">SELECT</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerId</span><span class="p">,</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerName</span><span class="p">,</span> <span class="n">od</span><span class="p">.</span><span class="n">orderQuantity</span>
+<span class="k">FROM</span> <span class="n">Orders</span> <span class="n">o</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="p">(</span>
+	<span class="k">SELECT</span> 
+		<span class="n">OrderId</span><span class="p">,</span> 
+    	<span class="k">sum</span><span class="p">(</span><span class="n">Quantity</span><span class="p">)</span> <span class="nv">"orderQuantity"</span>
+	<span class="k">FROM</span> <span class="n">OrderDetails</span> 
+	<span class="k">group</span> <span class="k">by</span> <span class="n">OrderId</span>
+<span class="p">)</span> <span class="n">od</span>
+<span class="k">on</span> <span class="n">o</span><span class="p">.</span><span class="n">OrderId</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">OrderId</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">Customers</span> <span class="k">c</span>
+<span class="k">on</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerId</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">CustomerId</span>
+<span class="k">order</span> <span class="k">by</span> <span class="n">orderQuantity</span> <span class="k">desc</span>
+<span class="p">;</span>
+
+<span class="c1">-- 베루스</span>
+<span class="k">select</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerId</span> <span class="k">as</span> <span class="err">‘고객</span> <span class="err">아이디‘</span><span class="p">,</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerName</span> <span class="k">as</span> <span class="err">‘고객</span> <span class="err">이름‘</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">od</span><span class="p">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="k">as</span> <span class="err">‘주문량’</span>
+<span class="k">from</span> <span class="n">Customers</span> <span class="k">as</span> <span class="k">c</span>
+<span class="k">left</span> <span class="k">join</span> <span class="n">Orders</span> <span class="k">as</span> <span class="n">o</span> <span class="k">on</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerId</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">CustomerId</span>
+<span class="k">left</span> <span class="k">join</span> <span class="n">OrderDetails</span> <span class="k">as</span> <span class="n">od</span> <span class="k">on</span> <span class="n">o</span><span class="p">.</span><span class="n">OrderId</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">OrderId</span>
+<span class="k">group</span> <span class="k">by</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerId</span>
+<span class="k">order</span> <span class="k">by</span> <span class="k">sum</span><span class="p">(</span><span class="n">od</span><span class="p">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="k">desc</span>
+
+<span class="c1">-- 루키</span>
+<span class="k">SELECT</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerName</span>
+<span class="k">FROM</span> <span class="n">Customers</span> <span class="k">inner</span> <span class="k">join</span> <span class="n">Orders</span> <span class="k">on</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="n">Orders</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">Orders</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">)</span> <span class="k">DESC</span><span class="p">;</span>
+
+<span class="c1">-- 유콩</span>
+<span class="k">SELECT</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerID</span> <span class="k">AS</span> <span class="nv">`고객아이디`</span><span class="p">,</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerName</span>  <span class="k">AS</span> <span class="nv">`고객이름`</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">Quantity</span><span class="p">)</span> <span class="k">AS</span> <span class="nv">`주문량`</span>
+<span class="k">FROM</span> <span class="n">Orders</span>
+<span class="k">JOIN</span> <span class="n">OrderDetails</span> <span class="k">ON</span> <span class="n">Orders</span><span class="p">.</span><span class="n">OrderID</span> <span class="o">=</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">OrderID</span>
+<span class="k">RIGHT</span> <span class="k">JOIN</span> <span class="n">Customers</span> <span class="k">ON</span> <span class="n">Orders</span><span class="p">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="nv">`주문량`</span> <span class="k">DESC</span><span class="p">;</span>
+
+<span class="c1">-- 케이</span>
+<span class="k">SELECT</span> <span class="n">Orders</span><span class="p">.</span><span class="n">CustomerId</span><span class="p">,</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerName</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">Quantity</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">OrderDetails</span> <span class="k">join</span> <span class="n">Orders</span> <span class="k">on</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">OrderId</span> <span class="o">=</span> <span class="n">Orders</span><span class="p">.</span><span class="n">OrderId</span> <span class="k">join</span> <span class="n">Customers</span> <span class="k">on</span> <span class="n">Orders</span><span class="p">.</span><span class="n">CustomerId</span> <span class="o">=</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerId</span> <span class="k">group</span> <span class="k">by</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerName</span> <span class="k">order</span> <span class="k">by</span> <span class="k">sum</span><span class="p">(</span><span class="n">Quantity</span><span class="p">)</span> <span class="k">desc</span>
+
+<span class="c1">-- 배카</span>
+</code></pre></div></div>
+
+<h3 id="문제3">
+<a class="anchor" href="#%EB%AC%B8%EC%A0%9C3" aria-hidden="true"><span class="octicon octicon-link"></span></a>문제3</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">3. 많은 돈을 지출한 순으로 고객 리스트를 구해주세요.</code></li>
+</ul>
+
+<h3 id="풀이3">
+<a class="anchor" href="#%ED%92%80%EC%9D%B43" aria-hidden="true"><span class="octicon octicon-link"></span></a>풀이3</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- 아서</span>
+<span class="k">SELECT</span> <span class="k">c</span><span class="p">.</span><span class="n">customerid</span> <span class="nv">"고객 ID"</span><span class="p">,</span> <span class="k">c</span><span class="p">.</span><span class="n">customername</span> <span class="nv">"고객 이름"</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">od</span><span class="p">.</span><span class="n">quantity</span> <span class="o">*</span> <span class="n">p</span><span class="p">.</span><span class="n">price</span><span class="p">)</span> <span class="nv">"총 주문가격"</span>
+<span class="k">FROM</span> <span class="n">Customers</span> <span class="k">c</span> <span class="k">join</span> <span class="n">Orders</span> <span class="n">o</span> <span class="k">ON</span> <span class="k">c</span><span class="p">.</span><span class="n">customerid</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">customerid</span> <span class="k">JOIN</span> <span class="n">OrderDetails</span> <span class="n">od</span> <span class="k">ON</span> <span class="n">o</span><span class="p">.</span><span class="n">orderid</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">orderid</span> <span class="k">JOIN</span> <span class="n">Products</span> <span class="n">p</span> <span class="k">ON</span> <span class="n">p</span><span class="p">.</span><span class="n">productID</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">productId</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="k">c</span><span class="p">.</span><span class="n">customerid</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="k">SUM</span><span class="p">(</span><span class="n">od</span><span class="p">.</span><span class="n">quantity</span> <span class="o">*</span> <span class="n">p</span><span class="p">.</span><span class="n">price</span><span class="p">)</span> <span class="k">DESC</span>
+
+<span class="c1">-- 케이</span>
+<span class="k">SELECT</span> <span class="n">Orders</span><span class="p">.</span><span class="n">CustomerId</span><span class="p">,</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerName</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">Quantity</span><span class="o">*</span><span class="n">Price</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">OrderDetails</span> <span class="k">join</span> <span class="n">Orders</span> <span class="k">on</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">OrderId</span> <span class="o">=</span> <span class="n">Orders</span><span class="p">.</span><span class="n">OrderId</span> <span class="k">join</span> <span class="n">Customers</span> <span class="k">on</span> <span class="n">Orders</span><span class="p">.</span><span class="n">CustomerId</span> <span class="o">=</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerId</span> <span class="k">join</span> <span class="n">Products</span> <span class="k">on</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">ProductId</span> <span class="o">=</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductId</span> <span class="k">group</span> <span class="k">by</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerName</span> <span class="k">order</span> <span class="k">by</span> <span class="k">sum</span><span class="p">(</span><span class="n">Price</span><span class="o">*</span><span class="n">Quantity</span><span class="p">)</span> <span class="k">desc</span>
+
+<span class="c1">-- 베루스</span>
+<span class="k">select</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerId</span> <span class="k">as</span> <span class="err">‘고객</span> <span class="err">아이디‘</span><span class="p">,</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerName</span> <span class="k">as</span> <span class="err">‘고객</span> <span class="err">이름‘</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">od</span><span class="p">.</span><span class="n">Quantity</span><span class="o">*</span><span class="n">p</span><span class="p">.</span><span class="n">Price</span><span class="p">)</span> <span class="k">as</span> <span class="err">‘지출액’</span>
+<span class="k">from</span> <span class="n">Customers</span> <span class="k">as</span> <span class="k">c</span>
+<span class="k">left</span> <span class="k">join</span> <span class="n">Orders</span> <span class="k">as</span> <span class="n">o</span> <span class="k">on</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerId</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">CustomerId</span>
+<span class="k">left</span> <span class="k">join</span> <span class="n">OrderDetails</span> <span class="k">as</span> <span class="n">od</span> <span class="k">on</span> <span class="n">o</span><span class="p">.</span><span class="n">OrderId</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">OrderId</span>
+<span class="k">left</span> <span class="k">join</span> <span class="n">Products</span> <span class="k">as</span> <span class="n">p</span> <span class="k">on</span> <span class="n">od</span><span class="p">.</span><span class="n">ProductId</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">ProductId</span>
+<span class="k">group</span> <span class="k">by</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerId</span>
+<span class="k">order</span> <span class="k">by</span> <span class="k">sum</span><span class="p">(</span><span class="n">od</span><span class="p">.</span><span class="n">Quantity</span><span class="o">*</span><span class="n">p</span><span class="p">.</span><span class="n">Price</span><span class="p">)</span> <span class="k">desc</span>
+
+<span class="c1">-- 디우</span>
+<span class="k">select</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerName</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">OrderDetails</span><span class="p">.</span><span class="n">Quantity</span> <span class="o">*</span> <span class="n">Products</span><span class="p">.</span><span class="n">price</span><span class="p">)</span>
+<span class="k">from</span> <span class="n">Customers</span><span class="p">,</span> <span class="n">OrderDetails</span><span class="p">,</span> <span class="n">Orders</span><span class="p">,</span> <span class="n">Products</span> <span class="k">where</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="n">Orders</span><span class="p">.</span><span class="n">CustomerID</span> <span class="k">AND</span>
+<span class="n">OrderDetails</span><span class="p">.</span><span class="n">OrderID</span> <span class="o">=</span> <span class="n">Orders</span><span class="p">.</span><span class="n">OrderID</span> <span class="k">AND</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductID</span> <span class="o">=</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">ProductID</span>
+<span class="k">group</span> <span class="k">by</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">order</span> <span class="k">by</span> <span class="k">sum</span><span class="p">(</span><span class="n">OrderDetails</span><span class="p">.</span><span class="n">Quantity</span> <span class="o">*</span> <span class="n">Products</span><span class="p">.</span><span class="n">price</span><span class="p">)</span> <span class="k">desc</span><span class="p">;</span>
+
+<span class="c1">-- 후니</span>
+<span class="k">SELECT</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerName</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">Price</span> <span class="o">*</span> <span class="n">od</span><span class="p">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="n">total</span> <span class="k">FROM</span> <span class="n">Customers</span> <span class="k">c</span>
+<span class="k">join</span> <span class="n">Orders</span> <span class="n">o</span> <span class="k">on</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">join</span> <span class="n">OrderDetails</span> <span class="n">od</span> <span class="k">on</span> <span class="n">o</span><span class="p">.</span><span class="n">OrderID</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">OrderID</span>
+<span class="k">join</span> <span class="n">Products</span> <span class="n">p</span> <span class="k">on</span> <span class="n">od</span><span class="p">.</span><span class="n">ProductID</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">ProductID</span>
+<span class="k">order</span> <span class="k">by</span> <span class="n">total</span> <span class="k">desc</span><span class="p">;</span>
+
+<span class="c1">-- 코린</span>
+<span class="k">select</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerName</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">od</span><span class="p">.</span><span class="n">Quantity</span> <span class="o">*</span> <span class="n">p</span><span class="p">.</span><span class="n">price</span><span class="p">)</span> <span class="k">as</span> <span class="n">total_price</span>
+<span class="k">from</span> <span class="n">Orders</span> <span class="n">o</span>
+<span class="k">join</span> <span class="n">OrderDetails</span> <span class="n">od</span> <span class="k">on</span> <span class="n">o</span><span class="p">.</span><span class="n">OrderID</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">OrderId</span>
+<span class="k">join</span> <span class="n">Customers</span> <span class="k">c</span> <span class="k">on</span> <span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">join</span> <span class="n">Products</span> <span class="n">p</span> <span class="k">on</span> <span class="n">od</span><span class="p">.</span><span class="n">ProductId</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">ProductId</span>
+<span class="k">group</span> <span class="k">by</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">order</span> <span class="k">by</span> <span class="n">total_price</span> <span class="k">desc</span><span class="p">;</span>
+
+<span class="c1">-- 이프</span>
+<span class="k">select</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerName</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">od</span><span class="p">.</span><span class="n">Quantity</span> <span class="o">*</span> <span class="n">p</span><span class="p">.</span><span class="n">Price</span><span class="p">)</span> <span class="k">as</span> <span class="n">total</span>
+<span class="k">from</span> <span class="n">Customers</span> <span class="k">as</span> <span class="k">c</span>
+<span class="k">join</span> <span class="n">Orders</span> <span class="k">as</span> <span class="n">o</span> <span class="k">on</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">join</span> <span class="n">OrderDetails</span> <span class="k">as</span> <span class="n">od</span> <span class="k">on</span> <span class="n">o</span><span class="p">.</span><span class="n">OrderID</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">OrderID</span>
+<span class="k">join</span> <span class="n">Products</span> <span class="k">as</span> <span class="n">p</span> <span class="k">on</span> <span class="n">p</span><span class="p">.</span><span class="n">ProductID</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">ProductID</span>
+<span class="k">group</span> <span class="k">by</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">order</span> <span class="k">by</span> <span class="n">total</span> <span class="k">desc</span>
+
+<span class="c1">-- 루키</span>
+<span class="k">SELECT</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerName</span>
+<span class="k">FROM</span> <span class="n">Customers</span>
+<span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">Orders</span> <span class="k">ON</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="n">Orders</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">OrderDetails</span> <span class="k">ON</span> <span class="n">Orders</span><span class="p">.</span><span class="n">OrderID</span> <span class="o">=</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">OrderID</span>
+<span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">Products</span> <span class="k">ON</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductID</span> <span class="o">=</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">ProductID</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="k">SUM</span><span class="p">(</span><span class="n">OrderDetails</span><span class="p">.</span><span class="n">Quantity</span> <span class="o">*</span> <span class="n">Products</span><span class="p">.</span><span class="n">price</span><span class="p">)</span> <span class="k">DESC</span><span class="p">;</span>
+
+<span class="c1">-- 더즈</span>
+<span class="k">select</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerId</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">Price</span><span class="p">)</span> <span class="k">as</span> <span class="s1">'총지출'</span> <span class="k">from</span> <span class="n">Customers</span> <span class="k">c</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">Orders</span> <span class="n">o</span> <span class="k">on</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerId</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">CustomerId</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">OrderDetails</span> <span class="n">od</span> <span class="k">on</span> <span class="n">od</span><span class="p">.</span><span class="n">OrderId</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">OrderId</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">Products</span> <span class="n">p</span> <span class="k">on</span> <span class="n">p</span><span class="p">.</span><span class="n">ProductId</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">ProductId</span>
+<span class="k">group</span> <span class="k">by</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerId</span>
+<span class="k">order</span> <span class="k">by</span> <span class="k">sum</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">Price</span><span class="p">)</span> <span class="k">desc</span><span class="p">;</span>
+
+<span class="c1">-- 필즈</span>
+<span class="k">SELECT</span>
+	<span class="k">c</span><span class="p">.</span><span class="n">CustomerId</span><span class="p">,</span>
+    <span class="k">c</span><span class="p">.</span><span class="n">CustomerName</span><span class="p">,</span>
+    <span class="n">od</span><span class="p">.</span><span class="n">quantity</span> <span class="o">*</span> <span class="n">p</span><span class="p">.</span><span class="n">price</span> <span class="nv">"orderPrice"</span>
+<span class="k">FROM</span> <span class="n">Customers</span> <span class="k">c</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">Orders</span> <span class="n">o</span>
+	<span class="k">on</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerId</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">CustomerId</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">OrderDetails</span> <span class="n">od</span>
+	<span class="k">on</span> <span class="n">o</span><span class="p">.</span><span class="n">OrderId</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">OrderId</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">Products</span> <span class="n">p</span>
+	<span class="k">on</span> <span class="n">od</span><span class="p">.</span><span class="n">ProductId</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">ProductId</span>
+<span class="k">order</span> <span class="k">by</span> <span class="n">orderPrice</span> <span class="k">desc</span><span class="p">;</span>
+
+<span class="c1">-- 유콩</span>
+<span class="k">SELECT</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerID</span> <span class="k">AS</span> <span class="nv">`고객아이디`</span><span class="p">,</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerName</span> <span class="k">AS</span> <span class="nv">`고객이름`</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">Price</span> <span class="o">*</span> <span class="n">Quantity</span><span class="p">)</span> <span class="k">AS</span> <span class="nv">`지출금액`</span>
+<span class="k">FROM</span> <span class="n">Orders</span>
+<span class="k">JOIN</span> <span class="n">OrderDetails</span> <span class="k">ON</span> <span class="n">Orders</span><span class="p">.</span><span class="n">OrderID</span> <span class="o">=</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">OrderID</span>
+<span class="k">JOIN</span> <span class="n">Products</span> <span class="k">ON</span> <span class="n">OrderDetails</span><span class="p">.</span><span class="n">ProductID</span> <span class="o">=</span> <span class="n">Products</span><span class="p">.</span><span class="n">ProductID</span>
+<span class="k">RIGHT</span> <span class="k">JOIN</span> <span class="n">Customers</span> <span class="k">ON</span> <span class="n">Orders</span><span class="p">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">Customers</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="nv">`지출금액`</span> <span class="k">DESC</span><span class="p">;</span>
+
+<span class="c1">-- 썬</span>
+<span class="k">select</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerName</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">od</span><span class="p">.</span><span class="n">quantity</span> <span class="o">*</span> <span class="n">p</span><span class="p">.</span><span class="n">price</span><span class="p">)</span> <span class="k">as</span> <span class="n">price_total</span>
+<span class="k">from</span> <span class="n">Customers</span> <span class="k">c</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">Orders</span> <span class="n">o</span> <span class="k">on</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">OrderDetails</span> <span class="n">od</span> <span class="k">on</span> <span class="n">o</span><span class="p">.</span><span class="n">OrderID</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">OrderID</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">Products</span> <span class="n">p</span> <span class="k">on</span> <span class="n">p</span><span class="p">.</span><span class="n">ProductID</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">ProductID</span>
+<span class="k">group</span> <span class="k">by</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">order</span> <span class="k">by</span> <span class="n">price_total</span> <span class="k">desc</span><span class="p">;</span>
+
+<span class="c1">-- 수달</span>
+<span class="k">select</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerName</span> <span class="k">as</span> <span class="s1">'고객명'</span><span class="p">,</span>  <span class="k">sum</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">Quantity</span> <span class="o">*</span> <span class="n">p</span><span class="p">.</span><span class="n">price</span><span class="p">)</span> <span class="k">as</span> <span class="s1">'지출금액'</span>
+<span class="k">from</span> <span class="n">Customers</span> <span class="k">c</span> <span class="k">inner</span> <span class="k">join</span> <span class="n">Orders</span> <span class="n">o</span> <span class="k">on</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">CustomerId</span>
+ <span class="k">join</span> <span class="n">OrderDetails</span> <span class="n">d</span> <span class="k">on</span> <span class="n">o</span><span class="p">.</span><span class="n">OrderID</span> <span class="o">=</span> <span class="n">d</span><span class="p">.</span><span class="n">OrderId</span>  <span class="k">join</span> <span class="n">Products</span> <span class="n">p</span> <span class="k">on</span> <span class="n">d</span><span class="p">.</span><span class="n">ProductID</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">ProductID</span>
+<span class="k">group</span> <span class="k">by</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">having</span> <span class="k">sum</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">price</span> <span class="o">*</span> <span class="n">d</span><span class="p">.</span><span class="n">Quantity</span><span class="p">)</span>
+<span class="k">order</span> <span class="k">by</span> <span class="k">sum</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">price</span> <span class="o">*</span> <span class="n">d</span><span class="p">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="k">desc</span><span class="p">;</span>
+
+
+<span class="c1">-- 릭</span>
+<span class="k">SELECT</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span> <span class="k">AS</span> <span class="nv">`ID`</span><span class="p">,</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerName</span> <span class="k">AS</span> <span class="nv">`고객명`</span>
+<span class="k">FROM</span> <span class="n">Customers</span> <span class="k">AS</span> <span class="k">c</span>
+	<span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">Orders</span> <span class="k">AS</span> <span class="n">o</span> <span class="k">ON</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="k">SUM</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">)</span> <span class="k">DESC</span><span class="p">;</span>
+
+<span class="c1">-- 연로그</span>
+<span class="k">select</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span>
+	<span class="p">,</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerName</span>
+	<span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">Price</span> <span class="o">*</span> <span class="n">od</span><span class="p">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="n">total</span>
+<span class="k">from</span> <span class="n">Customers</span> <span class="k">c</span>
+    <span class="k">join</span> <span class="n">Orders</span> <span class="n">o</span> <span class="k">on</span> <span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span>
+	<span class="k">join</span> <span class="n">OrderDetails</span> <span class="n">od</span> <span class="k">on</span> <span class="n">o</span><span class="p">.</span><span class="n">OrderID</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">OrderID</span>
+	<span class="k">join</span> <span class="n">Products</span> <span class="n">p</span> <span class="k">on</span> <span class="n">p</span><span class="p">.</span><span class="n">ProductID</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">ProductID</span>
+<span class="k">group</span> <span class="k">by</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">order</span> <span class="k">by</span> <span class="n">total</span> <span class="k">desc</span><span class="p">;</span>
+
+<span class="c1">-- 봄</span>
+<span class="k">SELECT</span> <span class="k">c</span><span class="p">.</span><span class="n">customerId</span><span class="p">,</span> <span class="k">c</span><span class="p">.</span><span class="n">customerName</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">price</span> <span class="o">*</span> <span class="n">od</span><span class="p">.</span><span class="n">quantity</span><span class="p">)</span> <span class="k">as</span> <span class="n">total</span> <span class="k">FROM</span> <span class="n">Customers</span> <span class="k">as</span> <span class="k">c</span>
+<span class="k">JOIN</span> <span class="n">Orders</span> <span class="k">as</span> <span class="n">o</span> <span class="k">ON</span> <span class="k">c</span><span class="p">.</span><span class="n">customerId</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">customerId</span>
+<span class="k">JOIN</span> <span class="n">OrderDetails</span> <span class="k">as</span> <span class="n">od</span> <span class="k">ON</span> <span class="n">o</span><span class="p">.</span><span class="n">orderId</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">orderId</span>
+<span class="k">JOIN</span> <span class="n">Products</span> <span class="k">as</span> <span class="n">p</span> <span class="k">ON</span> <span class="n">od</span><span class="p">.</span><span class="n">productId</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">productId</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="k">c</span><span class="p">.</span><span class="n">customerId</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">total</span> <span class="k">DESC</span><span class="p">;</span>
+
+<span class="c1">-- 라라</span>
+<span class="k">select</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span><span class="p">,</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerName</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">Price</span> <span class="o">*</span> <span class="n">od</span><span class="p">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="k">as</span> <span class="n">total</span>
+<span class="k">from</span> <span class="n">Customers</span> <span class="k">as</span> <span class="k">c</span>  
+<span class="k">inner</span> <span class="k">join</span> <span class="n">Orders</span> <span class="k">as</span> <span class="n">o</span> <span class="k">on</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">OrderDetails</span> <span class="k">as</span> <span class="n">od</span> <span class="k">on</span> <span class="n">od</span><span class="p">.</span><span class="n">OrderId</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">OrderId</span>
+<span class="k">inner</span> <span class="k">join</span> <span class="n">Products</span> <span class="k">as</span> <span class="n">p</span> <span class="k">on</span> <span class="n">p</span><span class="p">.</span><span class="n">ProductId</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">ProductId</span>
+<span class="k">group</span> <span class="k">by</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerID</span>
+<span class="k">order</span> <span class="k">by</span> <span class="n">total</span> <span class="k">desc</span>
+</code></pre></div></div>
+
+
+  </div><a class="u-url" href="/sql/jason/%EC%9A%B0%ED%85%8C%EC%BD%94/%EA%B0%95%EC%9D%98/2022/04/05/%EC%A0%9C%EC%9D%B4%EC%8A%A8-sql%ED%95%B4%EC%84%9D-%EA%B0%95%EC%9D%98.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>fast pages를 이용한 Jupyter Notebooks, Markdown으로의 기록</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

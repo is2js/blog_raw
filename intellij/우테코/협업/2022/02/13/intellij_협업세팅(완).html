@@ -132,7 +132,11 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h3"><a href="#buildtype---assertj라이브러리">buildType &amp;  assertj라이브러리</a>
 <ul>
 <li class="toc-entry toc-h4"><a href="#build-type-gradle---intellij">build Type: gradle -&gt; intellij</a></li>
-<li class="toc-entry toc-h4"><a href="#buildgradle-라이브러리에-assertj-추가-및-refresh">build.gradle 라이브러리에 assertj 추가 및 refresh</a></li>
+<li class="toc-entry toc-h4"><a href="#buildgradle-라이브러리에-assertj-추가-및-refresh">build.gradle 라이브러리에 assertj 추가 및 refresh</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#assert문-live-template에-추가해놓기">assert문 live template에 추가해놓기</a></li>
+</ul>
+</li>
 <li class="toc-entry toc-h4"><a href="#gradle-정상-test">gradle 정상 test</a></li>
 </ul>
 </li>
@@ -190,8 +194,7 @@ window.onload = wrap_img;
   <li>
 <strong><code class="language-plaintext highlighter-rouge">gradle</code>검색후 build and run <code class="language-plaintext highlighter-rouge">intellij</code>로 바꿔주기</strong>
     <ul>
-      <li>빌드 속도 및</li>
-      <li>TestName표기
+      <li>빌드 속도 및 TestName표기
   <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213002843152.png" alt="image-20220213002843152">
 </li>
     </ul>
@@ -225,6 +228,40 @@ window.onload = wrap_img;
   <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220304164518884.png" alt="image-20220304164518884">
 </li>
     </ul>
+  </li>
+</ul>
+
+<h5 id="assert문-live-template에-추가해놓기">
+<a class="anchor" href="#assert%EB%AC%B8-live-template%EC%97%90-%EC%B6%94%EA%B0%80%ED%95%B4%EB%86%93%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>assert문 live template에 추가해놓기</h5>
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">as+all</code>
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">assertAll</span><span class="o">(</span>
+      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">().</span><span class="na">isEqualTo</span><span class="o">(),</span>
+      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">().</span><span class="na">hasSize</span><span class="o">()</span>
+  <span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">as+that</code>
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">(</span><span class="n">$ACTUAL</span><span class="err">$</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">$EXPECTED</span><span class="err">$</span><span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">as+notthr</code>
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertDoesNotThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">$WHEN</span><span class="err">$</span><span class="o">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">as+thr</code>
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">$WHEN</span><span class="err">$</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="n">$EXCEPTION</span><span class="err">$</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">hasMessage</span><span class="o">(</span><span class="s">"$MESSAGE$"</span><span class="o">);</span>
+</code></pre></div>    </div>
   </li>
 </ul>
 
@@ -359,13 +396,11 @@ window.onload = wrap_img;
   <span class="err">##</span><span class="k">throw</span> <span class="k">new</span> <span class="nc">UnsupportedOperationException</span><span class="o">(</span><span class="s">"${SIMPLE_CLASS_NAME}#${METHOD_NAME} not override."</span><span class="o">);</span>
     
 </code></pre></div>    </div>
-  </li>
-</ul>
-
-<h5 id="auto-import">
+    <h5 id="auto-import">
 <a class="anchor" href="#auto-import" aria-hidden="true"><span class="octicon octicon-link"></span></a>Auto Import</h5>
-<ul>
-  <li>Editor &gt; general &gt; <code class="language-plaintext highlighter-rouge">auto import</code> 검색 후
+  </li>
+  <li>
+    <p>Editor &gt; general &gt; <code class="language-plaintext highlighter-rouge">auto import</code> 검색 후</p>
     <ul class="task-list">
       <li>Always -&gt; <code class="language-plaintext highlighter-rouge">Ask</code>로 변경(복붙후 library 선택)</li>
       <li class="task-list-item">
