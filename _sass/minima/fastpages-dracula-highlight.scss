@@ -13,17 +13,20 @@ $dt-gray-light: #eeeeee; // Foreground
 // $dt-blue: #6272a4;       // Comment
 $dt-blue: #5394ec;       // Comment
 // $dt-cyan: #8be9fd;
-$dt-cyan: #299999;
+// $dt-cyan: #299999;
+$dt-cyan: #ba6b30; // public void ba6b30
 $dt-green: #0c0c0c;
 // $dt-orange: #ffb86c;
 $dt-orange: #dcc457;
 $dt-pink: #ff79c6;
+$dt-pink: #ba6b30; //return 괄호 
 // $dt-purple: #bd93f9;
 $dt-purple: #ae8abe;
 // $dt-red: #ff5555;
 $dt-red: #e74644;
 $dt-yellow: #f1fa8c;
-$dt-green-light: rgb(172, 229, 145);
+// $dt-green-light: rgb(172, 229, 145);
+$dt-green-light: #f5c269; // method f5c269 그외.. 보라색 변수는 #8f709d）　
 
 .language-python + .language-plaintext {
     border-left: 1px solid grey;
