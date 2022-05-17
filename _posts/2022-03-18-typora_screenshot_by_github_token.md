@@ -1,9 +1,9 @@
 ---
 toc: true
 layout: post
-categories: [configuration, typora, settings]
-title: typora screenshot uploader(token)
-description: typora screenshot uploader setting by token
+categories: [configuration, typora, picgo, github-token, settings]
+title: typora image uploader(picGo+token)
+description: typora screenshot uploader setting by picGo + token
 
 image: "images/posts/config.png"
 ---
