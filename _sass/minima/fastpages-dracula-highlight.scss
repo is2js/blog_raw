@@ -1,17 +1,27 @@
 // Override Syntax Highlighting In Minima With the Dracula Theme: https://draculatheme.com/
 // If you wish to override any of this CSS, do so in _sass/minima/custom-styles.css
  
-$dt-gray-dark: #282a36;  // Background
-$dt-code-cell-background: #323443;
-$dt-gray: #44475a;       // Current Line & Selection
-$dt-gray-light: #f8f8f2; // Foreground
-$dt-blue: #6272a4;       // Comment
-$dt-cyan: #8be9fd;
-$dt-green: #50fa7b;
-$dt-orange: #ffb86c;
+// $dt-gray-dark: #282a36;  // Background
+$dt-gray-dark: #252024;  // Background
+// $dt-code-cell-background: #323443;
+$dt-code-cell-background: #252024;
+// $dt-gray: #44475a;       // Current Line & Selection
+$dt-gray: #323232;       // Current Line & Selection
+// $dt-gray-light: #f8f8f2; // Foreground
+// $dt-gray-light: #a9b7c6; // Foreground
+$dt-gray-light: #eeeeee; // Foreground
+// $dt-blue: #6272a4;       // Comment
+$dt-blue: #5394ec;       // Comment
+// $dt-cyan: #8be9fd;
+$dt-cyan: #299999;
+$dt-green: #0c0c0c;
+// $dt-orange: #ffb86c;
+$dt-orange: #dcc457;
 $dt-pink: #ff79c6;
-$dt-purple: #bd93f9;
-$dt-red: #ff5555;
+// $dt-purple: #bd93f9;
+$dt-purple: #ae8abe;
+// $dt-red: #ff5555;
+$dt-red: #e74644;
 $dt-yellow: #f1fa8c;
 $dt-green-light: rgb(172, 229, 145);
 
