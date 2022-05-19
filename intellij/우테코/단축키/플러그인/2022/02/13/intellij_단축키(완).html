@@ -1008,6 +1008,36 @@ window.onload = wrap_img;
       <li>java는 하더라도 서버를 재시작해야 웹에 반영되므로 아직까진 모르겠음.</li>
     </ul>
   </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">ctrl + alt + N</code></strong> : 인라인 리팩터링
+    <ol>
+      <li>변수 인라인 -&gt; <code class="language-plaintext highlighter-rouge">변수에 커서</code>를 데고 인라인 리팩토링하면, <strong>변수로 뽑아 놓은 <code class="language-plaintext highlighter-rouge">우항의 값들</code> -&gt; <code class="language-plaintext highlighter-rouge">변수는 사라지고 값이 각 변수자리에 직접 들어간다</code></strong>
+        <ul>
+          <li>변수 추출의 반대
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220519214307.png" alt="20220519214307">
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220519214322.png" alt="20220519214322">
+</li>
+        </ul>
+      </li>
+      <li>메서드 인라인 -&gt; <code class="language-plaintext highlighter-rouge">메서드에 커서</code>를 데고 인라인 리팩토링하면, <strong><code class="language-plaintext highlighter-rouge">메서드 내부 return되던 로직들</code>이 -&gt; <code class="language-plaintext highlighter-rouge">메서드는 사라지고 내부로직이 직접 들어간다</code></strong>
+        <ul>
+          <li>메서드 추출의 반대
+            <ul>
+              <li>메서드로 따로 존재하던 로직
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220519214709.png" alt="20220519214709">
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220519214724.png" alt="20220519214724">
+</li>
+              <li>메서드가 사라지고, 메서드 내부 로직이 들어온다.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220519214849.png" alt="20220519214849">
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220519214901.png" alt="20220519214901">
+</li>
+            </ul>
+          </li>
+          <li>메서드 내부 로직이 바로 꺼내져 와서 context의 문제도 생기므로 잘 안쓸 듯.</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
 </ul>
 
   </div><a class="u-url" href="/intellij/%EC%9A%B0%ED%85%8C%EC%BD%94/%EB%8B%A8%EC%B6%95%ED%82%A4/%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8/2022/02/13/intellij_%EB%8B%A8%EC%B6%95%ED%82%A4(%EC%99%84).html" hidden></a>
