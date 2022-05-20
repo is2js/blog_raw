@@ -2,7 +2,7 @@
   
     
         "post0": {
-            "title": "vscode markdown link shortcut by kinbinding",
+            "title": "vscode markdown link shortcut",
             "content": "keybindings.json 열어 아래 코드 복붙하기 . F1 &gt; keyboard 검색후 &gt; 바로가기 키 열기 (JSON)을 선택한다. . | 아래 코드를 맨 위에 붙여넣는다. // 스니펫 참고: https://code.visualstudio.com/docs/editor/userdefinedsnippets // 마크다운일 때, 링크 삽입 태그 추가 { &quot;key&quot;: &quot;ctrl+k&quot;, &quot;command&quot;: &quot;editor.action.insertSnippet&quot;, &quot;args&quot;: { &quot;snippet&quot;: &quot;[${TM_SELECTED_TEXT}](${CLIPBOARD})&quot; }, &quot;when&quot;: &quot;editorHasSelection &amp;&amp; editorLangId == &#39;markdown&#39;&quot; }, . | 이후 clipboard에 url을 복사한 상태에서, markdown 내 텍스트에 ctrl + k를 눌러서 링크를 바로 건다 |",
             "url": "blog.chojaeseong.com/configuration/vscode/2022/05/18/vscode-markdown-ctrl-k.html",
             "relUrl": "/configuration/vscode/2022/05/18/vscode-markdown-ctrl-k.html",
