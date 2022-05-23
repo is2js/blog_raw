@@ -1071,11 +1071,17 @@ window.onload = wrap_img;
       <li>vscode에서는 <code class="language-plaintext highlighter-rouge">출력</code>으로 간다.</li>
     </ul>
   </li>
-  <li>cf) intellij default toString(String concat(+))
+  <li>cf) intellij default toString(<code class="language-plaintext highlighter-rouge">String concat(+)</code>) and equals and hashCode(<code class="language-plaintext highlighter-rouge">java.util.Objects.equals and hashCode (java 7+)</code>)
     <ul>
-      <li>성능좋다고 builder로 바꿨다가. toString을 통한 java객체비교에 메모리 주소가 붙어서 안될 수 도 잇음. 컨벤션의 문제도</li>
-      <li>다시 <code class="language-plaintext highlighter-rouge">String concat(+)</code>로 돌림
+      <li>성능좋다고 builder로 바꿨다가. toString을 통한 java객체비교에 메모리 주소가 붙어서 안될 수 도 잇음. 컨벤션의 문제도
+        <ul>
+          <li>다시 <code class="language-plaintext highlighter-rouge">String concat(+)</code>로 돌림
   <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220523113548.png" alt="20220523113548">
+</li>
+        </ul>
+      </li>
+      <li>equals and hashCode도 <del>intellij default</del>가 있어서 봐꿨는데 다시 기본 <code class="language-plaintext highlighter-rouge">java.util.Objects.equals and hashCode (java 7+)</code>로 바꿈
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220523155819.png" alt="20220523155819">
 </li>
     </ul>
   </li>
