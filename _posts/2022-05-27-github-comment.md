@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-categories: [git, github, comment, codereview]
+categories: [git, github, comment, pr, codereview]
 title: github codereview PR comment
 description: commit, comment(with emptyline) link, `#`PR번호, `@`사용자
 
