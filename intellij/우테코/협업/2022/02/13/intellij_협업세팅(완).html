@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      5 min read
+      6 min read
     
 </span></p>
 
@@ -144,6 +144,7 @@ window.onload = wrap_img;
 <ul>
 <li class="toc-entry toc-h4"><a href="#ends-with-a-line-break">ends with a line break</a></li>
 <li class="toc-entry toc-h4"><a href="#code-style우테코">Code style(우테코)</a></li>
+<li class="toc-entry toc-h4"><a href="#sql-warning-워닝-제거">SQL warning 워닝 제거</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h3"><a href="#1회성-설정">1회성 설정</a>
@@ -315,6 +316,54 @@ window.onload = wrap_img;
   <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213013403561.png" alt="image-20220213013403561">
 </li>
     </ul>
+  </li>
+</ol>
+
+<h4 id="sql-warning-워닝-제거">
+<a class="anchor" href="#sql-warning-%EC%9B%8C%EB%8B%9D-%EC%A0%9C%EA%B1%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>SQL warning 워닝 제거</h4>
+<ul>
+  <li><a href="https://atoz-develop.tistory.com/entry/IntelliJ-SQL-Dialect%EC%99%80-Data-Source-%EC%84%A4%EC%A0%95-%EB%B0%A9%EB%B2%95">참고 사이트</a></li>
+</ul>
+
+<ol>
+  <li>
+<strong>Warning 검출 끄기</strong>
+    <ul>
+      <li>DAO 등의 sql 작성문으로 가서 <code class="language-plaintext highlighter-rouge">ctrl + .</code> &gt; <code class="language-plaintext highlighter-rouge">Uninject language or reference</code> 를 선택한다.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220528145715.png" alt="20220528145715">
+</li>
+    </ul>
+  </li>
+  <li>
+<strong>프로젝트 SQL dialect 설정하기</strong>
+    <ol>
+      <li>
+<code class="language-plaintext highlighter-rouge">Settings - Languages &amp; Frameworks - SQL Dialects</code> or <code class="language-plaintext highlighter-rouge">shift 2번(F1) &gt; sql dialect</code> 선택</li>
+      <li>Global 말고 <code class="language-plaintext highlighter-rouge">Project SQL dialect</code>를 테스트용 <code class="language-plaintext highlighter-rouge">H2</code>로 선택
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220528145934.png" alt="20220528145934">
+</li>
+    </ol>
+  </li>
+  <li>
+<strong>schema.sql에서 H2를 DataSource로 지정해주기</strong>
+    <ol>
+      <li>의존성에 h2추가 확인하기
+        <div class="language-gradle highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="n">runtimeOnly</span> <span class="s1">'com.h2database:h2'</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">application.yml</code>에서 h2 <code class="language-plaintext highlighter-rouge">인메모리(mem)</code> url(url: jbdc:h2:<code class="language-plaintext highlighter-rouge">mem</code>:maindb)으로 지정 / username 등 설정 확인 후 `펼쳐놓기</strong></p>
+      </li>
+      <li>
+        <p>scheme.sql파일에서 <code class="language-plaintext highlighter-rouge">configure data source</code> 클릭 or <code class="language-plaintext highlighter-rouge">shift 2번(F1)</code>에서 data source검색하여 <code class="language-plaintext highlighter-rouge">Data source...</code> 선택
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220528151142.png" alt="20220528151142"></p>
+      </li>
+      <li>
+<strong>h2를 추가하고, 기본 remote로 지정된 <code class="language-plaintext highlighter-rouge">option을 내장형(In-memory)</code>로 변경하고, username 등 입력해준다.</strong>
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220528151815.png" alt="20220528151815">
+</li>
+    </ol>
   </li>
 </ol>
 
