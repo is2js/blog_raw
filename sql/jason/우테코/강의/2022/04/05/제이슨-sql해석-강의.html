@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      13 min read
+      17 min read
     
 </span></p>
 
@@ -133,6 +133,7 @@ window.onload = wrap_img;
     <!-- toc가 먼저 나오므로 h3로 안내하기 -->
     <h3>📜 제목으로 보기</h3>
     <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#복습-정리본">복습 정리본</a></li>
 <li class="toc-entry toc-h2"><a href="#sql">SQL</a>
 <ul>
 <li class="toc-entry toc-h3"><a href="#update">update</a></li>
@@ -175,7 +176,191 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h3"><a href="#풀이3">풀이3</a></li>
 </ul>
 </li>
-</ul><h2 id="sql">
+</ul><h2 id="복습-정리본">
+<a class="anchor" href="#%EB%B3%B5%EC%8A%B5-%EC%A0%95%EB%A6%AC%EB%B3%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>복습 정리본</h2>
+<ol>
+  <li>해석
+    <ol>
+      <li>
+<code class="language-plaintext highlighter-rouge">보고싶은 것</code>을 f어떤 테이블(j)에서 w조건으로 보는데</li>
+      <li>g그루핑한다면 h어떤조건으로 볼건지 정하고</li>
+      <li>s어떤 데이터를 볼 것인지 정한다.</li>
+      <li>보는 데이터를 o어떤순서로, l몇개 볼 것인지도 정해준다.</li>
+      <li><strong>문제 해석은 <code class="language-plaintext highlighter-rouge">수식어</code>는 <code class="language-plaintext highlighter-rouge">join될, fk가진 테이블</code> 속 재료 / <code class="language-plaintext highlighter-rouge">명사</code>가 <code class="language-plaintext highlighter-rouge">먼저 찾을 테이블</code>속 재료로 먼저 찾는다.</strong></li>
+    </ol>
+  </li>
+  <li>문제1 풀이
+    <ol>
+      <li>
+<code class="language-plaintext highlighter-rouge">첫번째 재료</code>를 <code class="language-plaintext highlighter-rouge">어떤테이블에서 어떤조건으로... 어떤 데이터를 볼 지 정해서</code>  찾는다.
+        <ul>
+          <li><strong>탐색용 <code class="language-plaintext highlighter-rouge">select *</code>에는 항상 <code class="language-plaintext highlighter-rouge">limit 100</code>을 붙여서 탐색하자.</strong></li>
+        </ul>
+      </li>
+      <li>
+<code class="language-plaintext highlighter-rouge">첫번째 재료에 달린 조건 속 숨은 재료</code>도 첫번째 재료가 담긴 테이블에 없다면, <strong>첫번째 재료 테이블에 연결될 수 있게 <code class="language-plaintext highlighter-rouge">fk_id</code>가지면서, <code class="language-plaintext highlighter-rouge">숨은 재료</code>를 가진 테이블을 찾는다.(연결 재료는 조건이 +1)</strong>
+        <ul>
+          <li><strong>my) 첫재료테이블id를 fk로 가지는지부터 확인해서 필터링하자</strong></li>
+          <li>첫번째 재료가 포함된 <code class="language-plaintext highlighter-rouge">테이블명_id</code>를 기억해서 fk로 가진 테이블만 연결된다는 것을 생각하자.</li>
+          <li><strong>연결된 재료 찾기는 <code class="language-plaintext highlighter-rouge">연결될 재료</code> 뿐만 아니라 <code class="language-plaintext highlighter-rouge">연결에 필요한 첫번째 재료의 테이블_id(fk)</code>까지 필요하여, 조건이 2개가 필요한 것이 차이점이다.</strong></li>
+        </ul>
+      </li>
+      <li>
+<strong>연결에 필요한 <code class="language-plaintext highlighter-rouge">첫재료테이블_id</code> -&gt; join을 통해 -&gt; <code class="language-plaintext highlighter-rouge">첫재료</code>자체로 연결하여 변환할 수 있다.</strong>
+        <ul>
+          <li><strong>fk자리를 join연결을 통해 첫재료로 바꿔볼 수 있다.(<code class="language-plaintext highlighter-rouge">ProductId -&gt; ProductName</code>)의 새로운 관점</strong></li>
+          <li>
+<strong>실제 join은 fk테이블(다)에 자리바꿔들어가는게 아니라, PK테이블(일)에 left로 꽂는다. <code class="language-plaintext highlighter-rouge">left로 꽂으면서 첫재료의 데이터가 (다)로 늘어나는데, fk테이블은 꽂으면서 fk를 PK테이블의 원하는 데이터 중 1개로 대체한다는 관점으로 가져가보자</code></strong>
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220528170144.png" alt="20220528170144">
+</li>
+        </ul>
+      </li>
+      <li>
+<strong>연결조건을 갖춰 연결하여 fk를 통해 left에 꽂아 연결한 뒤, 원하는 데이터로 대체해서 볼 수 있지만, 1:1관계가 아닌 이상 <code class="language-plaintext highlighter-rouge">1 &lt;- m</code>을 갖다 꼽았다면, <code class="language-plaintext highlighter-rouge">꽂임 당한 PK테이블 쪽은 없던 중복이 생길 수 밖에 없다</code></strong>
+ <strong><code class="language-plaintext highlighter-rouge">꽂힘 당하면서 중복이 생긴 PK테이블은 select에서 id를 distint()를 걸어 중복제거후 count()를 씌워 갯수</code>를 확인한다.</strong>
+        <ul>
+          <li>(고객이) <code class="language-plaintext highlighter-rouge">상품</code>(목적어m)을 <code class="language-plaintext highlighter-rouge">주문</code>(동사, 1)한다. -&gt; 주문:상품 = 1:m관계
+            <ul>
+              <li>반대로, 1상품이 여러개의 주문에 들어갈 수 도 있으니 m:n관계다. 어디든 m이 꽂히는 입장이니, 중복은 생긴다.</li>
+            </ul>
+          </li>
+          <li>
+<strong>주로 fk를 가진 m이 꽂히며 -&gt; join결과 <code class="language-plaintext highlighter-rouge">1쪽에 대해 중복이 발생한 상태</code>이다.</strong>
+            <ul>
+              <li>1주문당 m이꽂히므로, <code class="language-plaintext highlighter-rouge">주문갯수 n x 꽂힌 m 상품</code>이 총 데이터 갯수다. 주문당 여러개란 뜻이지 항상 m개를 가지고 있지 않으므로 그만큼 많이 중복?!</li>
+            </ul>
+          </li>
+          <li><strong><code class="language-plaintext highlighter-rouge">join후 1(PK)에 생긴 중복을 고려해서 select에서 id를 distinct로 중복제거</code>하여 실제 사용된 데이터 갯수를 준비를 하자</strong></li>
+        </ul>
+      </li>
+      <li>distinct(pk.id)는 첫재료(1)쪽의 사용된 갯수 확인일 뿐이다. <strong><code class="language-plaintext highlighter-rouge">연결된 중복 데이터</code>에 대해 <code class="language-plaintext highlighter-rouge">집계하여 중복제거</code>를 하기 위해서는 <code class="language-plaintext highlighter-rouge">group by + 집계함수</code>로 해야한다. 이 때, 1쪽에 대한 <code class="language-plaintext highlighter-rouge">group by는 원본재료의 id를 통해</code>하는 것이다.<code class="language-plaintext highlighter-rouge">필요한 재료는 select절에서 id이후 1쪽은 나열, m쪽은 집계</code>해서 가져온다.</strong>
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">id를 통해 groupby 집계</code>해놓고, 거기에 <code class="language-plaintext highlighter-rouge">select절에서는 id기본 + 타 컬럼정보를 가져다가 1쪽은 어차피 중복제거되었으니 나열, m쪽은 집계</code>할 수 있다.</strong></li>
+          <li>m쪽을 집계안하면? 첫번째 데이터만 올라오니 조심
+            <ul>
+              <li>
+<strong>m쪽을 집계안하고, 1쪽처럼 나열만 한경우</strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220528174731.png" alt="20220528174731">
+</li>
+              <li>
+<strong>1쪽은 나열, m쪽은 집계한 경우</strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220528174808.png" alt="20220528174808">
+</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>m쪽 집계까지 끝난 뒤에야, <code class="language-plaintext highlighter-rouge">having으로  m쪽 집계한 메서드를 그대로 가져와 조건</code>을 걸어준다.</strong>
+        <ul>
+          <li>having의 작성은 <code class="language-plaintext highlighter-rouge">groupby -&gt; select 1id, 1칼럼나열, m집계 -&gt; m집계에 대해 조건</code>순이지만</li>
+          <li><strong>having의 실제 실행은 select이후이므로 <code class="language-plaintext highlighter-rouge">select에서 작성한 AS는 사용불가</code>이다. <code class="language-plaintext highlighter-rouge">select에서 준 m집계함수</code>를 그대로 having에 걸어줘야한다.</strong></li>
+        </ul>
+      </li>
+      <li>join후 집계, 집계조건 걸기까지 끝난 뒤, 순서없는 것에 대해 order by/limit 등을 걸어준다.
+        <ul>
+          <li>order by는 m집계함수를 그대로 걸어줘도 되지만</li>
+          <li>select이후라서 alias를 걸어줘도 된다.</li>
+        </ul>
+      </li>
+      <li>
+<strong>alias주는 리팩토링</strong>
+        <ol>
+          <li>from 에 걸린 대문자TABLE에 대해 <code class="language-plaintext highlighter-rouge">AS 소문자</code>로 alias를 준다.</li>
+          <li>대문자로 쓰였던 TABLE_NAME들을 소문자alias로 교체한다.</li>
+          <li><strong><code class="language-plaintext highlighter-rouge">select에서 준 소문자 칼럼alias</code>는 having까지는 못준다. order by에서는 집계함수라도 alias로 줄 수 있다.</strong></li>
+        </ol>
+      </li>
+    </ol>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="k">select</span> 
+     <span class="k">c</span><span class="p">.</span><span class="n">CustomerId</span> <span class="k">as</span> <span class="nv">"고객ID"</span><span class="p">,</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerName</span> <span class="k">as</span> <span class="nv">"고객이름"</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">od</span><span class="p">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="k">as</span> <span class="nv">"총 주문횟수"</span>
+ <span class="k">from</span> <span class="n">Customers</span> <span class="k">c</span>
+     <span class="k">left</span> <span class="k">join</span> <span class="n">Orders</span> <span class="n">o</span>
+         <span class="k">on</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerId</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">CustomerId</span>
+     <span class="k">left</span> <span class="k">join</span> <span class="n">OrderDetails</span> <span class="n">od</span>
+         <span class="k">on</span> <span class="n">o</span><span class="p">.</span><span class="n">OrderId</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">OrderId</span>
+ <span class="k">group</span> <span class="k">by</span> 
+     <span class="k">c</span><span class="p">.</span><span class="n">CustomerId</span>
+ <span class="k">order</span> <span class="k">by</span>
+     <span class="k">sum</span><span class="p">(</span><span class="n">od</span><span class="p">.</span><span class="n">Quantity</span><span class="p">)</span> <span class="k">desc</span><span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>문제2 풀이
+    <ol>
+      <li>customer(1) &lt;- Orders(n) &lt;- OrderDetails(m)을 join해놨어도, 중복이 n x m으로 생긴 customer에 대해 id로 group by하더라도 customer에 대해서만 하면 된다. Orders x OrderDetails(n x m)에 대해 집계하면 집계메서드에 의해 다 모이게 되어있다.
+        <ul>
+          <li>Orders는 OrderDetails에 대해 집계로 중복제거 안해도 되나? -&gt; 목표가 <code class="language-plaintext highlighter-rouge">고객별 집계</code>니까,, 알아서 다 집계된다. 목표가 <code class="language-plaintext highlighter-rouge">고객별/주문별 집계</code>가 아니라는 점을 인식하자.</li>
+        </ul>
+      </li>
+      <li>
+<strong>m:1 관계에서 <code class="language-plaintext highlighter-rouge">fk를 가진 m</code>에다가 <code class="language-plaintext highlighter-rouge">pk - 1</code>쪽의 데이터를 left join할 수 있다.</strong>
+        <ul>
+          <li>Customers(1) &lt;- Orders(k-830) &lt;- OrderDetails(n-2155, <code class="language-plaintext highlighter-rouge">Quantity</code>) &lt;- Products(1, <code class="language-plaintext highlighter-rouge">prices</code>)
+            <ul>
+              <li>필요재료는 <code class="language-plaintext highlighter-rouge">총 구매금액 = quantity \* prices</code>을 <code class="language-plaintext highlighter-rouge">customers별 집계</code>해야한다.</li>
+            </ul>
+          </li>
+          <li>
+<strong>이 경우, <code class="language-plaintext highlighter-rouge">join을 받는 m쪽에 데이터 중복이 안생기고 row 당 1개 정보만 추가</code>된다.</strong>
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220528213419.png" alt="20220528213419">
+</li>
+          <li>
+<strong>my) left join을 받는 쪽은 <code class="language-plaintext highlighter-rouge">받는 쪽 row 1개당 정보가 추가</code>되는데</strong>
+            <ol>
+              <li>보통은 <code class="language-plaintext highlighter-rouge">1(PK)</code>쪽에 &lt;— <code class="language-plaintext highlighter-rouge">M(fk)</code>를 <strong>left join으로 박아서, <code class="language-plaintext highlighter-rouge">row 1개당 대략 m개의 데이터 중복</code>이 생긴다고 생각한다.</strong>
+                <ul>
+                  <li>다른 의미로는 m(fk)테이블 쪽에 있는 fk(pk_id)대신 (join된 테이블에서) pk테이블의 칼럼 중 택하여 정보를 바꿔 볼 수 있다. pk테이블의 칼럼 기반으로 나열하여 집계 + fk테이블(m)은 집계메서드하여 살펴볼 수 있다.</li>
+                </ul>
+              </li>
+              <li>
+<strong>연결하다보니 <code class="language-plaintext highlighter-rouge">M(fk)</code> &lt;— <code class="language-plaintext highlighter-rouge">1(PK)</code>를 **left join으로 박아서, <code class="language-plaintext highlighter-rouge">(m쪽이지만) row 1개당 중복없이 1개의 정보 추가</code></strong>만 발생한다고 생각하자.
+                <ul>
+                  <li><strong>my) left join을 fk(<code class="language-plaintext highlighter-rouge">연결당할 놈이 fk를 가지고 있는 경우</code>) &lt;— (<code class="language-plaintext highlighter-rouge">연결할 놈이지만 fk를 안가지고 있는</code>)pk방향으로 하는 것은 <code class="language-plaintext highlighter-rouge">row 1개당 1:1로 추가정보만 1개 더 추가</code>한다고 생각하자.</strong></li>
+                </ul>
+              </li>
+            </ol>
+          </li>
+          <li><strong>my) <code class="language-plaintext highlighter-rouge">fk를 안들고 있는데 연결</code>해야한다? -&gt; <code class="language-plaintext highlighter-rouge">최초 박힘의 테이블</code> or <code class="language-plaintext highlighter-rouge">fk는 없지만, fk있는 곳에 1row당 1개 정보를 제공해주는 테이블</code></strong></li>
+          <li>
+<strong>my) 현재 테이블이 fk를 들고 있다면, <code class="language-plaintext highlighter-rouge">m &lt;- 1 left join</code>을 통해서 <code class="language-plaintext highlighter-rouge">pk테이블로, fk를 들고 있는 현재 테이블에 row당 1개 정보 를 제공</code>한다.</strong>
+            <ul>
+              <li>ex&gt;  고객의 주문정보들(fk_productId) &lt;— (productId) 1row당 상품정보(prices)를 중복없이 정보만 제공</li>
+            </ul>
+          </li>
+          <li>
+<strong>my) 1쪽을 두고 m(fk)를 박아야, group by시 id로 해놓고, 1쪽칼럼은 나열 vs m쪽칼럼은 집계를 편하게 할 수 있을 것 같다.</strong>
+            <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="k">select</span>
+ <span class="k">c</span><span class="p">.</span><span class="n">CustomerId</span><span class="p">,</span> <span class="k">c</span><span class="p">.</span><span class="n">CustomerName</span> <span class="k">AS</span> <span class="n">name</span><span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="n">od</span><span class="p">.</span><span class="n">Quantity</span> <span class="o">*</span> <span class="n">p</span><span class="p">.</span><span class="n">price</span><span class="p">)</span> <span class="k">AS</span> <span class="n">total</span>
+ <span class="k">from</span> 
+ <span class="n">Customers</span> <span class="k">c</span>
+ <span class="k">left</span> <span class="k">join</span>
+  <span class="n">Orders</span> <span class="n">o</span>
+ <span class="k">on</span> 
+  <span class="k">c</span><span class="p">.</span><span class="n">CustomerId</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">CustomerId</span>
+ <span class="k">left</span> <span class="k">join</span>
+  <span class="n">OrderDetails</span> <span class="n">od</span>
+ <span class="k">on</span> 
+  <span class="n">o</span><span class="p">.</span><span class="n">OrderId</span> <span class="o">=</span> <span class="n">od</span><span class="p">.</span><span class="n">OrderId</span>
+ <span class="k">left</span> <span class="k">join</span>
+  <span class="n">Products</span> <span class="n">p</span>
+ <span class="k">on</span> 
+  <span class="n">od</span><span class="p">.</span><span class="n">ProductId</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">ProductId</span>
+ <span class="k">group</span> <span class="k">by</span>
+ <span class="k">c</span><span class="p">.</span><span class="n">CustomerId</span>
+ <span class="k">order</span> <span class="k">by</span>
+ <span class="n">total</span> <span class="k">desc</span>
+</code></pre></div>            </div>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<h2 id="sql">
 <a class="anchor" href="#sql" aria-hidden="true"><span class="octicon octicon-link"></span></a>SQL</h2>
 
 <h3 id="update">
@@ -323,6 +508,7 @@ window.onload = wrap_img;
 <span class="c1">-- OrderID	CustomerID	EmployeeID	OrderDate	ShipperID</span>
 
 <span class="o">##</span> <span class="err">뭐야</span> <span class="p">(</span><span class="err">팔린량</span><span class="p">,</span><span class="err">주문량</span><span class="p">)</span><span class="err">도</span> <span class="err">없고</span> <span class="p">[</span><span class="err">상품명과</span> <span class="err">연결될</span> <span class="n">ProductId</span><span class="p">]</span><span class="err">도</span> <span class="err">안가지고</span> <span class="err">있다</span><span class="p">.</span>
+<span class="o">##</span> <span class="n">my</span><span class="p">)</span> <span class="err">추가정보를</span> <span class="err">얻기</span> <span class="err">위해선</span> 
 
 <span class="o">##</span> <span class="err">다시</span> <span class="err">테이블을</span> <span class="err">보니</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">OrderDetails</span><span class="o">&gt;</span><span class="err">가</span> <span class="err">있다</span><span class="p">.</span>
 
