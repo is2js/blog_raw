@@ -335,17 +335,17 @@ window.onload = wrap_img;
     </ul>
   </li>
   <li>
-<strong>프로젝트 SQL dialect 설정하기</strong>
+<strong>프로젝트 SQL dialect 설정하기 for 자동완성 by 해당SQL로 인식후 <code class="language-plaintext highlighter-rouge">문법 자동완성</code></strong>
     <ol>
       <li>
-<code class="language-plaintext highlighter-rouge">Settings - Languages &amp; Frameworks - SQL Dialects</code> or <code class="language-plaintext highlighter-rouge">shift 2번(F1) &gt; sql dialect</code> 선택</li>
+<code class="language-plaintext highlighter-rouge">Settings - Languages &amp; Frameworks - SQL Dialects</code> or <code class="language-plaintext highlighter-rouge">shift 2번(F1) &gt; sql dialects</code> 선택</li>
       <li>Global 말고 <code class="language-plaintext highlighter-rouge">Project SQL dialect</code>를 테스트용 <code class="language-plaintext highlighter-rouge">H2</code>로 선택
  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220528145934.png" alt="20220528145934">
 </li>
     </ol>
   </li>
   <li>
-<strong>schema.sql에서 H2를 DataSource로 지정해주기</strong>
+<strong>schema.sql에서 H2를 DataSource로 지정하여 session에서 테이블들 생성 for String sql속 <code class="language-plaintext highlighter-rouge">table 및 칼럼 인식후 자동완성</code></strong>
     <ol>
       <li>의존성에 h2추가 확인하기
         <div class="language-gradle highlighter-rouge">
@@ -357,18 +357,28 @@ window.onload = wrap_img;
       </li>
       <li>
         <p>scheme.sql파일에서 <code class="language-plaintext highlighter-rouge">configure data source</code> 클릭 or <code class="language-plaintext highlighter-rouge">shift 2번(F1)</code>에서 data source검색하여 <code class="language-plaintext highlighter-rouge">Data source...</code> 선택
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220528152446.png" alt="20220528152446">
  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220528151142.png" alt="20220528151142"></p>
       </li>
       <li>
-<strong>h2를 추가하고, 기본 remote로 지정된 <code class="language-plaintext highlighter-rouge">option을 내장형(In-memory)</code>로 변경하고, username 등 입력해준다.</strong>
- <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220528151815.png" alt="20220528151815">
-</li>
+        <p><strong>h2를 추가하고, 기본 remote로 지정된 <code class="language-plaintext highlighter-rouge">option을 내장형(In-memory)</code>로 변경하고, username(sa), database(maindb) 등 입력해준다.</strong>
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220528151815.png" alt="20220528151815"></p>
+      </li>
+      <li>
+        <p><strong>schema.sql로 와서 <code class="language-plaintext highlighter-rouge">실행</code>버튼 &gt; 생성한 data source DB설정 &gt; <code class="language-plaintext highlighter-rouge">schema.sql 선택후 실행</code>시켜 <code class="language-plaintext highlighter-rouge">data source에 session으로 메모리 테이블 실제 생성</code>시켜준다.</strong>
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220528152829.png" alt="20220528152829">
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220528152916.png" alt="20220528152916">
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220528152743.png" alt="20220528152743">
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220528152950.png" alt="20220528152950"></p>
+      </li>
+      <li>이제 dao등에서 <code class="language-plaintext highlighter-rouge">table을 인식하여 칼럼까지 자동완성</code>할 수 있다.
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220528153100.png" alt="20220528153100">
+        <h3 id="1회성-설정">
+<a class="anchor" href="#1%ED%9A%8C%EC%84%B1-%EC%84%A4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>1회성 설정</h3>
+      </li>
     </ol>
   </li>
 </ol>
-
-<h3 id="1회성-설정">
-<a class="anchor" href="#1%ED%9A%8C%EC%84%B1-%EC%84%A4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>1회성 설정</h3>
 
 <h4 id="new-project-setup">
 <a class="anchor" href="#new-project-setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>New Project setup</h4>
