@@ -40,8 +40,9 @@ image: "images/posts/git.png"
 
 
 ### `#`은 upstreamREPO 속 PR들 탐색 / `@`는 사용자 탐색
-    1. `#` upstream `PR들 탐색`
-        ![20220527092151](https://raw.githubusercontent.com/is2js/screenshots/main/20220527092151.png)
 
-    2. `@` `사용자 탐색`
-        ![20220527092117](https://raw.githubusercontent.com/is2js/screenshots/main/20220527092117.png)
+1. `#` upstream `PR들 탐색`
+    ![20220527092151](https://raw.githubusercontent.com/is2js/screenshots/main/20220527092151.png)
+
+2. `@` `사용자 탐색`
+    ![20220527092117](https://raw.githubusercontent.com/is2js/screenshots/main/20220527092117.png)
