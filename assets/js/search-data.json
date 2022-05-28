@@ -3,9 +3,9 @@
     
         "post0": {
             "title": "github codereview PR comment",
-            "content": "commit link 복붙 . 현재 PR의 커밋을 복붙한 경우: commit번호으로 표기된다. 링크: https://github.com/woowacourse/java-racingcar/pull/330/commits/a1815b89cf878c8e92a27f274e0f857605aa40ff | 표시 | 직접 commit번호를 입력하면 링크가 안된다. | . | 다른 PR의 커밋을 복붙한 경우: upstream레포@commit번호으로 표기된다. 링크: https://github.com/woowacourse/atdd-subway-path/commit/89e7df5a653dc1109b2c18f261a9ee7f81582708 | 표시 | . | comment link 복붙(위 empty line유무) . 현재 PR의 comment를 복붙한 경우: commit번호으로 표기된다. comment link위에 글이 있는 경우(PR 이쁘게 + (comment) text 나옴) | comment link위에 글이 없는 경우(#PR번호 comment text만 나옴) | | 다른 PR의 커밋을 복붙한 경우: upstream레포@commit번호으로 표기된다. comment link위에 emptyline 유무는 똑같이 반영되지만 | emptyline을 줘서 text만 표기 될 때, 앞에 upstream레포url이 붙게 된다. | . | #은 upstreamREPO 속 PR들 탐색 / @는 사용자 탐색 . 1. `#` upstream `PR들 탐색` ![20220527092151](https://raw.githubusercontent.com/is2js/screenshots/main/20220527092151.png) 2. `@` `사용자 탐색` ![20220527092117](https://raw.githubusercontent.com/is2js/screenshots/main/20220527092117.png) .",
-            "url": "blog.chojaeseong.com/git/github/comment/codereview/2022/05/27/github-comment.html",
-            "relUrl": "/git/github/comment/codereview/2022/05/27/github-comment.html",
+            "content": "commit link 복붙 . 현재 PR의 커밋을 복붙한 경우: commit번호으로 표기된다. 링크: https://github.com/woowacourse/java-racingcar/pull/330/commits/a1815b89cf878c8e92a27f274e0f857605aa40ff | 표시 | 직접 commit번호를 입력하면 링크가 안된다. | . | 다른 PR의 커밋을 복붙한 경우: upstream레포@commit번호으로 표기된다. 링크: https://github.com/woowacourse/atdd-subway-path/commit/89e7df5a653dc1109b2c18f261a9ee7f81582708 | 표시 | . | comment link 복붙(위 empty line유무) . 현재 PR의 comment를 복붙한 경우: commit번호으로 표기된다. comment link위에 글이 있는 경우(PR 이쁘게 + (comment) text 나옴) | comment link위에 글이 없는 경우(#PR번호 comment text만 나옴) | | 다른 PR의 커밋을 복붙한 경우: upstream레포@commit번호으로 표기된다. comment link위에 emptyline 유무는 똑같이 반영되지만 | emptyline을 줘서 text만 표기 될 때, 앞에 upstream레포url이 붙게 된다. | . | #은 upstreamREPO 속 PR들 탐색 / @는 사용자 탐색 . # upstream PR들 탐색 . | @ 사용자 탐색 . |",
+            "url": "blog.chojaeseong.com/git/github/comment/pr/codereview/2022/05/27/github-comment.html",
+            "relUrl": "/git/github/comment/pr/codereview/2022/05/27/github-comment.html",
             "date": " • May 27, 2022"
         }
         
