@@ -1207,7 +1207,12 @@ window.onload = wrap_img;
 </li>
       <li>my
         <ul>
-          <li><strong>ctrl + shift + B : 자바 코드 수정 후 전체파일에서 오류 찾기</strong></li>
+          <li>
+<strong>ctrl + shift + B : 자바 코드 수정 후 전체파일에서 오류 찾기</strong>
+            <ul>
+              <li><strong>Test 전체 실행 : 자바 코드 수정 후 전체파일에서 로직 오류 찾기</strong></li>
+            </ul>
+          </li>
           <li>
 <strong>ctrl + shift + F9 : html 코드 수정후 현재파일 업데이트</strong>
   <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220529114850.png" alt="20220529114850">
@@ -1218,9 +1223,22 @@ window.onload = wrap_img;
     </ul>
   </li>
   <li>
-<strong>``ctrl + shift + up/down<code class="language-plaintext highlighter-rouge"> : 원격 데스크톱에서 </code>멀티 커서(Clone Caret)` 단축키인 ctrl + alt + up/down 중 ctrol+alt가 먹통이어서, 원격용 멀티커서를 지정함</strong>
-  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220529120511.png" alt="20220529120511">
-</li>
+    <p><strong>``ctrl + shift + up/down<code class="language-plaintext highlighter-rouge"> : 원격 데스크톱에서 </code>멀티 커서(Clone Caret)` 단축키인 ctrl + alt + up/down 중 ctrol+alt가 먹통이어서, 원격용 멀티커서를 지정함</strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220529120511.png" alt="20220529120511"></p>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">shift + F5</code> : 디버깅 멈추기 cf) 디버깅은 현재 테스트에 대한 디버깅이 없음…
+    <ul>
+      <li>F5 or <code class="language-plaintext highlighter-rouge">alt+shift+F5로 디버깅 지정</code>해서 실행해야함.</li>
+      <li>run의 경우 <code class="language-plaintext highlighter-rouge">run ant target</code>으로 현재 커서에 위치한 테스트가 바로 실행되는데, <del>debug ant target</del> 은 없다.</li>
+    </ul>
+  </li>
+  <li>test 전체 돌릴 때, <code class="language-plaintext highlighter-rouge">ctrl+shift+;</code>활용해서 <code class="language-plaintext highlighter-rouge">src</code>까지 가서 <code class="language-plaintext highlighter-rouge">ctlr+shift+F10</code>으로 전체 테스트 돌리기
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220530172429.png" alt="20220530172429">
+    <ul>
+      <li>현재 테스트파일내 전체 메서드 실행도 <code class="language-plaintext highlighter-rouge">ctrl + shift + ; -&gt; F10</code>으로 빠르게 돌릴 수 있다.</li>
+    </ul>
+  </li>
 </ul>
 
   </div><a class="u-url" href="/intellij/%EC%9A%B0%ED%85%8C%EC%BD%94/%EB%8B%A8%EC%B6%95%ED%82%A4/%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8/plugin/keymap/shortcut/2022/02/13/intellij_%EB%8B%A8%EC%B6%95%ED%82%A4(%EC%99%84).html" hidden></a>
