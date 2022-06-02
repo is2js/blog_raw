@@ -10,6 +10,8 @@ image: "images/posts/config.png"
 ---
 
 ### 활용
+- <kbd>ctr + shift + win + {Num}</kbd> : 작업표시줄에 올려진 프로그램을 관리자 권한으로 실행
+
 - <kbd>win + m</kbd> -> <kbd>win + shift + m</kbd> : 현재창 최소화 -> (작업) -> 최소화 한 것 복구
 
 - <kbd>win + ↓</kbd> : 현재 창 최소화
