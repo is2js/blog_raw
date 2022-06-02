@@ -17,8 +17,16 @@ image: "images/posts/config.png"
     ![image-20220602161633663](https://raw.githubusercontent.com/is2js/screenshots/main/image-20220602161633663.png)
     ![image-20220602161748661](https://raw.githubusercontent.com/is2js/screenshots/main/image-20220602161748661.png)
 
-3. 기본적인 단축키
+3. **첫 저장시, `저장 옵션`에서 파일 -> `클립보드 복사`로 변경한다**
+    ![20220602212034](https://raw.githubusercontent.com/is2js/screenshots/main/20220602212034.png)
 
+4. 단축키 추가
+    - 설정 > 단축키 > `화면 녹화기`  > **`ctrl+alt+shift + F12`**
+    - 이 설정을 해줘야 한번 프로그램 실행후, 캡처 저장후,  클릭으로 다시 계속 켤 필요 없게 된다.
+
+
+5. 단축키 사용하기
+    - **`ctrl+alt+shift + F12`: (프로그램 킨 상태)화면 녹화기 바로 켜기**
     - **`F7` : 녹화시작**
     - **`F8`: 녹화 종료**
     - `Ctrl+S`: 녹화한 것 저장
