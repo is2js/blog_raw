@@ -19,6 +19,7 @@ image: "images/posts/config.png"
 
 
 ### 설정 관련
+- <kbd>win + a</kbd> : 윈도우 액션 설정 창(블루투스, 핫스팍 관련)
 
 - <kbd>win + i</kbd> : 윈도우 설정 창
 	![20220602155148](https://raw.githubusercontent.com/is2js/screenshots/main/20220602155148.png)
