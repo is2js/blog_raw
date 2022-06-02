@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-title: scrren to gif(짤 생성)
+title: screen to gif(짤 생성)
 description: gif로 움짤을 생성하는 프로그램
 categories: [configuration, windows, git, screentogif, 짤]
 
