@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      12 min read
+      13 min read
     
 </span></p>
 
@@ -1247,7 +1247,60 @@ window.onload = wrap_img;
 </li>
     </ul>
   </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">ctrl + alt + Q</code> : javadoc을 renderView 봄
+    <ul>
+      <li>html 코드가 있을 경우, 예쁘게 나옴</li>
+    </ul>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">ctlr + alt + Y</code>: refresh from disk</strong>
+    <ul>
+      <li>중복되어있다면, keymap -&gt; from disk 검색해서 이것만 살리게 한다.</li>
+    </ul>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">이미 생성된 인터페이스 구현</code>을 쉽게하는 방법: <code class="language-plaintext highlighter-rouge">인터페이스 명칭</code>에서 <code class="language-plaintext highlighter-rouge">ctrl+.</code>을 하면 <code class="language-plaintext highlighter-rouge">implement interface</code>가 뜬다.</strong>
+    <ul>
+      <li>
+<strong>기본 class로 구현하니 <code class="language-plaintext highlighter-rouge">abstract</code>(or <code class="language-plaintext highlighter-rouge">final</code>)를 붙여준다.</strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220531191616.png" alt="20220531191616">
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220531191751.png" alt="20220531191751">
+</li>
+      <li>cf) 반대로 구현을 취소하는 것도 바로 가능함.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220531191839.png" alt="20220531191839">
+</li>
+      <li>추가로 <code class="language-plaintext highlighter-rouge">추상클래스 구현</code>도 추상클래스 명칭에서 <code class="language-plaintext highlighter-rouge">ctrl+.</code>을 활용한다.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220531192542.png" alt="20220531192542">
+</li>
+    </ul>
+  </li>
+  <li>
+<strong>class <code class="language-plaintext highlighter-rouge">필드 추가</code> 순서</strong>
+    <ol>
+      <li>pf 필드를 선언</li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">ctrl + .</code>으로 <code class="language-plaintext highlighter-rouge">add construct parameter</code>를 이용해서 없으면 생성/있으면 추가</strong>
+        <ul>
+          <li>이 방법을 써야 <strong>기존 생성자들이 있으면 <code class="language-plaintext highlighter-rouge">자동으로 signature 변경 창</code>을 띄우고 + <code class="language-plaintext highlighter-rouge">사용(호출)중인 생성자에 빨간색 추가인자</code>를 끼워놓아 컴파일 에러로 수정하러 갈 수 있다.</strong>
+</li>
+          <li>생성자 추가후 <code class="language-plaintext highlighter-rouge">build project(ctrl+shift+B)</code>를 활용하면, 인자 추가된 호출부들을 처리하러 갈 수 있음.</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">README.md</code>에서 <code class="language-plaintext highlighter-rouge">원하는 폴더로 링크</code>걸어주기 <code class="language-plaintext highlighter-rouge">각자 by Repository root에서의 경로</code>를 합해서</strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220531195036.png" alt="20220531195036">
+    <ol>
+      <li>링크를 원하는 원하는 폴더 우클릭 &gt; <code class="language-plaintext highlighter-rouge">Copy Path/Reference..</code> &gt; <code class="language-plaintext highlighter-rouge">Path from REPOSITORY root</code> 선택</li>
+      <li>현재 README.md의 위치가 root가 아니라면, root로 가는 경로 만들기 by <code class="language-plaintext highlighter-rouge">../</code>
+</li>
+      <li>README.md 경로(root) + 원하는 폴더(copy path) 주소 합하기</li>
+    </ol>
+  </li>
 </ul>
+
 
   </div><a class="u-url" href="/intellij/%EC%9A%B0%ED%85%8C%EC%BD%94/%EB%8B%A8%EC%B6%95%ED%82%A4/%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8/plugin/keymap/shortcut/2022/02/13/intellij_%EB%8B%A8%EC%B6%95%ED%82%A4(%EC%99%84).html" hidden></a>
 </article>
