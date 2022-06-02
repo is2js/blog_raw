@@ -2,7 +2,7 @@
 toc: true
 layout: post
 description: 자주 사용하는 powershell, bashshell명령어 학습
-categories: [shell, powershell, WindowsTerminal, windows]
+categories: [shell, powershell, WindowsTerminal, terminal, windows, command]
 title: powershell_vs_bashshell명령어
 
 image: "images/posts/config.png"
@@ -156,9 +156,18 @@ ls
     find . -type f -name "*.csv"
     ```
 
-### get-childitem for powershell
+#### 윈도우 폴더 탐색 (파워쉘 아닌 WindowTerminal)
+    - 윈도우 캡처 임시파일 저장 장소를 찾으려고 했었다.
+    - /ad : directory 검색
+    - /s : 하위 폴더까지 검색
 
-- powershell사실상 안된다고 보면 된다.
+    ```shell
+    dir "*폴더명*" /ad /s
+    ```
+
+#### 파일 탐색 get-childitem for powershell
+
+- powershell에서는 사실상 안된다고 보면 된다.
   - `get-childitem -File -Filter "*.txt" -Recurse`
 
 ## 프로그램 설치/설정 위치
