@@ -2,7 +2,7 @@
 toc: true
 layout: post
 description: windows10에서 wsl2를 이용한 python 개발환경 구성하기
-categories: [configuration]
+categories: [configuration, wsl]
 title: winTerminal + Pyenv in Wsl2
 
 image: "images/posts/config.png"
@@ -478,7 +478,11 @@ image: "images/posts/config.png"
 
 
 
-
+#### windows 업데이트 이후 wsl error 발생할 때
+![wsl기능3개끄기](https://raw.githubusercontent.com/is2js/screenshots/main/wsl기능3개끄기.gif)
+1. 시작 메뉴에서 `기능`을 검색해서 `Windows 기능 켜기/끄기`에 들어가 아래 3개 항목을 선택해제
+2. 재부팅
+3. 다시 3개 항목 체크한 뒤 사용
 
 #### python->python3 매핑
 
