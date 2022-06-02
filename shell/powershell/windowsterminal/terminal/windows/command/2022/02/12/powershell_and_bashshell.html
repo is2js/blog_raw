@@ -4,22 +4,30 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>powershell_vs_bashshell명령어 | Returning Student</title>
+<title>powershell_vs_bashshell명령어 | 돌범텤놑</title>
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="powershell_vs_bashshell명령어" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="자주 사용하는 powershell, bashshell명령어 학습" />
 <meta property="og:description" content="자주 사용하는 powershell, bashshell명령어 학습" />
-<link rel="canonical" href="blog.chojaeseong.com/shell/powershell/windowsterminal/windows/2021/08/18/powershell_and_bashshell.html" />
-<meta property="og:url" content="blog.chojaeseong.com/shell/powershell/windowsterminal/windows/2021/08/18/powershell_and_bashshell.html" />
-<meta property="og:site_name" content="Returning Student" />
+<link rel="canonical" href="blog.chojaeseong.com/shell/powershell/windowsterminal/terminal/windows/command/2022/02/12/powershell_and_bashshell.html" />
+<meta property="og:url" content="blog.chojaeseong.com/shell/powershell/windowsterminal/terminal/windows/command/2022/02/12/powershell_and_bashshell.html" />
+<meta property="og:site_name" content="돌범텤놑" />
 <meta property="og:image" content="blog.chojaeseong.com/images/posts/config.png" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-08-18T00:00:00-05:00" />
+<meta property="article:published_time" content="2022-02-12T00:00:00-06:00" />
 <script type="application/ld+json">
-{"datePublished":"2021-08-18T00:00:00-05:00","url":"blog.chojaeseong.com/shell/powershell/windowsterminal/windows/2021/08/18/powershell_and_bashshell.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/config.png","headline":"powershell_vs_bashshell명령어","dateModified":"2021-08-18T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/shell/powershell/windowsterminal/windows/2021/08/18/powershell_and_bashshell.html"},"description":"자주 사용하는 powershell, bashshell명령어 학습","@context":"https://schema.org"}</script>
+{"datePublished":"2022-02-12T00:00:00-06:00","url":"blog.chojaeseong.com/shell/powershell/windowsterminal/terminal/windows/command/2022/02/12/powershell_and_bashshell.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/config.png","headline":"powershell_vs_bashshell명령어","dateModified":"2022-02-12T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/shell/powershell/windowsterminal/terminal/windows/command/2022/02/12/powershell_and_bashshell.html"},"description":"자주 사용하는 powershell, bashshell명령어 학습","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="Returning Student" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
@@ -70,7 +78,7 @@ window.onload = wrap_img;
 </head>
 <body><header class="site-header">
 
-  <div class="wrapper"><a class="site-title" rel="author" href="/">Returning Student</a><nav class="site-nav">
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
         <label for="nav-trigger">
           <span class="menu-icon">
@@ -80,7 +88,7 @@ window.onload = wrap_img;
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/mygit/">MyGit</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
@@ -88,8 +96,8 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">powershell_vs_bashshell명령어</h1><p class="page-description">자주 사용하는 powershell, bashshell명령어 학습</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-08-18T00:00:00-05:00" itemprop="datePublished">
-        Aug 18, 2021
+    <h1 class="post-title p-name" itemprop="name headline">powershell_vs_bashshell명령어</h1><p class="page-description">자주 사용하는 powershell, bashshell명령어 학습</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-02-12T00:00:00-06:00" itemprop="datePublished">
+        Feb 12, 2022
       </time>
        • <span class="read-time" title="Estimated read time">
     
@@ -110,7 +118,13 @@ window.onload = wrap_img;
         <a class="category-tags-link" href="/categories/#WindowsTerminal">WindowsTerminal</a>
         &nbsp;
       
+        <a class="category-tags-link" href="/categories/#terminal">terminal</a>
+        &nbsp;
+      
         <a class="category-tags-link" href="/categories/#windows">windows</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#command">command</a>
         
       
       </p>
@@ -119,6 +133,8 @@ window.onload = wrap_img;
     </header>
 
   <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
     <ul class="section-nav">
 <li class="toc-entry toc-h2"><a href="#개요">개요</a>
 <ul>
@@ -149,8 +165,12 @@ window.onload = wrap_img;
 </li>
 <li class="toc-entry toc-h2"><a href="#파일-디렉토리-찾기">파일, 디렉토리 찾기</a>
 <ul>
-<li class="toc-entry toc-h3"><a href="#find-경로--type-fd--name--for-shell">find [경로] -type [f/d] -name “*.*” for shell</a></li>
-<li class="toc-entry toc-h3"><a href="#get-childitem-for-powershell">get-childitem for powershell</a></li>
+<li class="toc-entry toc-h3"><a href="#find-경로--type-fd--name--for-shell">find [경로] -type [f/d] -name “*.*” for shell</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#윈도우-폴더-탐색-파워쉘-아닌-windowterminal">윈도우 폴더 탐색 (파워쉘 아닌 WindowTerminal)</a></li>
+<li class="toc-entry toc-h4"><a href="#파일-탐색-get-childitem-for-powershell">파일 탐색 get-childitem for powershell</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-entry toc-h2"><a href="#프로그램-설치설정-위치">프로그램 설치/설정 위치</a>
@@ -473,11 +493,22 @@ clear
   </li>
 </ul>
 
-<h3 id="get-childitem-for-powershell">
-<a class="anchor" href="#get-childitem-for-powershell" aria-hidden="true"><span class="octicon octicon-link"></span></a>get-childitem for powershell</h3>
+<h4 id="윈도우-폴더-탐색-파워쉘-아닌-windowterminal">
+<a class="anchor" href="#%EC%9C%88%EB%8F%84%EC%9A%B0-%ED%8F%B4%EB%8D%94-%ED%83%90%EC%83%89-%ED%8C%8C%EC%9B%8C%EC%89%98-%EC%95%84%EB%8B%8C-windowterminal" aria-hidden="true"><span class="octicon octicon-link"></span></a>윈도우 폴더 탐색 (파워쉘 아닌 WindowTerminal)</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- 윈도우 캡처 임시파일 저장 장소를 찾으려고 했었다.
+- /ad : directory 검색
+- /s : 하위 폴더까지 검색
+
+```shell
+dir "*폴더명*" /ad /s
+```
+</code></pre></div></div>
+
+<h4 id="파일-탐색-get-childitem-for-powershell">
+<a class="anchor" href="#%ED%8C%8C%EC%9D%BC-%ED%83%90%EC%83%89-get-childitem-for-powershell" aria-hidden="true"><span class="octicon octicon-link"></span></a>파일 탐색 get-childitem for powershell</h4>
 
 <ul>
-  <li>powershell사실상 안된다고 보면 된다.
+  <li>powershell에서는 사실상 안된다고 보면 된다.
     <ul>
       <li><code class="language-plaintext highlighter-rouge">get-childitem -File -Filter "*.txt" -Recurse</code></li>
     </ul>
@@ -896,7 +927,7 @@ new_file3.txt:2:third line-----
   </li>
 </ul>
 
-  </div><a class="u-url" href="/shell/powershell/windowsterminal/windows/2021/08/18/powershell_and_bashshell.html" hidden></a>
+  </div><a class="u-url" href="/shell/powershell/windowsterminal/terminal/windows/command/2022/02/12/powershell_and_bashshell.html" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
@@ -915,7 +946,7 @@ new_file3.txt:2:third line-----
         </p>
       </div>
       <div class="footer-col">
-        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
       </div>
     </div>
 
