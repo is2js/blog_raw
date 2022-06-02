@@ -15,9 +15,11 @@ image: "images/posts/config.png"
 - <kbd>win + m</kbd> -> <kbd>win + shift + m</kbd> : 현재창 최소화 -> (작업) -> 최소화 한 것 복구
 
 - <kbd>win + ↓</kbd> : 현재 창 최소화
+- <kbd>win + shift + ↑</kbd>: 세로 방향으로만 윈도우에 붙여 최대화
 - <kbd>win + shift + ↓</kbd> : 윈도우에 붙은 상태에서 `붙기 전 모습 작은 창`으로 복구
 
-- <kbd>win + shift + ↑</kbd>: 세로 방향으로 윈도우에 붙여 최대화
+- <kbd>win + shift + ←, →</kbd>: 윈도우 붙는 단위가 아닌 모니터별 창 이동시키기
+
 
 
 ### 설정 관련
