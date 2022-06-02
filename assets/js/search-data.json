@@ -696,7 +696,7 @@
     
         ,"post63": {
             "title": "생소한 윈도우 로고 단축키 모음",
-            "content": "활용 . ctr + shift + win + {Num} : 작업표시줄에 올려진 프로그램을 관리자 권한으로 실행 . | win + m -&gt; win + shift + m : 현재창 최소화 -&gt; (작업) -&gt; 최소화 한 것 복구 . | win + ↓ : 현재 창 최소화 | win + shift + ↓ : 윈도우에 붙은 상태에서 붙기 전 모습 작은 창으로 복구 . | win + shift + ↑: 세로 방향으로 윈도우에 붙여 최대화 | . 설정 관련 . win + a : 윈도우 액션 설정 창(블루투스, 핫스팍 관련) . | win + i : 윈도우 설정 창 win + u : 접근성 설정 창 | . | win + k : 연결 장치 검색 . | win + s : 작업표시줄 검색창 | . 부가 기능 . win + alt + d : 달력(다이어리) 열기 | .",
+            "content": "활용 . ctr + shift + win + {Num} : 작업표시줄에 올려진 프로그램을 관리자 권한으로 실행 . | win + m -&gt; win + shift + m : 현재창 최소화 -&gt; (작업) -&gt; 최소화 한 것 복구 . | win + ↓ : 현재 창 최소화 | win + shift + ↑: 세로 방향으로만 윈도우에 붙여 최대화 | win + shift + ↓ : 윈도우에 붙은 상태에서 붙기 전 모습 작은 창으로 복구 . | win + shift + ←, →: 윈도우 붙는 단위가 아닌 모니터별 창 이동시키기 | . 설정 관련 . win + a : 윈도우 액션 설정 창(블루투스, 핫스팍 관련) . | win + i : 윈도우 설정 창 win + u : 접근성 설정 창 | . | win + k : 연결 장치 검색 . | win + s : 작업표시줄 검색창 | . 부가 기능 . win + alt + d : 달력(다이어리) 열기 | .",
             "url": "blog.chojaeseong.com/windows/shortcut/2022/02/12/windows_unfamiliar_command.html",
             "relUrl": "/windows/shortcut/2022/02/12/windows_unfamiliar_command.html",
             "date": " • Feb 12, 2022"
