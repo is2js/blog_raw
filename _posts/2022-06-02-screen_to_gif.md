@@ -62,5 +62,5 @@ image: "images/posts/config.png"
     - **`F9`: (F7 2번 눌러 일시중지 상태시) 녹화 취소**
         - F7 녹화 중에  F7-> F9 연달아서 사용
     - `Ctrl+S`: (편집기 열린 상태) 녹화한 것 저장
-    - **`ctrl+alt+shift + F12`**:  프로그램 종료
+    - **`ctrl+alt+shift + F4`**:  프로그램 종료
 
