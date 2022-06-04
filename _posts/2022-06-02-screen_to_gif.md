@@ -30,12 +30,18 @@ image: "images/posts/config.png"
         - `트레이 > 종료` 체크해제
         - `업데이트 확인` 2개 체크해제
     2. 녹화기:
+        ![20220604120556](https://raw.githubusercontent.com/is2js/screenshots/main/20220604120556.png)
         - `새 버전` 체크
+        - 녹화모드: BitBit -> `DirectX` 체크
+        - 기타: `이전 녹화구역 저장` 체크해제
     3. 편집기:
         ![20220603222708](https://raw.githubusercontent.com/is2js/screenshots/main/20220603222708.png)
         - 색 설정: `중간`
         - 일반: `확인하기 3종` 체크 해제
-    4. 단축키:
+    4. **기타:**
+        ![20220604120741](https://raw.githubusercontent.com/is2js/screenshots/main/20220604120741.png)
+        - `FFmpeg 다운로드`후 경로 지정: 동영상 > screentogif폴더생성 > 저장
+    5. 단축키:
         ![20220603222814](https://raw.githubusercontent.com/is2js/screenshots/main/20220603222814.png)
         - `화면 녹화기`:**`ctrl+alt+shift + F12`**
             - **이 설정을 해주고 직전 편집기(캡처 후 저장하는 창)상태에서 하나 더 켜놔야, (편집기 종료 -> 프로그램 종료) 추가로 gif촬영을 지속할 수 있다.**
@@ -45,12 +51,11 @@ image: "images/posts/config.png"
         - `녹화 취소`  > **`F9`**
             - **녹화 취소할 때, 중지(F8) -> 취소(F9) 연타 치면 된다.**
     5. 편집기-저장탭(첫 녹화 종료F7->F8시 설정 가능)
-        ![20220603223236](https://raw.githubusercontent.com/is2js/screenshots/main/20220603223236.png)
-        - 샘플링: `Fastest`로 바꾸기
-        - `중복 픽셀 감지` 체크해제
-        - `지정 경로에 파일 저장하기` 체크해제
-        - `클립보드에 복사하기` 체크
-            - `파일` 선택
+        ![20220604120929](https://raw.githubusercontent.com/is2js/screenshots/main/20220604120929.png)
+        - **파일종류: 2번째를 screentogif -> `FFmpeg - high qualyity` 선택**
+        - ~~`중복 픽셀 감지` 체크해제~~
+        - `지정 경로에 파일 저장하기` 체크해제 
+        - **`클립보드에 복사하기` 체크 > `파일` 선택**
 
 
 
