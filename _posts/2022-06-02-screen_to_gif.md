@@ -10,17 +10,8 @@ image: "images/posts/config.png"
 ---
 1. `screen to gif`를 검색해서 프로그램을 다운 받는다.
     ![20220602162115](https://raw.githubusercontent.com/is2js/screenshots/main/20220602162115.png)
-    
-2. **`설정` > `녹화기`에서 인터페이스를 `새 버전`으로 변경한다**
-    - 해줘야 `사각형(Select an area)`한 녹화가 가능해진다
 
-    ![image-20220602161633663](https://raw.githubusercontent.com/is2js/screenshots/main/image-20220602161633663.png)
-    ![image-20220602161748661](https://raw.githubusercontent.com/is2js/screenshots/main/image-20220602161748661.png)
-
-3. **첫 저장시, `저장 옵션`에서 파일 -> `클립보드 복사 | 파일`로 변경한다**
-    ![20220602212034](https://raw.githubusercontent.com/is2js/screenshots/main/20220602212034.png)
-
-4. 설정
+2. 설정
     1. 프로그램: 
         ![20220603222454](https://raw.githubusercontent.com/is2js/screenshots/main/20220603222454.png)
         - `수동으로 시작` + `복수의 프로그램 허용`
@@ -56,10 +47,12 @@ image: "images/posts/config.png"
         - ~~`중복 픽셀 감지` 체크해제~~
         - `지정 경로에 파일 저장하기` 체크해제 
         - **`클립보드에 복사하기` 체크 > `파일` 선택**
+        - **세팅이 끝난 뒤, `autosave` 탭 > `+`해서 저장시키기**
+            ![20220604122403](https://raw.githubusercontent.com/is2js/screenshots/main/20220604122403.png)
 
 
 
-6. 단축키 사용하기
+3. 단축키 사용하기
     - **`ctrl+alt+shift + F12`: (프로그램 킨 상태)화면 녹화기 바로 켜기**
         - 활용은, 첫번째 촬영 후, 편집기를 닫기 전에, 추가촬영을 이어가야할 때, 미리 하나 켜둔다. 안켜두면 프로그램 종료
     - **`F7` : 녹화 시작 -> 일시 중지**
