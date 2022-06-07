@@ -63,7 +63,12 @@ image: "images/posts/config.png"
 
 
 
+### 외부(공용 네트워크)에서도 접속가능하도록 설정
+![2ad719c0-4b1d-45e7-92ae-6d8802125d20](https://raw.githubusercontent.com/is2js/screenshots/main/2ad719c0-4b1d-45e7-92ae-6d8802125d20.gif)
 
+1. 시작메뉴에서 `windows defender 방화벽` 검색
+2. `windows Defender 방화벽 설정 또는 해제` 클릭
+3. **공용 네트워크 설정 tab > `[ ] 허용되는 앱 목록에 있는 연결을 포함하여 모든 들어오는 연결 차단`을 체크해제**
 
 
 ### mstsc > chodesktop.iptime.org:4444 > cho_desktop로 RDP 접속하기
