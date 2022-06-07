@@ -1,9 +1,9 @@
 ---
 toc: true
 layout: post
-title: excel 단축키 세팅하기
-description: 엑셀 단축키 세팅하기
-categories: [excel, shortcut]
+title: excel shortcut & HorizontalScroll
+description: 엑셀 단축키 및 횡 스크롤 설정하기
+categories: [excel, shortcut, horizontalscroll]
 
 image: "images/posts/config.png"
 
@@ -32,3 +32,7 @@ image: "images/posts/config.png"
 4. 명령을 아래 그림 순서대로 배열한다.
     ![20220607180023](https://raw.githubusercontent.com/is2js/screenshots/main/20220607180023.png)
     ![20220607180035](https://raw.githubusercontent.com/is2js/screenshots/main/20220607180035.png)
+
+
+5. 엑셀에 횡 스크롤을 `shift + wheel`로 할 수 있게 해주는 프로그램 설치
+    - [링크](https://github.com/is2js/is2js/blob/main/XLHscrollSetup.exe)
