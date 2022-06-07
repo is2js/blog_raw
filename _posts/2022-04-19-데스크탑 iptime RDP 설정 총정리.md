@@ -22,9 +22,6 @@ image: "images/posts/config.png"
     ```
 
 
-
-
-
 ### 데스크탑 내부ip를 포트포워딩 설정(외부:4444 1~100빼고 맘대로, 내부:3389 rdp고정)
 - 고급 설정 > NAT/라우터 관리 > 포트포워딩 설정
     - 외부포트는 1~100를 제외한 맘대로(4444)로 설정해준다.
@@ -59,7 +56,6 @@ image: "images/posts/config.png"
 	- win + i > 계정 > 로그인 옵션 > 비밀번호 > 추가
 		![image-20220419010715507](https://raw.githubusercontent.com/is3js/screenshots/main/image-20220419010715507.png)
 3. 시작메뉴에서 `control userpasswords2`로 사용자 이름 확인
-
 
 
 
