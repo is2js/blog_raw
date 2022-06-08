@@ -25,13 +25,17 @@ image: "images/posts/config.png"
     5. 글꼴 크기 크게
     6. 병합하고 가운데 맞춤 (그냥 병합 아님)
     7. 서식복사
+    8. **열 너비(추가)**
     8. 왼쪽 맞춤 (개체 아님)
     9. 채우기 색
     10. **테두리 없음** (~~모든 테두리~~)
+    11. **행 높이(추가)**
 
 4. 명령을 아래 그림 순서대로 배열한다.
     ![20220607180023](https://raw.githubusercontent.com/is2js/screenshots/main/20220607180023.png)
     ![20220607180035](https://raw.githubusercontent.com/is2js/screenshots/main/20220607180035.png)
+    - 열 너비(08)
+    - 행 높이(07) 
 
 
 5. 엑셀에 횡 스크롤을 `shift + wheel`로 할 수 있게 해주는 프로그램 설치
