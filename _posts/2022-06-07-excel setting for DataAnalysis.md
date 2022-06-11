@@ -40,3 +40,13 @@ image: "images/posts/config.png"
 
 5. 엑셀에 횡 스크롤을 `shift + wheel`로 할 수 있게 해주는 프로그램 설치
     - [링크](https://github.com/is2js/is2js/blob/main/XLHscrollSetup.exe)
+
+
+
+### 센스
+
+1. 데이터 붙여넣기
+    1. insert into values의 내용 복붙 후
+    2. 우클릭 -> 선택하여 붙여넣기 -> `유니코드 텍스트`(쉼표 분리도 자동으로 됨) or `텍스트 -> 데이터탭-텍스트 나누기`
+    3. 찾아바꾸기(`ctrl+H`)로 쓸데없는 문자들(괄호, 따옴표) 제거
+

@@ -38,3 +38,13 @@ image: "images/posts/config.png"
 
 - <kbd>win + alt + d</kbd> : 달력(다이어리) 열기
 
+### 시스템
+- `firewall.cpl`: 방화벽 설정 열기
+- `sysdm.cpl`: 시스템 속성 열기
+	- 고급 > **환경변수 설정**
+
+- `mstsc`: 원격 데스크톱 열기
+- `winver`: 윈도우 버전 + **컴퓨터 계정명**확인하기
+- `control userpasswords2` : 사용자 계정
+
+- `%APPDATA%`: 설정 폴더들
