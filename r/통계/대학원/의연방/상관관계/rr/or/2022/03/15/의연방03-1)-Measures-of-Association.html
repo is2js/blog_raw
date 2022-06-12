@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>의연방03-1) 상관관계 측정 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="의연방03-1) 상관관계 측정" />
+<meta name="author" content="tingstyle1" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Measures of Association" />
+<meta property="og:description" content="Measures of Association" />
+<link rel="canonical" href="blog.chojaeseong.com/r/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/%EC%83%81%EA%B4%80%EA%B4%80%EA%B3%84/rr/or/2022/03/15/%EC%9D%98%EC%97%B0%EB%B0%A903-1)-Measures-of-Association.html" />
+<meta property="og:url" content="blog.chojaeseong.com/r/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/%EC%83%81%EA%B4%80%EA%B4%80%EA%B3%84/rr/or/2022/03/15/%EC%9D%98%EC%97%B0%EB%B0%A903-1)-Measures-of-Association.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/data.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-03-15T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-03-15T00:00:00-05:00","url":"blog.chojaeseong.com/r/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/%EC%83%81%EA%B4%80%EA%B4%80%EA%B3%84/rr/or/2022/03/15/%EC%9D%98%EC%97%B0%EB%B0%A903-1)-Measures-of-Association.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/data.png","headline":"의연방03-1) 상관관계 측정","dateModified":"2022-03-15T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/r/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/%EC%83%81%EA%B4%80%EA%B4%80%EA%B3%84/rr/or/2022/03/15/%EC%9D%98%EC%97%B0%EB%B0%A903-1)-Measures-of-Association.html"},"author":{"@type":"Person","name":"tingstyle1"},"description":"Measures of Association","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">의연방03-1) 상관관계 측정</h1><p class="page-description">Measures of Association</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-03-15T00:00:00-05:00" itemprop="datePublished">
+        Mar 15, 2022
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">tingstyle1</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      16 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#R">R</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#통계">통계</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#대학원">대학원</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#의연방">의연방</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#상관관계">상관관계</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#RR">RR</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#OR">OR</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/is2js/blog_raw/tree/master/_notebooks/2022-03-15-의연방03-1) Measures of Association.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/is2js/blog_raw/master?filepath=_notebooks%2F2022-03-15-%EC%9D%98%EC%97%B0%EB%B0%A903-1%29+Measures+of+Association.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/is2js/blog_raw/blob/master/_notebooks/2022-03-15-의연방03-1) Measures of Association.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#목차">목차 </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Absolute-risk">Absolute risk </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#Absolute-risk-계산-예제">Absolute risk 계산 예제 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#질병과-위험요소의-상관관계-계산을-위한-Risk비교">질병과 위험요소의 상관관계 계산을 위한 Risk비교 </a></li>
+<li class="toc-entry toc-h3"><a href="#RR-&-OR">RR &amp; OR </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#Relative-risk-(RR)">Relative risk (RR) </a></li>
+<li class="toc-entry toc-h4"><a href="#RR-예시">RR 예시 </a></li>
+<li class="toc-entry toc-h4"><a href="#Odds">Odds </a></li>
+<li class="toc-entry toc-h4"><a href="#Odds-ratio(OR)">Odds ratio(OR) </a></li>
+<li class="toc-entry toc-h4"><a href="#OR-수식정리">OR 수식정리 </a></li>
+<li class="toc-entry toc-h4"><a href="#OR(Odds-Ratio)-예시">OR(Odds Ratio) 예시 </a></li>
+<li class="toc-entry toc-h4"><a href="#RR-vs.-OR">RR vs. OR </a></li>
+<li class="toc-entry toc-h4"><a href="#Attributable-Risk">Attributable Risk </a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#Attributable-risk-(among-the-exposed)-=-ARe-=-risk-difference-(RD)">Attributable risk (among the exposed) = ARe = risk difference (RD) </a></li>
+<li class="toc-entry toc-h5"><a href="#Attributable-risk-fraction-(among-the-exposed)--=-AFe">Attributable risk fraction (among the exposed)  = AFe </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#AR,-AF-수식-정리">AR, AF 수식 정리 </a></li>
+<li class="toc-entry toc-h4"><a href="#Attributable-risk-예시">Attributable risk 예시 </a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#Attributable-risk-for-the-population--=-ARp-or-PAR">Attributable risk for the population  = ARp or PAR </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#ARp-or-PAR-공식">ARp or PAR 공식 </a></li>
+<li class="toc-entry toc-h4"><a href="#ARp-or-PAR-수식-정리">ARp or PAR 수식 정리 </a></li>
+<li class="toc-entry toc-h4"><a href="#ARp-예제">ARp 예제 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#RR-vs-AR,-Af의-비교-예제">RR vs AR, Af의 비교 예제 </a></li>
+<li class="toc-entry toc-h3"><a href="#연습문제(RR,-OR)">연습문제(RR, OR) </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-03-15-의연방03-1) Measures of Association.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>상관관계를 제는 측도와 바이어스<ul>
+<li>위험요소 &lt;-&gt; 질병간의 상관관계는 산점도로 나오는게 아니다</li>
+<li>risk개념을 알고  -&gt; RR/OR을 통해서 상관관계를 젠다</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="목차">
+<a class="anchor" href="#%EB%AA%A9%EC%B0%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>목차<a class="anchor-link" href="#%EB%AA%A9%EC%B0%A8"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>Absolute risk</li>
+<li>RR(Relative risk) &amp; OR(odds ratio)</li>
+<li>Attributable risk</li>
+<li>Bias</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>상관관계를 제기 위해서는 <code>Absolute risk</code> 및 이와 비교하는 메져(<code>RR(Relative risk) &amp; OR(odds ratio)</code>, <code>Attributable risk</code>)들이 필요하게 된다.</li>
+<li>bias: 상관관계 및 인과관계를 추론할 때 쓰이는 3가지 개념 중 첫번째 개념이다.<ul>
+<li>나머지 2 개념은 다음시간에 알아본다.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Absolute-risk">
+<a class="anchor" href="#Absolute-risk" aria-hidden="true"><span class="octicon octicon-link"></span></a>Absolute risk<a class="anchor-link" href="#Absolute-risk"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>incidence(특정기간, 인구집단내, 새롭게 질병발생, 환자 비율)와 비슷한 개념이다.<ul>
+<li>비율이라 보통 1000명당, 10만명당 으로 표현된다.</li>
+</ul>
+</li>
+<li>
+<strong>Absolute risk</strong>: 말그대로 <strong>질병이 발생할 0~1사이의 확률</strong><ul>
+<li>incidence와 비슷해보이나 <strong>incidence: <code>확률에 x (단위)명당 개념 -&gt; 주로 양수?</code> vs Absolute risk: <code>0~1사이의 확률</code></strong>
+</li>
+<li>줄여서 Risk라고도 하니 <strong>Risk는 질병발생 확률(0~1사이)이다</strong>라고 생각하자</li>
+<li>incidence와 달리 특정기간이 없이 생략되기도 한다. risk도 기간을 명시하는게 원칙이긴 하지만 생략됨.<ul>
+<li>예) "어떤 위험에 노출된 이후 -&gt; 3년내 이 질병이 발생할 리스크(확률)" -&gt; 3년내 가 생략된다<ul>
+<li><strong>특정기간이 없는 리스크는 <code>시간을 따지지 않고, 아무리 오래걸리더라도 1번이라도 발생될 확률</code>로 해석 하면 된다.</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>근본적으로 같은 개념이다. incidence의 몇명당의 개념 때문에 단위가 차이나 보일 뿐<ul>
+<li>예) "어떤 집단에서 어떤 질병의 risk가 0.003이다"<ul>
+<li>risk는 0.003으로 0~1사이 확률이지만</li>
+<li>1000명당으로 보고 X 1000 하면 양수 3이 된다. -&gt; incidence는 1000명당 3명이다.</li>
+</ul>
+</li>
+<li>
+<strong>incidence = risk X 단위사람 수</strong>로 생각하면 된다.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320103327729.png" alt="image-20220320103327729"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Absolute-risk-계산-예제">
+<a class="anchor" href="#Absolute-risk-%EA%B3%84%EC%82%B0-%EC%98%88%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>Absolute risk 계산 예제<a class="anchor-link" href="#Absolute-risk-%EA%B3%84%EC%82%B0-%EC%98%88%EC%A0%9C"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>위험요소 - 질병에 대한 Risk를 계산하기 위해서는 <ul>
+<li>위험요소 노출시 risk(확률)</li>
+<li>위험요소 노출X시 risk(확률)  <strong>2CASE를 각각 구해서 비교한다</strong>
+</li>
+</ul>
+</li>
+<li>흡연자 1000 | 비흡연자 1000명 각각 찾아서, 10년간 FU(팔로우업)해서, CHD(관상동맥질환) 발생여부를 조사했다<ul>
+<li>흡연자 1000명 중 28명 CHD 발병  -&gt; 흡연자의 Absolute risk(확률) = 28/1000 = 0.028</li>
+<li>비흡연자 1000명 중 17명 CHD 발병 -&gt; 비흡연자의 Absolute risk(확률) = 17/1000 = 0.017
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320105918733.png" alt="image-20220320105918733">
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="질병과-위험요소의-상관관계-계산을-위한-Risk비교">
+<a class="anchor" href="#%EC%A7%88%EB%B3%91%EA%B3%BC-%EC%9C%84%ED%97%98%EC%9A%94%EC%86%8C%EC%9D%98-%EC%83%81%EA%B4%80%EA%B4%80%EA%B3%84-%EA%B3%84%EC%82%B0%EC%9D%84-%EC%9C%84%ED%95%9C-Risk%EB%B9%84%EA%B5%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>질병과 위험요소의 상관관계 계산을 위한 Risk비교<a class="anchor-link" href="#%EC%A7%88%EB%B3%91%EA%B3%BC-%EC%9C%84%ED%97%98%EC%9A%94%EC%86%8C%EC%9D%98-%EC%83%81%EA%B4%80%EA%B4%80%EA%B3%84-%EA%B3%84%EC%82%B0%EC%9D%84-%EC%9C%84%ED%95%9C-Risk%EB%B9%84%EA%B5%90"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<strong><code>위험요소</code>와 <code>질병</code>의 <code>상관관계</code></strong>를 조사한다?<ul>
+<li>
+<code>==</code> <code>위험요소 노출 -&gt; 질병 Risk</code> vs <code>위험요소 노출X -&gt; 질병Risk</code> 각각 구해서 <strong><code>비교</code></strong>해야한다.</li>
+<li>위험요소의 (O/X) 2Case 모두에 대해 -&gt; 질병 발생여부(O/X)를 조사 -&gt; 각각의 Risk(확률) 계산 -&gt; 비교를 해야한다<ul>
+<li>흡연자(위험요소 노출)의 CHD(질병) 발생여부를 통한 Risk계산</li>
+<li>비흡연자(위험요소 노출)의 CHD(질병) 발생여부를 통한 Risk계산    </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<strong><code>위-질 상관관계</code>를 위한 -&gt; 위험요소 노출 Risk vs 위험요소 노출X Risk의 <code>2case Risk비교</code> -&gt; <code>2가지 비교법이 있다.</code></strong><ol>
+<li>상대적 비교<ol>
+<li><strong>relative risk (RR) = risk ratio</strong></li>
+<li><strong>odds ratio (OR)</strong></li>
+</ol>
+</li>
+<li>절대적 비교<ol>
+<li><strong>risk difference (RD) = attributable risk(역학)</strong></li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320110711241.png" alt="image-20220320110711241"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="RR-&amp;-OR">
+<a class="anchor" href="#RR-&amp;-OR" aria-hidden="true"><span class="octicon octicon-link"></span></a>RR &amp; OR<a class="anchor-link" href="#RR-&amp;-OR"> </a>
+</h3>
+<ul>
+<li>질병과 위험요소의 상관관계를 위한 <code>상대적 risk비교</code>
+</li>
+<li>임상paper에서 rr보다 OR이 더 자주 등장한다.<ul>
+<li>OR은 몇이고, 해석을 하면 어떻다</li>
+<li>OR을 설명해보라고 하면 잘 못하는 사람들이 많다.</li>
+</ul>
+</li>
+<li>이번 강의에서는 개념을 읽히고, 다음 강의에서는 스터디별로 계산법을 배운다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Relative-risk-(RR)">
+<a class="anchor" href="#Relative-risk-(RR)" aria-hidden="true"><span class="octicon octicon-link"></span></a>Relative risk (RR)<a class="anchor-link" href="#Relative-risk-(RR)"> </a>
+</h4>
+<ul>
+<li>
+<strong>RR: <code>(분자:)위험요소 노출 됬을 때 질병발생확률(risk)이 / (분모:)위험요소 노출X일때 질병발생확률(risk)의 몇배</code>인가 -&gt; 노출시 질병발생확률risk가 몇배냐</strong><ul>
+<li>공식도 단순하다. 위험요소 노출X 질병발생 확률(risk)이 분모</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p><strong>RR해석</strong></p>
+<ul>
+<li>
+<strong>1을 기준으로 <code>분자 or 분모</code> 더 큰 것에 집중</strong><ul>
+<li><strong>RR&gt;1 분자가 더 큰 경우:<code>위험요소 노출 O</code> 일때가 질병발생확률(risk)이 더 높다 -&gt; 노출시 risk 높으면 <code>양의 상관관계</code>가 있다<code>. or 노출X시 risk가 높으면 상관관계 음으로 있다.</code></strong></li>
+<li>
+<strong>RR&lt;1 분모가 더 큰 경우:<code>위험요소 노출 X</code> 일때가 <code>오히려</code> 질병발생확률(risk)이 더 높다 -&gt; 노출안될 시 risk 높으면 <code>음의 상관관계</code>가 있다</strong><ul>
+<li>반대면 상관관계 없는 것이 아니므로 조심</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>1이면 노출O, 노출X risk같다 -&gt; 아예 상관관계 없다</strong></li>
+</ul>
+</li>
+<li>
+<p><code>RR=1</code> : 위험요소 노출됬을 때와 / 노출되지 않았을 때의   질병발생확률이 같다</p>
+<ul>
+<li><strong>위험요소 &lt;-&gt; 질병발생확률(=질병발생여부)와 관계가 별로 없다</strong></li>
+<li>노출되든 말든 발생확률이 동일하니까</li>
+<li><strong>랠러티브 리스크가 1에 가깝다 -&gt; 상관관계가 없다</strong></li>
+</ul>
+</li>
+<li>
+<code>RR&gt;1</code> : <strong>분자가 더크다 = 위험요소 노출될 때가 질병발생확률(risk)가 더 높다  -&gt; <code>positive association의 관계</code></strong>
+</li>
+<li>
+<code>RR&lt;1</code> : <strong>분모가 더크다 = 위험요소 노출되지 않았을때가 오히려 질병발생확률(risk)가 더 높다  -&gt; <code>negative association</code>, <code>protective effect</code></strong><ul>
+<li><strong><code>최종 해석은 위험요소 노출시 낮아진다</code>로 해석하자</strong></li>
+<li><strong>반대로 분자인 위험요소 노출 시가 -&gt;질병이 덜 발생한다 -&gt; 위험요소라고 했지만 오히려 반대로 낮춰주는 <code>보호 효과</code></strong></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320111953898.png" alt="image-20220320111953898"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="RR-예시">
+<a class="anchor" href="#RR-%EC%98%88%EC%8B%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>RR 예시<a class="anchor-link" href="#RR-%EC%98%88%EC%8B%9C"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320114442386.png" alt="image-20220320114442386"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>앞에서 Absolute Risk를 구했었다. -&gt; 그냥 risk로서 RR계산시 사용된다.<ul>
+<li>RR은 <code>분자</code> = <code>흡연(위험요소 노출)시 risk</code> = 0.028 / 0.17 = <code>분모</code> = <code>비흡연시(위험요소 노출X) risk</code>   로 계산한다</li>
+<li>
+<code>RR</code>(=1.65) <code>&gt; 1</code> 해석<ul>
+<li>분자가 더 크다 -&gt; <strong>위험요소 노출시가 질병발생확률(risk)가 더 높다 -&gt; <code>흡연과 CHD는 양의 상관관계다</code></strong>
+</li>
+</ul>
+</li>
+<li>
+<strong>RR은 <code>더 큰 위험요소라도 최종적으로는 분자(위험요소 노출기준)기준으로 해석</code>하며 <code>1에서 떨어진 범위의 %만큼  질병 발생 확률(질병 위험)이 % 높/낮다</code>로 해석한다</strong><ul>
+<li>분자가 크니 = 더 큰 <code>흡연시</code> 1.65에서 65만큼 %를 사용해 -&gt; <code>CHD 위험(질병발생 확률)이 65%만큼 높다</code>
+</li>
+<li>분모가 크다 = 더 큰 <code>비흡연시</code> 0.65에서 1에서 35 -&gt; <code>질병발생확률이 35%만큼 커</code>진다 -&gt; <strong>흡연시 35%만큼 낮아진다</strong>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Odds">
+<a class="anchor" href="#Odds" aria-hidden="true"><span class="octicon octicon-link"></span></a>Odds<a class="anchor-link" href="#Odds"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>RR는 위험요소 노출 case에 따른 <code>2개 risk의 비율</code>(분모가 위험요소노출X)였다.</li>
+<li>
+<strong><code>odds ratio</code>는 risk가 아닌 <code>2개 odds의 비율</code>이므로 odds부터구해야한다.</strong><ul>
+<li><strong><code>odds</code>: 분자 <code>질병발생 확률p(risk)</code>이 / 분모 <code>질병발생 안할 확률(1-risk, 1-p)</code>의 <code>몇배인가</code></strong></li>
+<li>cf) rr: 위험요소 노출O 질병발생확률 / 위험요소 노출X 질병발생확률의 몇배인가</li>
+</ul>
+</li>
+<li>
+<strong>risk와 odds의 관계</strong><ul>
+<li>risk: 질병발생 확률(0~1) 그 자체</li>
+<li>odds: 질병발생 확률 risk(p)가 / 질병발생안할 확률 1-risk(1-p)의 몇배인가<ul>
+<li>risk가 커지면, <code>risk / 1-risk</code>의 odds역시 커지게 된다.</li>
+<li>p/1-p(0&lt;=p&lt;=1) 그래프를 보면 or p를 조절해보면 <code>oods의 범위는 0(p작) ~ 무한대 사이 값(p커)</code>
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320115425510.png" alt="image-20220320115425510">
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Odds-ratio(OR)">
+<a class="anchor" href="#Odds-ratio(OR)" aria-hidden="true"><span class="octicon octicon-link"></span></a>Odds ratio(OR)<a class="anchor-link" href="#Odds-ratio(OR)"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>risk로 <strong><code>odds</code></strong> = risk/1-risk <strong>를 구해놓은 상태에서</strong><ul>
+<li><strong>RR와 비슷하게 <code>위험요소 노출O/X case를 각각 분자/분모의 기준</code>으로 놓고 odds 2개의 비율로 <code>odds ratio</code>를 구할 수 있다.</strong></li>
+<li><strong>odds도 <code>위험여부 노출O / 노출X  2 case를 미리 구해놔야</code> -&gt; odds ratio를 분자/분모 나눠서 구한다</strong></li>
+</ul>
+</li>
+<li>
+<strong><code>odds ratio</code>: (분자:)위험요소 노출O 일때의 odds 가 / (분모:)위험요소 노출X 시의 odds의 몇배인가</strong><ul>
+<li>risk=질병발생확률이 아니라 거기서 나아가 구한 odds가 사용되는 것을 인지하자</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<strong>OR 해석</strong>: risk대신 odds가 사용된 비율이지만, <strong>상관관계 해석은 비슷하다. 왜냐면 risk와 odds는 비례하기 때문에</strong><ul>
+<li>OR=1 : 위험요소와 질병 간 상관관계가 없다<ul>
+<li>분모=분자 같다 -&gt; 위험요소 노출여부와 관계없이 odds가 같다 -&gt; risk도 같다 -&gt; 상관관계 없다</li>
+</ul>
+</li>
+<li>OR＞1 : 위험요소에 노출되면 질병발생확률이 높아진다(positive association)<ul>
+<li>분자가 크다 -&gt; 위험요소 노출시 odds가 크다 -&gt; odds크면 risk도 같이 커졌다는 말 -&gt; 위험요소-질병 양의 상관관계</li>
+</ul>
+</li>
+<li>OR＜1 : 위험요소에 노출되면 질병발생확률이 낮아진다(negative association, protective effect)<ul>
+<li>분모가 크다 -&gt; 위험요소 <strong>노출 안될시</strong> odds = risk가 크다 -&gt; 위험요소-질병 음의 상관관계다</li>
+<li><strong>해석 최종은 <code>위험요소 노출시 더 낮아진다</code>로 위험요소노출O로 해석끝낸다</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320120553221.png" alt="image-20220320120553221"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="OR-수식정리">
+<a class="anchor" href="#OR-%EC%88%98%EC%8B%9D%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>OR 수식정리<a class="anchor-link" href="#OR-%EC%88%98%EC%8B%9D%EC%A0%95%EB%A6%AC"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320122042505.png" alt="image-20220320122042505"></p>
+<ul>
+<li>p1(p서브원): 위험요소 노출시 risk</li>
+<li>p0(p서브제로): 위험요소 노출 안될시 risk<ul>
+<li>my) 위험요소 노출여부에 따라 p1/p0로 나눈다</li>
+</ul>
+</li>
+<li>
+<code>RR</code> = 위험요소 노출여부에 따라 구한 risk 2개 -&gt; <code>2case risk의 비율</code> = p1/p0 = 위험요소 노출시 risk는 노출안되시의 몇배인가?</li>
+<li>
+<code>OR</code> = 위험요소 노출여부에 따라 구한 risk 2개로 -&gt; <strong>위험요소 노출여부에 따라 구한 odds 2개</strong>를 계산 -&gt; <code>2case odds의 비율</code>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="OR(Odds-Ratio)-예시">
+<a class="anchor" href="#OR(Odds-Ratio)-%EC%98%88%EC%8B%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>OR(Odds Ratio) 예시<a class="anchor-link" href="#OR(Odds-Ratio)-%EC%98%88%EC%8B%9C"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320122621580.png" alt="image-20220320122621580"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>
+<strong>위험요소 노출O/x에 따른 risk 2개</strong>(질병발생확률)가 구해졌는지 확인<ul>
+<li>문제에서 주어져있다.</li>
+<li>각 risk = (위험요소 노출 O 및 X에 대한 새롭게 질병발생자 수 / 인구 수)</li>
+</ul>
+</li>
+<li>
+<p>risk 2개로, 각각(위험요소 노출O 및 X)의 <strong>질병odds 2개</strong>를 구한다</p>
+<ol>
+<li>위험요소 노출시 odds = 흡연시 질병(CHD)odds = 흡연시risk / 1-흡연시risk<ul>
+<li>0.028/(1-0.028) = 0.029</li>
+</ul>
+</li>
+<li>위험요소 노출X시 odds = 비흡연시 질병(CHD)odds = 비흡연시risk/1 - 비흡연시risk<ul>
+<li>0.017/(1-0.017) = 0.017</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>질병odds 2개로 <code>위험요소 노출 Odds가 /위험요소노출X Odds</code>의 <code>몇배냐</code>로 나눠서 구한다.</p>
+<ul>
+<li>흡연자 오즈 / 비흡연자오즈 = 0.028 / 0.017 = 1.7</li>
+</ul>
+</li>
+<li>
+<p>OR해석: 혹시 1보다 작아도 결국엔 분자 위주로 해석(위험요소 노출시 질병발생여부는 n배)</p>
+<ul>
+<li>OR &gt; 1.7: <strong>흡연을 하면, 안할경우 비해, CHD Odds가 1.7배이다</strong><ul>
+<li><strong>흡연을 하면, 안할경우 비해, (1보다 멀어진만큼인 0.7을 보고) CHD odds가 70% 더 높다</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="RR-vs.-OR">
+<a class="anchor" href="#RR-vs.-OR" aria-hidden="true"><span class="octicon octicon-link"></span></a>RR vs. OR<a class="anchor-link" href="#RR-vs.-OR"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<strong>랠러티브 리스크(RR)</strong>은 <ul>
+<li>
+<strong>해석이 직관적</strong>이다 -&gt; <strong>질병 발생 확률</strong>(0~1)의 (위험요소 노출에 대한 O/X)<strong>비율</strong>이니까(위험노출시 <strong>몇배</strong> 더 발생하냐?) -&gt; 이해가 잘된다</li>
+<li>
+<strong>그러나 스터디 종류에 따라서 추정이 불가능한 경우</strong>가 있다.<ul>
+<li>즉, <strong>bias없는 추정치</strong>를, <strong>얻을 수가 없</strong>는 경우가 있다.</li>
+<li>예를 들어, <strong>case-control study</strong>가 그렇다.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<strong>오즈 레이시오(OR)</strong>은<ul>
+<li>질병 발생 확률의 비율(몇배?)가 아니라 <strong>오즈라는 개념을 한번 더 이용</strong>해야하므로 <strong>직관적으로 와닿지 않고 해석이 어렵다</strong>
+</li>
+<li>
+<strong>그런데도 불구하고, OR이 훨씬 더 많이 임상논문에서 사용/보고</strong>된다.<ul>
+<li>
+<strong>OR은 수학적으로 굉장히 좋은 성질을 가지기 때문</strong><ul>
+<li>매쓰매틱스 미라클 현상을 보여주기도 하고, 어려운 수학문제를 간단하게 만들어주는 성질이 있다.</li>
+<li>case-control 같은 경우도, RR 추정자체가 불가능한데, OR은 추정할 수 있다.</li>
+<li><strong>즉, 스터디 종류를 타지 않고 다 사용된다</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<strong>다행인 점</strong>은 <ul>
+<li>
+<strong>질병발생 확률(risk)가 작은 경우에는 <code>RR==OR</code>이 비슷한 성질이 있다.</strong><ul>
+<li>예시도 RR = OR처럼 나왔다. risk가 너무 작은 값인데, 소수2까지 반올림하니 같아졌음.</li>
+<li>아주 흔한 질병인 고혈압, 당뇨가 아닌 경우라면,<strong><code>대부분의 질병</code>이 질병발생 확률(risk)이  낮다. == 스터디 디자인 때문에 RR이 추정되지 않아도 OR을 쓰면 된다.</strong>
+</li>
+</ul>
+</li>
+<li>공식에서 보면, Odds = <code>p1</code>/1-<code>p1</code>  or  <code>p0</code>/1-<code>p0</code>에서, p가 아주 작아진다면 -&gt; 분모는 1에 가까워지고 -&gt; 값 자체는 <code>p1</code> or <code>p0</code>로서 risk에 가까워진다.</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320145859836.png" alt="image-20220320145859836"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Attributable-Risk">
+<a class="anchor" href="#Attributable-Risk" aria-hidden="true"><span class="octicon octicon-link"></span></a>Attributable Risk<a class="anchor-link" href="#Attributable-Risk"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<p><strong>위험노출된 개개인(흡연자)에 인터벤션(금연보조제) 작동시, 얼만큼의 질병risk감소 효과가 있을까?라는 질문에 대한 답을 AR(e)로 구한다.</strong></p>
+<ul>
+<li>위험노출된 개개인(흡연자)에 인터벤션(금연보조제) 작동시, 얼만큼의 질병risk감소 효과가 있을까?</li>
+<li>위험노출된 개개인(흡연자)에 인터벤션(금연보조제) 작동시, 얼만큼의 질병risk감소 효과가 있을까?</li>
+<li>위험노출된 개개인(흡연자)에 인터벤션(금연보조제) 작동시, 얼만큼의 질병risk감소 효과가 있을까?</li>
+</ul>
+</li>
+<li>
+<p>risk비교 중에 위험요소 노출o/x 집단간 <code>상대적 비교</code>가 아니라 <code>절대적 비교</code> 메저다</p>
+</li>
+<li>
+<p>예를 들어 인터벤션을 1개 생각해보자. ex&gt; 금연보조제(intervention)</p>
+<ul>
+<li>"<code>금연보조제</code>는 -&gt;   <code>흡연 - CHD위험</code>을 얼마나 줄일 수 있을까?"<ul>
+<li>"흡연하던 사람이, 금연을 하면, CHD위험이 얼마나 줄어들까?"와 같은 질문이다.</li>
+</ul>
+</li>
+<li>즉, intervention으로 <code>위험요소 노출 -&gt; 노출X</code>의 상황으로 만들었을 때, <code>질병위험</code>을 보는 것이다.</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>일단 인터벤션 작용 전에 <code>위험요소(흡연자)-질병(CHD)위험</code>의 구성 모델을 쪼개서 생각해본다.<ul>
+<li>흡연자 - CHD위험: <code>background 질병risk</code> + <code>흡연 때문에 증가하는 질병risk</code><ul>
+<li>위험요소 노출(흡연)과 관계없는 background risk도 있다.</li>
+<li>여기에 위험요소 노출을 통해 risk를 더 올린다.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>인터벤션 <code>금연보조제</code>이 작용해서 risk를 줄일 수 있는 부분은 <code>흡연 때문에 증가하는 질병risk</code>부분만 해당한다.<ul>
+<li>금연보조제로 금연을 하더라도, background risk는 줄이지 못한다.</li>
+</ul>
+</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320151207112.png" alt="image-20220320151207112"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<p>다시 정리해보면, <code>위험요소에 노출된 사람의 질병위험 =</code></p>
+<ol>
+<li>background risk(노출되지 않은 사람의 질병위험)<ul>
+<li>밑에 그래프에서 오른쪽 초록색 부분</li>
+</ul>
+</li>
+<li>위험요소 노출 때문에 증가하는 risk<ul>
+<li>위험요소 노출 질병위험은 = background가 기본으로 있고 + <code>위험요소노출 때문에 background에서 추가로 떠안은 질병위험</code>을 더 떠안게 된다.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>인터벤션으로 줄일 수 있는 risk = <code>위험요소 노출 때문에 background risk에 추가로 떠안은(증가된) 질병위험</code> 부분이다.</strong></p>
+<ul>
+<li>= <code>위험요소 노출된 사람의 (전체)질병위험</code> - <code>background risk(노출되지 않은 사람의 질병위험)</code>
+</li>
+<li>= <strong>예방을 통해 달성할 수 있는 포텐셜</strong>
+</li>
+</ul>
+</li>
+<li><strong>my) 위험요소 노출 risk != 위험요소 노출 때문에 증가된(background에서 추가된) risk</strong></li>
+<li>
+<strong>my) background risk = (말은)위험요소에 노출되지 않은 경우의 risk = (뜻은) 위험요소 때문에 증가한게 아니라 원래 가지고 있는 risk</strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320151944452.png" alt="image-20220320151944452">
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="Attributable-risk-(among-the-exposed)-=-ARe-=-risk-difference-(RD)">
+<a class="anchor" href="#Attributable-risk-(among-the-exposed)-=-ARe-=-risk-difference-(RD)" aria-hidden="true"><span class="octicon octicon-link"></span></a>Attributable risk (among the exposed) = ARe = risk difference (RD)<a class="anchor-link" href="#Attributable-risk-(among-the-exposed)-=-ARe-=-risk-difference-(RD)"> </a>
+</h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<p>Attributable risk는 아래 개념 때문에 등장한 개념이다.</p>
+<ul>
+<li>위험요소 노출된 사람의 (전체)질병위험 - background risk(말은, 노출되지 않은(노출과 상관없이 가지는?) 사람의 질병위험)</li>
+</ul>
+</li>
+<li>
+<p>among the exposed는 노출된 사람에 한하여 Attributable risk를 계산한 다는 것이다.</p>
+<ul>
+<li>그렇다면, 교재의 위험요소에 노출되지 않은 사람의 질병위험 = 노출여부에 상관없이 background로 가지는 질병위험이라는 뜻이겠다.</li>
+<li>among the exposed가 안붙는 Attributable risk도 뒤에 다룰 것이다.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ARe(xposed)</code> = <code>RD(Risk Diferrence)</code></strong> =</p>
+<ul>
+<li>위험요소에 노출된 경우의 질병발생확률 - 위험요소에 노출되지 않은 경우의 질병발생확률<ul>
+<li>이라고 표기하지만</li>
+</ul>
+</li>
+<li><strong>위험요소 노출된 경우 risk(default background risk 포함된 전체risk)  - 위험요소 노출되지 않은 경우 risk(background risk)</strong></li>
+<li><strong>= <code>위험요소 때문에 (background risk에)추가적으로 떠안게 된 risk</code></strong></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="Attributable-risk-fraction-(among-the-exposed)--=-AFe">
+<a class="anchor" href="#Attributable-risk-fraction-(among-the-exposed)--=-AFe" aria-hidden="true"><span class="octicon octicon-link"></span></a>Attributable risk fraction (among the exposed)  = AFe<a class="anchor-link" href="#Attributable-risk-fraction-(among-the-exposed)--=-AFe"> </a>
+</h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<code>ARe</code> = <code>위험요소 노출 때문에 (background risk에)추가적으로 떠안게 된 risk</code>자체를 report하기도 하지만</li>
+<li>
+<p><strong><code>AFe</code>로서 <code>ARe / 위험요소 노출된 경우 risk</code>(default background risk 포함된 전체risk)를 나눠서(전체 중 일부를 나누는 것)</strong></p>
+<ul>
+<li><strong><code>(bg risk포함)위험요소 노출 전체 risk</code> 중 <code>위험요소 노출 때문에 추가적으로 떠안게 된 risk</code>는 <code>전체 중 몇%를 차지하는 가</code>를 의미하는 것을 사용하기도 한다</strong></li>
+</ul>
+</li>
+<li>
+<p>예를 들면, <strong>흡연자로서 가지고 있는 전체 CHD risk 중 <code>흡연 때문에 떠안은(증가된 risk</code>는 몇프로를 떠안은 것인가 -&gt; <code>AFe</code>로 계산한다</strong></p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320152658805.png" alt="image-20220320152658805"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="AR,-AF-수식-정리">
+<a class="anchor" href="#AR,-AF-%EC%88%98%EC%8B%9D-%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>AR, AF 수식 정리<a class="anchor-link" href="#AR,-AF-%EC%88%98%EC%8B%9D-%EC%A0%95%EB%A6%AC"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320155304168.png" alt="image-20220320155304168"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<p><strong>ARe = RD로서 <code>risk차이</code> = 전체risk - backround risk로 계산</strong></p>
+<ul>
+<li><strong>뭐야.. 전체 risk라고 생각했던 것이 <code>위험노출시 risk</code> = <code>p1</code>이고</strong></li>
+<li>
+<strong>background risk는.. 진짜 <code>위험노출 안됬을 때의 risk</code>= <code>p0</code>였네...</strong><ul>
+<li>까고보면,, p1 = p0(background risk) + @(추가로 떠안은risk)겠지?</li>
+<li>일단 <strong>background risk = p0로 계산</strong>하는 것을 외워두자.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>AFe</strong> = <strong>ARe=RD=risk차이=p1-p0로 계산</strong> 해놓은 상태에서</p>
+<ul>
+<li>
+<strong><code>ARe</code> / <code>p1</code></strong>로 <strong>p1자체를 전체risk</strong>로 생각하고 나눈다</li>
+<li>(p1-p0)/p1</li>
+<li><strong>해석: 전체인 p1 중에 attributable risk가 몇프로를 차지하는가?</strong></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Attributable-risk-예시">
+<a class="anchor" href="#Attributable-risk-%EC%98%88%EC%8B%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>Attributable risk 예시<a class="anchor-link" href="#Attributable-risk-%EC%98%88%EC%8B%9C"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>구하고자 하는 것은: <strong>흡연 때문에 증가한 Attributable risk = ARe = RD = risk차이 = 흡연 때문에 떠안은 risk 및 전체 risk에서 그 것의 비율(%) = AFe = ARe/p1</strong>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320160141032.png" alt="image-20220320160141032"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>risk 2개를 구한다.<ul>
+<li>흡연(위험노출): 28/1000 = 0.028 (p1 = 전체risk)</li>
+<li>비흡연(위험노출X): 17/1000 = 0.017 (p0 = background risk)</li>
+</ul>
+</li>
+<li>
+<strong>risk 2개의 차이(p1-p0)</strong>가 ARe(RD)다<ul>
+<li>ARe = 0.028 - 0.017 = 0.011</li>
+</ul>
+</li>
+<li>ARe(RD)를 전체risk(backgroud + RD)를 의미하는 p1으로 나눠 <strong>위험요소로 인해 떠안은(증가한) risk는 전체risk의 몇퍼를 차지하는지</strong>를 <strong>AFe</strong>를 구해서 본다.<ul>
+<li>AFe = ARe / p1(전체risk) = 0.011 / 0.028 = 0.392 -&gt; 39%</li>
+</ul>
+</li>
+<li>
+<strong>해석:ARe, AFe는 <code>인터벤션이 작동하여 위험요소 노출O-&gt;X가 되면, 감소되는 risk</code>로서 해석하자.</strong><ul>
+<li>ARe, AFe = 절대적 비교 -&gt; 인터벤션이 나타날 차이</li>
+</ul>
+<ol>
+<li>
+<code>흡연자 금연</code>하면 CHD확률이 0.011(ARe)<code>만큼 줄어든다</code>.</li>
+<li>
+<code>흡연자 금연</code>하면 CHD확률이 39%(AFe*100) <code>감소한다</code>
+</li>
+</ol>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="Attributable-risk-for-the-population--=-ARp-or-PAR">
+<a class="anchor" href="#Attributable-risk-for-the-population--=-ARp-or-PAR" aria-hidden="true"><span class="octicon octicon-link"></span></a>Attributable risk for the population  = ARp or PAR<a class="anchor-link" href="#Attributable-risk-for-the-population--=-ARp-or-PAR"> </a>
+</h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>ARe: 위험노출된 <code>개개인</code>(흡연자)에 <code>인터벤션</code>(금연보조제) 작동시, <code>얼만큼의 질병risk감소 효과</code>가 있을까?</li>
+<li>
+<strong>ARp: 위험노출된 <code>커뮤니티(도시)</code>(의 흡연자들)에 <code>인터벤션</code>(금연보조제, 금연 프로그램들을 시민에 제공) 작동시, <code>얼만큼의 &lt;도시전체 incidence&gt; 감소 효과</code>가 있을까?</strong><ul>
+<li>예시:“<code>시청</code>에서 <code>성공적인 금연 프로그램</code>을 제공하면 <code>도시 전체의 CHD incidence</code>는 <code>얼마나 낮아질까</code>?”</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<p>도시 전체의 CHD incidence(risk?)도 개개인처럼 total risk(p1)과 background risk(p0)  -&gt; 그로 인해 구하는 <code>위험요소 때문에 떠안은(증가하는) risk</code>개념이 있을 것이다.</p>
+<ul>
+<li>도시 전체의 CHD incidence = background incidence + <code>흡연 때문에 증가하는 incidence</code><ul>
+<li>흡연을 안해도 기본적으로 CHD는 발생한다 = bg incidence가 있다.</li>
+</ul>
+</li>
+<li><strong><code>흡연 때문에 증가하는 incidence</code>만큼이 시청 금연프로그램(인터벤션)이 줄일 수 있는 risk의 potential이다</strong></li>
+</ul>
+</li>
+<li>
+<p>계산시 주의사항:</p>
+<ul>
+<li>도시든 커뮤니티든..간에 모든사람이 위험에 노출되진 않는다. -&gt; 비흡연자가 포함되어 있을 것이다. but <strong>시청 금연 프로그램 = <code>인터벤션은 위험노출 O(흡연자)에 대해서만 CHD risk를 줄인다.</code></strong>
+</li>
+<li>
+<strong>즉, 파퓰레이션 = 흡연자 + 비흡연자로 구성되어있다.</strong><ul>
+<li>만약, all 비흡연자라면 인터벤션인 금연프로그램 효과는 0으로 나올 것이다.</li>
+<li>흡연자가 많았다면, 인터벤션인 금연프로그램 효과가 크게 나올 것임.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>인구집단 전체(도시, 국가...)의 질병위험 = background risk + 위험요소노출 때문에 증가하는 risk<ul>
+<li>
+<strong>인구집단 전체의 관점에서 위험요소노출 때문에 증가하는risk</strong> = </li>
+<li>인구집단 전체의 질병위험 – 위험요소에 노출되지 않은 사람의 질병위험(bg로 추정)<ul>
+<li>: potential for prevention 달성할 수 있는 예방효과 포텐셜</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320161431488.png" alt="image-20220320161431488"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="ARp-or-PAR-공식">
+<a class="anchor" href="#ARp-or-PAR-%EA%B3%B5%EC%8B%9D" aria-hidden="true"><span class="octicon octicon-link"></span></a>ARp or PAR 공식<a class="anchor-link" href="#ARp-or-PAR-%EA%B3%B5%EC%8B%9D"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>ARp= 인구집단 전체 risk - 위험요소에 노출되지 않은 그룹의 질병발생확률(bg로 추정)</li>
+<li>AFp= ARp / 인구집단 전체 risk</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320163814304.png" alt="image-20220320163814304"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="ARp-or-PAR-수식-정리">
+<a class="anchor" href="#ARp-or-PAR-%EC%88%98%EC%8B%9D-%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>ARp or PAR 수식 정리<a class="anchor-link" href="#ARp-or-PAR-%EC%88%98%EC%8B%9D-%EC%A0%95%EB%A6%AC"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320164004061.png" alt="image-20220320164004061"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>
+<p>ARp를 계산하기 위해서는 <strong>추가적으로 <code>r</code>위험요소에 노출된 사람의 비율 in 전체 population</strong>을 알아야하며, <strong>r을 가중평균하여 total risk(p)를 구한다</strong></p>
+<ul>
+<li>전체인구 중 r만큼의 사람만 위험요소에 노출 되었다고 가정한다면, </li>
+<li>
+<strong>인구집단 전체risk 계산법</strong>은 가중평균(weighted sum)을 이용한다<ul>
+<li><strong>p = p1*r + p0*(1-r)  (노출된사람비율r에 대해 p1의 risk를 가지고 있고~)</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>p를 구했으면 <code>p - p0</code> (전체rist-노출되지X risk(bg))로 <code>ARp</code>를 구한다.</p>
+</li>
+<li>ARp/p로 <code>AFp</code>를 구한다.</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="ARp-예제">
+<a class="anchor" href="#ARp-%EC%98%88%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>ARp 예제<a class="anchor-link" href="#ARp-%EC%98%88%EC%A0%9C"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320172838978.png" alt="image-20220320172838978"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>아까와 같은 예제이지만, <strong>단, 이 국가의 흡연자 비율은 20%에서 <code>r = 0.2</code>이며 AR<code>p</code>에 대한 문제임을 알아채야한다</strong><ul>
+<li>국가 레벨에서, Attributable Risk와 Attributable Risk Fraction을 구해보자.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>
+<strong>r이 얼만지 확인</strong>한다.<ul>
+<li>r = 0.2</li>
+</ul>
+</li>
+<li>risk 2개(p1, p0)가 있는지 확인한다.<ul>
+<li>28 / 1000 = 0.028</li>
+<li>17 / 1000 = 0.017</li>
+</ul>
+</li>
+<li>
+<strong>risk와 r로 가중평균을 통해 <code>p</code>(total risk in population)를 구한다.</strong><ul>
+<li>p = p1 X r +  p0(1-r) = 0.028 X 0.2  +  0.017 X 0.8 = 0.019 (국가전체의 CHD 위험)</li>
+</ul>
+</li>
+<li>ARp는 p1-p0가 아니라 <code>p-p0</code>로 구한다.<ul>
+<li>p - p0 = 0.019 - 0.017 = 0.002</li>
+</ul>
+</li>
+<li>
+<p>AFp는 ARp(p-p0) / p로 구한다</p>
+<ul>
+<li>ARp / p  = 0.002 / 0.019 = 0.104</li>
+</ul>
+</li>
+<li>
+<p><strong>해석(AR, AF는 인터벤션으로 인해 <code>위험노출X가 된다면, ARp,AFp만큼 risk가 낮아</code>지는 것을 얘기)</strong></p>
+<ol>
+<li>흡연자가 <code>금연</code>하면 국가 전체의 CHD incidence가 <code>1000명당 2명</code> <code>줄어든다</code><ul>
+<li>확률이 0.002 -&gt; <strong>소수3째자리의 확률(risk)은 -&gt; X1000한 뒤 <code>1000명당</code>을 붙인다</strong>
+</li>
+</ul>
+</li>
+<li>흡연자가 <code>금연</code>하면 국가 전체의 CHD <code>incidence가 10.4%</code> <code>감소</code>한다</li>
+</ol>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="RR-vs-AR,-Af의-비교-예제">
+<a class="anchor" href="#RR-vs-AR,-Af%EC%9D%98-%EB%B9%84%EA%B5%90-%EC%98%88%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>RR vs AR, Af의 비교 예제<a class="anchor-link" href="#RR-vs-AR,-Af%EC%9D%98-%EB%B9%84%EA%B5%90-%EC%98%88%EC%A0%9C"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320174055341.png" alt="image-20220320174055341"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>흡연/비흡연자의 <code>10만명당 사망률</code>을 조사했는데, **이것이 계산이 필요한 질병발생확률인 <code>risk</code>가 된다??? <ul>
+<li>
+<strong><code>10만명당 사망률</code>을 == 새롭게 질병발생환자수/인구수인 <code>risk를 미리 계산한 것</code>으로 취급한다</strong><ul>
+<li>사망률도 risk로 사용될 수 있다.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>
+<p><strong><code>10만명당 사망률</code>을 <code>risk</code>로 취급해서 보는데, 위험요소O/X 이전에, 질병도 2case 상태라서 -&gt; <code>질병 1개(Lung Caner)</code>를 먼저 선택해서 보자</strong></p>
+<ul>
+<li><strong><code>질병 1개</code>에 대해서 <code>위험요소 노출O/X의 RR, OR, AR 등을 해석</code>해야한다</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>질병 1개 Lung Caner에 대한 RR</strong>은 위험노출O risk가 / 위험노출X risk의 몇배냐 (발생확률의 비율)다.</p>
+<ul>
+<li>RR = risk1/risk0을 계산해야하는데, <strong><code>사망률 == 미리계산된 risk (새롭게발생환자수/인구수)</code>로 보자.</strong><ul>
+<li>위험요소노출O risk = 흡연자 사망률 = 140 / 100,000</li>
+<li>위험요소노출O risk = 비흡연자 사망률 = 10 / 100,000</li>
+<li><strong>RR: 140 / 10 = 14(양의 상관관계)</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>질병 1개에 대한<code>RR</code>의 해석: 기본적으로 발생확률이 몇배냐?를 물어면서 <code>1을 기준으로 상관관계 없다(=)/ 양의 상관관계(&gt;1) / 음의 상관관계 or 프로텍트이펙트(&lt;1)</code>의 <code>상관관계로 해석</code>하기 위해 사용된다.</strong></p>
+<ul>
+<li>1에서 떨어진 만큼이며 위험요소O기준으로 최종 해석을 만든다.</li>
+<li><strong>(더 큰 분자 = )흡연시 (1에서 떨어진 만큼)140% LungCancer 사망률(원래는 위험)이 높다.</strong></li>
+</ul>
+</li>
+<li>
+<p>이제 <strong>나머지 질병 1개</strong> CHD에 대해서도 <strong>RR 계산 및해석</strong>한다.</p>
+<ol>
+<li>risk -&gt; 사망률로 -&gt; 위험O(흡연): 669/100,000 | 위험X(비흡연): 413/100,000</li>
+<li>RR -&gt; risk1 / risk0 = 사망률1 / 사망률0 = 669 / 413 = 1.6 (양의 상관관계)</li>
+<li>RR의 해석 -&gt; 흡연시 60% CHD 사망률이 높다</li>
+</ol>
+</li>
+</ol>
+<ol>
+<li>
+<p><strong>각 질병순으로 AR(더 간단)을 계산해보자.</strong></p>
+<ol>
+<li>
+<code>AR</code> = 위험O/X의 risk차이 = 사망률차이 = (p아닌 경우) p1-p0<ul>
+<li>cf) ARp = <code>r로 구하는 전체</code>/위험X의 risk차이 = 사망률차이 = p(by r)-p0</li>
+<li>LungCancer AR: 140 - 10 = 130</li>
+<li>CHD AR: 669 - 413 = 256</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p><strong><code>질병간 RR로 위험요소와의 상관관계 비교</code> vs <code>질병간 AR로 실제 값 차이 + 인터벤션적용시 낮아지는 효과 비교</code>를 해석</strong>해보자.</p>
+<ul>
+<li>RR: 폐암RR(14.0)이  &gt; CHD RR(1.6)보다 훨씬 랠러티브 리스크가 훨씬 크다.<ul>
+<li>일단 둘다 1보다 크기 때문에 두 질병 모두 흡연과 양의 상관관계가 있다. (RR=1 상관관계없음)</li>
+<li><strong>폐암이 <code>비흡에 비해 흡연의 사망(원랜 질.발)확률이 훨씬 크다.</code></strong></li>
+<li>
+<strong><code>RR이 크다</code> = <code>흡연(위험요소)-질병간 상관관계(양)</code>가 폐암이 CHD 더 크다</strong><ul>
+<li>흡연과의 상관관계가 폐암 &gt; CHD보다 더 강력하다</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>AR: 폐암AR(130)보다 CHD AR(256)이 AR이 더 크다.<ol>
+<li><strong>AR1-실제 값차이는 <code>흡연</code>으로 인한 <code>10만명당 사망자수</code>가 CHD가 <code>더 많다.</code></strong></li>
+<li>AR2-인벤효과로 낮아질 %는 <code>금연</code>시 <code>10만명당 사망자 수(원래risk)</code> CHD가 더 낮아질 것이다.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>RR과 AR의 차이</strong>가 나타는 이유? 다른 종류의 메저인 것은 맞는데...</p>
+<ul>
+<li>흡연자 중 폐암으로 사망 보다 &lt; CHD으로 사망하는 수가 훨씬 더 많아서 그렇다.???!!!<ul>
+<li>
+<strong>risk1(p1)이 LungCaner보다 CHD가 압도적으로 많아서 생기는 현상</strong> </li>
+<li>my) 질병간 p1의 실제 값차이가 많이 나면 RR비교/AR비교가 달라진다?<ul>
+<li>
+<strong>my) risk의 비율은 LungCander 압도적 -&gt; RR 압도적이나, 절대적인 수가 CHD비에 딸려서... -&gt; AR(risk비율이 아닌 양차이)은 딸린다.</strong>
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320182324565.png" alt="image-20220320182324565">
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<strong>RR, AR을 통해 알 수 있는 정보</strong><ul>
+<li><strong>RR을 보니, 흡연은 폐암과 관련이 많긴 하겠지만(<code>RR=(risk비율)상관관계</code>)</strong></li>
+<li>
+<strong>AR을 보니, 효과적인 인터벤션(금연치료)를 통해 risk(여기선 사망)을 낮출 수 있는 효과는 CHD가 더 많이 낮아춰 -&gt; 효과가 더 좋다(<code>AR=(risk실제갑차이)반대로 인으로 인한 위험노출X가 될 때 risk를 더 줄인다.)</code></strong><ul>
+<li>사망 예방효과로서,은 CHD로 인한 사망이 폐암으로 인한 사망보다 더 save될 것이다.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="연습문제(RR,-OR)">
+<a class="anchor" href="#%EC%97%B0%EC%8A%B5%EB%AC%B8%EC%A0%9C(RR,-OR)" aria-hidden="true"><span class="octicon octicon-link"></span></a>연습문제(RR, OR)<a class="anchor-link" href="#%EC%97%B0%EC%8A%B5%EB%AC%B8%EC%A0%9C(RR,-OR)"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>주 3회 이상 운동한 65세 이상 성인은 100명 당 15명에서 당뇨병이 발병하였고, 주 3회 미만으로 운동한 65세 이상 성인은 100명 당 40명에서 당뇨병이 발병하였다고 하자. 다음 중 틀린 설명은?</p>
+<ol>
+<li>주 3회 이상 운동’라는 인자에 대한 당뇨병의 relative risk는 0.375이다.</li>
+<li>주 3회 이상 운동’라는 인자에 대한 당뇨병의 odds ratio는 약 0.26이다. </li>
+<li>relative risk가 1보다 작으므로 주 3회 이상 운동하면 당뇨병 발병 확률이 낮아짐을 의미한다.</li>
+<li>odds ratio가 0.26이므로 주 3회 이상 운동하면 당뇨병 발병 확률이 74% 감소함을 의미한다.</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>
+<p><strong>RR, OR문제</strong>라면,</p>
+<ul>
+<li>
+<code>위험요소 노출O/X</code>를 <code>행</code>으로 주되, <strong>RR, OR은 분자가 위험노출여부O이므로 O-&gt;X순으로 행을 만든다.</strong><ul>
+<li><strong>위의 문제의 경우 <code>언급되는 것을 위험노출여부 O</code>로 본다. <code>비록... 주3회이상운동으로 노출X인 것 같지만... 노출O로 본다.</code></strong></li>
+</ul>
+</li>
+<li>
+<p>그 외 <code>|노출여부| 전체n | 질병여부 O | (Absolute) risk | Odds|</code>순으로 <code>칼럼</code>으로 가지는 테이블(table)을 작성한다.</p>
+<div class="highlight"><pre><span></span><span class="c1">//table template</span>
+  <span class="c1">//노출여부그룹별  n수 + 질병환자수를 각각 줘서, risk를 a/n으로 계산할 경우</span>
+  <span class="o">|</span><span class="n">노출여부</span><span class="o">|</span> <span class="n">전체n</span> <span class="o">|</span> <span class="n">질병</span> <span class="n">O</span> <span class="o">|</span> <span class="p">(</span><span class="n">Absolute</span><span class="p">)</span> <span class="n">risk</span> <span class="o">|</span> <span class="n">Odds</span><span class="o">|</span>
+  <span class="o">|---|---|---|---|---|</span>
+  <span class="o">|</span><span class="n">흡연</span><span class="o">|</span><span class="n">n</span><span class="o">|</span><span class="n">a</span><span class="o">|</span> <span class="n">a</span><span class="o">/</span><span class="n">n</span> <span class="o">|</span><span class="n">r1</span><span class="o">/</span><span class="mi">1</span><span class="o">-</span><span class="n">r1</span><span class="o">|</span>
+  <span class="o">|</span><span class="n">비흡연</span><span class="o">|</span><span class="n">m</span><span class="o">|</span><span class="n">b</span><span class="o">|</span><span class="n">b</span><span class="o">/</span><span class="n">n</span><span class="o">|</span><span class="n">r0</span><span class="o">/</span><span class="mi">1</span><span class="o">-</span><span class="n">r0</span><span class="o">|</span>
+
+  <span class="c1">//노출여부그룹별  risk를 바로주거나, risk소수점을 없애려고 x k 해놓은 경우</span>
+  <span class="o">|</span><span class="n">노출여부</span><span class="o">|</span> <span class="n">k명당</span> <span class="nf">발생자수</span><span class="p">(</span><span class="n">risk에</span> <span class="n">k곱</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">Absolute</span><span class="p">)</span> <span class="n">risk</span> <span class="o">|</span> <span class="n">Odds</span><span class="o">|</span>
+  <span class="o">|---|---|---|---|</span>
+  <span class="o">|</span><span class="n">흡연</span><span class="o">|</span><span class="n">rr1</span><span class="o">|</span> <span class="n">rr1</span> <span class="o">/</span> <span class="n">k</span> <span class="o">|</span><span class="n">r1</span> <span class="o">/</span> <span class="mi">1</span><span class="o">-</span><span class="n">r1</span><span class="o">|</span>
+  <span class="o">|</span><span class="n">비흡연</span><span class="o">|</span><span class="n">rr0</span><span class="o">|</span><span class="n">rr0</span> <span class="o">/</span> <span class="n">k</span><span class="o">|</span><span class="n">r2</span> <span class="o">/</span> <span class="mi">1</span><span class="o">-</span><span class="n">r2</span><span class="o">|</span>
+</pre></div>
+</li>
+</ul>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>노출여부</th>
+<th>k명당 발생자수(risk에 k곱)</th>
+<th>(Absolute) risk</th>
+<th>Odds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>주3회이상운동</td>
+<td>15</td>
+<td>0.15</td>
+<td>0.176</td>
+</tr>
+<tr>
+<td>주3회미만운동</td>
+<td>40</td>
+<td>0.40</td>
+<td>0.666</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>
+<p>각 노출여부그룹별 risk 2개 계산  -&gt; odds 2개 계산 -&gt; <strong>분자:위험(<code>여기선 주3회이상운동이 기준이므로 위험o로 본다</code>/분모:위험X로 몇배냐?를 <code>1</code>을 기준으로 1에서 멀어진 만큼 % 줘서 생각한다.</strong></p>
+<ul>
+<li>RR: risk1/ risk0 -&gt; 위험노출될 때가 질병발생확률이 몇배냐(비율)?<ul>
+<li>0.375</li>
+</ul>
+</li>
+<li>OR: odds1/ odds0 -&gt; 위험노출될 때가 발생비율이 몇배냐?(risk랑 비슷?)<ul>
+<li>0.264</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>해석: <code>1 기준으로 위험노출여부O 하면 ~</code>1에서 멀어진 만큼을 %로 주고 <code>%만큼 높다 /낮다</code>를 말하면 된다.</p>
+<ul>
+<li>RR:0.375 &lt; 1 :  <code>주3회이상운동(위험노출여부O)</code>하면, 0.625x100 = <code>62.5%</code>만큼 질병발생확률이 <code>낮아진다</code>
+</li>
+<li>
+<p>OR: 0.264 &lt; 1:  <code>주3회이상운동(위험노출여부O)</code>하면, 0.736x100 = <code>73.6%</code>만큼 <strong><code>당뇨병 발병 odds</code>(!=발병 확률)</strong>가 <code>낮아진다</code></p>
+<ul>
+<li><strong><code>OR</code>는 risk에서 한 개념 더 간 것이기 때문에 -&gt;  1에서 멀어진 만큼 <code>해당 질병 발병 오즈</code>가 낮/높아지는 것이다.</strong></li>
+<li><strong><code>해당 질병 발병 확률</code>의 낮/높은 <code>RR</code>이 판단한다.</strong></li>
+</ul>
+</li>
+<li>
+<p>OR 해석 예) <code>흡연(위험노출여부O)</code>을 하면, 안할경우 비해, (1보다 멀어진만큼인 0.7을 보고) <code>CHD 발병 odds</code>가 1.7 - 1 = 0.70 -&gt; 70% <code>더 높다</code></p>
+</li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220320204113186.png" alt="image-20220320204113186"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>문제는.. OR은 <code>질병발생확률</code>이 아닌 <code>질병발생Odds</code>의 비율차이가 난다는 것으로 알아라는 교훈</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances 
+<script src="https://utteranc.es/client.js"
+        repo="is2js/blog_raw"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script> -->
+
+<div id="disqus_thread"></div>
+<script>
+  /**
+   *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+   *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+  /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+  (function () {
+    // DON'T EDIT BELOW THIS LINE
+    var d = document,
+      s = d.createElement('script');
+    s.src = 'https://is2js-blog-raw.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript
+  >Please enable JavaScript to view the
+  <a href="https://disqus.com/?ref_noscript"
+    >comments powered by Disqus.</a
+  ></noscript
+>
+<a class="u-url" href="/r/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/%EC%83%81%EA%B4%80%EA%B4%80%EA%B3%84/rr/or/2022/03/15/%EC%9D%98%EC%97%B0%EB%B0%A903-1)-Measures-of-Association.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

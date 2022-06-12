@@ -1,0 +1,1862 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>의연방04) 컨파운딩과 상호작용 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="의연방04) 컨파운딩과 상호작용" />
+<meta name="author" content="tingstyle1" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Confounding &amp; Interaction(통추개념2,3)" />
+<meta property="og:description" content="Confounding &amp; Interaction(통추개념2,3)" />
+<link rel="canonical" href="blog.chojaeseong.com/r/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/%ED%86%B5%EA%B3%84%EC%A0%81%EC%B6%94%EB%A1%A0/confounding/interaction/2022/03/22/%EC%9D%98%EC%97%B0%EB%B0%A904)-Confounding-&-Interaction(%ED%86%B5%EC%B6%94%EA%B0%9C%EB%85%902,3).html" />
+<meta property="og:url" content="blog.chojaeseong.com/r/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/%ED%86%B5%EA%B3%84%EC%A0%81%EC%B6%94%EB%A1%A0/confounding/interaction/2022/03/22/%EC%9D%98%EC%97%B0%EB%B0%A904)-Confounding-&-Interaction(%ED%86%B5%EC%B6%94%EA%B0%9C%EB%85%902,3).html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/data.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-03-22T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-03-22T00:00:00-05:00","url":"blog.chojaeseong.com/r/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/%ED%86%B5%EA%B3%84%EC%A0%81%EC%B6%94%EB%A1%A0/confounding/interaction/2022/03/22/%EC%9D%98%EC%97%B0%EB%B0%A904)-Confounding-&-Interaction(%ED%86%B5%EC%B6%94%EA%B0%9C%EB%85%902,3).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/data.png","headline":"의연방04) 컨파운딩과 상호작용","dateModified":"2022-03-22T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/r/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/%ED%86%B5%EA%B3%84%EC%A0%81%EC%B6%94%EB%A1%A0/confounding/interaction/2022/03/22/%EC%9D%98%EC%97%B0%EB%B0%A904)-Confounding-&-Interaction(%ED%86%B5%EC%B6%94%EA%B0%9C%EB%85%902,3).html"},"author":{"@type":"Person","name":"tingstyle1"},"description":"Confounding &amp; Interaction(통추개념2,3)","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">의연방04) 컨파운딩과 상호작용</h1><p class="page-description">Confounding & Interaction(통추개념2,3)</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-03-22T00:00:00-05:00" itemprop="datePublished">
+        Mar 22, 2022
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">tingstyle1</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      15 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#R">R</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#통계">통계</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#대학원">대학원</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#의연방">의연방</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#통계적추론">통계적추론</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#confounding">confounding</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#interaction">interaction</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/is2js/blog_raw/tree/master/_notebooks/2022-03-22-의연방04) Confounding & Interaction(통추개념2,3).ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/is2js/blog_raw/master?filepath=_notebooks%2F2022-03-22-%EC%9D%98%EC%97%B0%EB%B0%A904%29+Confounding+%26+Interaction%28%ED%86%B5%EC%B6%94%EA%B0%9C%EB%85%902%2C3%29.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/is2js/blog_raw/blob/master/_notebooks/2022-03-22-의연방04) Confounding & Interaction(통추개념2,3).ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#통계적추론-중요개념-3가지-중-나머지-2가지">통계적추론 중요개념 3가지 중 나머지 2가지 </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#주요용어">주요용어 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Confounding">Confounding </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Association-vs.-causality">Association vs. causality </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#예시">예시 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#Confounding">Confounding </a></li>
+<li class="toc-entry toc-h3"><a href="#Confounding인-경우의-예시">Confounding인 경우의 예시 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#C->X,-C->Y의-인과관계">C-&gt;X, C-&gt;Y의 인과관계 </a></li>
+<li class="toc-entry toc-h4"><a href="#C-=-X-상관관계-,-C->Y-인과관계의-경우">C = X 상관관계 , C-&gt;Y 인과관계의 경우 </a></li>
+<li class="toc-entry toc-h4"><a href="#C-=-X-상관관계-,-C->Y-+-X-=-Y-상관관계인-경우">C = X 상관관계 , C-&gt;Y + X = Y 상관관계인 경우 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#Confounder가-아닌-경우">Confounder가 아닌 경우 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#c는-x,y-모두와-관계가-존재해야한다.">c는 x,y 모두와 관계가 존재해야한다. </a></li>
+<li class="toc-entry toc-h4"><a href="#c는-x-or-y의-결과여서는-안된다.">c는 x or y의 결과여서는 안된다. </a></li>
+<li class="toc-entry toc-h4"><a href="#그렇다면?-실제-연구시에는?-무엇을-confounder를-봐야할까?">그렇다면? 실제 연구시에는? 무엇을 confounder를 봐야할까? </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#Confounder시-위험요소-질병간의-RR계산-실전-예제">Confounder시 위험요소-질병간의 RR계산 실전 예제 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#C없이-RR계산:-어떤-위험요소와-질병의-관계-(예-:-흡연-→-피부질환)">C없이 RR계산: 어떤 위험요소와 질병의 관계 (예 : 흡연 → 피부질환) </a></li>
+<li class="toc-entry toc-h4"><a href="#이분형-변수인-Confounder-C가-있다고-하자-(예-:-성별)">이분형 변수인 Confounder C가 있다고 하자 (예 : 성별) </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#(상관관계를-있어보이게-만드는-나쁜)-Confounding을-다루는-법">(상관관계를 있어보이게 만드는 나쁜) Confounding을 다루는 법 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#디자인-단계에서-랜덤화(c->x끊기),-매칭(c->y끊기)">디자인 단계에서 랜덤화(c-&gt;x끊기), 매칭(c-&gt;y끊기) </a></li>
+<li class="toc-entry toc-h4"><a href="#데이터-분석-단계에서-confounding보정">데이터 분석 단계에서 confounding보정 </a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#Stratification-(스트레이라,-스트레이티피케이션)">Stratification (스트레이라, 스트레이티피케이션) </a></li>
+<li class="toc-entry toc-h5"><a href="#Adjustment-(어저스트먼트)">Adjustment (어저스트먼트) </a></li>
+<li class="toc-entry toc-h5"><a href="#Propensity-score--analysis(프로펜시티-스코어---어날리시스)">Propensity score  analysis(프로펜시티 스코어   어날리시스) </a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#Confounding-다룰-때-주의점">Confounding 다룰 때 주의점 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Interaction">Interaction </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#용어설명">용어설명 </a></li>
+<li class="toc-entry toc-h3"><a href="#예제를-통한-interaction(Additive-model)">예제를 통한 interaction(Additive model) </a></li>
+<li class="toc-entry toc-h3"><a href="#그래프로-본-interaction">그래프로 본 interaction </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#interaction이-없는-경우(2그래프--평행-=-A노출-전/후-risk증가-차이-일정)">interaction이 없는 경우(2그래프  평행 = A노출 전/후 risk증가 차이 일정) </a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#interaction그래프-해석방법">interaction그래프 해석방법 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#Interaction이-있는-경우-=-2개이상의-factor가-간섭하면-Synergism을-일으키는-경우">Interaction이 있는 경우 = 2개이상의 factor가 간섭하면 Synergism을 일으키는 경우 </a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#해석">해석 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#interaction이-있지만(A노출-전/후-2그래프-평행X)-X노출-전--A만으로는-효과가-전혀-없는-경우">interaction이 있지만(A노출 전/후 2그래프 평행X) X노출 전  A만으로는 효과가 전혀 없는 경우 </a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#해석(특이)">해석(특이) </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#intraction이-있지만,-A로-인해-cross되는-경우">intraction이 있지만, A로 인해 cross되는 경우 </a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#해석">해석 </a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#Additive-vs.-multiplicative">Additive vs. multiplicative </a></li>
+<li class="toc-entry toc-h3"><a href="#예제를-통한-interaction(multiplicative-model)">예제를 통한 interaction(multiplicative model) </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#additive-model이라면?">additive model이라면? </a></li>
+<li class="toc-entry toc-h4"><a href="#Multiplicative-model이라면?">Multiplicative model이라면? </a></li>
+<li class="toc-entry toc-h4"><a href="#addtive+multiplicative-의-계산은-interaction없을-때를-가정하고-2factor-모두-노출시의-값을-계산한-것이다.-실제-문제에서-주어지는-실제-값을-비교해서-차이가-나면--interaction이-존재하는-것이다.">addtive+multiplicative 의 계산은 interaction없을 때를 가정하고 2factor 모두 노출시의 값을 계산한 것이다. 실제 문제에서 주어지는 실제 값을 비교해서 차이가 나면  interaction이 존재하는 것이다. </a></li>
+<li class="toc-entry toc-h4"><a href="#따라서,-어떤-model을-가정하느냐에-따라서-interaction-존재-기준값이-달라져-판단이-달라진다.">따라서, 어떤 model을 가정하느냐에 따라서 interaction 존재 기준값이 달라져 판단이 달라진다. </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#interaction-계산시-유의점">interaction 계산시 유의점 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#정리하기">정리하기 </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#연습문제">연습문제 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#다음-중-그림의-제일-위쪽에-있는-인자가-confounder가-아닌-경우는?">다음 중 그림의 제일 위쪽에 있는 인자가 confounder가 아닌 경우는? </a></li>
+<li class="toc-entry toc-h4"><a href="#다음은-위험요소-두가지(interfaction)-A,-B에-대한-노출여부와-어떤-질병의-만명-당--incidence이다.--다음-설명-중-옳지-않은-것은?">다음은 위험요소 두가지(interfaction) A, B에 대한 노출여부와 어떤 질병의 만명 당  incidence이다.  다음 설명 중 옳지 않은 것은? </a></li>
+<li class="toc-entry toc-h4"><a href="#내풀이">내풀이 </a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-03-22-의연방04) Confounding & Interaction(통추개념2,3).ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="통계적추론-중요개념-3가지-중-나머지-2가지">
+<a class="anchor" href="#%ED%86%B5%EA%B3%84%EC%A0%81%EC%B6%94%EB%A1%A0-%EC%A4%91%EC%9A%94%EA%B0%9C%EB%85%90-3%EA%B0%80%EC%A7%80-%EC%A4%91-%EB%82%98%EB%A8%B8%EC%A7%80-2%EA%B0%80%EC%A7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>통계적추론 중요개념 3가지 중 나머지 2가지<a class="anchor-link" href="#%ED%86%B5%EA%B3%84%EC%A0%81%EC%B6%94%EB%A1%A0-%EC%A4%91%EC%9A%94%EA%B0%9C%EB%85%90-3%EA%B0%80%EC%A7%80-%EC%A4%91-%EB%82%98%EB%A8%B8%EC%A7%80-2%EA%B0%80%EC%A7%80"> </a>
+</h2>
+<ol>
+<li>
+<p>bias</p>
+</li>
+<li>
+<p><strong>Confounding</strong></p>
+</li>
+<li><strong>Interaction</strong></li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="주요용어">
+<a class="anchor" href="#%EC%A3%BC%EC%9A%94%EC%9A%A9%EC%96%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>주요용어<a class="anchor-link" href="#%EC%A3%BC%EC%9A%94%EC%9A%A9%EC%96%B4"> </a>
+</h3>
+<ul>
+<li>
+<p>Confounding : 위험요소(X)와 질병(Y) 둘다와 상관관계가 있으면서, 위험요소의 결과도, 질병의 결과도 아닌 변수</p>
+</li>
+<li>
+<p>Interaction : X가 Y에 끼치는 효과가, 다른 변수 A값에 따라 달라지는 경우 X와 A간에 interaction이 존재한다고 말한다.</p>
+</li>
+<li>
+<p>Additive model : 위험요소 X와 A에 둘다 노출되었을 때의 효과는, X에 노출되었을 때의 효과와 A의 노출되었을 때의 효과의 합이라는 모델</p>
+</li>
+<li>
+<p>Multiplicative model : 위험요소 X와 A에 둘다 노출되었을 때의 효과는, X에 노출되었을 때의 효과와 A의 노출되었을 때의 효과의 곱이라는 모델</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Confounding">
+<a class="anchor" href="#Confounding" aria-hidden="true"><span class="octicon octicon-link"></span></a>Confounding<a class="anchor-link" href="#Confounding"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Association-vs.-causality">
+<a class="anchor" href="#Association-vs.-causality" aria-hidden="true"><span class="octicon octicon-link"></span></a>Association vs. causality<a class="anchor-link" href="#Association-vs.-causality"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>상관관계가 인과관계를 의미하지 않는다.</p>
+<ol>
+<li>
+<strong>연구시, 상관관계가 발견</strong>되면, <ul>
+<li>
+<strong><code>이것이 진짜 상관관계</code>인지 vs sampling error로서 <code>우연(random error)이나 잘못된 연구디자인에 의한 에러(systematic error, bias)</code>인지 먼저 판단</strong>해야한다</li>
+</ul>
+</li>
+<li>
+<strong>상관관계가 진짜다 판단</strong>된 경우에는<ul>
+<li>
+<strong><code>상관관계-&gt;인과관계로 연결</code>되는지 vs 인과관계가 아닌 <code>confounding 때문에 생겨난 -&gt; 상관관계</code>인지 판단</strong>해야한다
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414213659605.png" alt="image-20220414213659605">
+</li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="예시">
+<a class="anchor" href="#%EC%98%88%EC%8B%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>예시<a class="anchor-link" href="#%EC%98%88%EC%8B%9C"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414213629870.png" alt="image-20220414213629870"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<p><strong><code>커피섭취</code> - <code>췌장암</code>의 <code>상관관계 관측된 상태</code>(진짜다)</strong>다 -&gt; <strong>2가지 설명가능한 상황(가능성)</strong>이 존재하게 됨.</p>
+<ol>
+<li>커피섭취가 -&gt; 췌장암을 일으킨다(<code>인과관계</code>가 있다)</li>
+<li>커피섭취가 -&gt; 췌장암을 일으키진 않는데, 흡연이라는 <code>confounder</code>가 있어서 <code>2가지를 동시에 발생시키</code>다보니, <code>2가지가 상관관계가 있는 것처럼 보이게 만들었다</code><ul>
+<li>흡연 -&gt; 커피섭취 증가</li>
+<li>흡연 -&gt; 췌장암 증가<ul>
+<li>(인과관계가 없음에도 불구하고,)커피 -&gt; 췌장암 증가의 상관관계를 높였다.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>my)</p>
+<ul>
+<li><strong>A -&gt; B 상관관계를 보면, C-&gt;A, C-&gt;B의 Confounding을 생각하자</strong></li>
+<li><strong>A -&gt; B 상관관계를 보면, Confounding생각후, 진짜 인과관계도 있으니 총 2가지 가능성을 생각하자</strong></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Confounding">
+<a class="anchor" href="#Confounding" aria-hidden="true"><span class="octicon octicon-link"></span></a>Confounding<a class="anchor-link" href="#Confounding"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>X : 위험요소(risk factor) 또는 치료법 등 독립변수(설명변수)</li>
+<li>Y : 질병이나 질병으로 인한 이벤트 등 결과변수</li>
+<li>C : confounder</li>
+</ul>
+<p>여기에서는 편의상 X, Y, C가 모두 이분형 변수인 예제를 사용했으나,</p>
+<p>연속형 변수, 순서형 변수, 범주가 3개 이상인 변수들에 대해서도 모두 성립한다</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414214615757.png" alt="image-20220414214615757"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>다음의 관계가 성립할 경우, C는 confounder이다.</p>
+<ul>
+<li>C와 Y가 상관관계가 있으나, C가 Y의 결과는 아니다</li>
+<li>C와 X와 상관관계가 있으나, C가 X의 결과는 아니다</li>
+</ul>
+<p><strong>즉, C가 x, y 모두와 각각 상관관계가 있으나, C가 x-&gt;c, y-&gt;c의 결과는 아닌 경우</strong></p>
+<ol>
+<li><strong>가장 대표적인 경우가 <code>C-&gt;X</code>, <code>C-&gt;Y</code>의 인과관계인 경우다.</strong></li>
+<li><strong>또, <code>C = X 상관관계</code> , <code>C-&gt;Y</code>의 경우도 있다.</strong></li>
+<li><strong>또, <code>C = X 상관관계</code> , <code>C-&gt;Y</code> + <code>X = Y 상관관계</code>인 경우도 있다.</strong></li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Confounding인-경우의-예시">
+<a class="anchor" href="#Confounding%EC%9D%B8-%EA%B2%BD%EC%9A%B0%EC%9D%98-%EC%98%88%EC%8B%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>Confounding인 경우의 예시<a class="anchor-link" href="#Confounding%EC%9D%B8-%EA%B2%BD%EC%9A%B0%EC%9D%98-%EC%98%88%EC%8B%9C"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="C-&gt;X,-C-&gt;Y의-인과관계">
+<a class="anchor" href="#C-&gt;X,-C-&gt;Y%EC%9D%98-%EC%9D%B8%EA%B3%BC%EA%B4%80%EA%B3%84" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>C-&gt;X</code>, <code>C-&gt;Y</code>의 인과관계<a class="anchor-link" href="#C-&gt;X,-C-&gt;Y%EC%9D%98-%EC%9D%B8%EA%B3%BC%EA%B4%80%EA%B3%84"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414215645987.png" alt="image-20220414215645987"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>X(독립변수): <code>흰머리</code>  -&gt; Y(결과변수): <code>stroke</code>에 대해<ol>
+<li>
+<code>C -&gt; 흰머리, C -&gt; stroke</code>를 일으키는 <code>confounder 나이</code>를 생각해보자.<ul>
+<li><strong><code>흰머리</code>가 많을수록 <code>stroke</code>가 많을 수도 있으며 상관관계는 있는 것처럼 나타난다.하지만, 둘간의 인과관계는 없다</strong></li>
+<li><strong><code>나이</code>라는 confounder가 <code>C-&gt;X, C-&gt;Y로 인과관계</code>로 영향을 끼치기 때문에 보이는 가짜 인과관계(보이는 상관관계)이다.</strong></li>
+</ul>
+</li>
+<li>그리고  <code>X -&gt; Y</code>인과관계인 경우도 생각하자.</li>
+</ol>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="C-=-X-상관관계-,-C-&gt;Y-인과관계의-경우">
+<a class="anchor" href="#C-=-X-%EC%83%81%EA%B4%80%EA%B4%80%EA%B3%84-,-C-&gt;Y-%EC%9D%B8%EA%B3%BC%EA%B4%80%EA%B3%84%EC%9D%98-%EA%B2%BD%EC%9A%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>C = X 상관관계</code> , <code>C-&gt;Y 인과관계</code>의 경우<a class="anchor-link" href="#C-=-X-%EC%83%81%EA%B4%80%EA%B4%80%EA%B3%84-,-C-&gt;Y-%EC%9D%B8%EA%B3%BC%EA%B4%80%EA%B3%84%EC%9D%98-%EA%B2%BD%EC%9A%B0"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414215656063.png" alt="image-20220414215656063"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>X(독립변수): <code>자녀의수</code>  -&gt; Y(결과변수): <code>유방암</code>에 대해<ol>
+<li>
+<code>C =상관관계= 자녀의수, C -&gt; stroke</code>를 일으키는 <code>confounder 나이</code>를 생각해보자.<ul>
+<li><strong><code>자녀의수</code>가 많을수록 <code>유방암</code>가 많을 수도 있으며 상관관계는 있는 것처럼 나타난다.하지만, 둘간의 인과관계는 없다</strong></li>
+<li><strong><code>나이</code>라는 confounder가 <code>C=상관관계=X, C-&gt;Y 인과관계</code>로 영향을 끼치기 때문에 보이는 가짜 인과관계(보이는 상관관계)이다.</strong></li>
+</ul>
+</li>
+<li>그리고  <code>X -&gt; Y</code>인과관계인 경우도 생각하자.</li>
+</ol>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="C-=-X-상관관계-,-C-&gt;Y-+-X-=-Y-상관관계인-경우">
+<a class="anchor" href="#C-=-X-%EC%83%81%EA%B4%80%EA%B4%80%EA%B3%84-,-C-&gt;Y-+-X-=-Y-%EC%83%81%EA%B4%80%EA%B4%80%EA%B3%84%EC%9D%B8-%EA%B2%BD%EC%9A%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>C = X 상관관계</code> , <code>C-&gt;Y</code> + <code>X = Y 상관관계</code>인 경우<a class="anchor-link" href="#C-=-X-%EC%83%81%EA%B4%80%EA%B4%80%EA%B3%84-,-C-&gt;Y-+-X-=-Y-%EC%83%81%EA%B4%80%EA%B4%80%EA%B3%84%EC%9D%B8-%EA%B2%BD%EC%9A%B0"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414215658623.png" alt="image-20220414215658623"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>X(독립변수): <code>소득</code>  -&gt; Y(결과변수): <code>CHD</code>에 대해<ol>
+<li>
+<code>C =상관관계= 소득, C -&gt; CHD,  소득=상관관계=CHD</code>를 일으키는 <code>confounder 흡연</code>를 생각해보자.<ul>
+<li><strong><code>소득</code>가 많을수록 <code>CHD</code>가 많을 수도 있으며 상관관계는 있는 것처럼 나타난다(소득은 모든 질병과 상관관계 있는 것처럼..많은 confounder가 운동/영양상태 등 존재).하지만, 둘간의 인과관계는 없다</strong></li>
+<li><strong><code>흡연</code>라는 confounder가 <code>C=상관관계=X, C-&gt;Y 인과관계</code>로 영향을 끼치기 때문에 보이는 가짜 인과관계(보이는 상관관계)이다.</strong></li>
+</ul>
+</li>
+<li>그리고  <code>X -&gt; Y</code>인과관계인 경우도 생각하자.</li>
+</ol>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Confounder가-아닌-경우">
+<a class="anchor" href="#Confounder%EA%B0%80-%EC%95%84%EB%8B%8C-%EA%B2%BD%EC%9A%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>Confounder가 아닌 경우<a class="anchor-link" href="#Confounder%EA%B0%80-%EC%95%84%EB%8B%8C-%EA%B2%BD%EC%9A%B0"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="c는-x,y-모두와-관계가-존재해야한다.">
+<a class="anchor" href="#c%EB%8A%94-x,y-%EB%AA%A8%EB%91%90%EC%99%80-%EA%B4%80%EA%B3%84%EA%B0%80-%EC%A1%B4%EC%9E%AC%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4." aria-hidden="true"><span class="octicon octicon-link"></span></a>c는 x,y 모두와 관계가 존재해야한다.<a class="anchor-link" href="#c%EB%8A%94-x,y-%EB%AA%A8%EB%91%90%EC%99%80-%EA%B4%80%EA%B3%84%EA%B0%80-%EC%A1%B4%EC%9E%AC%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4."> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414215707344.png" alt="image-20220414215707344"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>C는 <strong>x와 y, 모두와 (상관,인과)관계가 있어야</strong>한다<ul>
+<li>둘 중에 하나와는 관계가 없는 경우, coufounder라 할 수 없다.</li>
+<li>high cholesterol diet는 X인 흡연과 상관(인과)관계가 없으므로 confounder라 할 수 없다.</li>
+<li>no fruit은 비타민C부족을 거쳐야만 괴혈병과 관계를 가진다. C와 y사이 직접적인 관계는 없으므로 confounder라 할 수 없다.</li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="c는-x-or-y의-결과여서는-안된다.">
+<a class="anchor" href="#c%EB%8A%94-x-or-y%EC%9D%98-%EA%B2%B0%EA%B3%BC%EC%97%AC%EC%84%9C%EB%8A%94-%EC%95%88%EB%90%9C%EB%8B%A4." aria-hidden="true"><span class="octicon octicon-link"></span></a>c는 x or y의 결과여서는 안된다.<a class="anchor-link" href="#c%EB%8A%94-x-or-y%EC%9D%98-%EA%B2%B0%EA%B3%BC%EC%97%AC%EC%84%9C%EB%8A%94-%EC%95%88%EB%90%9C%EB%8B%A4."> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414221719776.png" alt="image-20220414221719776"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>c는 <strong>x or y의 결과여서는 안된다</strong>.<ul>
+<li>x가 C에 영향을 끼치는 경우, C는 confounder가 될 수 없다.</li>
+<li>흡연 -&gt; CHD 영향끼치는 기전 중 1가지가 fibrinogen이라는 물질의 함량을 높여서 CHD에 영향을 준다고 알려져있는데<ul>
+<li>x -&gt; C가 성립하므로 C는 confounder가 아니다.<ul>
+<li>
+<code>x -&gt; C -&gt; y</code>가 성립하는 경우, 특별히 <code>mediate</code>라는 용어를 쓰기도 한다.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>x:locomotor disease(운동기능장애)와 y:호흡기질환와의 상관관계를 본다고 할 때, 상관관계가 있는 것처럼 보일 수 있는데, C:입원이라는 factor때문에 그렇게 보일 수 있는데<ul>
+<li>x가 있어도 C입원 할 가능성이 높아지고, y가 있어도 C입원 할 가능성이 높아져서 <strong>confounder처럼 x,y의 상관관계가 있는것 처럼 보이기도 하는데</strong><ul>
+<li>근데, C가 x,y에 영향을 주는게 아니라 x,y의 결과 -&gt; C가 된다면, 특별이 confounder가 아니라 <strong><code>collider</code></strong>라고 부른다.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="그렇다면?-실제-연구시에는?-무엇을-confounder를-봐야할까?">
+<a class="anchor" href="#%EA%B7%B8%EB%A0%87%EB%8B%A4%EB%A9%B4?-%EC%8B%A4%EC%A0%9C-%EC%97%B0%EA%B5%AC%EC%8B%9C%EC%97%90%EB%8A%94?-%EB%AC%B4%EC%97%87%EC%9D%84-confounder%EB%A5%BC-%EB%B4%90%EC%95%BC%ED%95%A0%EA%B9%8C?" aria-hidden="true"><span class="octicon octicon-link"></span></a>그렇다면? 실제 연구시에는? 무엇을 confounder를 봐야할까?<a class="anchor-link" href="#%EA%B7%B8%EB%A0%87%EB%8B%A4%EB%A9%B4?-%EC%8B%A4%EC%A0%9C-%EC%97%B0%EA%B5%AC%EC%8B%9C%EC%97%90%EB%8A%94?-%EB%AC%B4%EC%97%87%EC%9D%84-confounder%EB%A5%BC-%EB%B4%90%EC%95%BC%ED%95%A0%EA%B9%8C?"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>X, Y 둘 다와 상관관계가 의심되는 변수 C가 있을 때,<ul>
+<li><strong><code>이 변수 C가 X의 결과가 아니고, C가 Y의 결과가 아닌 것이 확실하면 -&gt; C가 confounder일 가능성을 염두에 두고</code> 연구를 해야 안전하다.</strong></li>
+</ul>
+</li>
+<li>따라서 <strong><code>어떤 질병의 알려진 위험요소(risk factor)들</code>은 모두 potential confounder이다</strong>
+</li>
+<li>
+<strong><code>연령과 성별 역시 항상 potential confounder로 고려</code>하는 것이 안전</strong>하다<ul>
+<li>어떤 종류의 위험요소(X)도 <code>연령/성별</code>에 영향 안받기 힘듬</li>
+<li>어떤 종류의 질병(y)도 <code>연령/성별</code>에 영향 안받기 힘듬</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Confounder시-위험요소-질병간의-RR계산-실전-예제">
+<a class="anchor" href="#Confounder%EC%8B%9C-%EC%9C%84%ED%97%98%EC%9A%94%EC%86%8C-%EC%A7%88%EB%B3%91%EA%B0%84%EC%9D%98-RR%EA%B3%84%EC%82%B0-%EC%8B%A4%EC%A0%84-%EC%98%88%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>Confounder시 위험요소-질병간의 RR계산 실전 예제<a class="anchor-link" href="#Confounder%EC%8B%9C-%EC%9C%84%ED%97%98%EC%9A%94%EC%86%8C-%EC%A7%88%EB%B3%91%EA%B0%84%EC%9D%98-RR%EA%B3%84%EC%82%B0-%EC%8B%A4%EC%A0%84-%EC%98%88%EC%A0%9C"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="C없이-RR계산:-어떤-위험요소와-질병의-관계-(예-:-흡연-→-피부질환)">
+<a class="anchor" href="#C%EC%97%86%EC%9D%B4-RR%EA%B3%84%EC%82%B0:-%EC%96%B4%EB%96%A4-%EC%9C%84%ED%97%98%EC%9A%94%EC%86%8C%EC%99%80-%EC%A7%88%EB%B3%91%EC%9D%98-%EA%B4%80%EA%B3%84-(%EC%98%88-:-%ED%9D%A1%EC%97%B0-%E2%86%92-%ED%94%BC%EB%B6%80%EC%A7%88%ED%99%98)" aria-hidden="true"><span class="octicon octicon-link"></span></a>C없이 RR계산: 어떤 위험요소와 질병의 관계 (예 : 흡연 → 피부질환)<a class="anchor-link" href="#C%EC%97%86%EC%9D%B4-RR%EA%B3%84%EC%82%B0:-%EC%96%B4%EB%96%A4-%EC%9C%84%ED%97%98%EC%9A%94%EC%86%8C%EC%99%80-%EC%A7%88%EB%B3%91%EC%9D%98-%EA%B4%80%EA%B3%84-(%EC%98%88-:-%ED%9D%A1%EC%97%B0-%E2%86%92-%ED%94%BC%EB%B6%80%EC%A7%88%ED%99%98)"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414224129347.png" alt="image-20220414224129347"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>위험요소 - 질병과의 관계를 조사하였다.</p>
+<ul>
+<li>위험요소노출O 110명, 그 중 질병O 81명 <ul>
+<li>(1) 위험요소 노출O의 경우의 Risk 계산 -&gt; 81/110 = 0.7364</li>
+</ul>
+</li>
+<li>위험요소노출X 210명, 그 중 질병O 28명 <ul>
+<li>(2) 위험요소 노출X의 경우의 Risk 계산 -&gt; 28/110 = 0.1333</li>
+</ul>
+</li>
+<li>(3) 랠러티브 리스크(RR) : (1) / (2) = <ul>
+<li>위험요소 노출O의 경우의 Risk / 위험요소 노출X의 경우의 Risk = 0.7364 / 0.1333 = 5.52</li>
+</ul>
+</li>
+<li>(4) RR 해석: <strong><code>RR가 1</code>보다 훨씬크다 -&gt; <code>위험요소 - 질병간의 상관관계</code>가 강한 상관관계가 있다.</strong><ul>
+<li>왜냐면? <strong><code>RR=5.52 -&gt; 위험요소노출O의 경우, 질병O의 확률이 5.52배</code> 높아지기 때문</strong>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="이분형-변수인-Confounder-C가-있다고-하자-(예-:-성별)">
+<a class="anchor" href="#%EC%9D%B4%EB%B6%84%ED%98%95-%EB%B3%80%EC%88%98%EC%9D%B8-Confounder-C%EA%B0%80-%EC%9E%88%EB%8B%A4%EA%B3%A0-%ED%95%98%EC%9E%90-(%EC%98%88-:-%EC%84%B1%EB%B3%84)" aria-hidden="true"><span class="octicon octicon-link"></span></a>이분형 변수인 Confounder C가 있다고 하자 (예 : 성별)<a class="anchor-link" href="#%EC%9D%B4%EB%B6%84%ED%98%95-%EB%B3%80%EC%88%98%EC%9D%B8-Confounder-C%EA%B0%80-%EC%9E%88%EB%8B%A4%EA%B3%A0-%ED%95%98%EC%9E%90-(%EC%98%88-:-%EC%84%B1%EB%B3%84)"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414224159723.png" alt="image-20220414224159723"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414224902127.png" alt="image-20220414224902127"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>(1) row:위험요소 노출O/X별  col:질병O/X의 행렬표에 <strong>더 높은레벨의 칼럼에 <code>Confounder=0/1 (X/O)</code>를 추가한다</strong>
+</li>
+<li>(2) C=0인 경우만 먼저, RR을 계산한다. (분모분자 다 바뀜)<ul>
+<li>(2-1) C=0에서  위험요소 노출O의 Risk = 질병O/위험요소O = 1 / 1+9 = 0.1</li>
+<li>(2-2) C=0에서  위험요소 노출X의 Risk = 질병x/위험요소X = 20 / 20+180 = 0.1</li>
+<li>(2-2) C=0에서  RR = 0.1/0.1 = 1</li>
+</ul>
+</li>
+<li>(3) C=1인 경우만 RR을 계산한다<ul>
+<li>80/80+20 (위O Risk) /    8/8+2(위X Risk) = RR = 0.8/0.8 = </li>
+</ul>
+</li>
+<li><strong>(4) C=0의 RR 과  C=1의 RR을 비교한다</strong></li>
+<li>
+<strong>(5) C에 따른 RR을 비교한 해석: `C에 노출되지 않은경우와 C에 노출된 경우, 위험요소-질병간의 상관관계가 1로서 없는 것으로 나온다.</strong><ul>
+<li>노출O/x 각 그룹의 질병risk가 같다는 얘기로서, 위험요소가 질병과 상관관계가 없다고 나온다.</li>
+<li><strong>confounder를 고려하지않고보면, 강한상관관계가 있는 것처럼 보였는데, confounder별로 따로 떼놓고 보면,상관관계가 없었다. -&gt; 진짜는 상관관계없는 것</strong></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="(상관관계를-있어보이게-만드는-나쁜)-Confounding을-다루는-법">
+<a class="anchor" href="#(%EC%83%81%EA%B4%80%EA%B4%80%EA%B3%84%EB%A5%BC-%EC%9E%88%EC%96%B4%EB%B3%B4%EC%9D%B4%EA%B2%8C-%EB%A7%8C%EB%93%9C%EB%8A%94-%EB%82%98%EC%81%9C)-Confounding%EC%9D%84-%EB%8B%A4%EB%A3%A8%EB%8A%94-%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>(상관관계를 있어보이게 만드는 나쁜) Confounding을 다루는 법<a class="anchor-link" href="#(%EC%83%81%EA%B4%80%EA%B4%80%EA%B3%84%EB%A5%BC-%EC%9E%88%EC%96%B4%EB%B3%B4%EC%9D%B4%EA%B2%8C-%EB%A7%8C%EB%93%9C%EB%8A%94-%EB%82%98%EC%81%9C)-Confounding%EC%9D%84-%EB%8B%A4%EB%A3%A8%EB%8A%94-%EB%B2%95"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="디자인-단계에서-랜덤화(c-&gt;x끊기),-매칭(c-&gt;y끊기)">
+<a class="anchor" href="#%EB%94%94%EC%9E%90%EC%9D%B8-%EB%8B%A8%EA%B3%84%EC%97%90%EC%84%9C-%EB%9E%9C%EB%8D%A4%ED%99%94(c-&gt;x%EB%81%8A%EA%B8%B0),-%EB%A7%A4%EC%B9%AD(c-&gt;y%EB%81%8A%EA%B8%B0)" aria-hidden="true"><span class="octicon octicon-link"></span></a>디자인 단계에서 랜덤화(c-&gt;x끊기), 매칭(c-&gt;y끊기)<a class="anchor-link" href="#%EB%94%94%EC%9E%90%EC%9D%B8-%EB%8B%A8%EA%B3%84%EC%97%90%EC%84%9C-%EB%9E%9C%EB%8D%A4%ED%99%94(c-&gt;x%EB%81%8A%EA%B8%B0),-%EB%A7%A4%EC%B9%AD(c-&gt;y%EB%81%8A%EA%B8%B0)"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>디자인단계에서 Randomize를 통해 confounder를 제거한다.<ol>
+<li>
+<code>랜덤화</code>:  <strong>각 연구대상자의 X값(위험요소노출 O/X 여부)자체를 랜덤으로 배정</strong>한다.<ul>
+<li><strong>C가 되려면 x,y모두와 관계가 있어야하는데, <code>C-&gt;X로 가는 관계를 랜덤화로 끊어버려</code>, c 성립조건을 없애버림</strong></li>
+</ul>
+</li>
+<li>
+<code>매칭</code>: 질병o와 질병x를 각각 표집할 때, <strong>연령/성별과 같은 confounder들을 미리 비슷하게 맞춰서 뽑는다.</strong><ul>
+<li><strong><code>C-&gt;y로 가는 관계를 매칭으로 끊어버려</code>, c 성립조건을 없앤다.</strong></li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414230351913.png" alt="image-20220414230351913"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="데이터-분석-단계에서-confounding보정">
+<a class="anchor" href="#%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B6%84%EC%84%9D-%EB%8B%A8%EA%B3%84%EC%97%90%EC%84%9C-confounding%EB%B3%B4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>데이터 분석 단계에서 confounding보정<a class="anchor-link" href="#%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B6%84%EC%84%9D-%EB%8B%A8%EA%B3%84%EC%97%90%EC%84%9C-confounding%EB%B3%B4%EC%A0%95"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="Stratification-(스트레이라,-스트레이티피케이션)">
+<a class="anchor" href="#Stratification-(%EC%8A%A4%ED%8A%B8%EB%A0%88%EC%9D%B4%EB%9D%BC,-%EC%8A%A4%ED%8A%B8%EB%A0%88%EC%9D%B4%ED%8B%B0%ED%94%BC%EC%BC%80%EC%9D%B4%EC%85%98)" aria-hidden="true"><span class="octicon octicon-link"></span></a>Stratification (스트레이라, 스트레이티피케이션)<a class="anchor-link" href="#Stratification-(%EC%8A%A4%ED%8A%B8%EB%A0%88%EC%9D%B4%EB%9D%BC,-%EC%8A%A4%ED%8A%B8%EB%A0%88%EC%9D%B4%ED%8B%B0%ED%94%BC%EC%BC%80%EC%9D%B4%EC%85%98)"> </a>
+</h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>C=0, C=1처럼 <strong>각 <code>Confounder값</code>별로 스트레이라(Strata)</strong>를 따로 만들어서, 그 안에서 상관관계를 따로 따로 추정<ul>
+<li>아까의 경우, 상관관계를 RR을 이용해서 따로 추정했었음.</li>
+</ul>
+</li>
+<li>
+<ol>
+<li>
+<strong>strata별로 RR 추정값이 비슷하고, 전체 RR과 비슷하면 -&gt; confounding이 없다고 생각할 수 있다.</strong><ul>
+<li>RR을 이용하거나 OR(오즈레이시오)를 이용해서 확인하면 된다.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<ol>
+<li>
+<strong>confounder의 값별로 RR or OR이 많이 다르다 -&gt; <code>interaction(인터랙션)</code>이 있다는 뜻 -&gt; interaction을 고려한 연구를 해야한다.</strong>
+   <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220415233114263.png" alt="image-20220415233114263">
+</li>
+</ol>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="Adjustment-(어저스트먼트)">
+<a class="anchor" href="#Adjustment-(%EC%96%B4%EC%A0%80%EC%8A%A4%ED%8A%B8%EB%A8%BC%ED%8A%B8)" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adjustment (어저스트먼트)<a class="anchor-link" href="#Adjustment-(%EC%96%B4%EC%A0%80%EC%8A%A4%ED%8A%B8%EB%A8%BC%ED%8A%B8)"> </a>
+</h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>confounder를 공변량으로서, 회귀분석안에 집어넣는 것<ul>
+<li>회귀분석의 설명변수로서 confounder를 포함시키는 것</li>
+</ul>
+</li>
+<li>
+<strong><code>회귀분석에서 나온 X의 회귀계수</code>의 해석: 나머지 confounder들이 고정되어있을 때, 나오는 X가 -&gt; Y에 끼치는 영향</strong><ul>
+<li>멀타이 베리어블 애널리시스 했다.(멀타이 배리어블 모델을 썼다.)</li>
+<li>어저스티드 어날리시스를 했다.라고도 표현한다.</li>
+</ul>
+</li>
+<li>
+<strong>이 분석(confounder들을 설명변수에 넣은 회귀분석을 하되, 주 목적은 X-&gt;Y, 나머지 고정)에서도 X-Y상관관계가 유의하다면, X가 Y에 대한 <code>independent effect가 있다(역학용어, 통계의 독립성과는 다름)</code>고 표현한다.</strong><ul>
+<li>
+<strong><code>confounder를 공변량으로 넣은 어저시티드 어날리시스</code>의 결과와 <code>공변량으로 넣지 않은 언어저스티드 어날리시스</code>의 결과를 side by side로 나란히 보고하는 것이 좋다.</strong><ul>
+<li>본 독자가 직접 판단할 수 있게 된다.
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220415234000432.png" alt="image-20220415234000432">
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="Propensity-score--analysis(프로펜시티-스코어---어날리시스)">
+<a class="anchor" href="#Propensity-score--analysis(%ED%94%84%EB%A1%9C%ED%8E%9C%EC%8B%9C%ED%8B%B0-%EC%8A%A4%EC%BD%94%EC%96%B4---%EC%96%B4%EB%82%A0%EB%A6%AC%EC%8B%9C%EC%8A%A4)" aria-hidden="true"><span class="octicon octicon-link"></span></a>Propensity score  analysis(프로펜시티 스코어   어날리시스)<a class="anchor-link" href="#Propensity-score--analysis(%ED%94%84%EB%A1%9C%ED%8E%9C%EC%8B%9C%ED%8B%B0-%EC%8A%A4%EC%BD%94%EC%96%B4---%EC%96%B4%EB%82%A0%EB%A6%AC%EC%8B%9C%EC%8A%A4)"> </a>
+</h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>causal inference(코절 인퍼런스)라고 불리는 더 넓은 범위의 통계적방법론의 일부이다.</li>
+<li>
+<strong>데이터를 잘 가공해서 -&gt; X에 랜덤화를 적용시킨 것 같은 virtual data를 만들어 X-Y분석</strong><ul>
+<li>나중에 다른 강의에서 소개
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220415234943075.png" alt="image-20220415234943075">
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Confounding-다룰-때-주의점">
+<a class="anchor" href="#Confounding-%EB%8B%A4%EB%A3%B0-%EB%95%8C-%EC%A3%BC%EC%9D%98%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>Confounding 다룰 때 주의점<a class="anchor-link" href="#Confounding-%EB%8B%A4%EB%A3%B0-%EB%95%8C-%EC%A3%BC%EC%9D%98%EC%A0%90"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<p>없애는 것만이 능사가 아니다.</p>
+<ul>
+<li>많은 경우 꼭 없앨 필요없다.</li>
+<li>
+<p>어떤 경우 이용을 할 수 도 있다.</p>
+<ul>
+<li>예를 들어, X - Y 상관관계가 관측된 상황이라고 치자.</li>
+<li>X가 Y를 일으키는 인과관계는 없고, C라는 confounder에 의해 그렇게 관측될 뿐이다 <code>라고 할지라도</code><ul>
+<li>만약, C(confounder)가? -&gt; my) Y가 관측이 굉장히 어려운 factor라면?</li>
+<li>역으로 X를 이용해서 Y질병이 발생하기 쉬운 사람들을 찾아낼 수 있다???</li>
+<li><strong>y질병고위험군을 찾기위해, <code>C땜에 생긴 상관관계라고 할지라도</code> -&gt; C덕분에 X를 이용해 Y를 발견할 수 있게 되는 것이다.</strong></li>
+<li>my) 찾기 힘든 y라면 -&gt;  C에 의해 보이기용 X-Y 상관관계가 생기고 -&gt; X를 이용해서 Y 발견이 가능해진다. -&gt; C가 만들어낸 보이기용 상관관계가 <strong>인과관계가 아니더라도 유용하게 쓰임.</strong>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>confounding이 오류가 아닌 그 자체로 이해되어야하는 상황도 있다.</p>
+<ul>
+<li>X인종-Y심혈관계질환의 관계를 볼 때, confounder로서 비만도를 고려하게 되는데<ul>
+<li>X아시아인 - C비만도 낮은 경향 + C비만도 - Y심혈관계질환과 관계가 있음 -&gt; 비만도는 확실한 confounder임</li>
+<li>그런데, C비만도의 효과를 제거하여 <strong>C비만도가 똑같은 아시아인vs백인을 비교해야할까?</strong><ul>
+<li><strong>강력한 confounder인 경우, C비만도가 똑같은 아시아인vs백인을 비교하는 것이 의미가 있을까?</strong></li>
+<li><strong>아시아인은 백인에 비해 날씬하다는 것도 특성에 포함되고 bmi도 당연히 낮을 것인데, 이것을 굳이 보정해서 비만도를 동일하게 만들어놓고 Y를 비교할까?</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<strong>강력한 confounder는, 있음을 이해하고, 고려해서 잘 해석하도록 해야한다.</strong><ul>
+<li>고려안하고 해석하면 오류다!</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Interaction">
+<a class="anchor" href="#Interaction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Interaction<a class="anchor-link" href="#Interaction"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="용어설명">
+<a class="anchor" href="#%EC%9A%A9%EC%96%B4%EC%84%A4%EB%AA%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>용어설명<a class="anchor-link" href="#%EC%9A%A9%EC%96%B4%EC%84%A4%EB%AA%85"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>꼭 인과관계가 아니라 상관관계에서도 적용이 되는 개념<ul>
+<li>말로 설명시, 인과관계/이분형 변수를 setup해두면 더 쉬워서 가정함<ul>
+<li>x,y,a 모두 범주3종류 이상 or 순서형 변수, 연속형 변수 모두에도 해당함</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<strong><code>인터랙션</code>:  x가 -&gt; y에 끼치는 효과가, 타변수 A값에 따라 달라질 때, <code>x와 a간에 interaction이 존재</code>한다고 말한다.</strong><ul>
+<li>잘못 쓰이는 경우가 많은 용어다</li>
+<li>인터랙션을 다른 말로 <code>effect modification</code>이라고도 하는데, a값에 따라  x가 y에 끼치는 효과가 달라지므로, <code>a가 X의 효과를 modify한다</code>라고 말할 수 있기 때문이다.</li>
+<li>또 다른말로, <code>heterogeneity of treatment effect(HTE)</code>라고도 한다. x의 효과가 a값에 따라 달라지므로, <code>x의효과가 a에 의해 나눠지는 그룹별로 hetero하다</code>라고 말할 수 있기 때문이다.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416171616314.png" alt="image-20220416171616314">
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="예제를-통한-interaction(Additive-model)">
+<a class="anchor" href="#%EC%98%88%EC%A0%9C%EB%A5%BC-%ED%86%B5%ED%95%9C-interaction(Additive-model)" aria-hidden="true"><span class="octicon octicon-link"></span></a>예제를 통한 interaction(Additive model)<a class="anchor-link" href="#%EC%98%88%EC%A0%9C%EB%A5%BC-%ED%86%B5%ED%95%9C-interaction(Additive-model)"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416171931742.png" alt="image-20220416171931742"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>흡연과 석면, 2가지 factor가 폐암에 끼치는 영향을 보려고 한다.<ul>
+<li>my) 일단 y에 대해 2가지 x후보군이 세팅되어있다 (둘중에 하나는 x, 하나는 a(interaion 일듯)</li>
+<li>my) 예제처럼 바로 <code>확률</code>인 risk를 <code>제시</code>할 수도 있지만, 과제처럼 <code>만명당, 10만명당 incidence rate</code>를 제시할 수도 있다.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416172332423.png" alt="image-20220416172332423">
+</li>
+<li>my) risk는 이미 y(질병걸릴확률?)완료된 값 -&gt; 2개 factor들만 row/column으로 가서 2by2 table로 표현되었다.</li>
+</ul>
+</li>
+</ol>
+<ol>
+<li>
+<p><strong>각 factor별 background(모든 위험요소노출X)에서 증가된 risk 구해놓기</strong></p>
+<ol>
+<li>2가지 위험factor(2 by 2)에 대해 <strong><code>둘 다 노출이 안된 risk = background risk</code></strong>를 계산(확인)한다.<ul>
+<li>row 비흡연(위험노출X) &amp;&amp;  column 석면노출안됨(위험노출X) -&gt; 0.0011</li>
+</ul>
+</li>
+<li>
+<strong><code>background risk를 기준으로 석면노출에 의한 증가한 risk</code>를 석면노출O risk - 석면노출X risk의 risk차이로 계산한다.</strong><ul>
+<li>background risk를 체크한 상태에서 <strong>row의 위험노출X를 기준으로</strong> row방향으로 risk차이를 구하면, column에 있는 factor의 영향이 됨.
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416173411994.png" alt="image-20220416173411994">
+</li>
+</ul>
+</li>
+<li>마찬가지로 column의 위험노출X를 기준으로 column방향으로 risk차이 = <strong><code>흡연으로 인해 증가된 risk</code></strong>를 구한다
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416173806145.png" alt="image-20220416173806145">
+</li>
+</ol>
+</li>
+<li>
+<p><strong><code>각 factor별이 아니라 2 factor모두에게 영향받을 때의 risk</code>는?</strong></p>
+<ol>
+<li>
+<p><code>additive model</code>로서 additive effect를 가정할 경우, 폐암risk는?</p>
+<ul>
+<li>
+<p>background + 석면의영향(으로 증가된risk) + 흡연의 영향으로 계산한다</p>
+<ul>
+<li>0.0011 + 0.00565 + 0.00.84 = 0.0151</li>
+</ul>
+</li>
+<li>
+<p><strong>이는, 비흡연일 때의 석면의 영향(+0.0056)이, 아래row의 흡연에서도 동일하게 영향을 미칠 것이라고 가정한 것 과 같다.</strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416175004860.png" alt="image-20220416175004860"></p>
+</li>
+<li>반대쪽에서 더해져도 마찬가지다. <strong>이처럼 효과는 차곡차곡 더해질 뿐이니, 더해가면 된다는 것이 additive model이다.</strong>
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416180039327.png" alt="image-20220416180039327">
+</li>
+</ul>
+</li>
+<li>
+<strong>하지만, <code>실제 risk</code>는 0.0151보다 <code>훨씬 크다</code>.</strong>
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416180159078.png" alt="image-20220416180159078"><ul>
+<li>
+<strong>이 말의 뜻은 <code>위험factor 2가지 동시에 노출되면, 각각의 효과보다 훨씬 더 나쁜 효과를 일으킨다</code>는 말이다.</strong><ul>
+<li>factor간에 시너지가 일어났다 = <code>interaction이 있다</code> = <code>석면의 효과가, 흡연여부에 따라 다르다</code>
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416180357598.png" alt="image-20220416180357598">
+</li>
+<li>반대로 <code>흡연의 효과가, 석면노출여부에 따라 다르다</code>라고도 말할 수 있다.
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416180436013.png" alt="image-20220416180436013">
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="그래프로-본-interaction">
+<a class="anchor" href="#%EA%B7%B8%EB%9E%98%ED%94%84%EB%A1%9C-%EB%B3%B8-interaction" aria-hidden="true"><span class="octicon octicon-link"></span></a>그래프로 본 interaction<a class="anchor-link" href="#%EA%B7%B8%EB%9E%98%ED%94%84%EB%A1%9C-%EB%B3%B8-interaction"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li><strong>x축에 올라가있는 <code>A값에 따라~</code>  <code>X(legend)</code>가 <code>Y(y축)</code>에 끼치는 영향(2그래프 차이)이 어떻게 바뀌는지 보자.</strong></li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416180500997.png" alt="image-20220416180500997"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>목적: interfaction을 일으킬 <strong><code>factor A</code>값에 따라 <code>factor X</code>가 <code>Y(risk)에 끼치는 효과</code>를 나타내는 것</strong><ul>
+<li><strong>~에 따른 변화 -&gt; X축 -&gt; factor A가 x축에 오게 된다.</strong></li>
+</ul>
+</li>
+<li><strong><code>y축</code>: chance of disease = 질병이 발생할 확률 -&gt; <code>risk</code>를 의미한다.</strong></li>
+<li><strong><code>x축</code>: unexposed, exposed = <code>예비 interaction 위험요소 A</code>로서 노출X, O를 각각 나타냄</strong></li>
+<li><strong><code>legend</code>로서 2개의 그래프: <code>X-&gt;Y에 있어서 factor X의 노출X/O여부를 2개의 그래프</code>로 나타낸 것</strong></li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="interaction이-없는-경우(2그래프--평행-=-A노출-전/후-risk증가-차이-일정)">
+<a class="anchor" href="#interaction%EC%9D%B4-%EC%97%86%EB%8A%94-%EA%B2%BD%EC%9A%B0(2%EA%B7%B8%EB%9E%98%ED%94%84--%ED%8F%89%ED%96%89-=-A%EB%85%B8%EC%B6%9C-%EC%A0%84/%ED%9B%84-risk%EC%A6%9D%EA%B0%80-%EC%B0%A8%EC%9D%B4-%EC%9D%BC%EC%A0%95)" aria-hidden="true"><span class="octicon octicon-link"></span></a>interaction이 없는 경우(2그래프  평행 = A노출 전/후 risk증가 차이 일정)<a class="anchor-link" href="#interaction%EC%9D%B4-%EC%97%86%EB%8A%94-%EA%B2%BD%EC%9A%B0(2%EA%B7%B8%EB%9E%98%ED%94%84--%ED%8F%89%ED%96%89-=-A%EB%85%B8%EC%B6%9C-%EC%A0%84/%ED%9B%84-risk%EC%A6%9D%EA%B0%80-%EC%B0%A8%EC%9D%B4-%EC%9D%BC%EC%A0%95)"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416184010615.png" alt="image-20220416184010615"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="interaction그래프-해석방법">
+<a class="anchor" href="#interaction%EA%B7%B8%EB%9E%98%ED%94%84-%ED%95%B4%EC%84%9D%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>interaction그래프 해석방법<a class="anchor-link" href="#interaction%EA%B7%B8%EB%9E%98%ED%94%84-%ED%95%B4%EC%84%9D%EB%B0%A9%EB%B2%95"> </a>
+</h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>
+<p><strong>x축 1개 상황을 고정하여 <code>위험요소A에 노출되지 않았을 때</code></strong></p>
+<ul>
+<li>위험요소X에 노출되지 않았을 때 &lt;-&gt; X에 노출되었을 때 <strong>차이를 보고 <code>X노출에 의한 Y risk증가 효과(차이)</code></strong>를 확인한다.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416182430198.png" alt="image-20220416182430198">
+</li>
+</ul>
+</li>
+<li>
+<p><strong>x축 나머지 상황을 고정하여 <code>위험요소A에 노출되었을 때</code>의 -&gt; <code>X노출에 의한 Y risk 증가 효과(차이)</code>를 확인한다</strong></p>
+<ul>
+<li>X에 노출되지 않았을 때보다, 노출되었을 때의 risk가 올라감을 확인한다.</li>
+</ul>
+</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416183224842.png" alt="image-20220416183224842"></p>
+<ol>
+<li>
+<strong>x축에 있는 예비 interaction factor A의  노출X/O에 따라  <code>X에 노출X/O의 risk차이</code>가 달라지는지 확인한다.</strong><ul>
+<li>
+<strong><code>(x축)factor A의 노출여부</code>가 <code>X의 노출 X/O의 risk 차이에 영향을 주지않고 == 동일한 risk</code>를 가져간다.</strong><ul>
+<li>즉, <strong>인터렉션 그래프에서 <code>x축에 있는 예비 인터렉션 factor A에 따라 risk변화가 나타나지 않으면</code> == <code>2개 그래프가 X축 여부에 따라 평행하면</code> == <code>인터랙션효과가 없는 것</code>으로 판단하면 된다.</strong>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Interaction이-있는-경우-=-2개이상의-factor가-간섭하면-Synergism을-일으키는-경우">
+<a class="anchor" href="#Interaction%EC%9D%B4-%EC%9E%88%EB%8A%94-%EA%B2%BD%EC%9A%B0-=-2%EA%B0%9C%EC%9D%B4%EC%83%81%EC%9D%98-factor%EA%B0%80-%EA%B0%84%EC%84%AD%ED%95%98%EB%A9%B4-Synergism%EC%9D%84-%EC%9D%BC%EC%9C%BC%ED%82%A4%EB%8A%94-%EA%B2%BD%EC%9A%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>Interaction이 있는 경우 = 2개이상의 factor가 간섭하면 Synergism을 일으키는 경우<a class="anchor-link" href="#Interaction%EC%9D%B4-%EC%9E%88%EB%8A%94-%EA%B2%BD%EC%9A%B0-=-2%EA%B0%9C%EC%9D%B4%EC%83%81%EC%9D%98-factor%EA%B0%80-%EA%B0%84%EC%84%AD%ED%95%98%EB%A9%B4-Synergism%EC%9D%84-%EC%9D%BC%EC%9C%BC%ED%82%A4%EB%8A%94-%EA%B2%BD%EC%9A%B0"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416180714524.png" alt="image-20220416180714524"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>2개의 factor와 모두 만나면, 각각 노출되는 것보다 효과가 더 커진다 = interfaction이 있는 것</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="해석">
+<a class="anchor" href="#%ED%95%B4%EC%84%9D" aria-hidden="true"><span class="octicon octicon-link"></span></a>해석<a class="anchor-link" href="#%ED%95%B4%EC%84%9D"> </a>
+</h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>
+<code>factor A에 노출되지 않았을 때</code> -&gt; 그래프차이를 보고 -&gt; <code>X의 Y risk증가 효과</code>를 확인한다.
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416184606188.png" alt="image-20220416184606188">
+</li>
+<li>
+<p><code>factor A에 노출되었을 때</code> -&gt; 그래프차이를 보고 -&gt; <code>X의 Y risk증가 효과</code>를 확인한다.
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416184613972.png" alt="image-20220416184613972"></p>
+</li>
+<li>
+<p><code>A 노출</code>시 <code>X-&gt;Y risk증가 효과</code>가 <code>더 많이 올라가는 것을 확인</code>한다.</p>
+<ul>
+<li>평행하지않다 = 인터랙션 존재한다 = 시너지즘이 존재한다.</li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="interaction이-있지만(A노출-전/후-2그래프-평행X)-X노출-전--A만으로는-효과가-전혀-없는-경우">
+<a class="anchor" href="#interaction%EC%9D%B4-%EC%9E%88%EC%A7%80%EB%A7%8C(A%EB%85%B8%EC%B6%9C-%EC%A0%84/%ED%9B%84-2%EA%B7%B8%EB%9E%98%ED%94%84-%ED%8F%89%ED%96%89X)-X%EB%85%B8%EC%B6%9C-%EC%A0%84--A%EB%A7%8C%EC%9C%BC%EB%A1%9C%EB%8A%94-%ED%9A%A8%EA%B3%BC%EA%B0%80-%EC%A0%84%ED%98%80-%EC%97%86%EB%8A%94-%EA%B2%BD%EC%9A%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>interaction이 있지만(A노출 전/후 2그래프 평행X) X노출 전  A만으로는 효과가 전혀 없는 경우<a class="anchor-link" href="#interaction%EC%9D%B4-%EC%9E%88%EC%A7%80%EB%A7%8C(A%EB%85%B8%EC%B6%9C-%EC%A0%84/%ED%9B%84-2%EA%B7%B8%EB%9E%98%ED%94%84-%ED%8F%89%ED%96%89X)-X%EB%85%B8%EC%B6%9C-%EC%A0%84--A%EB%A7%8C%EC%9C%BC%EB%A1%9C%EB%8A%94-%ED%9A%A8%EA%B3%BC%EA%B0%80-%EC%A0%84%ED%98%80-%EC%97%86%EB%8A%94-%EA%B2%BD%EC%9A%B0"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416201358886.png" alt="image-20220416201358886"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="해석(특이)">
+<a class="anchor" href="#%ED%95%B4%EC%84%9D(%ED%8A%B9%EC%9D%B4)" aria-hidden="true"><span class="octicon octicon-link"></span></a>해석(특이)<a class="anchor-link" href="#%ED%95%B4%EC%84%9D(%ED%8A%B9%EC%9D%B4)"> </a>
+</h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<p>특별히 X축 1상황부터 보는게 아니라, legend 1상황에 대해 X축 2상황을 같이본다.</p>
+</li>
+<li>
+<p>X에 노출되지 않은 경우에는, factor A의 y rist증가 효과가 전혀 없는 경우다</p>
+<ul>
+<li>
+<strong>factor A 는 Y의 risk에 영향을 끼치지 않는 것으로 본다.</strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416201745788.png" alt="image-20220416201745788">
+</li>
+</ul>
+</li>
+<li>
+<p>근데, <strong>X에 노출된 경우, A의 y risk증가효과가 나타난다.</strong></p>
+<ul>
+<li>차이가 일정하지 않다 = 2그래프가 평행하지 않다 = factor A(x축)에 의해 x-&gt;y risk 증가효과가 있다.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416201850580.png" alt="image-20220416201850580">
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="intraction이-있지만,-A로-인해-cross되는-경우">
+<a class="anchor" href="#intraction%EC%9D%B4-%EC%9E%88%EC%A7%80%EB%A7%8C,-A%EB%A1%9C-%EC%9D%B8%ED%95%B4-cross%EB%90%98%EB%8A%94-%EA%B2%BD%EC%9A%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>intraction이 있지만, A로 인해 cross되는 경우<a class="anchor-link" href="#intraction%EC%9D%B4-%EC%9E%88%EC%A7%80%EB%A7%8C,-A%EB%A1%9C-%EC%9D%B8%ED%95%B4-cross%EB%90%98%EB%8A%94-%EA%B2%BD%EC%9A%B0"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416202016035.png" alt="image-20220416202016035"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="해석">
+<a class="anchor" href="#%ED%95%B4%EC%84%9D" aria-hidden="true"><span class="octicon octicon-link"></span></a>해석<a class="anchor-link" href="#%ED%95%B4%EC%84%9D"> </a>
+</h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li><strong>factor A 값에 따라  <code>X의 y risk증가효과</code>의 <code>방향</code>이 바뀌어버린다</strong></li>
+</ul>
+<ol>
+<li>
+<p>먼저, X축의 <code>factor A에 노출되지 않았을 경우</code>를 먼저 보면, -&gt; <strong><code>X에 노출되었을 때 risk</code>가 <code>X에 노출되지 않았을 때의 risk</code>보다 낮다</strong></p>
+<ul>
+<li>X에 노출되었을 때 risk가 더 내려간다? -&gt; X는 y에 대해 <code>protective effect</code>가 있는 factor다
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416203455293.png" alt="image-20220416203455293">
+</li>
+</ul>
+</li>
+<li>
+<p><code>factor A에 노출</code>된 경우, <code>X에 노출되었을 때 risk</code>가 <code>X에 노출되지 않았을 때의 risk</code>보다 더 높아진다.</p>
+<ul>
+<li>X가 y risk를 증가시키는, 나쁜영향을 주는 X라 볼 수 있다.
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416204110915.png" alt="image-20220416204110915">
+</li>
+</ul>
+</li>
+<li><strong>A값에 따라 x가 좋기도 했따가(y risk떨궈줌) or x가 안좋기도 했다가 하는 경우를 <code>Antagonism</code>이라고 부른다.</strong></li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Additive-vs.-multiplicative">
+<a class="anchor" href="#Additive-vs.-multiplicative" aria-hidden="true"><span class="octicon octicon-link"></span></a>Additive vs. multiplicative<a class="anchor-link" href="#Additive-vs.-multiplicative"> </a>
+</h3>
+<ul>
+<li>additive model: 2 factor에 모두 노출된 효과는 <code>각 효과의 합</code><ul>
+<li>my) 2 by 2 표에서는, background risk 출발 -&gt; 한쪽 노출된 것에 -&gt; 다른쪽 효과도 노출된 방향으로 확률 그대로 더하면 된다.</li>
+</ul>
+</li>
+<li>
+<strong>multiplicative model(멀티 플리커티브 모델):2 factor에 모두 노출된 효과는 <code>각효과의 곱</code></strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416204234163.png" alt="image-20220416204234163">
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="예제를-통한-interaction(multiplicative-model)">
+<a class="anchor" href="#%EC%98%88%EC%A0%9C%EB%A5%BC-%ED%86%B5%ED%95%9C-interaction(multiplicative-model)" aria-hidden="true"><span class="octicon octicon-link"></span></a>예제를 통한 interaction(multiplicative model)<a class="anchor-link" href="#%EC%98%88%EC%A0%9C%EB%A5%BC-%ED%86%B5%ED%95%9C-interaction(multiplicative-model)"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416204639409.png" alt="image-20220416204639409"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<strong>위험요소 X와 A 2개</strong>가 있다. <ul>
+<li>interfaction 보는 문제인 듯?</li>
+</ul>
+</li>
+<li>위험요소 노출여부에 따라 <strong>1만명당 incidence rates</strong>를 조사했다.<ul>
+<li>앞에 문제들에선 risk(계산된 확률)이었는데, 여기는 확률이 너무 낮아서 10000만을 곱해 1만명당으로 줬다?</li>
+<li>incidence는 기본적으로 <code>xxx명당 새롭게 발생한 환자의 비율</code>이며, risk(발생확률)과 거의 비슷한 개념으로 생각한다.</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>일단 background risk처럼 <code>2 위험요소 모두 노출되지 않았을 경우</code>부터 확인한다. -&gt; 3</li>
+<li>
+<code>background에서 위험요소A만 노출(-&gt;)</code>될 경우를 확인 및 변화량도 확인한다<ul>
+<li>3 -&gt; 9로 위험요소 A노출시 (만명당) +6명 효과</li>
+</ul>
+</li>
+<li>
+<code>background에서 위험요소X만 노출(↓)</code>될 경우를 확인 및 변화량도 확인한다.<ul>
+<li>3 -&gt; 15로 위험요소 X노출시 (만명당) +15명 효과</li>
+</ul>
+</li>
+<li><strong>빈칸에 들어갈 값은? 만약 additive model이라면 한쪽에서, 다른한쪽의 증가량 더해주면 되는데</strong></li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="additive-model이라면?">
+<a class="anchor" href="#additive-model%EC%9D%B4%EB%9D%BC%EB%A9%B4?" aria-hidden="true"><span class="octicon octicon-link"></span></a>additive model이라면?<a class="anchor-link" href="#additive-model%EC%9D%B4%EB%9D%BC%EB%A9%B4?"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416210749120.png" alt="image-20220416210749120"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<strong>각 factor 노출시 변화량의 합 -&gt; 둘다 노출시 변화량의 개념으로 보는 것 ==  <code>Attributable risks</code>로 보는 것</strong><ol>
+<li>둘다 노출되지 않았을 때가 기준이며, 0으로 만든다 -&gt; <code>전체 -3</code>
+</li>
+<li><strong>자동으로 위험요소 노출시의 값 = <code>변화량(증가량)</code>이 된다.</strong></li>
+<li>둘다 노출시 <strong><code>interaction</code>이 없다면 단순 합으로 계산된다.</strong><ul>
+<li>Attributable risks으로 보면 6+12 -&gt; 18</li>
+<li>기존표에서 보면, X부터 노출되었다 치면 3-&gt;15로 온 다음, A에 의한 증가량(+6)을 더해 15-&gt; 21이 된다.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416211714900.png" alt="image-20220416211714900">
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Multiplicative-model이라면?">
+<a class="anchor" href="#Multiplicative-model%EC%9D%B4%EB%9D%BC%EB%A9%B4?" aria-hidden="true"><span class="octicon octicon-link"></span></a>Multiplicative model이라면?<a class="anchor-link" href="#Multiplicative-model%EC%9D%B4%EB%9D%BC%EB%A9%B4?"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<p><strong>각 factor 노출시 변화량의 곱 -&gt; 둘다 노출시 변화량의 개념으로 보는 것 ==  <code>Relative risk</code>의 개념으로 본다.</strong></p>
+<ol>
+<li>
+<p>둘다 노출되지 않았을 때가 기준이며, <del>0으로 만든다</del> -&gt; <strong>곱의 개념이므로 기준점을 1로 만드는 <code>전체 / 3</code>을 한다</strong>
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416212025154.png" alt="image-20220416212025154"></p>
+</li>
+<li>
+<p><strong>자동으로 위험요소 노출시의 값 = <code>변화량(배수개념)</code>이 된다.</strong></p>
+<ul>
+<li>A노출시 3배 증가</li>
+<li>X노출시 5배 증가
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416212153362.png" alt="image-20220416212153362">
+</li>
+</ul>
+</li>
+<li>
+<p>둘다 노출시 <strong><code>interaction</code>이 없다면 <code>두 변화량(배수)의 곱</code>으로 계산된다.</strong></p>
+<ul>
+<li>3배 X 5배 -&gt; 총 15배</li>
+<li>기존표 3 x 15 -&gt; 45
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416212247418.png" alt="image-20220416212247418">
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="addtive+multiplicative-의-계산은-interaction없을-때를-가정하고-2factor-모두-노출시의-값을-계산한-것이다.-실제-문제에서-주어지는-실제-값을-비교해서-차이가-나면--interaction이-존재하는-것이다.">
+<a class="anchor" href="#addtive+multiplicative-%EC%9D%98-%EA%B3%84%EC%82%B0%EC%9D%80-interaction%EC%97%86%EC%9D%84-%EB%95%8C%EB%A5%BC-%EA%B0%80%EC%A0%95%ED%95%98%EA%B3%A0-2factor-%EB%AA%A8%EB%91%90-%EB%85%B8%EC%B6%9C%EC%8B%9C%EC%9D%98-%EA%B0%92%EC%9D%84-%EA%B3%84%EC%82%B0%ED%95%9C-%EA%B2%83%EC%9D%B4%EB%8B%A4.-%EC%8B%A4%EC%A0%9C-%EB%AC%B8%EC%A0%9C%EC%97%90%EC%84%9C-%EC%A3%BC%EC%96%B4%EC%A7%80%EB%8A%94-%EC%8B%A4%EC%A0%9C-%EA%B0%92%EC%9D%84-%EB%B9%84%EA%B5%90%ED%95%B4%EC%84%9C-%EC%B0%A8%EC%9D%B4%EA%B0%80-%EB%82%98%EB%A9%B4--interaction%EC%9D%B4-%EC%A1%B4%EC%9E%AC%ED%95%98%EB%8A%94-%EA%B2%83%EC%9D%B4%EB%8B%A4." aria-hidden="true"><span class="octicon octicon-link"></span></a>addtive+multiplicative 의 계산은 <code>interaction없을 때를 가정하고 2factor 모두 노출시의 값</code>을 계산한 것이다. 실제 문제에서 주어지는 실제 값을 비교해서 차이가 나면  interaction이 존재하는 것이다.<a class="anchor-link" href="#addtive+multiplicative-%EC%9D%98-%EA%B3%84%EC%82%B0%EC%9D%80-interaction%EC%97%86%EC%9D%84-%EB%95%8C%EB%A5%BC-%EA%B0%80%EC%A0%95%ED%95%98%EA%B3%A0-2factor-%EB%AA%A8%EB%91%90-%EB%85%B8%EC%B6%9C%EC%8B%9C%EC%9D%98-%EA%B0%92%EC%9D%84-%EA%B3%84%EC%82%B0%ED%95%9C-%EA%B2%83%EC%9D%B4%EB%8B%A4.-%EC%8B%A4%EC%A0%9C-%EB%AC%B8%EC%A0%9C%EC%97%90%EC%84%9C-%EC%A3%BC%EC%96%B4%EC%A7%80%EB%8A%94-%EC%8B%A4%EC%A0%9C-%EA%B0%92%EC%9D%84-%EB%B9%84%EA%B5%90%ED%95%B4%EC%84%9C-%EC%B0%A8%EC%9D%B4%EA%B0%80-%EB%82%98%EB%A9%B4--interaction%EC%9D%B4-%EC%A1%B4%EC%9E%AC%ED%95%98%EB%8A%94-%EA%B2%83%EC%9D%B4%EB%8B%A4."> </a>
+</h4>
+<ul>
+<li>addtive model의 (만명당) incidenrate 계산 -&gt; interaction없다는 가정하에 계산한 것<ul>
+<li><strong>?가 21보다 현저히 높거나 낮으면 interaction이 있는 것으로 판단</strong></li>
+</ul>
+</li>
+<li>multiplicative model의 (만명당) incidenrate 계산 -&gt; interaction없다는 가정하에 계산한 것<ul>
+<li><strong>?가 45보다 현저히 높거나 낮으면 interaction이 있는 것으로 판단</strong></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="따라서,-어떤-model을-가정하느냐에-따라서-interaction-존재-기준값이-달라져-판단이-달라진다.">
+<a class="anchor" href="#%EB%94%B0%EB%9D%BC%EC%84%9C,-%EC%96%B4%EB%96%A4-model%EC%9D%84-%EA%B0%80%EC%A0%95%ED%95%98%EB%8A%90%EB%83%90%EC%97%90-%EB%94%B0%EB%9D%BC%EC%84%9C-interaction-%EC%A1%B4%EC%9E%AC-%EA%B8%B0%EC%A4%80%EA%B0%92%EC%9D%B4-%EB%8B%AC%EB%9D%BC%EC%A0%B8-%ED%8C%90%EB%8B%A8%EC%9D%B4-%EB%8B%AC%EB%9D%BC%EC%A7%84%EB%8B%A4." aria-hidden="true"><span class="octicon octicon-link"></span></a>따라서, 어떤 model을 가정하느냐에 따라서 interaction 존재 기준값이 달라져 판단이 달라진다.<a class="anchor-link" href="#%EB%94%B0%EB%9D%BC%EC%84%9C,-%EC%96%B4%EB%96%A4-model%EC%9D%84-%EA%B0%80%EC%A0%95%ED%95%98%EB%8A%90%EB%83%90%EC%97%90-%EB%94%B0%EB%9D%BC%EC%84%9C-interaction-%EC%A1%B4%EC%9E%AC-%EA%B8%B0%EC%A4%80%EA%B0%92%EC%9D%B4-%EB%8B%AC%EB%9D%BC%EC%A0%B8-%ED%8C%90%EB%8B%A8%EC%9D%B4-%EB%8B%AC%EB%9D%BC%EC%A7%84%EB%8B%A4."> </a>
+</h4>
+<ul>
+<li>실제값이 21이 주어졌다.<ul>
+<li>additive 모델가정시 -&gt; interaction 없네?</li>
+<li>multiplicative 모델가정시 -&gt; interaction 이 있는데?</li>
+</ul>
+</li>
+<li>그럼 어떻게 model을 잡을까?<ul>
+<li>위험요소의 생물학적 작동기전에 따라 biological knowledge에 의해 결정되어야한다.</li>
+<li>근데, 사실 addtive model을 사용하는 경우가 많다(직관적 이해가 쉬워서)</li>
+<li>하지만, interaction 판단시, addtive model의 attributable risk보다는 RR, OR를 많이 사용한다.<ul>
+<li>그리고 RR, OR는 multiplicative model을 사용하는 것이 더 자연스럽다. 기본적으로 ratio는 더하기 빼기보다 곱하기 나누기 하는게 맞으므로</li>
+</ul>
+</li>
+<li>
+<strong>하지만, RR, OR에 log를 취하면, 자연스럽게 addtive model로 변하고, 그것을 이용한다</strong>
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416212753664.png" alt="image-20220416212753664">
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="interaction-계산시-유의점">
+<a class="anchor" href="#interaction-%EA%B3%84%EC%82%B0%EC%8B%9C-%EC%9C%A0%EC%9D%98%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>interaction 계산시 유의점<a class="anchor-link" href="#interaction-%EA%B3%84%EC%82%B0%EC%8B%9C-%EC%9C%A0%EC%9D%98%EC%A0%90"> </a>
+</h3>
+<ul>
+<li>예비 interaction factor인 <code>A값별로 (subgroup을 나눔. 그래프상으론 X축)</code> X-&gt;y에 끼치는 효과를 추정할 것인데<ul>
+<li>각 A값별 subgroup의 <code>효과에 대한 p-value</code>의 <code>차이</code>를 가지고 판단하는 것이 아니라</li>
+<li>각 A값별 subgroup의 <code>효과에 차이</code>에 대한 <code>p-value</code>를 가지고 판단한다
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416213200599.png" alt="image-20220416213200599">
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="정리하기">
+<a class="anchor" href="#%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>정리하기<a class="anchor-link" href="#%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>위험요소(X)와 질병(Y) 둘 다와 상관관계가 있으면서, 위험요소의 결과도, 질병의 결과도 아닌 변수를 confounder라고 한다<ul>
+<li>confounder의 정의</li>
+</ul>
+</li>
+<li>X와 Y간에 인과관계가 없어도 강력한 confounder가 있는 경우에는 X와 Y에 상관관계가 관측된다<ul>
+<li>이런 경우를 막기 위해 아래의 방법으로 confounding을 제거</li>
+</ul>
+</li>
+<li>연구 디자인 단계에서 confounding을 제거하는 방법에는 랜덤화와 매칭이 있다</li>
+<li>데이터 분석 단계에서 confounding을 제거하는 방법에는 stratification, adjustment, propensity score analysis가 있다</li>
+<li>X가 Y에 끼치는 효과가, 다른 변수 A값에 따라 달라질 때 X와 A간에 interaction이 존재한다고 말한다</li>
+<li>Interaction의 종류에는 synergism, unilateralism, antagonism이 있다</li>
+<li>Additive model을 가정하느냐, multiplicative model을 가정하느냐에 따라 interaction 여부의 판단이 달라질 수 있다</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="연습문제">
+<a class="anchor" href="#%EC%97%B0%EC%8A%B5%EB%AC%B8%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>연습문제<a class="anchor-link" href="#%EC%97%B0%EC%8A%B5%EB%AC%B8%EC%A0%9C"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="다음-중-그림의-제일-위쪽에-있는-인자가-confounder가-아닌-경우는?">
+<a class="anchor" href="#%EB%8B%A4%EC%9D%8C-%EC%A4%91-%EA%B7%B8%EB%A6%BC%EC%9D%98-%EC%A0%9C%EC%9D%BC-%EC%9C%84%EC%AA%BD%EC%97%90-%EC%9E%88%EB%8A%94-%EC%9D%B8%EC%9E%90%EA%B0%80-confounder%EA%B0%80-%EC%95%84%EB%8B%8C-%EA%B2%BD%EC%9A%B0%EB%8A%94?" aria-hidden="true"><span class="octicon octicon-link"></span></a>다음 중 그림의 제일 위쪽에 있는 인자가 confounder가 아닌 경우는?<a class="anchor-link" href="#%EB%8B%A4%EC%9D%8C-%EC%A4%91-%EA%B7%B8%EB%A6%BC%EC%9D%98-%EC%A0%9C%EC%9D%BC-%EC%9C%84%EC%AA%BD%EC%97%90-%EC%9E%88%EB%8A%94-%EC%9D%B8%EC%9E%90%EA%B0%80-confounder%EA%B0%80-%EC%95%84%EB%8B%8C-%EA%B2%BD%EC%9A%B0%EB%8A%94?"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416213637068.png" alt="image-20220416213637068"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>정답 : 3</li>
+<li>해설 : high cholesterol diet와 흡연 간에 상관관계가 없으므로 high cholesterol diet는 confounder가 아니다. <ul>
+<li>my) 일단 C가 결과가 되면 안되고, C는 x, y모두와 인과or상관관계가 존재해야한다.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="다음은-위험요소-두가지(interfaction)-A,-B에-대한-노출여부와-어떤-질병의-만명-당--incidence이다.--다음-설명-중-옳지-않은-것은?">
+<a class="anchor" href="#%EB%8B%A4%EC%9D%8C%EC%9D%80-%EC%9C%84%ED%97%98%EC%9A%94%EC%86%8C-%EB%91%90%EA%B0%80%EC%A7%80(interfaction)-A,-B%EC%97%90-%EB%8C%80%ED%95%9C-%EB%85%B8%EC%B6%9C%EC%97%AC%EB%B6%80%EC%99%80-%EC%96%B4%EB%96%A4-%EC%A7%88%EB%B3%91%EC%9D%98-%EB%A7%8C%EB%AA%85-%EB%8B%B9--incidence%EC%9D%B4%EB%8B%A4.--%EB%8B%A4%EC%9D%8C-%EC%84%A4%EB%AA%85-%EC%A4%91-%EC%98%B3%EC%A7%80-%EC%95%8A%EC%9D%80-%EA%B2%83%EC%9D%80?" aria-hidden="true"><span class="octicon octicon-link"></span></a>다음은 위험요소 두가지(interfaction) A, B에 대한 노출여부와 어떤 질병의 만명 당  incidence이다.  다음 설명 중 옳지 않은 것은?<a class="anchor-link" href="#%EB%8B%A4%EC%9D%8C%EC%9D%80-%EC%9C%84%ED%97%98%EC%9A%94%EC%86%8C-%EB%91%90%EA%B0%80%EC%A7%80(interfaction)-A,-B%EC%97%90-%EB%8C%80%ED%95%9C-%EB%85%B8%EC%B6%9C%EC%97%AC%EB%B6%80%EC%99%80-%EC%96%B4%EB%96%A4-%EC%A7%88%EB%B3%91%EC%9D%98-%EB%A7%8C%EB%AA%85-%EB%8B%B9--incidence%EC%9D%B4%EB%8B%A4.--%EB%8B%A4%EC%9D%8C-%EC%84%A4%EB%AA%85-%EC%A4%91-%EC%98%B3%EC%A7%80-%EC%95%8A%EC%9D%80-%EA%B2%83%EC%9D%80?"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416215229822.png" alt="image-20220416215229822"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>
+<p>additive model을 가정한다면 A와 B간의 interaction은 없다.</p>
+</li>
+<li>
+<p>addtive model을 가정한다면 A의 효과는 B에 노출되었는지 여부에 따라서 달라진다.</p>
+</li>
+<li>
+<p>multiplicative model을 가정한다면 A와 B에 둘다 노출되었을 때 incidence는 만명 당 60명이다.</p>
+</li>
+<li>
+<p>multiplicative model을 가정한다면 A와 B간의 interaction이 존재한다.</p>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="내풀이">
+<a class="anchor" href="#%EB%82%B4%ED%92%80%EC%9D%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>내풀이<a class="anchor-link" href="#%EB%82%B4%ED%92%80%EC%9D%B4"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220416220550456.png" alt="image-20220416220550456"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>2번: addtive model을 가정한다면 <code>A의 효과는 &lt;B에 노출되었는지 여부에 따라서&gt; 달라진다.</code> = <strong>interaction인 존재한다는 말이다</strong><ul>
+<li>하지만, 계산값 30 = 실제값 30으로 ineteraction이 없다고 판단된다 -&gt; <strong><code>A가 어떤질병에 끼치는 영향</code>이 위험요소B의 값에 따라 <code>달라지지 않는다</code></strong>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>정답: 2</li>
+<li>해설 : additive model을 가정한다면 A, B에 노출되었을 때의 위험은 5 + (20 - 5) + (15 - 5) = 30이 맞고, 이것은 interaction이 없음을 의미한다. 즉, A의 효과는 B에 노출되었는지 여부에 관계없이 일정하다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances 
+<script src="https://utteranc.es/client.js"
+        repo="is2js/blog_raw"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script> -->
+
+<div id="disqus_thread"></div>
+<script>
+  /**
+   *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+   *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+  /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+  (function () {
+    // DON'T EDIT BELOW THIS LINE
+    var d = document,
+      s = d.createElement('script');
+    s.src = 'https://is2js-blog-raw.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript
+  >Please enable JavaScript to view the
+  <a href="https://disqus.com/?ref_noscript"
+    >comments powered by Disqus.</a
+  ></noscript
+>
+<a class="u-url" href="/r/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/%ED%86%B5%EA%B3%84%EC%A0%81%EC%B6%94%EB%A1%A0/confounding/interaction/2022/03/22/%EC%9D%98%EC%97%B0%EB%B0%A904)-Confounding-&-Interaction(%ED%86%B5%EC%B6%94%EA%B0%9C%EB%85%902,3).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,3210 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>의연방09) PSA 분석1(매칭) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="의연방09) PSA 분석1(매칭)" />
+<meta name="author" content="tingstyle1" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Propensity Score Analysis I (matching)" />
+<meta property="og:description" content="Propensity Score Analysis I (matching)" />
+<link rel="canonical" href="blog.chojaeseong.com/r/r%EA%B3%A0%EA%B8%89/dplyr/matchit/tableone/geepack/broom/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/psa/matching/2022/04/11/%EC%9D%98%EC%97%B0%EB%B0%A909)-Propensity-Score-Analysis-I-(matching).html" />
+<meta property="og:url" content="blog.chojaeseong.com/r/r%EA%B3%A0%EA%B8%89/dplyr/matchit/tableone/geepack/broom/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/psa/matching/2022/04/11/%EC%9D%98%EC%97%B0%EB%B0%A909)-Propensity-Score-Analysis-I-(matching).html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/data.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-04-11T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-04-11T00:00:00-05:00","url":"blog.chojaeseong.com/r/r%EA%B3%A0%EA%B8%89/dplyr/matchit/tableone/geepack/broom/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/psa/matching/2022/04/11/%EC%9D%98%EC%97%B0%EB%B0%A909)-Propensity-Score-Analysis-I-(matching).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/data.png","headline":"의연방09) PSA 분석1(매칭)","dateModified":"2022-04-11T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/r/r%EA%B3%A0%EA%B8%89/dplyr/matchit/tableone/geepack/broom/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/psa/matching/2022/04/11/%EC%9D%98%EC%97%B0%EB%B0%A909)-Propensity-Score-Analysis-I-(matching).html"},"author":{"@type":"Person","name":"tingstyle1"},"description":"Propensity Score Analysis I (matching)","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">의연방09) PSA 분석1(매칭)</h1><p class="page-description">Propensity Score Analysis I (matching)</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-04-11T00:00:00-05:00" itemprop="datePublished">
+        Apr 11, 2022
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">tingstyle1</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      27 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#R">R</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#R고급">R고급</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#dplyr">dplyr</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#matchit">matchit</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#tableone">tableone</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#geepack">geepack</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#broom">broom</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#통계">통계</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#대학원">대학원</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#의연방">의연방</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#PSA">PSA</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#matching">matching</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/is2js/blog_raw/tree/master/_notebooks/2022-04-11-의연방09) Propensity Score Analysis I (matching).ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/is2js/blog_raw/master?filepath=_notebooks%2F2022-04-11-%EC%9D%98%EC%97%B0%EB%B0%A909%29+Propensity+Score+Analysis+I+%28matching%29.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/is2js/blog_raw/blob/master/_notebooks/2022-04-11-의연방09) Propensity Score Analysis I (matching).ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#학습목표">학습목표 </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#주요용어">주요용어 </a></li>
+<li class="toc-entry toc-h3"><a href="#목차">목차 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Motivation(하는-이유)">Motivation(하는 이유) </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Association-vs.-causality">Association vs. causality </a></li>
+<li class="toc-entry toc-h3"><a href="#Confounding을-다루는-법">Confounding을 다루는 법 </a></li>
+<li class="toc-entry toc-h3"><a href="#Propensity-score-analysis">Propensity score analysis </a></li>
+<li class="toc-entry toc-h3"><a href="#PSA요구하는-4가지-가정">PSA요구하는 4가지 가정 </a></li>
+<li class="toc-entry toc-h3"><a href="#Regression-vs.-PSA">Regression vs. PSA </a></li>
+<li class="toc-entry toc-h3"><a href="#Conditional-vs.-marginal">Conditional vs. marginal </a></li>
+<li class="toc-entry toc-h3"><a href="#2가지-남은-문제">2가지 남은 문제 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#PS-추정-방법">PS 추정 방법 </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#PS를-추정하는-방법">PS를 추정하는 방법 </a></li>
+<li class="toc-entry toc-h3"><a href="#PS-model의-설명변수">PS model의 설명변수 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#PS-Matching">PS Matching </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#PS-추정-후-분석방법">PS 추정 후 분석방법 </a></li>
+<li class="toc-entry toc-h3"><a href="#PS-matching">PS matching </a></li>
+<li class="toc-entry toc-h3"><a href="#매칭-방법">매칭 방법 </a></li>
+<li class="toc-entry toc-h3"><a href="#매칭-후-balance-평가">매칭 후 balance 평가 </a></li>
+<li class="toc-entry toc-h3"><a href="#Standardized-mean-difference-(SMD)">Standardized mean difference (SMD) </a></li>
+<li class="toc-entry toc-h3"><a href="#매칭-후-분석">매칭 후 분석 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#R-실습">R 실습 </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#matchit()-from-MatchIt">matchit() from MatchIt </a></li>
+<li class="toc-entry toc-h3"><a href="#CreateTableOne()-from-tableone">CreateTableOne() from tableone </a></li>
+<li class="toc-entry toc-h3"><a href="#geeglm()-from-geepack">geeglm() from geepack </a></li>
+<li class="toc-entry toc-h3"><a href="#코드-실습">코드 실습 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#이분형-결과변수-만들어주기">이분형 결과변수 만들어주기 </a></li>
+<li class="toc-entry toc-h4"><a href="#연속형-->-범주형변수로-한꺼번에-처리하기-by-mutate_at">연속형 -&gt; 범주형변수로 한꺼번에 처리하기 by mutate_at </a></li>
+<li class="toc-entry toc-h4"><a href="#매칭전-[치료군vs대조군(treat)별]-confounder의심변수들의-balance(2군간의-차이-by-p)확인-by-tableone">매칭전 [치료군vs대조군(treat)별] confounder의심변수들의 balance(2군간의 차이 by p)확인 by tableone </a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#일단,-치료여부별-표1을-만들어서-confounder-유의미한-차이보기">일단, 치료여부별 표1을 만들어서 confounder 유의미한 차이보기 </a></li>
+<li class="toc-entry toc-h5"><a href="#smd를-이용하여-balance평가-with-print(-tobj,-smd-=T)">smd를 이용하여 balance평가 with print( tobj, smd =T) </a></li>
+<li class="toc-entry toc-h5"><a href="#matching의-목적:-2군간의-confounder의-p차이-->-smd-차이를-0.2-미만으로-줄이는-것">matching의 목적: 2군간의 confounder의 p차이 -&gt; smd 차이를 0.2 미만으로 줄이는 것 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#매칭-by-matching">매칭 by matching </a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#매칭된-데이터만-뽑아내기-from-mobj-by-match.data">매칭된 데이터만 뽑아내기 from mobj by match.data </a></li>
+<li class="toc-entry toc-h5"><a href="#매칭데이터-balance(치료여부별-confounder의-p/SMD-차이)-평가-by-CreateOneTable">매칭데이터 balance(치료여부별 confounder의 p/SMD 차이) 평가 by CreateOneTable </a></li>
+<li class="toc-entry toc-h5"><a href="#random-->-set.seed()">random -&gt; set.seed() </a></li>
+<li class="toc-entry toc-h5"><a href="#1:2-매칭-by-ratio=2">1:2 매칭 by ratio=2 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#매칭된-데이터에서-치료효과(y)-평가-by-GEE">매칭된 데이터에서 치료효과(y) 평가 by GEE </a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#0,1범주형을-->-0,1-연속형으로-만드는-sense-(-bool-->-as.double-)">0,1범주형을 -&gt; 0,1 연속형으로 만드는 sense ( bool -&gt; as.double ) </a></li>
+<li class="toc-entry toc-h5"><a href="#최종-회귀분석에서는-결과변수(질병여부,-연속형)-~-설명변수(치료여부),-id=매칭id변수(subclass)--2+1-개의-변수만">최종 회귀분석에서는 결과변수(질병여부, 연속형) ~ 설명변수(치료여부), id=매칭id변수(subclass)  2+1 개의 변수만 </a></li>
+<li class="toc-entry toc-h5"><a href="#회귀분석-결과obj로-OR를-구하기-by-broom패키지의-tidy()">회귀분석 결과obj로 OR를 구하기 by broom패키지의 tidy() </a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#정리하기">정리하기 </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#연습문제">연습문제 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-다음-중-Propensity-score-analysis에-대한-설명으로-틀린-것은?">01 다음 중 Propensity score analysis에 대한 설명으로 틀린 것은? </a></li>
+<li class="toc-entry toc-h4"><a href="#02-다음-중-PS(propensity-score)를-추정한-후-자료-분석-방법으로-알맞지-않은-것은?">02 다음 중 PS(propensity score)를 추정한 후 자료 분석 방법으로 알맞지 않은 것은? </a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-04-11-의연방09) Propensity Score Analysis I (matching).ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>R  고급 실습(ps matching with datacleaning-dplyr, MatchIt, tableone-CreateTableOne, geepack-geeglm, broom-회귀계수를 OR로 변환) 포함됨</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="학습목표">
+<a class="anchor" href="#%ED%95%99%EC%8A%B5%EB%AA%A9%ED%91%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>학습목표<a class="anchor-link" href="#%ED%95%99%EC%8A%B5%EB%AA%A9%ED%91%9C"> </a>
+</h2>
+<p>Propensity score analysis의 목적과 정의를 설명할 수 있다.</p>
+<p>Propensity score의 정의를 알고, 추정하는 방법을 설명할 수 있다.</p>
+<p>PS matching 방법을 이해하고, 직접 수행할 수 있다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="주요용어">
+<a class="anchor" href="#%EC%A3%BC%EC%9A%94%EC%9A%A9%EC%96%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>주요용어<a class="anchor-link" href="#%EC%A3%BC%EC%9A%94%EC%9A%A9%EC%96%B4"> </a>
+</h3>
+<ul>
+<li>
+<p>Propensity(프로펜서티) score analysis : confounding이 존재하는 관찰연구의 데이터를 RCT의 데이터처럼 confounding이 없도록 가공하여 분석하는 방법</p>
+</li>
+<li>
+<p>Propensity score : 치료군에 속할 확률</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="목차">
+<a class="anchor" href="#%EB%AA%A9%EC%B0%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>목차<a class="anchor-link" href="#%EB%AA%A9%EC%B0%A8"> </a>
+</h3>
+<ol>
+<li>Motivation</li>
+<li>PS 추정 방법</li>
+<li>PS Matching<ul>
+<li>4가지 중 1가지 방법</li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Motivation(하는-이유)">
+<a class="anchor" href="#Motivation(%ED%95%98%EB%8A%94-%EC%9D%B4%EC%9C%A0)" aria-hidden="true"><span class="octicon octicon-link"></span></a>Motivation(하는 이유)<a class="anchor-link" href="#Motivation(%ED%95%98%EB%8A%94-%EC%9D%B4%EC%9C%A0)"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Association-vs.-causality">
+<a class="anchor" href="#Association-vs.-causality" aria-hidden="true"><span class="octicon octicon-link"></span></a>Association vs. causality<a class="anchor-link" href="#Association-vs.-causality"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>위험요소-질병간의 상관관계 -&gt; 인과관계를 살펴보고 있는데<ul>
+<li>상관관계가 곧 인과관계를 의미하지는 않는다</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>상관관계가 관측될 경우, 아래를 확인해야한다.<ul>
+<li>이 상관관계가 진짜인가?</li>
+<li>우연이나 잘못된 연구디자인에 의한 것인가?</li>
+</ul>
+</li>
+<li>상관관계가 진짜로 판단되는 경우<ul>
+<li>인과관계가 성립하는가?</li>
+<li><strong><code>confounding</code>에 의해 생겨난 상관관계인가?</strong></li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Confounding을-다루는-법">
+<a class="anchor" href="#Confounding%EC%9D%84-%EB%8B%A4%EB%A3%A8%EB%8A%94-%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>Confounding을 다루는 법<a class="anchor-link" href="#Confounding%EC%9D%84-%EB%8B%A4%EB%A3%A8%EB%8A%94-%EB%B2%95"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>연구 디자인 단계에서 confounding을 최대한 제거한다<ol>
+<li>랜덤화 -&gt; RCT를 하는 것</li>
+<li>매칭</li>
+</ol>
+</li>
+<li>데이터 분석 단계에서 confounding 효과를 보정한다<ol>
+<li>Stratification<ul>
+<li>confounder 값별로 그룹을 다시 나눠서 분석</li>
+</ul>
+</li>
+<li>Adjustment<ul>
+<li>multivariable model로 분석하는 것</li>
+</ul>
+</li>
+<li>Propensity score analysis<ul>
+<li>confounding 효과를 보정하기 위해서</li>
+<li>(마치 RCT에서 나온 것 같이) 데이터를 가공하여, X값을 랜덤하게 배정했을 때 관측될
+법한 virtual data를 만들어 분석한다</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Propensity-score-analysis">
+<a class="anchor" href="#Propensity-score-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Propensity score analysis<a class="anchor-link" href="#Propensity-score-analysis"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li><strong>Confounding이 존재하는 관찰연구의 데이터를 -&gt; <code>RCT의
+데이터처럼 confounding이 없도록 가공하여 분석</code>하는 것</strong></li>
+<li>
+<p><strong><code>Propensity score (PS)</code> : (치료군/대조군 비교 연구에서) 치료군에 속할 확률</strong></p>
+<ul>
+<li>위험요소 - 질병 or 치료방법 - 질병 간의 관계를 살펴볼 때<ul>
+<li>
+<code>위험요소O/X or 치료O/X</code> 2군으로 나누고, <code>질병 발생 빈도</code>를 살펴보게 된다.</li>
+</ul>
+</li>
+<li>
+<p>2군으로 나누었을 때, 그 중에 1군(치료군)에 속할 확률을 PS라 한다.</p>
+<ul>
+<li>RCT에서는, 모든 환자에 대해서 PS = 0.5(치료군 0.5 -&gt; 대조군도 0.5)</li>
+<li><strong>관찰연구에서는 PS(치료군에 속할 확률)는 알려지지 않은 (일정한 확률이 없는)미지의 값</strong></li>
+<li>관찰연구에서 PS는 환자 특성(or 치료자, 환자가 속한 지역/병원)에 따라 달라짐</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>PS를 사용하는 이유?<ul>
+<li><strong>PS에 condition을 하고나면, <code>baseline characteristics(환자 특성)</code>와 <code>treatment selection(치료군이냐 대조군이냐)</code>이 독립이 된다.</strong></li>
+<li>무슨 얘기냐?<ul>
+<li><strong>PS가 비슷한 환자들끼리 모아놓으면, 치료군/대조군의 baseline characteristics 분포가 비슷해진다</strong></li>
+</ul>
+</li>
+<li>원래는 환자 특성(baseline characteristics) -&gt; 환자가 치료군에 속할 확률(treatment selection)에 영향을 주게 되는데<ul>
+<li><strong>환자 특성을 일일히 확인해서 비슷한 사람들끼리 모아놓는게 아니라, 환자 특성에 영향 받는 PS만 알고 있다면, PS를 기준으로 비슷한 환자를 모아두기만 하면, 환자 특성 분포가 비슷해진다</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="PSA요구하는-4가지-가정">
+<a class="anchor" href="#PSA%EC%9A%94%EA%B5%AC%ED%95%98%EB%8A%94-4%EA%B0%80%EC%A7%80-%EA%B0%80%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>PSA요구하는 4가지 가정<a class="anchor-link" href="#PSA%EC%9A%94%EA%B5%AC%ED%95%98%EB%8A%94-4%EA%B0%80%EC%A7%80-%EA%B0%80%EC%A0%95"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>consistency(컨시스턴시)<ul>
+<li>환자가 받은 치료법에 따라서, 치료군이든 대조군이든 관측될만한 outcome(질병)이 있다. 그것이 real world에서 관측한 것과 outcome(질병)이 같다</li>
+<li>환자의 potential outcome = 실제로 관측된 outcome</li>
+</ul>
+</li>
+<li>no unmeasured confounder<ul>
+<li>모든 confounder를 알고 있고 관측했다는 가정</li>
+</ul>
+</li>
+<li>Positivity : 치료군이 될 확률＞0, 대조군이 될 확률＞0<ul>
+<li>어떤 환자든지 한쪽에만 속하는게 아니라 2군 각각 속할 확률이 존재한다</li>
+</ul>
+</li>
+<li>no misspecification of PS model<ul>
+<li>PS score 추정모델이 잘못되어선 안된다.</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>3번 제외 다른 가정들은 만족시키기 어렵다<ul>
+<li>모든 통계모델은 많은 가정아래 존재한다.</li>
+<li>그런데 항상 만족시키는 것은 아니다. 현실을 완벽하게 반영은 X</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Regression-vs.-PSA">
+<a class="anchor" href="#Regression-vs.-PSA" aria-hidden="true"><span class="octicon octicon-link"></span></a>Regression vs. PSA<a class="anchor-link" href="#Regression-vs.-PSA"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>PSA에 대한 사람들의 의문점<ul>
+<li>“Confounder는 공변량으로 Multivariable regression model에 넣으면 보정 되는 것 아닌가요?”<ul>
+<li>이것도 유효한 방법이나, treatment effect가 조금 다르게 나온다.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>Regression에서 추정하는 효과 : <code>conditional treatment effect</code><ul>
+<li>
+<code>각 환자 개개인</code>에서의 평균 효과</li>
+</ul>
+</li>
+<li>PSA와 RCT에서 추정하는 효과 : <code>marginal treatment effect</code><ul>
+<li>
+<code>모집단 전체에서의 모든 환자</code>의 평균 효과</li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Conditional-vs.-marginal">
+<a class="anchor" href="#Conditional-vs.-marginal" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conditional vs. marginal<a class="anchor-link" href="#Conditional-vs.-marginal"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>두 개는 뭐가 다른 것일까?</li>
+</ul>
+<ol>
+<li>
+<p>Conditional treatment effect in Regression</p>
+<ul>
+<li>“<code>한 환자</code>에게 혈압강하제를 투여하는 실험을 여러번 반복할 때, 평균적으로 수축기 혈압을 10만큼 낮춘다”<ul>
+<li>여기서 -10이 Conditional treatment effect이다.</li>
+<li>이 환자에게 약을 투약하는 실험을 여러번 반복해서 평균적으로 수축기혈압을 10만큼 낮춘다.<ul>
+<li>개인에서의 평균</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Marginal treatment effect in PSA, RCT</p>
+<ul>
+<li>“<code>고혈압 환자 전체</code>에서 평균적으로 수축기 혈압을 10만큼
+낮춘다”<ul>
+<li>여기서 -10이 ConditMarginal treatment  effect이다.</li>
+<li>각 환자에게 낮춰진 수축기혈압을 모두 구해, 모든 고혈압 환자에서 평균적으로 10만큼 낮춘다.<ul>
+<li>전체에서의 평균</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>
+<p>한 환자당 10만큼 낮추면(conditional) -&gt; 평균적으로 전체에서도 10만큼 낮춰질 수 밖에 없다.(marginal)</p>
+<ul>
+<li>이 것이 가능한 상황은, <ul>
+<li>현재 <code>연속현 변수(수축기혈압)의 평균</code>으로 추정하거나</li>
+<li>아니면, <code>이분형 변수에서 치료군vs대조군 비율의 차이(Risk Differenece)</code>로 계산할 경우에</li>
+<li>conditional == marginal treamment effect 로 항상 같다</li>
+</ul>
+</li>
+<li>하지만, </li>
+<li>효과가 <code>연속변수의 평균 차이 또는 이분형 변수의 비율차이(RD)</code>가 아니라 <code>OR 또는 생존분석의 Hazard Ratio</code>로 측정되는 경우도 있디.<ul>
+<li>conditional tx effect ≠ marginal tx effect로 다르다.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>그럼 무엇을 써야할지 어떻게 결정할까?</p>
+<ul>
+<li>
+<strong>내가 추정할 치료효과가 <code>RCT에서 나타나는 결과</code>와 유사한가?</strong><ul>
+<li><strong>yes라면, Multivariable regression가 아닌 Propensity score analysis가 더 적합하다 판단하고 Marginal treatment effect in PSA, RCT 를 구하면 된다.</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="2가지-남은-문제">
+<a class="anchor" href="#2%EA%B0%80%EC%A7%80-%EB%82%A8%EC%9D%80-%EB%AC%B8%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>2가지 남은 문제<a class="anchor-link" href="#2%EA%B0%80%EC%A7%80-%EB%82%A8%EC%9D%80-%EB%AC%B8%EC%A0%9C"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>PS를 어떻게 추정할 것인가</li>
+<li>PS가 비슷한 환자들은 confounder가 없는 상태라고 하는데, 비슷한 환자들은 어떻게 모아서 치료효과를 추정할 것인가?</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="PS-추정-방법">
+<a class="anchor" href="#PS-%EC%B6%94%EC%A0%95-%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>PS 추정 방법<a class="anchor-link" href="#PS-%EC%B6%94%EC%A0%95-%EB%B0%A9%EB%B2%95"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="PS를-추정하는-방법">
+<a class="anchor" href="#PS%EB%A5%BC-%EC%B6%94%EC%A0%95%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>PS를 추정하는 방법<a class="anchor-link" href="#PS%EB%A5%BC-%EC%B6%94%EC%A0%95%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95"> </a>
+</h3>
+<ul>
+<li>보통 로지스틱 회귀분석을 이용한다<ul>
+<li>Propensity score는 치료군에 속할 확률이라고 했다.</li>
+<li>
+<strong>치료군에 속하느냐? vs 대조군에 속하느냐?의 이분형 변수로 하는 로지스틱 회귀분석</strong>을 이용해서 추정한다.</li>
+<li>그렇다고 꼭 로지스틱 회귀분석을 사용하는 것이 아니라, <ul>
+<li>이분형 결과변수를 사용하는 모든 종류의 분석방법
+사용가능<ul>
+<li>예) SVM, neural network, tree, random forests</li>
+<li>결과변수(종속변수, 반응변수) : 실험군(치료군)/대조군</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>현실적으로는 로지스틱 회귀분석이 가장 많이 쓰인다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="PS-model의-설명변수">
+<a class="anchor" href="#PS-model%EC%9D%98-%EC%84%A4%EB%AA%85%EB%B3%80%EC%88%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>PS model의 설명변수<a class="anchor-link" href="#PS-model%EC%9D%98-%EC%84%A4%EB%AA%85%EB%B3%80%EC%88%98"> </a>
+</h3>
+<ul>
+<li>propensity score를 구하기 위해 regression model에 어떤 설명변수를 넣어야할까?<ul>
+<li>PS 개념상으로는 <code>이 사람이 치료군에 속할지/대조군에 속할지 결정(X, 치료여부)</code>에 영향을 끼치는 변수들을 모두 설명변수에 
+변수들(아래 그림 중 가운데에서 C)을 넣는 것이 맞는 것 같지만...</li>
+<li>X(어느군에 속할지 == 치료여부) -&gt; Y(outcome)</li>
+</ul>
+</li>
+<li>추가로, 여러 시뮬레이션을 통한 여러 연구결과:<ul>
+<li>
+<strong>치료군/대조군 결정(X)에 영향을 끼치지 않더라도 outcome(Y)에
+영향을 끼치는 변수들(3번째 그림)은 넣는 것이 좋다</strong>라고 연구 결과가 나왔다.<ul>
+<li>분산을 감소시킴 = p-value가 낮아짐 &amp;&amp; 신뢰구간 좁아짐 등의 효과**
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220515155431097.png" alt="image-20220515155431097"><ul>
+<li>X(치료여부)에는 영향을 끼치지 않더라도 Y(outcome)에 영향을 끼친다면 넣자.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<strong>outcome(Y)에 영향을 끼치지 않으면서 치료군/대조군 결정(X)에
+영향을 끼치는 변수들은 넣지 않는 것이 좋다 (분산을 증가시킴)</strong><ul>
+<li>PS정의상으로는 넣으면 좋을 것 같지만</li>
+<li>연구결과 넣지 않는 것이 더 좋다고 나옴</li>
+<li>가운데 그림의 C -&gt; <strong>넣지 않는 것이 좋다</strong>라고 연구결과가 나온 것도 있다.
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220515155403298.png" alt="image-20220515155403298">
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>그럼 어떤 것을 PS의 regression model에 어떤 설명변수를 넣어야할까?</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<strong>보통 Table 1에 들어가는 baseline characteristics는 치료군/대조군 결정(X)과 outcome(Y) 둘 다에 영향</strong>을 준다<ul>
+<li>→ <strong>다 포함하는 것이 좋다</strong>
+</li>
+<li><strong><code>table1의 기본특성은 거의다 confounder로 생각된다</code>. 다 포함시키면 된다.</strong></li>
+</ul>
+</li>
+<li>PS model은 overfitting 문제가 없다<ul>
+<li>원래 다변수 모델에서는<ul>
+<li>설명변수가 많아지면 -&gt; 데이터에 비해 모델이 복잡해져 overfitting이 발생하지만</li>
+</ul>
+</li>
+<li>
+<strong>PS model에서는 그런 overfitting 문제가 없다</strong><ul>
+<li>→ <strong>설명변수 개수에 제한이 없다</strong>
+</li>
+</ul>
+</li>
+<li>
+<strong>PS model은 우리가 알고 싶어하는 것에 대한 최종 model이 아니라 confounder 보정의 중간단계이기 때문에, 넣고 싶은만큼 많이 넣어도 된다.</strong><ul>
+<li><strong>조금이라도 confounder 같다고 의심되는 변수는 모조리 포함시키면 된다.</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<strong>절대 포함하면 안되는 변수</strong><ul>
+<li><code>치료군/대조군 결정 이후 관측된 변수</code></li>
+<li>PS의 정의= 치료군에 속할 확률<ul>
+<li>치료군/대조군 결정되기 이전의 변수들로 판단되어야한다</li>
+<li>군 결정이후 발생된 변수는, 과거(군 결정)에 영향을 주면 안된다.</li>
+</ul>
+</li>
+<li>cf) 관측만 결정 이후에 되었을뿐이지, 그 변수값 자체는 치료군vs대조군 결정이전에 결정된 경우도 있다.<ul>
+<li>예) 2가지 수술방법에 대한 비교 연구<ul>
+<li>수술이후 조직을 biopsy한 결과 -&gt; 치료군vs대조군 결정이후 = 수술방법 결정이후 관측되었지만</li>
+<li>수술이전에 이미 내부장기상태는 결정된 상태라고도 볼 수 있다.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="PS-Matching">
+<a class="anchor" href="#PS-Matching" aria-hidden="true"><span class="octicon octicon-link"></span></a>PS Matching<a class="anchor-link" href="#PS-Matching"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>PS model을 만들어서 PS를 추정했다고 가정하자<ul>
+<li>그 이후 다음 단계 분석은 어떻게 해야할까?</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="PS-추정-후-분석방법">
+<a class="anchor" href="#PS-%EC%B6%94%EC%A0%95-%ED%9B%84-%EB%B6%84%EC%84%9D%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>PS 추정 후 분석방법<a class="anchor-link" href="#PS-%EC%B6%94%EC%A0%95-%ED%9B%84-%EB%B6%84%EC%84%9D%EB%B0%A9%EB%B2%95"> </a>
+</h3>
+<pre><code>- Matching
+- Stratification
+- Weighting
+- Covariate adjustment(코베리에잇 어저스먼트)
+
+</code></pre>
+<ul>
+<li>예제<ul>
+<li>원의 크기 = 환자별 치료군에 속할 확률(PS)
+<img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220515193549.png" alt="20220515193549"><ul>
+<li>대조군에는 원의 크기가 작은 환자들이 많고</li>
+<li>치료군에는 원의 크기가 큰 환자들이 많다.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="PS-matching">
+<a class="anchor" href="#PS-matching" aria-hidden="true"><span class="octicon octicon-link"></span></a>PS matching<a class="anchor-link" href="#PS-matching"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>PS가 비슷한 환자별로 치료군:대조군 1:1 쌍을 지어주는 것<ul>
+<li>짝이 지어진 환자들만 분석하고, 짝이 안지어지면 분석에 사용안한다
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220515195426.png" alt="20220515195426">
+</li>
+<li>2군에 걸쳐 짝이 지어졌다 = 분포가 동일해진다. = 전체적으로 PS가 비슷해짐 = 다른 기본특성도 비슷해짐 = <strong>confounding이 제거된다.</strong>
+</li>
+<li>장점 : 직관적으로 이해가 쉽다</li>
+<li>단점 : 짝지어지지 않는 환자의 데이터를 잃어버린다<ul>
+<li><strong>n은 클수록 좋은데, 모아진 데이터를 버려야하니 큰 단점</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="매칭-방법">
+<a class="anchor" href="#%EB%A7%A4%EC%B9%AD-%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>매칭 방법<a class="anchor-link" href="#%EB%A7%A4%EC%B9%AD-%EB%B0%A9%EB%B2%95"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<p>With replacement vs. without replacement</p>
+<ul>
+<li>With replacement: 매칭해서 짝 지은 다음 -&gt; 복원 추출처럼 다른 환자랑 매칭가능하게 하는 것<ul>
+<li>통계적으로 더 좋은 성질을 가지지만, 여러번 들어갈 수 있어서 -&gt; 사람들이 껄끄럽게 생각함</li>
+</ul>
+</li>
+<li>
+<code>without</code>replacement: 비복원추출 -&gt; 매칭후 분석풀에서 재고<ul>
+<li>실제로 많이 사용되는 것</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Greedy vs. optimal matching vs. full matching</p>
+<ul>
+<li>
+<code>Greedy</code>: 한명씩 순차적으로 매칭<ul>
+<li>가장 많이 쓰임.</li>
+</ul>
+</li>
+<li>optimal: 전체적 2군의 PS가 비슷해지도록 한번에 매칭</li>
+<li>full: 버림없이 모든 환자를 매칭</li>
+</ul>
+</li>
+<li>
+<p>1:1 vs. n:1</p>
+<ul>
+<li>대조군이 너무 많을 경우 -&gt; 대조군:치료군 = 4:1까지 매칭된다.</li>
+</ul>
+</li>
+<li>
+<p>오스틴이 밝힌 가장 좋은 매칭 방법은?</p>
+<ul>
+<li>
+<code>nearest neighbor matching</code>(=Greedy) with <code>caliper</code><ul>
+<li>치료군 환자에 대해 가장 PS가 비슷한 환자를 뽑더라도, 가장 비슷한 PS를 뽑더라도, 치료군의 PS와 차이가 많이 나는 대조군이 뽑을 수 있다.</li>
+</ul>
+</li>
+<li>
+<strong>PS차이의 한계를 정해놓은 것 = <code>caliper</code></strong><ol>
+<li>
+<code>logit of PS</code>을 먼저 계산한다<ul>
+<li><code>log 𝑃𝑆/(1-𝑃𝑆)</code></li>
+</ul>
+</li>
+<li>logit of PS의 표준편차를 계산하고, 여기에 0.2를 곱한 값을 caliper로 생각한다.<ul>
+<li>0.2 * <code>SD</code> of <code>logit of PS</code>
+</li>
+</ul>
+</li>
+<li>위의 caliper를 치료군-대조군 matching시 PS차이 한계점으로 생각(넘으면 버림)하고 nearest neighbor matching을 돌리면, confounder로 인한 치료효과 추정치에 생기는  bias가 99%가 제거된다.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p>이로 인해 <strong><code>nearest neighbor(=Greedy) matching</code> with <code>caliper</code></strong>를 가장 많이 쓴다.</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="매칭-후-balance-평가">
+<a class="anchor" href="#%EB%A7%A4%EC%B9%AD-%ED%9B%84-balance-%ED%8F%89%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>매칭 후 balance 평가<a class="anchor-link" href="#%EB%A7%A4%EC%B9%AD-%ED%9B%84-balance-%ED%8F%89%EA%B0%80"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>매칭을 한 뒤, 잘 매칭되었는지 확인하기 위해<ul>
+<li><strong>PS matching -&gt; 목적:<code>confounding이 없어졌는지</code> == <code>baseline characteristic 차이가 정말 줄어들었는지</code>를 확인해야한다</strong></li>
+<li><strong>즉, baseline characteristics의 차이가 줄어들었는지 평가해야한다</strong></li>
+</ul>
+</li>
+<li>이 때, <code>매칭된 dataset</code>에 대해<ul>
+<li>잘못된 방식으로서<ul>
+<li>치료군과 대조군의 각 baseline characteristics의 요약통계량 계산 후</li>
+<li>
+<code>2군의 비교</code>이므로 <code>p-value</code>로 계산하면 될까?<ul>
+<li><strong>2군 비교시 p-value가 익숙해져 있어서 매칭데이터도 p-value로 비교하는 경우가 많다 -&gt; 좋은 방법이 아니다.</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<code>매칭된 dataset</code>을 p-value로 비교하면 왜 잘못된 방식일까?<ol>
+<li>p-value는 sample size에 영향을 받지만</li>
+<li>matching의 경우, 대부분 매칭되지 않는 환자들이 제외되어<ul>
+<li>original sample size보다 줄어들게 되고</li>
+<li>power가 줄어든다 -&gt; 두 군간의 차이가 있었더라도 -&gt; p-value는 높게 나올 수 있다.</li>
+<li>p-value가 높게 나온 것이, 줄어든 sample size 때문인데, 마치 matching이 잘되어서 p-value가 나온 것처럼 잘못된 impression을 줄 수 있다.</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>p-value로 비교한다는 것은<ul>
+<li>2군의 sample에 대해 2개의 큰 모집단이 있다는 것을 가정한 것이다.</li>
+<li>2개 모집단을 비교할 수 없어서 random sample을 뽑아, 2개 모집단을 추론하는 것이 p-value이다.</li>
+</ul>
+</li>
+<li>그러나 우리는 matching 했다<ul>
+<li>2군 뒤의 2개 모집단에 대한 관심은 잃은 상태다.</li>
+<li>2개 모집단은 애초에 baseline characteristic이 다르기 때문에, confounding으로 인한 치료효과 분석이 어렵다고 생각해서 인위적으로 matching을 하는 것<ul>
+<li>인위적으로 baseline characteristic를 맞춘, 인위적은 dataset을 보는 것 </li>
+<li>더이상 sample로 모집단을 추론(p-value)하는 것이 아니라 <code>sample 자체에 관심</code>을 가지게 되는 것이므로 <code>p-value로 2군 비교</code>는 적합하지 않다.</li>
+<li>개념적으로 아예 맞지 않는 것</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>그렇다면 옳은 매칭후 평가 방법은?<ul>
+<li>matching후 평가방법은 여러가지가 있다. 그 중에서 사용하기 편하고 이해하기 쉬운 방법인 <code>Standardized mean difference</code>를 통해 평가해보자</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Standardized-mean-difference-(SMD)">
+<a class="anchor" href="#Standardized-mean-difference-(SMD)" aria-hidden="true"><span class="octicon octicon-link"></span></a>Standardized mean difference (SMD)<a class="anchor-link" href="#Standardized-mean-difference-(SMD)"> </a>
+</h3>
+<ol>
+<li>
+<p>연속형 변수의 SMD</p>
+<ul>
+<li>복잡해보이지만, <code>치료군의 평균(X_bar_tx)</code>와 <code>대조군의 평균(X_bar_tx)</code>의 차이에서</li>
+<li>
+<p>치료군과 대조군의 표준편차를 잘 합친 것(<code>pooled SD</code>)으로 나누어, <code>데이터의 변동을 고려했을 때</code>의 평균 차이</p>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220517102216.png" alt="20220517102216"></p>
+</li>
+</ul>
+</li>
+</ol>
+<ol>
+<li>이분형 변수의 SMD<ul>
+<li>2 군의 비율 차이를 적당한 표준편차 값으로 나눈 것으로 생각하자
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220517102405.png" alt="20220517102405">
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>두 군간 평균의 차이가 pooled SD의 몇배인가</li>
+<li>SMD &lt; 0.1~0.2 이면 작은 차이로 간주</li>
+<li>매칭 이후 매칭변수들(PS model에 사용된 설명변수들)에 대해 SMD를 계산하고<ul>
+<li>대부분 0.1미만이면 좋다</li>
+<li>
+<strong>몇개는 0.1을 넘어 <code>모두 0.2 미만이면 balance가 잘 맞는 것</code>으로 평가</strong>
+  －　이정도면，<strong>매칭된　dataset에서　치료군과　대조군　사이에　baseline characteristic차이가　무시할만한　차이이다</strong>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="매칭-후-분석">
+<a class="anchor" href="#%EB%A7%A4%EC%B9%AD-%ED%9B%84-%EB%B6%84%EC%84%9D" aria-hidden="true"><span class="octicon octicon-link"></span></a>매칭 후 분석<a class="anchor-link" href="#%EB%A7%A4%EC%B9%AD-%ED%9B%84-%EB%B6%84%EC%84%9D"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<p>분석을 하려면, 우리가 애초에 궁금한 <code>치료효과</code>에 대해 평가해야한다.</p>
+<ul>
+<li>
+<code>치료여부-질병여부와의 association이 얼마나 강한가?</code>를 평가하는 <code>measure of association</code>를 이용해야한다.</li>
+<li>여러가지 방법이 있었다. <ul>
+<li>
+<code>OR</code>말고 RD(risk diffrence) = attributable risk라던가 relative risk를 계산할 수 있지만 </li>
+<li>OR이 가장 계산이 쉽고, 편리하기 때문에 대표로 사용해보자.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>매칭된 치료군과 대조군에서 결과변수의 차이</p>
+<ul>
+<li><strong>이분형 결과변수의 경우: <code>OR</code>과 <code>OR의 95% 신뢰구간</code>, <code>OR이 1인지 아닌지에 대한 p-value</code> 정도를 사용한다</strong></li>
+</ul>
+</li>
+<li>
+<p>보통의 방법을 사용하면 되는가?</p>
+<ul>
+<li>매칭된 dataset은, 매칭되면서 짝끼리 서로 비슷하게 맞춰놓은 상태기 때문에, <strong>환자가 서로 독립이라고 할 순 없다.</strong> 그래서 대부분의 통계방법은 서로 독립이라고 가정을 하는데, 일반적인 통계방법으로 분석하면 안된다. -&gt; <strong>매칭된 짝끼리는 독립이 아니라는 점을 고려해서 분석하는 것이 좋다는 것이 다수 의견이다.</strong>
+</li>
+</ul>
+</li>
+<li>
+<p>매칭된 짝은 <strong>서로 독립이 아니라는 점을 고려하여 분석</strong>한다</p>
+<ul>
+<li>이분형 결과변수의 경우:<ul>
+<li>
+<code>McNemar’s test</code> : p-value를 계산해주지만, OR자체를 계산해주지 않는다. <ul>
+<li>OR 계산하려면 logistic regression을 해야한다.</li>
+</ul>
+</li>
+<li>
+<code>conditional logistic regression</code><ul>
+<li>case-control study에서 사용했던 것. 매칭된 짝끼리 비슷한 점 = 독립이 아니라는 점을 이용할 수 있다.</li>
+</ul>
+</li>
+<li>
+<strong><code>logistic regression with correlation structure (GEE)</code></strong><ul>
+<li>일반 logistic regression을 하되, 매칭된 짝끼리의 correlation을 허용하면서 모델을 fit하는 것</li>
+<li>GEE model이라고 하는데, 사실은 계산방법이다.</li>
+<li><strong>GEE 계산을 통한 로지스틱 회귀분석을 통해 OR을 계산하고, 신뢰구간을 구하면 된다.</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>소수의견 : RCT에서 얻어진 데이터처럼 만들었기 때문에, RCT처럼 독립성을 가정하고 분석해야 한다는 관점도 존재한다</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>conditional logistic regression이나 logistic regression with correlation structure (GEE)을 수행할 때<ul>
+<li>결과 변수는 <code>질병여부</code>
+</li>
+<li>설명 변수는 <code>치료군vs대조군 여부</code>가 되는데</li>
+<li>
+<strong>애초에 confounder라고 생각했던 공변량들은 설명변수로 포함할 필요가 없게 된다.</strong><ul>
+<li>왜냐면, <strong><code>PS matching</code>을 통해 공변량 효과를 이미 제거된 상태가 되었기 때문이다.</strong>
+</li>
+<li>즉, multivarable이 아니라 univariable의 로지스틱 회분석해서 OR(오즈 레이시오)를 계산하면 된다는 것이다.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>그럼에도 불구하고, 공변량으로 포함시켜 계산하는 방법도 존재하는데 <code>doubly robust</code>하다라는 이름을 얻게 되었다.<ul>
+<li>PS model이 잘못됬거나 아니면, 최종 모델로 생각한 회귀분석이 잘못되었어도, OR 추정치가 unbiased하게 되는 좋은 성질을 갖게 된다고 한다.</li>
+<li>하지만, <strong>매칭 분석은 univariable model</strong>만 쓰면 된다. </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="R-실습">
+<a class="anchor" href="#R-%EC%8B%A4%EC%8A%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>R 실습<a class="anchor-link" href="#R-%EC%8B%A4%EC%8A%B5"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<code>MatchIt</code> 패키지를 이용한 PS matching<ul>
+<li>matchit() 함수 이용</li>
+<li>Austin이 추천한 <code>nearest neighbor matching with  caliper</code> = 0.2*SD of logit of PS 을 구현하는 방법 실습</li>
+</ul>
+</li>
+<li>
+<code>tableone</code> 패키지를 이용한 SMD 계산<ul>
+<li>CreateTableOne() 함수 이용</li>
+<li>매칭후 balance 계산을 위해 SMD를 계산.</li>
+</ul>
+</li>
+<li>
+<code>geepack</code> 패키지를 이용한 OR 추정<ul>
+<li>geeglm() 함수 이용</li>
+<li>매칭된 데이터셋에서 GEE방법으로 OR를 계산해주는 패키지</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="matchit()-from-MatchIt">
+<a class="anchor" href="#matchit()-from-MatchIt" aria-hidden="true"><span class="octicon octicon-link"></span></a>matchit() from MatchIt<a class="anchor-link" href="#matchit()-from-MatchIt"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>PS matching이외에 여러가지 매칭이 가능한 패키지이나 필요한 것만 설정하기
+<pre><code>matchit(formula, data, method, replace, ratio, distance, 
+link, caliper, std.caliper, m.order)</code></pre>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>formula : 매칭하려는 그룹 (치료군/대조군)~ 매칭변수1+매칭변수2+...+매칭변수d<ul>
+<li>
+<code>치료군이냐 대조군이냐 그룹변수</code> ~ <code>confounder라고 의심해서 PS model에 넣고 싶은 변수들을 더하기로 연결</code>
+</li>
+</ul>
+</li>
+<li>data : 데이터셋 이름</li>
+<li>method : 매칭방법. “nearest”라고 입력하면 nearest neighbor matching을 수행한다</li>
+<li>replace : 재복원여부. <ul>
+<li>디폴트는 FALSE (비복원표집, 한번 매칭된 환자는 다시 매칭되지 않는다)</li>
+<li>without replacement = 한번 매칭된 환자는 다시 매칭하지 않는 것이 default </li>
+</ul>
+</li>
+<li>Ratio : 매칭비율 (치료군 1명당 매칭되는 대조군 환자 수).  디폴트는 1.<ul>
+<li>치료군 1명당 매칭될 대조군의 수</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>distance=“glm”<ul>
+<li>matching 중에 Propensity Score matching을 이용하는 옵션</li>
+</ul>
+</li>
+<li>link=“logit”<ul>
+<li>caliper의 기준을 정하는데, PS의 logit를 거리측도로 사용하여 매칭을 수행한다</li>
+</ul>
+</li>
+<li>caliper=0.2<ul>
+<li>caliper 기준에 곱해줄 값을 입력</li>
+</ul>
+</li>
+<li>std.caliper = TRUE <ul>
+<li>caliper 의 표준편차를 기준으로 매칭</li>
+<li><strong>위 4가지를 다 설정해야, austin의 PS login의 SD의 0.2를 caliper로 사용한 매칭을 실시하게 된다</strong></li>
+</ul>
+</li>
+<li>m.order=“random”: 매칭을 수행하는 순서<ul>
+<li>
+<strong>입력하지 않으면 거리측도 값 = PS값이 큰 개체부터 순서대로 매칭한다.</strong><ul>
+<li>그러나 PS score 큰 수대로 매칭해봐야 장점이 없다. 랜덤으로 매칭하도록 선호된다.</li>
+</ul>
+</li>
+<li>“random”으로 입력하면 랜덤한 순서로 매칭하는데, 이 경우 matchit() 함수 실행 직전에 <code>set.seed()</code>함수로 seed number를 정해주어야 같은 결과를 재생산할 수 있다. (그렇지 않으면 matchit() 함수 실행 때마다 다른 매칭결과가 나온다</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="CreateTableOne()-from-tableone">
+<a class="anchor" href="#CreateTableOne()-from-tableone" aria-hidden="true"><span class="octicon octicon-link"></span></a>CreateTableOne() from tableone<a class="anchor-link" href="#CreateTableOne()-from-tableone"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>CreateTableOne(vars, data, strata)</code></pre>
+<ul>
+<li>임상과학 논문의 <code>Table 1에 해당하는 표</code>를 편리하게 만들 수
+있는 함수<ul>
+<li>vars : 표에 들어갈 변수 이름의 벡터</li>
+<li>data : 데이터셋 이름</li>
+<li>strata : 비교할 그룹을 나타내는 변수<ul>
+<li>스트레이라를 입력해주면, 그룹을 나눠 그룹별 요약통계량과 그룹별 p-value가 나온다.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>CreateTableOne()으로 만든 객체를 print() 안에 넣으면 표가
+인쇄된다<ul>
+<li>smd : TRUE로 입력하면 SMD를 계산해준다</li>
+<li>test : FALSE로 입력하면 p-value를 인쇄하지 않는다</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="geeglm()-from-geepack">
+<a class="anchor" href="#geeglm()-from-geepack" aria-hidden="true"><span class="octicon octicon-link"></span></a>geeglm() from geepack<a class="anchor-link" href="#geeglm()-from-geepack"> </a>
+</h3>
+<pre><code>geeglm(formula, id, family, corstr, std.err, data)</code></pre>
+<ul>
+<li>GLM(generalized linear model)을 GEE(generalized estimating equation) 방법으로 correlation structure를 주면서 fit하는 함수</li>
+<li>formula : 결과변수~설명변수<ul>
+<li>fitting하고 싶은 model 입력</li>
+</ul>
+</li>
+<li>
+<p>id : cluster를 나타내는 변수</p>
+<ul>
+<li>PS maching의 경우 같이 매칭된 자료의 경우 <code>matching id</code>를 넣어주면 된다.</li>
+<li>내가 생각하기에 correlate되어있는 클러스트를 나타내는 변수를 넣는다.</li>
+</ul>
+</li>
+<li>
+<p>family : GLM의 종류. 로지스틱 회귀분석의 경우 “binomial”</p>
+<ul>
+<li>로지스틱 회귀를 설정 옵션</li>
+</ul>
+</li>
+<li>corstr : cluster 내에서의 correlation structure. <ul>
+<li>어떤 correlation structure를 줄 것이냐</li>
+<li>
+<strong>“exchangeable”: cluster내에서 모든 개체 쌍의 correlation이 동일할 경우</strong><ul>
+<li>매칭된 환자(치료군 1명에 대조군 1~4)는 같은 cluster내에 있으며, 매칭 환자들 중에 아무 2명씩 짝을 지어도 항상 correlation같다는 옵션</li>
+<li>가장 무난한 옵션</li>
+</ul>
+</li>
+<li>“independence”: cluster내에서 모든 개체가 서로 독립일 경우<ul>
+<li>매칭된 cluster환자들 내(치료군+매칭된 대조군(들))이 서로 독립이라고 가정하고 싶을 때 쓰는 옵션이나</li>
+<li>매칭되었으니까 independent할텐데, 왜 쓸까?<ul>
+<li>어떤 복잡한 통계적 방법에 의해 이 방법이 더 타당하다고 주장/연구결과가 있어서 옵션으로 언급만</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>std.err : standard error 계산방식. <ul>
+<li>디폴트 “san.se”는 <code>robust estimator</code>방식으로 계산하게 되는데, 일반적인 방식이 아니라 데이터가 매칭=독립이 아니다라고 가정하여, 더 보수적으로 계산한 estimator다</li>
+<li>95% 신뢰구간과 p-value 계산시 영향을 끼친다 </li>
+<li><strong>robust estimator를 써야 더 보수적인 결과가 나오며 default옵션이다.</strong></li>
+</ul>
+</li>
+<li>data : 데이터셋 이름</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="코드-실습">
+<a class="anchor" href="#%EC%BD%94%EB%93%9C-%EC%8B%A4%EC%8A%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>코드 실습<a class="anchor-link" href="#%EC%BD%94%EB%93%9C-%EC%8B%A4%EC%8A%B5"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># install.packages("MatchIt") -&gt; 설치 안되서 터미널에서 아래와 같이</span>
+<span class="c1"># conda install -c conda-forge r-matchit</span>
+<span class="c1"># - ocnda로 검색해서 안되서, stackoverflow에서 얻은 설치주소</span>
+<span class="c1"># - https://stackoverflow.com/questions/71041174/installing-r-package-matchit-in-anaconda-environment</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">MatchIt</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># - matchIt 다른 곳에서 설치 -&gt; R을 4로 업데이트 -&gt; 추가적인 것 수동 업데이트</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">tableone</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+다음의 패키지를 부착합니다: 'dplyr'
+
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">data</span><span class="p">(</span><span class="s">"lalonde"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">head</span><span class="p">(</span><span class="n">lalonde</span><span class="p">)</span>
+<span class="c1"># treat	age	educ	race	married	nodegree	re74	re75	re78</span>
+<span class="c1"># 치료여부 / / 교육 / 결혼여부 / nodgree 고등학교졸업/ 년도별 연소득</span>
+<span class="c1"># 의료데이터는 아니나,, 가정하고 한다.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<table class="dataframe">
+<caption>A data.frame: 6 × 9</caption>
+<thead>
+	<tr>
+<th></th>
+<th scope="col">treat</th>
+<th scope="col">age</th>
+<th scope="col">educ</th>
+<th scope="col">race</th>
+<th scope="col">married</th>
+<th scope="col">nodegree</th>
+<th scope="col">re74</th>
+<th scope="col">re75</th>
+<th scope="col">re78</th>
+</tr>
+	<tr>
+<th></th>
+<th scope="col">&lt;int&gt;</th>
+<th scope="col">&lt;int&gt;</th>
+<th scope="col">&lt;int&gt;</th>
+<th scope="col">&lt;fct&gt;</th>
+<th scope="col">&lt;int&gt;</th>
+<th scope="col">&lt;int&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+	<tr>
+<th scope="row">NSW1</th>
+<td>1</td>
+<td>37</td>
+<td>11</td>
+<td>black </td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td> 9930.0460</td>
+</tr>
+	<tr>
+<th scope="row">NSW2</th>
+<td>1</td>
+<td>22</td>
+<td> 9</td>
+<td>hispan</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td> 3595.8940</td>
+</tr>
+	<tr>
+<th scope="row">NSW3</th>
+<td>1</td>
+<td>30</td>
+<td>12</td>
+<td>black </td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>24909.4500</td>
+</tr>
+	<tr>
+<th scope="row">NSW4</th>
+<td>1</td>
+<td>27</td>
+<td>11</td>
+<td>black </td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td> 7506.1460</td>
+</tr>
+	<tr>
+<th scope="row">NSW5</th>
+<td>1</td>
+<td>33</td>
+<td> 8</td>
+<td>black </td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>  289.7899</td>
+</tr>
+	<tr>
+<th scope="row">NSW6</th>
+<td>1</td>
+<td>22</td>
+<td> 9</td>
+<td>black </td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td> 4056.4940</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="이분형-결과변수-만들어주기">
+<a class="anchor" href="#%EC%9D%B4%EB%B6%84%ED%98%95-%EA%B2%B0%EA%B3%BC%EB%B3%80%EC%88%98-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>이분형 결과변수 만들어주기<a class="anchor-link" href="#%EC%9D%B4%EB%B6%84%ED%98%95-%EA%B2%B0%EA%B3%BC%EB%B3%80%EC%88%98-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A3%BC%EA%B8%B0"> </a>
+</h4>
+<ul>
+<li>re78이 5000을 넘는지 안넘는지로</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">dat1</span> <span class="o">&lt;-</span> <span class="n">lalonde</span> <span class="o">%&gt;%</span>
+    <span class="c1"># outcome 변수이름을 간단히 y로 둔다. </span>
+    <span class="c1"># re78이 5000달러를 넘으면 [질병여부 발생여부]로 임시로 가상으로 만든다.</span>
+    <span class="nf">mutate</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="nf">ifelse</span><span class="p">(</span><span class="n">re78</span> <span class="o">&gt;</span> <span class="m">5000</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">head</span><span class="p">(</span><span class="n">dat1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<table class="dataframe">
+<caption>A data.frame: 6 × 10</caption>
+<thead>
+	<tr>
+<th></th>
+<th scope="col">treat</th>
+<th scope="col">age</th>
+<th scope="col">educ</th>
+<th scope="col">race</th>
+<th scope="col">married</th>
+<th scope="col">nodegree</th>
+<th scope="col">re74</th>
+<th scope="col">re75</th>
+<th scope="col">re78</th>
+<th scope="col">y</th>
+</tr>
+	<tr>
+<th></th>
+<th scope="col">&lt;int&gt;</th>
+<th scope="col">&lt;int&gt;</th>
+<th scope="col">&lt;int&gt;</th>
+<th scope="col">&lt;fct&gt;</th>
+<th scope="col">&lt;int&gt;</th>
+<th scope="col">&lt;int&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+	<tr>
+<th scope="row">NSW1</th>
+<td>1</td>
+<td>37</td>
+<td>11</td>
+<td>black </td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td> 9930.0460</td>
+<td>1</td>
+</tr>
+	<tr>
+<th scope="row">NSW2</th>
+<td>1</td>
+<td>22</td>
+<td> 9</td>
+<td>hispan</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td> 3595.8940</td>
+<td>0</td>
+</tr>
+	<tr>
+<th scope="row">NSW3</th>
+<td>1</td>
+<td>30</td>
+<td>12</td>
+<td>black </td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>24909.4500</td>
+<td>1</td>
+</tr>
+	<tr>
+<th scope="row">NSW4</th>
+<td>1</td>
+<td>27</td>
+<td>11</td>
+<td>black </td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td> 7506.1460</td>
+<td>1</td>
+</tr>
+	<tr>
+<th scope="row">NSW5</th>
+<td>1</td>
+<td>33</td>
+<td> 8</td>
+<td>black </td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>  289.7899</td>
+<td>0</td>
+</tr>
+	<tr>
+<th scope="row">NSW6</th>
+<td>1</td>
+<td>22</td>
+<td> 9</td>
+<td>black </td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td> 4056.4940</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">dat1</span> <span class="o">&lt;-</span> <span class="n">lalonde</span> <span class="o">%&gt;%</span>
+    <span class="nf">mutate</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="nf">ifelse</span><span class="p">(</span><span class="n">re78</span> <span class="o">&gt;</span> <span class="m">5000</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="연속형--&gt;-범주형변수로-한꺼번에-처리하기-by-mutate_at">
+<a class="anchor" href="#%EC%97%B0%EC%86%8D%ED%98%95--&gt;-%EB%B2%94%EC%A3%BC%ED%98%95%EB%B3%80%EC%88%98%EB%A1%9C-%ED%95%9C%EA%BA%BC%EB%B2%88%EC%97%90-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B8%B0-by-mutate_at" aria-hidden="true"><span class="octicon octicon-link"></span></a>연속형 -&gt; 범주형변수로 한꺼번에 처리하기 by mutate_at<a class="anchor-link" href="#%EC%97%B0%EC%86%8D%ED%98%95--&gt;-%EB%B2%94%EC%A3%BC%ED%98%95%EB%B3%80%EC%88%98%EB%A1%9C-%ED%95%9C%EA%BA%BC%EB%B2%88%EC%97%90-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B8%B0-by-mutate_at"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># - y도 0 or 1로 바꿔줬는데, 연속형변수(숫자)처럼 되어있을 것이다.</span>
+<span class="c1"># - 연속형 변수는 min/max가 나와있다.</span>
+<span class="c1"># - 치료여부(treat) 와 질병여부(y)가 모두 연속형 변수로 되어있다.</span>
+<span class="c1">#   그외</span>
+<span class="nf">summary</span><span class="p">(</span><span class="n">dat1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>     treat             age             educ           race        married      
+ Min.   :0.0000   Min.   :16.00   Min.   : 0.00   black :243   Min.   :0.0000  
+ 1st Qu.:0.0000   1st Qu.:20.00   1st Qu.: 9.00   hispan: 72   1st Qu.:0.0000  
+ Median :0.0000   Median :25.00   Median :11.00   white :299   Median :0.0000  
+ Mean   :0.3013   Mean   :27.36   Mean   :10.27                Mean   :0.4153  
+ 3rd Qu.:1.0000   3rd Qu.:32.00   3rd Qu.:12.00                3rd Qu.:1.0000  
+ Max.   :1.0000   Max.   :55.00   Max.   :18.00                Max.   :1.0000  
+    nodegree           re74            re75              re78        
+ Min.   :0.0000   Min.   :    0   Min.   :    0.0   Min.   :    0.0  
+ 1st Qu.:0.0000   1st Qu.:    0   1st Qu.:    0.0   1st Qu.:  238.3  
+ Median :1.0000   Median : 1042   Median :  601.5   Median : 4759.0  
+ Mean   :0.6303   Mean   : 4558   Mean   : 2184.9   Mean   : 6792.8  
+ 3rd Qu.:1.0000   3rd Qu.: 7888   3rd Qu.: 3249.0   3rd Qu.:10893.6  
+ Max.   :1.0000   Max.   :35040   Max.   :25142.2   Max.   :60307.9  
+       y         
+ Min.   :0.0000  
+ 1st Qu.:0.0000  
+ Median :0.0000  
+ Mean   :0.4853  
+ 3rd Qu.:1.0000  
+ Max.   :1.0000  </pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">dat1</span> <span class="o">&lt;-</span> <span class="n">lalonde</span> <span class="o">%&gt;%</span>
+    <span class="nf">mutate</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="nf">ifelse</span><span class="p">(</span><span class="n">re78</span> <span class="o">&gt;</span> <span class="m">5000</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">))</span> <span class="o">%&gt;%</span>
+    <span class="c1"># vars(변수들), list(~하고싶은작업(.))   . 자리에 변수들이 들어간다.</span>
+    <span class="nf">mutate_at</span><span class="p">(</span><span class="nf">vars</span><span class="p">(</span><span class="n">treat</span><span class="p">,</span> <span class="n">married</span><span class="p">,</span> <span class="n">nodegree</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> 
+             <span class="nf">list</span><span class="p">(</span><span class="o">~</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">.</span><span class="p">)))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">dat1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre> treat        age             educ           race     married nodegree
+ 0:429   Min.   :16.00   Min.   : 0.00   black :243   0:359   0:227   
+ 1:185   1st Qu.:20.00   1st Qu.: 9.00   hispan: 72   1:255   1:387   
+         Median :25.00   Median :11.00   white :299                   
+         Mean   :27.36   Mean   :10.27                                
+         3rd Qu.:32.00   3rd Qu.:12.00                                
+         Max.   :55.00   Max.   :18.00                                
+      re74            re75              re78         y      
+ Min.   :    0   Min.   :    0.0   Min.   :    0.0   0:316  
+ 1st Qu.:    0   1st Qu.:    0.0   1st Qu.:  238.3   1:298  
+ Median : 1042   Median :  601.5   Median : 4759.0          
+ Mean   : 4558   Mean   : 2184.9   Mean   : 6792.8          
+ 3rd Qu.: 7888   3rd Qu.: 3249.0   3rd Qu.:10893.6          
+ Max.   :35040   Max.   :25142.2   Max.   :60307.9          </pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="매칭전-[치료군vs대조군(treat)별]-confounder의심변수들의-balance(2군간의-차이-by-p)확인-by-tableone">
+<a class="anchor" href="#%EB%A7%A4%EC%B9%AD%EC%A0%84-%5B%EC%B9%98%EB%A3%8C%EA%B5%B0vs%EB%8C%80%EC%A1%B0%EA%B5%B0(treat)%EB%B3%84%5D-confounder%EC%9D%98%EC%8B%AC%EB%B3%80%EC%88%98%EB%93%A4%EC%9D%98-balance(2%EA%B5%B0%EA%B0%84%EC%9D%98-%EC%B0%A8%EC%9D%B4-by-p)%ED%99%95%EC%9D%B8-by-tableone" aria-hidden="true"><span class="octicon octicon-link"></span></a>매칭전 [치료군vs대조군(treat)별] confounder의심변수들의 balance(2군간의 차이 by p)확인 by tableone<a class="anchor-link" href="#%EB%A7%A4%EC%B9%AD%EC%A0%84-%5B%EC%B9%98%EB%A3%8C%EA%B5%B0vs%EB%8C%80%EC%A1%B0%EA%B5%B0(treat)%EB%B3%84%5D-confounder%EC%9D%98%EC%8B%AC%EB%B3%80%EC%88%98%EB%93%A4%EC%9D%98-balance(2%EA%B5%B0%EA%B0%84%EC%9D%98-%EC%B0%A8%EC%9D%B4-by-p)%ED%99%95%EC%9D%B8-by-tableone"> </a>
+</h4>
+<ul>
+<li>4가지 변수를 confounder라고 가정하고 만들어준다.</li>
+<li>치료군 vs 대조군 = 치료여부를 의미하는 treat별로 봐야한다.</li>
+<li>CreateTableOne()이란 치료군vs대조군변수를 strata로 넣어, 표1을 생성하는 메서드다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="일단,-치료여부별-표1을-만들어서-confounder-유의미한-차이보기">
+<a class="anchor" href="#%EC%9D%BC%EB%8B%A8,-%EC%B9%98%EB%A3%8C%EC%97%AC%EB%B6%80%EB%B3%84-%ED%91%9C1%EC%9D%84-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%84%9C-confounder-%EC%9C%A0%EC%9D%98%EB%AF%B8%ED%95%9C-%EC%B0%A8%EC%9D%B4%EB%B3%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>일단, 치료여부별 표1을 만들어서 confounder 유의미한 차이보기<a class="anchor-link" href="#%EC%9D%BC%EB%8B%A8,-%EC%B9%98%EB%A3%8C%EC%97%AC%EB%B6%80%EB%B3%84-%ED%91%9C1%EC%9D%84-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%84%9C-confounder-%EC%9C%A0%EC%9D%98%EB%AF%B8%ED%95%9C-%EC%B0%A8%EC%9D%B4%EB%B3%B4%EA%B8%B0"> </a>
+</h5>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># install.packages("haven")</span>
+<span class="c1"># install.packages("forcats")</span>
+<span class="c1"># install.packages("hms")</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">tobj</span> <span class="o">&lt;-</span> <span class="nf">CreateTableOne</span><span class="p">(</span><span class="n">vars</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">"age"</span><span class="p">,</span> <span class="s">"educ"</span><span class="p">,</span> <span class="s">"married"</span><span class="p">,</span> <span class="s">"nodegree"</span><span class="p">),</span>
+                      <span class="n">data</span> <span class="o">=</span> <span class="n">dat1</span><span class="p">)</span>
+<span class="n">tobj</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>                  
+                   Overall      
+  n                  614        
+  age (mean (SD))  27.36 (9.88) 
+  educ (mean (SD)) 10.27 (2.63) 
+  married = 1 (%)    255 (41.5) 
+  nodegree = 1 (%)   387 (63.0) </pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># -&gt; treat 변수별로 보도록 strata를 treat로 지정해준다.</span>
+<span class="n">tobj</span> <span class="o">&lt;-</span> <span class="nf">CreateTableOne</span><span class="p">(</span><span class="n">vars</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">"age"</span><span class="p">,</span> <span class="s">"educ"</span><span class="p">,</span> <span class="s">"married"</span><span class="p">,</span> <span class="s">"nodegree"</span><span class="p">),</span>
+                      <span class="n">data</span> <span class="o">=</span> <span class="n">dat1</span><span class="p">,</span> <span class="n">strata</span> <span class="o">=</span> <span class="s">"treat"</span><span class="p">)</span>
+<span class="n">tobj</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>                  Stratified by treat
+                   0             1             p      test
+  n                  429           185                    
+  age (mean (SD))  28.03 (10.79) 25.82 (7.16)   0.011     
+  educ (mean (SD)) 10.24 (2.86)  10.35 (2.01)   0.633     
+  married = 1 (%)    220 (51.3)     35 (18.9)  &lt;0.001     
+  nodegree = 1 (%)   256 (59.7)    131 (70.8)   0.011     </pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">tobj</span> <span class="o">&lt;-</span> <span class="nf">CreateTableOne</span><span class="p">(</span><span class="n">vars</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">"age"</span><span class="p">,</span> <span class="s">"educ"</span><span class="p">,</span> <span class="s">"married"</span><span class="p">,</span> <span class="s">"nodegree"</span><span class="p">),</span>
+                      <span class="n">data</span> <span class="o">=</span> <span class="n">dat1</span><span class="p">,</span> <span class="n">strata</span> <span class="o">=</span> <span class="s">"treat"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">tobj</span><span class="p">)</span>
+
+<span class="c1"># treat가 0 , 즉 대조군에 대한 4가지 confounder변수의 요약통계량이 나온다.</span>
+<span class="c1"># 치료군에 대해서도 나온다.</span>
+<span class="c1"># 치료군 185, 대조군 429명의 정보도 나온다.</span>
+
+<span class="c1"># p-value를 보고, 2군간의 confounder( baseline characteristic)의 차이를 표1을 만들어서 본다.</span>
+<span class="c1"># -&gt; "p가 낮으면 두 군간의 유의미한 차이"가 있다는 뜻이다.</span>
+<span class="c1"># -&gt;age  married  nodegree 는 2군간에 유의미하게 차이가 난다.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                  Stratified by treat
+                   0             1             p      test
+  n                  429           185                    
+  age (mean (SD))  28.03 (10.79) 25.82 (7.16)   0.011     
+  educ (mean (SD)) 10.24 (2.86)  10.35 (2.01)   0.633     
+  married = 1 (%)    220 (51.3)     35 (18.9)  &lt;0.001     
+  nodegree = 1 (%)   256 (59.7)    131 (70.8)   0.011     
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="smd를-이용하여-balance평가-with-print(-tobj,-smd-=T)">
+<a class="anchor" href="#smd%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-balance%ED%8F%89%EA%B0%80-with-print(-tobj,-smd-=T)" aria-hidden="true"><span class="octicon octicon-link"></span></a>smd를 이용하여 balance평가 with print( tobj, smd =T)<a class="anchor-link" href="#smd%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-balance%ED%8F%89%EA%B0%80-with-print(-tobj,-smd-=T)"> </a>
+</h5>
+<ul>
+<li>smd는 매칭 후에 평가한다고 했는데, 매칭전  smd를 구해보면, 차후 얼마나 줄었는지  알 수 있다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">tobj</span> <span class="o">&lt;-</span> <span class="nf">CreateTableOne</span><span class="p">(</span><span class="n">vars</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">"age"</span><span class="p">,</span> <span class="s">"educ"</span><span class="p">,</span> <span class="s">"married"</span><span class="p">,</span> <span class="s">"nodegree"</span><span class="p">),</span>
+                      <span class="n">data</span> <span class="o">=</span> <span class="n">dat1</span><span class="p">,</span> <span class="n">strata</span> <span class="o">=</span> <span class="s">"treat"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">tobj</span><span class="p">,</span> <span class="n">smd</span> <span class="o">=</span> <span class="bp">T</span><span class="p">)</span>
+
+<span class="c1"># 0.2를 넘는 것(married)은 두 군간에 상당히 다르다는 것을 의미한다.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                  Stratified by treat
+                   0             1             p      test SMD   
+  n                  429           185                           
+  age (mean (SD))  28.03 (10.79) 25.82 (7.16)   0.011       0.242
+  educ (mean (SD)) 10.24 (2.86)  10.35 (2.01)   0.633       0.045
+  married = 1 (%)    220 (51.3)     35 (18.9)  &lt;0.001       0.721
+  nodegree = 1 (%)   256 (59.7)    131 (70.8)   0.011       0.235
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="matching의-목적:-2군간의-confounder의-p차이--&gt;-smd-차이를-0.2-미만으로-줄이는-것">
+<a class="anchor" href="#matching%EC%9D%98-%EB%AA%A9%EC%A0%81:-2%EA%B5%B0%EA%B0%84%EC%9D%98-confounder%EC%9D%98-p%EC%B0%A8%EC%9D%B4--&gt;-smd-%EC%B0%A8%EC%9D%B4%EB%A5%BC-0.2-%EB%AF%B8%EB%A7%8C%EC%9C%BC%EB%A1%9C-%EC%A4%84%EC%9D%B4%EB%8A%94-%EA%B2%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>matching의 목적: 2군간의 confounder의 p차이 -&gt; smd 차이를 0.2 미만으로 줄이는 것<a class="anchor-link" href="#matching%EC%9D%98-%EB%AA%A9%EC%A0%81:-2%EA%B5%B0%EA%B0%84%EC%9D%98-confounder%EC%9D%98-p%EC%B0%A8%EC%9D%B4--&gt;-smd-%EC%B0%A8%EC%9D%B4%EB%A5%BC-0.2-%EB%AF%B8%EB%A7%8C%EC%9C%BC%EB%A1%9C-%EC%A4%84%EC%9D%B4%EB%8A%94-%EA%B2%83"> </a>
+</h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="매칭-by-matching">
+<a class="anchor" href="#%EB%A7%A4%EC%B9%AD-by-matching" aria-hidden="true"><span class="octicon octicon-link"></span></a>매칭 by matching<a class="anchor-link" href="#%EB%A7%A4%EC%B9%AD-by-matching"> </a>
+</h4>
+<ul>
+<li>매칭 결과는 바로 쓰는 것이 아니라 mobj라는 객체에 저장해놓고 쓰는 것이 좋다.</li>
+<li>목적은 confounder들의 차이를 smd 0.2미만으로 줄여서, 2군간의 차이를 줄여놓는 것</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">mobj</span> <span class="o">&lt;-</span> <span class="nf">matchit</span><span class="p">(</span><span class="n">treat</span> <span class="o">~</span> <span class="n">age</span><span class="o">+</span><span class="n">educ</span><span class="o">+</span><span class="n">married</span><span class="o">+</span><span class="n">nodegree</span> <span class="p">,</span> <span class="c1"># formula : 치료여부 ~ confoiunder들</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">dat1</span><span class="p">,</span> <span class="c1"># dataset</span>
+                <span class="n">method</span> <span class="o">=</span> <span class="s">"nearest"</span><span class="p">,</span> <span class="c1"># 매칭 방법: austin의 nearest ~</span>
+                <span class="n">distance</span> <span class="o">=</span> <span class="s">"glm"</span><span class="p">,</span> <span class="c1"># 매칭 중 PS matching</span>
+                <span class="n">link</span> <span class="o">=</span> <span class="s">"logit"</span><span class="p">,</span> 
+                <span class="n">replace</span> <span class="o">=</span> <span class="bp">F</span><span class="p">,</span> <span class="c1"># 매칭된 환자 비복원</span>
+                <span class="n">capliper</span> <span class="o">=</span> <span class="m">0.2</span><span class="p">,</span> <span class="n">std.caliper</span> <span class="o">=</span> <span class="bp">T</span><span class="p">,</span> <span class="c1"># caliper 지정</span>
+                <span class="n">m.order</span> <span class="o">=</span> <span class="s">"random"</span><span class="p">,</span> <span class="c1">#매칭순서 -&gt; default방법 안좋음. random으로 지정</span>
+               <span class="p">)</span>
+
+<span class="c1"># 뭐가 들었는지 일단 summary 안에 넣어본다.</span>
+<span class="nf">summary</span><span class="p">(</span><span class="n">mobj</span><span class="p">)</span>
+
+<span class="c1"># 썩 보기 좋은게 아님.</span>
+<span class="c1"># 맨 마지막만 보고, 몇 쌍이 매칭 되어있는지 확인한다.</span>
+<span class="c1"># Sample Sizes:</span>
+<span class="c1">#           Control Treated</span>
+<span class="c1"># All           429     185</span>
+<span class="c1"># Matched       185     185</span>
+<span class="c1"># Unmatched     244       0</span>
+<span class="c1"># Discarded       0       0</span>
+
+<span class="c1"># -&gt; 185쌍이 매칭되었다.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+Call:
+matchit(formula = treat ~ age + educ + married + nodegree, data = dat1, 
+    method = "nearest", distance = "glm", link = "logit", replace = F, 
+    m.order = "random", std.caliper = T, capliper = 0.2)
+
+Summary of Balance for All Data:
+          Means Treated Means Control Std. Mean Diff. Var. Ratio eCDF Mean
+distance         0.3772        0.2686          0.8386     0.7471    0.2080
+age             25.8162       28.0303         -0.3094     0.4400    0.0813
+educ            10.3459       10.2354          0.0550     0.4959    0.0347
+married0         0.8108        0.4872          0.8263          .    0.3236
+married1         0.1892        0.5128         -0.8263          .    0.3236
+nodegree0        0.2919        0.4033         -0.2450          .    0.1114
+nodegree1        0.7081        0.5967          0.2450          .    0.1114
+          eCDF Max
+distance    0.3602
+age         0.1577
+educ        0.1114
+married0    0.3236
+married1    0.3236
+nodegree0   0.1114
+nodegree1   0.1114
+
+
+Summary of Balance for Matched Data:
+          Means Treated Means Control Std. Mean Diff. Var. Ratio eCDF Mean
+distance         0.3772        0.3745          0.0210     1.0358    0.0085
+age             25.8162       25.1730          0.0899     0.5492    0.0688
+educ            10.3459       10.6054         -0.1290     0.7558    0.0171
+married0         0.8108        0.8108          0.0000          .    0.0000
+married1         0.1892        0.1892          0.0000          .    0.0000
+nodegree0        0.2919        0.3297         -0.0832          .    0.0378
+nodegree1        0.7081        0.6703          0.0832          .    0.0378
+          eCDF Max Std. Pair Dist.
+distance    0.0865          0.0378
+age         0.2378          0.8348
+educ        0.0541          0.6130
+married0    0.0000          0.0000
+married1    0.0000          0.0000
+nodegree0   0.0378          0.2735
+nodegree1   0.0378          0.2735
+
+Percent Balance Improvement:
+          Std. Mean Diff. Var. Ratio eCDF Mean eCDF Max
+distance             97.5       87.9      95.9     76.0
+age                  70.9       27.0      15.4    -50.8
+educ               -134.8       60.1      50.8     51.5
+married0            100.0          .     100.0    100.0
+married1            100.0          .     100.0    100.0
+nodegree0            66.0          .      66.0     66.0
+nodegree1            66.0          .      66.0     66.0
+
+Sample Sizes:
+          Control Treated
+All           429     185
+Matched       185     185
+Unmatched     244       0
+Discarded       0       0
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="매칭된-데이터만-뽑아내기-from-mobj-by-match.data">
+<a class="anchor" href="#%EB%A7%A4%EC%B9%AD%EB%90%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A7%8C-%EB%BD%91%EC%95%84%EB%82%B4%EA%B8%B0-from-mobj-by-match.data" aria-hidden="true"><span class="octicon octicon-link"></span></a>매칭된 데이터만 뽑아내기 from mobj by match.data<a class="anchor-link" href="#%EB%A7%A4%EC%B9%AD%EB%90%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A7%8C-%EB%BD%91%EC%95%84%EB%82%B4%EA%B8%B0-from-mobj-by-match.data"> </a>
+</h5>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">m.data</span> <span class="o">&lt;-</span> <span class="nf">match.data</span><span class="p">(</span><span class="n">mobj</span><span class="p">)</span>
+
+<span class="nf">summary</span><span class="p">(</span><span class="n">m.data</span><span class="p">)</span>
+
+<span class="c1"># ps를 의미하는 distance가 보인다. </span>
+<span class="c1"># subclass -&gt; 짝 지어진 번호. 1인 환자 -&gt; 다른데 또 1인 매칭환자가 있다</span>
+<span class="c1"># - 즉, matching Id를 의미한다.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre> treat        age             educ           race     married nodegree
+ 0:185   Min.   :16.00   Min.   : 3.00   black :207   0:300   0:115   
+ 1:185   1st Qu.:19.00   1st Qu.: 9.00   hispan: 41   1: 70   1:255   
+         Median :23.00   Median :11.00   white :122                   
+         Mean   :25.49   Mean   :10.48                                
+         3rd Qu.:29.00   3rd Qu.:12.00                                
+         Max.   :55.00   Max.   :18.00                                
+                                                                      
+      re74            re75              re78         y          distance      
+ Min.   :    0   Min.   :    0.0   Min.   :    0.0   0:196   Min.   :0.08913  
+ 1st Qu.:    0   1st Qu.:    0.0   1st Qu.:  260.9   1:174   1st Qu.:0.30744  
+ Median :    0   Median :  310.6   Median : 4300.7           Median :0.41360  
+ Mean   : 2979   Mean   : 1779.0   Mean   : 6340.2           Mean   :0.37586  
+ 3rd Qu.: 3536   3rd Qu.: 2557.9   3rd Qu.: 9588.5           3rd Qu.:0.47373  
+ Max.   :35040   Max.   :25142.2   Max.   :60307.9           Max.   :0.58644  
+                                                                              
+    weights     subclass  
+ Min.   :1   1      :  2  
+ 1st Qu.:1   2      :  2  
+ Median :1   3      :  2  
+ Mean   :1   4      :  2  
+ 3rd Qu.:1   5      :  2  
+ Max.   :1   6      :  2  
+             (Other):358  </pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="매칭데이터-balance(치료여부별-confounder의-p/SMD-차이)-평가-by-CreateOneTable">
+<a class="anchor" href="#%EB%A7%A4%EC%B9%AD%EB%8D%B0%EC%9D%B4%ED%84%B0-balance(%EC%B9%98%EB%A3%8C%EC%97%AC%EB%B6%80%EB%B3%84-confounder%EC%9D%98-p/SMD-%EC%B0%A8%EC%9D%B4)-%ED%8F%89%EA%B0%80-by-CreateOneTable" aria-hidden="true"><span class="octicon octicon-link"></span></a>매칭데이터 balance(치료여부별 confounder의 p/SMD 차이) 평가 by CreateOneTable<a class="anchor-link" href="#%EB%A7%A4%EC%B9%AD%EB%8D%B0%EC%9D%B4%ED%84%B0-balance(%EC%B9%98%EB%A3%8C%EC%97%AC%EB%B6%80%EB%B3%84-confounder%EC%9D%98-p/SMD-%EC%B0%A8%EC%9D%B4)-%ED%8F%89%EA%B0%80-by-CreateOneTable"> </a>
+</h5>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">mobj</span> <span class="o">&lt;-</span> <span class="nf">CreateTableOne</span><span class="p">(</span><span class="n">vars</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">"age"</span><span class="p">,</span> <span class="s">"educ"</span><span class="p">,</span> <span class="s">"married"</span><span class="p">,</span> <span class="s">"nodegree"</span><span class="p">),</span>
+                      <span class="n">data</span> <span class="o">=</span> <span class="n">m.data</span><span class="p">,</span> <span class="n">strata</span> <span class="o">=</span> <span class="s">"treat"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">mobj</span><span class="p">,</span> <span class="n">smd</span> <span class="o">=</span> <span class="bp">T</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                  Stratified by treat
+                   0             1             p      test SMD   
+  n                  185           185                           
+  age (mean (SD))  25.17 (9.66)  25.82 (7.16)   0.467       0.076
+  educ (mean (SD)) 10.61 (2.31)  10.35 (2.01)   0.250       0.120
+  married = 1 (%)     35 (18.9)     35 (18.9)   1.000      &lt;0.001
+  nodegree = 1 (%)   124 (67.0)    131 (70.8)   0.500       0.082
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># print( , test = F)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">mobj</span><span class="p">,</span> <span class="n">smd</span> <span class="o">=</span> <span class="bp">T</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
+
+<span class="c1"># 매칭후에는 smd가 0.2보다 다 작다</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                  Stratified by treat
+                   0             1             SMD   
+  n                  185           185               
+  age (mean (SD))  25.17 (9.66)  25.82 (7.16)   0.076
+  educ (mean (SD)) 10.61 (2.31)  10.35 (2.01)   0.120
+  married = 1 (%)     35 (18.9)     35 (18.9)  &lt;0.001
+  nodegree = 1 (%)   124 (67.0)    131 (70.8)   0.082
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="random--&gt;-set.seed()">
+<a class="anchor" href="#random--&gt;-set.seed()" aria-hidden="true"><span class="octicon octicon-link"></span></a>random -&gt; set.seed()<a class="anchor-link" href="#random--&gt;-set.seed()"> </a>
+</h5>
+<ul>
+<li>원래는.. seed를 안정해주면, 매칭된 환자수가 바뀐다.</li>
+<li>결과 자체는 문제가 없으나 재현성이 없어져버린다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">mobj</span> <span class="o">&lt;-</span> <span class="nf">matchit</span><span class="p">(</span><span class="n">treat</span> <span class="o">~</span> <span class="n">age</span><span class="o">+</span><span class="n">educ</span><span class="o">+</span><span class="n">married</span><span class="o">+</span><span class="n">nodegree</span> <span class="p">,</span> <span class="c1"># formula : 치료여부 ~ confoiunder들</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">dat1</span><span class="p">,</span> <span class="c1"># dataset</span>
+                <span class="n">method</span> <span class="o">=</span> <span class="s">"nearest"</span><span class="p">,</span> <span class="c1"># 매칭 방법: austin의 nearest ~</span>
+                <span class="n">distance</span> <span class="o">=</span> <span class="s">"glm"</span><span class="p">,</span> <span class="c1"># 매칭 중 PS matching</span>
+                <span class="n">link</span> <span class="o">=</span> <span class="s">"logit"</span><span class="p">,</span> 
+                <span class="n">replace</span> <span class="o">=</span> <span class="bp">F</span><span class="p">,</span> <span class="c1"># 매칭된 환자 비복원</span>
+                <span class="n">capliper</span> <span class="o">=</span> <span class="m">0.2</span><span class="p">,</span> <span class="n">std.caliper</span> <span class="o">=</span> <span class="bp">T</span><span class="p">,</span> <span class="c1"># caliper 지정</span>
+                <span class="n">m.order</span><span class="o">=</span> <span class="s">"random"</span><span class="p">,</span><span class="c1">#매칭순서 -&gt; default방법 안좋음. random으로 지정</span>
+               <span class="p">)</span>
+
+<span class="n">m.data</span> <span class="o">&lt;-</span> <span class="nf">match.data</span><span class="p">(</span><span class="n">mobj</span><span class="p">)</span>
+
+<span class="n">tobj</span> <span class="o">&lt;-</span> <span class="nf">CreateTableOne</span><span class="p">(</span><span class="n">vars</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">"age"</span><span class="p">,</span> <span class="s">"educ"</span><span class="p">,</span> <span class="s">"married"</span><span class="p">,</span> <span class="s">"nodegree"</span><span class="p">),</span>
+                      <span class="n">data</span> <span class="o">=</span> <span class="n">m.data</span><span class="p">,</span> <span class="n">strata</span> <span class="o">=</span> <span class="s">"treat"</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">tobj</span><span class="p">,</span> <span class="n">smd</span> <span class="o">=</span> <span class="bp">T</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="bp">F</span><span class="p">)</span>
+
+<span class="c1"># 원래는 seed를 정해주지 않으면, 매칭 n수가 바귄다.</span>
+<span class="c1"># -&gt; 여기서는 m.order = random을 바꾸면 SMD가 바껴서 적용은 되는 것 같다.</span>
+<span class="c1"># -&gt; 혹은 seed가 자동적용되었을 가능성이 있다.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                  Stratified by treat
+                   0             1             SMD   
+  n                  185           185               
+  age (mean (SD))  25.05 (9.51)  25.82 (7.16)   0.091
+  educ (mean (SD)) 10.64 (2.30)  10.35 (2.01)   0.138
+  married = 1 (%)     35 (18.9)     35 (18.9)  &lt;0.001
+  nodegree = 1 (%)   123 (66.5)    131 (70.8)   0.093
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">2022</span><span class="p">)</span>
+
+<span class="n">mobj</span> <span class="o">&lt;-</span> <span class="nf">matchit</span><span class="p">(</span><span class="n">treat</span> <span class="o">~</span> <span class="n">age</span><span class="o">+</span><span class="n">educ</span><span class="o">+</span><span class="n">married</span><span class="o">+</span><span class="n">nodegree</span> <span class="p">,</span> <span class="c1"># formula : 치료여부 ~ confoiunder들</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">dat1</span><span class="p">,</span> <span class="c1"># dataset</span>
+                <span class="n">method</span> <span class="o">=</span> <span class="s">"nearest"</span><span class="p">,</span> <span class="c1"># 매칭 방법: austin의 nearest ~</span>
+                <span class="n">distance</span> <span class="o">=</span> <span class="s">"glm"</span><span class="p">,</span> <span class="c1"># 매칭 중 PS matching</span>
+                <span class="n">link</span> <span class="o">=</span> <span class="s">"logit"</span><span class="p">,</span> 
+                <span class="n">replace</span> <span class="o">=</span> <span class="bp">F</span><span class="p">,</span> <span class="c1"># 매칭된 환자 비복원</span>
+                <span class="n">capliper</span> <span class="o">=</span> <span class="m">0.2</span><span class="p">,</span> <span class="n">std.caliper</span> <span class="o">=</span> <span class="bp">T</span><span class="p">,</span> <span class="c1"># caliper 지정</span>
+                <span class="n">m.order</span><span class="o">=</span> <span class="s">"random"</span><span class="p">,</span><span class="c1">#매칭순서 -&gt; default방법 안좋음. random으로 지정</span>
+               <span class="p">)</span>
+
+<span class="n">m.data</span> <span class="o">&lt;-</span> <span class="nf">match.data</span><span class="p">(</span><span class="n">mobj</span><span class="p">)</span>
+
+<span class="n">tobj</span> <span class="o">&lt;-</span> <span class="nf">CreateTableOne</span><span class="p">(</span><span class="n">vars</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">"age"</span><span class="p">,</span> <span class="s">"educ"</span><span class="p">,</span> <span class="s">"married"</span><span class="p">,</span> <span class="s">"nodegree"</span><span class="p">),</span>
+                      <span class="n">data</span> <span class="o">=</span> <span class="n">m.data</span><span class="p">,</span> <span class="n">strata</span> <span class="o">=</span> <span class="s">"treat"</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">tobj</span><span class="p">,</span> <span class="n">smd</span> <span class="o">=</span> <span class="bp">T</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="bp">F</span><span class="p">)</span>
+
+<span class="c1"># SMD가 다 0.2 이하라서 2군간의 confounder차이가 사라지도록 매칭된 데이터가 완성되었다.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                  Stratified by treat
+                   0             1             SMD   
+  n                  185           185               
+  age (mean (SD))  25.12 (9.68)  25.82 (7.16)   0.081
+  educ (mean (SD)) 10.61 (2.31)  10.35 (2.01)   0.120
+  married = 1 (%)     35 (18.9)     35 (18.9)  &lt;0.001
+  nodegree = 1 (%)   124 (67.0)    131 (70.8)   0.082
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="1:2-매칭-by-ratio=2">
+<a class="anchor" href="#1:2-%EB%A7%A4%EC%B9%AD-by-ratio=2" aria-hidden="true"><span class="octicon octicon-link"></span></a>1:2 매칭 by ratio=2<a class="anchor-link" href="#1:2-%EB%A7%A4%EC%B9%AD-by-ratio=2"> </a>
+</h5>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">2022</span><span class="p">)</span>
+
+<span class="n">mobj</span> <span class="o">&lt;-</span> <span class="nf">matchit</span><span class="p">(</span><span class="n">treat</span> <span class="o">~</span> <span class="n">age</span><span class="o">+</span><span class="n">educ</span><span class="o">+</span><span class="n">married</span><span class="o">+</span><span class="n">nodegree</span> <span class="p">,</span> <span class="c1"># formula : 치료여부 ~ confoiunder들</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">dat1</span><span class="p">,</span> <span class="c1"># dataset</span>
+                <span class="n">method</span> <span class="o">=</span> <span class="s">"nearest"</span><span class="p">,</span> <span class="c1"># 매칭 방법: austin의 nearest ~</span>
+                <span class="n">distance</span> <span class="o">=</span> <span class="s">"glm"</span><span class="p">,</span> <span class="c1"># 매칭 중 PS matching</span>
+                <span class="n">link</span> <span class="o">=</span> <span class="s">"logit"</span><span class="p">,</span> 
+                <span class="n">replace</span> <span class="o">=</span> <span class="bp">F</span><span class="p">,</span> <span class="c1"># 매칭된 환자 비복원</span>
+                <span class="n">capliper</span> <span class="o">=</span> <span class="m">0.2</span><span class="p">,</span> <span class="n">std.caliper</span> <span class="o">=</span> <span class="bp">T</span><span class="p">,</span> <span class="c1"># caliper 지정</span>
+                <span class="n">m.order</span><span class="o">=</span> <span class="s">"random"</span><span class="p">,</span><span class="c1">#매칭순서 -&gt; default방법 안좋음. random으로 지정</span>
+                <span class="n">ratio</span><span class="o">=</span><span class="m">2</span><span class="p">,</span> <span class="c1"># 치료군(1) 한명당 대조군 2명을 붙인다.</span>
+               <span class="p">)</span>
+
+<span class="n">m.data</span> <span class="o">&lt;-</span> <span class="nf">match.data</span><span class="p">(</span><span class="n">mobj</span><span class="p">)</span>
+
+<span class="n">tobj</span> <span class="o">&lt;-</span> <span class="nf">CreateTableOne</span><span class="p">(</span><span class="n">vars</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">"age"</span><span class="p">,</span> <span class="s">"educ"</span><span class="p">,</span> <span class="s">"married"</span><span class="p">,</span> <span class="s">"nodegree"</span><span class="p">),</span>
+                      <span class="n">data</span> <span class="o">=</span> <span class="n">m.data</span><span class="p">,</span> <span class="n">strata</span> <span class="o">=</span> <span class="s">"treat"</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">tobj</span><span class="p">,</span> <span class="n">smd</span> <span class="o">=</span> <span class="bp">T</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="bp">F</span><span class="p">)</span>
+
+<span class="c1"># 만약, 185명의 2배가 아니라 더 적게 매칭되었다면?</span>
+<span class="c1"># -&gt; caliper가 있어서, PS가 비슷한 환자를 찾지 못해서 1명만 매칭된 경우가 포함되어있다.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                  Stratified by treat
+                   0             1             SMD   
+  n                  370           185               
+  age (mean (SD))  27.88 (11.19) 25.82 (7.16)   0.220
+  educ (mean (SD)) 10.35 (2.56)  10.35 (2.01)   0.002
+  married = 1 (%)    161 (43.5)     35 (18.9)   0.551
+  nodegree = 1 (%)   240 (64.9)    131 (70.8)   0.128
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="매칭된-데이터에서-치료효과(y)-평가-by-GEE">
+<a class="anchor" href="#%EB%A7%A4%EC%B9%AD%EB%90%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%97%90%EC%84%9C-%EC%B9%98%EB%A3%8C%ED%9A%A8%EA%B3%BC(y)-%ED%8F%89%EA%B0%80-by-GEE" aria-hidden="true"><span class="octicon octicon-link"></span></a>매칭된 데이터에서 치료효과(y) 평가 by GEE<a class="anchor-link" href="#%EB%A7%A4%EC%B9%AD%EB%90%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%97%90%EC%84%9C-%EC%B9%98%EB%A3%8C%ED%9A%A8%EA%B3%BC(y)-%ED%8F%89%EA%B0%80-by-GEE"> </a>
+</h4>
+<ul>
+<li>GEE를 통한 회귀분석 : geepack</li>
+<li>회귀계수를 OR로 바꿔주는 패키지 : broom</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">geepack</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">broom</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="0,1범주형을--&gt;-0,1-연속형으로-만드는-sense-(-bool--&gt;-as.double-)">
+<a class="anchor" href="#0,1%EB%B2%94%EC%A3%BC%ED%98%95%EC%9D%84--&gt;-0,1-%EC%97%B0%EC%86%8D%ED%98%95%EC%9C%BC%EB%A1%9C-%EB%A7%8C%EB%93%9C%EB%8A%94-sense-(-bool--&gt;-as.double-)" aria-hidden="true"><span class="octicon octicon-link"></span></a>0,1범주형을 -&gt; 0,1 연속형으로 만드는 sense ( bool -&gt; as.double )<a class="anchor-link" href="#0,1%EB%B2%94%EC%A3%BC%ED%98%95%EC%9D%84--&gt;-0,1-%EC%97%B0%EC%86%8D%ED%98%95%EC%9C%BC%EB%A1%9C-%EB%A7%8C%EB%93%9C%EB%8A%94-sense-(-bool--&gt;-as.double-)"> </a>
+</h5>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># -&gt; 결과변수를 다시 연속형 변수로 매핑해줘야한다.</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">m.data</span><span class="o">$</span><span class="n">y</span> <span class="o">==</span> <span class="m">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+&lt;ol class=list-inline&gt;<li>TRUE</li>
+<li>FALSE</li>
+<li>TRUE</li>
+<li>TRUE</li>
+<li>FALSE</li>
+<li>FALSE</li>&lt;/ol&gt;
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">head</span><span class="p">(</span><span class="nf">as.double</span><span class="p">(</span><span class="n">m.data</span><span class="o">$</span><span class="n">y</span> <span class="o">==</span> <span class="m">1</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+&lt;ol class=list-inline&gt;<li>1</li>
+<li>0</li>
+<li>1</li>
+<li>1</li>
+<li>0</li>
+<li>0</li>&lt;/ol&gt;
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="최종-회귀분석에서는-결과변수(질병여부,-연속형)-~-설명변수(치료여부),-id=매칭id변수(subclass)--2+1-개의-변수만">
+<a class="anchor" href="#%EC%B5%9C%EC%A2%85-%ED%9A%8C%EA%B7%80%EB%B6%84%EC%84%9D%EC%97%90%EC%84%9C%EB%8A%94-%EA%B2%B0%EA%B3%BC%EB%B3%80%EC%88%98(%EC%A7%88%EB%B3%91%EC%97%AC%EB%B6%80,-%EC%97%B0%EC%86%8D%ED%98%95)-~-%EC%84%A4%EB%AA%85%EB%B3%80%EC%88%98(%EC%B9%98%EB%A3%8C%EC%97%AC%EB%B6%80),-id=%EB%A7%A4%EC%B9%ADid%EB%B3%80%EC%88%98(subclass)--2+1-%EA%B0%9C%EC%9D%98-%EB%B3%80%EC%88%98%EB%A7%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>최종 회귀분석에서는 결과변수(질병여부, 연속형) ~ 설명변수(치료여부), id=매칭id변수(subclass)  2+1 개의 변수만<a class="anchor-link" href="#%EC%B5%9C%EC%A2%85-%ED%9A%8C%EA%B7%80%EB%B6%84%EC%84%9D%EC%97%90%EC%84%9C%EB%8A%94-%EA%B2%B0%EA%B3%BC%EB%B3%80%EC%88%98(%EC%A7%88%EB%B3%91%EC%97%AC%EB%B6%80,-%EC%97%B0%EC%86%8D%ED%98%95)-~-%EC%84%A4%EB%AA%85%EB%B3%80%EC%88%98(%EC%B9%98%EB%A3%8C%EC%97%AC%EB%B6%80),-id=%EB%A7%A4%EC%B9%ADid%EB%B3%80%EC%88%98(subclass)--2+1-%EA%B0%9C%EC%9D%98-%EB%B3%80%EC%88%98%EB%A7%8C"> </a>
+</h5>
+<ul>
+<li>match된 데이터 = 이미 2군간(treat) confounder 제거된, RCT 데이터 같은 데이터<ul>
+<li>효과를 제거한 변수들 4개를 넣은 doubly robust 방법을 쓸 수 도 있지만,  여기선 simple하게 univarable model을 쓴다.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">obj</span> <span class="o">&lt;-</span> <span class="nf">geeglm</span><span class="p">(</span><span class="nf">as.double</span><span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="m">1</span><span class="p">)</span> <span class="o">~</span> <span class="n">treat</span><span class="p">,</span> 
+           <span class="n">data</span> <span class="o">=</span> <span class="n">m.data</span><span class="p">,</span> <span class="c1"># </span>
+           <span class="n">id</span> <span class="o">=</span> <span class="n">subclass</span><span class="p">,</span> <span class="c1"># subclass칼럼에 정의된 각 매칭id를 제시하여 correlation이 있다는 것을 알려준다.</span>
+           <span class="n">family</span> <span class="o">=</span> <span class="s">"binomial"</span><span class="p">,</span> <span class="c1"># 로지스틱 회귀분석 명시</span>
+           <span class="n">corstr</span> <span class="o">=</span> <span class="s">"exchangeable"</span><span class="p">,</span> <span class="c1"># correlation structrue 암기...</span>
+           <span class="n">std.err</span> <span class="o">=</span> <span class="s">"san.se"</span><span class="p">,</span> <span class="c1"># default라 안써도 되는 에러 계산시, robust estimator 사용</span>
+          <span class="p">)</span>
+
+<span class="c1"># 회귀분석 결과는 기본적으로 summary에 넣으면 된다.</span>
+<span class="nf">summary</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+
+<span class="c1">#  Coefficients:</span>
+<span class="c1">#             Estimate  Std.err  Wald Pr(&gt;|W|)</span>
+<span class="c1"># (Intercept) -0.01093  0.10426 0.011    0.917</span>
+<span class="c1"># treat1      -0.17337  0.18076 0.920    0.337</span>
+
+
+<span class="c1"># treat1에 있는 Estimate -&gt; 회귀계수 -0.17337 과 p-value 0.337</span>
+<span class="c1"># -&gt; 강의랑 달라서 아래 스샷을 바탕으로...</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+Call:
+geeglm(formula = as.double(y == 1) ~ treat, family = "binomial", 
+    data = m.data, id = subclass, corstr = "exchangeable", std.err = "san.se")
+
+ Coefficients:
+            Estimate Std.err Wald Pr(&gt;|W|)
+(Intercept)  -0.0109  0.1043 0.01     0.92
+treat1       -0.1734  0.1808 0.92     0.34
+
+Correlation structure = exchangeable 
+Estimated Scale Parameters:
+
+            Estimate Std.err
+(Intercept)        1  0.0047
+  Link = identity 
+
+Estimated Correlation Parameters:
+      Estimate Std.err
+alpha     1.01   0.104
+Number of clusters:   553  Maximum cluster size: 2 </pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220517173355.png" alt="20220517173355"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="회귀분석-결과obj로-OR를-구하기-by-broom패키지의-tidy()">
+<a class="anchor" href="#%ED%9A%8C%EA%B7%80%EB%B6%84%EC%84%9D-%EA%B2%B0%EA%B3%BCobj%EB%A1%9C-OR%EB%A5%BC-%EA%B5%AC%ED%95%98%EA%B8%B0-by-broom%ED%8C%A8%ED%82%A4%EC%A7%80%EC%9D%98-tidy()" aria-hidden="true"><span class="octicon octicon-link"></span></a>회귀분석 결과obj로 OR를 구하기 by broom패키지의 tidy()<a class="anchor-link" href="#%ED%9A%8C%EA%B7%80%EB%B6%84%EC%84%9D-%EA%B2%B0%EA%B3%BCobj%EB%A1%9C-OR%EB%A5%BC-%EA%B5%AC%ED%95%98%EA%B8%B0-by-broom%ED%8C%A8%ED%82%A4%EC%A7%80%EC%9D%98-tidy()"> </a>
+</h5>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># treat1의 p-value가 0.05보다 크다  == treat1이라는 변수는 회귀변수 결과변수에 별로 안중요하다?!</span>
+<span class="c1"># -&gt; treat여부가 질병발생(outcome발생) 비율에 유의미한 영향을 주지 않는다?!</span>
+
+<span class="c1"># 주의) 여기서의 p-value는 회귀계수 자체의 p-value이지, OR이 아니다.</span>
+<span class="c1"># -&gt; 우리가 해석할 것은 treat의 회귀변수의 p-value가 아니라 OR를 구해야한다.</span>
+
+<span class="c1"># broom패키지의 tidy()함수로 회귀분석결과 -&gt; OR를 바로 구할 수 있다.</span>
+<span class="nf">tidy</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">exponentiate</span> <span class="o">=</span> <span class="bp">T</span><span class="p">,</span> <span class="n">conf.int</span> <span class="o">=</span> <span class="bp">T</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<table class="dataframe">
+<caption>A tibble: 2 × 7</caption>
+<thead>
+	<tr>
+<th scope="col">term</th>
+<th scope="col">estimate</th>
+<th scope="col">std.error</th>
+<th scope="col">statistic</th>
+<th scope="col">p.value</th>
+<th scope="col">conf.low</th>
+<th scope="col">conf.high</th>
+</tr>
+	<tr>
+<th scope="col">&lt;chr&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+	<tr>
+<td>(Intercept)</td>
+<td>0.989</td>
+<td>0.104</td>
+<td>0.011</td>
+<td>0.917</td>
+<td>0.806</td>
+<td>1.21</td>
+</tr>
+	<tr>
+<td>treat1     </td>
+<td>0.841</td>
+<td>0.181</td>
+<td>0.920</td>
+<td>0.337</td>
+<td>0.590</td>
+<td>1.20</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220517174130.png" alt="20220517174130"></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># conf.low ~ conf.high는 OR의 95%신뢰구간 하한~상한이다.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="정리하기">
+<a class="anchor" href="#%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>정리하기<a class="anchor-link" href="#%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0"> </a>
+</h2>
+<ul>
+<li>Propensity score analysis (PSA)가 어떻게 confounder들을 없앤 데이터를 만드는지 알아봤다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>Propensity score analysis (PSA)는 confounding이 존재하는 관찰연구의 데이터를 <code>RCT의 데이터처럼 confounding이 없도록 가공하여 분석하는 방법</code>이다.</li>
+<li>
+<code>Propensity score (PS)</code>는 <code>치료군에 속할 확률</code>을 의미한다.</li>
+<li>PS는 <code>보통 로지스틱 회귀분석으로 추정</code>하며, PS 모델에는 <code>outcome에 영향을 끼칠 것으로 생각되는 변수를 모두 넣는 것이 좋다. 단, 치료군/대조군 결정이후에 관측된 변수는 넣으면 안된다.</code>
+</li>
+<li>PS 추정 이후 분석 방법에는 matching, stratification, weighting, covariate adjustment 등이 있다.</li>
+<li>PS matching 후 치료군과 대조군의 balance는 standardized mean difference (SMD)로 평가할 수 있다.</li>
+<li>PS matching된 데이터는 matching을 고려하여 분석한다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="연습문제">
+<a class="anchor" href="#%EC%97%B0%EC%8A%B5%EB%AC%B8%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>연습문제<a class="anchor-link" href="#%EC%97%B0%EC%8A%B5%EB%AC%B8%EC%A0%9C"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="01-다음-중-Propensity-score-analysis에-대한-설명으로-틀린-것은?">
+<a class="anchor" href="#01-%EB%8B%A4%EC%9D%8C-%EC%A4%91-Propensity-score-analysis%EC%97%90-%EB%8C%80%ED%95%9C-%EC%84%A4%EB%AA%85%EC%9C%BC%EB%A1%9C-%ED%8B%80%EB%A6%B0-%EA%B2%83%EC%9D%80?" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 다음 중 Propensity score analysis에 대한 설명으로 틀린 것은?<a class="anchor-link" href="#01-%EB%8B%A4%EC%9D%8C-%EC%A4%91-Propensity-score-analysis%EC%97%90-%EB%8C%80%ED%95%9C-%EC%84%A4%EB%AA%85%EC%9C%BC%EB%A1%9C-%ED%8B%80%EB%A6%B0-%EA%B2%83%EC%9D%80?"> </a>
+</h4>
+<ol>
+<li>
+<p>관찰연구 자료의 confounding을 없애는 방법 중 하나이다.</p>
+</li>
+<li>
+<p>Propensity score를 추정하는 모델은 설명변수 하나당 샘플사이즈 15가 필요하다.</p>
+</li>
+<li>
+<p>최종결과변수(환자의 outcome)에 영향을 끼치는 변수들은 PS 추정 모델에 넣는 것이 좋다.</p>
+</li>
+<li>
+<p>치료군/대조군이 결정된 이후에 관측된 변수들은 PS 추정 모델에 넣지 않는다.</p>
+</li>
+</ol>
+<ul>
+<li>정답 : 2</li>
+<li>해설 : PS 추정 모델은 overfitting의 문제에 구애받지 않고 많은 수의 설명변수를 포함할 수 있다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="02-다음-중-PS(propensity-score)를-추정한-후-자료-분석-방법으로-알맞지-않은-것은?">
+<a class="anchor" href="#02-%EB%8B%A4%EC%9D%8C-%EC%A4%91-PS(propensity-score)%EB%A5%BC-%EC%B6%94%EC%A0%95%ED%95%9C-%ED%9B%84-%EC%9E%90%EB%A3%8C-%EB%B6%84%EC%84%9D-%EB%B0%A9%EB%B2%95%EC%9C%BC%EB%A1%9C-%EC%95%8C%EB%A7%9E%EC%A7%80-%EC%95%8A%EC%9D%80-%EA%B2%83%EC%9D%80?" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 다음 중 PS(propensity score)를 추정한 후 자료 분석 방법으로 알맞지 않은 것은?<a class="anchor-link" href="#02-%EB%8B%A4%EC%9D%8C-%EC%A4%91-PS(propensity-score)%EB%A5%BC-%EC%B6%94%EC%A0%95%ED%95%9C-%ED%9B%84-%EC%9E%90%EB%A3%8C-%EB%B6%84%EC%84%9D-%EB%B0%A9%EB%B2%95%EC%9C%BC%EB%A1%9C-%EC%95%8C%EB%A7%9E%EC%A7%80-%EC%95%8A%EC%9D%80-%EA%B2%83%EC%9D%80?"> </a>
+</h4>
+<ol>
+<li>
+<p>Matching</p>
+</li>
+<li>
+<p>Stratification</p>
+</li>
+<li>
+<p>Weighting</p>
+</li>
+<li>
+<p>Randomization</p>
+</li>
+</ol>
+<ul>
+<li>정답 : 4</li>
+<li>해설 : PS 추정 후 자료분석 방법에는 matching, stratification, weighting, covariate adjustment가 있다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances 
+<script src="https://utteranc.es/client.js"
+        repo="is2js/blog_raw"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script> -->
+
+<div id="disqus_thread"></div>
+<script>
+  /**
+   *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+   *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+  /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+  (function () {
+    // DON'T EDIT BELOW THIS LINE
+    var d = document,
+      s = d.createElement('script');
+    s.src = 'https://is2js-blog-raw.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript
+  >Please enable JavaScript to view the
+  <a href="https://disqus.com/?ref_noscript"
+    >comments powered by Disqus.</a
+  ></noscript
+>
+<a class="u-url" href="/r/r%EA%B3%A0%EA%B8%89/dplyr/matchit/tableone/geepack/broom/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/psa/matching/2022/04/11/%EC%9D%98%EC%97%B0%EB%B0%A909)-Propensity-Score-Analysis-I-(matching).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

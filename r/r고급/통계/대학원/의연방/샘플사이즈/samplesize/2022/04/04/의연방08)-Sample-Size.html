@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>의연방08) Sample size | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="의연방08) Sample size" />
+<meta name="author" content="tingstyle1" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Sample size" />
+<meta property="og:description" content="Sample size" />
+<link rel="canonical" href="blog.chojaeseong.com/r/r%EA%B3%A0%EA%B8%89/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/%EC%83%98%ED%94%8C%EC%82%AC%EC%9D%B4%EC%A6%88/samplesize/2022/04/04/%EC%9D%98%EC%97%B0%EB%B0%A908)-Sample-Size.html" />
+<meta property="og:url" content="blog.chojaeseong.com/r/r%EA%B3%A0%EA%B8%89/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/%EC%83%98%ED%94%8C%EC%82%AC%EC%9D%B4%EC%A6%88/samplesize/2022/04/04/%EC%9D%98%EC%97%B0%EB%B0%A908)-Sample-Size.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/data.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-04-04T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-04-04T00:00:00-05:00","url":"blog.chojaeseong.com/r/r%EA%B3%A0%EA%B8%89/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/%EC%83%98%ED%94%8C%EC%82%AC%EC%9D%B4%EC%A6%88/samplesize/2022/04/04/%EC%9D%98%EC%97%B0%EB%B0%A908)-Sample-Size.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/data.png","headline":"의연방08) Sample size","dateModified":"2022-04-04T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/r/r%EA%B3%A0%EA%B8%89/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/%EC%83%98%ED%94%8C%EC%82%AC%EC%9D%B4%EC%A6%88/samplesize/2022/04/04/%EC%9D%98%EC%97%B0%EB%B0%A908)-Sample-Size.html"},"author":{"@type":"Person","name":"tingstyle1"},"description":"Sample size","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">의연방08) Sample size</h1><p class="page-description">Sample size</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-04-04T00:00:00-05:00" itemprop="datePublished">
+        Apr 4, 2022
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">tingstyle1</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      18 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#R">R</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#R고급">R고급</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#통계">통계</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#대학원">대학원</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#의연방">의연방</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#샘플사이즈">샘플사이즈</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#samplesize">samplesize</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/is2js/blog_raw/tree/master/_notebooks/2022-04-04-의연방08) Sample Size.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/is2js/blog_raw/master?filepath=_notebooks%2F2022-04-04-%EC%9D%98%EC%97%B0%EB%B0%A908%29+Sample+Size.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/is2js/blog_raw/blob/master/_notebooks/2022-04-04-의연방08) Sample Size.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#학습-목표">학습 목표 </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#주요-용어">주요 용어 </a></li>
+<li class="toc-entry toc-h3"><a href="#목차">목차 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Sample-Size">Sample Size </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#샘플-사이즈-계산의-주요-개념">샘플 사이즈 계산의 주요 개념 </a></li>
+<li class="toc-entry toc-h3"><a href="#샘플-사이즈-계산의-목적">샘플 사이즈 계산의 목적 </a></li>
+<li class="toc-entry toc-h3"><a href="#샘플-사이즈의-결정-요소(3가지)">샘플 사이즈의 결정 요소(3가지) </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#가설">가설 </a></li>
+<li class="toc-entry toc-h4"><a href="#제-1종-오류,-제-2종-오류">제 1종 오류, 제 2종 오류 </a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#a(알파)">a(알파) </a></li>
+<li class="toc-entry toc-h5"><a href="#b(베타)">b(베타) </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#효과-크기">효과 크기 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#a/b,-효과크기와-Sample-Size간의-관계">a/b, 효과크기와 Sample Size간의 관계 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#어떤-효과크기를-가정할까?">어떤 효과크기를 가정할까? </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#이분형-결과변수일-때-샘플-사이즈">이분형 결과변수일 때 샘플 사이즈 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#a,b,p0,p1의-샘플-사이즈에-대한-영향">a,b,p0,p1의 샘플 사이즈에 대한 영향 </a></li>
+<li class="toc-entry toc-h4"><a href="#Case-Control-study의-경우,-다른--p1,-p0">Case-Control study의 경우, 다른  p1, p0 </a></li>
+<li class="toc-entry toc-h4"><a href="#Loss-to-follow-up(LTF)-보정">Loss to follow up(LTF) 보정 </a></li>
+<li class="toc-entry toc-h4"><a href="#샘플-사이즈가-이미-정해진-경우">샘플 사이즈가 이미 정해진 경우 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#Sample-size-예제">Sample size 예제 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#SampleSize-계산-R-실습">SampleSize 계산 R 실습 </a></li>
+<li class="toc-entry toc-h4"><a href="#과제2-01번">과제2-01번 </a></li>
+<li class="toc-entry toc-h4"><a href="#과제2-02번">과제2-02번 </a></li>
+<li class="toc-entry toc-h4"><a href="#과제2-03번">과제2-03번 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#기타-고려사항">기타 고려사항 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#샘플-사이즈를-줄이고-파워를-늘리는-전략">샘플 사이즈를 줄이고 파워를 늘리는 전략 </a></li>
+<li class="toc-entry toc-h4"><a href="#가설검정이-주요분석이-아닌-경우">가설검정이 주요분석이 아닌 경우 </a></li>
+<li class="toc-entry toc-h4"><a href="#Multivariable-analysis와-샘플-사이즈">Multivariable analysis와 샘플 사이즈 </a></li>
+<li class="toc-entry toc-h4"><a href="#Post-hoc-power-analysis">Post-hoc power analysis </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#핵심-고려사항(한계점)">핵심 고려사항(한계점) </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#정리하기">정리하기 </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#연습-문제">연습 문제 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01.-다음-중-샘플-사이즈를-결정하는-요소가-아닌-것은?">01. 다음 중 샘플 사이즈를 결정하는 요소가 아닌 것은? </a></li>
+<li class="toc-entry toc-h4"><a href="#02-다음-중-임상연구의-샘플-사이즈에-대한-설명으로-맞는-것은?">02 다음 중 임상연구의 샘플 사이즈에 대한 설명으로 맞는 것은? </a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-04-04-의연방08) Sample Size.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>R 고급 실습(이분형 결과변수의 samplesize계산을 위한 power.prop.test() ) 포함됨</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="학습-목표">
+<a class="anchor" href="#%ED%95%99%EC%8A%B5-%EB%AA%A9%ED%91%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>학습 목표<a class="anchor-link" href="#%ED%95%99%EC%8A%B5-%EB%AA%A9%ED%91%9C"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<p>샘플 사이즈를 계산하는 목적을 설명할 수 있다.</p>
+</li>
+<li>
+<p>샘플 사이즈 계산의 주요 개념인 가설, α, β, 효과 크기에 대하여 설명할 수 있다.</p>
+</li>
+<li>
+<p>이분형 결과변수를 사용하는 임상연구에서 필요한 샘플 사이즈를 계산할 수 있다.</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="주요-용어">
+<a class="anchor" href="#%EC%A3%BC%EC%9A%94-%EC%9A%A9%EC%96%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>주요 용어<a class="anchor-link" href="#%EC%A3%BC%EC%9A%94-%EC%9A%A9%EC%96%B4"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>제1종 오류 : 귀무가설이 참일 때 귀무가설을 기각하는 오류</li>
+<li>제2종 오류 : 대립가설이 참일 때 귀무가설을 기각하지 못하는 오류</li>
+<li>α : 제1종 오류 확률의 최대값</li>
+<li>β : 제2종 오류 확률</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="목차">
+<a class="anchor" href="#%EB%AA%A9%EC%B0%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>목차<a class="anchor-link" href="#%EB%AA%A9%EC%B0%A8"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>샘플 사이즈 계산의 주요 개념</li>
+<li>이분형 결과변수일 때 샘플 사이즈</li>
+<li>기타 고려사항</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Sample-Size">
+<a class="anchor" href="#Sample-Size" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sample Size<a class="anchor-link" href="#Sample-Size"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="샘플-사이즈-계산의-주요-개념">
+<a class="anchor" href="#%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88-%EA%B3%84%EC%82%B0%EC%9D%98-%EC%A3%BC%EC%9A%94-%EA%B0%9C%EB%85%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>샘플 사이즈 계산의 주요 개념<a class="anchor-link" href="#%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88-%EA%B3%84%EC%82%B0%EC%9D%98-%EC%A3%BC%EC%9A%94-%EA%B0%9C%EB%85%90"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>샘플 사이즈가 너무 작으면 : 위험요소와 질병 간에  실제로 존재하는 상관관계를 보이지 못할 수 있다</li>
+<li>샘플 사이즈가 너무 크면 : 비용과 시간이 많이 든다 </li>
+<li>유의미한 상관관계를 보일 가능성이 충분히 높은 샘플 사이즈를 확보하고 연구를 시작하자!</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="샘플-사이즈-계산의-목적">
+<a class="anchor" href="#%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88-%EA%B3%84%EC%82%B0%EC%9D%98-%EB%AA%A9%EC%A0%81" aria-hidden="true"><span class="octicon octicon-link"></span></a>샘플 사이즈 계산의 목적<a class="anchor-link" href="#%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88-%EA%B3%84%EC%82%B0%EC%9D%98-%EB%AA%A9%EC%A0%81"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>샘플사이즈 계산을 해야한다?! 왜??<ul>
+<li>없으면 포함하라고 리뷰어의 코멘트가 날아온다.</li>
+<li>IRB 심사받을 때도, Sample size 계산 근거를 제출하라고 날아온다.</li>
+</ul>
+</li>
+<li>너무 작으면 -&gt; 데이터 정보 충분치 X -&gt; 알고 싶은 정보를 알 수 없다.<ul>
+<li>위험요소-질병간의 상관관계 -&gt; 인과관계를 알고 싶은데, <strong>실제 존재하더라도 sample size가 작으면 알 수가 없게 된다</strong>
+</li>
+</ul>
+</li>
+<li>데이터가 크면 클수록 좋다<ul>
+<li>마냥 클 수 없는 것이 <strong>모으는데 비용과 시간이 많이 든다(환자수 1명당..)</strong>
+</li>
+</ul>
+</li>
+<li>
+<strong>보이고 싶은 것을 충분히 보일 수 있는 샘플 사이즈를 알아야한다</strong><ul>
+<li><strong>유의미한 상관관계(인과관계)를 보일 가능성 있는 충분히 높은 샘플 사이즈를 확보한 뒤 연구에 들어가자</strong></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<p>유의미한 상관관계 보인다?!의 의미 : 상관관계에 대한 가설검정을 통과할 정도여야한다.</p>
+<ul>
+<li>
+<code>상관관계가 없다는 귀무가설을 기각</code>해야한다</li>
+<li>p-value가 알파(0.05)보다 낫게 나와야한다</li>
+<li><strong>결국 가설검정해서 0.05보다 낫게 나와야한다</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>유의미한 상관관계 보일 가능성이 충분히 높다 = p 0.05보다 낫게 나올 가능성이 충분히 높다 = Power가 높다 = 베타가 낫다</strong></p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="샘플-사이즈의-결정-요소(3가지)">
+<a class="anchor" href="#%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88%EC%9D%98-%EA%B2%B0%EC%A0%95-%EC%9A%94%EC%86%8C(3%EA%B0%80%EC%A7%80)" aria-hidden="true"><span class="octicon octicon-link"></span></a>샘플 사이즈의 결정 요소(3가지)<a class="anchor-link" href="#%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88%EC%9D%98-%EA%B2%B0%EC%A0%95-%EC%9A%94%EC%86%8C(3%EA%B0%80%EC%A7%80)"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>가설</li>
+<li>α와β</li>
+<li>효과 크기</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="가설">
+<a class="anchor" href="#%EA%B0%80%EC%84%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>가설<a class="anchor-link" href="#%EA%B0%80%EC%84%A4"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<code>귀무가설</code> : <strong>위험요소와 질병 간에 상관관계가 없다(<code>차이가 없다</code>)</strong>
+</li>
+<li>
+<code>대립가설</code> : <strong>위험요소와 질병 간에 상관관계가 있다(<code>차이가 있다</code>)</strong>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>이분형 결과변수(이벤트/질병발생이 있었는가 vs 없었는가)에 대해서 두 그룹(위험요소 노출 vs 노출안됨) 비교하는 경우를 생각해보자.<ul>
+<li>p1: 위험요소 노출O그룹 = 실험군 에서 이벤트 있을 확률(risk) </li>
+<li>p0: 위험요소 노출X그룹 = 대조군에서 이벤트 있을 확률(risk)<ul>
+<li>
+<strong>귀무가설 : <code>차이가 없다</code> = <code>위험요소와 질병간 상관관계 없다</code> = <code>p1과 p0가 같다</code> = <code>OR = 1</code>이다</strong><ul>
+<li>cf) OR = 실험군오즈(p1/1-p1) / 대조군오즈(p0/1-p0)</li>
+</ul>
+</li>
+<li><strong>대립가설 : <code>차이가 있다</code> = <code>위험요소와 질병간 상관관계 있다</code> = <code>p1과 p0가 다르다</code> = <code>OR != 1</code>이다</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="제-1종-오류,-제-2종-오류">
+<a class="anchor" href="#%EC%A0%9C-1%EC%A2%85-%EC%98%A4%EB%A5%98,-%EC%A0%9C-2%EC%A2%85-%EC%98%A4%EB%A5%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>제 1종 오류, 제 2종 오류<a class="anchor-link" href="#%EC%A0%9C-1%EC%A2%85-%EC%98%A4%EB%A5%98,-%EC%A0%9C-2%EC%A2%85-%EC%98%A4%EB%A5%98"> </a>
+</h4>
+<ul>
+<li>항상 귀무가설(H1)이 참이거나 거짓이거나 둘 중 하나다<ul>
+<li>무엇인지 모르지만 2가지 경우를 나누어서 본다.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220512170044741.png" alt="image-20220512170044741">
+</li>
+</ul>
+</li>
+<li>다음엔 귀무가설을 기각할 수 도, 기각하지 못할 수 도 있다.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220512170146305.png" alt="image-20220512170146305">
+</li>
+</ul>
+<ol>
+<li>y 귀무가설이 참인데 -&gt;  x 귀무가설을 기각하면  잘못된 것 -&gt; <code>Type 1 Error</code><ul>
+<li>귀무가설이 참인데, 귀무가설을 기각하는 오류</li>
+</ul>
+</li>
+<li>y 대립가설이 참인데 -&gt;  x 귀무가설을 채택하면  잘못된 것 -&gt; <code>Type 2 Error</code><ul>
+<li>대립가설이 참인데, 귀무가설을 기각하지 못하는 오류</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>
+<strong>my H0/H1이 (고정)참일 떄 -&gt; (고정)H0를 어떻게 했냐에 따라</strong><ul>
+<li><strong>같은 것 잘못(H0참 -&gt; H0기각 : type1)</strong></li>
+<li><strong>다른 것 잘못(H1참 -&gt; H0기각 : type2)</strong></li>
+</ul>
+</li>
+<li>2가지 오류를 나눠서 생각한다</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="a(알파)">
+<a class="anchor" href="#a(%EC%95%8C%ED%8C%8C)" aria-hidden="true"><span class="octicon octicon-link"></span></a>a(알파)<a class="anchor-link" href="#a(%EC%95%8C%ED%8C%8C)"> </a>
+</h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>a = <code>제 1종</code> 오류의 최대허용치<ul>
+<li>a = <code>H0</code>가 참인데 H0를 <code>기각</code>할 오류의 최대허용치</li>
+</ul>
+</li>
+<li>유의수준이라고도 말한다.</li>
+<li>보통 0.05을 사용한다<ul>
+<li>상황에 따라, 초반 연구(preliminary study)라서 조금 더 type 1 error를 높여<ul>
+<li>조금 더 높게 허용 = 0.05를 -&gt; 0.1, 0.2, 0.25까지 올려서 사용하기도 한다.</li>
+</ul>
+</li>
+<li>a를 낮추면 정확한 study가 되지만,<ul>
+<li>초반 연구 디자인/ 도움을 주기 위해서, 정확하진 않지만 a를 조금 높게 허용하기도 한다.</li>
+</ul>
+</li>
+<li>a를 확 낮춰 정확한 study를 할 때는, 결과변수가 여러개일 때, 얻어걸리는 경우를 방지하기 위해 조금 더 엄격하게 연구하는 다중비교 (Multiple comparisons)에서,  다중성을 보정하기 위해 a를 낮춰 가설검정을 수행한다</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="b(베타)">
+<a class="anchor" href="#b(%EB%B2%A0%ED%83%80)" aria-hidden="true"><span class="octicon octicon-link"></span></a>b(베타)<a class="anchor-link" href="#b(%EB%B2%A0%ED%83%80)"> </a>
+</h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>b = <code>제 2종</code> 오류<ul>
+<li>b = <code>H1대립가설</code>이 참인데, H0를 <code>기각하지 못하는</code> 오류의 최대 허용치</li>
+<li>만약, H1참인데, H0를 <strong>실제로 기각하고, H1을 채택하여 2종오류X -&gt; <code>검정력</code>이라고 함</strong>
+</li>
+</ul>
+</li>
+<li>검정력(power) = 1-b<ul>
+<li>보통 0.2로 많이 한다. 0.1로 할 때도 많다.<ul>
+<li>b0.2 -&gt; power는 0.8로 한다는 말</li>
+<li>b0.1 -&gt; power를 0.9로 한다는 것</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="효과-크기">
+<a class="anchor" href="#%ED%9A%A8%EA%B3%BC-%ED%81%AC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>효과 크기<a class="anchor-link" href="#%ED%9A%A8%EA%B3%BC-%ED%81%AC%EA%B8%B0"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>위험요소 노출된 그룹과 노출 안된 그룹 간 결과변수 값의 차이</li>
+<li>우리는 계속 <code>이분형 결과변수</code>를 보고 있음.<ul>
+<li>이 경우, 두 그룹간의 event rate차이 = <code>p1과 p0의 차이</code>가 효과크기기 된다.</li>
+<li>보통 <code>p0</code>(대조군 = 위험요소 노출X그룹의 질병발생율)은 보고가 되고</li>
+<li>
+<strong>p0가 얼마일 때, p1 대신 아래 3가지 중 1가지를 제공한다면 -&gt; 효과크기가 제공 되었다고 한다</strong><ul>
+<li>Absolute difference(=RD =attributable risk)<ul>
+<li>p1 - p0 제시</li>
+</ul>
+</li>
+<li>Relative change(OR, RR)<ul>
+<li>OR o RR 제시</li>
+</ul>
+</li>
+<li>실험군(위험요소 노출된 그룹)의 이벤트 비율을 직접 언급<ul>
+<li>p1을 직접 제시</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>효과 크기 예제<ul>
+<li>대조군의 이벤트 비율 = 10%이라고 할 때, (<code>p0 제공</code>)<ul>
+<li>p0 = 0.1</li>
+</ul>
+</li>
+<li>아래 <code>네가지 중 하나를 같이 언급</code>하면 <code>p1</code>을 제시한 것과 같아서 -&gt; <code>effect size</code>를 밝힐 수 있다. 
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220512214348055.png" alt="image-20220512214348055"><ol>
+<li>
+<code>p1</code> = 25% = 0.25</li>
+<li>
+<code>absolute difference</code> = 15% = 0.15 <ul>
+<li>attributable risk = <code>p1-p0</code> = <code>p1</code> - 0.1 = 0.15</li>
+<li>p1을 제시한 것과 동일</li>
+</ul>
+</li>
+<li>
+<code>OR</code> = 3.0<ul>
+<li>OR식을 p1으로 정리하여 recovery할 수 있다.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220512222238273.png" alt="image-20220512222238273">
+</li>
+</ul>
+</li>
+<li>
+<code>RR</code> = 2.5<ul>
+<li>
+<code>p1/p0</code> = p1/0.1 = 2.5</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="a/b,-효과크기와-Sample-Size간의-관계">
+<a class="anchor" href="#a/b,-%ED%9A%A8%EA%B3%BC%ED%81%AC%EA%B8%B0%EC%99%80-Sample-Size%EA%B0%84%EC%9D%98-%EA%B4%80%EA%B3%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>a/b, 효과크기와 Sample Size간의 관계<a class="anchor-link" href="#a/b,-%ED%9A%A8%EA%B3%BC%ED%81%AC%EA%B8%B0%EC%99%80-Sample-Size%EA%B0%84%EC%9D%98-%EA%B4%80%EA%B3%84"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>α와 β, 효과 크기와 샘플 사이즈는 서로 얽혀있다</li>
+<li>다른 모든 조건(샘플 사이즈, 효과 크기)이 동일한 경우,<ul>
+<li>α가 커지면 β는 작아지고, α가 작아지면 β는 커진다</li>
+<li>type 1 error rate이 올라가면,  type2 error rate이 내려간다</li>
+<li>type 1 error rate이 내려가면,  type2 error rate이 올라간다</li>
+<li>α와 β는 서로 반대 방향으로 가는 관계이다.</li>
+</ul>
+</li>
+<li>효과 크기가 일정할 경우, 샘플 사이즈가 커질 수록 α와 β는 작아진다<ul>
+<li>샘플 사이즈가 커진다 = 데이터를 많이 모은다 = 정보가 많아진다 = 전체적으로 오류의 확률이 낮아진다.</li>
+</ul>
+</li>
+<li>샘플 사이즈가 일정할 경우, 효과 크기가 클 수록 α와 β는 작아진다<ul>
+<li>효과의 크기가 크면 클수록 적은량의 데이터로도 차이가 잘 보이게 된다. = 오류를 범할 확률이 낮아진다.</li>
+</ul>
+</li>
+<li>
+<strong>우리는 오류의 확률(α와 β)을 낮추기를 희망한다</strong><ul>
+<li><strong>효과 크기가 크거나, 샘플 사이즈가 커야 양쪽 오류의 확률을 낮출 수 있다</strong></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="어떤-효과크기를-가정할까?">
+<a class="anchor" href="#%EC%96%B4%EB%96%A4-%ED%9A%A8%EA%B3%BC%ED%81%AC%EA%B8%B0%EB%A5%BC-%EA%B0%80%EC%A0%95%ED%95%A0%EA%B9%8C?" aria-hidden="true"><span class="octicon octicon-link"></span></a>어떤 효과크기를 가정할까?<a class="anchor-link" href="#%EC%96%B4%EB%96%A4-%ED%9A%A8%EA%B3%BC%ED%81%AC%EA%B8%B0%EB%A5%BC-%EA%B0%80%EC%A0%95%ED%95%A0%EA%B9%8C?"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>샘플 사이즈를 계산하려면<ul>
+<li>a, b 및 효과 크기를 가정해야한다.</li>
+</ul>
+</li>
+<li>어떤 효과 크기를 가정할까?<ul>
+<li>실제 <code>효과 크기</code>를 XX일 때, <code>type 1 error 확률</code>이 a(알파)보다 낮고, <code>power</code>가 1-b(베타)보다 높은 <code>샘플사이즈</code>는 YY이다. </li>
+</ul>
+</li>
+<li>
+<strong>a는 0.05로 많이하고, b는 0.2로 많이 하는데, 효과 크기는 얼마로 가정해야할까?</strong><ul>
+<li>임상적으로 중요한 효과크기를 가정하는 것이 좋다.</li>
+<li>선행연구에 관측한 효과크기를 쓰기도 한다.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="이분형-결과변수일-때-샘플-사이즈">
+<a class="anchor" href="#%EC%9D%B4%EB%B6%84%ED%98%95-%EA%B2%B0%EA%B3%BC%EB%B3%80%EC%88%98%EC%9D%BC-%EB%95%8C-%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>이분형 결과변수일 때 샘플 사이즈<a class="anchor-link" href="#%EC%9D%B4%EB%B6%84%ED%98%95-%EA%B2%B0%EA%B3%BC%EB%B3%80%EC%88%98%EC%9D%BC-%EB%95%8C-%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>테스트 해야하는 가설이 아래와 같고</li>
+<li>검정은 카이제곱 검정을 사용한다</li>
+<li>실험군 vs 대조군은 1:1을 가정하지만<ul>
+<li>RCT는 내가 모으는 거라 가정하지만, 관찰연구는 이미 숫자가 정해져있어서 1:1이 아님</li>
+</ul>
+</li>
+<li>1:1인 경우의 샘플사이즈 구하는 공식이 아래와 같이 나온다<ul>
+<li>공식 자체가 중요하진 않다. 소프트웨어로 계산하면 된다.</li>
+<li>공식을 통해, 샘플 사이즈가 어떻게 효과크기/a/b에 영향을 받는지 확인한다.</li>
+<li>효과크기 가정시 p1,p0가 가정되어있다. </li>
+<li>z sub a는 표준정규분포곡선에서 면적이 a가 되는 x값을 z sub a로 표시한다.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220513150359845.png" alt="image-20220513150359845">
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="a,b,p0,p1의-샘플-사이즈에-대한-영향">
+<a class="anchor" href="#a,b,p0,p1%EC%9D%98-%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88%EC%97%90-%EB%8C%80%ED%95%9C-%EC%98%81%ED%96%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>a,b,p0,p1의 샘플 사이즈에 대한 영향<a class="anchor-link" href="#a,b,p0,p1%EC%9D%98-%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88%EC%97%90-%EB%8C%80%ED%95%9C-%EC%98%81%ED%96%A5"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>아래 표에서 Pc는 P0를, Pi는 P1을 의미한다.<ul>
+<li>control / intervention
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220513150958824.png" alt="image-20220513150958824">
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<p>세로축 방향으로 보자면, 가로축을 P0가 0.6일 때 고정시</p>
+<ul>
+<li>P1이 점점 작아진다. = 차이가 커진다 = <strong>효과 크기가 커진다.</strong><ul>
+<li>
+<strong>(차이가 잘보여)필요한 sample size는 줄어든다</strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220513151248770.png" alt="image-20220513151248770">
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>가로축 방향으로 보자면</p>
+<ul>
+<li>
+<p>a(알파)값이 왼쪽으로 갈 수록 작아진다.(0.05, 0.025, 0.01)</p>
+<ul>
+<li>
+<strong>1종 오류 확률을 낮춘다 = 오류가 낮은 테스트를 한다 = 데이터가 더 많이 필요하다</strong><ul>
+<li>
+<strong>필요한 sample size가 커진다</strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220513151603433.png" alt="image-20220513151603433">
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>0.90, 0.80은 power를 의미한다.</p>
+<ul>
+<li>power가 높으려면 더 많은 샘플사이즈를 필요로 할 것이다.</li>
+<li>
+<strong>power가 높다 = 높은 확률로 실제 존재하는 두군간의 차이를 확인하고 싶다는 의미이므로 샘플 사이즈가 커야한다.</strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220513151818862.png" alt="image-20220513151818862">
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>(곡선 1개 고정) x축은 p0-p1을 의미한다.<ul>
+<li>x축이 커질수록 효과크기가 커져, 샘플사이즈는 적게 필요하므로 점점 줄어드는 모양의 그래프가 나타난다
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220513152013961.png" alt="image-20220513152013961">
+</li>
+</ul>
+</li>
+<li>(x축 고정) 같은 효과크기에 대해 기울기 = Pc = P0 를 의미하므로<ul>
+<li>대조군의 event rate에 따라 필요로 하는 샘플 사이즈가 달라진다.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220513152601021.png" alt="image-20220513152601021">
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Case-Control-study의-경우,-다른--p1,-p0">
+<a class="anchor" href="#Case-Control-study%EC%9D%98-%EA%B2%BD%EC%9A%B0,-%EB%8B%A4%EB%A5%B8--p1,-p0" aria-hidden="true"><span class="octicon octicon-link"></span></a>Case-Control study의 경우, 다른  p1, p0<a class="anchor-link" href="#Case-Control-study%EC%9D%98-%EA%B2%BD%EC%9A%B0,-%EB%8B%A4%EB%A5%B8--p1,-p0"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>위에서 나타난 샘플사이즈 공식 + 그래프는 <ul>
+<li>코호트, 크로스섹셔널, RCT에서는 적용가능하나</li>
+<li>Case-control study에서는 적용이 불가능하다.</li>
+</ul>
+</li>
+<li>Case-Control의 경우<ul>
+<li>실험군-대조군이 존재하지 않고, case와 control이 있다.</li>
+<li>이미 질병(event)이 발생한 vs 발생하지 않은 그룹이 있다.<ul>
+<li>각각 위험요소 노출이 얼마나 되었는지 확인하는 study이다.</li>
+<li>그래서 p1과 p0의 정의가 위 코호트, 크로스섹셔널, RCT study와는 다르다.</li>
+</ul>
+</li>
+<li>p1 : case 중 위험요소 노출확률</li>
+<li>p0 : control 중 위험요소 노출확률<ul>
+<li>샘플 사이즈 공식은 같으니 그대로 이용하면 된다.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220513152950674.png" alt="image-20220513152950674">
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Loss-to-follow-up(LTF)-보정">
+<a class="anchor" href="#Loss-to-follow-up(LTF)-%EB%B3%B4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>Loss to follow up(LTF) 보정<a class="anchor-link" href="#Loss-to-follow-up(LTF)-%EB%B3%B4%EC%A0%95"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>Cohort study나 RCT는 LTF가 생긴다.<ul>
+<li>일부는 이사가기도 하고, 일부는 연락두절 등 되서 끝까지 follow up 못한다.</li>
+<li><strong>이런 loss까지 반영하여 샘플 사이즈를 좀 더 크게 확보해야한다.</strong></li>
+</ul>
+</li>
+<li>LTF가 생기는 매너니즘이 ignorable하다고 가정한다?<ul>
+<li>중간에 환자를 사라지게 하는 여부 &lt;-&gt; outcome과 관계없다고 가정하는 것</li>
+<li>
+<strong>이 가정을 이용해서 아래 공식을 통해 샘플 사이즈를 뻥튀기(inflate)한다</strong><ul>
+<li>N(*) = N / 1-R (R = LTF 비율)<ul>
+<li>원래 N보다 좀 더 크게 나온다.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>예) 연구에 필요한 환자 수가 100명이어야, 내가 significant level 0.05에서 80% power를 가지고 효과크기를 추정할 수 있다고 결론을 내린 상황 + 약 20%의 환자가 LTF될 것이라고 예측된다면?<ul>
+<li>100명 모아도 20%는 나가리 될 예정이니</li>
+<li>R = 0.2 -&gt; N(*) = 100/(1-0.2) = 125명을 가지고 시작해야 나중에 100명을 얻을 수 있다.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="샘플-사이즈가-이미-정해진-경우">
+<a class="anchor" href="#%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88%EA%B0%80-%EC%9D%B4%EB%AF%B8-%EC%A0%95%ED%95%B4%EC%A7%84-%EA%B2%BD%EC%9A%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>샘플 사이즈가 이미 정해진 경우<a class="anchor-link" href="#%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88%EA%B0%80-%EC%9D%B4%EB%AF%B8-%EC%A0%95%ED%95%B4%EC%A7%84-%EA%B2%BD%EC%9A%B0"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>관찰연구의 경우 이미 가용한 데이터가 정해져있어서 샘플 사이즈를 바꿀 수 없는 경우가 종종 있다</li>
+<li>관찰 연구의 경우, 내가 쓸 수 있는 데이터 수가 정해져있다.</li>
+<li>observation study에서는 sample size 필요없다고 생각해서 논문을 투고했더니, sample size justification 해서 보내라고 피드백이 올 것이다.</li>
+<li>그런데, 생각해보면, 관찰 연구라도 sample size justification가 필요하다.<ul>
+<li>이 연구가 애초에 될 연구/안될연구인지 체크하는 정도로 생각하면 된다.</li>
+<li>그러나 이미 정해져있기 때문에 sample size라는 용어대신 power analysis라고 부르는데, </li>
+<li>주어진 sample size + 내가 가정한 효과 크기를 가지고, 내가 몇프로의 power를 가질 수 있는지 계산하는 것이 된다.</li>
+<li>지금까지는 a,b,효과크기 가정 -&gt; sample size 계산</li>
+<li><strong>관찰연구 a,효과크기 가정, 주어진 sample size -&gt; b를 계산하는 과정이다.</strong></li>
+</ul>
+</li>
+<li>혹은 a, b, 주어진 sample size -&gt; 효과 크기를 추정하는 minimum detectable diffrence도 있다.<ul>
+<li>최소 요만큼은 효과 크기를 dectect할 수 있다.<ul>
+<li>실제 효과크기가 요정도 이거나 이것보다 크면, power 80%로 두군간의 차이를 detect할 수 있다고 분석하기도 한다.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>관찰연구에서 sample size 계산 없이 분석만 했다면?<ul>
+<li>너무 작은 샘플 사이즈로 분석된 경우<ul>
+<li>상관관계를 보이는데에 실패했을 경우(p-value 0.05보다 높게 나옴) : 결과 해석이 어렵다<ul>
+<li>상관관계가 없어서 못 보인 것인지</li>
+<li>상관관계가 있는데도 데이터 양이 적어서 못보이는 것인지 -&gt; 결론을 내릴 수 없다.</li>
+</ul>
+</li>
+<li>상관관계를 보이는데에 운좋게 성공할 경우(p-value 0.05보다 낮게 나옴): 여러가지 분석 중 유의하게
+나온 것만 골라서 보고한 것이 아닌지 의심받을 수 있다<ul>
+<li>샘플 사이즈가 이렇게 작은데 p-value가 0.05보다 낫게 나왔다면, 조작을 의심할 수 있다.</li>
+<li>여러 위험요소 분석 후 얻어걸린 것을 보고한 것은 아닌지 research integrity(리서치 인테그러티) 의심됨.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Sample-size-예제">
+<a class="anchor" href="#Sample-size-%EC%98%88%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sample size 예제<a class="anchor-link" href="#Sample-size-%EC%98%88%EC%A0%9C"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220513164052620.png" alt="image-20220513164052620"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>대상 모집단: 병원 밖에서 심장 발작으로 구급대원의 치료를 받는 중 정맥주사로 epinephrine을 맞는 환자들</li>
+<li>실험군 : usual treatment + <code>vasopressin</code>
+</li>
+<li>대조군 : usual treatment + <code>placebo</code>
+</li>
+<li>결과변수 : restoration of spontaneous circulation (ROSC) at any time during resuscitation<ul>
+<li>저절로 순환 및 호흡하는 <code>좋은 event</code>가 결과 변수</li>
+<li>ROSC가 비율이 높을 수록 좋은 것</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220513164622561.png" alt="image-20220513164622561"></p>
+<ul>
+<li>샘플사이즈 계산<ul>
+<li>대조군이 30% ROSC라고 가정했다</li>
+<li>15%의 ROSC change를 detect하기 위해 필요한 sample size를 계산했다.<ul>
+<li>2군간의 ROSC 차이를 계산했다.</li>
+<li>RD = p1-p0 = 0.15라고 했다.<ul>
+<li>대조군에서는 0.30의 30% ROSC가 있을 것이라고 가정했고</li>
+<li><strong>실험군에서는 0.45의 45% ROSC가 있을 것이라고 <code>효과 크기</code>를 가정한 것이다.</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>이를 바탕으로 계산했더니 162명의 sample size가 필요하다는 결론을 얻었다.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="SampleSize-계산-R-실습">
+<a class="anchor" href="#SampleSize-%EA%B3%84%EC%82%B0-R-%EC%8B%A4%EC%8A%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>SampleSize 계산 R 실습<a class="anchor-link" href="#SampleSize-%EA%B3%84%EC%82%B0-R-%EC%8B%A4%EC%8A%B5"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># - 기본 내장된 함수 power.prop.test()를 쓰면 된다.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="o">?</span><span class="n">power.prop.test</span>
+
+<span class="c1"># power.prop.test(n = NULL, p1 = NULL, p2 = NULL, </span>
+<span class="c1">#                 sig.level = 0.05, #알파</span>
+<span class="c1">#                 power = NULL, # 1-베타</span>
+<span class="c1">#                 alternative = c("two.sided", "one.sided"),</span>
+<span class="c1">#                 strict = FALSE, tol = .Machine$double.eps^0.25)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># - 여기서 대조군/실험군이 어떤 것인지는 중요하지 않음.</span>
+
+<span class="c1"># 이분형 결과변수의 경우, 단측검정이 불가능하다</span>
+<span class="c1"># -&gt; 양측 검정으로만 해야한다.</span>
+<span class="c1"># -&gt; 카이제곱 검정을 하기 때문에 그렇다.</span>
+
+<span class="nf">power.prop.test</span><span class="p">(</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="m">0.45</span><span class="p">,</span> 
+    <span class="n">p2</span> <span class="o">=</span> <span class="m">0.3</span><span class="p">,</span>
+    <span class="n">sig.level</span> <span class="o">=</span> <span class="m">0.05</span><span class="p">,</span>
+    <span class="n">power</span> <span class="o">=</span> <span class="m">0.8</span><span class="p">,</span> <span class="c1"># b=0.2</span>
+    <span class="n">alternative</span> <span class="o">=</span> <span class="s">"two.sided"</span>
+<span class="p">)</span>
+
+<span class="c1"># 162.3 -&gt; 올림해서 163명으로 해도된다.</span>
+<span class="c1"># 주의할 점은, 각 군에서 필요한 sample size다.</span>
+<span class="c1"># NOTE: n is number in *each* group</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+     Two-sample comparison of proportions power calculation 
+
+              n = 162.3344
+             p1 = 0.45
+             p2 = 0.3
+      sig.level = 0.05
+          power = 0.8
+    alternative = two.sided
+
+NOTE: n is number in *each* group
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># 1) power 계산</span>
+<span class="c1"># 2) detect할 수 있는 효과크기 (minimum detetable diffrence) 계산이 가능하다.</span>
+
+<span class="c1"># 1) 고정된 sample size + 가정한 효과크기 -&gt; power를 계산한다</span>
+<span class="c1">#   - power를 제외하고 다른 것들을 채워주면 된다.</span>
+
+<span class="nf">power.prop.test</span><span class="p">(</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="m">0.45</span><span class="p">,</span> 
+    <span class="n">p2</span> <span class="o">=</span> <span class="m">0.3</span><span class="p">,</span>
+    <span class="n">sig.level</span> <span class="o">=</span> <span class="m">0.05</span><span class="p">,</span>
+<span class="c1">#     power = 0.8, # b=0.2</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="m">200</span><span class="p">,</span>
+    <span class="n">alternative</span> <span class="o">=</span> <span class="s">"two.sided"</span>
+<span class="p">)</span>
+
+
+<span class="c1">#           power = 0.8754082</span>
+<span class="c1"># -&gt; sample size 200명을 가지고 계산하면, power가 87% 정도가 생긴다</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+     Two-sample comparison of proportions power calculation 
+
+              n = 200
+             p1 = 0.45
+             p2 = 0.3
+      sig.level = 0.05
+          power = 0.8754082
+    alternative = two.sided
+
+NOTE: n is number in *each* group
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># -&gt; 효과크기는 p1,p0에 의해 결정이 되므로</span>
+<span class="c1"># -&gt; 1가지는 고정해서 채워넣어야한다.</span>
+<span class="c1"># -&gt; 문제에서는 대조군의 ROCS rate가 30%라 했으니, 0.3을 살려놓고 돌려보자.</span>
+<span class="c1"># --&gt; p1을 계산시킨다.</span>
+
+<span class="nf">power.prop.test</span><span class="p">(</span>
+<span class="c1">#     p1 = 0.45, </span>
+    <span class="n">p2</span> <span class="o">=</span> <span class="m">0.3</span><span class="p">,</span>
+    <span class="n">sig.level</span> <span class="o">=</span> <span class="m">0.05</span><span class="p">,</span>
+    <span class="n">power</span> <span class="o">=</span> <span class="m">0.8</span><span class="p">,</span> <span class="c1"># b=0.2</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="m">200</span><span class="p">,</span>
+    <span class="n">alternative</span> <span class="o">=</span> <span class="s">"two.sided"</span>
+<span class="p">)</span>
+
+
+<span class="c1">#              p1 = 0.1806459</span>
+<span class="c1"># 대조군에서 30% ROCS를 가정할 시, </span>
+<span class="c1"># -&gt; 치료군에서 ROCS는 18%나 이것보다 작게 나와서 -&gt; 두군간의 차이가 커지면</span>
+<span class="c1"># --&gt; power 80%를 가지고 sig 0.05에서 두군간의 차이를 detect할 수 있다.</span>
+
+<span class="c1"># 주의점</span>
+<span class="c1"># -&gt; 치료군의 ROCS가 높아질 것으로 예상하고 있다( good event라서)</span>
+<span class="c1"># -&gt; 즉, p1이 p2인0.3보다 높아질 것이라고 기대를 했는데, 더 낮게 나왔다</span>
+<span class="c1"># --&gt; 더 높은 확률을 산출하도록 바꿔야한다</span>
+
+<span class="c1"># p1자리에 0.3을 넣어주자.</span>
+<span class="nf">power.prop.test</span><span class="p">(</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="m">0.3</span><span class="p">,</span> 
+<span class="c1">#     p2 = 0.3,</span>
+    <span class="n">sig.level</span> <span class="o">=</span> <span class="m">0.05</span><span class="p">,</span>
+    <span class="n">power</span> <span class="o">=</span> <span class="m">0.8</span><span class="p">,</span> <span class="c1"># b=0.2</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="m">200</span><span class="p">,</span>
+    <span class="n">alternative</span> <span class="o">=</span> <span class="s">"two.sided"</span>
+<span class="p">)</span>
+
+<span class="c1">#              p2 = 0.4346572</span>
+<span class="c1"># 즉, 치료군의 실제 ROCS비율이 43.5%이거나 더 높을 경우, </span>
+<span class="c1"># power 80%를 가지고 sig 0.05에서 두군간의 차이를 detect할 수 있다.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+     Two-sample comparison of proportions power calculation 
+
+              n = 200
+             p1 = 0.1806459
+             p2 = 0.3
+      sig.level = 0.05
+          power = 0.8
+    alternative = two.sided
+
+NOTE: n is number in *each* group
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+     Two-sample comparison of proportions power calculation 
+
+              n = 200
+             p1 = 0.3
+             p2 = 0.4346572
+      sig.level = 0.05
+          power = 0.8
+    alternative = two.sided
+
+NOTE: n is number in *each* group
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="과제2-01번">
+<a class="anchor" href="#%EA%B3%BC%EC%A0%9C2-01%EB%B2%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>과제2-01번<a class="anchor-link" href="#%EA%B3%BC%EC%A0%9C2-01%EB%B2%88"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>두가지 수술방법의 합병증 비율을 비교하는 임상시험을 하려고 한다. 수술방법 A는 15%의 환자에게 서 합병증이 발생할 것이고 수술방법 B는 5%의 환자에게서 합병증이 발생할 것으로 예상되는 상황 이라고 하자. 두 수술방법의 합병증 비율에 차이가 있다는 것을 유의수준 0.05에서 80% 파워(검정력) 으로 보이려면, 총 몇 명의 환자를 모집해야 하는가? (단, lost-to-follow up이나 결측은 고려하지 않는 다. 계산을 위한 R 코드와 출력결과를 답안에 포함한다.)</p>
+<ul>
+<li>n = 200 +200</li>
+<li>α(유의수준) = 0.05</li>
+<li>β = ?</li>
+<li>p0 = 0.15</li>
+<li>p1 = 0.05</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># 1) power 계산</span>
+<span class="c1"># 2) detect할 수 있는 효과크기 (minimum detetable diffrence) 계산이 가능하다.</span>
+
+<span class="c1"># 1) 고정된 sample size + 가정한 효과크기 -&gt; power를 계산한다</span>
+<span class="nf">power.prop.test</span><span class="p">(</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="m">0.45</span><span class="p">,</span> 
+    <span class="n">p2</span> <span class="o">=</span> <span class="m">0.3</span><span class="p">,</span>
+    <span class="n">sig.level</span> <span class="o">=</span> <span class="m">0.05</span><span class="p">,</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="m">400</span><span class="p">,</span>
+    <span class="n">alternative</span> <span class="o">=</span> <span class="s">"two.sided"</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+     Two-sample comparison of proportions power calculation 
+
+              n = 400
+             p1 = 0.45
+             p2 = 0.3
+      sig.level = 0.05
+          power = 0.9928852
+    alternative = two.sided
+
+NOTE: n is number in *each* group
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="과제2-02번">
+<a class="anchor" href="#%EA%B3%BC%EC%A0%9C2-02%EB%B2%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>과제2-02번<a class="anchor-link" href="#%EA%B3%BC%EC%A0%9C2-02%EB%B2%88"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>두가지 수술방법의 합병증 비율을 비교하는 후향적 연구를 하려고 한다. 아직 데이터를 분석하기 전
+이지만, 수술방법 A는 15%의 환자에게서 합병증이 발생할 것이고 수술방법 B는 5%의 환자에게서
+합병증이 발생할 것으로 예상되는 상황이라고 하자. 연구자가 근무하는 병원에서 A수술을 받은 환자
+200명, B수술을 받은 환자 200명, 이렇게 총 400명이 연구 참여에 동의하여 데이터를 수집할 수 있었
+다. 두 수술방법의 합병증 비율에 차이가 있다는 것을 유의수준 0.05에서 보이기 위한 파워(검정력)는
+얼마인가? (단, lost-to-follow up이나 결측은 고려하지 않는다. 계산을 위한 R 코드와 출력결과를 답안
+에 포함한다.)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>n = ?</li>
+<li>α(유의수준) = 0.05</li>
+<li>β = 0.2</li>
+<li>p0 = 0.15</li>
+<li>p1 = 0.05</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># - power 계산</span>
+
+<span class="nf">power.prop.test</span><span class="p">(</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="m">0.45</span><span class="p">,</span> 
+    <span class="n">p2</span> <span class="o">=</span> <span class="m">0.3</span><span class="p">,</span>
+    <span class="n">sig.level</span> <span class="o">=</span> <span class="m">0.05</span><span class="p">,</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="m">400</span><span class="p">,</span>
+    <span class="n">alternative</span> <span class="o">=</span> <span class="s">"two.sided"</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+     Two-sample comparison of proportions power calculation 
+
+              n = 400
+             p1 = 0.45
+             p2 = 0.3
+      sig.level = 0.05
+          power = 0.9928852
+    alternative = two.sided
+
+NOTE: n is number in *each* group
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="과제2-03번">
+<a class="anchor" href="#%EA%B3%BC%EC%A0%9C2-03%EB%B2%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>과제2-03번<a class="anchor-link" href="#%EA%B3%BC%EC%A0%9C2-03%EB%B2%88"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>Propensity score matching을 사용한 연구결과를 보고하는 논문 1편을 조사하여 다음에 답하시오.<ul>
+<li>a. 연구질문(research question)이 무엇인가?</li>
+<li>b. 연구에 사용한 결과변수의 정의가 무엇인가?</li>
+<li>c. 연구에서 비교한 그룹이 무엇인가?</li>
+<li>d. Propensity score 분석 방법을 사용한 이유가 무엇인가?</li>
+<li>e. Propensity score를 어떤 방법으로 추정하였는가?</li>
+<li>f. 매칭된 데이터의 밸런스를 어떻게 평가하였는가?</li>
+<li>g. 매칭 이후 분석은 매칭된 데이터라는 점을 반영하였는가?  반영하였다면 어떤 방법으로 반영하였는가?</li>
+<li>h. 연구의 결론이 무엇인가?</li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="기타-고려사항">
+<a class="anchor" href="#%EA%B8%B0%ED%83%80-%EA%B3%A0%EB%A0%A4%EC%82%AC%ED%95%AD" aria-hidden="true"><span class="octicon octicon-link"></span></a>기타 고려사항<a class="anchor-link" href="#%EA%B8%B0%ED%83%80-%EA%B3%A0%EB%A0%A4%EC%82%AC%ED%95%AD"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="샘플-사이즈를-줄이고-파워를-늘리는-전략">
+<a class="anchor" href="#%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88%EB%A5%BC-%EC%A4%84%EC%9D%B4%EA%B3%A0-%ED%8C%8C%EC%9B%8C%EB%A5%BC-%EB%8A%98%EB%A6%AC%EB%8A%94-%EC%A0%84%EB%9E%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>샘플 사이즈를 줄이고 파워를 늘리는 전략<a class="anchor-link" href="#%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88%EB%A5%BC-%EC%A4%84%EC%9D%B4%EA%B3%A0-%ED%8C%8C%EC%9B%8C%EB%A5%BC-%EB%8A%98%EB%A6%AC%EB%8A%94-%EC%A0%84%EB%9E%B5"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<p>누구 샘플 사이즈는 적게 가져가도 충분한 power를 가지길 원한다.</p>
+</li>
+<li>
+<p>연속형 결과변수를 사용한다</p>
+<ul>
+<li>이분형 결과변수에 비해 훨씬 더 많은 정보를 가지고 있다.<ul>
+<li>잘 생각해보면, 연속형 변수를 자르면 이분형 변수가 되기 때문</li>
+<li>이분형 결과변수로 바뀐 순간, cut off보다 높다? 낮다? 의 정보만 가지게 된다. (정확한 값은 모르게 된다.)</li>
+</ul>
+</li>
+<li>같은 샘플 사이즈를 가지더라도 더 높은 power를 가지게 된다.</li>
+<li>같은 power를 달성하는 데에도 더 적은 샘플 사이즈가 필요로 된다.</li>
+</ul>
+</li>
+<li>(어쩔 수 없이)이분형 결과변수를 사용할 경우, (되도록이면) 이벤트가 발생하는 확률이 높은 결과변수를 사용한다. (up to 0.5)<ul>
+<li>확률이 0.5근처에 있을수록  더 좋다<ul>
+<li>0이나 1에 가까울수록 샘플사이즈가 더 많이 필요로 된다.</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>이벤트 발생확률이 높은 고위험군 환자를 연구</li>
+<li>추적관찰 기간을 늘린다<ul>
+<li>이벤트가 발생할 확률을 늘인다.</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="가설검정이-주요분석이-아닌-경우">
+<a class="anchor" href="#%EA%B0%80%EC%84%A4%EA%B2%80%EC%A0%95%EC%9D%B4-%EC%A3%BC%EC%9A%94%EB%B6%84%EC%84%9D%EC%9D%B4-%EC%95%84%EB%8B%8C-%EA%B2%BD%EC%9A%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>가설검정이 주요분석이 아닌 경우<a class="anchor-link" href="#%EA%B0%80%EC%84%A4%EA%B2%80%EC%A0%95%EC%9D%B4-%EC%A3%BC%EC%9A%94%EB%B6%84%EC%84%9D%EC%9D%B4-%EC%95%84%EB%8B%8C-%EA%B2%BD%EC%9A%B0"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>지금까지는 가설검정 기반(그룹간 비교)의 샘플사이즈 계산만 봐왔다.</li>
+<li>하지만, 임상연구 초반에서는 현상만 설명하는 descriptive study를 하게 된다.<ul>
+<li>검정이 주목적이 아닌 추정이 주목적이 된다.<ul>
+<li>예) 우리나라 당뇨병 유병률이 몇퍼센트인가?<ul>
+<li>추정이 중요하지 그룹간 비교가 중요하지 않다.</li>
+</ul>
+</li>
+<li>이런 경우, 추정의 precision이 샘플 사이즈 선정의
+기준이 된다.</li>
+</ul>
+</li>
+<li>추정량에 대한 95% 신뢰구간을 구할 때<ul>
+<li>신뢰구간의 폭이 좁을 수록 -&gt; 내가 더 추정치에 대해 자신있게 된다.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>sample size와 신뢰구간의 폭의 관계를 가지고 sample size justicfication을 할 수 있게 된다.<ul>
+<li>sample size가 정해진 경우, 이 추정량에 대한 95%의 신뢰구간이 얼마가 될 것으로 추정이 된다.로 justify할 수 있다.</li>
+<li>반대로, 신뢰구간의 폭이 얼마가 되길 원하는데, 필요한 sample size는 n명이다. 그래서 우리는 n명의 데이터를 모았다.로 justify할 수 있다.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Multivariable-analysis와-샘플-사이즈">
+<a class="anchor" href="#Multivariable-analysis%EC%99%80-%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>Multivariable analysis와 샘플 사이즈<a class="anchor-link" href="#Multivariable-analysis%EC%99%80-%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>중요한 confounder가 있을 경우, confounder를 반드시 모형에 포함시킨 Multivariable analysis를 실시해야한다.<ul>
+<li>이럴 경우 모델의 complexity에 걸맞는 sample size를 사용해줘야한다.</li>
+<li>
+<strong>모델이 변수가 많아서 복잡한데, sample size가 작을 경우, <code>overfitting</code>이 발생한다.</strong><ul>
+<li>모델이 작은 수의 데이터만 설명하고, 비슷한 데이터는 설명 못하게 된다.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>이분형 결과변수인 경우 사용하는 Multivariable logistic regression의 경우<ul>
+<li>
+<strong>rule of sum으로서 <code>15×[독립변수의 개수]</code>가 2개 그룹 중 <code>작은 그룹의 환자 수</code>가 최소 이정도는 되어야한다</strong><ul>
+<li>주로 event발생하는 적은 수의 환자 수 = 15 x 독립변수의 개수<ul>
+<li>만약, 환자 수가 이것보다 작으면, 환자 수에 비해 모델이 너무 복잡해서 overfitting이 발생하는 것으로 본다.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Post-hoc-power-analysis">
+<a class="anchor" href="#Post-hoc-power-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Post-hoc power analysis<a class="anchor-link" href="#Post-hoc-power-analysis"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>이미 데이터 분석을 마쳐서 결론을 얻고, OR를 구하고 x와 y의 상관관계를 구한 상태라고 할 때<ul>
+<li>여기서 구한 OR + 관측한 sample size를 가지고 -&gt; power를 몇퍼센트 가졌는지 계산하는 것이다.<ul>
+<li>임상저널의 리뷰어가 하라고 하는 경우가 종종 있다.</li>
+<li>하지만, 이 분석은 통계적으로 타당하지 않으며, 결과가 정해져있기 때문에필요없는 분석이다</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<strong>필요없고 하면 안되는 분석이다. 왜?</strong><ul>
+<li>내가 관측한 효과크기에 완전히 의존하는 분석이기 때문이다.<ul>
+<li>내가 관측한 효과크기가 유의하면 power가 크게 나온다.</li>
+<li>내가 관측한 효과크기가 유의하지 않으면 power도 부족하게 나오기 때문이다.</li>
+</ul>
+</li>
+<li>즉, 내가 계산한 p-value와 Post-hoc power analysis로 계산한 power값이 완전히 1:1대응이 된다.<ul>
+<li>p-value이상의 정보를 제공해주지 못함. </li>
+<li>이미 일어난 사건에 대한 확률을 계산하는 것이라 통계적으로 말이 안되는 분석이다.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>이 계산을 하지 않겠다 대응하면 된다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="핵심-고려사항(한계점)">
+<a class="anchor" href="#%ED%95%B5%EC%8B%AC-%EA%B3%A0%EB%A0%A4%EC%82%AC%ED%95%AD(%ED%95%9C%EA%B3%84%EC%A0%90)" aria-hidden="true"><span class="octicon octicon-link"></span></a>핵심 고려사항(한계점)<a class="anchor-link" href="#%ED%95%B5%EC%8B%AC-%EA%B3%A0%EB%A0%A4%EC%82%AC%ED%95%AD(%ED%95%9C%EA%B3%84%EC%A0%90)"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>한계점 : 샘플 사이즈 계산은 overlay되어있다. <ul>
+<li>사실은 많은 가정 하에 이뤄지는 예측일 뿐이다</li>
+<li>우리는 효과크기를 계산해야하는데, 그 효과크기를 모르기 때문에 연구하는 건데, 모르는 값을 가정해놓고 구하는 sample size는 틀릴 가능성이 높다.</li>
+</ul>
+<ol>
+<li>쉽게 어긋날 수 있다</li>
+<li>쉽게 ‘조작’할 수 있다<ul>
+<li>a, b, test종류, 양측검정vs단측검정, samplesize에 비해 바뀌기 때문에, 맞춰서 꾸미기도 쉽다.</li>
+</ul>
+</li>
+<li>all-or-nothing의 결정을 내려선 안된다<ul>
+<li>sample size 구한 것을 절대적으로 생각해선 안된다.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>높은 확률로 성공적인 연구를 수행하기 위하여 주어진 정보를  바탕으로 최선의 결정을 내리기 위한 노력이라고 이해해야한다</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="정리하기">
+<a class="anchor" href="#%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>정리하기<a class="anchor-link" href="#%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>유의미한 상관관계를 보일 가능성을 충분히 확보하기 위하여 연구 시작 전 샘플 사이즈를 계산한다</li>
+<li>α는 제1종 오류 확률의 최대허용치이고, β는 제2종 오류 확률이다. 파워는 1-β이다.</li>
+<li>이분형 결과변수의 경우 효과크기는 두 그룹간 event rate의 차이로 결정된다</li>
+<li>원하는 α와 β값과 어떤 효과 크기를 가정하면, 필요한 샘플 사이즈를 계산할 수 있다</li>
+<li>가설검정이 주요 검정이 아닌 경우 신뢰구간의 폭을 기준으로 샘플 사이즈를 계산할 수 있다</li>
+<li>Multivariable logistic regression의 경우, 이분형  결과변수로 나누어지는 두 개의 그룹 중 작은 그룹의 환자 수가 적어도 15×[독립변수의 개수] 정도 되어야 한다</li>
+<li>Post-hoc power analysis는 통계적으로 타당하지 않으며, 결과가 정해져 있기 때문에 필요없는 분석이다</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="연습-문제">
+<a class="anchor" href="#%EC%97%B0%EC%8A%B5-%EB%AC%B8%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>연습 문제<a class="anchor-link" href="#%EC%97%B0%EC%8A%B5-%EB%AC%B8%EC%A0%9C"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="01.-다음-중-샘플-사이즈를-결정하는-요소가-아닌-것은?">
+<a class="anchor" href="#01.-%EB%8B%A4%EC%9D%8C-%EC%A4%91-%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88%EB%A5%BC-%EA%B2%B0%EC%A0%95%ED%95%98%EB%8A%94-%EC%9A%94%EC%86%8C%EA%B0%80-%EC%95%84%EB%8B%8C-%EA%B2%83%EC%9D%80?" aria-hidden="true"><span class="octicon octicon-link"></span></a>01. 다음 중 샘플 사이즈를 결정하는 요소가 아닌 것은?<a class="anchor-link" href="#01.-%EB%8B%A4%EC%9D%8C-%EC%A4%91-%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88%EB%A5%BC-%EA%B2%B0%EC%A0%95%ED%95%98%EB%8A%94-%EC%9A%94%EC%86%8C%EA%B0%80-%EC%95%84%EB%8B%8C-%EA%B2%83%EC%9D%80?"> </a>
+</h4>
+<ol>
+<li>
+<p>목표하는 제1종 오류 확률</p>
+</li>
+<li>
+<p>목표하는 제2종 오류 확률</p>
+</li>
+<li>
+<p>귀무가설과 대립가설</p>
+</li>
+<li>
+<p>눈가림 방법</p>
+</li>
+</ol>
+<ul>
+<li>정답 : 4</li>
+<li>해설 : 눈가림 방법과 샘플 사이즈 간에는 직접적인 연관이 없다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="02-다음-중-임상연구의-샘플-사이즈에-대한-설명으로-맞는-것은?">
+<a class="anchor" href="#02-%EB%8B%A4%EC%9D%8C-%EC%A4%91-%EC%9E%84%EC%83%81%EC%97%B0%EA%B5%AC%EC%9D%98-%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88%EC%97%90-%EB%8C%80%ED%95%9C-%EC%84%A4%EB%AA%85%EC%9C%BC%EB%A1%9C-%EB%A7%9E%EB%8A%94-%EA%B2%83%EC%9D%80?" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 다음 중 임상연구의 샘플 사이즈에 대한 설명으로 맞는 것은?<a class="anchor-link" href="#02-%EB%8B%A4%EC%9D%8C-%EC%A4%91-%EC%9E%84%EC%83%81%EC%97%B0%EA%B5%AC%EC%9D%98-%EC%83%98%ED%94%8C-%EC%82%AC%EC%9D%B4%EC%A6%88%EC%97%90-%EB%8C%80%ED%95%9C-%EC%84%A4%EB%AA%85%EC%9C%BC%EB%A1%9C-%EB%A7%9E%EB%8A%94-%EA%B2%83%EC%9D%80?"> </a>
+</h4>
+<ol>
+<li>
+<p>다른 모든 조건을 같게 유지하면서 유의수준 α를 감소시키면, 필요한 샘플 사이즈도 작아진다.</p>
+</li>
+<li>
+<p>다른 모든 조건을 같게 유지하면서 파워를 높이면, 필요한 샘플 사이즈는 작아진다.</p>
+</li>
+<li>
+<p>이분형 결과변수일 때 다른 모든 조건을 같게 유지하면서 실험군과 대조군의 이벤트 확률의 차이를 크게 하면, 필요한 샘플 사이즈도 작아진다.</p>
+</li>
+<li>
+<p>연구에 필요한 환자 수가 100명이고, 연구기간 중 약 20%의 환자가 lost to follow up될 것이라고 예상된다면, 100명 +　２0명 = 120명을 모집해야 한다.</p>
+<ul>
+<li>연구에 필요한 환자 수가 100명이고 약 20%의 환자가 LTF된다고 예상된다면, 100/(1-0.2) = 125명을 모집해야한다.</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>정답 : 3</li>
+<li>해설 : 유의수준을 감소시키거나 파워를 높인다는 것은 각각 제1종의 오류, 제2종의 오류를 줄인다는 뜻이므로, 필요한 샘플 사이즈가 늘어난다. <strong>실험군과 대조군의 이벤트 확률 차이가 커지면 두 군간의 차이를 detect하기 더 쉬워지므로, 필요한 샘플 사이즈가 작아진다.</strong> </li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances 
+<script src="https://utteranc.es/client.js"
+        repo="is2js/blog_raw"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script> -->
+
+<div id="disqus_thread"></div>
+<script>
+  /**
+   *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+   *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+  /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+  (function () {
+    // DON'T EDIT BELOW THIS LINE
+    var d = document,
+      s = d.createElement('script');
+    s.src = 'https://is2js-blog-raw.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript
+  >Please enable JavaScript to view the
+  <a href="https://disqus.com/?ref_noscript"
+    >comments powered by Disqus.</a
+  ></noscript
+>
+<a class="u-url" href="/r/r%EA%B3%A0%EA%B8%89/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/%EC%83%98%ED%94%8C%EC%82%AC%EC%9D%B4%EC%A6%88/samplesize/2022/04/04/%EC%9D%98%EC%97%B0%EB%B0%A908)-Sample-Size.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

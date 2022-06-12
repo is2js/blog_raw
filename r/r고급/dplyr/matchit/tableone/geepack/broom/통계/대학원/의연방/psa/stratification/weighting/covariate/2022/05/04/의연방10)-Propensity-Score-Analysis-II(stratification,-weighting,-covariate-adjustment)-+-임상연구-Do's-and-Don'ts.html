@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>의연방11) PSA 분석2(층화, 가중치, 공변량) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="의연방11) PSA 분석2(층화, 가중치, 공변량)" />
+<meta name="author" content="tingstyle1" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Propensity Score Analysis II(stratification, weighting, covariate adjustment)" />
+<meta property="og:description" content="Propensity Score Analysis II(stratification, weighting, covariate adjustment)" />
+<link rel="canonical" href="blog.chojaeseong.com/r/r%EA%B3%A0%EA%B8%89/dplyr/matchit/tableone/geepack/broom/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/psa/stratification/weighting/covariate/2022/05/04/%EC%9D%98%EC%97%B0%EB%B0%A910)-Propensity-Score-Analysis-II(stratification,-weighting,-covariate-adjustment)-+-%EC%9E%84%EC%83%81%EC%97%B0%EA%B5%AC-Do's-and-Don'ts.html" />
+<meta property="og:url" content="blog.chojaeseong.com/r/r%EA%B3%A0%EA%B8%89/dplyr/matchit/tableone/geepack/broom/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/psa/stratification/weighting/covariate/2022/05/04/%EC%9D%98%EC%97%B0%EB%B0%A910)-Propensity-Score-Analysis-II(stratification,-weighting,-covariate-adjustment)-+-%EC%9E%84%EC%83%81%EC%97%B0%EA%B5%AC-Do's-and-Don'ts.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/data.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-05-04T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-05-04T00:00:00-05:00","url":"blog.chojaeseong.com/r/r%EA%B3%A0%EA%B8%89/dplyr/matchit/tableone/geepack/broom/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/psa/stratification/weighting/covariate/2022/05/04/%EC%9D%98%EC%97%B0%EB%B0%A910)-Propensity-Score-Analysis-II(stratification,-weighting,-covariate-adjustment)-+-%EC%9E%84%EC%83%81%EC%97%B0%EA%B5%AC-Do's-and-Don'ts.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/data.png","headline":"의연방11) PSA 분석2(층화, 가중치, 공변량)","dateModified":"2022-05-04T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/r/r%EA%B3%A0%EA%B8%89/dplyr/matchit/tableone/geepack/broom/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/psa/stratification/weighting/covariate/2022/05/04/%EC%9D%98%EC%97%B0%EB%B0%A910)-Propensity-Score-Analysis-II(stratification,-weighting,-covariate-adjustment)-+-%EC%9E%84%EC%83%81%EC%97%B0%EA%B5%AC-Do's-and-Don'ts.html"},"author":{"@type":"Person","name":"tingstyle1"},"description":"Propensity Score Analysis II(stratification, weighting, covariate adjustment)","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">의연방11) PSA 분석2(층화, 가중치, 공변량)</h1><p class="page-description">Propensity Score Analysis II(stratification, weighting, covariate adjustment)</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-05-04T00:00:00-05:00" itemprop="datePublished">
+        May 4, 2022
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">tingstyle1</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      13 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#R">R</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#R고급">R고급</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#dplyr">dplyr</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#matchit">matchit</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#tableone">tableone</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#geepack">geepack</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#broom">broom</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#통계">통계</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#대학원">대학원</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#의연방">의연방</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#PSA">PSA</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#stratification">stratification</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#weighting">weighting</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#covariate">covariate</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/is2js/blog_raw/tree/master/_notebooks/2022-05-04-의연방10) Propensity Score Analysis II(stratification, weighting, covariate adjustment) + 임상연구 Do's and Don'ts.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/is2js/blog_raw/master?filepath=_notebooks%2F2022-05-04-%EC%9D%98%EC%97%B0%EB%B0%A910%29+Propensity+Score+Analysis+II%28stratification%2C+weighting%2C+covariate+adjustment%29+%2B+%EC%9E%84%EC%83%81%EC%97%B0%EA%B5%AC+Do%27s+and+Don%27ts.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/is2js/blog_raw/blob/master/_notebooks/2022-05-04-의연방10) Propensity Score Analysis II(stratification, weighting, covariate adjustment) + 임상연구 Do's and Don'ts.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#학습목표">학습목표 </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#주요용어">주요용어 </a></li>
+<li class="toc-entry toc-h3"><a href="#목차">목차 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#PS-추정-후-분석-방법">PS 추정 후 분석 방법 </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#PS-추정-후-분석방법(4가지)">PS 추정 후 분석방법(4가지) </a></li>
+<li class="toc-entry toc-h3"><a href="#Matching">Matching </a></li>
+<li class="toc-entry toc-h3"><a href="#Stratification-(요즘-비추)">Stratification (요즘 비추) </a></li>
+<li class="toc-entry toc-h3"><a href="#Weighting-(IPTW,-Inverse-probability-of-treatment-weighting)">Weighting (IPTW, Inverse probability of treatment weighting) </a></li>
+<li class="toc-entry toc-h3"><a href="#Covariate-adjustment">Covariate adjustment </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#예제-논문">예제 논문 </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#예제논문1:-HPV-백신">예제논문1: HPV 백신 </a></li>
+<li class="toc-entry toc-h3"><a href="#예제논문2:-CABG-vs.-PCI">예제논문2: CABG vs. PCI </a></li>
+<li class="toc-entry toc-h3"><a href="#예제논문3:-VDZ-vs.-ADA">예제논문3: VDZ vs. ADA </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#임상연구-Do’s-and-Don’ts">임상연구 Do’s and Don’ts </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Do’s">Do’s </a></li>
+<li class="toc-entry toc-h3"><a href="#Don’ts">Don’ts </a></li>
+<li class="toc-entry toc-h3"><a href="#문제점">문제점 </a></li>
+<li class="toc-entry toc-h3"><a href="#원인">원인 </a></li>
+<li class="toc-entry toc-h3"><a href="#해결책">해결책 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#정리하기">정리하기 </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#연습-문제">연습 문제 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-다음-Propensity-score-analysis-방법-중,-데이터에-weight를-주어서-치료군과-대조군의-baseline-covariates의-분포의-차이를-제거하는-방법은?">01 다음 Propensity score analysis 방법 중, 데이터에 weight를 주어서 치료군과 대조군의 baseline covariates의 분포의 차이를 제거하는 방법은? </a></li>
+<li class="toc-entry toc-h4"><a href="#02-다음-중-임상연구를-수행하는-방식으로-적절하지-않은-것은?">02 다음 중 임상연구를 수행하는 방식으로 적절하지 않은 것은? </a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-05-04-의연방10) Propensity Score Analysis II(stratification, weighting, covariate adjustment) + 임상연구 Do's and Don'ts.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>R  고급 실습(ps matching with datacleaning-dplyr, MatchIt, tableone-CreateTableOne, geepack-geeglm, broom-회귀계수를 OR로 변환) 포함됨</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="학습목표">
+<a class="anchor" href="#%ED%95%99%EC%8A%B5%EB%AA%A9%ED%91%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>학습목표<a class="anchor-link" href="#%ED%95%99%EC%8A%B5%EB%AA%A9%ED%91%9C"> </a>
+</h2>
+<ul>
+<li>
+<p>PSA 방법 중 stratification, weighting, covariate adjustment 방법을 이해하고 설명할 수 있다.</p>
+</li>
+<li>
+<p>PSA를 사용한 임상논문을 읽고 내용을 이해할 수 있다.</p>
+</li>
+<li>
+<p>임상연구를 수행할 때 주의해야할 점을 설명할 수 있다.</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="주요용어">
+<a class="anchor" href="#%EC%A3%BC%EC%9A%94%EC%9A%A9%EC%96%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>주요용어<a class="anchor-link" href="#%EC%A3%BC%EC%9A%94%EC%9A%A9%EC%96%B4"> </a>
+</h3>
+<ul>
+<li>Inverse probability of treatment weighting (IPTW) : 각 환자가 실제로 받은 treatment를 받을 확률의 역수를 weight로 사용하는 방법. 치료군과 대조군을 비교하는 PSA에서는, 치료군에 1/PS, 대조군에 1/(1-PS)의 weight를 준다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="목차">
+<a class="anchor" href="#%EB%AA%A9%EC%B0%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>목차<a class="anchor-link" href="#%EB%AA%A9%EC%B0%A8"> </a>
+</h3>
+<ol>
+<li>PS 추정 후 분석방법</li>
+<li>예제 논문<ul>
+<li>matching과 IPTW가 가장 많이 쓰인다.</li>
+</ul>
+</li>
+<li>임상연구 Do’s and Don’ts</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="PS-추정-후-분석-방법">
+<a class="anchor" href="#PS-%EC%B6%94%EC%A0%95-%ED%9B%84-%EB%B6%84%EC%84%9D-%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>PS 추정 후 분석 방법<a class="anchor-link" href="#PS-%EC%B6%94%EC%A0%95-%ED%9B%84-%EB%B6%84%EC%84%9D-%EB%B0%A9%EB%B2%95"> </a>
+</h2>
+<h3 id="PS-추정-후-분석방법(4가지)">
+<a class="anchor" href="#PS-%EC%B6%94%EC%A0%95-%ED%9B%84-%EB%B6%84%EC%84%9D%EB%B0%A9%EB%B2%95(4%EA%B0%80%EC%A7%80)" aria-hidden="true"><span class="octicon octicon-link"></span></a>PS 추정 후 분석방법(4가지)<a class="anchor-link" href="#PS-%EC%B6%94%EC%A0%95-%ED%9B%84-%EB%B6%84%EC%84%9D%EB%B0%A9%EB%B2%95(4%EA%B0%80%EC%A7%80)"> </a>
+</h3>
+<ul>
+<li>Matching</li>
+<li>Stratification</li>
+<li>Weighting</li>
+<li>Covariate adjustment
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220517204536.png" alt="20220517204536">
+</li>
+</ul>
+<h3 id="Matching">
+<a class="anchor" href="#Matching" aria-hidden="true"><span class="octicon octicon-link"></span></a>Matching<a class="anchor-link" href="#Matching"> </a>
+</h3>
+<ul>
+<li>지난 시간 학습한 PSA 방법</li>
+<li>PS가 비슷한 치료군 환자와 대조군 환자를 짝짓는다</li>
+<li>짝지어지지 않은 환자는 분석에서 제외한다</li>
+<li>장점 : 직관적으로 이해가 쉽다</li>
+<li>단점 : 짝지어지지 않는 환자의 데이터를 잃어버린다
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220517204604.png" alt="20220517204604">
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Stratification-(요즘-비추)">
+<a class="anchor" href="#Stratification-(%EC%9A%94%EC%A6%98-%EB%B9%84%EC%B6%94)" aria-hidden="true"><span class="octicon octicon-link"></span></a>Stratification (요즘 비추)<a class="anchor-link" href="#Stratification-(%EC%9A%94%EC%A6%98-%EB%B9%84%EC%B6%94)"> </a>
+</h3>
+<ul>
+<li>PS가 비슷한 환자들끼리 strata를 나눈다 (보통 4~5개)</li>
+<li>각각의 stratum에서 (치료방법과 )outcome(의 상관관계를 분석)을 비교하고, 그 결과를 전체 strata에 대해서 합친다</li>
+<li>PS score가 같은 그룹 / 중간 그룹 / 큰 그룹을 각각을 stratum으로서 그룹을 나누고<ul>
+<li>그룹별(stratum별) 분석하고</li>
+<li>나중에 합친다.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220517205432.png" alt="20220517205432">
+</li>
+</ul>
+</li>
+<li>단점:<ul>
+<li>strata를 나누는 기준이 뚜렷하지 않다<ul>
+<li>PS score 몇을 기준으로 나눌지 기준 X가 대부분</li>
+</ul>
+</li>
+<li>stratum 별로 (너무) 다른 결과가 나올 경우 해석의 문제<ul>
+<li>한쪽에서는 상관관계 높, 한쪽에서는 낮.. 어떻게 합치고 어떻게 해석할지 애매해짐</li>
+</ul>
+</li>
+<li><strong>요즘은 안쓰이는 방법</strong></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Weighting-(IPTW,-Inverse-probability-of-treatment-weighting)">
+<a class="anchor" href="#Weighting-(IPTW,-Inverse-probability-of-treatment-weighting)" aria-hidden="true"><span class="octicon octicon-link"></span></a>Weighting (IPTW, Inverse probability of treatment weighting)<a class="anchor-link" href="#Weighting-(IPTW,-Inverse-probability-of-treatment-weighting)"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>probability of treatment의 역수이다.</li>
+<li>치료군의 weight는 <ul>
+<li>probability of treatment = 치료 받을 확률 = 치료군에 속할 확률 = PS score자체</li>
+<li>치료군의 weight = <strong>Inverse probability of treatment = 1/PS</strong>
+</li>
+</ul>
+</li>
+<li>대조군의 weight<ul>
+<li>대조군의 probability of treatment = 치료받지 않을 확률 = 1 - PS</li>
+<li>대조군의 weight:  1/(1-PS)</li>
+</ul>
+</li>
+<li>Inverse probability of treatment를 weight로 준다<ul>
+<li>치료군 weight : 1/PS</li>
+<li>대조군 weight : 1/(1-PS)</li>
+</ul>
+</li>
+<li>
+<strong>이렇게 <code>weight를 준 데이터</code>에서는 <code>치료군과 대조군 간 PS 분포가 비슷</code>해진다</strong><ul>
+<li>PS 추정에 쓰인 <code>변수들의 분포(confounding)가 비슷</code>해진다</li>
+</ul>
+</li>
+<li>
+<p><strong>why? weight를 주면 PS가 비슷해질까?</strong></p>
+<ul>
+<li>각 stratum별 치료여부별(치료군/대조군별 각각) <code>probability of treatment</code>를 계산해보자.<ol>
+<li>
+<code>PS가 작은 (원의 size가 작은) 환자들</code>을 보면, 총 8명 중 2명이 치료를 받았다.<ul>
+<li>치료군 PS(치.속.확) = 1/4
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220517211450.png" alt="20220517211450">
+</li>
+<li>대조군 PS = 3/4
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220517211523.png" alt="20220517211523">
+</li>
+</ul>
+</li>
+<li>
+<code>중간 size 환자들</code>
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220517212304.png" alt="20220517212304">
+</li>
+<li>
+<code>큰 size 환자들</code>
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220517212321.png" alt="20220517212321">
+</li>
+</ol>
+</li>
+<li>각 stratum별 치료여부별 PS(probability of treatment)를 <code>Inverse해서 weight로주자</code>.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220517212506.png" alt="20220517212506"><ol>
+<li>
+<code>작은 size 환자들</code>은 weight가 1보다 큰 4/3이다. 6명 -&gt; 8명으로 뻥튀기 되는 효과를 가진다. <ul>
+<li>대조군: 6명 x 4/3 = 8명</li>
+<li>치료군: 2명 x 4 = 8명</li>
+</ul>
+</li>
+<li>
+<code>중간size</code><ul>
+<li>대조군: 2명 x 5/2 = 5명</li>
+<li>치료군: 3명 x 5/3 = 5명</li>
+</ul>
+</li>
+<li>
+<code>큰size</code><ul>
+<li>대조군: 1명 x 4 = 4명</li>
+<li>치료군: 3명 x 4/3 = 4명</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<strong>weight를 준 데이터를 보면, 대조군과 치료군 사이에서, PS의 분포가 완전히 똑같아진다.</strong><ul>
+<li><strong>PS 역수를 weight로 주어 <code>뻥튀기된 데이터를 이용</code>하면,  2군간 PS가 같아져서 balance가 맞게 됨을 이용하여 -&gt; 2군간의 confounding이 없어진다.</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>장/단점</p>
+<ul>
+<li>장점 : outcome 분석 방법의 flexibility<ul>
+<li>R에서는 weight를 줘서 분석하기에 편함. 다 적용 가능.</li>
+</ul>
+</li>
+<li>단점 : 직관적 이해가 어려움<ul>
+<li>간단한 예제도 여러 계산을 거침. matching처럼 확 이해되지 않음.
+Weighted data에서의 치료군과 대조군의 balance를
+평가해야한다</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>PS matching과 마찬가지로 SMD 이용
+Weighting 이후 분석 : weighting을 고려한 분석을 해야 한다</li>
+<li>회귀분석 : weight 사용. robust variance estimator 사용.</li>
+<li>Survival outcome의 경우: adjusted Kaplan-Meier curve,
+modified log-rank test</li>
+<li>
+<p>PS matching과 마찬가지로, 치료군/대조군 여부 이외에 다른
+공변량을 포함할 필요가 없으나, 포함을 할 경우 doubly robust
+해진다</p>
+</li>
+<li>
+<p>주의점</p>
+<ul>
+<li>경우에 따라서 PS가 0에 가깝거나 1에 가까워서 weight의 분모가 무한대 or 0에 근접하는 경우가 있어서 분석 결과가 불안정하게 된다.<ul>
+<li>weight를 안정화시켜주는 방법들이 개발되어있다.</li>
+</ul>
+</li>
+<li>
+<strong>Stabilized weight(추천):</strong><ol>
+<li>
+<code>marginal probability of treatment (MPT)</code> : 전체 환자 n명 중 치료군 m명의 비율 -&gt; 계산이 간단함.<ul>
+<li>환자 특성 고려없이 전체적으로 봤을 때 치료군에 속할 확률</li>
+</ul>
+</li>
+<li>치료군 weight에는 바로 곱해준다. : <code>MPT x (1/PS)</code>
+</li>
+<li>대조군 weight에는 (1-MPT)를 곱해준다 : <code>(1-MPT) x (1/(1-PS))</code>
+</li>
+</ol>
+<ul>
+<li>IPWS보다는 더 안정적으로 값을 가지며, 2군간의 weight된 데이터가 PS분포가 비슷한 것 자체는 유지됨.</li>
+</ul>
+</li>
+<li>trimmed or truncated weights<ul>
+<li>Stabilized weight의 방법외에 weight가 너무 크거나 작은 환자를 분석에서 제외 or 분석에 포함시키되 weight값을 truncate(한계점 넘어가면 잘라내서 고정)해주는 방법도 있다.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>weight된 데이터는 PS matching처럼 balance가 잘 맞을까?</p>
+<ul>
+<li>PS matching과 마찬가지로 <code>SMD 이용해서 평가</code>한다</li>
+</ul>
+</li>
+<li>
+<p>Weighting 이후 분석 : weighting을 고려한 분석을 해야 한다</p>
+<ul>
+<li>회귀분석 : weight 사용. <ul>
+<li>매칭처럼 p-value/신뢰구간 계산시 <code>robust variance estimator</code> 사용.</li>
+</ul>
+</li>
+<li>Survival outcome의 경우: adjusted Kaplan-Meier curve,    modified log-rank test<ul>
+<li><strong>weight를 줄 경우 시행해주는 평가방법?!</strong></li>
+</ul>
+</li>
+<li><strong>PS matching과 마찬가지로, 치료군/대조군 여부 이외에 다른
+공변량을 포함할 필요가 없으나, 포함을 할 경우 doubly robust
+해진다</strong></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Covariate-adjustment">
+<a class="anchor" href="#Covariate-adjustment" aria-hidden="true"><span class="octicon octicon-link"></span></a>Covariate adjustment<a class="anchor-link" href="#Covariate-adjustment"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>4번째 PS 방법<ul>
+<li>
+<code>PS 추정</code>후 데이터를 수정하는 것이 아니라 <code>구한 PS를 최종 모델에 공변량</code>으로서 추가한다.</li>
+</ul>
+</li>
+<li>outcome 비교를 위한 회귀분석 모델에 PS를 공변량으로 넣는다<ul>
+<li>model: outcome~ 치료군/대조군 + <code>PS</code>
+</li>
+</ul>
+</li>
+<li>장점 : (모든 회귀분석에 적용할 수 있어서)outcome 분석 방법의 flexibility</li>
+<li>단점 :<ul>
+<li>outcome과 PS의 관계가 올바르게 모델 되어야 한다<ul>
+<li>PS가 선형 모델이 맞는지 취약하다.</li>
+</ul>
+</li>
+<li>디자인 단계와 분석 단계의 완벽한 분리가 되지 않는다<ul>
+<li>
+<code>PS matching이나 weighting</code>은 데이터를 새롭게 만들어서 쓰면 되므로, <code>데이터 가공단계</code>로서 분석과 별개의 단계</li>
+<li>공변량으로 추가하는 것은, 분석단계 실패시, PS를 다시 추정하는 단계로 돌아가 디자인&lt;-&gt; 분석단계가 분리되지 않음.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="예제-논문">
+<a class="anchor" href="#%EC%98%88%EC%A0%9C-%EB%85%BC%EB%AC%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>예제 논문<a class="anchor-link" href="#%EC%98%88%EC%A0%9C-%EB%85%BC%EB%AC%B8"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="예제논문1:-HPV-백신">
+<a class="anchor" href="#%EC%98%88%EC%A0%9C%EB%85%BC%EB%AC%B81:-HPV-%EB%B0%B1%EC%8B%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>예제논문1: HPV 백신<a class="anchor-link" href="#%EC%98%88%EC%A0%9C%EB%85%BC%EB%AC%B81:-HPV-%EB%B0%B1%EC%8B%A0"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220518162125.png" alt="20220518162125"></p>
+<ul>
+<li>HPV백신은 임산부들에게 recommend되지 않는데, 임신하지 모르고 맞는 경우가 가끔 있을 것이다.<ul>
+<li>이 경우, 안전한가? 임신이라는 outcome에 영향을 주지 않는가? 는 중요하다.</li>
+<li>의학적으로 중요. HPV 백신 이후에 임신 사실을 알았을 때 어떻게 해야할지 의사결정을 해야하기 때문</li>
+<li>임상시험도 할 수가 없어서 관찰연구 밖에 할 수 없다.</li>
+</ul>
+</li>
+<li>
+<p>Research question: 임신 초기에 HPV 백신을 맞을 경우 안전한가?</p>
+<ul>
+<li>임신기간 중 HPV 백신은 권장되지 않기 때문에 임상시험을 통해 조사할 수 없음 → 후향적 관찰연구만 가능</li>
+<li>덴마크의 nationwide register 자료를 이용, <code>약 7년간 단태아 임신 자료 분석</code>를 분석</li>
+</ul>
+</li>
+<li>
+<p>Outcomes 6가지 분석:</p>
+<ul>
+<li>major birth defect</li>
+<li>spontaneous abortion(유산)</li>
+<li>preterm birth(조산)</li>
+<li>low birth weight(저체중아)</li>
+<li>small size for gestational age</li>
+<li>still birth</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>
+<p>HPV백신 맞았다 vs 안맞았다 <code>치료군vs대조군 정의</code> 먼저 나누는데, <strong>이 논문에서는 특이하게 6개의 outcome마다 치료군의 정의를 다르게 했다.</strong></p>
+<ul>
+<li>outcome마다 치료군을 다르게 한 이유: 각 outcome마다 언제 맞은 HPV백신이 영향이 있을 것이다 라는 가설이 각각 달라서 일 것이다.</li>
+<li>치료군을 5군으로 정의했다 -&gt; 같은 데이터지만, 5번의 다른 분석을 한 것이나 마찬가지 -&gt; 총 5번의 <code>PS matching</code>을 한 것이다.</li>
+<li>
+<code>치료군</code> 정의 : 각 outcome 마다 정의가 달라짐<ul>
+<li>major birth defect : 임신 초기 12주 내에 HPV 백신을 맞은 사람</li>
+<li>spontaneous abortion : 임신 7주~22주에 HPV 백신을 맞은 사람</li>
+<li>Stillbirth : 임신 7주 이후에 HPV 백신을 맞은 사람</li>
+<li>preterm birth : 임신 37주 이전에 HPV 백신을 맞은 사람</li>
+<li>low birth weight, small size for gestational age : 임신 기간 중 HPV 백신을 맞은 사람</li>
+</ul>
+</li>
+<li>
+<code>대조군</code> 정의 : 치료군이 아닌 사람</li>
+<li>즉, 총 5번의 PS matching을 시행</li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220518162929.png" alt="20220518162929"></p>
+<ul>
+<li>로지스틱 회귀분석을 이용한 PS matching을 했다.<ul>
+<li>백신을 맞을 가능성(propability)를 계산함.</li>
+</ul>
+</li>
+<li>all baseline characteristics 뿐만 아니라  all two-way
+interactions between demographic variables<ul>
+<li>극단적이긴 한데, 모든 인터렉션을 다 포함했다.</li>
+<li><strong>PS model에는 설명변수의 제한이 없기 때문에, 각 특징 이외에 인터렉션까지 포함시켜서 PS matching을 돌림.</strong></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220518163211.png" alt="20220518163211"></p>
+<ul>
+<li>5개의 outcome에 대해 각각 PS matching을 했는데 1:4비율로 시행함.</li>
+<li>매칭 수행이 <code>PS score</code>뿐만 아니라. 나이, 임신 시작까지 추가로 넣어서 매칭을 수행했다.</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220518163331.png" alt="20220518163331"></p>
+<ul>
+<li>오스틴이 추천하는 nearest with caliper의 방법을 썼다.</li>
+<li>
+<strong>하지만, 이 방법은 PS score 단독으로만 사용될 때 쓸 수 있는 matching이다.</strong><ul>
+<li>앞에 나온 age, calendar year와 부합되지 않는다 -&gt; 약간 걱정됨.</li>
+</ul>
+</li>
+<li>SMD를 이용해서 평가했다.</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220518163500.png" alt="20220518163500"></p>
+<ul>
+<li>앞 부분은 생존분석을 통해 분석해서 넘어감</li>
+<li>outcome들에 대해 <strong>(이분형 결과변수로 분석했음을 알 수 있는) <code>로지스틱 회귀분석</code>을 이용해서 prevalence <code>OR을 구했다</code>.</strong><ul>
+<li>앞서 09에서 로지스틱 회귀분석으로 OR을 구해 효과를 추정했었음.</li>
+</ul>
+</li>
+<li>GEE 방법을 썼다고 했는데<ul>
+<li>매칭을 고려해서 쓴 것은 아니고 </li>
+<li>
+<strong>데이터내 한 여성이 여러번 임신해서 여러번 들어가는 경우, 한 여자에서 나왔으므로 그 데이터들은 독립이 아니기 때문에 독립이 아니다를 보정하기 위해, GEE를 통해 correlation structure를 줘서 보정했다.</strong><ul>
+<li>possible
+correlation between pregnancies within the same
+mother....</li>
+</ul>
+</li>
+<li>매칭을 분석해서 따로 고려하지 않고, 일반적으로 매칭하지 않은 자료로로 분석하되 한 여성이 여러임신한 경우에 대해서만 GEE로 보정했다.</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220518163929.png" alt="20220518163929"></p>
+<ul>
+<li>PS matching을 5번 했는데, 각각에 대해서, 치료군이라고 생각한 군 / 대조군이라고 생각한 군에 기본 환자 특성만 비교한 표이다.<ul>
+<li>요약통계량만 나와있고</li>
+<li>p-value와 SMD를 계산하지 않았다.<ul>
+<li><strong>수치로 2군간의 balance를 평가한 것 같진 않다.</strong></li>
+<li>앞에 기술에 의해 SMD를 이용했다 했으니, 표에만 표기하지 않은 것 같다.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220518164239.png" alt="20220518164239"></p>
+<ul>
+<li>table 3가 메인 결과인데<ul>
+<li>6가지 outcome들이 나오고</li>
+<li>임신 중 백신 안맞은 그룹(대조군) vs 백신 맞은 그룹(실험군)을 비교했다.</li>
+</ul>
+</li>
+<li>outcome마다 군이 달라진다(정의가 달라서)</li>
+<li>각 군별로 안좋은 outcome의 비율이 요약되어있다.</li>
+<li>
+<code>OR</code>이 아니라 <code>Measure of Association</code>이라 적혀있는 이유는<ul>
+<li>outcome들 가운데, 어떤 것은 생존분석 -&gt; <code>HR</code>로 report </li>
+<li>어떤 것들은 <code>OR</code>로 report 했기 때문일 것이다.</li>
+<li>밑에 주석에 mbd, pb, lbw, ssforg에 대해서만 prevalence OR로 계산했다고 나온다.</li>
+</ul>
+</li>
+<li>Major birth defect의 Measure of Association을 보면<ul>
+<li>OR가 1.19에 <code>신뢰구간이 1을 포함</code>한다는 것은 <code>2군간 통계적 차이가 유의미하지 않음</code>을 의미한다.</li>
+<li>PS matching을 한 뒤, 임신중 HPV 백신여부는 -&gt; Major birth defect발생에 유의하지 않았다. 2군간 차이가 없다.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="예제논문2:-CABG-vs.-PCI">
+<a class="anchor" href="#%EC%98%88%EC%A0%9C%EB%85%BC%EB%AC%B82:-CABG-vs.-PCI" aria-hidden="true"><span class="octicon octicon-link"></span></a>예제논문2: CABG vs. PCI<a class="anchor-link" href="#%EC%98%88%EC%A0%9C%EB%85%BC%EB%AC%B82:-CABG-vs.-PCI"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220518170000.png" alt="20220518170000"></p>
+
+<pre><code>- PCI(스텐트)수술과 캐비지(CABG, 관상동맥 우회술)수술을 비교한 논문
+- 오래되고 아직도 디베이트 하고 있는 논문
+</code></pre>
+<ul>
+<li>Research question: multivessel disease 환자에서 CABG와 PCI 중에어느 쪽이 결과가 좋은가?<ul>
+<li>CABG : coronary-artery bypass grafting (관상동맥우회술 (수술))</li>
+<li>PCI : percutaneous coronary intervention (관상동맥중재술 (스텐트 시술))</li>
+<li>기존 연구에서는 second-generation drug-eluting stent로 시술한 PCI를 평가하지 않음<ul>
+<li>당시에...는 새로운 pci수술을 실험함.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Outcomes 4가지:<ul>
+<li>all-cause mortality</li>
+<li>myocardial infarction</li>
+<li>stroke</li>
+<li>repeat revalscularization</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220519115013.png" alt="20220519115013"></p>
+<ul>
+<li>ps matching을 했다.</li>
+<li>치료여부는 PCI냐 CABG냐 였다</li>
+<li>
+<code>PCI받을 확률</code>을 <code>PS score</code>로 추정하는 로지스틱 회귀분석을 했다.<ul>
+<li>nonparsimonious multivariable
+logistic-regression model : 간단하지 않은 모델 = 설명변수를 아주 많이 넣었다.</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220519115303.png" alt="20220519115303"></p>
+<ul>
+<li>매칭은 1:1로 했다.</li>
+<li>without replacement = greedy-matching을 했다</li>
+<li>austin 추천방법대로 caliper를 썼다</li>
+<li>SMD를 계산해서 평가했다</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220519115406.png" alt="20220519115406"></p>
+<ul>
+<li>매칭후 분석은 paired된 점을 고려해서 맥니머 테스트를 했고</li>
+<li>연속 변수에 대해서는 paired Student’s t-test 를 이용했다</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220519115619.png" alt="20220519115619"></p>
+<ul>
+<li>table1을 보면 깔끔하게 정리되어있다.</li>
+<li>매칭 전/매칭 후를 일단 나누고<ul>
+<li>매칭 전에는 각 그룹별로 요약통계량 + SMD계산이 됬는데 %로 한 것을 보니 smd x 100을 한 숫자<ul>
+<li>%를 고려하면 매칭전 smd(차이)가 그리 크진 않았다.</li>
+</ul>
+</li>
+<li>매칭 후에는 확실히 smd가 줄었다.</li>
+</ul>
+</li>
+<li>매칭후 balance가 좋아졌다는 것을 smd로 잘 보여줬다.</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220519115721.png" alt="20220519115721"></p>
+<ul>
+<li>메인결과는 각 outcome들에 대해서 pci받은 그룹/cabg받은 그룹에 대해 환자수 / event / hr(생존자료분석) / p-value를 보여준다.</li>
+<li>지금까지 생존자료분석을 하지 않고 있기 때문에, 배운 이분형 결과변수를 이용한 연구를 찾고 있었는데 없었다.<ul>
+<li>ps matching에서는 생존자료분석 -&gt; HR를 report하는 연구가 많음 </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="예제논문3:-VDZ-vs.-ADA">
+<a class="anchor" href="#%EC%98%88%EC%A0%9C%EB%85%BC%EB%AC%B83:-VDZ-vs.-ADA" aria-hidden="true"><span class="octicon octicon-link"></span></a>예제논문3: VDZ vs. ADA<a class="anchor-link" href="#%EC%98%88%EC%A0%9C%EB%85%BC%EB%AC%B83:-VDZ-vs.-ADA"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220519115946.png" alt="20220519115946"></p>
+<ul>
+<li>IPTW가 어떻게 기술되어있는지 가져온 논문</li>
+<li>크론병에서 2가지 약(VDZ, 베돌리주맙 vs ADA, 아달이무밥)을 비교한 논문<ul>
+<li>어느 약이 효과가 더 좋은지 연구한 논문</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>Research question : 크론병에서 VDZ과 ADA 중 어느 약이 더 효과가 좋은가?</li>
+<li>Sicilian Network for Inflammatory Bowel Disease 데이터를 이용한 관찰
+연구</li>
+<li>Outcomes:<ul>
+<li>failure-free survival (failure: discontinuation of VDZ or ADA due to
+AE or inefficacy)</li>
+<li>clinical response: reduction of Harvey-Bradshaw Index ≥3 with
+concomitant decrease of steroid dosage compared with baseline</li>
+<li>steroid-free clinical remission (Harvey-Bradshaw Index ‹5 without
+steroid use)</li>
+<li>rate of surgery at the end of FU (intestinal resection + stricturoplasty – perianal surgery)</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220519121142.png" alt="20220519121142"></p>
+<ul>
+<li>간단하지 않은 모델: 설명변수들에 confounder의심 변수들을 넣었다고 나열해놓음<ul>
+<li>변수들을 넣고, 로지스틱 회귀분석을 통해, PS를 추정함</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220519121233.png" alt="20220519121233"></p>
+<ul>
+<li>추정한 PS를 가지고, IPTW방법으로 weight를 줬는데, stablilized weights를 줬다.<ul>
+<li>분자에 marginal probability를 곱한 값을 weight로 줬다</li>
+</ul>
+</li>
+<li>weight를 줘서 2군간의 balance를 맞추고, SMD로 평가했다.</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220519121340.png" alt="20220519121340"></p>
+<ul>
+<li>balance를 맞춘 뒤, 계산한 weight를 가지고 로지스틱을 했다.<ul>
+<li>IPTW-adjusted logistic regression analyses</li>
+</ul>
+</li>
+<li>생존자료 outcome에서도 CoxPH regression에서도 마찬가지로 weight를 줘서 했다.</li>
+<li>weight를 고려해서 robust standard errors 더 보수적인 방법으로 p-value와 신뢰구간을 계산했다.</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220519121650.png" alt="20220519121650"></p>
+<ul>
+<li>table2에서 baseline characteristic을 비교했는데</li>
+<li>2가지 약재에 속한 그룹별로 나와있는데, 여기서 p-value는 쓰는 것이 좋지 않다는 것을 author들이 알고 있었을 것이다. 리뷰어 요청으로 계산한 듯 보인다.</li>
+<li>그 이유는 SMD를 계산한 그래프를 줬기 때문이다.</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220519121804.png" alt="20220519121804"></p>
+<ul>
+<li>x축이 Absolute mean difference라 적혀있어서 헤깔리는데, 논문을 읽어보면 SMD임을 알 수 있다.<ul>
+<li>빨간점: 매칭전 SMD</li>
+<li>파란점: 매칭이후 SMD</li>
+<li>매칭이후에는 모두 0.1보다 작은 SMD를 보인다.</li>
+</ul>
+</li>
+<li>전체 환자에 대해서도 IPTW를 했고, 52주이상 FollowUp된 환자들에 대해서도 IPTW를 계산했다.<ul>
+<li>SMD를 표상의 숫자가 아닌 그래프로 balance를 예쁘게 평가했다.</li>
+<li>변수가 많을 경우, 그래프로 나타내면 예쁘다.</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220519122129.png" alt="20220519122129"></p>
+<ul>
+<li>outcome비교 방법이 OR이 대표적이지만, 여기서는 각 군별로 event ratio를 막대그래프로 직관적으로 보여줬다.</li>
+<li>main으로 본 outcome은 clinical response + steroid-free remission을 합쳐서 -&gt; 둘중에 하나라도 있었는가이다.<ul>
+<li>VDZ에서는 event 발생 비율이 64.3</li>
+<li>ADA에서는 event 발생 비율이 83.1</li>
+<li>그 event 비율의 차이에 대한 p-value는 0.107</li>
+<li>이러한 방식으로도 2분형 결과변수에 대한 두 군간의 차이를 보여줄 수 있다.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="임상연구-Do’s-and-Don’ts">
+<a class="anchor" href="#%EC%9E%84%EC%83%81%EC%97%B0%EA%B5%AC-Do%E2%80%99s-and-Don%E2%80%99ts" aria-hidden="true"><span class="octicon octicon-link"></span></a>임상연구 Do’s and Don’ts<a class="anchor-link" href="#%EC%9E%84%EC%83%81%EC%97%B0%EA%B5%AC-Do%E2%80%99s-and-Don%E2%80%99ts"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Do’s">
+<a class="anchor" href="#Do%E2%80%99s" aria-hidden="true"><span class="octicon octicon-link"></span></a>Do’s<a class="anchor-link" href="#Do%E2%80%99s"> </a>
+</h3>
+<ol>
+<li>먼저 <code>Research question</code>이 있어야하고, <code>가설</code>을 먼저 세운다</li>
+<li>그것을 통계적으로 검정가능한 가설로 변환한다</li>
+<li>(가설을 test할 수 있도록) 연구 계획을 세운다<ol>
+<li>연구 디자인 정하기<ul>
+<li>case-control study? cohort study? RCT? retrospective cohort를 하는데 PS로 confounding을 보정할 것인가</li>
+</ul>
+</li>
+<li>데이터 수집 방법</li>
+<li>데이터 분석 방법</li>
+</ol>
+</li>
+<li>계획한 방법에 따라 데이터를 수집한다</li>
+<li>계획한 방법에 따라 데이터를 분석한다</li>
+<li>결과를 해석한다</li>
+<li>dissemination<ul>
+<li>학회나 논문으로 발표</li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Don’ts">
+<a class="anchor" href="#Don%E2%80%99ts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Don’ts<a class="anchor-link" href="#Don%E2%80%99ts"> </a>
+</h3>
+<ol>
+<li>Research question과 명확한 가설 없이 일단 데이터부터 모은다</li>
+<li>모아진 데이터로 가능한 분석들을 해본다</li>
+<li>원하는 결과(p&lt;0.05)가 나오지 않으면, 다른 방법으로 다시 분석한다<ul>
+<li>결과변수의 정의를 바꾼다</li>
+<li>설명변수, 공변량을 바꾼다<ul>
+<li>연속형변수를 범주형 변수로, cutoff를 바꿔가며...</li>
+<li>범주형 변수의 변수를 다르게 묶어보고...</li>
+</ul>
+</li>
+<li>환자군을 바꾼다</li>
+<li>모델을 바꾼다</li>
+<li>각종 subgroup을 본다</li>
+</ul>
+</li>
+<li>p-value&lt;0.05가 나온 것만 발표한다</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="문제점">
+<a class="anchor" href="#%EB%AC%B8%EC%A0%9C%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>문제점<a class="anchor-link" href="#%EB%AC%B8%EC%A0%9C%EC%A0%90"> </a>
+</h3>
+<ul>
+<li>“Research question과 명확한 가설 없이 일단 데이터부터
+모은다”<ul>
+<li>연구 목적에 맞는 데이터 수집 기회 상실<ul>
+<li>디자인으로 인한 문제는 통계적으로 해결 어려움</li>
+<li>질 높은 연구가 이루어지기 어려움</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>“원하는 결과(p&lt;0.05)가 나올 때까지 방법을 바꿔가며 분석한다”<ul>
+<li>p-value hacking, data dredging</li>
+<li>선택적으로 보고된 결과들의 Type I error확률이 유의수준 0.05보다 높아진다<ul>
+<li>결과를 믿을 수 있는 가능성이 높아진다.</li>
+</ul>
+</li>
+<li>Hurts replicability<ul>
+<li>같은 데이터로 재현은 할 수 있겠지만, 다른 집단에서 다른 연구자가 분석하면 같은 결과가 안나올 가능성이 높아진다.</li>
+</ul>
+</li>
+<li>계속 바뀌는 분석방법으로 인한 피로도, 실수 가능성이 높아진다</li>
+<li>p-value 중심 연구 방식 자체의 문제</li>
+<li>p-value는 통계적 유의성만 알려주며, 이것은 임상적 유의성과는 완전히 다르다</li>
+<li>귀무가설 기각 여부에 의해 Pass or fail로 나뉘는 dichotomy의 문제</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="원인">
+<a class="anchor" href="#%EC%9B%90%EC%9D%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>원인<a class="anchor-link" href="#%EC%9B%90%EC%9D%B8"> </a>
+</h3>
+<ul>
+<li>p-value&lt;0.05 달성에 대한 보상은 분명함<ul>
+<li>훨씬 높은 출판 가능성</li>
+<li>출판된 논문 → 임용, 승진을 위한 currency</li>
+</ul>
+</li>
+<li>연구계획수립에 대한 보상은 불분명함<ul>
+<li>미리 수립된 연구계획이 있었는지 여부가 출판 가능성에 거의 영향 없음</li>
+<li>연구계획 승인 절차의 부재 (IRB? 국책 과제 심사?)</li>
+</ul>
+</li>
+<li>애초에 연구계획의 중요성을 배운 적이 없음<ul>
+<li>연구계획 없이 연구 커리어를 이어온 선배 교수의 지도</li>
+<li>연구계획의 중요성을 알아도, 연구계획 방법을 모름</li>
+</ul>
+</li>
+<li>통계학의 역할에 대한 오해<ul>
+<li>데이터를 넣으면 답이 나오는 블랙박스?</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="해결책">
+<a class="anchor" href="#%ED%95%B4%EA%B2%B0%EC%B1%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>해결책<a class="anchor-link" href="#%ED%95%B4%EA%B2%B0%EC%B1%85"> </a>
+</h3>
+<ul>
+<li>시스템<ul>
+<li>연구비, 보상 체계</li>
+<li>임상과학 연구자 육성을 위한 지원</li>
+</ul>
+</li>
+<li>교육</li>
+<li>통계학자, 역학자 등과 협력연구<ul>
+<li>연구 초반 가설을 세울 때부터 일찍 involve</li>
+<li>technician이 아닌 collaborator, team member로 상호 존중과 협력</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="정리하기">
+<a class="anchor" href="#%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>정리하기<a class="anchor-link" href="#%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>Propensity score(PS)를 추정한 후 분석하는 방법 중, stratification은 PS
+가 비슷한 환자들끼리 strata를 나누어 분석한 후 그 결과를 합치는 방법이다.</li>
+<li>Inverse probability of treatment weighting(IPTW) 방법은 치료군은
+1/PS, 대조군은 1/(1-PS)의 weight를 주어 분석하는 방법이다.</li>
+<li>Covariate adjustment는 outcome model에 PS를 공변량으로 넣는 방법
+이다.</li>
+<li>임상연구를 수행할 때에는 research question과 가설을 먼저 세우고 그에 맞
+는 연구 계획을 세운 후, 계획한 방법으로 데이터 수집과 분석을 실시해야한다.</li>
+<li>원하는 결과가 나올 때까지 분석 방법을 바꾸어 하며 p-value hacking을 하
+는 것은 Type I error 확률을 높이며, 연구 재현성을 해친다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="연습-문제">
+<a class="anchor" href="#%EC%97%B0%EC%8A%B5-%EB%AC%B8%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>연습 문제<a class="anchor-link" href="#%EC%97%B0%EC%8A%B5-%EB%AC%B8%EC%A0%9C"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="01-다음-Propensity-score-analysis-방법-중,-데이터에-weight를-주어서-치료군과-대조군의-baseline-covariates의-분포의-차이를-제거하는-방법은?">
+<a class="anchor" href="#01-%EB%8B%A4%EC%9D%8C-Propensity-score-analysis-%EB%B0%A9%EB%B2%95-%EC%A4%91,-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%97%90-weight%EB%A5%BC-%EC%A3%BC%EC%96%B4%EC%84%9C-%EC%B9%98%EB%A3%8C%EA%B5%B0%EA%B3%BC-%EB%8C%80%EC%A1%B0%EA%B5%B0%EC%9D%98-baseline-covariates%EC%9D%98-%EB%B6%84%ED%8F%AC%EC%9D%98-%EC%B0%A8%EC%9D%B4%EB%A5%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95%EC%9D%80?" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 다음 Propensity score analysis 방법 중, 데이터에 weight를 주어서 치료군과 대조군의 baseline covariates의 분포의 차이를 제거하는 방법은?<a class="anchor-link" href="#01-%EB%8B%A4%EC%9D%8C-Propensity-score-analysis-%EB%B0%A9%EB%B2%95-%EC%A4%91,-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%97%90-weight%EB%A5%BC-%EC%A3%BC%EC%96%B4%EC%84%9C-%EC%B9%98%EB%A3%8C%EA%B5%B0%EA%B3%BC-%EB%8C%80%EC%A1%B0%EA%B5%B0%EC%9D%98-baseline-covariates%EC%9D%98-%EB%B6%84%ED%8F%AC%EC%9D%98-%EC%B0%A8%EC%9D%B4%EB%A5%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95%EC%9D%80?"> </a>
+</h4>
+<ol>
+<li>
+<p>Matching</p>
+</li>
+<li>
+<p>Stratification</p>
+</li>
+<li>
+<p>Inverse probability of treatment weighting</p>
+</li>
+<li>
+<p>Covariate adjustment</p>
+</li>
+</ol>
+<ul>
+<li>정답 : 3</li>
+<li>해설 : IPTW 방법은 치료군에 1/PS, 대조군에 1/(1-PS)의 weight를 주어, weighted data에서 치료군과 대조군 간 PS 값이 분포가 비슷하게 만들고, 결과적으로 baseline covariates의 분포가 두 군간에 비슷해지게 만드는 방법이다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="02-다음-중-임상연구를-수행하는-방식으로-적절하지-않은-것은?">
+<a class="anchor" href="#02-%EB%8B%A4%EC%9D%8C-%EC%A4%91-%EC%9E%84%EC%83%81%EC%97%B0%EA%B5%AC%EB%A5%BC-%EC%88%98%ED%96%89%ED%95%98%EB%8A%94-%EB%B0%A9%EC%8B%9D%EC%9C%BC%EB%A1%9C-%EC%A0%81%EC%A0%88%ED%95%98%EC%A7%80-%EC%95%8A%EC%9D%80-%EA%B2%83%EC%9D%80?" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 다음 중 임상연구를 수행하는 방식으로 적절하지 않은 것은?<a class="anchor-link" href="#02-%EB%8B%A4%EC%9D%8C-%EC%A4%91-%EC%9E%84%EC%83%81%EC%97%B0%EA%B5%AC%EB%A5%BC-%EC%88%98%ED%96%89%ED%95%98%EB%8A%94-%EB%B0%A9%EC%8B%9D%EC%9C%BC%EB%A1%9C-%EC%A0%81%EC%A0%88%ED%95%98%EC%A7%80-%EC%95%8A%EC%9D%80-%EA%B2%83%EC%9D%80?"> </a>
+</h4>
+<ol>
+<li>
+<p>데이터 수집 전 먼저 가설을 명확히 세운다.</p>
+</li>
+<li>
+<p>연구 계획에 따라 데이터를 수집하고 분석한다.</p>
+</li>
+<li>
+<p>계획한 분석 결과가 통계적으로 유의하지 않을 경우, 결과변수의 정의를 바꾸거나 환자군을 바꾸어 유의한 결과가 나오도록 한다.</p>
+</li>
+<li>
+<p>계획한 분석의 결과는 통계적 유의성과 관계없이 모두 보고한다.</p>
+</li>
+</ol>
+<ul>
+<li>정답 : 3</li>
+<li>해설 : 통계적 유의성을 달성할 때까지 연구 방법을 바꾸는 행위는 p-value hacking으로서, 연구재현성을 해치고 Type I error 확률을 높인다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances 
+<script src="https://utteranc.es/client.js"
+        repo="is2js/blog_raw"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script> -->
+
+<div id="disqus_thread"></div>
+<script>
+  /**
+   *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+   *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+  /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+  (function () {
+    // DON'T EDIT BELOW THIS LINE
+    var d = document,
+      s = d.createElement('script');
+    s.src = 'https://is2js-blog-raw.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript
+  >Please enable JavaScript to view the
+  <a href="https://disqus.com/?ref_noscript"
+    >comments powered by Disqus.</a
+  ></noscript
+>
+<a class="u-url" href="/r/r%EA%B3%A0%EA%B8%89/dplyr/matchit/tableone/geepack/broom/%ED%86%B5%EA%B3%84/%EB%8C%80%ED%95%99%EC%9B%90/%EC%9D%98%EC%97%B0%EB%B0%A9/psa/stratification/weighting/covariate/2022/05/04/%EC%9D%98%EC%97%B0%EB%B0%A910)-Propensity-Score-Analysis-II(stratification,-weighting,-covariate-adjustment)-+-%EC%9E%84%EC%83%81%EC%97%B0%EA%B5%AC-Do's-and-Don'ts.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
