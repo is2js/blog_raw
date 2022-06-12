@@ -23,8 +23,8 @@ datagrip
 
 
 ### 단축키
-- `ctrl + shift + Q`: 쿼리 콘솔 열기
-- `ctrl + Enter`(assign) : 쿼리 실행하기
+- `ctrl + shift + Q`: 새 쿼리 콘솔 열기
+- `F5`(assign) : `execute` 단축키로 쿼리 실행하기
 - `alt + 2` : file(tool window)
 - `ctrl + shift + alt + F`: table의 where filter 포커싱
 - `ctrl + shift + alt + G`(assing): 입력 가능한 live template 목록 보기
@@ -52,3 +52,11 @@ datagrip
 	![20220610175954](https://raw.githubusercontent.com/is2js/screenshots/main/20220610175954.png)
 	
 - **세션 확인 후 종료 : `alt+8`(service) -> `c+a+s+F4`(Close session)**
+
+- `ctrl + ENTER`: default `Start New Line` 단축키
+	- **자동완성을 피하면서 줄바꿈 하기 위함**
+	- shift를 넣어주면 `Start New Line Before Current` 단축키로, 직전행에 새줄 생성 및 커서 이동
+
+- `ctrl + shift + T`(assign): 조회 결과를 `transponse`해서 보기
+	- keymap > `transpose`검색 > `plugins`하위 > c+s+T로 지정하기
+	![20220611234915](https://raw.githubusercontent.com/is2js/screenshots/main/20220611234915.png)
