@@ -127,16 +127,150 @@ window.onload = wrap_img;
     <!-- toc가 먼저 나오므로 h3로 안내하기 -->
     <h3>📜 제목으로 보기</h3>
     <ul class="section-nav">
-<li class="toc-entry toc-h3"><a href="#설정">설정</a></li>
+<li class="toc-entry toc-h2"><a href="#플러그인">플러그인</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#vscode-keymap-설치-및-intellij-설정-가져오기">Vscode Keymap 설치 및 intellij 설정 가져오기</a></li>
+<li class="toc-entry toc-h3"><a href="#pylint-설치">Pylint 설치</a></li>
+<li class="toc-entry toc-h3"><a href="#black-설치">Black 설치</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#로컬python에-black설치---external-tools에-추가">로컬python에 black설치 -&gt; external tools에 추가</a></li>
+<li class="toc-entry toc-h4"><a href="#file-watchers에-black-추가하여-실시간-반영">File Watchers에 Black 추가하여 실시간 반영</a></li>
+<li class="toc-entry toc-h4"><a href="#실시간-반영-지우고-단축키로">실시간 반영 지우고 단축키로</a></li>
+</ul>
+</li>
 <li class="toc-entry toc-h3"><a href="#단축키">단축키</a></li>
-</ul><h3 id="설정">
-<a class="anchor" href="#%EC%84%A4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>설정</h3>
+</ul>
+</li>
+</ul><h2 id="플러그인">
+<a class="anchor" href="#%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>플러그인</h2>
+
+<h3 id="vscode-keymap-설치-및-intellij-설정-가져오기">
+<a class="anchor" href="#vscode-keymap-%EC%84%A4%EC%B9%98-%EB%B0%8F-intellij-%EC%84%A4%EC%A0%95-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>Vscode Keymap 설치 및 intellij 설정 가져오기</h3>
+<ol>
+  <li>intellij <code class="language-plaintext highlighter-rouge">F1&gt; export settings</code>
+</li>
+  <li><strong>vscode keymap 플러그인 설치</strong></li>
+  <li>pycharm <code class="language-plaintext highlighter-rouge">F1&gt; import settings</code>
+</li>
+</ol>
+
+<h3 id="pylint-설치">
+<a class="anchor" href="#pylint-%EC%84%A4%EC%B9%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pylint 설치</h3>
+<ol>
+  <li>plugin에서 검색하여 설치</li>
+  <li>
+<strong>View &gt; Tool Windows &gt; pylint 체크</strong>
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220615182317.png" alt="20220615182317">
+</li>
+</ol>
+
+<h3 id="black-설치">
+<a class="anchor" href="#black-%EC%84%A4%EC%B9%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>Black 설치</h3>
+<h4 id="로컬python에-black설치---external-tools에-추가">
+<a class="anchor" href="#%EB%A1%9C%EC%BB%ACpython%EC%97%90-black%EC%84%A4%EC%B9%98---external-tools%EC%97%90-%EC%B6%94%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>로컬python에 black설치 -&gt; external tools에 추가</h4>
 
 <ol>
-  <li>intellij settings export</li>
-  <li>vscode keymap 설치</li>
-  <li>intellij settings import</li>
+  <li>
+    <p>pylint와 같은 위치에 설치되어있을 것이니 <code class="language-plaintext highlighter-rouge">pylint의 경로</code>부터 살펴본다.</p>
+
+    <ul>
+      <li>
+        <p>local python은 <code class="language-plaintext highlighter-rouge">%homepath%\anaconda3\Scripts</code> 폴더에 깔려있다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220615174824551.png" alt="image-20220615174824551"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>black을 anaconda3로 설치하고 경로를 확인한다.</p>
+
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> conda <span class="nb">install </span>black
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p><strong>powerShell에서는 which(linux) / where(cmd) 대신 <code class="language-plaintext highlighter-rouge">Get-command [프로그램명]</code>로 바로 검색할 수 있다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220615175325599.png" alt="image-20220615175325599"></p>
+
+        <ul>
+          <li>혹은 약자인 <code class="language-plaintext highlighter-rouge">gcm [프로그래명]</code>으로 찾을 수 있다.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220615175516390.png" alt="image-20220615175516390"></p>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220615174854635.png" alt="image-20220615174854635"></p>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">C:\Users\cho_desktop\anaconda3\Scripts\black.exe</code></li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">settings &gt; Tools &gt; External tools</code>에 black 추가하기</p>
+
+    <ul>
+      <li>
+        <p>Program: <code class="language-plaintext highlighter-rouge">C:\Users\cho_desktop\anaconda3\Scripts\black.exe</code></p>
+      </li>
+      <li>Arguments: <code class="language-plaintext highlighter-rouge">$FilePath$</code>
+</li>
+      <li>Working directory: <code class="language-plaintext highlighter-rouge">$ProjectFileDir$</code>
+</li>
+      <li>
+<strong>파이참 Tools &gt; External tools &gt; Black</strong>으로 포맷팅 확인해보기
+        <ul>
+          <li>문자열 싱글 따옴표 -&gt; 더블 따옴표로 바뀌는지 확인</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/42d443a7-37e0-486a-b5bb-a5f1e03b1549.gif" alt="42d443a7-37e0-486a-b5bb-a5f1e03b1549"></p>
+  </li>
 </ol>
+
+<h4 id="file-watchers에-black-추가하여-실시간-반영">
+<a class="anchor" href="#file-watchers%EC%97%90-black-%EC%B6%94%EA%B0%80%ED%95%98%EC%97%AC-%EC%8B%A4%EC%8B%9C%EA%B0%84-%EB%B0%98%EC%98%81" aria-hidden="true"><span class="octicon octicon-link"></span></a>File Watchers에 Black 추가하여 실시간 반영</h4>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">settings &gt; tools &gt; File Watchers</code></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">+</code> &gt; <code class="language-plaintext highlighter-rouge">custom</code> &gt;</p>
+
+    <ol>
+      <li>Name: <code class="language-plaintext highlighter-rouge">Black</code>
+</li>
+      <li>File type: <code class="language-plaintext highlighter-rouge">python</code>
+</li>
+      <li>Score(deafult): Project Files</li>
+      <li>Program: <code class="language-plaintext highlighter-rouge">black 경로</code>
+</li>
+      <li>Arguments: <code class="language-plaintext highlighter-rouge">$FilePath$</code>
+</li>
+      <li>Output path to : <code class="language-plaintext highlighter-rouge">$FilePath$</code>
+</li>
+      <li>Working directory: <code class="language-plaintext highlighter-rouge">$ProjectFileDir$</code>
+</li>
+      <li><strong>Advanced Options에서 <code class="language-plaintext highlighter-rouge">auto-save edited files to trigger the watcher</code> 체크 확인</strong></li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/9b2a113c-7453-4f5d-90c2-af6b406eda6a.gif" alt="9b2a113c-7453-4f5d-90c2-af6b406eda6a"></p>
+  </li>
+</ol>
+
+<h4 id="실시간-반영-지우고-단축키로">
+<a class="anchor" href="#%EC%8B%A4%EC%8B%9C%EA%B0%84-%EB%B0%98%EC%98%81-%EC%A7%80%EC%9A%B0%EA%B3%A0-%EB%8B%A8%EC%B6%95%ED%82%A4%EB%A1%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>실시간 반영 지우고 단축키로</h4>
+<ul>
+  <li>c + s + a + B로 하면 될 듯
+    <ul>
+      <li><a href="https://medium.com/daehyun-baek/python-%EC%BD%94%EB%93%9C-%EC%8A%A4%ED%83%80%EC%9D%BC-%ED%88%B4-pycharm-%ED%99%98%EA%B2%BD-flake8-black-4adba134696a">참고</a></li>
+    </ul>
+  </li>
+</ul>
 
 <h3 id="단축키">
 <a class="anchor" href="#%EB%8B%A8%EC%B6%95%ED%82%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>단축키</h3>

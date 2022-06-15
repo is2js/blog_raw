@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>OOP2) 객체지향프로그래밍(python) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="OOP2) 객체지향프로그래밍(python)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="유튜브 python 객체지향 tip 5" />
+<meta property="og:description" content="유튜브 python 객체지향 tip 5" />
+<link rel="canonical" href="blog.chojaeseong.com/oop/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5/python/2022/06/08/oop_python.html" />
+<meta property="og:url" content="blog.chojaeseong.com/oop/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5/python/2022/06/08/oop_python.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/python.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-06-08T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-06-08T00:00:00-05:00","url":"blog.chojaeseong.com/oop/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5/python/2022/06/08/oop_python.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/python.png","headline":"OOP2) 객체지향프로그래밍(python)","dateModified":"2022-06-08T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/oop/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5/python/2022/06/08/oop_python.html"},"description":"유튜브 python 객체지향 tip 5","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OOP2) 객체지향프로그래밍(python)</h1><p class="page-description">유튜브 python 객체지향 tip 5</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-06-08T00:00:00-05:00" itemprop="datePublished">
+        Jun 8, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      1 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#oop">oop</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#객체지향">객체지향</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#python">python</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h4"><a href="#01-you-can-combine-fp-and-oop">01 You can combine FP and OOP</a></li>
+<li class="toc-entry toc-h4"><a href="#02-make-classes-either-behavior-oriented-or-data-oriented">02 Make classes either behavior-oriented or data-oriented</a></li>
+<li class="toc-entry toc-h4"><a href="#03-be-careful-with-inheritance">03 Be careful with inheritance</a></li>
+<li class="toc-entry toc-h4"><a href="#04-use-dependency-injection">04 Use dependency injection</a></li>
+<li class="toc-entry toc-h4"><a href="#05-dont-abuse-pythons-power-features">05 Don’t abuse Python’s power features</a></li>
+</ul><ul>
+  <li><a href="https://www.youtube.com/watch?v=-ghD-XjjO2g&amp;t=1s">참고 유튜브</a></li>
+</ul>
+
+<h4 id="01-you-can-combine-fp-and-oop">
+<a class="anchor" href="#01-you-can-combine-fp-and-oop" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 You can combine FP and OOP</h4>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">processor.py</code>에는 class(OOP) 뿐만 아니라 class내 메서드가 아닌 <strong>bottom에 function(FP)도 정의해서 사용한다</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615234551447.png" alt="image-20220615234551447">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615234636728.png" alt="image-20220615234636728"><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615234426679.png" alt="image-20220615234426679"></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">payment.py</code>에서도 class + function을 사용함</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615234726568.png" alt="image-20220615234726568"></p>
+  </li>
+</ul>
+
+<h4 id="02-make-classes-either-behavior-oriented-or-data-oriented">
+<a class="anchor" href="#02-make-classes-either-behavior-oriented-or-data-oriented" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 Make classes either behavior-oriented or data-oriented</h4>
+
+<ul>
+  <li>
+    <p>같이 돌아다니는 데이터의 묶음도 class <code class="language-plaintext highlighter-rouge">CreditCard</code>의 <strong><code class="language-plaintext highlighter-rouge">명사</code>로 class명을 뽑는다.</strong></p>
+
+    <ul>
+      <li>꼭 method가 아니어도 된다.</li>
+      <li>
+<strong>acess하기 편하기 위해서다!</strong>
+        <ul>
+          <li><strong>나같으면, 상위도메인과 묶어서도 쓸 것 같다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615234918419.png" alt="image-20220615234918419"></p>
+  </li>
+  <li>
+    <p>이 class <code class="language-plaintext highlighter-rouge">PaymentProcessor</code>는 data-oriented하진 않다. <strong>behavior-oriented하여 클래스명도 <code class="language-plaintext highlighter-rouge">~or</code>로 지은 것 같다.</strong></p>
+
+    <ul>
+      <li>api-key를 생성자로 받아서  체크하는 기능만 가진다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615235121865.png" alt="image-20220615235121865"></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">Order</code> class는 데이터 지향적이면서, 상태값을 바꾸는 메서드가 있다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615235403039.png" alt="image-20220615235403039"></p>
+  </li>
+</ul>
+
+<h4 id="03-be-careful-with-inheritance">
+<a class="anchor" href="#03-be-careful-with-inheritance" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 Be careful with inheritance</h4>
+
+<ul>
+  <li>
+    <p>상속해서 새로운 level을 만들면, 부모의 변화가 자식에게 번지게 되어 복잡해진다.</p>
+
+    <ul>
+      <li><strong>인터페이스를 위한 Protocol (typing)상속이나 추상클래스(ABC, abstract based class)를 제외하곤 상속을 사용하지 말자.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p>인터페이스를 Protocol을 상속해서 만든 뒤, 어느 라이브러리나 class가 확장성있게 사용하도록 한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220616000143188.png" alt="image-20220616000143188"></p>
+  </li>
+</ul>
+
+<h4 id="04-use-dependency-injection">
+<a class="anchor" href="#04-use-dependency-injection" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 Use dependency injection</h4>
+
+<ul>
+  <li>의존성 주입하지 않고, 의존해서 사용하면?
+    <ul>
+      <li>사용되는 객체가 바뀌면 -&gt; 사용하고 있는 놈에게도 변화가 미친다. (<strong>상속(부모)도, 의존(구현클래스)도 영향 미치는 것의 문제</strong>)</li>
+    </ul>
+  </li>
+  <li>
+<strong>자바에서는 인터페이스로 추상화한 뒤 주입받는다.</strong>
+    <ul>
+      <li>다양한 의존성이 주입될 수 있음.
+        <ul>
+          <li>테스트하기 좋아짐</li>
+        </ul>
+      </li>
+      <li>구현클래스와의 결합도가 낮아짐.</li>
+      <li>가독성 좋아짐</li>
+    </ul>
+  </li>
+  <li>
+    <p>사용하지 않은 예</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220616000356005.png" alt="image-20220616000356005"></p>
+  </li>
+  <li>
+    <p>의존성 주입으로 바꿈</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220616000847278.png" alt="image-20220616000847278"></p>
+
+    <ul>
+      <li><strong>복잡한 클래스를 test시 쉬운 fake객체로 대체해서 한다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="05-dont-abuse-pythons-power-features">
+<a class="anchor" href="#05-dont-abuse-pythons-power-features" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 Don’t abuse Python’s power features</h4>
+
+<ul>
+  <li>python 내부에서 작동을 컨트롤할 수 있는 메서드를 사용할 수 있다는 장점을 가지는데, 예를들어, <code class="language-plaintext highlighter-rouge">매직 메서드</code>나 <code class="language-plaintext highlighter-rouge">인스턴스변수</code> 등이다.
+    <ul>
+      <li><strong>전문가가 아니라면, 재정의해서 쓰지말고, factory method를 통해 객체를 생성하자</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>잘못된 예시</strong>: 들어오는 string인자 값에 따라, 각 Class객체를 만들도록 한다.</p>
+
+    <ul>
+      <li>호출은 <code class="language-plaintext highlighter-rouge">Payment("string_payment_type)</code>으로 Payment의 생성자를 호출하지만, <strong>Payment객체는 아예 생성이 안될 것이다.</strong>
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220616001248118.png" alt="image-20220616001248118"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220616001744744.png" alt="image-20220616001744744"></p>
+  </li>
+  <li>
+    <p><strong>잘된 예시</strong></p>
+
+    <ol>
+      <li>
+        <p>제한된 종류의 string은 <strong>Enum을 상속한 class로 정의여 각각을 객체로 만든다.</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220616001953146.png" alt="image-20220616001953146"></p>
+      </li>
+      <li>
+        <p>생성될 제한된 종류의 객체class들을 <strong>Protocol을 상속한 하나의 인터페이스로 만든다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220616002100529.png" alt="image-20220616002100529"></p>
+      </li>
+      <li>
+        <p>각각의 class들은 <strong>인터페이스를 구현(상속)해서 정의한다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220616002128616.png" alt="image-20220616002128616"></p>
+      </li>
+      <li>
+        <p><strong>Enum (key) - 구현Class(value)의 쌍을 dict로 정의한다.</strong></p>
+
+        <ul>
+          <li>class를 ()없이 value로 넣어놨다면, <strong>dict에서 get한 뒤 <code class="language-plaintext highlighter-rouge">()</code>만 붙여주면 생성자가 호출된다.</strong>
+</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220616002217679.png" alt="image-20220616002217679"></p>
+      </li>
+      <li>
+        <p>사용할 때는, string대신 enum을 -&gt; dict에 넣어 -&gt; 원하는 구현체를 꺼낸다.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220616002344317.png" alt="image-20220616002344317"></p>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+  </div><a class="u-url" href="/oop/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5/python/2022/06/08/oop_python.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

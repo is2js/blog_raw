@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      1 min read
+      2 min read
     
 </span></p>
 
@@ -183,6 +183,9 @@ window.onload = wrap_img;
 <code class="language-plaintext highlighter-rouge">alt+8</code> -&gt; 각 콘센트를 <code class="language-plaintext highlighter-rouge">Close Session</code>해주면 된다.
   <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220610175645.png" alt="20220610175645">
 </li>
+      <li>참고로 왼쪽 console에 쿼리실행시간도 나온다.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220612215830.png" alt="20220612215830">
+</li>
     </ul>
   </li>
   <li>
@@ -216,6 +219,67 @@ window.onload = wrap_img;
       <li>keymap &gt; <code class="language-plaintext highlighter-rouge">transpose</code>검색 &gt; <code class="language-plaintext highlighter-rouge">plugins</code>하위 &gt; c+s+T로 지정하기
   <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220611234915.png" alt="20220611234915">
 </li>
+    </ul>
+  </li>
+  <li>query문 마다 <strong>바로 위 <code class="language-plaintext highlighter-rouge">--commnet</code>가 result tab의 제목이 된다.</strong>
+    <ul>
+      <li>
+<strong>comment까지 같이 포함시켜 실행해야하며, 여러 쿼리문 실행시 나눠서 보여준다.</strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/b3880605-aec4-41db-966e-382f6c843cfc.gif" alt="b3880605-aec4-41db-966e-382f6c843cfc">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>result tab에 있는 <code class="language-plaintext highlighter-rouge">Compare with</code> 버튼으로 result tab끼리 비교도 할 수 있다.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220612215654.png" alt="20220612215654">
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220612215704.png" alt="20220612215704"></p>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">F4</code> + table: table에 담긴 데이터를 바로 볼 수 있는 <code class="language-plaintext highlighter-rouge">data editor</code>가 열린다.</strong>
+    <ul>
+      <li>csv, tsv 등 데이터를 편하게 복붙해도 알아서 인식해서 넣을 수 있음.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220612220029.png" alt="20220612220029">
+</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">F4</code> 상태에서 데이터를 변경하면
+        <ol>
+          <li>submit전에 해당 셀을 <code class="language-plaintext highlighter-rouge">revert</code>되돌리기 할 수 있다.
+            <ul>
+              <li><strong>변경이 감지된 셀을 클릭한 상태에서 가능하다. 단축키는 <code class="language-plaintext highlighter-rouge">ctrl + alt + Z</code></strong></li>
+            </ul>
+          </li>
+          <li>submit전에 DML을 <code class="language-plaintext highlighter-rouge">눈알버튼</code>으로 확인할 수 있다.
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/004febe0-aad1-4af6-96df-907abec39184.gif" alt="004febe0-aad1-4af6-96df-907abec39184">
+</li>
+        </ol>
+      </li>
+      <li>
+<code class="language-plaintext highlighter-rouge">F4</code> 상태에서 <strong><code class="language-plaintext highlighter-rouge">fk(파란색열쇠)칼럼</code>에 대해서 <code class="language-plaintext highlighter-rouge">F12</code>를 통해 관련된 <code class="language-plaintext highlighter-rouge">pk테이블 row</code>로 이동한다</strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/0e4e00d6-6de9-495d-b970-08cf0a2e0f17.gif" alt="0e4e00d6-6de9-495d-b970-08cf0a2e0f17">
+</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">F4</code> 상태에서 <code class="language-plaintext highlighter-rouge">F12</code>를 통한 pk row로 이동했다면, filter에 해당 pk가 필터링 되어있는데
+        <ul>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">c+s+a+ F</code>를 통해 FILTER(WHERE)에 옵션을 추가해서 확인할 수 있다.</strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/a196acb9-1001-41a5-9886-719dfe7ab21d.gif" alt="a196acb9-1001-41a5-9886-719dfe7ab21d">
+</li>
+          <li>일반 <code class="language-plaintext highlighter-rouge">ctrl+F</code>를 통해 데이터를 검색할 수 있으며, 정규표현식 / 찾은 데이터만 보기 / 검색 범위 넓히기 등이 가능하다.
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/56f03687-01d8-455f-8a12-e5503aecc5b1.gif" alt="56f03687-01d8-455f-8a12-e5503aecc5b1">
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">alt + F12</code>: table DDL을 팝업으로 띄운다.</strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220612220137.png" alt="20220612220137"></p>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">ctrl + LMB</code>: table DDL로 간다.
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">F12</code>: table DDL로 간다. F4-fk칼럼에서 선택시 pk-row로 이동한다</li>
     </ul>
   </li>
 </ul>

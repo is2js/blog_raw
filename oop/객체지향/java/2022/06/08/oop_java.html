@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>OOP) 객체지향프로그래밍(java) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="OOP) 객체지향프로그래밍(java)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="얄코 유튜브 객체지향 예시 설명" />
+<meta property="og:description" content="얄코 유튜브 객체지향 예시 설명" />
+<link rel="canonical" href="blog.chojaeseong.com/oop/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5/java/2022/06/08/oop_java.html" />
+<meta property="og:url" content="blog.chojaeseong.com/oop/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5/java/2022/06/08/oop_java.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-06-08T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-06-08T00:00:00-05:00","url":"blog.chojaeseong.com/oop/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5/java/2022/06/08/oop_java.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"OOP) 객체지향프로그래밍(java)","dateModified":"2022-06-08T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/oop/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5/java/2022/06/08/oop_java.html"},"description":"얄코 유튜브 객체지향 예시 설명","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OOP) 객체지향프로그래밍(java)</h1><p class="page-description">얄코 유튜브 객체지향 예시 설명</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-06-08T00:00:00-05:00" itemprop="datePublished">
+        Jun 8, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#oop">oop</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#객체지향">객체지향</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#java">java</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#절차적-프로그래밍-반복되는-일을-메서드추출">절차적 프로그래밍: 반복되는 일을 메서드추출</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#사람마다-재료를-주고-일-시키는데-종료될때까지-매번-재료-확인해주기">사람마다 재료를 주고 일 시키는데, 종료될때까지 매번 재료 확인해주기</a></li>
+<li class="toc-entry toc-h5"><a href="#일이-하나가-끝날때까지-특정-조건마다-해주는-일을-반복문--if로-처리">일이 하나가 끝날때까지, 특정 조건마다 해주는 일을 반복문 + if로 처리</a></li>
+<li class="toc-entry toc-h5"><a href="#반복되는-역할--재료을-메서드재료로-추출하여-재사용하기">반복되는 역할 + 재료을 메서드(재료)로 추출하여 재사용하기</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#객체지향-프로그래밍">객체지향 프로그래밍</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#기능과-재료만-존재---class로-재료필드와-주체인스턴스변수--역할까지-하는-객체로-추출-역할에-따른-주체를-게임처럼-class를-만들고-같은-역할을-하는-개별-사람들은-변수명만-다른-개별변수들로-사용하자-역할은-그-class의-method로-수행한다---캡슐화된-자원의-묶음--객체">[기능과 재료만 존재 -&gt; class로 재료(필드)와 주체(인스턴스변수) + 역할까지 하는 객체로 추출] 역할에 따른 주체를 게임처럼 class를 만들고, 같은 역할을 하는 개별 사람들은, 변수명만 다른 개별변수들로 사용하자. 역할은 그 class의 method로 수행한다. -&gt; 캡슐화된 자원의 묶음 = 객체</a></li>
+<li class="toc-entry toc-h5"><a href="#은닉성으로-외부오류x-외부-깔-필요x-재료필드들은-private하게-class안에서-운영되니-공개된-public의-기능을-통해-내부-private재료들을-control시킨다">[은닉성으로 외부오류X, 외부 깔 필요X] 재료(필드)들은 private하게 class안에서 운영되니, 공개된 public의 기능을 통해 내부 private재료들을 control시킨다.</a></li>
+<li class="toc-entry toc-h5"><a href="#interface로-추상화한-메서드명과-형을-통일로---한번에-명령-같은-class는-list에-넣어-for--일괄명령-가능한데-다른class의-기능까지-일괄-명령해야한다면-전부-청소하는-기능이니">[interface로 추상화한 메서드명과 형을 통일로 -&gt; 한번에 명령] 같은 class는 list에 넣어 for + 일괄명령 가능한데, 다른class의 기능까지 일괄 명령해야한다면? (전부 청소하는 기능이니)</a></li>
+<li class="toc-entry toc-h5"><a href="#인페구현-객체들을-모아-그룹을-만드는-class-기존-재료를-모으고-주체를-나누던-class가-같은-인터페이스를-구현하여-모을-수-있고--한번에-일-시킬-수-있는-객체들인스턴스을-모아-그룹을-만들때도-class로-모은다">[인페구현 객체들을 모아 그룹을 만드는 class] 기존 재료를 모으고 주체를 나누던 class가, &lt;같은 인터페이스를 구현하여, 모을 수 있고 + 한번에 일 시킬 수 있는 객체들&gt;(인스턴스)을 모아 그룹을 만들때도 class로 모은다.</a></li>
+<li class="toc-entry toc-h5"><a href="#상속을-통해-기존기능에-일부기능-추가하기-새로운-재료와-역할이-추가된-class를-만들-때-상속을-이용한다">[상속을 통해 기존기능에 일부기능 추가하기] 새로운 재료와 역할이 추가된 class를 만들 때 상속을 이용한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#공통재료를-묶어-카테고리만-만드는-추상클래스-추상클래스는-객체를-못만들기-때문에-카테고리만-만들어-공통-재료-or-기능만-묶어준다">[공통재료를 묶어 카테고리만 만드는 추상클래스] 추상클래스는 객체를 못만들기 때문에 카테고리만 만들어, 공통 재료 or 기능만 묶어준다.</a></li>
+<li class="toc-entry toc-h5"><a href="#한번에-일-시키기-상속-vs-인터페이스-차이">한번에 일 시키기 상속 vs 인터페이스 차이</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#느낀점">느낀점</a></li>
+</ul>
+</li>
+</ul><h3 id="java">
+<a class="anchor" href="#java" aria-hidden="true"><span class="octicon octicon-link"></span></a>java</h3>
+
+<ul>
+  <li>
+    <p><a href="https://www.youtube.com/watch?v=vrhIxBWSJ04">참고영상:얄코 유튜브</a></p>
+  </li>
+  <li>
+    <p>학생들에게, 교실, 청소시키기</p>
+    <ul>
+      <li>청소시킬 때, 소모품들이 있다. 일정수치 이하로 떨어지거나, 용량이 일정수치로 꽉 차면, 비우는 행위를 해야함.</li>
+      <li>타겟교실이 깨끗해졌으면 -&gt; 다른 교실로 시켜야함.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="절차적-프로그래밍-반복되는-일을-메서드추출">
+<a class="anchor" href="#%EC%A0%88%EC%B0%A8%EC%A0%81-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EB%B0%98%EB%B3%B5%EB%90%98%EB%8A%94-%EC%9D%BC%EC%9D%84-%EB%A9%94%EC%84%9C%EB%93%9C%EC%B6%94%EC%B6%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>절차적 프로그래밍: 반복되는 일을 메서드추출</h4>
+
+<h5 id="사람마다-재료를-주고-일-시키는데-종료될때까지-매번-재료-확인해주기">
+<a class="anchor" href="#%EC%82%AC%EB%9E%8C%EB%A7%88%EB%8B%A4-%EC%9E%AC%EB%A3%8C%EB%A5%BC-%EC%A3%BC%EA%B3%A0-%EC%9D%BC-%EC%8B%9C%ED%82%A4%EB%8A%94%EB%8D%B0-%EC%A2%85%EB%A3%8C%EB%90%A0%EB%95%8C%EA%B9%8C%EC%A7%80-%EB%A7%A4%EB%B2%88-%EC%9E%AC%EB%A3%8C-%ED%99%95%EC%9D%B8%ED%95%B4%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>사람마다 재료를 주고 일 시키는데, 종료될때까지 매번 재료 확인해주기</h5>
+
+<ul>
+  <li>
+    <p>영수에게는  새 _행주와 새 _ 윈덱스로 창문닦기()를</p>
+
+    <ul>
+      <li>행주 _ 깨끗함이 10이하면 빨아오기()</li>
+      <li>윈덱스 _ 리터가 1이하면 리필해오기()</li>
+      <li>101호 다 닦았으면 -&gt; 103호로</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615215059142.png" alt="image-20220615215059142"></p>
+  </li>
+  <li>
+    <p>철권는 새 _ 쓰레받기로 바닥쓸기()를</p>
+
+    <ul>
+      <li>쓰레받기 _ 채움이 0.9이상이면 쓰레받기비우기()를</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615215120176.png" alt="image-20220615215120176"></p>
+  </li>
+  <li>
+    <p>변수는 새 _ 지우개로 칠판닦기()를</p>
+
+    <ul>
+      <li>지우개 _ 깨끗함이 10이하면, 털기()</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615215332154.png" alt="image-20220615215332154"></p>
+  </li>
+  <li>
+    <p>혁순이는 새 _ 행주와 새 _ 윈덱스로 (102호) 창문닦이()를</p>
+
+    <ul>
+      <li>행주 _ 깨끗함이 10이하면 빨아오기()</li>
+      <li>윈덱스 _ 리터가 1이하면 리필해오기()</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615215438931.png" alt="image-20220615215438931"></p>
+  </li>
+  <li>
+    <p>새 청소도구를 지어보내놓고, 청소()를 시켰는데도, 하나하나 if문으로 신경써줘야한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615215518983.png" alt="image-20220615215518983"></p>
+  </li>
+</ul>
+
+<h5 id="일이-하나가-끝날때까지-특정-조건마다-해주는-일을-반복문--if로-처리">
+<a class="anchor" href="#%EC%9D%BC%EC%9D%B4-%ED%95%98%EB%82%98%EA%B0%80-%EB%81%9D%EB%82%A0%EB%95%8C%EA%B9%8C%EC%A7%80-%ED%8A%B9%EC%A0%95-%EC%A1%B0%EA%B1%B4%EB%A7%88%EB%8B%A4-%ED%95%B4%EC%A3%BC%EB%8A%94-%EC%9D%BC%EC%9D%84-%EB%B0%98%EB%B3%B5%EB%AC%B8--if%EB%A1%9C-%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>일이 하나가 끝날때까지, 특정 조건마다 해주는 일을 반복문 + if로 처리</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615215645383.png" alt="image-20220615215645383"></p>
+
+<h5 id="반복되는-역할--재료을-메서드재료로-추출하여-재사용하기">
+<a class="anchor" href="#%EB%B0%98%EB%B3%B5%EB%90%98%EB%8A%94-%EC%97%AD%ED%95%A0--%EC%9E%AC%EB%A3%8C%EC%9D%84-%EB%A9%94%EC%84%9C%EB%93%9C%EC%9E%AC%EB%A3%8C%EB%A1%9C-%EC%B6%94%EC%B6%9C%ED%95%98%EC%97%AC-%EC%9E%AC%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>반복되는 역할 + 재료을 메서드(재료)로 추출하여 재사용하기</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615215928970.png" alt="image-20220615215928970"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615220032774.png" alt="image-20220615220032774"></p>
+
+<ul>
+  <li>여기까지는 절자척 프로그래밍으로 가능하다.
+    <ul>
+      <li>규모가 크지 않은 곳에서는  괜찮다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="객체지향-프로그래밍">
+<a class="anchor" href="#%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D" aria-hidden="true"><span class="octicon octicon-link"></span></a>객체지향 프로그래밍</h4>
+
+<ul>
+  <li>좀 프로페셔널하게 일하기 위해서</li>
+</ul>
+
+<h5 id="기능과-재료만-존재---class로-재료필드와-주체인스턴스변수--역할까지-하는-객체로-추출-역할에-따른-주체를-게임처럼-class를-만들고-같은-역할을-하는-개별-사람들은-변수명만-다른-개별변수들로-사용하자-역할은-그-class의-method로-수행한다---캡슐화된-자원의-묶음--객체">
+<a class="anchor" href="#%EA%B8%B0%EB%8A%A5%EA%B3%BC-%EC%9E%AC%EB%A3%8C%EB%A7%8C-%EC%A1%B4%EC%9E%AC---class%EB%A1%9C-%EC%9E%AC%EB%A3%8C%ED%95%84%EB%93%9C%EC%99%80-%EC%A3%BC%EC%B2%B4%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4%EB%B3%80%EC%88%98--%EC%97%AD%ED%95%A0%EA%B9%8C%EC%A7%80-%ED%95%98%EB%8A%94-%EA%B0%9D%EC%B2%B4%EB%A1%9C-%EC%B6%94%EC%B6%9C-%EC%97%AD%ED%95%A0%EC%97%90-%EB%94%B0%EB%A5%B8-%EC%A3%BC%EC%B2%B4%EB%A5%BC-%EA%B2%8C%EC%9E%84%EC%B2%98%EB%9F%BC-class%EB%A5%BC-%EB%A7%8C%EB%93%A4%EA%B3%A0-%EA%B0%99%EC%9D%80-%EC%97%AD%ED%95%A0%EC%9D%84-%ED%95%98%EB%8A%94-%EA%B0%9C%EB%B3%84-%EC%82%AC%EB%9E%8C%EB%93%A4%EC%9D%80-%EB%B3%80%EC%88%98%EB%AA%85%EB%A7%8C-%EB%8B%A4%EB%A5%B8-%EA%B0%9C%EB%B3%84%EB%B3%80%EC%88%98%EB%93%A4%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EC%9E%90-%EC%97%AD%ED%95%A0%EC%9D%80-%EA%B7%B8-class%EC%9D%98-method%EB%A1%9C-%EC%88%98%ED%96%89%ED%95%9C%EB%8B%A4---%EC%BA%A1%EC%8A%90%ED%99%94%EB%90%9C-%EC%9E%90%EC%9B%90%EC%9D%98-%EB%AC%B6%EC%9D%8C--%EA%B0%9D%EC%B2%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>[기능과 재료만 존재 -&gt; class로 재료(필드)와 주체(인스턴스변수) + 역할까지 하는 객체로 추출] 역할에 따른 주체를 게임처럼 class를 만들고, 같은 역할을 하는 개별 사람들은, 변수명만 다른 개별변수들로 사용하자. 역할은 그 class의 method로 수행한다. -&gt; 캡슐화된 자원의 묶음 = 객체</h5>
+
+<ul>
+  <li>
+    <p>창문닦을 닦던 영수, 혁순 -&gt; <code class="language-plaintext highlighter-rouge">창문닦이</code>class로 뽑아서</p>
+
+    <ul>
+      <li>역할: 창문닦기()  class내 method</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">창문닦이 영수</code>, <code class="language-plaintext highlighter-rouge">창문닦이 혁순</code>
+        <ul>
+          <li>같은 역할 = 같은 class = 같은 형 -&gt; List에 add후 for문 안에서 한꺼번에  일시킬 수 있음.</li>
+        </ul>
+      </li>
+      <li>초기재료들
+        <ul>
+          <li>상수(행주 _ 깨끗함, 윈덱스 _ 리터)-&gt; 상수 필드</li>
+          <li>달라지는 재료(교실) -&gt; 생성자에서 받아 초기화하는 필드</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615220744487.png" alt="image-20220615220744487"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615220758343.png" alt="image-20220615220758343"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615220819861.png" alt="image-20220615220819861"></p>
+  </li>
+  <li>
+    <p>my: class는 <code class="language-plaintext highlighter-rouge">기능의 추출</code> 뿐만 아니라 기능에 필요한 <code class="language-plaintext highlighter-rouge">재료(필드)</code> + <code class="language-plaintext highlighter-rouge">주체(인스턴스)</code>도 정의할 수 있다.</p>
+  </li>
+</ul>
+
+<h5 id="은닉성으로-외부오류x-외부-깔-필요x-재료필드들은-private하게-class안에서-운영되니-공개된-public의-기능을-통해-내부-private재료들을-control시킨다">
+<a class="anchor" href="#%EC%9D%80%EB%8B%89%EC%84%B1%EC%9C%BC%EB%A1%9C-%EC%99%B8%EB%B6%80%EC%98%A4%EB%A5%98x-%EC%99%B8%EB%B6%80-%EA%B9%94-%ED%95%84%EC%9A%94x-%EC%9E%AC%EB%A3%8C%ED%95%84%EB%93%9C%EB%93%A4%EC%9D%80-private%ED%95%98%EA%B2%8C-class%EC%95%88%EC%97%90%EC%84%9C-%EC%9A%B4%EC%98%81%EB%90%98%EB%8B%88-%EA%B3%B5%EA%B0%9C%EB%90%9C-public%EC%9D%98-%EA%B8%B0%EB%8A%A5%EC%9D%84-%ED%86%B5%ED%95%B4-%EB%82%B4%EB%B6%80-private%EC%9E%AC%EB%A3%8C%EB%93%A4%EC%9D%84-control%EC%8B%9C%ED%82%A8%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>[은닉성으로 외부오류X, 외부 깔 필요X] 재료(필드)들은 private하게 class안에서 운영되니, 공개된 public의 기능을 통해 내부 private재료들을 control시킨다.</h5>
+
+<ul>
+  <li>
+    <p>밖에서 선생님이 행주가 깨끗한지, 윈덱스가 떨어졌는지 직접 확인하지말고, 밖에서 명령만 내려주면 내부에서 컨트롤하게 한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615221400542.png" alt="image-20220615221400542"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615221409844.png" alt="image-20220615221409844"></p>
+  </li>
+  <li>
+    <p><strong>은닉성(private재료-상태값-필드 vs public으로 공개된 기능)</strong></p>
+    <ul>
+      <li>바깥의 간섭으로 인해 오류가 발생할 수도 있다.</li>
+      <li>바깥이 일일히 객체 내부를 뜯어볼 필요가 없다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="interface로-추상화한-메서드명과-형을-통일로---한번에-명령-같은-class는-list에-넣어-for--일괄명령-가능한데-다른class의-기능까지-일괄-명령해야한다면-전부-청소하는-기능이니">
+<a class="anchor" href="#interface%EB%A1%9C-%EC%B6%94%EC%83%81%ED%99%94%ED%95%9C-%EB%A9%94%EC%84%9C%EB%93%9C%EB%AA%85%EA%B3%BC-%ED%98%95%EC%9D%84-%ED%86%B5%EC%9D%BC%EB%A1%9C---%ED%95%9C%EB%B2%88%EC%97%90-%EB%AA%85%EB%A0%B9-%EA%B0%99%EC%9D%80-class%EB%8A%94-list%EC%97%90-%EB%84%A3%EC%96%B4-for--%EC%9D%BC%EA%B4%84%EB%AA%85%EB%A0%B9-%EA%B0%80%EB%8A%A5%ED%95%9C%EB%8D%B0-%EB%8B%A4%EB%A5%B8class%EC%9D%98-%EA%B8%B0%EB%8A%A5%EA%B9%8C%EC%A7%80-%EC%9D%BC%EA%B4%84-%EB%AA%85%EB%A0%B9%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4%EB%A9%B4-%EC%A0%84%EB%B6%80-%EC%B2%AD%EC%86%8C%ED%95%98%EB%8A%94-%EA%B8%B0%EB%8A%A5%EC%9D%B4%EB%8B%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>[interface로 추상화한 메서드명과 형을 통일로 -&gt; 한번에 명령] 같은 class는 list에 넣어 for + 일괄명령 가능한데, 다른class의 기능까지 일괄 명령해야한다면? (전부 청소하는 기능이니)</h5>
+
+<ul>
+  <li>
+    <p>다른 class의 다른 기능(method)지만, 한번에 다 명령을 내리고 싶다면?</p>
+
+    <ul>
+      <li><strong>비슷하여 일괄명령이 가능한, <code class="language-plaintext highlighter-rouge">서로 다른class기능들의 명칭(클래스명)을 추상화</code>하여 인터페이스의 메소드로 정의하고, <code class="language-plaintext highlighter-rouge">인터페이스를 구현한 copy class(v2)들</code>의 구혀넴소드에 -&gt; 각자의 기능이 호출되게 한다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">서로 다른 class</code>의 서로 다른 method지만, <code class="language-plaintext highlighter-rouge">묶여서 한번에 호출가능한 메서드들</code>의  <strong>method명을 1개로 추상화한 뒤, 인터페이스내에 정의한다.</strong></p>
+
+    <ul>
+      <li><strong>생성자로 받던 외부재료의 주입도, setter역할을 시킨다면, 생성자 대신<code class="language-plaintext highlighter-rouge">void 메서드로 공통 추상화</code> 가능할 수 있음.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615222725234.png" alt="image-20220615222725234"></p>
+  </li>
+  <li>
+    <p><strong>기존 class(직업)들은 그대로 두고 <code class="language-plaintext highlighter-rouge">copy한 class(class_v2)</code>를 만든 뒤, <code class="language-plaintext highlighter-rouge">추상화한 메서드명세를 가진 인터페이스를 구현</code>하고, 그 추상화된 메서드 내부에는 <code class="language-plaintext highlighter-rouge">비슷하지만, 명칭과 기능이 다른 자신의 메서드를 호출</code>해준다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615222830012.png" alt="image-20220615222830012">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615222846687.png" alt="image-20220615222846687"></p>
+  </li>
+  <li>
+    <p>이제 서로다른class지만, 자신의 기능을 수행하는 <strong>동일한 메서드명(명세)로 호출 가능해지며, 인터페이스 구현으로 인해 동일한 list에 모을 수도 있어진다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615223024226.png" alt="image-20220615223024226"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615223039674.png" alt="image-20220615223039674"></p>
+  </li>
+</ol>
+
+<ul>
+  <li>메서드명만 통일한다고 해서, 한번에 묶을 순 없다.
+    <ol>
+      <li>메서드명을 추상화한 인터페이스</li>
+      <li>그 인터페이스를 변수로 사용하면 한번에 묶을 수 있다.</li>
+      <li><strong>같은 메서드명 + 묶여진 상태 -&gt; 한번에 일을 내릴 수 있다.</strong></li>
+    </ol>
+  </li>
+</ul>
+
+<h5 id="인페구현-객체들을-모아-그룹을-만드는-class-기존-재료를-모으고-주체를-나누던-class가-같은-인터페이스를-구현하여-모을-수-있고--한번에-일-시킬-수-있는-객체들인스턴스을-모아-그룹을-만들때도-class로-모은다">
+<a class="anchor" href="#%EC%9D%B8%ED%8E%98%EA%B5%AC%ED%98%84-%EA%B0%9D%EC%B2%B4%EB%93%A4%EC%9D%84-%EB%AA%A8%EC%95%84-%EA%B7%B8%EB%A3%B9%EC%9D%84-%EB%A7%8C%EB%93%9C%EB%8A%94-class-%EA%B8%B0%EC%A1%B4-%EC%9E%AC%EB%A3%8C%EB%A5%BC-%EB%AA%A8%EC%9C%BC%EA%B3%A0-%EC%A3%BC%EC%B2%B4%EB%A5%BC-%EB%82%98%EB%88%84%EB%8D%98-class%EA%B0%80-%EA%B0%99%EC%9D%80-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%A5%BC-%EA%B5%AC%ED%98%84%ED%95%98%EC%97%AC-%EB%AA%A8%EC%9D%84-%EC%88%98-%EC%9E%88%EA%B3%A0--%ED%95%9C%EB%B2%88%EC%97%90-%EC%9D%BC-%EC%8B%9C%ED%82%AC-%EC%88%98-%EC%9E%88%EB%8A%94-%EA%B0%9D%EC%B2%B4%EB%93%A4%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4%EC%9D%84-%EB%AA%A8%EC%95%84-%EA%B7%B8%EB%A3%B9%EC%9D%84-%EB%A7%8C%EB%93%A4%EB%95%8C%EB%8F%84-class%EB%A1%9C-%EB%AA%A8%EC%9D%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>[인페구현 객체들을 모아 그룹을 만드는 class] 기존 재료를 모으고 주체를 나누던 class가, &lt;같은 인터페이스를 구현하여, 모을 수 있고 + 한번에 일 시킬 수 있는 객체들&gt;(인스턴스)을 모아 그룹을 만들때도 class로 모은다.</h5>
+
+<ul>
+  <li>my) 동일한 객체들을 list로 모으는 일급컬렉션 뿐만 아니라 <strong>같은 카테고리 아래(구현, 상속)의 객체들을 모으는 group class도 뽑아낼 수 있다.</strong>
+    <ul>
+      <li>group으로 모으고 일을 한번에 시키려면, <strong>같은 인터페이스 구현 class들의 객체들</strong>을 모아야할 것이다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>개별 학생 -&gt; 역할이 같은 학생 by list -&gt; 전체 학생 by 인터페이스 -&gt; <strong>그룹별 학생들에게 한번에 일을 시킬 수 있다.</strong></p>
+  </li>
+  <li>
+    <p>각 청소인원들(class로 역할이 다를 지라도 인터페이스 구현 객체(변수)들)을 그룹을 지어보자.</p>
+
+    <ul>
+      <li>창문닦이들, 바닥쓸이들 객체들을 생성자에서 초기화해주고, 필드아래 배열로 묶어놓았음.</li>
+      <li>
+<strong>외부에서 그룹인원 전체에 대한 청소완료</strong>를 물어볼 수 있음</li>
+      <li>그외 묶어서 <strong>그룹 객체들에게 일을 한번에</strong>시킬 수 있다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615230659321.png" alt="image-20220615230659321"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615230824853.png" alt="image-20220615230824853"></p>
+  </li>
+</ul>
+
+<h5 id="상속을-통해-기존기능에-일부기능-추가하기-새로운-재료와-역할이-추가된-class를-만들-때-상속을-이용한다">
+<a class="anchor" href="#%EC%83%81%EC%86%8D%EC%9D%84-%ED%86%B5%ED%95%B4-%EA%B8%B0%EC%A1%B4%EA%B8%B0%EB%8A%A5%EC%97%90-%EC%9D%BC%EB%B6%80%EA%B8%B0%EB%8A%A5-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0-%EC%83%88%EB%A1%9C%EC%9A%B4-%EC%9E%AC%EB%A3%8C%EC%99%80-%EC%97%AD%ED%95%A0%EC%9D%B4-%EC%B6%94%EA%B0%80%EB%90%9C-class%EB%A5%BC-%EB%A7%8C%EB%93%A4-%EB%95%8C-%EC%83%81%EC%86%8D%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>[상속을 통해 기존기능에 일부기능 추가하기] 새로운 재료와 역할이 추가된 class를 만들 때 상속을 이용한다.</h5>
+
+<ul>
+  <li>
+    <p>기존 재료(필드들)은 안보이지만 쓸 수 있다.</p>
+
+    <ul>
+      <li>대신, 자식생성자에서 super()로 안보이지만 부모생성자를 이용해서 초기화해줘야한다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>새로운 재료는 필드로 선언해주고 생성자에서 추가해줘야한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615231130512.png" alt="image-20220615231130512"></p>
+  </li>
+</ul>
+
+<h5 id="공통재료를-묶어-카테고리만-만드는-추상클래스-추상클래스는-객체를-못만들기-때문에-카테고리만-만들어-공통-재료-or-기능만-묶어준다">
+<a class="anchor" href="#%EA%B3%B5%ED%86%B5%EC%9E%AC%EB%A3%8C%EB%A5%BC-%EB%AC%B6%EC%96%B4-%EC%B9%B4%ED%85%8C%EA%B3%A0%EB%A6%AC%EB%A7%8C-%EB%A7%8C%EB%93%9C%EB%8A%94-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EB%8A%94-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%AA%BB%EB%A7%8C%EB%93%A4%EA%B8%B0-%EB%95%8C%EB%AC%B8%EC%97%90-%EC%B9%B4%ED%85%8C%EA%B3%A0%EB%A6%AC%EB%A7%8C-%EB%A7%8C%EB%93%A4%EC%96%B4-%EA%B3%B5%ED%86%B5-%EC%9E%AC%EB%A3%8C-or-%EA%B8%B0%EB%8A%A5%EB%A7%8C-%EB%AC%B6%EC%96%B4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>[공통재료를 묶어 카테고리만 만드는 추상클래스] 추상클래스는 객체를 못만들기 때문에 카테고리만 만들어, 공통 재료 or 기능만 묶어준다.</h5>
+
+<ul>
+  <li>my) 메서드 공통이 아니라 <strong><code class="language-plaintext highlighter-rouge">재료 위주</code>의 공통일 때도 추상클래스로 뽑아서, 상위 카테고리를 만들 수 있다.</strong>
+    <ul>
+      <li>
+<strong>인터페이스는 <code class="language-plaintext highlighter-rouge">같은형 &amp; 추상화한 메소드명으로 한번에 일 시키기</code>의 <code class="language-plaintext highlighter-rouge">기능method 위주</code>의 목적</strong>이지만, <strong>1개의 class에 대해 메소드명 추상화로 인터페이스 추출 후 -&gt; <code class="language-plaintext highlighter-rouge">쉬운 class로 대체하여 test</code> or <code class="language-plaintext highlighter-rouge">다른 class로 확장 가능성</code>에 쓰이기도 한다.</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>여기의 예에서는 <code class="language-plaintext highlighter-rouge">창문닦이/바닥쓸이/칠판닦이</code>의 객체class들이 <strong>이미 같은 인터페이스 구현으로 상위카테고리를 가진 것 같은데도, field(재료) = <code class="language-plaintext highlighter-rouge">청소할 ClassRoom</code>의 공통으로 추상클래스 = 상위카테고리를 추출하고 있다.</strong></p>
+  </li>
+  <li>공통 인터페이스: <code class="language-plaintext highlighter-rouge">청소담당</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">창문닦이/바닥쓸이/칠판닦이</code></li>
+    </ul>
+  </li>
+  <li>공통 필드로 추출한 추상클래스: <code class="language-plaintext highlighter-rouge">교실_청소당번</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">창문닦이/바닥쓸이/칠판닦이</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615231414106.png" alt="image-20220615231414106"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615232052218.png" alt="image-20220615232052218"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615232106252.png" alt="image-20220615232106252"></p>
+
+<ol>
+  <li>
+    <p><strong>공통 필드를 추상클래스로 옮겨야한다.</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615232211485.png" alt="image-20220615232211485"></p>
+  </li>
+  <li>
+    <p><strong>해당 필드 관련 기능들도 옮긴다.</strong></p>
+
+    <ul>
+      <li>인터페이스에 있던 청소()와 교실_이동() 역시 옮겨야한다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615232255579.png" alt="image-20220615232255579"></p>
+  </li>
+  <li>
+    <p><strong>추상메서드로서 비워놓고, 상속class마다 서로 다른 자신의 기능을 구현하면 된다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615232346138.png" alt="image-20220615232346138"></p>
+  </li>
+  <li>
+    <p>인터페이스처럼 한번에 일 시킬 수도 있다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615232426381.png" alt="image-20220615232426381"></p>
+  </li>
+</ol>
+
+<h5 id="한번에-일-시키기-상속-vs-인터페이스-차이">
+<a class="anchor" href="#%ED%95%9C%EB%B2%88%EC%97%90-%EC%9D%BC-%EC%8B%9C%ED%82%A4%EA%B8%B0-%EC%83%81%EC%86%8D-vs-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4-%EC%B0%A8%EC%9D%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>한번에 일 시키기 상속 vs 인터페이스 차이</h5>
+
+<ul>
+  <li>
+    <p><strong>상속은 1부모 밖에 안된다.</strong></p>
+
+    <ul>
+      <li><strong>한번에 일시키는 놈들이 제한된다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615232558354.png" alt="image-20220615232558354"></p>
+  </li>
+  <li>
+    <p><strong>인터페이스는 구현만 하면 어느클래스든지 같은형으로서 한번에 일시킬 수 있다.</strong></p>
+
+    <ul>
+      <li><strong>인터페이스는 <code class="language-plaintext highlighter-rouge">해당class에 장착만 시키면</code>, 부모여부, 상속여부 다 필요없이 <code class="language-plaintext highlighter-rouge">어느 class든  같은형으로 묶여서 한번에 일시킬 수</code> 있다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220615232659564.png" alt="image-20220615232659564"></p>
+  </li>
+</ul>
+
+<h4 id="느낀점">
+<a class="anchor" href="#%EB%8A%90%EB%82%80%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>느낀점</h4>
+
+<ul>
+  <li>인터페이스는 다른class를 메서드명만 통일시켜 구상체로 사용할 수 있게끔, 확장을 위해서 사용했다
+    <ul>
+      <li>test를 위한 쉬운 코드를 또다른 구상체의 기능으로 만들면 됬다.</li>
+    </ul>
+  </li>
+  <li>
+<strong>하지만, 인터페이스를 <code class="language-plaintext highlighter-rouge">어느class든 장착하면 같은형으로 모아 한번에 일시키기 위한 목적</code></strong>으로도 사용된다.
+    <ul>
+      <li><strong>또한, 자신의 원래 메서드명을 통일시킬 필요없이 <code class="language-plaintext highlighter-rouge">추상화된 메서드명을 구현한 뒤, 그 내부에서 자신의 메서드를 호출만</code>해줘도 된다.</strong></li>
+    </ul>
+  </li>
+  <li>
+<strong>추상클래스는 필드의 공통 -&gt; 그 필드가 사용되는 기능들과 함께 카테고리를 만들 수 있다.</strong>
+    <ul>
+      <li>그게 아니라면 인터페이스를 장착시키면 될 것 같다.</li>
+    </ul>
+  </li>
+</ul>
+
+  </div><a class="u-url" href="/oop/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5/java/2022/06/08/oop_java.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
