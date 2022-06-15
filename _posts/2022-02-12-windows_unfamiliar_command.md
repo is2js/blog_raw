@@ -38,13 +38,37 @@ image: "images/posts/config.png"
 
 - <kbd>win + alt + d</kbd> : 달력(다이어리) 열기
 
-### 시스템
+### 실행 명령어
+- [실행 명령어](https://ryuseunghyun.tistory.com/973)
+- [실행 폴더](https://goaway007.tistory.com/entry/%EC%9C%88%EB%8F%84%EC%9A%B0-10-%EB%94%94%EB%A0%89%ED%86%A0%EB%A6%AC-%EA%B2%BD%EB%A1%9C-%EB%AA%85%EB%A0%B9%EC%96%B4%EC%99%80-%ED%95%B4%EB%8B%B9-%EC%9C%84%EC%B9%98-%EC%A0%95%EB%A6%AC-%EB%AA%A8%EC%9D%8C)
+
+#### 설정
 - `firewall.cpl`: 방화벽 설정 열기
 - `sysdm.cpl`: 시스템 속성 열기
 	- 고급 > **환경변수 설정**
+- `appwisz.cpl`: 프로그램 등록/제거
+
 
 - `mstsc`: 원격 데스크톱 열기
 - `winver`: 윈도우 버전 + **컴퓨터 계정명**확인하기
 - `control userpasswords2` : 사용자 계정
 
+
+#### 폴더
+
 - `%APPDATA%`: 설정 폴더들
+- **`%homepath%`** = `%path%` =  `%userprofile%`: 사용자명 폴더(C:\Users\{username})
+	- 유저명 얻기시에만 `%homepath%`로 통일하자.
+		- path는 탐색기 경로(ctrl+L)에서 안먹힌다.
+		- username은 실행(ctrl+R)에서 안먹힌다.
+		- **homepath나 userprofile은 둘다 먹힌다.**
+	- `/desktop` : 바탕화면 
+	- `/downloads` : 다운로드 폴더
+	- `/anaconda3` : 아나콘다 폴더 가기
+- `%PROGRAMFILES(X86)%` or `%PROGRAMFILES%`: 프로그램 폴더
+
+
+
+#### 프로그래밍
+- `gcm 프로그램명`: 프로그램(.exe?) 위치 찾기
+	- `Get-Command 프로그래명`과 동일

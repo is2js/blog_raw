@@ -44,6 +44,8 @@ datagrip
 	- alter table 하고 싶은데, sesion이 연결되어있을 경우 작동안한다.
 	- `alt+8` -> 각 콘센트를 `Close Session`해주면 된다.
 	![20220610175645](https://raw.githubusercontent.com/is2js/screenshots/main/20220610175645.png)
+	- 참고로 왼쪽 console에 쿼리실행시간도 나온다.
+		![20220612215830](https://raw.githubusercontent.com/is2js/screenshots/main/20220612215830.png)
 
 - `Ctrl+Alt+Shift + F4`: keymap `Close Session`검색후 단축키 지정해주기
 	- `Close Session`: c + a + s + `F4`
@@ -60,3 +62,35 @@ datagrip
 - `ctrl + shift + T`(assign): 조회 결과를 `transponse`해서 보기
 	- keymap > `transpose`검색 > `plugins`하위 > c+s+T로 지정하기
 	![20220611234915](https://raw.githubusercontent.com/is2js/screenshots/main/20220611234915.png)
+
+
+- query문 마다 **바로 위 `--commnet`가 result tab의 제목이 된다.**
+	- **comment까지 같이 포함시켜 실행해야하며, 여러 쿼리문 실행시 나눠서 보여준다.**
+	![b3880605-aec4-41db-966e-382f6c843cfc](https://raw.githubusercontent.com/is2js/screenshots/main/b3880605-aec4-41db-966e-382f6c843cfc.gif)
+
+- result tab에 있는 `Compare with` 버튼으로 result tab끼리 비교도 할 수 있다.
+	![20220612215654](https://raw.githubusercontent.com/is2js/screenshots/main/20220612215654.png)
+	![20220612215704](https://raw.githubusercontent.com/is2js/screenshots/main/20220612215704.png)
+
+
+- **`F4` + table: table에 담긴 데이터를 바로 볼 수 있는 `data editor`가 열린다.**
+	- csv, tsv 등 데이터를 편하게 복붙해도 알아서 인식해서 넣을 수 있음.
+	![20220612220029](https://raw.githubusercontent.com/is2js/screenshots/main/20220612220029.png)
+	- `F4` 상태에서 데이터를 변경하면
+		1. submit전에 해당 셀을 `revert`되돌리기 할 수 있다.
+			- **변경이 감지된 셀을 클릭한 상태에서 가능하다. 단축키는 `ctrl + alt + Z`**
+		2. submit전에 DML을 `눈알버튼`으로 확인할 수 있다.
+			![004febe0-aad1-4af6-96df-907abec39184](https://raw.githubusercontent.com/is2js/screenshots/main/004febe0-aad1-4af6-96df-907abec39184.gif)
+	- `F4` 상태에서 **`fk(파란색열쇠)칼럼`에 대해서 `F12`를 통해 관련된 `pk테이블 row`로 이동한다**
+		![0e4e00d6-6de9-495d-b970-08cf0a2e0f17](https://raw.githubusercontent.com/is2js/screenshots/main/0e4e00d6-6de9-495d-b970-08cf0a2e0f17.gif)
+	- `F4` 상태에서 `F12`를 통한 pk row로 이동했다면, filter에 해당 pk가 필터링 되어있는데
+		- **`c+s+a+ F`를 통해 FILTER(WHERE)에 옵션을 추가해서 확인할 수 있다.**
+			![a196acb9-1001-41a5-9886-719dfe7ab21d](https://raw.githubusercontent.com/is2js/screenshots/main/a196acb9-1001-41a5-9886-719dfe7ab21d.gif)
+		- 일반 `ctrl+F`를 통해 데이터를 검색할 수 있으며, 정규표현식 / 찾은 데이터만 보기 / 검색 범위 넓히기 등이 가능하다.
+			![56f03687-01d8-455f-8a12-e5503aecc5b1](https://raw.githubusercontent.com/is2js/screenshots/main/56f03687-01d8-455f-8a12-e5503aecc5b1.gif)
+
+- **`alt + F12`: table DDL을 팝업으로 띄운다.**
+	![20220612220137](https://raw.githubusercontent.com/is2js/screenshots/main/20220612220137.png)
+
+- `ctrl + LMB`: table DDL로 간다.
+	- `F12`: table DDL로 간다. F4-fk칼럼에서 선택시 pk-row로 이동한다

@@ -23,12 +23,17 @@ image: "images/posts/config.png"
     2. 녹화기:
         ![20220604120556](https://raw.githubusercontent.com/is2js/screenshots/main/20220604120556.png)
         - `새 버전` 체크
-        - 녹화모드: BitBit -> `DirectX` 체크
+        - 녹화모드: ~~BitBit -> `DirectX` 체크~~ -> **`BitBit` 체크유지**(DirectX 체크시 에러남)
         - 기타: `이전 녹화구역 저장` 체크해제
+        - 기타: `Ask me before discarding the recoding` 체크해제
+            - 이것을 체크해제해야 F7 -> F9(취소)시 종료메세지 안물어본다.
+            ![20220614110232](https://raw.githubusercontent.com/is2js/screenshots/main/20220614110232.png)
     3. 편집기:
         ![20220603222708](https://raw.githubusercontent.com/is2js/screenshots/main/20220603222708.png)
         - 색 설정: `중간`
         - 일반: `확인하기 3종` 체크 해제
+        - `인코딩을 별도 창에 표시합니다` 체크
+            ![20220613213332](https://raw.githubusercontent.com/is2js/screenshots/main/20220613213332.png)
     4. **기타:**
         ![20220604120741](https://raw.githubusercontent.com/is2js/screenshots/main/20220604120741.png)
         - `FFmpeg 다운로드`후 경로 지정: 동영상 > screentogif폴더생성 > 저장
