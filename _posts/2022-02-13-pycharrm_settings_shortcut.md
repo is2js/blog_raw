@@ -8,6 +8,13 @@ categories: [pycharm, settings, shortcut]
 image: "images/posts/python.png"
 ---
 
+## 세팅
+
+- 일반적인 것은 intellij에서 가져온다.
+
+### 시작시 최근 프로젝트 reopen 해제
+- settings >  appearance & behavior > `system settings` > [ ] **reopen projects on startup 체크해제**
+![20220616111941](https://raw.githubusercontent.com/is2js/screenshots/main/20220616111941.png)
 
 ## 플러그인
 

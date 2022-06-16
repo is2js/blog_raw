@@ -11,8 +11,12 @@ image: "images/posts/config.png"
 
 ### 활용
 - <kbd>ctr + shift + win + {Num}</kbd> : 작업표시줄에 올려진 프로그램을 관리자 권한으로 실행
+- <kbd>alt + win + {Num}</kbd> : 작업표시줄에 올려진 프로그램에 우클릭 역활(최근 파일, 고정 파일 보기)
 
 - <kbd>win + m</kbd> -> <kbd>win + shift + m</kbd> : 현재창 최소화 -> (작업) -> 최소화 한 것 복구
+- <kbd>win + home</kbd> -> <kbd>win + home</kbd> : 현재창을 제외한 다른 창들 최소화 -> (작업) -> 최소화 한 것 복구
+- <kbd>win + ,</kbd> : 일시적으로 바탕화면 보기
+
 
 - <kbd>win + ↓</kbd> : 현재 창 최소화
 - <kbd>win + shift + ↑</kbd>: 세로 방향으로만 윈도우에 붙여 최대화
@@ -30,9 +34,11 @@ image: "images/posts/config.png"
 	- <kbd>win + u</kbd> : 접근성 설정 창
 
 
-- <kbd>win + k</kbd> : 연결 장치 검색
+- <kbd>win + k</kbd> : 연결 장치(bluetooth) 검색
 
 - <kbd>win + s</kbd> : 작업표시줄 검색창 
+
+- <kbd>win + b + → → enter</kbd> : 인터넷 액세스 상태 보기
 
 ### 부가 기능
 
