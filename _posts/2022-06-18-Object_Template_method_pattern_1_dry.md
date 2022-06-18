@@ -1,8 +1,8 @@
 ---
 toc: true
 layout: post
-title: Object)Template method pattern
-description: 구현체들만 있는 상태에서 공통+개별로직을 템플릿메소드 패턴으로 추출
+title: Object)Template method pattern1(DRY원칙)
+description: 구현체들의 중복되는 공통로직 제거를 위한 템플릿메소드 패턴
 
 categories: [java, 우테코, object, templatemethod, pattern]
 image: "images/posts/java.png"
