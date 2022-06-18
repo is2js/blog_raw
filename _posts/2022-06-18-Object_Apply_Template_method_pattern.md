@@ -1,11 +1,11 @@
 ---
 toc: true
 layout: post
-title: Object) Apply Template method pattern
+title: Object)Template method pattern
 description: 구현체들만 있는 상태에서 공통+개별로직을 템플릿메소드 패턴으로 추출
 
 categories: [java, 우테코, object, templatemethod, pattern]
-image: "images/posts/wootech.png"
+image: "images/posts/java.png"
 ---
 
 ### 구현체에서 템플릿메소드 패턴으로 추상클래스 만들기
