@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Object) Apply Template method pattern | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Object) Apply Template method pattern" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="구현체들만 있는 상태에서 공통+개별로직을 템플릿메소드 패턴으로 추출" />
+<meta property="og:description" content="구현체들만 있는 상태에서 공통+개별로직을 템플릿메소드 패턴으로 추출" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/object/templatemethod/pattern/2022/06/18/Object_Apply_Template_method_pattern.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/object/templatemethod/pattern/2022/06/18/Object_Apply_Template_method_pattern.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/wootech.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-06-18T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-06-18T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/object/templatemethod/pattern/2022/06/18/Object_Apply_Template_method_pattern.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"Object) Apply Template method pattern","dateModified":"2022-06-18T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/object/templatemethod/pattern/2022/06/18/Object_Apply_Template_method_pattern.html"},"description":"구현체들만 있는 상태에서 공통+개별로직을 템플릿메소드 패턴으로 추출","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Object) Apply Template method pattern</h1><p class="page-description">구현체들만 있는 상태에서 공통+개별로직을 템플릿메소드 패턴으로 추출</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-06-18T00:00:00-05:00" itemprop="datePublished">
+        Jun 18, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#templatemethod">templatemethod</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#pattern">pattern</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#구현체에서-템플릿메소드-패턴으로-추상클래스-만들기">구현체에서 템플릿메소드 패턴으로 추상클래스 만들기</a></li>
+</ul><h3 id="구현체에서-템플릿메소드-패턴으로-추상클래스-만들기">
+<a class="anchor" href="#%EA%B5%AC%ED%98%84%EC%B2%B4%EC%97%90%EC%84%9C-%ED%85%9C%ED%94%8C%EB%A6%BF%EB%A9%94%EC%86%8C%EB%93%9C-%ED%8C%A8%ED%84%B4%EC%9C%BC%EB%A1%9C-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>구현체에서 템플릿메소드 패턴으로 추상클래스 만들기</h3>
+
+<ul>
+  <li>카테고리로만 적용했던 마커인터페이스를 삭제한 상태이다
+    <ul>
+      <li>공통로직이 발견되었고, 개별구현 로직을 포함한 상태이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p>구현체에서 <strong>미리 템플릿메소드패턴으로 구성</strong>을 해놓아야한다.</p>
+
+    <ol>
+      <li>한번에 일 처리해줄(인터페이스 or 추상클래스) &amp;&amp; 자식은 물려받아 안보이면서 구현안해도 되는 <code class="language-plaintext highlighter-rouge">public (템플릿)메소드 1개</code>가 <strong>전체로직의 내부에서 개별구현로직인 <code class="language-plaintext highlighter-rouge">private 훅메서드들(step메서드들을) 감싸고 있는 형태</code></strong>여야한다.</li>
+      <li>
+<strong>구상체별 개별구현 될 로직</strong>(step메서드들, proteced abstact로 올라갈)들은 <strong>public 템플릿메소드 <code class="language-plaintext highlighter-rouge">안</code>에서 <code class="language-plaintext highlighter-rouge">순서대로 private 훅메서드로 추출된 상태</code></strong>여야한다
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">private으로 추출된 메서드</code>가 있어야, @Override로 superclass 추출할 때, <code class="language-plaintext highlighter-rouge">abstract</code>를 선택하고, 그 선택이 일반부모class 추출 -&gt; abstact class로 추출을 만든다.</strong></li>
+          <li><strong>또한 그 훅메서드들(템플릿메소드안에 step들을 가지며 개별구현 될)은 <code class="language-plaintext highlighter-rouge">메서드명이 통일</code>되어있어야한다.</strong></li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>현재 코드</p>
+
+    <ul>
+      <li>
+        <p>BackEnd class와 FrontEnd class의 공통로직은 public 템플릿메소드 1개로, 개별구현 로직들은 private메소드로 만들어, <code class="language-plaintext highlighter-rouge">Programmer</code>라는 추상클래스로 추상화하고 싶다.</p>
+
+        <ul>
+          <li>백엔드 클래스</li>
+        </ul>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kn">package</span> <span class="nn">developer.domain.progammer</span><span class="o">;</span>
+        
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">BackEnd</span> <span class="o">{</span>
+        
+      <span class="kd">private</span> <span class="nc">Server</span> <span class="n">server</span><span class="o">;</span>
+      <span class="kd">private</span> <span class="nc">Language</span> <span class="n">language</span><span class="o">;</span>
+        
+      <span class="kd">public</span> <span class="nc">Program</span> <span class="nf">makeProgram</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Paper</span> <span class="n">paper</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">paper</span> <span class="k">instanceof</span> <span class="nc">ServerClient</span><span class="o">)</span> <span class="o">{</span>
+              <span class="kd">final</span> <span class="nc">ServerClient</span> <span class="n">pa</span> <span class="o">=</span> <span class="o">(</span><span class="nc">ServerClient</span><span class="o">)</span> <span class="n">paper</span><span class="o">;</span>
+              <span class="n">server</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="na">getServer</span><span class="o">();</span>
+              <span class="n">language</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="na">getBackEndLanguage</span><span class="o">();</span>
+          <span class="o">}</span>
+        
+          <span class="k">return</span> <span class="nf">makeBackEndProgram</span><span class="o">(</span><span class="s">"백엔드 프로그램"</span><span class="o">);</span>
+      <span class="o">}</span>
+        
+      <span class="kd">private</span> <span class="nc">Program</span> <span class="nf">makeBackEndProgram</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="k">new</span> <span class="nf">Program</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+        
+</code></pre></div>        </div>
+
+        <ul>
+          <li>프론트엔드 클래스</li>
+        </ul>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kn">package</span> <span class="nn">developer.domain.progammer</span><span class="o">;</span>
+        
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">FrontEnd</span> <span class="o">{</span>
+        
+      <span class="kd">private</span> <span class="nc">Language</span> <span class="n">language</span><span class="o">;</span>
+      <span class="kd">private</span> <span class="nc">Library</span> <span class="n">library</span><span class="o">;</span>
+        
+      <span class="kd">public</span> <span class="nc">Program</span> <span class="nf">makeProgram</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Paper</span> <span class="n">paper</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">paper</span> <span class="k">instanceof</span> <span class="nc">Client</span><span class="o">)</span> <span class="o">{</span>
+              <span class="kd">final</span> <span class="nc">Client</span> <span class="n">pb</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Client</span><span class="o">)</span> <span class="n">paper</span><span class="o">;</span>
+              <span class="n">language</span> <span class="o">=</span> <span class="n">pb</span><span class="o">.</span><span class="na">getLanguage</span><span class="o">();</span>
+              <span class="n">library</span> <span class="o">=</span> <span class="n">pb</span><span class="o">.</span><span class="na">getLibrary</span><span class="o">();</span>
+          <span class="o">}</span>
+        
+          <span class="k">return</span> <span class="nf">makeFrontEndProgram</span><span class="o">(</span><span class="s">"프론트 프로그램"</span><span class="o">);</span>
+      <span class="o">}</span>
+        
+      <span class="kd">private</span> <span class="nc">Program</span> <span class="nf">makeFrontEndProgram</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="k">new</span> <span class="nf">Program</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+        
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>구상체들을 템플릿형태로 <strong>변경해야할 부분</strong></p>
+
+    <ul>
+      <li>
+        <p>공통로직은 public 템플릿메소드 <code class="language-plaintext highlighter-rouge">1개</code>로 잘 나타나있다.</p>
+      </li>
+      <li>
+        <p><strong>개별 구현로직은</strong></p>
+
+        <ul>
+          <li>
+            <p>서로 다르게 구현되는 <code class="language-plaintext highlighter-rouge">if  ~ return</code>부분이 <strong>private 훅메서드(step메서드들)로 추출이 안되어있는 상태</strong>다.</p>
+
+            <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">// BackEnd.java</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">paper</span> <span class="k">instanceof</span> <span class="nc">ServerClient</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">ServerClient</span> <span class="n">pa</span> <span class="o">=</span> <span class="o">(</span><span class="nc">ServerClient</span><span class="o">)</span> <span class="n">paper</span><span class="o">;</span>
+      <span class="n">server</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="na">getServer</span><span class="o">();</span>
+      <span class="n">language</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="na">getBackEndLanguage</span><span class="o">();</span>
+  <span class="o">}</span>
+            
+  <span class="c1">// FrontEnd.java</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">paper</span> <span class="k">instanceof</span> <span class="nc">Client</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">Client</span> <span class="n">pb</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Client</span><span class="o">)</span> <span class="n">paper</span><span class="o">;</span>
+      <span class="n">language</span> <span class="o">=</span> <span class="n">pb</span><span class="o">.</span><span class="na">getLanguage</span><span class="o">();</span>
+      <span class="n">library</span> <span class="o">=</span> <span class="n">pb</span><span class="o">.</span><span class="na">getLibrary</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div>            </div>
+          </li>
+          <li>
+            <p>이미 추출된 훅메서드가 <strong>명칭이 통일이 안되어있는 상태</strong>이다.</p>
+
+            <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">// BackEnd.java</span>
+  <span class="k">return</span> <span class="nf">makeBackEndProgram</span><span class="o">(</span><span class="s">"백엔드 프로그램"</span><span class="o">);</span>
+            
+  <span class="c1">// FrontEnd.java</span>
+  <span class="k">return</span> <span class="nf">makeFrontEndProgram</span><span class="o">(</span><span class="s">"프론트 프로그램"</span><span class="o">);</span>
+</code></pre></div>            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>변경해보기</p>
+
+    <ol>
+      <li>
+        <p>이미 public 템플릿메소드가 존재하는 상황이다.(<strong>전체로직 &amp; 공통코드를</strong> 담는 public 메서드)</p>
+      </li>
+      <li>
+        <p>개별구현로직도 순서대로 이름이 통일된 <strong>private 훅메서드로 추출</strong>한다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/60dde2e3-a345-4be7-9393-b6c84b359bfb.gif" alt="60dde2e3-a345-4be7-9393-b6c84b359bfb"></p>
+      </li>
+      <li>
+        <p><strong>구현체별로 이름이 다른 훅메서드들의 이름을 통일한다.</strong></p>
+
+        <ul>
+          <li>추상클래스를 추출할 클래스에서만, 메서드명을 추상화해서 통일하고</li>
+          <li>나머지 구현체들은 그대로 두자. -&gt; <strong>이미 동일한 메서드를 가지고 있으면, <code class="language-plaintext highlighter-rouge">자동implements</code>가 인식안되서 직접 작성해줘야한다.</strong>
+            <ul>
+              <li>아래 영상에서는 FrontEnd의 메서드명도 수정하는데 그대로 두던지, <code class="language-plaintext highlighter-rouge">수정하고 주석처리</code>해놓자.</li>
+            </ul>
+          </li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/71015c26-1fa5-4b14-8cf4-f2eacc1ca8c0.gif" alt="71015c26-1fa5-4b14-8cf4-f2eacc1ca8c0"></p>
+      </li>
+      <li>
+        <p><strong>1개의 구현체</strong>에서 템플릿메소드패턴을 적용한 추상클래스를 추출한다.</p>
+
+        <ul>
+          <li>public 템플릿메소드를 추출하려고 하면, <strong>private메서드들이 빨간색 뜨는데, 이놈들을 abstract로 데려가면, 구상체별 개별구현 훅메서드가 된다.</strong>
+</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/59eeca1f-d228-4c1d-aacd-eddc152b6f2d.gif" alt="59eeca1f-d228-4c1d-aacd-eddc152b6f2d"></p>
+      </li>
+      <li>
+        <p><strong>나머지 구현체들</strong>은, 추상클래스를 상속한 뒤</p>
+
+        <ol>
+          <li>공통로직을 담은 <strong>public템플릿메소드는 제거하여 추상클래스로부터 물려받아 쓴다.</strong>
+</li>
+          <li>개별구현로직의 <strong>private훅메서드들은 주석처리해놓고 -&gt; implements해서 구현한 뒤 -&gt; 개별구현로직을 복붙</strong>하자.
+            <ul>
+              <li><strong>메서드명이 추상메서드와 동일하면, implements에 안뜬다.</strong></li>
+              <li>메서드명이 추상메서드와 동일하게 그대로 두면, 접근제어자에만 빨간색떠서 직접 수정해줘야한다.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/e8835bc1-377f-405a-a924-8b91297b6c17.gif" alt="e8835bc1-377f-405a-a924-8b91297b6c17"></p>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/object/templatemethod/pattern/2022/06/18/Object_Apply_Template_method_pattern.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
