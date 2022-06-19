@@ -13,7 +13,7 @@ image: "images/posts/java.png"
 #### 추상층 + 제네릭  -> 특정형을 아는 구상층을 만들어 1:1관계의 instanceof 제거
 
 - 현재 `Programmer`의 구상체 `FrontEnd, BackEnd`의 개별구현 훅메서드(@Override, protected)들에서 추상체 `Paper`를 인자에 받았음에도 `instanceof`로 Paper의 구상체(Client, ServerClient)를 다운캐스팅해서 확인한다.
-
+   ![20220619225828](https://raw.githubusercontent.com/is3js/screenshots/main/20220619225828.png)
 
 
 1. **instanceof 제거 전에 `확인`해야할 사항**
