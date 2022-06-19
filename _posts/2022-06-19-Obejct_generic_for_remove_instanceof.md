@@ -1,9 +1,8 @@
-
 ---
 toc: true
 layout: post
-title: Object) Generic for remove instanceof
-description: 추상체를 확인해야할 경우 -> 자신이 여러형을 알아야할 경우
+title: Object) Generic for remove instanceof+@ 
+description: 추상체를 확인해야할 경우->자신이 여러형을 알아야할 경우
 
 categories: [java, 우테코, oop, object, generic, instanceof]
 image: "images/posts/java.png"
