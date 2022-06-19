@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      14 min read
+      15 min read
     
 </span></p>
 
@@ -1336,7 +1336,66 @@ window.onload = wrap_img;
 </li>
     </ul>
   </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">Ctrl + D</code> in project(assign): 2개 파일 비교하기</strong>
+    <ul>
+      <li>
+<strong>keymap &gt; <code class="language-plaintext highlighter-rouge">compare file</code> 검색 후 &gt; <code class="language-plaintext highlighter-rouge">Ctrl+D</code>로 지정</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/20220619131007.png" alt="20220619131007">
+</li>
+      <li>
+<strong>비슷한 파일 차이점 비교할 때 ex&gt; <code class="language-plaintext highlighter-rouge">구상체들의 공통로직(템플릿메소드) +개별로직(훅메서드로 추출)</code> 만들어서 템플릿 메소드로 올릴 때</strong>
+        <ul>
+          <li><strong>method정의부를 accept하면, 안에 내용물까지 똑같이 바뀌므로 조심할 것.</strong></li>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">모든 구상체</code>에 대해</strong>
+            <ol>
+              <li>
+<code class="language-plaintext highlighter-rouge">구조</code> = public 템플릿메소드(공통 로직을 포함한 전체로직) + 그 내부에 private 훅메서드(개별로직)
+                <ol>
+                  <li>public 템플릿 메서드 내에 모든 로직이 담겨있느냐
+                    <ul>
+                      <li>private 메서드(내부에서 빠진 것)를 제외시키면서 <strong><code class="language-plaintext highlighter-rouge">public 메서드 1개</code>만 있으면 된다.</strong>
+</li>
+                    </ul>
+                  </li>
+                  <li>템플릿내부 개별로직이 private 훅메서드로 빠져있느냐
+                    <ul>
+                      <li><strong>달라서 highlight뜬 line들이 템플릿메서드 내에 보이면 안된다.</strong></li>
+                      <li>
+<code class="language-plaintext highlighter-rouge">템플릿메서드 내 hightlight</code> -&gt; private메서드로 추출해서 훅메서드안으로 보내야한다.</li>
+                    </ul>
+                  </li>
+                  <li>템플릿내부 private 훅메서드의 이름이 구상체마다 같느냐</li>
+                </ol>
+              </li>
+              <li>
+<code class="language-plaintext highlighter-rouge">이름</code> 확인
+                <ol>
+                  <li>템플릿메소드 이름이 추상화되어 동일하느냐</li>
+                  <li>훅메서드 이름 역시 추상화되어 동일하느냐</li>
+                </ol>
+              </li>
+            </ol>
+          </li>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">올릴 구상체 1개</code>에 대해 <code class="language-plaintext highlighter-rouge">수정</code></strong>
+            <ul>
+              <li><strong><code class="language-plaintext highlighter-rouge">구조</code>가 잡혔으면 -&gt; 템플릿메서드<code class="language-plaintext highlighter-rouge">명</code>와 훅메서드<code class="language-plaintext highlighter-rouge">명</code>들을 <code class="language-plaintext highlighter-rouge">통일 예정으로서 추상화</code>해놓고 <code class="language-plaintext highlighter-rouge">올리기</code></strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>참고
+        <ul>
+          <li>코드에서 <code class="language-plaintext highlighter-rouge">Ctrl+D</code>: 단어블랙지정(최초) -&gt; 같은 단어 순차적 선택</li>
+          <li>참고 <code class="language-plaintext highlighter-rouge">Ctrl+F2</code>: 같은 단어 모두 선택</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
+
 
   </div><a class="u-url" href="/intellij/%EC%9A%B0%ED%85%8C%EC%BD%94/%EB%8B%A8%EC%B6%95%ED%82%A4/%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8/plugin/keymap/shortcut/2022/02/13/intellij_%EB%8B%A8%EC%B6%95%ED%82%A4(%EC%99%84).html" hidden></a>
 </article>

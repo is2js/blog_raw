@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      2 min read
+      3 min read
     
 </span></p>
 
@@ -136,9 +136,22 @@ window.onload = wrap_img;
     <!-- toc가 먼저 나오므로 h3로 안내하기 -->
     <h3>📜 제목으로 보기</h3>
     <ul class="section-nav">
-<li class="toc-entry toc-h3"><a href="#구현체에서-템플릿메소드-패턴으로-추상클래스-만들기">구현체에서 템플릿메소드 패턴으로 추상클래스 만들기</a></li>
+<li class="toc-entry toc-h3"><a href="#구현체에서-템플릿메소드-패턴으로-추상클래스-만들기">구현체에서 템플릿메소드 패턴으로 추상클래스 만들기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#맨땅에서-확인하기">맨땅에서 확인하기</a></li>
+<li class="toc-entry toc-h4"><a href="#compare-files를-이용한-구상체클래스들-추상화">Compare Files를 이용한 구상체클래스들 추상화</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#compare-files">Compare Files</a></li>
+<li class="toc-entry toc-h5"><a href="#템플릿-메소드-패턴-확인사항">템플릿 메소드 패턴 확인사항</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul><h3 id="구현체에서-템플릿메소드-패턴으로-추상클래스-만들기">
 <a class="anchor" href="#%EA%B5%AC%ED%98%84%EC%B2%B4%EC%97%90%EC%84%9C-%ED%85%9C%ED%94%8C%EB%A6%BF%EB%A9%94%EC%86%8C%EB%93%9C-%ED%8C%A8%ED%84%B4%EC%9C%BC%EB%A1%9C-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>구현체에서 템플릿메소드 패턴으로 추상클래스 만들기</h3>
+
+<h4 id="맨땅에서-확인하기">
+<a class="anchor" href="#%EB%A7%A8%EB%95%85%EC%97%90%EC%84%9C-%ED%99%95%EC%9D%B8%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>맨땅에서 확인하기</h4>
 
 <ul>
   <li>카테고리로만 적용했던 마커인터페이스를 삭제한 상태이다
@@ -330,6 +343,171 @@ window.onload = wrap_img;
     </ol>
   </li>
 </ol>
+
+<h4 id="compare-files를-이용한-구상체클래스들-추상화">
+<a class="anchor" href="#compare-files%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EA%B5%AC%EC%83%81%EC%B2%B4%ED%81%B4%EB%9E%98%EC%8A%A4%EB%93%A4-%EC%B6%94%EC%83%81%ED%99%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compare Files를 이용한 구상체클래스들 추상화</h4>
+
+<h5 id="compare-files">
+<a class="anchor" href="#compare-files" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compare Files</h5>
+
+<ul>
+  <li>**비슷한 파일 차이점 비교할 때 **
+    <ul>
+      <li><strong>ex&gt; <code class="language-plaintext highlighter-rouge">구상체들의 공통로직(템플릿메소드) +개별로직(훅메서드로 추출)</code> 만들어서 템플릿 메소드로 올릴 때</strong></li>
+    </ul>
+  </li>
+  <li>단축키 세팅
+    <ul>
+      <li>
+<strong>keymap &gt; <code class="language-plaintext highlighter-rouge">compare file</code> 검색 후 &gt; <code class="language-plaintext highlighter-rouge">Ctrl+D</code>로 지정</strong>    <img src="https://raw.githubusercontent.com/is3js/screenshots/main/20220619131007.png" alt="20220619131007">
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="템플릿-메소드-패턴-확인사항">
+<a class="anchor" href="#%ED%85%9C%ED%94%8C%EB%A6%BF-%EB%A9%94%EC%86%8C%EB%93%9C-%ED%8C%A8%ED%84%B4-%ED%99%95%EC%9D%B8%EC%82%AC%ED%95%AD" aria-hidden="true"><span class="octicon octicon-link"></span></a>템플릿 메소드 패턴 확인사항</h5>
+
+<ul>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">모든 구상체</code>에 대해 <code class="language-plaintext highlighter-rouge">구조는 다 수정</code></strong></p>
+
+    <ol>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">구조</code> 확인</p>
+
+        <ol>
+          <li>
+            <p><strong>공통 로직을 포함한 전체로직</strong>이 <strong>public</strong> 예비템플릿메소드  <strong>1개</strong>에 담길 것</p>
+          </li>
+          <li>
+            <p><strong>그 내부(1.)에서 개별로직들은</strong> <strong>private</strong> 예비훅메서드들로 빠져있을 것</p>
+
+            <ul>
+              <li>학습중 발견: private 예비훅메서드들은 개별구현시 달라질 인자는  소유하고 있으면 안됨. 훅메서드는 그 내부에서 달라지는 내용들을 개별구현한다.</li>
+            </ul>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/8523ff92-1f01-4de3-812c-08519fc65da5.gif" alt="8523ff92-1f01-4de3-812c-08519fc65da5"></p>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">구조</code> 확인 후 <code class="language-plaintext highlighter-rouge">수정</code></strong></p>
+
+        <ol>
+          <li>public 예비템플릿 메서드 내에 모든 로직이 담겨있느냐
+            <ul>
+              <li>
+<strong>private</strong> 메서드(내부에서 개별로직이 훅메서드로 빠진 것)는 <strong>보지말고</strong>, <strong><code class="language-plaintext highlighter-rouge">public 예비템플릿메서드 1개만 있고</code> 모든 로직이 다 들어가도록하며, <code class="language-plaintext highlighter-rouge">없는 구상체는면 생성</code>해서 넣어준다.</strong>
+</li>
+            </ul>
+          </li>
+          <li>템플릿내부 개별로직이 private 훅메서드로 빠져있느냐
+            <ul>
+              <li><strong>달라서 <code class="language-plaintext highlighter-rouge">highlight뜬 line들이 public 예비템플릿메서드 내에 보이면 안된다.</code></strong></li>
+              <li>
+<strong><code class="language-plaintext highlighter-rouge">템플릿메서드 내 hightlight(개별로직)</code> -&gt; <code class="language-plaintext highlighter-rouge">private 예비훅메서드</code>로 <code class="language-plaintext highlighter-rouge">추출</code>해서 훅메서드안으로 보내야한다.</strong>
+                <ul>
+                  <li>
+<strong><code class="language-plaintext highlighter-rouge">예비훅메서드의 명</code>은 개별구상체들 다 쓸 것이니 <code class="language-plaintext highlighter-rouge">추상화해서 추출</code></strong>해서 짓자.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ol>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/6dfd3fef-c672-48c4-af07-586d291f94eb.gif" alt="6dfd3fef-c672-48c4-af07-586d291f94eb"></p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">이름</code> 확인만</p>
+
+        <ol>
+          <li>템플릿메소드 이름이 추상화되어 동일하느냐</li>
+          <li>훅메서드 이름 역시 추상화되어 동일하느냐</li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">올릴 구상체 1개만</code>에 대해 <code class="language-plaintext highlighter-rouge">추상화된 이름으로 수정</code></strong></p>
+
+    <ul>
+      <li>
+        <p><strong>public 예비 템플릿메서드 <code class="language-plaintext highlighter-rouge">명</code>와  내부 private 예비훅메서드<code class="language-plaintext highlighter-rouge">명</code>들을 <code class="language-plaintext highlighter-rouge">모두 개별 구상체 통일 예정</code>이므로 <code class="language-plaintext highlighter-rouge">대표 구상체 1개는 추상화한 메서드명으로 수정해놓고 올리기</code></strong></p>
+
+        <ul>
+          <li>구상체들이 미리 이름을 통일시켜놓으면, implements 목록에 안보일 수 있다.
+            <ul>
+              <li>여기선 훅메서드와 템플릿메서드명이 겹쳐서 템플릿메소드명도 수정했다</li>
+            </ul>
+          </li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/266bd29c-fd30-4ff7-86b3-9631a9f16a69.gif" alt="266bd29c-fd30-4ff7-86b3-9631a9f16a69"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>올릴 구상체 1개로 추상체를 만든다.</p>
+
+    <ul>
+      <li>
+        <p>public메서드를 public 템플릿메소드로 올리려고 체크하면</p>
+      </li>
+      <li>
+        <p>private메서드들이 빨간색표시되며 <code class="language-plaintext highlighter-rouge">abstract체크</code>를 통해  protected abstract 메서드(훅메서드)로 올릴 수 있다.</p>
+
+        <ul>
+          <li>public -&gt; 추상클래스에서 가져간다. (템플릿메소드 1개)</li>
+          <li>private -&gt; 구상클래스에서 개별구현한다. (개별구현 훅메서드들)</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/f6c4ef40-7354-4ad1-bb05-0781b2fd220c.gif" alt="f6c4ef40-7354-4ad1-bb05-0781b2fd220c"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>추상체가 만들어지면, <strong><code class="language-plaintext highlighter-rouge">나머지 구상체들</code>은 <code class="language-plaintext highlighter-rouge">훅메서드들만 implements</code>해서  <code class="language-plaintext highlighter-rouge">개별로직으로 수정</code></strong></p>
+
+    <ul>
+      <li>
+        <p>implements목록에 안보이더라도  <strong><code class="language-plaintext highlighter-rouge">public 템플릿메소드는 공통로직이라 구상체들은 안보인상태로 물려받아 사용</code></strong> 한다.</p>
+
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">구상체는 추상클래스를 상속한다</code></li>
+          <li><strong><code class="language-plaintext highlighter-rouge">구상체의 public템플릿메소드는 삭제</code>한다</strong></li>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">구상체의 구현대상은 훅메서드들만</code> 하면 된다.</strong>
+            <ul>
+              <li>만약  추상층의 prot abst훅메서드 &lt;-&gt; 구상층의 private메서드의 이름이 같아서 implements 목록에 안뜨면, 접근제어자를 protected로 수정해주면 된다.</li>
+            </ul>
+          </li>
+          <li>
+<code class="language-plaintext highlighter-rouge">구상체는 외부에서 public 템플릿메소드</code>만 사용하게 된다.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/8771603c-b2c3-4349-ab07-02b79eea6850.gif" alt="8771603c-b2c3-4349-ab07-02b79eea6850"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>문제점 발견</p>
+
+    <ul>
+      <li>
+        <p>템플릿메소드내 <strong>훅메서드들</strong>은 내부에서 공통으로 호출 -&gt; <strong>외부에서 인자를 받지 않으면, 내부에서 주는 인자는 의미가 없다. -&gt; <code class="language-plaintext highlighter-rouge">템플릿메소드가 받는 인자가 아니면, 인자 없이 훅메서드를 만들자. 개별구현을 숨기는 객체없는 내부메서드일 뿐!</code></strong></p>
+
+        <ul>
+          <li>개별구현하고 싶으면, <code class="language-plaintext highlighter-rouge">훅메서드의 호출 인자</code>가 아니라, 훅메서드 <code class="language-plaintext highlighter-rouge">내부에 개별구현에서 다른 값을 사용</code>한다</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220619142451534.png" alt="image-20220619142451534"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/32e96307-3324-40b9-9a90-0475851b1e7d.gif" alt="32e96307-3324-40b9-9a90-0475851b1e7d"></p>
+      </li>
+    </ul>
+  </li>
+</ul>
 
 
   </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/templatemethod/pattern/2022/06/18/Object_Template_method_pattern_1_dry.html" hidden></a>
