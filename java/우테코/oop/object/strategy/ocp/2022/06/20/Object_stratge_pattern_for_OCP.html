@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Object) Strategy pattern for OCP | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Object) Strategy pattern for OCP" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="추상체를 넘겨받았음에도 여러개의 if -&gt; 추상체 정보 강화" />
+<meta property="og:description" content="추상체를 넘겨받았음에도 여러개의 if -&gt; 추상체 정보 강화" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/strategy/ocp/2022/06/20/Object_stratge_pattern_for_OCP.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/strategy/ocp/2022/06/20/Object_stratge_pattern_for_OCP.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-06-20T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-06-20T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/strategy/ocp/2022/06/20/Object_stratge_pattern_for_OCP.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"Object) Strategy pattern for OCP","dateModified":"2022-06-20T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/strategy/ocp/2022/06/20/Object_stratge_pattern_for_OCP.html"},"description":"추상체를 넘겨받았음에도 여러개의 if -&gt; 추상체 정보 강화","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Object) Strategy pattern for OCP</h1><p class="page-description">추상체를 넘겨받았음에도 여러개의 if -> 추상체 정보 강화</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-06-20T00:00:00-05:00" itemprop="datePublished">
+        Jun 20, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#oop">oop</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#strategy">strategy</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#OCP">OCP</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h4"><a href="#n개의-instanceof는-n개의-if---1n을-11로-만드는-전략패턴-준비와-적용">N개의 instanceof는 N개의 if -&gt; 1:N을 1:1로 만드는 전략패턴 준비와 적용</a></li>
+<li class="toc-entry toc-h4"><a href="#전략패턴의-완성-전략구상체들-역시-추상클래스화---분신술이-전략메서드-실시간-개별구현">전략패턴의 완성: 전략구상체들 역시 추상클래스화 -&gt; 분신술이 전략메서드 실시간 개별구현</a></li>
+<li class="toc-entry toc-h4"><a href="#이론">이론</a></li>
+<li class="toc-entry toc-h4"><a href="#적용">적용</a></li>
+</ul><h4 id="n개의-instanceof는-n개의-if---1n을-11로-만드는-전략패턴-준비와-적용">
+<a class="anchor" href="#n%EA%B0%9C%EC%9D%98-instanceof%EB%8A%94-n%EA%B0%9C%EC%9D%98-if---1n%EC%9D%84-11%EB%A1%9C-%EB%A7%8C%EB%93%9C%EB%8A%94-%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4-%EC%A4%80%EB%B9%84%EC%99%80-%EC%A0%81%EC%9A%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>N개의 instanceof는 N개의 if -&gt; 1:N을 1:1로 만드는 전략패턴 준비와 적용</h4>
+
+<ul>
+  <li>
+<strong>전략패턴 준비</strong>: if내에서 구상체들이 단독으로 하는 일을 찾아, 파라미터로 추출 후, 구상체내부로 옮겨주기</li>
+  <li>
+<strong>의존성 역전</strong>:
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">1:N</code></strong> : 일반class가 N개의 구상체를 알고 있는 관계
+        <ul>
+          <li>추상체로 받지만, 1:N관계라서, N개를 모두 다 확인하고, 개별로직을 수행한다.</li>
+        </ul>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">1:1</code>: 추상체로 받고, 추상체에 시켜서 내부적으로 N개의 개별구현 구상체가 작동 후  1알아서 결과물을 제공하는 <code class="language-plaintext highlighter-rouge">N관계가 1개의 전략(추상)메서드로 기능 제공</code>하게 된 상태</strong>
+        <ul>
+          <li>추상체를 의존하는 것은 그대로이나, N개 구상체를 다운캐스팅해서 직접 까보지 않아도 되어, 1:1의 관계가 됨. <strong>이것도 의존성 역전</strong>이라고 한다.</li>
+          <li>
+<strong>Director가 직접 N개 다 까보던 것</strong> -&gt; <strong>Paper(추상체)가 전략메서드로 일을 하고 상황에 맞는 결과물을 반환해주는 일을 건네받음.</strong>
+            <ul>
+              <li>역할의 역전</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>문제상황</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220619233740650.png" alt="image-20220619233740650"></p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">Director</code>는 <code class="language-plaintext highlighter-rouge">Paper</code>(추상체)에 대한 <strong>instanceof가 2개</strong>가 생겼다.</p>
+
+        <ul>
+          <li>instanceof가 1개가 아니라면 제네릭으로 제거 불가다<strong>. 의존성 역전이 필요한 N개의 if로 봐야한다</strong>
+</li>
+        </ul>
+      </li>
+      <li>
+        <p>의존성 역전을 하려면, <strong><code class="language-plaintext highlighter-rouge">Paper(N, 추상체에).시킨다( Director(1) )</code>의 형태</strong>가 되어야하는데,</p>
+
+        <ul>
+          <li>
+<strong>추상층의 정보가 적어</strong> 한번에 일을 못시켜 if로 구상층들을 확인해야하는 OCP위반(부모형이 자식형들 대체를 못함)이 생긴다.
+            <ul>
+              <li>
+<strong>구상층의 정보들을 모아, 추상층에 올리기 위해 <code class="language-plaintext highlighter-rouge">N개의if를 제거하는 전략패턴</code>을 적용해야한다</strong>
+                <ul>
+                  <li>구상층의 정보가 없다면? 구상층의 은닉화/역할책임 분배가 잘못된 것으로  <strong><code class="language-plaintext highlighter-rouge">구상층을 확인하고 사용하는 class내에서</code> -&gt; <code class="language-plaintext highlighter-rouge">구상층이 단독으로 사용되는 로직을 묶어 구상층 내로 가져와야</code> 한다</strong>.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>추상체에 정보를 채울 <code class="language-plaintext highlighter-rouge">구상체들의 공통로직+개별로직</code>이 <code class="language-plaintext highlighter-rouge">구상체 내부에도 없는 상황</code></strong></p>
+
+        <ul>
+          <li>
+            <p><strong>각 if마다<code class="language-plaintext highlighter-rouge">Director내에서 확인된 구상체들이 단독으로 하고 있는 일들을 구상체 내부로 일단 가져와야</code>한다.</strong></p>
+
+            <ul>
+              <li>
+                <p><strong>단독으로 하는 일은, 구상체로 가져와도 서로 다를 인자가 안생겨, 전략메서드가 될 수 있다.</strong></p>
+              </li>
+              <li>
+                <p>확인해보면, Paper의 구상체들 Client, ServerClient들은 getter/setter밖에 없다. 특별한 공통로직이 안보이는 상황</p>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220619234928202.png" alt="image-20220619234928202"></p>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220619234948841.png" alt="image-20220619234948841"></p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>적용순서</strong></p>
+
+    <ol>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">if마다각각의 구상체</code>가 현재Class내에 있지만, <code class="language-plaintext highlighter-rouge">단독으로 하는 일들</code></strong>을 살펴보고 <strong><code class="language-plaintext highlighter-rouge">메서드 추출 with 구상체만 필요한 인자</code> 후 -&gt; 구상체 내부 public (예비전략)메서드</strong>로 옮긴다.</p>
+
+        <ul>
+          <li>
+<strong>구상체가 현재 속한 class(Director)정보 없이 단독으로 하는 일</strong> -&gt; Director안에서 안 펼쳐져있어도 된다. 은닉화해서 내부로 들고와야</li>
+          <li>구상체<strong>만</strong>의 일을 찾아서 -&gt; 구상체내부로 넣어줘야 -&gt; 구상체들만의 공통로직을 추출할 수 있다.
+            <ul>
+              <li>
+<strong>new 객체를 생성하는 일</strong>: 섭외한다고 표현하고, 의존하는 것이므로 Director와 무관하게 <strong>구상체가 단독으로 하는 일에 포함되는 일로서 다른 객체를 섭외(의존)</strong>할 수 있다.</li>
+              <li>
+<strong>객체없는 private메서드 추출된 메서드(deploy)</strong> : 현class 정보를 사용해서 하는 일 -&gt; <strong>Director의 일</strong>이다.</li>
+            </ul>
+          </li>
+          <li>
+<strong>공통로직을 추출하는게 아니라 구상형들의 단독일을 찾아 올려 <code class="language-plaintext highlighter-rouge">추상체.시킨다()</code>할 <code class="language-plaintext highlighter-rouge">통째로 1개의 메서드 추출</code> 목적이므로 템플릿메소드 패턴은 생각하지 않고, <code class="language-plaintext highlighter-rouge">인터페이스의 전략메서드 1개</code>로 만든다</strong>
+            <ul>
+              <li>전략메서드는 Director와 무관하게 인자 없이 정의되는 것이 좋으므로, 단독으로 하는일을 찾아서 -&gt; 추출후 -&gt; 추상체로 이동시킨다.</li>
+            </ul>
+          </li>
+          <li>단독으로 하는 일 정리
+            <ol>
+              <li>특정 Paper구상형를 아는 개발자(들)을 섭외
+                <ul>
+                  <li><strong>2개의 지역변수가 추출되는 순간 -&gt; 메서드 추출이 안된다. -&gt; <code class="language-plaintext highlighter-rouge">객체없는 private메서드로 생성 후 개별 로직 -&gt; 수동 이동 -&gt; 구상체만 필요해야하므로 구상체만 Parameter로 추출 -&gt; 구상체로 이동</code></strong></li>
+                  <li>가능하면, <strong>먼저 1개의 변수 체이닝을 하는 if를 찾아가서 메서드 추출</strong>하고 <strong>해당 구상체로 move한 뒤, 복잡한 경우(2개이상 지역변수, 결과물 생성)하는 부분은 수동으로 처리하자</strong>
+</li>
+                </ul>
+              </li>
+              <li>Paper구상형에 개발자들을 set</li>
+              <li>개발자들이 Paper구상형을 받아 Program(들) 생성
+                <ul>
+                  <li><strong>return 1개이상일 경우, new 형[]{ 1, 2}의 배열을 생성해서 반환한다</strong></li>
+                </ul>
+              </li>
+              <li><del>Director가 Program(들)을 deploy</del></li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>추출할 메서드명은 모든 구상체가 같아야할텐데, getProgram/makeProgram은 개발자들의 메서드라 되었기 때문에, 1~3의 과정을 (Paper의) generateProgram으로 하자.</strong></p>
+
+            <ul>
+              <li>
+                <p><strong>각 if마다 순차적으로 <code class="language-plaintext highlighter-rouge">구상체단독일 추출 -&gt; 구상체로 이동</code>을 <code class="language-plaintext highlighter-rouge">반복</code>해서 Move시켜준다.</strong></p>
+              </li>
+              <li>
+                <p>Client</p>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/39dcdb0b-1c72-4df1-a3b6-208c26ab1767.gif" alt="39dcdb0b-1c72-4df1-a3b6-208c26ab1767"></p>
+              </li>
+              <li>
+                <p>ServerClient : 지역변수 2개 생성 체이닝 -&gt; <strong>구상체만 사용하는 메소드의 자동추출이 안되므로 -&gt; 전략메서드와 동일한이름으로 메서드 생성 -&gt; 복붙 -&gt; <code class="language-plaintext highlighter-rouge">단독사용된 구상체만 파라미터로 추출</code> -&gt; <code class="language-plaintext highlighter-rouge">Move시 파라미터의 사용된 구상체로 이동</code></strong>한다.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/f0581c6f-c1ad-442f-b414-2588eb68ca15.gif" alt="f0581c6f-c1ad-442f-b414-2588eb68ca15"></p>
+
+                <ul>
+                  <li><strong>예비 전략메서드들의 <code class="language-plaintext highlighter-rouge">returnType을 1개이상 받을 수 있는 배열로 변환하여 통일</code>하도록 <code class="language-plaintext highlighter-rouge">구상체들을 Compare Files</code>을 이용한다.</strong></li>
+                </ul>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/3cba378f-6cc8-4cb9-9ad1-4f4e763de7e4.gif" alt="3cba378f-6cc8-4cb9-9ad1-4f4e763de7e4"></p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>구상체 1개로 <code class="language-plaintext highlighter-rouge">input/output이 통일된 예비전략메서드</code>를 올린 뒤, 나머지 구상체들이 추상메서드를 구현하도록 수정한다</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/cb42ca01-9461-49ff-9ed0-79949ace9d58.gif" alt="cb42ca01-9461-49ff-9ed0-79949ace9d58"></p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">Director내</code> if별로 존재하는 구상체들.예비전략메서드() -&gt; <strong>if를 제거후 추상체.전략메서드()</strong>로 변환한다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/ad98d75b-524a-44a3-b7f6-ee881840eea6.gif" alt="ad98d75b-524a-44a3-b7f6-ee881840eea6"></p>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<h4 id="전략패턴의-완성-전략구상체들-역시-추상클래스화---분신술이-전략메서드-실시간-개별구현">
+<a class="anchor" href="#%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%9D%98-%EC%99%84%EC%84%B1-%EC%A0%84%EB%9E%B5%EA%B5%AC%EC%83%81%EC%B2%B4%EB%93%A4-%EC%97%AD%EC%8B%9C-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%ED%99%94---%EB%B6%84%EC%8B%A0%EC%88%A0%EC%9D%B4-%EC%A0%84%EB%9E%B5%EB%A9%94%EC%84%9C%EB%93%9C-%EC%8B%A4%EC%8B%9C%EA%B0%84-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>전략패턴의 완성: 전략구상체들 역시 추상클래스화 -&gt; 분신술이 전략메서드 실시간 개별구현</h4>
+
+<h4 id="이론">
+<a class="anchor" href="#%EC%9D%B4%EB%A1%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>이론</h4>
+
+<ul>
+  <li>
+    <p>훅메서드 / 전략메서드는 추상메서드로서, <strong>if분기를 유발하던 로직</strong>이다. if분기마다 <strong>외부에서 구상class가 익명클래스로 class(java)파일 생성없이 생성될 수 있게 한다.</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>객체지향 설계를 제대로 했다면 -&gt; if 유발 개별로직이 전략/훅메서드 -&gt; 구상class -&gt; abstract 화 -&gt; 익명클래스에서 구상하여 Main까지 밀려야 성공한 것</strong></p>
+
+        <ul>
+          <li>if instanceof에 분기 선택으로 사용되던 Client, ServerClient도  <strong><code class="language-plaintext highlighter-rouge">class</code>  -&gt;  <code class="language-plaintext highlighter-rouge">abstract class</code>된다</strong>.
+            <ul>
+              <li><strong><code class="language-plaintext highlighter-rouge">abstract</code>만 달아줌으로써, Client, ServerClient의 본래 특징을 유지하되 &amp;&amp; <code class="language-plaintext highlighter-rouge">if를 유발하는 수행방법(내부다른정보들 입력) -&gt; case에 따라서 외부에서 구현 &amp;&amp; 객체 생성(형 생성)</code>해버리기 위해</strong></li>
+            </ul>
+          </li>
+          <li>그 전까지로만 밀렸다면,  어딘가에서 다운캐스팅 하고 있을 것이다</li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>Main까지 다 밀었으면 <code class="language-plaintext highlighter-rouge">DI</code>를 한다.</strong></p>
+
+        <ul>
+          <li>
+<strong>Main의 코드들을 싹다 일일히 만드는게 아니라 DI를 통해 주입하는 것으로 끝내야</strong>한다.</li>
+          <li>Main까지 다 밀어내야지만 DI가 정상작동한다.</li>
+        </ul>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">외부에서 익명클래스로 실시간 구현 &amp;&amp; case에 맞는 구상형 생성</code>시 <strong>개별구현되는 전략메서드/훅메서드</strong>는</p>
+
+        <ul>
+          <li>내부에서 분기문을 유발하던 곳에서  전략/훅메서드로 사용된다.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220620013639335.png" alt="image-20220620013639335"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>템플릿메소드 패턴</strong>의 Programmer의 구상층 FrontEnd와 BackEnd는 <strong><code class="language-plaintext highlighter-rouge">더이상 구상불가능한 하위도메인인 자신이 알아야하는 형이 많아져서</code>  <code class="language-plaintext highlighter-rouge">제네릭+추상클래스화</code>를 통해 분신술마다 <code class="language-plaintext highlighter-rouge">특정형알게+익클 분신술로 훅메서드 실시간 개별구현</code></strong>
+    <ul>
+      <li>case마다 훅메서드(들)의 개별구현을 외부에서 하도록</li>
+      <li>(더이상 추가 하위구상층 만들기 불가한 자신class로) case마다 특정형 선택할 수 있게</li>
+    </ul>
+  </li>
+  <li>
+<strong>전략패턴</strong>의 Paper의 구상층 Client, ServerClient는 <strong>분기를 유발하던 개별구현로직 <code class="language-plaintext highlighter-rouge">전략메서드</code>를 <code class="language-plaintext highlighter-rouge">외부에서 필요에 따라 실시간 개별구현</code>하도록 분신술</strong>
+    <ul>
+      <li>case마다 전략메서드의 개별구현을 외부에서 하도록</li>
+      <li>하위 구상층의 추가 가능성??</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="적용">
+<a class="anchor" href="#%EC%A0%81%EC%9A%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>적용</h4>
+
+<ul>
+  <li>
+<strong>기존 구상체를 추상화(중간 추상층화)</strong>시키는 것은 먼저 작성한 <a href="https://blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/generic/instanceof/2022/06/19/Obejct_generic_for_remove_instanceof.html#%EA%B5%AC%EC%83%81%EC%B8%B5%EC%97%90-%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%ED%99%94----%ED%95%84%EC%9A%94%ED%95%9C-%EC%97%AC%EB%9F%AC-%ED%8A%B9%EC%A0%95%ED%98%95%EC%9D%84-%EC%95%84%EB%8A%94-%EC%9E%90%EC%8B%A0%EC%9D%98-%EA%B0%9C%EB%B3%84%EA%B5%AC%ED%98%84%EB%B6%84%EC%8B%A0%EC%88%A0%EC%9D%B5%EB%AA%85%ED%81%B4%EB%9E%98%EC%8A%A4%EC%9D%84-%EB%A7%8C%EB%93%A4%EC%96%B4--1n%EA%B4%80%EA%B3%84%EC%9D%98-instanceof-%EC%A0%9C%EA%B1%B0">generic관련 글</a>에서 참고하자.</li>
+</ul>
+
+<ol>
+  <li>
+    <p>구상층을 <strong>abstract class</strong>화</p>
+
+    <ul>
+      <li>익명클래스(분신술)이 생성과 동시에 여러형을 선택해서 알게하려면 제네릭 추가(여기선 X)</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/f17ef41d-62fd-4a4a-8cbd-5f6d23212e04.gif" alt="f17ef41d-62fd-4a4a-8cbd-5f6d23212e04"></p>
+  </li>
+  <li>
+    <p><strong>개별구현한 훅메서드(@Override+proected)/전략메서드(@Override+public)들을 새로운 구상층(익명클래스)</strong>에게 자동 양보하기 위해</p>
+
+    <ol>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">로직 복사후 보존</code>할 곳에 옮겨두기</strong></p>
+
+        <ul>
+          <li>alt+F7로 객체로 생성되어 사용되던 곳에 붙여넣기</li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>훅/전략메서드 <code class="language-plaintext highlighter-rouge">삭제(해야 익클에서 imple가능) 후</code>하여 <code class="language-plaintext highlighter-rouge">새로운 구상층(익클-분신술)이 실시간 훅/전략메서드 외부 구현</code>하는 곳에 <code class="language-plaintext highlighter-rouge">implements하여 로직 양도</code></strong></p>
+
+        <ul>
+          <li>
+            <p>Client</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/0431e0db-f1ba-4ec3-9b49-8f5a87c7a521.gif" alt="0431e0db-f1ba-4ec3-9b49-8f5a87c7a521"></p>
+          </li>
+          <li>
+            <p>ServerClient</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/eecc2212-32b9-48a2-9c7a-cf4583a88bab.gif" alt="eecc2212-32b9-48a2-9c7a-cf4583a88bab"></p>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>현재<code class="language-plaintext highlighter-rouge">if분기를 유발하던 개별구현 훅메서드/전략메서드들</code>이 구상체 추상화를 통해 <strong>Main에 익명클래스(구상체의 추상화된 classe들의 분신술) 실시간 구현</strong> 되도록 <strong>외부로 모두 밀렸다.</strong></p>
+
+    <ul>
+      <li>이는 나중에 DI를 통해 코드를 수정할 수 있게 된다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220620155818699.png" alt="image-20220620155818699"></p>
+  </li>
+</ol>
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/strategy/ocp/2022/06/20/Object_stratge_pattern_for_OCP.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
