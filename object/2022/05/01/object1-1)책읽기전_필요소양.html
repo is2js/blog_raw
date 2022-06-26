@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>OBJECT 01 읽기전 필요소양(코드스핏츠) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="OBJECT 01 읽기전 필요소양(코드스핏츠)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<meta property="og:description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<link rel="canonical" href="blog.chojaeseong.com/object/2022/05/01/object1-1)%EC%B1%85%EC%9D%BD%EA%B8%B0%EC%A0%84_%ED%95%84%EC%9A%94%EC%86%8C%EC%96%91.html" />
+<meta property="og:url" content="blog.chojaeseong.com/object/2022/05/01/object1-1)%EC%B1%85%EC%9D%BD%EA%B8%B0%EC%A0%84_%ED%95%84%EC%9A%94%EC%86%8C%EC%96%91.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-05-01T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-05-01T00:00:00-05:00","url":"blog.chojaeseong.com/object/2022/05/01/object1-1)%EC%B1%85%EC%9D%BD%EA%B8%B0%EC%A0%84_%ED%95%84%EC%9A%94%EC%86%8C%EC%96%91.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"OBJECT 01 읽기전 필요소양(코드스핏츠)","dateModified":"2022-05-01T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/object/2022/05/01/object1-1)%EC%B1%85%EC%9D%BD%EA%B8%B0%EC%A0%84_%ED%95%84%EC%9A%94%EC%86%8C%EC%96%91.html"},"description":"object 책을 강의한 코드스핏츠 유튜브 요약","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OBJECT 01 읽기전 필요소양(코드스핏츠)</h1><p class="page-description">object 책을 강의한 코드스핏츠 유튜브 요약</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-05-01T00:00:00-05:00" itemprop="datePublished">
+        May 1, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      11 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#ch1-책-읽기-전-기본-소양">ch1. 책 읽기 전 기본 소양</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#value-개발자세계에서-추구해야할-가치돈는-3가지">value: 개발자세계에서 추구해야할 가치(돈)는 3가지</a></li>
+<li class="toc-entry toc-h4"><a href="#principle-다같이지킴으로써---예외상황을-즉각-캐치할-수-있어-최소비용으로-처리">principle: 다같이지킴으로써 -&gt; 예외상황을 즉각 캐치할 수 있어 최소비용으로 처리</a></li>
+<li class="toc-entry toc-h4"><a href="#xoriented">Xoriented</a></li>
+<li class="toc-entry toc-h4"><a href="#pattern-3개-원칙을-쓰다보면-반복되서-나타는-유형이-있다---베스트를-만들어놓고---비용없이-즉각-적용시키자">pattern: 3개 원칙을 쓰다보면 반복되서 나타는 유형이 있다 -&gt; 베스트를 만들어놓고 -&gt; 비용없이 즉각 적용시키자.</a></li>
+<li class="toc-entry toc-h4"><a href="#역할-모델">역할 모델</a></li>
+<li class="toc-entry toc-h4"><a href="#abstraction-역할-모델을-위한-추상화-이해">Abstraction: 역할 모델을 위한 추상화 이해</a></li>
+<li class="toc-entry toc-h4"><a href="#timing-프로그램이-실행되는-시간">Timing: 프로그램이 실행되는 시간</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#runtime">runtime</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#pointer-of-pointer-메모리를-다루는데-있어서-반드시-기억해야할-것">Pointer of Pointer: 메모리를 다루는데 있어서 반드시 기억해야할 것</a></li>
+</ul>
+</li>
+</ul><ul>
+  <li>참고 유튜브 : https://www.youtube.com/watch?v=sWyZUzQW3IM&amp;list=PLBNdLLaRx_rI-UsVIGeWX_iv-e8cxpLxS&amp;index=1</li>
+  <li>정리본: https://github.com/LenKIM/object-book</li>
+  <li>코드: https://github.com/eternity-oop/object</li>
+  <li>책(목차) : https://wikibook.co.kr/object/</li>
+</ul>
+
+<h3 id="ch1-책-읽기-전-기본-소양">
+<a class="anchor" href="#ch1-%EC%B1%85-%EC%9D%BD%EA%B8%B0-%EC%A0%84-%EA%B8%B0%EB%B3%B8-%EC%86%8C%EC%96%91" aria-hidden="true"><span class="octicon octicon-link"></span></a>ch1. 책 읽기 전 기본 소양</h3>
+
+<ol>
+  <li>코딩을 하는 이유(motivate) : 돈
+    <ol>
+      <li><strong>왜 이렇게 짰어? :돈이 덜 드니까</strong></li>
+    </ol>
+  </li>
+  <li>왜 그렇게 생각? -&gt; 생각의 기저에 있는 philosophy(철학)을 살펴봐야함
+    <ol>
+      <li>근대부터의 과학철학 : 토마스쿤 - 과학혁명 -&gt; 과학사 철학구조에 큰 영향을 끼침 -&gt; 어떻게 서구문명과 프로그래밍에 영향을 끼칠까</li>
+    </ol>
+  </li>
+</ol>
+
+<ul>
+  <li>
+    <p>철학구조를 이해한다고 해서 -&gt; 우리가 실질적으로 머리속에서 무엇을 하는데에,  직접적인 영향을 끼치진 않는다. 철학은 base일 뿐이고, 그 윗단계의 frame이 필요함</p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">켄트 백의 구현 패턴</code>이라는 책을 보면, 생각하는 코드의 틀로서 <code class="language-plaintext highlighter-rouge">3가지</code>를 제시함</p>
+
+        <ol>
+          <li><code class="language-plaintext highlighter-rouge">가치(value)</code></li>
+          <li><code class="language-plaintext highlighter-rouge">원칙(principle)</code></li>
+          <li>
+<code class="language-plaintext highlighter-rouge">패턴(pattern)</code> : 가치와 원칙을 base로 해서 반복되는 유형이 나오는 것일 뿐이므로 1,2가 더 윗단계</li>
+        </ol>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220118171109449.png" alt="image-20220118171109449"></p>
+
+        <ul>
+          <li>캔트백은 죽은 사람도 아니고 지금도, 알고리즘 시험쳐서 페이스북에 입사해서 일하고 있다고 함..
+            <ul>
+              <li>짤없다.. 알고리즘 공부는 계속해야한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>켄트 백 3가지와 다르게, 패턴을 빼고 이 책에서는 <code class="language-plaintext highlighter-rouge">Xoriented</code>라는 사고유형의 틀(패러다임과 유사, 객체지향적 or 함수형)을 제시한다.</p>
+
+        <ul>
+          <li>이 3가지 틀을 바탕으로 <code class="language-plaintext highlighter-rouge">프로그램 왜 이렇게 짰니?</code>라고 설명을 시도해보려고</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220118171310302.png" alt="image-20220118171310302"></p>
+
+        <ul>
+          <li>토마스 쿤(과학혁명의 구조): 철학사적 관점. <strong>과학은 상대적</strong>. 그 동네의 믿음일 뿐 진리는 아무도 모름. 현재 우리가 추구하는 과학은 종교와 다르지 않다. 분자가 최소단위라고 생각했다가 원자가 발견된 이후로는 패러다임이 바뀜. <strong>상대주의 기본적 기틀</strong>
+</li>
+          <li>러커토시 임레(합리주의): 과학은 여론조사같은 것이 아니야. <strong>합리성</strong>이 있어.</li>
+          <li>파울 파이어아벤트: 난장판</li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>상대주의와 합리주의는 공존</strong>한다.</p>
+
+        <ul>
+          <li>
+<strong>클래스</strong> -&gt; <strong>상대적으로 부모의 자식클래스일 수도 있고, 자식클래스의 부모일 수 도 있다</strong>.  ~보다 크다 작다 (<strong>상대주의 적용</strong>)</li>
+          <li>bmi<strong>기준</strong>으로는 무조건 뚱뚱<strong>해</strong>. <strong>평균, 중앙값 등 적용</strong>(<strong>합리주의 적용</strong>)</li>
+          <li><strong><code class="language-plaintext highlighter-rouge">상대성</code>을 갖기 위해서는 어떤 기준 = <code class="language-plaintext highlighter-rouge">어떤 합리성</code>이 적용되었는지 계속 생각해야한다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="value-개발자세계에서-추구해야할-가치돈는-3가지">
+<a class="anchor" href="#value-%EA%B0%9C%EB%B0%9C%EC%9E%90%EC%84%B8%EA%B3%84%EC%97%90%EC%84%9C-%EC%B6%94%EA%B5%AC%ED%95%B4%EC%95%BC%ED%95%A0-%EA%B0%80%EC%B9%98%EB%8F%88%EB%8A%94-3%EA%B0%80%EC%A7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>value: 개발자세계에서 추구해야할 가치(돈)는 3가지</h4>
+
+<ul>
+  <li>
+    <p>캔트백의 가치(value) : 사람들이 보편적으로 환산할 수 있는 돈이 있는 것처럼</p>
+
+    <ul>
+      <li>
+<strong>개발자 세계에서는 <code class="language-plaintext highlighter-rouge">코드를 이렇게 짠 이유는?</code>  환산할 수 있는 가치인 <code class="language-plaintext highlighter-rouge">communication, simplicity, flexibility</code></strong>
+        <ul>
+          <li>커뮤니케이션 안되면 비용이 발생한다.</li>
+          <li>간단하게 짤 수록 비용이 발생한다.</li>
+          <li>유연(여기저기 사용가능)하게 짤 수록 비용이 적게 발생한다.
+            <ul>
+              <li>사실 유연하다 = 여기저기 사용가능하다 = 간단한 코드만 가능하다.</li>
+              <li>ex&gt; 실제 짠 메소드 vs Math.sin()  : 간단한 Math.sin()이 훨씬 많이 재활용된다.</li>
+            </ul>
+          </li>
+          <li><strong>유연성(flexibility)을 얻으려면 간단(simplicity)하게 짜야하고, 유연하고 간단하게 짰다면 커뮤니케이션(communication)도 잘될 것이다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220118172658517.png" alt="image-20220118172658517"></p>
+  </li>
+</ul>
+
+<h4 id="principle-다같이지킴으로써---예외상황을-즉각-캐치할-수-있어-최소비용으로-처리">
+<a class="anchor" href="#principle-%EB%8B%A4%EA%B0%99%EC%9D%B4%EC%A7%80%ED%82%B4%EC%9C%BC%EB%A1%9C%EC%8D%A8---%EC%98%88%EC%99%B8%EC%83%81%ED%99%A9%EC%9D%84-%EC%A6%89%EA%B0%81-%EC%BA%90%EC%B9%98%ED%95%A0-%EC%88%98-%EC%9E%88%EC%96%B4-%EC%B5%9C%EC%86%8C%EB%B9%84%EC%9A%A9%EC%9C%BC%EB%A1%9C-%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>principle: 다같이지킴으로써 -&gt; 예외상황을 즉각 캐치할 수 있어 최소비용으로 처리</h4>
+
+<ul>
+  <li>예를 들어, 문제 있는 사람만 일어나주세요 -&gt; 일어난 사람만 바로 캐취해서 즉각처리 가능
+    <ul>
+      <li>맘대로 일어나거나 앉거나 -&gt; 문제 있는 사람을 바로 캐취 X -&gt; 비용 많이 듦.</li>
+    </ul>
+  </li>
+  <li>원칙은 value(가치)와 다르게 가치를 발생시킴.
+    <ul>
+      <li>팀, 회사, 국가 등 각 카테고리, 각 그룹이 요구하는 원칙들을 지켜야하므로, 레이어형태로 발생한다.</li>
+    </ul>
+  </li>
+  <li>캔트백이 제시하는 원칙 4가지는???
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220118173231329.png" alt="image-20220118173231329">
+    <ol>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">Local consequences</code>: 변수 Localize해서 생명주기를 짧게 가져가는 원칙</strong>(머리가 나쁘다. 언제 생성되고 죽는지 다 기억못한다. 짧게 가져가라)</li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">Minimize repetition</code>: 중복을 최소화해라(중복은 제거하는게 아니라 발견하는 것)</strong> (수준이 올라가면 반복이 새롭게 보이게 된다.)</li>
+      <li><strong><code class="language-plaintext highlighter-rouge">Symmetry</code>: 짝을 맞춰라. getter 만들면 -&gt; setter만들기. 되도록이면 짝을 맞춰서 만들어내라</strong></li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">Convention</code>: 컨벤션을 지켜라.</strong>
+        <ul>
+          <li>원칙 4개를 지키게 되면 많으 비용을 아낄 수 있게 된다.</li>
+          <li>안지키면 버그로 확정짓자.</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<h4 id="xoriented">
+<a class="anchor" href="#xoriented" aria-hidden="true"><span class="octicon octicon-link"></span></a>Xoriented</h4>
+
+<ul>
+  <li>OOP(객체지향 프로그래밍론)을 깔게 되면, SOLID원칙이나 DRY 등 다양한 기법들을 다루게 된다.
+    <ul>
+      <li>
+<strong>반응형, 함수형 등…은 불변성을 강조</strong>한다 cf) 객체지향은 불변성을 강조하지 않음.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220118173928932.png" alt="image-20220118173928932"></p>
+
+<h4 id="pattern-3개-원칙을-쓰다보면-반복되서-나타는-유형이-있다---베스트를-만들어놓고---비용없이-즉각-적용시키자">
+<a class="anchor" href="#pattern-3%EA%B0%9C-%EC%9B%90%EC%B9%99%EC%9D%84-%EC%93%B0%EB%8B%A4%EB%B3%B4%EB%A9%B4-%EB%B0%98%EB%B3%B5%EB%90%98%EC%84%9C-%EB%82%98%ED%83%80%EB%8A%94-%EC%9C%A0%ED%98%95%EC%9D%B4-%EC%9E%88%EB%8B%A4---%EB%B2%A0%EC%8A%A4%ED%8A%B8%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%86%93%EA%B3%A0---%EB%B9%84%EC%9A%A9%EC%97%86%EC%9D%B4-%EC%A6%89%EA%B0%81-%EC%A0%81%EC%9A%A9%EC%8B%9C%ED%82%A4%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>pattern: 3개 원칙을 쓰다보면 반복되서 나타는 유형이 있다 -&gt; 베스트를 만들어놓고 -&gt; 비용없이 즉각 적용시키자.</h4>
+
+<p><a href="https://camo.githubusercontent.com/bae7ccf001eeeff0752bc7fef50f52fe3137c884057134e74761f98a146439c7/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f303036744e6337396779316736317269727a7970776a33313669306f693078682e6a7067"><img src="https://raw.githubusercontent.com/is3js/screenshots/main/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f303036744e6337396779316736317269727a7970776a33313669306f693078682e6a7067" alt="image-20190816205215694"></a></p>
+
+<ul>
+  <li>
+    <p>미국에서는 매년 생산성을 측정하는데, 코드작성은 20%, 디버깅 50%</p>
+
+    <ul>
+      <li>IT는 100% 인건비 사업이다.</li>
+      <li>사람의 시간 = 돈</li>
+      <li>
+        <p>IT환경에서 돈을 적게 쓴다 = 시간을 적게 쓴다 같은 말.</p>
+
+        <ul>
+          <li>
+            <p>디버깅, 기능 추가 등의 시간을 50%이상 투자한다.</p>
+          </li>
+          <li>
+            <p>받아온PM팀 욕하면서, 밤세게 됨 -&gt; 사실은.. 본인의 코드가 유연(간단)하지도 X , 견고하지도 X, 격리되지 X</p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>요즘은 애자일시대 -&gt; 코드가 유연하게 받아질 수 있도록 설계를 탄탄하게 -&gt; 코드의 품질을 높여야 살길이다.</p>
+
+        <ul>
+          <li>보여질 때마다 요구사항이 달라짐.</li>
+        </ul>
+      </li>
+      <li>어떻게? <strong>변화에 따른 로직 격리에 성공해야함.</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="역할-모델">
+<a class="anchor" href="#%EC%97%AD%ED%95%A0-%EB%AA%A8%EB%8D%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>역할 모델</h4>
+
+<ul>
+  <li>
+<strong>객체지향 프로그래밍론에서 <code class="language-plaintext highlighter-rouge">변화에 따른 격리에 성공</code>하는 방법은 1가지 방법만 제시</strong>한다.
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">역할 모델</code>만 제시한다.</strong>
+        <ul>
+          <li>역할 모델외에 기업단위의 규모을 격리시킬 수 있는 수단을 생각해내지 못했다.</li>
+        </ul>
+      </li>
+      <li>
+<strong>역할 모델을 통해 로직의 격리에 성공해야한다.</strong>
+        <ul>
+          <li>빠르면 3년 ~ 길면 5년</li>
+          <li>
+<strong>역할 모델 이해 -&gt; 프로그래밍 격리 방법을 알아야 OOP세계에 입장권을 끊은 순간</strong>이다.
+            <ul>
+              <li>책을 읽고 -&gt; 역할 모델로 entity나누기 -&gt; 객체 설계 -&gt; 이제 입장..</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="abstraction-역할-모델을-위한-추상화-이해">
+<a class="anchor" href="#abstraction-%EC%97%AD%ED%95%A0-%EB%AA%A8%EB%8D%B8%EC%9D%84-%EC%9C%84%ED%95%9C-%EC%B6%94%EC%83%81%ED%99%94-%EC%9D%B4%ED%95%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Abstraction: 역할 모델을 위한 추상화 이해</h4>
+
+<ul>
+  <li>추상화 대표기법1: <strong>일반화</strong>: 수학에서 온 것.  다양한 현상을 1개로 설명할 수 있게 하는 것.
+    <ul>
+      <li>2, 8, 16의 공통점 -&gt; <strong>함수로 묶는 것 ex&gt; modeling, function, algorithm</strong>
+</li>
+    </ul>
+  </li>
+  <li>추상화 대표기법2: <strong>연관화</strong>: 내가 다 못하니까 다른애한테 맡겨야지. 나의 일부는 쟤꺼야.
+    <ul>
+      <li>
+<strong>복잡한 것은</strong> 띄어내서 쟤한테 준다. <strong>위임이 가능</strong>하다. <strong>ex&gt; reference, dependence</strong>
+</li>
+      <li>통으로 보면 복잡한 놈을,  뗴어낼 것은 떼어내서 위임시켜 보면, 간단하다.</li>
+    </ul>
+  </li>
+  <li>추상화 대표기법3: <strong>집단화</strong>: 체계적인 분류 ex&gt; 카테고리제이션, 그루핑
+    <ul>
+      <li><strong>ex&gt; group, category</strong></li>
+    </ul>
+  </li>
+  <li>IT에서의 추상화
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">데이터</code> 추상화(Data Ab)</strong>:
+        <ul>
+          <li>메소드, 함수가 없음. = 동작, 행위가 없음.</li>
+          <li>크게 3가지로 나뉨.(외우자.)
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220118180822504.png" alt="image-20220118180822504">
+            <ul>
+              <li>
+<code class="language-plaintext highlighter-rouge">modeling</code>: 특정 목표에 따라 기억해야할 것만 추리는 것( 학생 vs 학적부관리를 위해 기억해야하는 학번+이름만 기억)</li>
+              <li>
+<code class="language-plaintext highlighter-rouge">categorization</code>: 카테고리를 잘 만들어서 카테고리에 맞게 작동하도록 하는 것. 아빠이자~ 사장이자~</li>
+              <li>
+<code class="language-plaintext highlighter-rouge">grouping</code>: 그냥(의미, 공통점 없더라도 4기를 묶어두는 것) 모아두는 것</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">프로시져</code></strong> 추상화(Procedural Ab): 절차적? (X) 순차적으로 1개씩 하는 것? (X)  고유명사로서 <strong><code class="language-plaintext highlighter-rouge">함수</code>에게 데이터를 넘겨 처리를 맡기는 것 = 데이터 처리방법을 함수에게 위임하는 것 = 함수만을 이용해서 데이터를 처리하는 것</strong>
+        <ul>
+          <li>편하게 <strong>함수</strong>라고 생각하자.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220119231327609.png" alt="image-20220119231327609">
+            <ul>
+              <li>
+<code class="language-plaintext highlighter-rouge">generalization</code>: 일반화된 방법을 사용하면 할수록 함수를 적게 만들 수 있다.
+                <ul>
+                  <li>책: 공통된 역할을 찾아, 하나의 인터페이스로 정의한다.</li>
+                  <li>문제점: 우리의 머리가 나쁘다. -&gt; 머리가 좋은 사람이 할 수 있다.</li>
+                </ul>
+              </li>
+              <li>
+<code class="language-plaintext highlighter-rouge">capsulization</code>: 객체지향에서 나오는 캡슐화.
+                <ul>
+                  <li>은닉화와는 다르게, 보다 더 추상적인 것을 표현하는 것이다.</li>
+                  <li>캡슐화의 여러가지 정의가 있어서 <code class="language-plaintext highlighter-rouge">ATM</code>기라 생각하자
+                    <ul>
+                      <li>
+<strong>출금 메소드</strong>- 사용자는 통장+돈 만 넣으면 되지만, 그 안에 인증+은행권연결+보안+트랜잭션+타은행연결 상호인증… 많은 기능이 내부에 있다. <strong><code class="language-plaintext highlighter-rouge">하지만, 내부의 복잡한 기능은 감추고, 사용자에게는 간단한 인터페이스 출금이라는 것만 노출</code>함.</strong>
+</li>
+                      <li>캡슐화를 하지 않으면, 바깥에 복잡성이 노출된다. -&gt; 여러가지 문제 중 가장 큰 문제는 (복잡성노출시 안에를 고치기 힘들다?X) <strong>복잡성을 노출 하면, 머리가 나쁜 사용자들은 사용을 못한다.</strong>
+                        <ul>
+                          <li><strong>우리가 만든 모듈을 누구나 쓰게하고 싶다면 캡슐라이제이션해야한다.</strong></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">객체지향적</code></strong> 추상화(OOP Ab): UML에서 class간의 연결관계 표현방법
+        <ul>
+          <li>Generalization:  일반화 - 인터페이스 or 추상클래스를 만듦</li>
+          <li>Realization: 구상화 - 인터페이스 or 추상클래스에서부터 파생된 클래스</li>
+          <li>Dependency: 함수의 인자를 받거나 부분적으로 참조해야할 때</li>
+          <li>Association: 단짝, 나의 영혼에 각인된 친구, 필드에 정의된 dependency</li>
+          <li>Directed Association</li>
+          <li>Aggregation</li>
+          <li>Composition</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>객체지향 프로그래밍이 어려운 이유</strong>
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">역할 모델</code>을 사용하기 때문
+        <ul>
+          <li>역할 모델을 사용하기 위해서는 <code class="language-plaintext highlighter-rouge">모든 추상화 기법</code>을 동원함.
+            <ul>
+              <li>그 중에 <code class="language-plaintext highlighter-rouge">일반화</code>를 가장 대표적으로 씀(가장 머리가 많이 필요)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>수련하는데 시간이 오래걸려서 실패를 많이 한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="timing-프로그램이-실행되는-시간">
+<a class="anchor" href="#timing-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8%EC%9D%B4-%EC%8B%A4%ED%96%89%EB%90%98%EB%8A%94-%EC%8B%9C%EA%B0%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>Timing: 프로그램이 실행되는 시간</h4>
+
+<ul>
+  <li>
+    <p>프로그램이 실행되는 순간이 언제냐</p>
+
+    <ul>
+      <li>여기에도 똑같이 추상화 기법이 적용이 된다
+        <ul>
+          <li>몇시몇분(X) 어떤 시간대</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Program &amp; Timing</p>
+
+    <ul>
+      <li>프로그램: 메모리에 적재되서 실행될 때부터를 program이라고 함.
+        <ul>
+          <li>
+<strong>프로그램은 언제 어떤시기에 생명주기를 갖고 실행되는지 = <code class="language-plaintext highlighter-rouge">Timing</code></strong>을 보자.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220119234145264.png" alt="image-20220119234145264"></p>
+
+    <ol>
+      <li>
+<code class="language-plaintext highlighter-rouge">language code</code> : 언어로 코드 작성
+        <ul>
+          <li>컴파일 이전에, 코드품질을 위해 <code class="language-plaintext highlighter-rouge">lint</code>라는 것을 이용한다</li>
+          <li>프로그램 작성시 <code class="language-plaintext highlighter-rouge">lint time</code>을 이야기한다.
+            <ul>
+              <li>그거 왜 lint time에 못골라냈어. lint를 바꿔봐.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<code class="language-plaintext highlighter-rouge">machine language</code>: 컴파일을 통해 머신 랭기지로 바꿔짐
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">compile time</code></li>
+        </ul>
+      </li>
+      <li>
+<code class="language-plaintext highlighter-rouge">file</code>: 파일로 바꿔서 영구보존 시도</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">load</code>: 메모리에 적재</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">run</code>: 실행
+        <ul>
+          <li>이후 LOAD -&gt; RUN 만 반복하여 실행됨</li>
+          <li><code class="language-plaintext highlighter-rouge">run time</code></li>
+        </ul>
+      </li>
+      <li>
+<code class="language-plaintext highlighter-rouge">terminate</code>: 종료</li>
+    </ol>
+  </li>
+  <li>
+    <p>3가지 에러가 있음.</p>
+
+    <ul>
+      <li>context error도 있는데, 못잡아낸다.</li>
+      <li>run time error도 앵간하면 못잡아낸다.</li>
+      <li>에러를 맞으려면 lint time or compile time에 맞고 싶어한다.</li>
+      <li>스크립트 랭기지는 runtime에서 밖에 못 잡아낸다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>script program의 생명주기</p>
+
+    <ul>
+      <li>
+        <p>바로 file이 되고 load된 이후에 machine language로 바뀐다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220119234733398.png" alt="image-20220119234733398"></p>
+
+        <ul>
+          <li>이 동네는 syntax error빼고는.. run time에러에서나 잡아낼 수 있다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="runtime">
+<a class="anchor" href="#runtime" aria-hidden="true"><span class="octicon octicon-link"></span></a>runtime</h5>
+
+<ul>
+  <li>
+    <p><strong>Runtime</strong></p>
+
+    <ul>
+      <li>
+        <p>load -&gt; run되는 부분만 생각해보자.</p>
+      </li>
+      <li>
+        <p>file로 짠 코드를 [실행]을 눌러 메모리에 적재가 된다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220119235606665.png" alt="image-20220119235606665"></p>
+
+        <ul>
+          <li>
+            <p><strong>load</strong></p>
+
+            <ul>
+              <li>명령set와 값set로 로딩이 된다.</li>
+              <li>cpu는 간략하게 그리면, 
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220119235735972.png" alt="image-20220119235735972">
+                <ul>
+                  <li>외부버스를 통해  -&gt; 3가지 유닛으로 간다.</li>
+                  <li>제어유닛: 디코더를 이용해서 명령들 해석 및 격리</li>
+                  <li>데이터유닛: 메모리계수기로서, 메모리의 위치를 찾아서 넣거나 빼거나..</li>
+                  <li>연산유닛: 제어정보 = 말그대로 연산</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>load이후에는 <strong>instruction fetch 와 decoding</strong>(명령을 가져와서 -&gt; 디코딩)한다.
+            <ul>
+              <li>
+                <p>메모리에 있는 명령과 cpu의 명령과는 직접적으로 일치하진 않기 때문에</p>
+
+                <p>디코딩을 통해 cpu가 이해할 수 있는 명령어로 디코딩한다.</p>
+              </li>
+              <li>
+                <p><strong>외부버스를 통해 fetch한 명령이 cpu로 들어오고, 디코딩</strong>이 일어난다
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121212930254.png" alt="image-20220121212930254"></p>
+              </li>
+              <li>
+                <p>그리고나서 디코딩이 끝난 명령을 -&gt; <strong>연산유닛으로 보내어 명령을 실행</strong>시킨다.</p>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121212948777.png" alt="image-20220121212948777"></p>
+              </li>
+              <li>
+                <p>명령을 실행할 때, <strong>필요한 값들을 메모리 -&gt; CPU의 데이터유닛</strong>으로 가져온다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121213047105.png" alt="image-20220121213047105"></p>
+              </li>
+              <li>
+                <p><strong>가져온 값을 연산유닛에게 건네주면,</strong></p>
+
+                <p><strong>연산유닛이 명령 + 데이터를 이용해서, 결과데이터를 다시 데이터유닛에게 건네준다. 이게 바로 execution(실행)</strong>이다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121213118329.png" alt="image-20220121213118329">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121213210144.png" alt="image-20220121213210144"></p>
+              </li>
+              <li>
+                <p>데이터유닛은, 결과데이터를 다시 메모리로 돌려준다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121213237415.png" alt="image-20220121213237415"></p>
+              </li>
+            </ul>
+          </li>
+          <li>이후로는 다음명령(명령2)을 가져와 실행시키고 결과데이터를 건네주는
+  loading을 제외한 instruction fetch &amp; decoding -&gt; execution이 반복 된다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121213400751.png" alt="image-20220121213400751">
+</li>
+        </ul>
+      </li>
+      <li>
+        <p>이처럼 메모리에 적재(loading)된 순서대로 명령이 실행된다면 <strong>동기화</strong>(sync)라고 부른다. <strong>여기까지 메모리에 적재(loading)된 명령의 실행(fetch &amp; decoding -&gt; execution)을 <code class="language-plaintext highlighter-rouge">runtime</code>이라 부른다.</strong></p>
+
+        <ul>
+          <li>명령이 다 실행되면 terminate가 일어난다.</li>
+        </ul>
+      </li>
+      <li>
+        <p>Runtime이란 <code class="language-plaintext highlighter-rouge">loading</code> -&gt; <code class="language-plaintext highlighter-rouge">instruction fetch &amp; decoding</code> -&gt; <code class="language-plaintext highlighter-rouge">execution</code>이 다 일까?</p>
+
+        <ul>
+          <li>
+            <p><code class="language-plaintext highlighter-rouge">Essential definition loading</code></p>
+
+            <ul>
+              <li>프로그램마다 다 가지는 최초 로딩 과정으로서, 메모리에 적재되는 순간 최초에 하는 행동은 <code class="language-plaintext highlighter-rouge">이 프로그램 구동을 위한 기초적인 정의부터 로딩</code> ex&gt; 기저에 있는 print함수, console 등의 필수 정의들을 로딩.하도록 컴파일러안에 짜여져 있다.</li>
+            </ul>
+          </li>
+          <li>
+            <p>그 다음으로<code class="language-plaintext highlighter-rouge">VTABLE MAPPING</code>을 한다.</p>
+
+            <ul>
+              <li>코딩: 우리는 text만 짰음</li>
+              <li>컴파일러: file을 만드는 애 일 뿐이다.</li>
+              <li>우리가 쓴 변수와 메모리공간은???
+                <ul>
+                  <li>이미 compile time에 변수마다 가상의 메모리가 있다고 가정하고, 컴파일 한다</li>
+                  <li>이미 변수-가상의 메모리가 컴파일된 상태에 맞춰서 <code class="language-plaintext highlighter-rouge">vtable mapping</code>을 표로 만들어, 진짜 메모리와 매핑을 시켜, 진짜 메모리주소로 바뀐다.</li>
+                </ul>
+              </li>
+              <li>vtable mapping으로 <strong>진짜 메모리를 얻은 상태이므로 실행가능해 진다.</strong>
+</li>
+            </ul>
+          </li>
+          <li>
+            <p>이제서야 <code class="language-plaintext highlighter-rouge">RUN</code>이 일어난다.</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121215911789.png" alt="image-20220121215911789"></p>
+
+            <ul>
+              <li>하지만 실행이후에 모든 랭기지는 끝나지 않는다.</li>
+            </ul>
+          </li>
+          <li>
+            <p><code class="language-plaintext highlighter-rouge">RUNTIME DEFIFITION LOADING</code>을 통해 실행이후에도, class 및 함수 정의 등 많은 정의를 로딩한다.</p>
+
+            <ul>
+              <li>최초 프로그램 실행시만 class등이 로딩되는 것이 아니다.</li>
+              <li>java만 해도 실행도중 새로운 class들을 계속해서 로딩할 수 있다.</li>
+              <li>
+<strong>java</strong>가 대단한점 : 업계최초로 <strong>runtime loading을 적용</strong>한 것
+                <ul>
+                  <li>jar파일이 1~2기가 되는데, 실행시 왜 안뻗을까?
+                    <ul>
+                      <li>필요한 파일들은, 필요시 최초로 file에서부터 loading을 시작해서 ~!</li>
+                      <li>c나 c++은 프로그램 시작시, 우리가 정의한 모든 class가 시작된다.</li>
+                    </ul>
+                  </li>
+                  <li>java는 사용자가 만든 것은 하나도 로딩X 필요시에 파일로부터 로딩</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><code class="language-plaintext highlighter-rouge">RUN</code>다시 로딩된, 새로운 class 등의 정의를 실행시킨다.</p>
+          </li>
+          <li>
+            <p>같은 runtime임에도 불구하고, essential definition loading과 vtable mapping은 한번만 일어나지만, <strong>run -&gt; runtime definition loading -&gt; run 은 계속해서 일어난다.</strong></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>Script Program</p>
+
+        <ul>
+          <li>
+            <p>스크립트의 생명주기를 생각해보면, <strong>컴파일되거나 최초로딩(</strong>essential definition loading과 vtable mapping)<strong>없이 실행된다.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121220531132.png" alt="image-20220121220531132"></p>
+          </li>
+          <li>
+            <p><strong>일단 실행해야, 내가 만든 class와 함수가 loading</strong>이 된다.</p>
+
+            <ul>
+              <li>예를 들어, 브라우저 시작 -&gt; run -&gt; jquery를 로딩 -&gt; jquery를 쓰는 코드 실행</li>
+              <li>같은 runtime이지만, jquery쓰는 코드(run time)에 대해 상대적으로 jquery 정의 코드(static time)를 정적타임으로 보여진다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121220741081.png" alt="image-20220121220741081">
+</li>
+              <li>jquery외에 다른 class 등을 사용할때도 상대주의적으로 나뉜다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121220818848.png" alt="image-20220121220818848">
+                <ul>
+                  <li>
+<strong>runtime은 정의되어있거나 확정적인 것이 아니라고 생각</strong>해야한다.
+                    <ul>
+                      <li>runtime안에서도 runtime이 쪼개지며, 각 코드에 대해서 확정타임이 상대적으로 정해진다.</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>runtime 요약 : runtime은 확정적인 무엇이라고 가정하지 말아라</strong></p>
+
+    <ul>
+      <li>유연하며, 언어에 따라 애매할 수도 있음.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="pointer-of-pointer-메모리를-다루는데-있어서-반드시-기억해야할-것">
+<a class="anchor" href="#pointer-of-pointer-%EB%A9%94%EB%AA%A8%EB%A6%AC%EB%A5%BC-%EB%8B%A4%EB%A3%A8%EB%8A%94%EB%8D%B0-%EC%9E%88%EC%96%B4%EC%84%9C-%EB%B0%98%EB%93%9C%EC%8B%9C-%EA%B8%B0%EC%96%B5%ED%95%B4%EC%95%BC%ED%95%A0-%EA%B2%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pointer of Pointer: 메모리를 다루는데 있어서 반드시 기억해야할 것</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121221215030.png" alt="image-20220121221215030"></p>
+
+<ul>
+  <li>특정 포인트를 직접 가르키지 않고
+    <ul>
+      <li>어떤 값을 얻기 위해선
+        <ul>
+          <li>포인트를 찾은 뒤 -&gt;</li>
+          <li>다시 포인트를 찾아서 얻겠다.</li>
+        </ul>
+      </li>
+      <li><strong>왜 그럴까?</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p>가상의 메모리판이 있다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121221226614.png" alt="image-20220121221226614"></p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">A</code>에라는 변수에 “TEST”라는 문자열을 넣었다고 가정하자. 
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121221304030.png" alt="image-20220121221304030"></p>
+
+        <ul>
+          <li>메모리에 그대로 박았으면, 11번~14번까지 문자열을 넣었다.</li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>A의 주소 <code class="language-plaintext highlighter-rouge">&amp;A</code>는 11번이라고 할 수 있다.</strong></p>
+
+        <ul>
+          <li>변수에는 2가지 속성이 있다. 변수안에 값 &amp; 메모리
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121221726516.png" alt="image-20220121221726516">
+</li>
+          <li>11번에서 시작하지만, 4칸을 차지하는 것은 어떻게 안다? <strong>변수의 길이로 안다.</strong>
+</li>
+          <li>
+<strong>java의 INT or BOOLEAN 같은 <code class="language-plaintext highlighter-rouge">기본형</code>들은 <code class="language-plaintext highlighter-rouge">시작메모리번호에서부터 메모리를 얼마나 차지하는지의 길이를 나타내는 것들</code>이다.</strong>
+            <ul>
+              <li>포인터는 첫번째 위치만 가리킬 뿐이다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>B</strong>라는 변수는 <strong>A의 주소를 가지고 있다</strong>고 가정해본다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121222015629.png" alt="image-20220121222015629"></p>
+
+        <ul>
+          <li>
+            <p>26번 메모리에 있는 11은 실제론 숫자x a의 주소값이다.</p>
+          </li>
+          <li>
+            <p><strong>B의 주소가 기리키는 값 <code class="language-plaintext highlighter-rouge">*B</code>가 “TEST”</strong>라고 예기할 수 있다.</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121224724311.png" alt="image-20220121224724311"></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>중요한 것은 C와 D가 B와 동일한 값(&amp;A)를 갖도록 만든다면, 아래와 같이 만들어질 것이다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121224807662.png" alt="image-20220121224807662"></p>
+
+        <ul>
+          <li>
+<strong>B에 들어있는 것은 값이 아니라 주소(A의)기 때문</strong>에 B, C, D 모두 원래의 A를 가리키게 된다.
+            <ul>
+              <li>B가 A를 가리켰는데, C와 D도 A를 가리키게 되었다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>근데 B가 배신때린다면?</p>
+
+        <ul>
+          <li>
+            <p>B가 “ABC”의 값 + 메모리28번부터의 K를 가리키도록 K의 주소값을 가지게 된다면?</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121225102913.png" alt="image-20220121225102913"></p>
+          </li>
+          <li>B는 배신때려서 K를 가리키고 있고(K의 주소값을 가진다 = K를 가리킨다)
+  C와 B는 여전히 A를 가리키고 있다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121225116935.png" alt="image-20220121225116935">
+            <ul>
+              <li>
+<strong>뭐가 문제일까?</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220121225221773.png" alt="image-20220121225221773">
+</li>
+            </ul>
+          </li>
+          <li>
+            <p>이후 B는 바뀌었는데, C와 D는 자동으로 못갈아타고 A에 남아있다.</p>
+          </li>
+          <li>변화에 따라오질 못함. -&gt; 문제가 심각함.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>써있는 것은 <code class="language-plaintext highlighter-rouge">C = B, D = B</code>로서 B와 같은놈들이라고 쓰여져 있는데, 이후 B의 배신 및 C와D는 변화에 따라오지 못하고, B가 새롭게 가리키는 것(K)와는 다른 것 &amp; B옛날 것(A)을 가리키고 있다.</strong></p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  - B가 배신을 떄리는 순간 `코드를 보는 우리의 눈`이 잘못 안 체로 개발을 하게 된다.
+  - **이게 바로 `참조의 전파`라고 한다**
+      - 외부에 노출된 참조 = 직접참조의 문제다
+  - **이미 전파가 되어, 변화에 못따라가니까** 직접참조를 하면 안된다.
+
+  - 문제는 사람이 만드는 것이다. C와D가 B와 같을 것이라고 코드를 보면서 믿고 있기 때문이다.
+      - B가 배신때리는 순간 다 망가진다.
+      - **객체 생성시점 == setter시점에 어떤 레퍼런스(참조)를 받아와 변수에 잡아넣고**
+      **변수로서 프로그램을 돌리고 있는다. + 내가 받아온 레퍼런스(참조)는 안변하겠지(B의 배신이 없겠지)라고 생각한다.**
+</code></pre></div>    </div>
+  </li>
+  <li>
+<strong>직접참조로 인한 문제, B의 배신에도 C,D가 변화를 유지하는 유일한 방법</strong>은?
+    <ul>
+      <li>참조(&amp;변수=주소값)값이 바뀔 가능성이 있는놈 자체를
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">변수 = </code>에 <code class="language-plaintext highlighter-rouge">&amp;K </code> 주소값을 넣는 <code class="language-plaintext highlighter-rouge">포인터</code>, 직접참조 하지 않고</li>
+          <li><strong>참조값을 넣을 변수(=<code class="language-plaintext highlighter-rouge">포인터</code>)에 (map을 이용하여 value에다 넣는)<code class="language-plaintext highlighter-rouge">.</code>을 통해서 <code class="language-plaintext highlighter-rouge">포인터의 포인터</code>를 이용하는 방법이다.</strong></li>
+        </ul>
+      </li>
+      <li>
+<strong>포인터에 <code class="language-plaintext highlighter-rouge">한번더 포인터비용을 지불</code>함으로써, 런타임에서 레퍼런스를 바꿔도, 동일한 레퍼런스를 참조하게끔 만들 수 있다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220122122622491.png" alt="image-20220122122622491">
+        <ol>
+          <li>01번에 obj VALUE, V를 key로 갖는 <code class="language-plaintext highlighter-rouge">map</code>을 만든다. (map으로 만들어서 .을 사용)
+            <ul>
+              <li>이 때, <code class="language-plaintext highlighter-rouge">VALUE</code>라는 key가 A주소값을 가지는 = A를 가리키는 포인터가 된다.</li>
+              <li>01번 map(포인터1) - 원래는 heap영역에 있어야하는데, 메모리에 그냥 임시로 그림
+                <ul>
+                  <li>01번 map -&gt; 09번 VALUE(포인터2) -&gt; A(11번)</li>
+                  <li>01번 map -&gt; 16번 V -&gt; 3</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>C와 D를 -&gt; B를 가리키게 하고 싶다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220122123129280.png" alt="image-20220122123129280">
+            <ul>
+              <li>변수 B는 26번 -&gt; 01번 map을 가리키고 있다.</li>
+              <li>17번 C , 36번 D -&gt; 01번 map을 가리키게 했다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220122123548422.png" alt="image-20220122123548422">
+</li>
+            </ul>
+          </li>
+          <li>B의 배신 대신  -&gt; <strong><code class="language-plaintext highlighter-rouge">B.VALUE로 배신</code>을 때린다</strong>.
+            <ul>
+              <li>B가 아니라 B.VALUE에 &amp;A대신 -&gt; &amp;K로 K포인터가 되도록 배신을 때리면</li>
+              <li>B.VALUE -&gt; 11번(&amp;A)을 가리키던 것이 <strong><code class="language-plaintext highlighter-rouge">B.VALUE -&gt; 28번(&amp;K)</code>로 바뀐다.</strong>
+</li>
+              <li>
+<strong>C(17)와 D(36)는 B.VALUE의 배신에도 <code class="language-plaintext highlighter-rouge">여전히 B가 보던 01번 map</code>을 보고 있는 상황이라</strong> B, C, D 모두 01번 map -&gt; <strong>업데이트 된 .VALUE -&gt; 28번(K)를 보게 된다</strong>
+                <ul>
+                  <li><strong>주소를 담은 변수(B)의 할당(직접참조)는 map의 껍데기만 할당해주고, 실제 참조가 바뀌는 부분은 map속 .VALUE로 가리키기해서, 매번 업데이트 되게 하자.</strong></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>my) runtime시 레퍼런스(한 변수가 참조하는 주소)가 바뀌는 경우가 있고</p>
+
+    <ul>
+      <li>그럴경우, 일반 변수로 받아보던 또다른 참조변수들은 업데이트가 안되니</li>
+      <li>바뀔 예정이 있는 애들은 map안에 변수가 포인터가 되도록하고
+        <ul>
+          <li>받아보던 또다른참조변수들은 map을 할당받고</li>
+          <li>바뀌는 것은 map안의 .변수가 reference를 할당받으면서 변경가능하게 하자</li>
+        </ul>
+      </li>
+      <li><strong>직접 메모리 참조시, 걔를 참조하는 애들은, 업데이트가 자동반영안되 문제가 된다.</strong></li>
+      <li>
+<strong>참조하는 애들은 껍데기를 참조하도록하고, 변경가능한 놈은 내부에서 바뀌게 한다.</strong>
+        <ul>
+          <li><strong>대신 참조하는 애들은 껍데기-&gt; .점을 통해 -&gt; 업데이트되는 내부에 접근하게 한다</strong></li>
+        </ul>
+      </li>
+      <li>**이 원리(참조에 참조,  점을 통한 다시 한번 참조 찾기)는 객체지향에서**
+런타임시&gt;        <ul>
+          <li>직접참조X <strong>위(바깥) 참조를 통해 아래(내부)로 내려오는 구조</strong>로서</li>
+          <li>인터페이스를 정의시, 추상클래스 메소드호출 -&gt; 그 함수가 구상클래스 메소드를 호출할 수 있는 원리이며</li>
+          <li>링크드리스트의 원리</li>
+          <li>데코레이션 패턴의 원리</li>
+        </ul>
+      </li>
+      <li>책에서는 <code class="language-plaintext highlighter-rouge">동적 바인딩</code>이라고 표현한다.
+        <ul>
+          <li>우리는 직접참조는 지양하고, 참조에 참조를 이용해야, 런타임변경에 안전해진다.</li>
+          <li>그래서 <strong>객체지향에서는 값을 이용하지 않고, 모든 곳에 참조를 이용</strong>한다.
+            <ul>
+              <li><strong>가리키는 것이 &amp;A(11번) -&gt; &amp;K(28번)으로 바꿀수 있는 유연성을 얻기 위해서</strong></li>
+              <li>직접 참조했을 땐, 전파시 문제가 생김(참조당하는 애들이 변경하면 업데이트가 안됨)</li>
+              <li><strong><code class="language-plaintext highlighter-rouge">감싸는 포인터를 가리켜야함.</code> -&gt; <code class="language-plaintext highlighter-rouge">객체 안에 객체</code>가 있어야함 -&gt; 모든 것을 객체로 만들어야함.</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/object/2022/05/01/object1-1)%EC%B1%85%EC%9D%BD%EA%B8%B0%EC%A0%84_%ED%95%84%EC%9A%94%EC%86%8C%EC%96%91.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

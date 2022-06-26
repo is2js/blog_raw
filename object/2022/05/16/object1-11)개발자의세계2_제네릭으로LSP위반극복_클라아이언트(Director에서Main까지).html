@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>OBJECT 11 객체설계5_개발자의세계2_제네릭(코드스핏츠) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="OBJECT 11 객체설계5_개발자의세계2_제네릭(코드스핏츠)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<meta property="og:description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<link rel="canonical" href="blog.chojaeseong.com/object/2022/05/16/object1-11)%EA%B0%9C%EB%B0%9C%EC%9E%90%EC%9D%98%EC%84%B8%EA%B3%842_%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9C%BC%EB%A1%9CLSP%EC%9C%84%EB%B0%98%EA%B7%B9%EB%B3%B5_%ED%81%B4%EB%9D%BC%EC%95%84%EC%9D%B4%EC%96%B8%ED%8A%B8(Director%EC%97%90%EC%84%9CMain%EA%B9%8C%EC%A7%80).html" />
+<meta property="og:url" content="blog.chojaeseong.com/object/2022/05/16/object1-11)%EA%B0%9C%EB%B0%9C%EC%9E%90%EC%9D%98%EC%84%B8%EA%B3%842_%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9C%BC%EB%A1%9CLSP%EC%9C%84%EB%B0%98%EA%B7%B9%EB%B3%B5_%ED%81%B4%EB%9D%BC%EC%95%84%EC%9D%B4%EC%96%B8%ED%8A%B8(Director%EC%97%90%EC%84%9CMain%EA%B9%8C%EC%A7%80).html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-05-16T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-05-16T00:00:00-05:00","url":"blog.chojaeseong.com/object/2022/05/16/object1-11)%EA%B0%9C%EB%B0%9C%EC%9E%90%EC%9D%98%EC%84%B8%EA%B3%842_%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9C%BC%EB%A1%9CLSP%EC%9C%84%EB%B0%98%EA%B7%B9%EB%B3%B5_%ED%81%B4%EB%9D%BC%EC%95%84%EC%9D%B4%EC%96%B8%ED%8A%B8(Director%EC%97%90%EC%84%9CMain%EA%B9%8C%EC%A7%80).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"OBJECT 11 객체설계5_개발자의세계2_제네릭(코드스핏츠)","dateModified":"2022-05-16T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/object/2022/05/16/object1-11)%EA%B0%9C%EB%B0%9C%EC%9E%90%EC%9D%98%EC%84%B8%EA%B3%842_%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9C%BC%EB%A1%9CLSP%EC%9C%84%EB%B0%98%EA%B7%B9%EB%B3%B5_%ED%81%B4%EB%9D%BC%EC%95%84%EC%9D%B4%EC%96%B8%ED%8A%B8(Director%EC%97%90%EC%84%9CMain%EA%B9%8C%EC%A7%80).html"},"description":"object 책을 강의한 코드스핏츠 유튜브 요약","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OBJECT 11 객체설계5_개발자의세계2_제네릭(코드스핏츠)</h1><p class="page-description">object 책을 강의한 코드스핏츠 유튜브 요약</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-05-16T00:00:00-05:00" itemprop="datePublished">
+        May 16, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      18 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#ch11-제네릭으로-lsp위반-극복">ch11. 제네릭으로 LSP위반 극복</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#instanceof-to-제네릭">instanceof to 제네릭</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#client-수정">Client 수정</a></li>
+<li class="toc-entry toc-h5"><a href="#serverclient-instanceof-2개는-제네릭은-기계적-매핑-안됨">ServerClient: instanceof 2개는 제네릭은 기계적 매핑 안됨</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#ocp와-제네릭을-통한-lsp위반-해결">OCP와 제네릭을 통한 LSP위반 해결</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#papern-및-자식들-원상복구">Paper(N) 및 자식들 원상복구</a></li>
+<li class="toc-entry toc-h5"><a href="#programmern에서-paper1를-알게한다--그-쪽n에-시킨다--그쪽에-제네릭을-붙여-instanceof-제거">Programmer(n)에서-&gt;Paper(1)를 알게한다 = 그 쪽(N)에 시킨다 = 그쪽에 제네릭을 붙여 instanceof 제거</a></li>
+<li class="toc-entry toc-h5"><a href="#backend">BackEnd</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#클라아이언트주체director----main의-변화">클라아이언트(주체Director -&gt;  Main)의 변화</a></li>
+<li class="toc-entry toc-h4"><a href="#상대적-클라방향-director">상대적 클라방향 Director</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#ocp위반-1-if분기대상에-공통로직-추상화">OCP위반 1: if분기대상에 공통로직 추상화</a></li>
+<li class="toc-entry toc-h5"><a href="#ocp위반-2-if분기대상의-자식들특정분기들을-abstract화---클라에서-new-자식특정분기-객체-생성하며--분기대상의-공로메소드-case에-맞게-구상화">OCP위반 2: if분기대상의 자식들(특정분기들)을 abstract화 -&gt; 클라에서 new 자식(특정분기) 객체 생성하며 &amp;&amp; 분기대상의 공로메소드 case에 맞게 구상화</a></li>
+<li class="toc-entry toc-h5"><a href="#ocp위반-3-외부-선택-by-특정분기-객체생성-with-공통로직-메소드-구상화--다시-내부로-받아온다">OCP위반 3: 외부 선택 by 특정분기 객체생성 with 공통로직 메소드 구상화 —&gt; 다시 내부로 받아온다.</a></li>
+<li class="toc-entry toc-h5"><a href="#ocp위반-4--내부에서-받은-특정분기-객체의--호출">OCP위반 4:  내부에서 받은 특정분기 객체의  호출</a></li>
+<li class="toc-entry toc-h5"><a href="#ocp위반-5-main에서-여기까지-밀려난-특정분기paper를-case에-맞게-객체생성-익명클래스로-구상화형-생성">OCP위반 5: Main에서 여기까지 밀려난 특정분기Paper를 case에 맞게 객체생성&amp;&amp; 익명클래스로 구상화(형 생성)</a></li>
+<li class="toc-entry toc-h5"><a href="#ocp위반-6-main외부로-밀었다면-구상화에-있는-setter를-제거해서-구상화시-은닉성을-높이자">OCP위반 6: Main(외부)로 밀었다면, 구상화에 있는 setter를 제거해서 구상화시 은닉성을 높이자.</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#client-no-제네릭필요없음">Client: No 제네릭(필요없음)</a></li>
+<li class="toc-entry toc-h6"><a href="#serverclient-with-제네릭-for-1n">ServerClient: with 제네릭 for 1:N</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h5"><a href="#2종류의-if-----제거방법">2종류의 if   -&gt; 제거방법</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#반복-복습하면">반복 복습하면</a></li>
+</ul>
+</li>
+</ul><ul>
+  <li>참고 유튜브 : https://www.youtube.com/watch?v=navJTjZlUGk</li>
+  <li>정리본: https://github.com/LenKIM/object-book</li>
+  <li>코드: https://github.com/eternity-oop/object</li>
+  <li>책(목차) : https://wikibook.co.kr/object/</li>
+</ul>
+
+<h3 id="ch11-제네릭으로-lsp위반-극복">
+<a class="anchor" href="#ch11-%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9C%BC%EB%A1%9C-lsp%EC%9C%84%EB%B0%98-%EA%B7%B9%EB%B3%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>ch11. 제네릭으로 LSP위반 극복</h3>
+
+<ul>
+  <li><strong>객체지향의 <code class="language-plaintext highlighter-rouge">추상형</code> —&gt; <code class="language-plaintext highlighter-rouge">instanceof가 아닌 if</code>를 제거</strong></li>
+  <li>
+<strong>객체지향의 <code class="language-plaintext highlighter-rouge">제네릭</code> —&gt; <code class="language-plaintext highlighter-rouge">if instanceof</code>를 제거할 수 있다.</strong>
+    <ul>
+      <li>
+<strong>2가지를 섞으면</strong> 모든 종류의 if를 제거할 수 있다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="instanceof-to-제네릭">
+<a class="anchor" href="#instanceof-to-%EC%A0%9C%EB%84%A4%EB%A6%AD" aria-hidden="true"><span class="octicon octicon-link"></span></a>instanceof to 제네릭</h4>
+
+<ul>
+  <li>알렉산더르 아저씨가 쓴 책: 수학적 근거로부터 만들었음</li>
+  <li>객체지향적 의미: <strong>LSP위반을 해결할 수 있는 언어적 수단은 제네릭</strong>이다.
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">제네릭</code>: 추상형을 유지하면서 &amp; 구상형은 클라코드에서 결정하게 해주는 것</strong>
+        <ul>
+          <li><strong>if문과의 차이점 : <code class="language-plaintext highlighter-rouge">형</code>으로 결정함</strong></li>
+          <li><strong>즉, <code class="language-plaintext highlighter-rouge">if instanceof</code>를 제거하려면 <code class="language-plaintext highlighter-rouge">제네릭</code>을 써야한다</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>제네릭 사용 판단은 <code class="language-plaintext highlighter-rouge">기계적으로 &lt;내 코드에 instanceof가 있는지&gt;로 판단</code>해도 된다.</strong>
+    <ul>
+      <li>runtime, context에러 -&gt; compile에러로 옮길 수 있는 수단이다.
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">형</code> 체크시 compiler를 이용하므로</li>
+          <li>우리가 할 수 있는 if제거 수단: 형</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206200613251.png" alt="image-20220206200613251"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206200620827.png" alt="image-20220206200620827"></p>
+
+<ul>
+  <li>if <code class="language-plaintext highlighter-rouge">instanceof</code>가 보이면 -&gt; <code class="language-plaintext highlighter-rouge">제네릭</code>를 쓰면 되는데
+    <ul>
+      <li>if instanceof  -&gt; <strong>다운캐스팅을 하고 싶어서 확인하는 것</strong> -&gt; LSP, OCP 위반</li>
+      <li>
+<strong>매핑의 과정</strong>은 아래와 같다.  <strong><code class="language-plaintext highlighter-rouge">Client의 추상층인 Paper인터페이스</code>에 <code class="language-plaintext highlighter-rouge">&lt;다운캐스팅이 일어나는 것을 추상형으로 제네릭&gt;추가</code></strong>
+        <ul>
+          <li><strong>programmer 다운캐스팅(FE or BE)  -&gt;<code class="language-plaintext highlighter-rouge">T</code></strong></li>
+          <li><strong>programmer 추상형  -&gt; <code class="language-plaintext highlighter-rouge">extends 추상형</code></strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>다운캐스팅한 문법을
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206201755934.png" alt="image-20220206201755934">
+    <ul>
+      <li>
+<strong>제네릭을 이용</strong>해서 <strong>업캐스팅한 문법</strong>으로 바꿨다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206201821031.png" alt="image-20220206201821031">
+</li>
+      <li>
+<strong>즉, 제네릭을 통해 <code class="language-plaintext highlighter-rouge">&lt;T</code>형의 규정을 <code class="language-plaintext highlighter-rouge">extends 추상형&gt;</code> == <code class="language-plaintext highlighter-rouge">업캐스트(upper bound, 상위 bound)를 이용</code>해서 규정한다.</strong>
+        <ul>
+          <li>cf) 다운캐스트 == 바닥의 lower bound == 구상층 == FrontEnd로 정의하는 <code class="language-plaintext highlighter-rouge">instanceof</code>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>제네릭을 이용한 순간 -&gt; <code class="language-plaintext highlighter-rouge">LSP, OCP를 회복</code>했다고 생각할 수 있다.</strong>
+    <ul>
+      <li><strong>my) <code class="language-plaintext highlighter-rouge">instanceof -&gt; lowerbound(구상층)을 사용한 다운캐스트 -&gt; LSP,OCP위반</code></strong></li>
+      <li><strong>my) <code class="language-plaintext highlighter-rouge">&lt;T extends 추상형&gt; 제네릭 -&gt; upperbound(추상층)을 사용한 업캐스트 -&gt; LSP,OCP회복</code></strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="client-수정">
+<a class="anchor" href="#client-%EC%88%98%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>Client 수정</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206202245219.png" alt="image-20220206202245219"></p>
+
+<ol>
+  <li>
+    <p>LSP, OCP 위반 = 다운캐스팅이 일어나는 Client 클래스 -&gt; 그것의 <strong>추상층인 Paper 인터페이스에 <code class="language-plaintext highlighter-rouge">제네릭</code>인 <code class="language-plaintext highlighter-rouge">T형</code> (extends 다캐일어나는 FE/Programmer의 추상형) 을 받았다고 생각해보자.</strong></p>
+  </li>
+  <li>
+    <p>**추상클래스 레벨에서 <code class="language-plaintext highlighter-rouge">추상형upperbound 제네릭</code>의 <code class="language-plaintext highlighter-rouge">T형</code>을 받았다면 구상클래스 Client가  impl시 단순Paper가 아닌 -&gt; <code class="language-plaintext highlighter-rouge">Paper&lt;FrontEnd&gt;</code>를 받을 수 있다. **</p>
+
+    <ul>
+      <li>
+        <p>my) 제네릭이 달린 추상층은, 구상클래스 구현시  <code class="language-plaintext highlighter-rouge">impl 추상층</code>이 아니라 <strong><code class="language-plaintext highlighter-rouge">impl 추상층&lt;T형의 구상형&gt;</code>으로 받을 수 있다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206203059186.png" alt="image-20220206203059186">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206203108989.png" alt="image-20220206203108989"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">추상층의 메소드정의시 인자</code></strong>를 제네릭을 이용한 <strong><code class="language-plaintext highlighter-rouge">T형</code>(upperbound의 구상형 입력가능)을 인자로 받았기 때문에 -&gt; <code class="language-plaintext highlighter-rouge">구상층 메소드 정의시 인자</code>에는 직접적으로 <code class="language-plaintext highlighter-rouge">(구상형으로 메소드 인자)</code>를 받을 수 있다.</strong></p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">추상층에서 제네릭을 통한 T형으로 정의 -&gt; 구현클래스에서 upper bound의 구상형들로 정의 가능</code></strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206203440227.png" alt="image-20220206203440227"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206203451142.png" alt="image-20220206203451142"></p>
+
+    <ul>
+      <li>
+<strong>instanceof 없이 구상형d()를 가져다 쓸 수 있게 된다.</strong>
+        <ul>
+          <li>제네릭이 해주는 것은 instanceof를 제거하는 것</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Client의 setData()의 인자에 구상형으로 정의했다 -&gt; <code class="language-plaintext highlighter-rouge">제네릭을 통한 형으로 좁혀서 막았다</code> -&gt; compile시 에러가 난다.</strong></p>
+
+    <ul>
+      <li>이제 Client 프로젝트에 데이터를 꽂을 때는, 아무것이나 못 준다 -&gt; 제네릭을 통한 형으로 제한하면 -&gt; 형은 compile에러를 내서 오류를 잡을 수 있게 된다.</li>
+      <li><strong>과거에는 다운캐스팅한 코드 속에서 if backEnd로 갈지도 모르는 가능성이 runtime코드 어딘가에 숨겨져있었는데, 지금은 제네릭을 통해 <code class="language-plaintext highlighter-rouge">하위형으로 확정</code>시켜서, 형 에러시 compile time에 걸린다</strong></li>
+      <li><strong>제네릭을 사용하면, 추상형 -&gt; T자리에 구상형을 지원 -&gt; 형으로 용도를 확 줄임</strong></li>
+    </ul>
+  </li>
+</ol>
+
+<ul>
+  <li>제네릭은 기계적으로 사용할 수 있다. 매핑하는 것처럼
+    <ul>
+      <li>현재 클래스의 추상층에 제네릭으로서 upperbound로 T형을 꽂아주고, 추상메소드 정의시 T를 사용해서 정의</li>
+      <li>이 추상층을 -&gt; 구현이나, 메소드정의시 T자리에 구상형을 직접 입력해서 정의</li>
+      <li>instacneof 제거 -&gt; LSP, OCP 위반 제거하게 됨</li>
+    </ul>
+  </li>
+  <li>
+<strong>if를 제거하려면, 분기에 해당하는 수만큼 객체를 만들 수 밖에 없고, 선택은 클라코드에 위임</strong>한다.
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">Client가 범용</code>(FE or BE or 추가될 개발자) 이었다가</strong></li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">제네릭</code>을 통해 <code class="language-plaintext highlighter-rouge">if instanceof</code>제거 -&gt; <code class="language-plaintext highlighter-rouge">1개 분기(FE)에 대한 객체(Class)만 생성</code></strong>
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">BE용 Client</code>도 새롭게 정의해줘야한다.</strong></li>
+          <li>if case 1개(FE)를 담당하도록 <strong>FE전용 class가 정의</strong>되버렸다.
+            <ul>
+              <li><strong>class를 if case만큼 생성해하며, 그 선택은 바깥에서 한다.</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>제네릭 / 전략패턴 / 인터페이스  -&gt;  다 if를 이런식으로 제거한다.</strong>
+        <ul>
+          <li><strong>if는 제거되었지만, 그만큼 객체/class가 생성되며 -&gt; 선택은 클라코드에서 한다</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="serverclient-instanceof-2개는-제네릭은-기계적-매핑-안됨">
+<a class="anchor" href="#serverclient-instanceof-2%EA%B0%9C%EB%8A%94-%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9D%80-%EA%B8%B0%EA%B3%84%EC%A0%81-%EB%A7%A4%ED%95%91-%EC%95%88%EB%90%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>ServerClient: instanceof 2개는 제네릭은 기계적 매핑 안됨</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206204751581.png" alt="image-20220206204751581"></p>
+
+<ul>
+  <li>[Paper쪽]에 시킨 버전은 더 무겁다는 것이 여기서(ServerClient) 드러난다.
+    <ul>
+      <li>programmer를 2 case를 if  +  else if로 모두 다운캐스팅해서 받아줘야한다.</li>
+      <li>if 2개를, 제네릭으로 T형+R형으로도 매핑할 수 있을까?
+        <ul>
+          <li>if가 3개면,, 그것도 불가능.. 안됨.</li>
+        </ul>
+      </li>
+      <li>
+<strong>if가 2개</strong>(2개이상일 가능성 높음)부터는 <strong>instanceof -&gt; 제네릭 매핑이 불가하다</strong>
+</li>
+    </ul>
+  </li>
+  <li>이것을 보니까 <strong>[Paper쪽] instanceof가 훨씬 무겁다는 것</strong>을 알 수 있다.
+    <ul>
+      <li>그렇다고 다시 [Programmer쪽]으로 옮길수 도 없는 노릇이다.???</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="ocp와-제네릭을-통한-lsp위반-해결">
+<a class="anchor" href="#ocp%EC%99%80-%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9D%84-%ED%86%B5%ED%95%9C-lsp%EC%9C%84%EB%B0%98-%ED%95%B4%EA%B2%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>OCP와 제네릭을 통한 LSP위반 해결</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207004803787.png" alt="image-20220207004803787"></p>
+
+<ul>
+  <li>우리는 LSP위반을 해결하기 위해 제네릭을 통해 해결해보려했지만 신통치 않았다</li>
+  <li>
+<strong>그래서 <code class="language-plaintext highlighter-rouge">헐리우드 원칙(묻지말고 시켜=던져)</code>를 이용해서 <code class="language-plaintext highlighter-rouge">OCP+제네릭</code>을 결합한다</strong>
+    <ul>
+      <li>물어보다:  <code class="language-plaintext highlighter-rouge">if instanceof</code> 로 맞는지 물어본다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="papern-및-자식들-원상복구">
+<a class="anchor" href="#papern-%EB%B0%8F-%EC%9E%90%EC%8B%9D%EB%93%A4-%EC%9B%90%EC%83%81%EB%B3%B5%EA%B5%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>Paper(N) 및 자식들 원상복구</h5>
+
+<ul>
+  <li>추상층 paper한테 묻지말고 시켰더니, 어떤 구상층에서는 2개를 묻는 더 무거운 경우가 생겨버렸다. <strong>paper는 안되니 다시 롤백</strong>하자.
+    <ul>
+      <li>
+<strong>paper는 programmer와 1:N관계에서 <code class="language-plaintext highlighter-rouge">N</code>이며, <code class="language-plaintext highlighter-rouge">N쪽에서 구현(시키기)하면 언제나 일반화시킬 수없다</code> -&gt; 시키면 안된다<code class="language-plaintext highlighter-rouge">시키는 것을 1쪽에 구현해야한다.</code></strong>
+        <ul>
+          <li>programmer(1)에 시키고 + 제네릭
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206202245219.png" alt="image-20220206202245219">
+</li>
+          <li>paper(N)을 <strong>원상복구</strong>(제네릭X + 시키지도X)
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207010809521.png" alt="image-20220207010809521">
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>이상적인 객체관계에서는 항상 <code class="language-plaintext highlighter-rouge">child(N) -&gt; parent(1)을 알게한다</code>.</strong>
+    <ul>
+      <li>
+<strong>parent(1) -&gt; child(N)을 알게하면 더 불리</strong>하다. <strong>많은 것들을 알아야한다</strong>.
+        <ul>
+          <li>많이 알아야한다 -&gt; 의존성의 무게가 크다.</li>
+        </ul>
+      </li>
+      <li>child -&gt; parent를 아는 것은 1:1매핑이 된다.
+        <ul>
+          <li><strong>sqlalchemy에서도 N테이블(FK테이블, <code class="language-plaintext highlighter-rouge">Song</code>)에서  1테이블(PK, <code class="language-plaintext highlighter-rouge">Album</code>)reference(relationship변수)를 거는 것이 단수로 나와서 편했다.</strong></li>
+          <li>부모가 자식을 알땐 1:N &lt;-&gt; 자식이 부모를 알 땐 N출발이지만 1:1</li>
+        </ul>
+      </li>
+      <li><strong>여기 문제에서는 <code class="language-plaintext highlighter-rouge">Prgorammer(N) -&gt; Paper(1)</code>를 알게 하는 것이 더 낫다</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207010809521.png" alt="image-20220207010809521"></p>
+
+<ul>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">1에 해당하는</code> Paper에 구현X 시키지X</strong> 원상복구 하니, <strong>메소드 없는 제일 좋은 인터페이스로 돌아갔다.</strong></p>
+
+    <ul>
+      <li>1paper당 - programmer - 2종류의 개발자가 매칭되더라. -&gt; if가 1개에서 2개로 늠. -&gt; 원상복구</li>
+      <li>
+<strong>programmer(N) -&gt; paper(1)쪽에 시키지말고</strong>, programmer가 감당하게 가야한다.
+        <ul>
+          <li>N에서 1만 안다 == <strong>시키는 것을 1에게 몰게하고, N은 아무것도 안하고 1만 의존하게 한다.</strong>
+</li>
+        </ul>
+      </li>
+      <li><strong>Paper는 메소드가 비어있다 -&gt; abc(구상층의 공통로직)이 없는게 정상이다.</strong></li>
+      <li><strong>Client(Paper 구상체) 전체가 d다. (paper에 abc자체가 없었다)</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207012516441.png" alt="image-20220207012516441"></p>
+
+<ul>
+  <li>ServerClient도 돌아갔다. Paper(1)에 시키지X -&gt;  구상체들 다 원상복귀함.
+    <ul>
+      <li>마커 인터페이스 이하는 다 d()이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="programmern에서-paper1를-알게한다--그-쪽n에-시킨다--그쪽에-제네릭을-붙여-instanceof-제거">
+<a class="anchor" href="#programmern%EC%97%90%EC%84%9C-paper1%EB%A5%BC-%EC%95%8C%EA%B2%8C%ED%95%9C%EB%8B%A4--%EA%B7%B8-%EC%AA%BDn%EC%97%90-%EC%8B%9C%ED%82%A8%EB%8B%A4--%EA%B7%B8%EC%AA%BD%EC%97%90-%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9D%84-%EB%B6%99%EC%97%AC-instanceof-%EC%A0%9C%EA%B1%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>Programmer(n)에서-&gt;Paper(1)를 알게한다 = 그 쪽(N)에 시킨다 = 그쪽에 제네릭을 붙여 instanceof 제거</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207012641647.png" alt="image-20220207012641647"></p>
+
+<ul>
+  <li>중간 코드들은 생략한 상태</li>
+  <li>
+<strong>기존 Programmer <code class="language-plaintext highlighter-rouge">인터페이스</code> —&gt; FE와 BE의 공통로직을 추상화한 <code class="language-plaintext highlighter-rouge">추상클래스</code>였다</strong>
+    <ul>
+      <li>Paper쪽에 시킨 <strong>기존 버전</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207012939048.png" alt="image-20220207012939048">
+        <ul>
+          <li>템플릿메소드패턴자리에  paper에 개발자정보를 .setData 해놓고</li>
+          <li>그 paper로 makeProgram한 Program반환 -&gt; makeProgram의 만드는 과정은 구상층이 구현
+            <ul>
+              <li>my) Paper는 밖에서 입력되는데,  paper에 개발자 정보를 set박아놓은 뒤(<strong>no..</strong>N:1에서 N이 <strong>paper에게 일 시키는 중..</strong>), 각 자식 프로래머들이 알아서 Paper를 받아-&gt;프로그램을 만들어서 -&gt; 반환</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>현재 버전</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207013003472.png" alt="image-20220207013003472">
+</li>
+    </ul>
+  </li>
+  <li>
+<strong>달라진 점</strong>
+    <ol>
+      <li>
+<strong>구상클래스들의 instanceof 제거를 위해 -&gt; 추상층에 제네릭을 T형 + extends  Paper(upperbound)로 붙히고</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207013130246.png" alt="image-20220207013130246">
+ 메소드 인자를 기존 <code class="language-plaintext highlighter-rouge">Paper paper</code> -&gt;  <strong><code class="language-plaintext highlighter-rouge">T paper</code>로 정의</strong>한다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207014808797.png" alt="image-20220207014808797">
+</li>
+      <li>**더이상 <code class="language-plaintext highlighter-rouge">paper.setData( 개발자 )</code>으로 paper에게 시키는 것(책임을 미루는 것)이 아니라 **
+        <ul>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">setData()의 책임</code>을 내가 가져간다.</strong>
+            <ul>
+              <li>타 객체에게 시키는 것이 아니라 <strong><code class="language-plaintext highlighter-rouge">내가 한다</code> = (this.)  <code class="language-plaintext highlighter-rouge">그냥 setData(paper) 호출</code></strong>
+                <ul>
+                  <li><strong>제네릭 T형 paper 정보를 받아서 내가 처리한다 -&gt; 정의는 setData(<code class="language-plaintext highlighter-rouge">T paper</code>)</strong></li>
+                </ul>
+              </li>
+              <li>T형 paper의 처리 -&gt; <strong>자식(구상층)에게</strong> 알아서 <strong><code class="language-plaintext highlighter-rouge">if instanceof분기마다 1개씩 &lt;해당 paper구상체&gt;</code>를 받아들이는 Class생성하도록 맡김</strong>
+</li>
+            </ul>
+          </li>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">내가 해줄 수 있는 것은 makeProgram()호출 전에  setData()를 호출하면서 T형 paper를 넘겨줄게</code></strong>
+            <ul>
+              <li><strong><code class="language-plaintext highlighter-rouge">T paper의 처리는 구상층 자식들아 너네들이 분기별로 한개씩 T를 사용해서 만들도록 해라</code></strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>착각해선 안되는 점: <strong>(객체)메세지 -&gt; <code class="language-plaintext highlighter-rouge">Don't ask + tell!</code>인데</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207022037068.png" alt="image-20220207022037068">
+    <ul>
+      <li>
+<strong>템플릿메소드를 구성하는 <code class="language-plaintext highlighter-rouge">부모-자식간에도 마찬가지로 적용</code>된다.</strong>
+        <ul>
+          <li>
+<strong>set</strong>Data( paper ): <strong>tell한 것(물어보지 않고 말해서 시킴)</strong>
+            <ul>
+              <li><strong>getter처럼 값이나 객체를 받아오질 않음</strong></li>
+              <li><code class="language-plaintext highlighter-rouge">"내가 줄건 paper고, 나한테 얘기하지말고 알아서해"</code></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">abstract setData(paper)메소드</code> = <code class="language-plaintext highlighter-rouge">자식꺼</code>라고 생각한다.</strong>
+        <ul>
+          <li>
+<strong>자식꺼인 setData(paper)</strong>를 호출할 때도, <strong>부모(템플릿메소드getProgram)은 <code class="language-plaintext highlighter-rouge">묻지않고 = return없이 -&gt; set시킨다</code></strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="backend">
+<a class="anchor" href="#backend" aria-hidden="true"><span class="octicon octicon-link"></span></a>BackEnd</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207022203455.png" alt="image-20220207022203455"></p>
+
+<ul>
+  <li>
+<strong>수많은 종류의 BackEnd개발자</strong>가 있을 것인데, 종류만 FE/BE로만 나눠놓은 상태다.
+    <ul>
+      <li>
+<strong>수많은 BE개발자(instance)들의 공통점을 찾자</strong>라면
+        <ul>
+          <li>Server와 Language는 정해줘야한다.</li>
+        </ul>
+      </li>
+      <li>
+<strong>BE개발자들 중에서도 기존 추상층의 상속 extends  Programmer<code class="language-plaintext highlighter-rouge">&lt;T&gt;</code>에 추가하여</strong>
+        <ul>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">BackEnd에도 &lt;T extends Paper&gt; 제네릭</code> 붙혀 <code class="language-plaintext highlighter-rouge">어떤 T형의 paper를 받았느냐</code>에 따라 같은 BackEnd개발자라도 <code class="language-plaintext highlighter-rouge">다른 BackEnd</code>개발자로 본다.</strong>
+            <ul>
+              <li>기존(원상복구)
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207121502739.png" alt="image-20220207121502739">
+</li>
+              <li>**BackEnd -&gt; <code class="language-plaintext highlighter-rouge">제네릭</code>을 받는 <code class="language-plaintext highlighter-rouge">추상클래스</code>로 변화 **
+                <ul>
+                  <li>
+<strong>그 위 추상층 Programmer 은 이미 제네릭 붙인 상태함</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207121613593.png" alt="image-20220207121613593">
+</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>기존까지 class의 관념</strong>에서 보면 <strong><code class="language-plaintext highlighter-rouge">수많은 BE개발자(instance)</code>들 -&gt; BackEnd <code class="language-plaintext highlighter-rouge">일반 class로 추상화</code>해놓은거</strong>
+    <ul>
+      <li>
+<strong>instance들을 추상화해놓은 class에 <code class="language-plaintext highlighter-rouge">제네릭이 개입</code>하면  <code class="language-plaintext highlighter-rouge">추상화가 깨지는게 아니라 &lt;if분기에 걸릴 것들이 -&gt; 각 T형</code>으로 <code class="language-plaintext highlighter-rouge">&lt;제약&gt;</code>이 걸린다. + my) <code class="language-plaintext highlighter-rouge">추상클래스</code>가 된다.</strong>
+        <ul>
+          <li>class : <code class="language-plaintext highlighter-rouge">BE개발자들</code>
+</li>
+          <li>class + <strong>제네릭 ** -&gt; **abstract class</strong> -&gt;
+            <ul>
+              <li>
+<code class="language-plaintext highlighter-rouge">&lt;a Paper&gt;를 가진  BE개발자</code> class로 <strong>각각 한정된 class로 여러개 구현</strong>해야함</li>
+              <li>
+<code class="language-plaintext highlighter-rouge">&lt;B Paper&gt;를 가진  BE개발자</code> class로 구현해야함</li>
+              <li>
+<code class="language-plaintext highlighter-rouge">&lt;C Paper&gt;를 가진  BE개발자</code> class로 구현해야함</li>
+              <li><strong><code class="language-plaintext highlighter-rouge">if 대상이 되는 분기들을 T형에다 옮겨놓은 것</code>이므로 <code class="language-plaintext highlighter-rouge">if case만큼 새로운 class를 만들어야한다</code></strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>if를 코드안에서 제거하는 유일한 방법 -&gt; <code class="language-plaintext highlighter-rouge">if case만큼 class를 만들어주는 방법</code> 밖이다.</strong>
+    <ul>
+      <li>함수도 만들어도 되지만, 우리는 <strong>형(class)으로 만들어야지 compile에러를 낼 수 있다.</strong>
+</li>
+      <li>
+<strong>if case만큼 class를 만들어주는 방법은 <code class="language-plaintext highlighter-rouge">제네릭</code>을 사용하는 것</strong>이다.
+        <ul>
+          <li><strong>my) 그러려면, 기존 class 1개를 -&gt; 제네릭달린 추상class + 각 if case만큼 구현한 일반 class들로 구현</strong></li>
+          <li>일반class BE의 추상화 -&gt; <code class="language-plaintext highlighter-rouge">public abstract class BackEnd</code> 는 추상화는 깨지지 않았지만</li>
+          <li>
+<code class="language-plaintext highlighter-rouge">Backend&lt;T extends Paper&gt;</code>로 인해 <strong><code class="language-plaintext highlighter-rouge">각 if case 1개(instanceof)로 사용범위가 제한된 class가 각각 구현</code>된다</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>각 한정된 BackEnd마다 case마다 다른 값으로 들어올 <code class="language-plaintext highlighter-rouge">T</code>를 **-&gt; extends **Programmer</strong>&lt;<code class="language-plaintext highlighter-rouge">T</code>&gt;에 공급해준다</li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">T</code>를 공급받은 Programmer에는 추상화된 공통로직이 올라가있도록 설계되었다.</p>
+  </li>
+  <li>
+    <p>이제 <strong>각 case별 BackEnd들의 공통로직(어느 paper종류를 가진 backend라도 똑같은)을 구현</strong>해주면 된다.</p>
+
+    <ul>
+      <li>대표적인 것이 makeProgram()으로, <strong>어느paper를 받는 BackEnd class일지라도 다 공통되는 로직</strong>으로서 <strong><code class="language-plaintext highlighter-rouge">추상클래스 BackEnd</code>에서 구현</strong>해주면 되는데</li>
+    </ul>
+  </li>
+  <li><strong><code class="language-plaintext highlighter-rouge">추상클래스 BackEnd</code>에는 추상층(Programmer)에 있던 <code class="language-plaintext highlighter-rouge">setData(paper)의 구현</code>은 빠져있다.</strong></li>
+  <li>
+    <p>이건 각 case별 = 들어오는 <strong><code class="language-plaintext highlighter-rouge">T paper별 BackEnd마다 서로 다르게 구현</code>해야하는 내용이므로  <code class="language-plaintext highlighter-rouge">클라 코드에 위임</code>시키기 위해 <code class="language-plaintext highlighter-rouge">BackEnd&lt;T&gt;</code>가 <code class="language-plaintext highlighter-rouge">추상클래스</code>가 된 것이다.</strong></p>
+  </li>
+  <li>
+<strong>아까는 Prgrammer -&gt; Paper로 밀어냈는데, <code class="language-plaintext highlighter-rouge">클라코드(Main)방향으로 밀어낸 것이 아니라서 문제가 해결X</code>(협력관계 도메인 레이어(같은 책임 레이어)에서 문제를 떠넘길뿐이었음)</strong>
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">자기보다 클라방향으로 밀어내야지 LSP, OCP위반을 해결</code>할 수 있다.</strong>
+        <ul>
+          <li>if제거를 밀어내기를 클라방향으로..</li>
+          <li>클라코드에서는 경우의수만큼 더 만들어내게함 -&gt; 객체로 보내주면 내부 객체랑 대화함</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>my) paper마다 다르게 구현해야하는 Programmer의 setData(paper)를 받아버리면</strong>
+    <ul>
+      <li>paper마다 다르게 구현해야하는 내용 -&gt; <strong>어쩔수 없이 if문을 써서 구현</strong>해야한다.</li>
+      <li>**setData(paper) -&gt; paper가 다르게 들어오는 것의 결정 -&gt; <code class="language-plaintext highlighter-rouge">클라 코드(main)</code>으로 넘기고 싶다 **
+        <ul>
+          <li><strong>BackEnd가 Programmer를 상속하면, 어쩔수 없이 setData(paper)를 구현해야하니 -&gt; <code class="language-plaintext highlighter-rouge">FE/BE class를 추상클래스</code>로 바꾸고 -&gt; setData를 구현안하고 -&gt; <code class="language-plaintext highlighter-rouge">클라코드(main)</code>에서 <code class="language-plaintext highlighter-rouge">FE/BE를  추상클래스를 구상클래스로 구현 &amp;&amp; 객체 생성</code>하도록 한다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>my) 매번 달라지는 paper -&gt; 추상층에 제네릭붙혀 if instanceof 제거 -&gt;  구상층에 paper땜에 달라지는 paper달린 메소드 -&gt; 구상층도 추상class로 변경해서 paper달린 메소드 구현X 클라코드에 추상class구현을 미룸</strong></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207130309754.png" alt="image-20220207130309754"></p>
+
+<ul>
+  <li>FrontEnd도 <strong>클라방향(외부)로 밀어내서 편안</strong>하다
+    <ul>
+      <li>부모제네릭T지만, 바뀌는 것들을 -&gt; 자식이 구현X -&gt; <code class="language-plaintext highlighter-rouge">안바뀌는 공통로직만 구현한 추상클래스</code>로 만듬 -&gt;  case에 따라 바뀌는 것을 클라에서 구현하게 함</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="클라아이언트주체director----main의-변화">
+<a class="anchor" href="#%ED%81%B4%EB%9D%BC%EC%95%84%EC%9D%B4%EC%96%B8%ED%8A%B8%EC%A3%BC%EC%B2%B4director----main%EC%9D%98-%EB%B3%80%ED%99%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>클라아이언트(주체Director -&gt;  Main)의 변화</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207144218499.png" alt="image-20220207144218499"></p>
+
+<ul>
+  <li>여기 배운것에 따르면
+    <ul>
+      <li>
+<strong>가장 위쪽 추상레이어인 Programmer와 Paper를 괴롭히지말고, 더 외부방향인 <code class="language-plaintext highlighter-rouge">Director</code>를 괴롭혀라</strong>
+        <ul>
+          <li>현실에서도 임원이 시키면
+            <ul>
+              <li>개발자한테 던져서 if로 분기하면 -&gt; context에러로 망한다.</li>
+            </ul>
+          </li>
+          <li>팀장이 다 해체한다음,
+            <ul>
+              <li>개발자들한테는 1개 case들만 각각 정의하도록 던져준다.
+                <ul>
+                  <li>너는 aws</li>
+                  <li>너는 유닉스 세팅</li>
+                  <li>너는 버플리쉬</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>추상층이 아니라 <code class="language-plaintext highlighter-rouge">클라이언트 층 = 서비스를 이용하는 층 = 더 훌륭한/돈많아서 시킬 수 있는/위에 있는 사람</code>에게 <code class="language-plaintext highlighter-rouge">구체적인 상황을 나누는 분기를 던져줘야한다</code></strong>
+        <ul>
+          <li>서비스층이 안정화되고 -&gt; 클라이언트 층은 hell이 되었다고 생각할 수 있다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>클라이언트한테 던져줘도 클라이언트에서 hell = 책임이 떡지지 않는다.</strong>
+    <ul>
+      <li><strong>우리는 <code class="language-plaintext highlighter-rouge">역할책임모델</code>기반으로 책임을 분산하면서 짰기 때문</strong></li>
+      <li>코드에 if를 가지지 않고, 형 with 제네릭으로 해결한다</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="상대적-클라방향-director">
+<a class="anchor" href="#%EC%83%81%EB%8C%80%EC%A0%81-%ED%81%B4%EB%9D%BC%EB%B0%A9%ED%96%A5-director" aria-hidden="true"><span class="octicon octicon-link"></span></a>상대적 클라방향 Director</h4>
+
+<ul>
+  <li>
+    <p>Director내부에서 <code class="language-plaintext highlighter-rouge">if ServerClient</code>와 <code class="language-plaintext highlighter-rouge">if Client</code>를 처리하던 코드를 비교해보자</p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">기존 코드</code></strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207145337724.png" alt="image-20220207145337724"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207145432491.png" alt="image-20220207145432491"></p>
+
+        <ul>
+          <li><strong>Server와 Client 프로그램 각각을 따로 만든 뒤, deploy하는 책임을 가지고 있다.</strong></li>
+          <li><strong>프로그램 만들어서 deploy하는 책임을 가지고 있었다.</strong></li>
+        </ul>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">기존코드</code>를 보면, ServerClient와 Client 처리코드가 <code class="language-plaintext highlighter-rouge">중복된 로직</code>을 처리하는 <code class="language-plaintext highlighter-rouge">중복된 코드</code>를 가지고 있다</strong></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>현재는 <code class="language-plaintext highlighter-rouge">if instanceof제거</code>를 위해 Programmer를 <code class="language-plaintext highlighter-rouge">특정 paper를 알고 있는 programmer</code>로 구현되도록 <code class="language-plaintext highlighter-rouge">제네릭으로 한정</code>지은 상태다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207145804141.png" alt="image-20220207145804141"></p>
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">기존</code> Director속 programmer는 <code class="language-plaintext highlighter-rouge">특정paper</code>를 알고 있는 프로그래머가 아니다.</strong>
+        <ul>
+          <li>범용 프로그래머 = <strong>아무 paper나 받아들이는 frontEnd개발자, BackEnd개발자</strong>인 상태다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207150037690.png" alt="image-20220207150037690">
+</li>
+        </ul>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">지금</code>은 <code class="language-plaintext highlighter-rouge">제네릭으로 -&gt; 특정 paper만 받아들이는 prgrammer로 제약</code>을 걸었다.</strong>
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">Director 속의 코드</code> -&gt;  ServerClient 처리 코드가 <code class="language-plaintext highlighter-rouge">바뀐다.</code></strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207150327852.png" alt="image-20220207150327852"></p>
+
+<ul>
+  <li>Director속 <code class="language-plaintext highlighter-rouge">ServerClient paper</code>인 경우,  <strong>처리코드가  어떻게 바뀌었는지 확인</strong>해보자.
+    <ul>
+      <li>
+<strong>범용 FrontEnd 개발자가 아닌, <code class="language-plaintext highlighter-rouge">ServerClient만 아는 FE</code>를 만들어야한다. <code class="language-plaintext highlighter-rouge">그래야 if가 바깥쪽으로 빠져나온 효과</code>를 누린다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207150823134.png" alt="image-20220207150823134">
+        <ul>
+          <li>
+<strong>제네릭이 <code class="language-plaintext highlighter-rouge">if없이 case를 [형]으로 한정</code>지어서 if문이 없다.</strong>
+            <ul>
+              <li><strong>my) <code class="language-plaintext highlighter-rouge">new Class&lt;형으로 확정&gt;</code>지은 class의 객체는 <code class="language-plaintext highlighter-rouge">if제거하고 외부로 돌린 제네릭</code>이라고 생각하자</strong></li>
+            </ul>
+          </li>
+          <li>
+<strong>ServerClient(paper)를 알면</strong>, 아는 것의 내장을 깔 수 있으므로, <strong>그 속의 language만 물어봐서 역할책임에 넣어준다.</strong>
+</li>
+        </ul>
+      </li>
+      <li>BE도 범용이 아닌 <code class="language-plaintext highlighter-rouge">&lt;ServerClient&gt;</code>만 알 고 있는 BE -&gt; setData시 <code class="language-plaintext highlighter-rouge">&lt;확정된 paper -&gt; ServerClient 문서&gt;</code>로 여기로부터 확정된 데이터를 가져와 setData
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207151935404.png" alt="image-20220207151935404">
+</li>
+      <li>나머지는, project에 FE, BE개발자들 세팅해주고, program 얻고, 정리해서 deploy에 준다
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207152035309.png" alt="image-20220207152035309">
+</li>
+    </ul>
+  </li>
+  <li>
+<strong>기존까지는 Paper or Programmer에 있던 if instanceof를 —&gt; <code class="language-plaintext highlighter-rouge">if문에 해당하는 수만큼의 class를 정의</code>하고 -&gt; <code class="language-plaintext highlighter-rouge">외부 클라코드(Direcotr, main)가  어떤class-&gt;어떤객체를 만들어낼지 선택하게 한다</code></strong>
+    <ul>
+      <li>
+<strong>Director가 선택하는 모습이 안보인다고 할 수 있는데, <code class="language-plaintext highlighter-rouge">[if문 -&gt; 하드코딩]을 통해 &lt;선택한 객체를 새로 생성&gt;하는 것이 if분기 중 1개 선택</code>한 것돠 동일한 것이다.</strong>
+        <ul>
+          <li>if case만큼의 class = 형을 만드는 것으로 대체함.
+            <ul>
+              <li>어려우면 반복하자.</li>
+              <li>클라이언트에 밀어내자</li>
+              <li>클라이언트는 if문분기 대신 <strong>본인이 선택(객체 하드코딩으로 new생성해서 선택)</strong>
+                <ul>
+                  <li>가장 외부에서 <strong>객체를 새로 생성하는 것으로 선택</strong>
+</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207162918373.png" alt="image-20220207162918373"></p>
+
+<ul>
+  <li>우리는 <strong>FrontEnd개발자를<code class="language-plaintext highlighter-rouge"> &lt;제네릭으로 paper -&gt; ServerClient로 확정&gt;</code> 짓는 것</strong>을 통해서
+    <ul>
+      <li>개발자들이 각각의 개발자들이 어느 paper에 반응할지를 <strong>가장 클라이언트(외부, Director, Main)에 가까운 쪽으로 밀어내서</strong>
+        <ul>
+          <li>클라에 가깝다 = <code class="language-plaintext highlighter-rouge">추상레이어 -&gt; abstract class -&gt; 구상class in Director</code> = <strong>추상화 레벨 가운데 가장 밑 레벨까지 밀어내서 == <code class="language-plaintext highlighter-rouge">가장 마지막 구상층까지 밀려나와 객체를 new새로생성</code>으로 if를 대신할 수 있게 된다.</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Director 프로토콜 수행 전 구간에 걸쳐서 LSP, OCP위반이 없어졌다.
+    <ul>
+      <li>
+<strong>프로그래머 , 페이퍼 -&gt; 추상층?인 FE/BE, Client/ServerClient 전부 다 if가 없어지고 LSP, OCP위반이 없어졌다.</strong>
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">형</code>으로서는 <code class="language-plaintext highlighter-rouge">가장 마지막 구상층</code>까지 밀어냄으로써(<strong>거기서 객체 생성하여 선택하게 함으로써</strong>)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207164000581.png" alt="image-20220207164000581"></p>
+
+<ul>
+  <li>Client paper는 더 쉽다. Client형 전용으로 만들어서 if를 없앤다.
+    <ul>
+      <li>범용 FrontEnd가 아니라 <code class="language-plaintext highlighter-rouge">Client paper전용 FrontEnd</code>를 만들어서, 그 내부에서 받은 client paper로 setData해주고</li>
+      <li>그 FrontEnd개발자를 project에 set한 뒤 deploy</li>
+      <li>if는 다 사라졌다.</li>
+    </ul>
+  </li>
+  <li>
+<strong>아직까지 Director수준의 <code class="language-plaintext highlighter-rouge">instanceof</code>를 가지고 있어서 아직 남아있다.</strong>
+    <ul>
+      <li>
+<strong>그러나 Director에게 <code class="language-plaintext highlighter-rouge">형</code>을 주는 것은 불가능하다.</strong>
+        <ul>
+          <li>Director가 <strong>N개의 paper를 가지고 있기 때문</strong> -&gt; <strong>N개짜리는 제네릭으로 처리할 수가 없다.</strong>
+            <ul>
+              <li>Direct가 2개이상 종류를 가진 paper를 추상화하는 것은 불가능하다.</li>
+            </ul>
+          </li>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">의존성 역전</code>을 시켜야한다.</strong>
+            <ul>
+              <li>director가 —&lt; N개의 paper를 가지고 있다?</li>
+              <li>
+<strong>반대로 1paper가 —ㅡ1Director에게 <code class="language-plaintext highlighter-rouge">서비스를 제공해서 추상화</code>하면 된다.</strong>
+                <ul>
+                  <li>아까 1Programmer —ㅡ&lt;2 paper 에서는 paper선택시 무거웠지만</li>
+                  <li>여기 director —ㅡ&lt; N paper에서는
+                    <ul>
+                      <li><strong>paper—ㅡ director가 더 가벼워진다.</strong></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>어려워보이지만, 재귀 &lt;-&gt; loop바꾸듯이 자연스러워야한다.
+            <ul>
+              <li>회사에 가면 거의다 다운캐스팅해서 쓰기 때문에… 연습을 해서 익숙해져야한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207172412976.png" alt="image-20220207172412976"></p>
+
+<ul>
+  <li>다시 Director 전체 코드 레이아웃를 한번 살펴보자
+    <ul>
+      <li>기존처럼 addProject, runProject 하는데, <strong>runProject시 가져온 paper(project)에 대해 <code class="language-plaintext highlighter-rouge">if instacneof 분기</code>를 하고 있다.</strong> 
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207172622965.png" alt="image-20220207172622965">
+</li>
+      <li>Director 레벨에서도 OCP위반을 하고 있다.
+        <ul>
+          <li>
+<strong>OCP를 해소하는 방법으로 if문을 해소</strong>해보자.
+            <ol>
+              <li>if문이 보이면,<strong>공통로직 추상화</strong> —&gt; <strong>구상화를 클라이언트 방향으로 옮겨야한다.</strong>
+</li>
+              <li>**거기서 경우의 수만큼 <code class="language-plaintext highlighter-rouge">형</code>을 생성해놓으면 -&gt; if대신 선택을 <code class="language-plaintext highlighter-rouge">해당 형 객체 생성</code>으로 하게 한다. **</li>
+            </ol>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="ocp위반-1-if분기대상에-공통로직-추상화">
+<a class="anchor" href="#ocp%EC%9C%84%EB%B0%98-1-if%EB%B6%84%EA%B8%B0%EB%8C%80%EC%83%81%EC%97%90-%EA%B3%B5%ED%86%B5%EB%A1%9C%EC%A7%81-%EC%B6%94%EC%83%81%ED%99%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>OCP위반 1: if분기대상에 공통로직 추상화</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207172903526.png" alt="image-20220207172903526"></p>
+
+<ul>
+  <li>
+<strong>클라방향으로 옮기기 위해서는 <code class="language-plaintext highlighter-rouge">if분기들 내부 공통로직을 추상화</code>부터 먼저 해야한다.</strong>
+    <ul>
+      <li><strong>if instanceof 분기마다 <code class="language-plaintext highlighter-rouge">공통되는 로직들을 추상화</code>해야 -&gt; <code class="language-plaintext highlighter-rouge">클라쪽에서 구상화</code>할 수 있게 된다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207175204927.png" alt="image-20220207175204927"></p>
+
+<ul>
+  <li>
+<strong>공통로직(빨간박스)</strong>: 특정paper -&gt; project -&gt; project 개발자 -&gt;  project 세팅완성 -&gt;  개발자+project로 get<strong>Program</strong>
+    <ul>
+      <li>deploy()를 보면, <strong>앞에 공통로직에서 <code class="language-plaintext highlighter-rouge">programs</code>를 받는 표준인터페이스이므로 <code class="language-plaintext highlighter-rouge">공통 로직들은 programs를 return하도록 감싸면 된다.</code></strong>
+</li>
+    </ul>
+  </li>
+  <li>
+<strong>공통 로직을 구성하는 <code class="language-plaintext highlighter-rouge">programs return로직</code>으로 —&gt; <code class="language-plaintext highlighter-rouge">if 분기를 만드는 Paper</code>를   <code class="language-plaintext highlighter-rouge">감쌀 수 있다.(추상화?)</code></strong>
+    <ul>
+      <li>아까도 caseA caseB를 감쏴서 -&gt; abstract class를 만들었다.</li>
+      <li>코드(공통로직)를 보고서 -&gt; 추상화한다.
+        <ul>
+          <li>
+<strong>빨간박스</strong>는 <strong>programs배열을 토해내면 된다</strong>.(자바 …은 1개씩 보내도 되고 배열로 보내도 됨)</li>
+          <li>
+<strong>추상화의 대상: <code class="language-plaintext highlighter-rouge">공통로직(빨간박스, programs를 return)</code>를 -&gt; <code class="language-plaintext highlighter-rouge">paper (추상층)</code>에 올리는 것</strong>이다</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207192138807.png" alt="image-20220207192138807"></p>
+
+<ul>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">if분기를 만들던 Paper</code>는 추상층에서  <code class="language-plaintext highlighter-rouge">인자 없이 run()</code>을 때리면 <code class="language-plaintext highlighter-rouge">Program[]배열</code>을 <code class="language-plaintext highlighter-rouge">return</code>해야한다.</strong>
+    <ul>
+      <li>case A, case B를 본 결과, 추상화하여-&gt; Program[]배열을 return하는 인자없는 메소드run()을 만들면 된다. 실행만해주면 된다.</li>
+      <li>
+<strong>책임: <code class="language-plaintext highlighter-rouge">Director가 project를 실행하는 것</code>에서 -&gt; <code class="language-plaintext highlighter-rouge">&lt;여러 if분기를 유발하는 추상층&gt; paper가 project를 run</code>하도록  <code class="language-plaintext highlighter-rouge">추상화</code>를 통해 넘어갔다.</strong>
+        <ul>
+          <li>역할책임모델은 도메인과 일치하지 않는다. 적당한 역할을 하는 사람이 가져간다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="ocp위반-2-if분기대상의-자식들특정분기들을-abstract화---클라에서-new-자식특정분기-객체-생성하며--분기대상의-공로메소드-case에-맞게-구상화">
+<a class="anchor" href="#ocp%EC%9C%84%EB%B0%98-2-if%EB%B6%84%EA%B8%B0%EB%8C%80%EC%83%81%EC%9D%98-%EC%9E%90%EC%8B%9D%EB%93%A4%ED%8A%B9%EC%A0%95%EB%B6%84%EA%B8%B0%EB%93%A4%EC%9D%84-abstract%ED%99%94---%ED%81%B4%EB%9D%BC%EC%97%90%EC%84%9C-new-%EC%9E%90%EC%8B%9D%ED%8A%B9%EC%A0%95%EB%B6%84%EA%B8%B0-%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1%ED%95%98%EB%A9%B0--%EB%B6%84%EA%B8%B0%EB%8C%80%EC%83%81%EC%9D%98-%EA%B3%B5%EB%A1%9C%EB%A9%94%EC%86%8C%EB%93%9C-case%EC%97%90-%EB%A7%9E%EA%B2%8C-%EA%B5%AC%EC%83%81%ED%99%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>OCP위반 2: if분기대상의 자식들(특정분기들)을 abstract화 -&gt; 클라에서 new 자식(특정분기) 객체 생성하며 &amp;&amp; 분기대상의 공로메소드 case에 맞게 구상화</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207192718902.png" alt="image-20220207192718902"></p>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">분기속 공통로직</code>을 분기만드는 paper로 <strong>추상화한 <code class="language-plaintext highlighter-rouge">run()</code>을 -&gt; <code class="language-plaintext highlighter-rouge">상세 구현</code>은  client방향으로 밀어야한다.</strong></p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">공통로직의 틀</code> = <code class="language-plaintext highlighter-rouge">paper는 Program[]배열를 return</code>만 추상화한다</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207192138807.png" alt="image-20220207192138807"></p>
+
+        <ul>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">기존에는</code></strong> ServerClient나 Client paper는 <strong><code class="language-plaintext highlighter-rouge">완전한</code> paper(<code class="language-plaintext highlighter-rouge">일반class</code>)였는데</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207193001591.png" alt="image-20220207193001591">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207193011844.png" alt="image-20220207193011844"></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>이제는 <code class="language-plaintext highlighter-rouge">분기를 만드는 paper에 [공통 로직의 틀]를 &lt;클라이언트에서 구현하면서 객체 생성으로 선택&gt;</code></strong>하기 위해</p>
+
+        <ul>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">이제는</code> paper의 run()을 <code class="language-plaintext highlighter-rouge">외부에서 최종구현할 수 있게 자식들</code> SeverClient paper, Client paper <code class="language-plaintext highlighter-rouge">을 구상클래스가 아닌 [중간의 추상클래스]</code>로 만든다. 가장 바깥 = <code class="language-plaintext highlighter-rouge">외부에서는 이 추상클래스를 구상하면서 객체생성하여 선택</code></strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207200640949.png" alt="image-20220207200640949">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207200649745.png" alt="image-20220207200649745">
+            <ul>
+              <li>왜냐면… 외부 최종 선택 -&gt; if case마다 다 하나씩 생성해야함 -&gt; <strong><code class="language-plaintext highlighter-rouge">구현하면서 객체 생성하여 최종선택</code>하면 한번에 해결</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207200718479.png" alt="image-20220207200718479">
+                <ul>
+                  <li>나중에 볼 코드지만, <code class="language-plaintext highlighter-rouge">new Client()</code>로 <strong>if분기 중 1개인 Client특정paper를 선택하면서 &amp;&amp; 타 내부정보들도 <code class="language-plaintext highlighter-rouge">Paper의 run() -&gt; 자식인 Client도 추상클래스 -&gt; 객체생성하며 클래스처럼 구현</code>하여 선택해버린다.</strong>
+</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>if문(paper)을 제거하려한다? 그만큼의 형(class)를 만들어야한다.</p>
+    <ul>
+      <li>그 형을 담는 그릇이 interface Paper이다.</li>
+      <li>그렇다면 <strong>자식들이</strong> ServerClient / Client는 <strong>구상클래스 같지만, 추상클래스로 남겨놔야한다</strong>
+</li>
+      <li>외부에서는 <code class="language-plaintext highlighter-rouge">new ServerClient() or new Client()</code>로서, <strong>객체를생성 하면서 case에 맡게 구현하며 추상클래스 구상화를 해버리는 전략이다.</strong>
+</li>
+      <li>if instanceof에 분기 선택으로 사용되던 Client, ServerClient도  <strong><code class="language-plaintext highlighter-rouge">class</code>  -&gt;  <code class="language-plaintext highlighter-rouge">abstact class</code>된다</strong>.
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">abstact</code>만 달아줌으로써, Client, ServerClient의 본래 특징을 유지하되 &amp;&amp; <code class="language-plaintext highlighter-rouge">if를 유발하는 수행방법(내부다른정보들 입력) -&gt; case에 따라서 외부에서 구현 &amp;&amp; 객체 생성(형 생성)</code>해버리기 위해</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="ocp위반-3-외부-선택-by-특정분기-객체생성-with-공통로직-메소드-구상화--다시-내부로-받아온다">
+<a class="anchor" href="#ocp%EC%9C%84%EB%B0%98-3-%EC%99%B8%EB%B6%80-%EC%84%A0%ED%83%9D-by-%ED%8A%B9%EC%A0%95%EB%B6%84%EA%B8%B0-%EA%B0%9D%EC%B2%B4%EC%83%9D%EC%84%B1-with-%EA%B3%B5%ED%86%B5%EB%A1%9C%EC%A7%81-%EB%A9%94%EC%86%8C%EB%93%9C-%EA%B5%AC%EC%83%81%ED%99%94--%EB%8B%A4%EC%8B%9C-%EB%82%B4%EB%B6%80%EB%A1%9C-%EB%B0%9B%EC%95%84%EC%98%A8%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>OCP위반 3: 외부 선택 by 특정분기 객체생성 with 공통로직 메소드 구상화 —&gt; 다시 내부로 받아온다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207203105512.png" alt="image-20220207203105512"></p>
+
+<h5 id="ocp위반-4--내부에서-받은-특정분기-객체의--호출">
+<a class="anchor" href="#ocp%EC%9C%84%EB%B0%98-4--%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%EB%B0%9B%EC%9D%80-%ED%8A%B9%EC%A0%95%EB%B6%84%EA%B8%B0-%EA%B0%9D%EC%B2%B4%EC%9D%98--%ED%98%B8%EC%B6%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>OCP위반 4:  내부에서 받은 특정분기 객체의 <case> 호출</case>
+</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207201425126.png" alt="image-20220207201425126"></p>
+
+<ul>
+  <li>위 코드는, Director의 <code class="language-plaintext highlighter-rouge">if instanceof</code>관련로직을 다 클라이언트 방향으로 밀었다.
+    <ol>
+      <li>if 분기대상(Paper)에 공통로직 메소드(run()) 추상화</li>
+      <li>Paper자식들 = 특정분기들(Client, ServerClient)의 absrtact class화</li>
+      <li>외부에서 특정분기(자식) 1개 new 객체 생성 &amp;&amp; 분기대상의 공로메소드run() case에 맞게 구상화</li>
+    </ol>
+  </li>
+  <li><strong>deploy의 인자 중 projects.get(name)<code class="language-plaintext highlighter-rouge">.run()</code>이 <code class="language-plaintext highlighter-rouge">case에 맞게 외부에서 구상화한 공통로직 메소드</code>를 호출한 것이다. -&gt; <code class="language-plaintext highlighter-rouge">&lt;공로메소드 추상화 직전 틀&gt;에 의하면 programs 배열을 return</code>할 것이다.</strong></li>
+  <li>
+<strong>Director의 <code class="language-plaintext highlighter-rouge">if instanceof</code> 제거 -&gt; <code class="language-plaintext highlighter-rouge">앞으로 수정안해도 됨</code></strong>
+    <ul>
+      <li>Programmer, paper를 이용하던 Director보다 —&gt; <strong>더 클라방향인 Main으로 밀렸다.</strong>
+</li>
+      <li>Director는 상대적으로 Programmer그룹, paper그룹에 비해 host방향이었다.</li>
+      <li>
+<strong>객체지향 설계를 제대로 했다면 -&gt; Main까지 밀려야 성공한 것</strong>
+        <ul>
+          <li>그 전까지 어딘가에서 다운캐스팅 하고 있을 것이다</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>Main까지 다 밀었으면 <code class="language-plaintext highlighter-rouge">DI</code>를 한다.</strong>
+    <ul>
+      <li>Main의 코드들을 싹다 일일히 만드는게 아니라 DI를 통해 주입하는 것으로 끝내야한다.</li>
+      <li>Main까지 다 밀어내야지만 DI가 정상작동한다.</li>
+    </ul>
+  </li>
+  <li>
+<strong>Director -&gt; 분기대상인 Paper가 책임을 가지게 되었음.</strong>
+    <ul>
+      <li>Director는 코드가 줄었다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="ocp위반-5-main에서-여기까지-밀려난-특정분기paper를-case에-맞게-객체생성-익명클래스로-구상화형-생성">
+<a class="anchor" href="#ocp%EC%9C%84%EB%B0%98-5-main%EC%97%90%EC%84%9C-%EC%97%AC%EA%B8%B0%EA%B9%8C%EC%A7%80-%EB%B0%80%EB%A0%A4%EB%82%9C-%ED%8A%B9%EC%A0%95%EB%B6%84%EA%B8%B0paper%EB%A5%BC-case%EC%97%90-%EB%A7%9E%EA%B2%8C-%EA%B0%9D%EC%B2%B4%EC%83%9D%EC%84%B1-%EC%9D%B5%EB%AA%85%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A1%9C-%EA%B5%AC%EC%83%81%ED%99%94%ED%98%95-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>OCP위반 5: Main에서 여기까지 밀려난 특정분기Paper를 case에 맞게 객체생성&amp;&amp; 익명클래스로 구상화(형 생성)</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207205412287.png" alt="image-20220207205412287"></p>
+
+<ul>
+  <li>Director를 만든다.</li>
+  <li>Director에 project(특정Paper 중 1 case)를 “name”과 함께 add한다.
+    <ul>
+      <li>프론트 작업이라서 -&gt; <strong>특정 paper들(자식들) 중 Client paper를 만들고 있지만, 범용Client paper가 아니다.</strong>
+        <ul>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">수행방법을 그 자리에서 구상화</code>하면서 객체를 생성한 <code class="language-plaintext highlighter-rouge">Client paper</code>이다.</strong>
+            <ul>
+              <li>구상화(abstract class를 구현)한 것이니 -&gt; <code class="language-plaintext highlighter-rouge">해당 수행방법을 가진 형</code>이 case에 맞게 생성된 것이다.</li>
+              <li>**() { } 괄호 담에 중괄호 -&gt; <code class="language-plaintext highlighter-rouge">익명클래스</code>로 형을 선택한 자리에서 새로만든다. **
+                <ul>
+                  <li>이게 바로 if를 제거하는 원리</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>수행방법을 보니
+        <ul>
+          <li>Client용 FE개발자 1명 섭외
+            <ul>
+              <li>개발자도 <strong>[객체생성으로 선택]</strong>으로 섭외하는, <strong>익클로 구상화와 동시에 객체 생성하여 <code class="language-plaintext highlighter-rouge">특정 개발자(개발자의 특정자식(중간abstract))면서 &amp;&amp; 수행방법(case에 맞게 abstract를) 구상된</code> 개발자를 선택한다.</strong>
+</li>
+              <li>여기에도 if대신 형을 생성하는 문법으로 바뀌어있음.</li>
+            </ul>
+          </li>
+          <li>개발자한테서 program을 받아냄</li>
+          <li>deploy용으로 program반환</li>
+          <li>runProject</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>DI주입은  <code class="language-plaintext highlighter-rouge">객체생성 &amp;&amp; 익클 구상화</code>하는 부분을 주입으로 바꾼다.</li>
+</ul>
+
+<h5 id="ocp위반-6-main외부로-밀었다면-구상화에-있는-setter를-제거해서-구상화시-은닉성을-높이자">
+<a class="anchor" href="#ocp%EC%9C%84%EB%B0%98-6-main%EC%99%B8%EB%B6%80%EB%A1%9C-%EB%B0%80%EC%97%88%EB%8B%A4%EB%A9%B4-%EA%B5%AC%EC%83%81%ED%99%94%EC%97%90-%EC%9E%88%EB%8A%94-setter%EB%A5%BC-%EC%A0%9C%EA%B1%B0%ED%95%B4%EC%84%9C-%EA%B5%AC%EC%83%81%ED%99%94%EC%8B%9C-%EC%9D%80%EB%8B%89%EC%84%B1%EC%9D%84-%EB%86%92%EC%9D%B4%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>OCP위반 6: Main(외부)로 밀었다면, 구상화에 있는 setter를 제거해서 구상화시 은닉성을 높이자.</h5>
+
+<h6 id="client-no-제네릭필요없음">
+<a class="anchor" href="#client-no-%EC%A0%9C%EB%84%A4%EB%A6%AD%ED%95%84%EC%9A%94%EC%97%86%EC%9D%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>Client: No 제네릭(필요없음)</h6>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207211518367.png" alt="image-20220207211518367"></p>
+
+<ul>
+  <li>
+    <p>FE에 한정된 이야기지만, 중간에 있는 <code class="language-plaintext highlighter-rouge">setProgrammer()</code>라는 인터페이스를 보자.</p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">Client(abstract class)</code> paper에서 <code class="language-plaintext highlighter-rouge">자신의 속성을 갱신시켜주는 [외부 객체 메세지]</code>를 허용해주기 위해 받은 메소드다.</strong> 
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207212922123.png" alt="image-20220207212922123"></p>
+      </li>
+      <li>
+        <p><strong>지금은 Client 본인이 <code class="language-plaintext highlighter-rouge">Main(외부)에서</code> 익클 구상화를 통해<code class="language-plaintext highlighter-rouge"> case맞는 형으로 확장된 상태</code>이기 때문에</strong></p>
+
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">외부 객체 메세지가 필요 없게 되어</code> —&gt; 안쓰면 보안성이 더 높아진다.</strong></li>
+          <li>클래스의 은닉성을 높이려면 —&gt; <strong>외부 객체를 인자를 받는 메소드가 없는게 좋다</strong>.</li>
+        </ul>
+      </li>
+      <li>
+        <p>setProgramer( )는 <strong>전형적인 setter의 노출</strong>이다. —&gt; <strong>클래스의 은닉성을 깨먹는 것</strong></p>
+
+        <ul>
+          <li><strong>상태관리를 본인이 아닌 사람에게 맡기고 있다.</strong></li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>Main까지 밀어낼 수 있다면 == 익클로 구상화하면서 객체 생성하여 선택 할 수 있다면</strong></p>
+
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">Main속 익클</code> 내부의 속성은 <code class="language-plaintext highlighter-rouge">setter로 외부에 시킬 이유가 없다</code></strong></li>
+          <li><strong>내가 내 속성을 갱신하도록 바꾸면 된다.</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207213639342.png" alt="image-20220207213639342"></p>
+
+        <ul>
+          <li>setter()는 여긴 안보이지만, <code class="language-plaintext highlighter-rouge">abstract class Client</code>에 선언된 <code class="language-plaintext highlighter-rouge">programmer</code>변수에 set하는 public 메소드다
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207214008789.png" alt="image-20220207214008789">
+</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207213644956.png" alt="image-20220207213644956"></p>
+
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">programmer</code>는 말만 private 변수지 <strong><code class="language-plaintext highlighter-rouge">public method</code>인 setter()로 공개되어있던 상태</strong>였다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207214406492.png" alt="image-20220207214406492"></p>
+
+<ul>
+  <li>
+<strong>public과 연동되어있는 getter/setter만 봐도 설계가 잘못되어있음을 알수도 있다.</strong>
+    <ul>
+      <li>제대로 설계했다면, <code class="language-plaintext highlighter-rouge">안보이지만 추클에 있는 변수에 ---&gt; 익클 구상화(자식)하여 직접 상태(변수)를 갱신시켜주는 class로 설계</code>
+</li>
+      <li>
+<strong>익클 구상화 -&gt; 자식에서 추클의 변수를 사용? -&gt; protected 수준의 보안성을 가진다.</strong>
+        <ul>
+          <li>나만 내 프로그램을 관리한다. : private 수준</li>
+          <li>
+<strong>나(추클) &amp; 자식(구클or익클)만</strong> 내 프로그램을 관리한다. : <strong>protected 수준</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h6 id="serverclient-with-제네릭-for-1n">
+<a class="anchor" href="#serverclient-with-%EC%A0%9C%EB%84%A4%EB%A6%AD-for-1n" aria-hidden="true"><span class="octicon octicon-link"></span></a>ServerClient: with 제네릭 for 1:N</h6>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220207214436157.png" alt="image-20220207214436157"></p>
+
+<ul>
+  <li>if분기로 나올 <code class="language-plaintext highlighter-rouge">그냥 ServerClient paper</code>가 아니라 **<code class="language-plaintext highlighter-rouge">case맞게 수행방식을 가진(익클 구상) &amp;&amp; ServerClient paper</code>를 [객체생성 &amp;&amp; 익클구상화]로 선택한다. **</li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">지금까지는</code> 메소드위임만 했다 -&gt; 제네릭을 안 썼다.</strong>
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">Director(구상형, 1) - paper(N=추상형 이지만 화살표 시작점이라, 1)가 1:1관계</code>라서 제네릭을 안통했어도 됬었다.</strong>
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">즉, Director가 추상형이 아닌 ==  구상형 -&gt; 자식으로 분기X 무조건 1</code> –&gt; <code class="language-plaintext highlighter-rouge">1:1이면 if instanceof를 쓸일 X</code> –&gt; <code class="language-plaintext highlighter-rouge">제네릭 쓸일X</code> —&gt; 자연스럽게 공통로직만 추상화해서 [인터페이스의 츠상메소드]로 올릴 수 있었다.`</strong></li>
+        </ul>
+      </li>
+      <li>
+<strong>만약 <code class="language-plaintext highlighter-rouge">Director</code>가 <code class="language-plaintext highlighter-rouge">A Director or B Director로 분기되는 추상형(자식으로 분기가능한 N)</code>이었다면</strong>
+        <ul>
+          <li>
+<strong>Main에서 로직이 Director별 분기로 인한<code class="language-plaintext highlighter-rouge">if instanceof</code>를 잡아주기 위해 —&gt; <code class="language-plaintext highlighter-rouge">제네릭</code>이 관여해서 <code class="language-plaintext highlighter-rouge">Paper &lt;T extends Director&gt;</code>로 정의했어야했다.</strong>
+            <ul>
+              <li>paper를 받을 때, paper<t director="">를 가지게 될테고(?)</t>
+</li>
+              <li>T Director에 따라 run()을 바꿔주는 경우의수를 또 나눠야함.(?)</li>
+              <li>해당 메소드 T에 있는 메소드로 넘어가게 된다고 함(?)</li>
+              <li>
+<strong>구상형을 받으면, 구상형을 제네릭으로 나눴기 때문에, 나눈 추상층에서는 구상형에 대한 수용방법을 알 수 없다. 형만 알고 있다. 그렇기 때문에 다시 개별형으로 다시 토스를 해줘야한다. 지금은 Director가 구상형이기 때문에, 보다 추상형인 Paper에게 run()의 구현을 넘겼다.</strong>(?)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>지금은 <strong>Director:구상형 —&gt; run()의 구현을 <code class="language-plaintext highlighter-rouge">보다 추상형인 Paper(N)</code>에게 공통로직 메소드run()을 구현하도록 넘겼다.</strong>
+        <ul>
+          <li><strong>그러나, Director가 추상형이 되면, Director + Paper 둘다 추상형으로 N인 경우, 무게가 가벼웠던 Director에게 run()의 구현을 넘길 것이다.</strong></li>
+          <li>설계를 해보면 == 코드배치방법은, 어느쪽이 무거운지 vs 확장적인지에 따라서 바뀐다.</li>
+          <li>지금은 압도적으로 Paper가 가볍기 때문에 구상클래스에 대한 분기를 Paper쪽에서 구현할 메소드를 올린다.
+            <ul>
+              <li>
+<strong>진짜 수용해야할 코드는 아래코드이며, 이 코드만 왔다갔다 하는 중이다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220208005750463.png" alt="image-20220208005750463">
+</li>
+              <li>아까는 Programmer안에 있었다가 -&gt; Paper안에 있었다가 -&gt; 지금은 Director안에</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220208010135742.png" alt="image-20220208010135742"></p>
+
+<ul>
+  <li>마찬가지로, <strong>익클구상과정에서 은닉성을 깨먹는 public setter를 —&gt; 자신이 갱신(할당)하도록 바꾸면,</strong> 보안성을 높일 수 있다.</li>
+</ul>
+
+<h5 id="2종류의-if-----제거방법">
+<a class="anchor" href="#2%EC%A2%85%EB%A5%98%EC%9D%98-if-----%EC%A0%9C%EA%B1%B0%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>2종류의 if   -&gt; 제거방법</h5>
+
+<ul>
+  <li><strong>객체지향의 <code class="language-plaintext highlighter-rouge">추상형</code> —&gt; <code class="language-plaintext highlighter-rouge">instanceof가 아닌 if</code>를 제거</strong></li>
+  <li>
+<strong>객체지향의 <code class="language-plaintext highlighter-rouge">제네릭</code> —&gt; 1개만 가지는<code class="language-plaintext highlighter-rouge">if instanceof</code>를 제거할 수 있다.(2개이상일 땐, if를 제거하는추상화)</strong>
+    <ul>
+      <li>
+<strong>2가지를 섞으면</strong> 모든 종류의 if를 제거할 수 있다.</li>
+    </ul>
+  </li>
+  <li>addProject후 runProject
+    <ul>
+      <li><strong>if는 어디 가지 않는다 —&gt; 마지막 클라코드, 정확히는 Main까지 밀어내고 싶다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="반복-복습하면">
+<a class="anchor" href="#%EB%B0%98%EB%B3%B5-%EB%B3%B5%EC%8A%B5%ED%95%98%EB%A9%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>반복 복습하면</h4>
+
+<ul>
+  <li>보자마자 미래에 문제가 일어날 것이다.</li>
+  <li>아무코드를 보면, 구조상 분기했을때 버그가 일어날걸</li>
+  <li>이건 코드상 context에러를 내장하고 있는데?</li>
+  <li>단순매핑 + 훈련으로 극복할 수 있는 내용들이다.</li>
+</ul>
+
+<ol>
+  <li>
+    <p>LSP위반(추상체로 처리 안됨)을 헐<strong>리웃원칙으로 시킬 땐 확인부터해야한다</strong>.</p>
+
+    <ol>
+      <li>추상체에게 일을 시킬 때, 나도 추상체냐?</li>
+      <li>추상체vs추상체면 -&gt; 상위(1)에서 하위(N)으로 시키는게 맞느냐?
+        <ul>
+          <li>현재는 paper가 1이면서 상위라서.. paper에게 시킬 때, 나또한 추상체로 넘겨줘야하고, 그 개별구현체를 확인해야한다.</li>
+        </ul>
+      </li>
+      <li>헐리웃원칙을 적용하기 전에 추상체vs추상체와 관계까지 확인한 뒤 적용시켜야한다.</li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/cbcf8888-1ea9-49ba-8bea-075afac149f6.gif" alt="cbcf8888-1ea9-49ba-8bea-075afac149f6"></p>
+  </li>
+  <li>
+    <p>시행착오를 한번 겪어보기 위해 1쪽인 Paper추상체에게 알아서 하도록 시켜보자.</p>
+
+    <ol>
+      <li>
+        <p>일단 <code class="language-plaintext highlighter-rouge">FrontEnd</code>내부에서 Paper-<code class="language-plaintext highlighter-rouge">Client</code>에게 시켜본다.</p>
+
+        <ul>
+          <li>시킬일을 메서드로 추출</li>
+          <li>Client로 메서드 이동</li>
+          <li>
+<strong>FrontEnd(구현체)가 인자로 잡힘</strong>
+            <ul>
+              <li>넘길 때, this가 FrontEnd가 아닌  추상체Programmer로 넘어가야, BackEnd도 일을 시킬 수 있게 되니, backEnd처리시 처리해본다.</li>
+            </ul>
+          </li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/aa9ac4fe-4754-4df5-a3b9-e9af59bff280.gif" alt="aa9ac4fe-4754-4df5-a3b9-e9af59bff280"></p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">Backend</code>내부에서 Paper-<code class="language-plaintext highlighter-rouge">ServerClient</code>에게 시켜본다.</p>
+
+        <ul>
+          <li>
+            <p>Paper는 이제 추상체Programmer를 받아서 일을 하긴 하지만, 파라미터로 온 <code class="language-plaintext highlighter-rouge">Programmer도 역시 한번에 일시키는 메서드</code>가 없어서, <strong>각 구현체(FrontEnd, BackEnd)마다 서로 다른 필드 -&gt; 서로 다른 Setter을 가질 수 밖에 없다</strong></p>
+
+            <ol>
+              <li>
+                <p>인터페이스에서 안쓰는 기능도 올려주거나</p>
+
+                <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/5c03bba3-7b9d-42e0-abc1-c95e7da7088b.gif" alt="5c03bba3-7b9d-42e0-abc1-c95e7da7088b"></p>
+              </li>
+              <li>
+                <p>instanceof로 물어보고 개별setter만 사용하도록 처리할 수밖에 없다.</p>
+
+                <ul>
+                  <li>Programmer추상체를 파라미터로 받았는데, 개별setter를 사용해야하니, <strong>물어보고 다운캐스팅 할 수 밖에 없는 구조</strong>
+</li>
+                </ul>
+
+                <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/17501407-ae45-48f2-9384-171a5738e4e7.gif" alt="17501407-ae45-48f2-9384-171a5738e4e7"></p>
+              </li>
+            </ol>
+          </li>
+        </ul>
+
+        <ol>
+          <li>
+            <p>paper(1)에게 일을 시키면서, Programer(N)을 건네주었지만, 1:N관계가 유지되는 한,</p>
+
+            <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220618172839846.png" alt="image-20220618172839846"></p>
+
+            <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220618172850641.png" alt="image-20220618172850641"></p>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>시행착오 끝에</p>
+
+    <ol>
+      <li>
+<strong>추상체vs추상체라면, N에게 물어보더라도 , 1에게는 시키지 않아야하는 구나</strong>
+        <ul>
+          <li><strong>N(programmer)에서 1(Paper)를 받은 상태에서  <code class="language-plaintext highlighter-rouge">1:1</code>관계를 유지한체로 다른처리(<code class="language-plaintext highlighter-rouge">제네릭</code>)가 되어야하는구나.</strong></li>
+        </ul>
+      </li>
+      <li><strong>추상체vs추상체에서 instanceof를 제거하는 방법은 <code class="language-plaintext highlighter-rouge">제네릭</code>을 써야하는 구나</strong></li>
+    </ol>
+  </li>
+</ol>
+
+
+  </div><a class="u-url" href="/object/2022/05/16/object1-11)%EA%B0%9C%EB%B0%9C%EC%9E%90%EC%9D%98%EC%84%B8%EA%B3%842_%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9C%BC%EB%A1%9CLSP%EC%9C%84%EB%B0%98%EA%B7%B9%EB%B3%B5_%ED%81%B4%EB%9D%BC%EC%95%84%EC%9D%B4%EC%96%B8%ED%8A%B8(Director%EC%97%90%EC%84%9CMain%EA%B9%8C%EC%A7%80).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

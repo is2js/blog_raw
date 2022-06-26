@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>OBJECT 03 객체설계1_Theater(코드스핏츠) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="OBJECT 03 객체설계1_Theater(코드스핏츠)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<meta property="og:description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<link rel="canonical" href="blog.chojaeseong.com/object/2022/05/04/object1-3)theater_%EA%B0%9D%EC%B2%B4%EC%84%A4%EA%B3%84.html" />
+<meta property="og:url" content="blog.chojaeseong.com/object/2022/05/04/object1-3)theater_%EA%B0%9D%EC%B2%B4%EC%84%A4%EA%B3%84.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-05-04T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-05-04T00:00:00-05:00","url":"blog.chojaeseong.com/object/2022/05/04/object1-3)theater_%EA%B0%9D%EC%B2%B4%EC%84%A4%EA%B3%84.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"OBJECT 03 객체설계1_Theater(코드스핏츠)","dateModified":"2022-05-04T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/object/2022/05/04/object1-3)theater_%EA%B0%9D%EC%B2%B4%EC%84%A4%EA%B3%84.html"},"description":"object 책을 강의한 코드스핏츠 유튜브 요약","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OBJECT 03 객체설계1_Theater(코드스핏츠)</h1><p class="page-description">object 책을 강의한 코드스핏츠 유튜브 요약</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-05-04T00:00:00-05:00" itemprop="datePublished">
+        May 4, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      13 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#ch3-theater">ch3. Theater</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#diagram">diagram</a></li>
+<li class="toc-entry toc-h4"><a href="#theater">Theater</a></li>
+<li class="toc-entry toc-h4"><a href="#ticket">Ticket</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#요금">요금</a></li>
+<li class="toc-entry toc-h5"><a href="#validation">validation</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#invitation">Invitation</a></li>
+<li class="toc-entry toc-h4"><a href="#ticketoffice">TicketOffice</a></li>
+<li class="toc-entry toc-h4"><a href="#ticketseller">TicketSeller</a></li>
+<li class="toc-entry toc-h4"><a href="#audience">Audience</a></li>
+<li class="toc-entry toc-h4"><a href="#main">Main</a></li>
+<li class="toc-entry toc-h4"><a href="#교훈">교훈</a></li>
+</ul>
+</li>
+</ul><ul>
+  <li>참고 유튜브 : https://www.youtube.com/watch?v=navJTjZlUGk</li>
+  <li>정리본: https://github.com/LenKIM/object-book</li>
+  <li>코드: https://github.com/eternity-oop/object</li>
+  <li>책(목차) : https://wikibook.co.kr/object/</li>
+</ul>
+
+<h3 id="ch3-theater">
+<a class="anchor" href="#ch3-theater" aria-hidden="true"><span class="octicon octicon-link"></span></a>ch3. Theater</h3>
+
+<ul>
+  <li>맛보기로 theater
+    <ul>
+      <li>책에서는 절차지향 -&gt; 객체지향으로 가는 과정을 설명하기 위해 만들어서, 조금 허술함</li>
+      <li>책 뒤쪽의 역할모델 설명처럼 정교하지 않다.</li>
+      <li>책에 없는 역할모델을 옮기는 과정을 해볼 것이다.</li>
+    </ul>
+  </li>
+  <li>책에 나온 상호의존적인 표
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220122213654603.png" alt="image-20220122213654603">
+    <ul>
+      <li>극장이 seller와 audience를 둘다 알고 있다(화살표를 보면 됨)
+        <ul>
+          <li>seller -&gt; ticketoffice -&gt; ticket 를 알고 있다.</li>
+          <li>audience -&gt; bag -&gt; invitation  +  ticket
+            <ul>
+              <li>bag은 invitation  +  ticket을 둘다 담아야하기 때문에, 둘 다 알고 있다.</li>
+              <li>ticketoffice는 ticket을 알아야지, seller에 줄 수 있기 때문에 관계를 맺고 있다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>책에 나온 엉망인 부분 체크(빨간색)
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220122214003688.png" alt="image-20220122214003688">
+    <ul>
+      <li>theater가 enter()를 구현하기 위해서,자기(theater)가 가지고 있는 seller에게 audience를 pass해준다.
+        <ul>
+          <li>그럼 theater는 enter()가 중요메서든데, seller에게 audience에게 pass만 한다.
+            <ul>
+              <li>그렇다면, theater는 audience를 건네주기 위해서  seller를 알아야(가지고있어야)한다는 건가?</li>
+              <li>극장이 seller를 알아도 되나?  tickeroffice는 몰라도 되고?</li>
+            </ul>
+          </li>
+          <li>seller는 tickeroffice를 알고, audience도 알고 있기 때문에, 중간역할을 하는 것처럼 보인다.
+            <ul>
+              <li>책에서는 audience하고 office하고 연결하면 연관성이 생겨 더 힘들어진다고 표현한다.</li>
+              <li>왜 그런 문제들이 생길까 -&gt; 책의 설계가 잘못되었기 때문에
+                <ul>
+                  <li>잘못된 설계를 보여주는 이유: 절자지향 -&gt; 객체지향으로 옮기는 과정을 보여주기 위한 설계일뿐이기 때문</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="diagram">
+<a class="anchor" href="#diagram" aria-hidden="true"><span class="octicon octicon-link"></span></a>diagram</h4>
+
+<ul>
+  <li>책을 고친 표
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220122214556326.png" alt="image-20220122214556326">
+    <ul>
+      <li>극장이 표 파는 곳을 모를 수 없다. <strong>객체지향에서 의인화 = 실제 역할을 생각함</strong>
+        <ul>
+          <li>theater -&gt; ticketoffice</li>
+        </ul>
+      </li>
+      <li>극장 본인이 표를 발급하니까 표를 모를 수 없다.
+        <ul>
+          <li>theater -&gt; ticket</li>
+        </ul>
+      </li>
+      <li>theater - ticket - ticketoffice만 두고 얘기를 해보면
+        <ul>
+          <li>theater이 발급한 ticket을 ticketoffice에 맡긴다</li>
+        </ul>
+      </li>
+      <li>ticketoffice는 쌓인 ticket들을, 팔도록 ticketseller에게 맡긴다.
+        <ul>
+          <li>ticketoffice -&gt; ticketseller</li>
+        </ul>
+      </li>
+      <li>극장이 ticket을 발급하듯, invitation도 만들고, audience에게 제공한다.</li>
+      <li>극장이 audience를 알아야하는 진정한 의미는
+        <ul>
+          <li>
+<strong>audience</strong>를 <strong>입장(enter())</strong>시키기 위해서 알아야한다.</li>
+          <li>audience에게 invitation(초대장)을 넘겨주기 위해서 알아야한다.</li>
+        </ul>
+      </li>
+      <li>
+<strong>theater</strong>은 자기가 발급하는 <strong>ticket</strong> / ticket판매를 위한<strong>ticketOffice</strong>를 알아야하고
+        <ul>
+          <li>ticket 을 <strong>—&gt;</strong> ticketOffice에게 맡길 것이고</li>
+          <li>ticketOffice는 <strong>—&gt;</strong> <strong>ticketSeller</strong>를 고용하고</li>
+          <li>ticketSeller는 <strong>—&gt;</strong> ticket을 팔아야하니 알고 있어야한다.(모르는데 팔 수 없음)</li>
+          <li>
+<strong>audience</strong>(고객)은 <strong>—&gt;</strong> ticket가 존재하는지 / <strong>invitation</strong>(초대장)이 있는지 확인을 위해 알아야한다.(모르면 매진여부/초대여부를 알 수 없음)</li>
+          <li>audience(고객)은 <strong>—&gt;</strong> 실질적으로 ticketSeller에게 표를 사니, 알아야한다.
+            <ul>
+              <li>매진/초대여부를 위해서 ticket, invitation을 알아야하지만, 실질적으로 관계되는 것은 ticketSeller이다.</li>
+            </ul>
+          </li>
+          <li>반대로 ticketSeller는 <strong>—&gt;</strong> audience(고객)에게 표를 팔아야하니, <strong>서로</strong> 알아야한다.
+            <ul>
+              <li>트랜잭션관계로서, 서로 상호관계를 한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>표에는 시간이 없다고 가정하고 한다.</li>
+</ul>
+
+<h4 id="theater">
+<a class="anchor" href="#theater" aria-hidden="true"><span class="octicon octicon-link"></span></a>Theater</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220122223342652.png" alt="image-20220122223342652"></p>
+
+<ul>
+  <li>표(ticket)를 발급하는 곳 = 표의 가격(fee)을 알 수 있는 유일한 곳(가격 책정하는 곳)
+    <ul>
+      <li>final로 fee를 확정할 수 있다.</li>
+      <li>getFee()로 fee를 알려줄 수 있다.</li>
+      <li>이 극장은, 이 fee로 ticket을 발급할 예정이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220122223710967.png" alt="image-20220122223710967"></p>
+
+<ul>
+  <li>theater는  ticketOffices들과 거래한다.
+다수의&gt;    <ul>
+      <li>인터파크, yes24 .. 등 티켓판매소는 여러군데다. 온라인/오프라인 포함 여러군데다..
+        <ul>
+          <li>인자에 다수의 ticketOffices를 수용(극장에 set)한다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220122223905940.png" alt="image-20220122223905940">
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>ticketOffices들이 ticket을 받아오는 방법은? theater가 주는(set) 수 밖에 없다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220122224436018.png" alt="image-20220122224436018"></p>
+
+    <ul>
+      <li>theater가 set(준다) + (특정ticketOffice에게 ,  원하는 수량만큼Long num) <strong>주는</strong> 수밖에 없다.
+        <ol>
+          <li>ticket발급해줄 ticketOffice가, 내가 거래하고 있는 <strong>(set된 오피스) 중 1곳인지 확인</strong> 한다.</li>
+          <li>발급을 해주기 위해, <strong>발급수량을 1개씩 숫자를 깍으면서 발급</strong>해준다. ( <code class="language-plaintext highlighter-rouge">while (num-- &gt; 0)</code> )</li>
+          <li>
+<strong>발급은</strong> ticketOffice 내부에 addTicket( new Ticket(<strong>this</strong>));로 객체로 발급하는데, 중요한 것은 ticket이 <strong>어느극장 발행인지 this로</strong> 넘겨준다..
+            <ul>
+              <li>원래는 티켓에 new Ticket(this = 발행극장,  상영시간, 영화 편수?, …. )</li>
+              <li>
+<strong>해당 극장만이, 표를 특정지어 발급할 수 있기 때문에, this를 필수로 건네줘서 발급한다.</strong>
+                <ul>
+                  <li>거래하는 오피스에 num수량만큼, 발급해주는데, 발급극장이 유일한 발급의 주체라서… this로 건네준다?</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+      <li>여기까지 theater가  수많은 ticketOffices들을 거느릴수 있게 되었다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220123003141459.png" alt="image-20220123003141459"></p>
+
+<ul>
+  <li>theater와 audience사이에도 invitation을 준다(theater.set(고객 고객객체) -&gt; (내부) 고객.set() )의 관계가 있었다.
+    <ul>
+      <li>A가 B에게 C를 준다. -&gt; A.setC(B b) { b.set( new C(this) ) }</li>
+      <li>극장이 특정 귀빈(고객)에게 초대장을 준 것이다.
+        <ul>
+          <li>고객을 인자로 받은 뒤</li>
+          <li>
+<strong>고객은 (초대장을) 받는 메소드( 자기자신.set( 물건 )  )도 준비되어있어야한다.</strong>
+            <ul>
+              <li>**<code class="language-plaintext highlighter-rouge">준다</code> = <code class="language-plaintext highlighter-rouge">주는사람.set(줄 사람)</code> , **</li>
+              <li>
+<strong><code class="language-plaintext highlighter-rouge">받는다</code> = <code class="language-plaintext highlighter-rouge">자기자신에게 set</code> = <code class="language-plaintext highlighter-rouge">자기자신.set( 물건 )</code></strong>으로 해결한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">theater가 audience에게 뭔가를 줄려면, audience는 받는 서비스(메소드)를 준비하고 있어야</code> 줄 수 있다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220123004841666.png" alt="image-20220123004841666">
+        <ul>
+          <li>audience가 setInvitation(  새 초대장 )할 수 있는 메소드를 제공했기 때문에 theater가 줄 수 있다.</li>
+        </ul>
+      </li>
+      <li>초대장 invitation도, ticket처럼 <strong>theater가 발행한 것 = 객체생성시 this를 넘겨줘서 발행극장을 표기하는 것이 중요</strong>하다.
+        <ul>
+          <li><strong>주는 물건을 구분짓는 생성자인자가, 값(시간, 가격)이 아니라 <code class="language-plaintext highlighter-rouge">이 극장 = theater =  this = 객체 = 식별자</code>가 들어간다는 것이 중요하다</strong></li>
+          <li>값인 <strong><code class="language-plaintext highlighter-rouge">theater.name</code>이런 것이 들어가면 안된다!</strong>
+            <ul>
+              <li>name갔다고 같은 theater인가? (X)</li>
+              <li><strong>객체는 식별자로만 구분이 되므로, 식별자가 들어가야한다.</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220123005252707.png" alt="image-20220123005252707"></p>
+
+<ul>
+  <li>
+    <p>마지막으로 audience을 입장시키는 enter()메소드가 필요하다.</p>
+
+    <ul>
+      <li>theater는 audience를 enter(입장)시킨다.
+        <ul>
+          <li>입장하는것은 누가봐도 고객</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>극장이 하는 것은, audience에게 ticket을 받아내는 것이 주임무이다.</p>
+
+    <ul>
+      <li>티켓판매 등은 극장이 해야할 일 아니다… 판매는 seller가 하는 것.</li>
+    </ul>
+
+    <ol>
+      <li>audience에게 .getTicket()으로 자기 표를 받아내고</li>
+      <li>유효한지 확인한다.
+        <ul>
+          <li><strong>표가 유효한지는 극장이 검사할 필요가 있나? 표자체로 유효한지 검사할 수 있다.</strong></li>
+          <li>
+<strong>표 자체로 유효한지 판단할 수 있으나, 발행극장확인을 위해서는 theater(this)가 필요하다</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220123005710341.png" alt="image-20220123005710341">
+            <ul>
+              <li>enter()시 표한테 유효판단을 맡기는데, <strong>현재 극장(this)이 발행한 표인지 확인하려면, 현재 극장의 식별자가 인자로 필요</strong>하다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<h4 id="ticket">
+<a class="anchor" href="#ticket" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ticket</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220123210927966.png" alt="image-20220123210927966"></p>
+
+<ul>
+  <li>theater가 알고 있는 3인방 중 ticket에 대해 알아보자.</li>
+  <li>
+<strong>ticket은 생성될 때부터, 자신의 발급주체인 theater를 알고 있다.</strong>
+    <ul>
+      <li>이 theater에서 발급된 표임을 생성자에서 받아 증명해준다.</li>
+      <li>
+<strong>따라서 발급주체는 절대 불변하도록 <code class="language-plaintext highlighter-rouge">final</code>로 theater를 잡아둔다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220123212403581.png" alt="image-20220123212403581">
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="요금">
+<a class="anchor" href="#%EC%9A%94%EA%B8%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>요금</h5>
+
+<ul>
+  <li>
+    <p>표를 보고 fee를 알아낼려면?</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220123212340789.png" alt="image-20220123212340789"></p>
+
+    <ul>
+      <li>fee는 표안의 속성이 아니라  theater가 getFee()한 것을 <strong>중개할 뿐</strong>이다.</li>
+      <li>
+<strong>포인터(<code class="language-plaintext highlighter-rouge">getFee()</code>)의  포인터(<code class="language-plaintext highlighter-rouge">theater.</code>)의 포인터(<code class="language-plaintext highlighter-rouge">getFee()</code>) 를 이용한 것이다.</strong>
+        <ul>
+          <li>지금은 final불변값 theater지만,</li>
+          <li>만약, <strong>배신을 때려서 theater가 변경되어도</strong> -&gt; 포인터의 포인터 -&gt; <strong>ticket.getFee()는 정상작동(업데이트 자동으로 됨)될 것이다.</strong>
+            <ul>
+              <li>만약, Ticket의 필드로 fee를 잡아 <code class="language-plaintext highlighter-rouge">fee = theater.getFee()</code>로 값을 잡아놨다면 -&gt; theater의 fee를 바꾸면  ticket.fee에는 반영이 안될 것이다.</li>
+              <li><strong>값의 변화가 반영되려면, 참조의 참조로 얻어와야한다! 그래야 참조의참조 업데이트가 runtime에 반영(이후에도 반영)</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>포인터의 포인터를 비용으로 치루더라도 -&gt; 변화가 바로 반영되도록 하는 원리를 가지게 한다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="validation">
+<a class="anchor" href="#validation" aria-hidden="true"><span class="octicon octicon-link"></span></a>validation</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220123213008079.png" alt="image-20220123213008079"></p>
+
+<ul>
+  <li>ticket의 꽃은 fee가 아닌 validation이라고 한다.
+    <ul>
+      <li>valid한 상태를 판단할 때, 값이 아닌 <strong>식별자로 3가지 잘못된 경우를 판단</strong>하는 것을 확인할 수 있다.</li>
+    </ul>
+  </li>
+  <li>일단 <code class="language-plaintext highlighter-rouge">ticket.isValid(theater)</code>로 사용되어 <strong>theater를 받아와서 validation한다</strong>.
+    <ol>
+      <li>
+<strong>먼저, <code class="language-plaintext highlighter-rouge">isEntered라는 숨겨진 속성</code>이 있다. -&gt; 자기 상태를 자기가 관리하는 <code class="language-plaintext highlighter-rouge">maintain of status</code></strong>
+        <ul>
+          <li>속성 <strong>첫 값은 false;</strong>로서 아직 사용안됬음을 알려준다.</li>
+          <li><strong>flag속성으로서 내부 토글되지만, 바깥은 아예 모른다.  = 자기가 관리한다</strong></li>
+          <li>표가 이미 사용되었으면 -&gt; if절에 true가 되어 out</li>
+        </ul>
+      </li>
+      <li>받아온 theater가 &lt;-&gt; 내가 알고 있는(ticket생성시 필요한 theater)랑 달라도 out</li>
+      <li>자기자신(ticket)이 this == <strong>EMPTY</strong>인 경우 꽝
+        <ul>
+          <li>첫 줄에 정의된 EMPTY를 보자. <strong>(이펙티브 자바 책에서 나오는 <code class="language-plaintext highlighter-rouge">null 대체 패턴</code>)</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220123213624856.png" alt="image-20220123213624856">
+            <ul>
+              <li><strong>null를 사용할거면, null을 대체하는 객체나 값을 대체로 사용하는 것</strong></li>
+              <li>**ticket이 잘못되거나 null쓸 것을 대신해서 <code class="language-plaintext highlighter-rouge">Ticket형 EMPTY</code>를 대신 만들어놨다. 특히, final로 **
+                <ul>
+                  <li>ticket이 null이거나 잘못되었다 -&gt; EMPTY로 대체해서 쓴다.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>invalid3가지에 안걸린다면?
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220123214232166.png" alt="image-20220123214232166">
+    <ol>
+      <li>
+<strong>미리 <code class="language-plaintext highlighter-rouge">이건 쓴 표야</code> 도장을 찍어놓고</strong>
+        <ul>
+          <li><strong>고객이 제시하는 순간, 그 표는 어떠한 경우든 <code class="language-plaintext highlighter-rouge">사용됨 isEntered = true</code>가 꽝! 찍히고</strong></li>
+          <li>true 든 false든 1개가  return된다.</li>
+        </ul>
+      </li>
+      <li>true를 return시킨다.</li>
+    </ol>
+  </li>
+</ul>
+
+<h4 id="invitation">
+<a class="anchor" href="#invitation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Invitation</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220123214706067.png" alt="image-20220123214706067"></p>
+
+<ul>
+  <li>ticket과 마찬가지로, 발급주체인 theater를 생성자에서 받은 뒤, final로 확정해서 받아놓는다.</li>
+  <li>있다/없다의 판단시 null대신 Invitation형 EMTPY를  final로 만들어준다.
+    <ul>
+      <li>이펙티브 자바..</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="ticketoffice">
+<a class="anchor" href="#ticketoffice" aria-hidden="true"><span class="octicon octicon-link"></span></a>TicketOffice</h4>
+
+<ul>
+  <li>my) 받기만 하는 쪽에서는, 주는쪽의 객체를 사용못하는 제약 + 주는쪽에서 [받는 서비스(메소드)]를 제공해줘야 -&gt; 주는 쪽(theater, TicketSeller)이 무엇을 줄 수 있다.
+    <ul>
+      <li>theater에게는, theater가 표를 줄 수 있게 -&gt; 표를 받는 메소드 <code class="language-plaintext highlighter-rouge">addTicket</code>
+</li>
+      <li>ticketSeller에게는 표를 꺼내갈 수 있게 -&gt; 표를 꺼내주는 메소드 <code class="language-plaintext highlighter-rouge">getTicketWithFee/NoFee</code>를 제공한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220123214826683.png" alt="image-20220123214826683"></p>
+
+<ul>
+  <li>의외로 theater만 -&gt; office를 알고, office는 theater를 모르게 되어있다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220122214556326.png" alt="image-20220122214556326">
+    <ul>
+      <li>TicketOffice는 theater에 관심 없다.(뭔가를 안준다?)
+        <ul>
+          <li>theater가 TicketOffice에게 뭐를 줄려고 한다( 안다, 관심있다)</li>
+          <li>(theater가 주는 것에 대해) TicketOffice는 받아주는 메소드(서비스)를 노출해줄 때만, theater가 이용할 수 있다.</li>
+          <li>
+<strong>화살표 방향과는 반대로, <code class="language-plaintext highlighter-rouge">받는 쪽이 [받는 메소드=서비스를 제공] 해주지 않으면 사용불가</code>하여, 더 거만한 것은 TicketOffice쪽이다.</strong>
+            <ul>
+              <li>화살표 나가는 쪽이 많이 알고는 있지만, 받는 쪽이 오픈/제공해줘야 사용가능</li>
+              <li><strong><code class="language-plaintext highlighter-rouge">화살표 나간다</code> = 알고 있다 = (제공되는 서비스가 있어야) 이용한다.</strong></li>
+              <li><strong><code class="language-plaintext highlighter-rouge">화살표 받는다</code> = 서비스를 제공해줘야 주는 쪽에서 이용가능하다.</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">addTicket()</code>은 특정 theater가 -&gt; ticketOffice에게 표 넣어줄 때 사용하는 메소드</p>
+
+    <ul>
+      <li>
+        <p>화살표를 받는 쪽에서, 주는 쪽(발급주체)인 theater에게 제공하는 메소드</p>
+      </li>
+      <li>
+        <p>이것이 있어야 theater가 ticket을박아줄 수 있다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220123215846558.png" alt="image-20220123215846558"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>그외 변수에는 티켓오피스 생성자(자산amount를 가지고 시작함), 티켓오피스의 재산인 (amount), 받은 총 티켓 리스트(tickets) 이 있다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220123220011549.png" alt="image-20220123220011549"></p>
+  </li>
+  <li>
+    <p><strong>ticket의 fee는, 직접 받아 가지고 있는게 아니라, 포인터의 포인터의 포인터로.. theater까지 가서 받아와야한다고 했다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220123220120708.png" alt="image-20220123220120708"></p>
+
+    <ul>
+      <li>
+<strong>ticketOffice는 theater를 기본적으로 모른다.</strong>
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">정보의 은닉</code> = 상호참조가 아니라 <code class="language-plaintext highlighter-rouge">단방향 의존성</code>을 가지게 했다.</strong></li>
+          <li>
+<strong>theater를 모른다 = <code class="language-plaintext highlighter-rouge">theater.getFee()</code>를 못쓴다(my) theater객체를 못쓴다)</strong>
+            <ul>
+              <li>그럼 어떻게 theater에 있는 표의가격을 알수 있을까?
+                <ul>
+                  <li>자기가 가진 ticket에서 조회를 한다.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <ol>
+      <li>티켓오피스에 표가 없다? -&gt; 표의 가격을 모른다 -&gt; 0원으로 반환</li>
+      <li>안다? -&gt; (한 극장내에서 받았다 가정하면) 1번째 표에서 getFee()를 때린다.
+        <ul>
+          <li>my) 받기만 하는 TicketOffice(theater를 모름)에서는, 주기만 하는 theater의 객체를 사용못하므로 그 내부의 getFee()를 이용못하는데, 받은 물건(tickets)을 이용해 fee를 조회한다.</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>이번엔 theater가 아닌 <strong>TicketSeller에게도 2가지 서비스를 제공</strong>하는데</p>
+
+    <ul>
+      <li>
+        <p>TicketOffice에서 표를 1장 뺀 뒤 -&gt; TicketSeller에게 줘야한다</p>
+      </li>
+      <li>
+        <p>빼가지고 줄 때 2가지 방법을 준다.</p>
+
+        <ol>
+          <li>
+            <p><strong>초대권으로 무료로 준다.</strong></p>
+          </li>
+          <li>
+            <p><strong>돈 받아서 준다.</strong></p>
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220123220839246.png" alt="image-20220123220839246"></p>
+
+<ul>
+  <li>
+    <p><strong>어느 경우든, 빼내서 줄 티켓이 없으면 null대신 Ticket.EMPTY를 준다.</strong></p>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">티켓을 돈주고 팔때</code>는 <strong>List에서 <code class="language-plaintext highlighter-rouge">.remove(0)</code>으로 <code class="language-plaintext highlighter-rouge">list에서 제거하면서 &amp; 반환된 Ticket을 받은 뒤</code> 그 ticket.getFee()로 티켓가격을 <code class="language-plaintext highlighter-rouge">재산amount에 보탠다</code></strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220124011839537.png" alt="image-20220124011839537">
+    <ul>
+      <li>판 표는 <strong><code class="language-plaintext highlighter-rouge">remove(0)</code>로 제거가 아닌 <code class="language-plaintext highlighter-rouge">받아오는 빼내기 전략</code>를 이용한다.</strong>
+        <ul>
+          <li>remove되면서 반환되는 ticket 데이터를 이용하여, 참조의 참조로 표 가격을 구한다.</li>
+          <li>return ticket을 통해 표를 건네준다.</li>
+        </ul>
+      </li>
+      <li>판 표에 대한 돈은 재산amount+= 를 한다.</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">티켓을 초대장으로 그냥 줄 때</code>는 
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220124011852616.png" alt="image-20220124011852616">
+    <ul>
+      <li>
+<strong>ticketOffice는 invitation의 존재를 모르는 상황</strong>이다.
+        <ul>
+          <li>존재를 모르더라도, <strong>그냥 공짜로 표를 주는 것 정도로 처리</strong>한다.
+            <ul>
+              <li><strong>.remove(0)로 받아오는 것은 같으나 <code class="language-plaintext highlighter-rouge">ticket.getFee() -&gt; amount += </code>의 과정이 없다.</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>초대장을 몰라도 되는 이유는?</strong>
+        <ul>
+          <li>초대장 이외에 VVIP 등에게도 무료로 표를 줄 수 있기 때문에, <strong>무료로 표를 갈취해가는 경우는 많다. -&gt; 모든 경우를 처리하려면, invitation을 모르는게 정상</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>**ticketOffice가 표를 돈주고 팔지 / 무료로 줄지를 결정하는 것이 ticketSeller다 **
+    <ul>
+      <li>Seller의 역량에 따라서, Office에서 무료로 빼줄지 / 돈주고 팔지를 결정한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="ticketseller">
+<a class="anchor" href="#ticketseller" aria-hidden="true"><span class="octicon octicon-link"></span></a>TicketSeller</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220124012340287.png" alt="image-20220124012340287"></p>
+
+<ul>
+  <li>악의축 TicketSeller는 ticketOffice<strong>의 소속</strong>이라, TicketSeller<strong><del>생성자==발행주체</del>에 소속기관</strong>(TicketOffice)<strong>을 set메소드</strong>로 박아둔다.
+    <ul>
+      <li>ticket의 <strong><code class="language-plaintext highlighter-rouge">발행 주체</code>인 theater를 -&gt; 발행담당 <code class="language-plaintext highlighter-rouge">생성자에서 받아, final로 박아두는 것</code>과는 달리</strong>
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">태어나서 ~ 죽을때까지 절대 못바꾸는 나의 소속기관(발행주체)</code>이다? = <code class="language-plaintext highlighter-rouge">생성자</code>에서 받는다.</strong></li>
+        </ul>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">프리랜서</code>로서생각하여, 발행주체=생성기관이 아니라 <code class="language-plaintext highlighter-rouge">중간에 소속을 바꿀 수 있는 소속기관</code>으로서 <code class="language-plaintext highlighter-rouge">set메소드로 박아준다</code></strong>
+        <ul>
+          <li><strong>프리랜서의 소속기관으로서, <code class="language-plaintext highlighter-rouge">바뀔 수 있는 소속기관</code>이다? == <code class="language-plaintext highlighter-rouge">set메소드로 필요시마다 변경하며 박는다.</code></strong></li>
+          <li>표를 파는 직원이 종신으로 일할 리 없다. -&gt; setter로 소속을 박는다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">소속</code>을 <code class="language-plaintext highlighter-rouge">setter인지 생성자에서 받을 것인지</code>는 신중하게 생각해야한다.</strong>
+    <ul>
+      <li><strong>태어나서 불변하는 발행주체, 소속기관 -&gt; 생성자에서 태어날때부터 받기</strong></li>
+      <li><strong>중간에 계속해서 바뀔 수 있는 프리랜서의 소속기관 -&gt; setter로 받기</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220124212851967.png" alt="image-20220124212851967"></p>
+
+<ul>
+  <li>
+<strong>중요한 역할은 <code class="language-plaintext highlighter-rouge">getTicket이라는 거래</code>이다. 이 때 트랜잭션이 성립하기 때문이다.</strong>
+    <ul>
+      <li>
+<strong>seller</strong>의 getTicket은 <strong>audience와 거래</strong>를 한다는 얘기다</li>
+      <li>
+<strong>누가 갑일까? <code class="language-plaintext highlighter-rouge">거래는 을인 audience가 표를 원할 때</code> 이루어진다.</strong>
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">갑은 seller</code>다. <code class="language-plaintext highlighter-rouge">표를 줄 수도 / 안줄 수 도 있다</code>. 을의 매표소직원의 느낌이 아니라 <code class="language-plaintext highlighter-rouge">출입국 심사원</code>의 느낌으로 <code class="language-plaintext highlighter-rouge">고객에게 여러가지 검사를 요구</code>한다.</strong></li>
+          <li>을인 audience 표달라고 빈다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>거래에 있어서, 판매원은 갑의 위치에 있다는 말이 무슨 말일까</strong>
+    <ol>
+      <li>
+<strong>판매원은, 일단 기본적으로 표를 안줄 생각(<code class="language-plaintext highlighter-rouge">Ticket.EMPTY</code>)을 하고 있다(<code class="language-plaintext highlighter-rouge">갑으로서 검사과정에서 여러가지 이유에서 안 줄 가능성이 있음을 시사</code>)</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220124213448407.png" alt="image-20220124213448407">
+</li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">첫번째 고객자격검사</code></strong>로, <strong>고객이 돈은 둘째 치고<code class="language-plaintext highlighter-rouge">초대권</code> <code class="language-plaintext highlighter-rouge">가지고 있는지( != EMPTY 로 )</code></strong> 검사한다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220124214838257.png" alt="image-20220124214838257">
+        <ul>
+          <li>초대권 있으면, <strong>소속인 TicketOffice에서 무료로 표</strong>를 얻어온다.</li>
+          <li>
+<strong>TicketOffice에서 <code class="language-plaintext highlighter-rouge">표를 받아왔는데, EMTPY 표일 수 도</code> 있다!</strong>
+            <ul>
+              <li>
+<strong><code class="language-plaintext highlighter-rouge">빈 표가 아닐때</code>, return ticket될 예정이니, audience의 초대장을 (뺏어서)파기(<code class="language-plaintext highlighter-rouge">audience.removeInvitation()</code>)한다.(<code class="language-plaintext highlighter-rouge">고객의 권한을 침범하는 것 아닐까? 아니다. 을이라서 시키는대로 한다.</code>)</strong>
+                <ul>
+                  <li><strong>트랜잭션은 누가 주체인지 정확하게 알아서 주도해야한다.</strong></li>
+                  <li>초대장 파기의 순간은, 정상적으로 표를 받아왔을 때인데, seller만이 알고 있다. 그 타이밍에 파기 명령을 갑으로서 내린다.
+                    <ul>
+                      <li>고객이 getInvitation()으로 보여주기만 하고, 파기를 안할 수 도 있으니,  파기명령도 거래에서의 갑인 seller가 하게 한다.</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>seller에게 ticket만 return받고, 초대장을 파기안했을지 seller는 모른다 -&gt; 갑의 권한으로 을의 초대장을 파기한다.</li>
+            </ul>
+          </li>
+          <li>TicketOffice에서 일단 get한 ticket은 <strong>EMPTY or 정상 ticket이 될 것</strong>이며,
+            <ul>
+              <li>
+<strong>ticket이 <code class="language-plaintext highlighter-rouge">EMPTY가 아니라면</code></strong> -&gt; <strong>곧 return ticket으로 표를 건네줄 것이기 때문</strong>에 -&gt;  <strong>상대방의 돈을 가져오거나 or <code class="language-plaintext highlighter-rouge">초대장을 파기</code>해야한다</strong>
+</li>
+              <li>empty라면, 상대 돈뺏or초대장파기없이, 그대로 return ticket(EMPTY)를 하면 된다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">두번째 고객자격검사</code></strong>로, <strong>고객이 애초에 표를 <code class="language-plaintext highlighter-rouge">살만한 돈</code>을 <code class="language-plaintext highlighter-rouge">가지고 있는지</code>  검사를 한다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220124215138012.png" alt="image-20220124215138012">
+        <ul>
+          <li>트랜잭션이 성립하려면, 누가 무슨책임을 가지고 있는지 봐야한다?!</li>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">고객</code>은 getAmount로 내장(amount 값)을 까는 정도는 아니지만, <code class="language-plaintext highlighter-rouge">hasAmount( 표가격 )으로 최소 노출로서 고객자격 증명</code>을 한다.</strong>
+            <ul>
+              <li>살만한 돈을 가지고 있으면, 트랜잭션으로 표가격만큼 돈을 갈취해해야한다.</li>
+              <li><strong><code class="language-plaintext highlighter-rouge">고객의 돈 갈취</code>는 <code class="language-plaintext highlighter-rouge">실제 표 == EMPTY 표가 아닌 것을 확정</code>되었을 때 갈취 한다.</strong></li>
+            </ul>
+          </li>
+          <li>
+<strong>돈을 주고 <code class="language-plaintext highlighter-rouge">ticketOffice에서 표를 받아온 뒤</code>, 그 표가 <code class="language-plaintext highlighter-rouge">EMPTY가 아닌게 확정 되었을 때 진짜 표를 받아온 것 -&gt; 고객의 돈을 갈취</code></strong>한다.
+            <ul>
+              <li>
+<strong>TicketOffice에서 getTicketWithFee()를 하면</strong>
+                <ul>
+                  <li>
+<strong>EMPTY 표 일 수 도 있다. 이것은 티켓의 갯수가 0개인 경우였다. -&gt; 티켓 없는 상황이다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220124221051067.png" alt="image-20220124221051067">
+</li>
+                  <li>
+<strong>EMPTY가 아닌 표를 받아왔다면</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220124221208345.png" alt="image-20220124221208345">
+                    <ul>
+                      <li>ticket을 1개 빼온다( remove(0) -&gt; 받아오기)</li>
+                      <li>그만큼 <strong><code class="language-plaintext highlighter-rouge">office</code>는</strong> amount+=  <strong><code class="language-plaintext highlighter-rouge">돈을 이미 받은 상태</code></strong>
+</li>
+                    </ul>
+                  </li>
+                  <li>
+<strong><code class="language-plaintext highlighter-rouge">seller</code>는 audience에게 amount-= 로 <code class="language-plaintext highlighter-rouge">돈을 갈취해야만 한다</code>.</strong>
+                    <ul>
+                      <li>audience(고객)이 표만 먹고 나를 수 있으므로, seller가  갈취해야한다.책임역할모델에&gt;</li>
+                      <li>을인 audience가 <code class="language-plaintext highlighter-rouge">갑인 seller</code>님이 <code class="language-plaintext highlighter-rouge">.removeInvitation()</code>이나  <code class="language-plaintext highlighter-rouge">.minusAmount()</code>해서 갈취를 할 수 있게끔 서비스를 제공해줘야 거래가 일어난다.
+                        <ul>
+                          <li>현실세계와 다르다. 트랜잭션이 성립하려면, <strong>갑인 seller는</strong>
+                            <ul>
+                              <li><strong>audience에게 초대장(상품권) or 돈있는지 확인후</strong></li>
+                              <li><strong>office에 -  물건을 받아온 뒤,  + amount돈을 늘려놓고</strong></li>
+                              <li><strong>return 물건이 EMPTY아니여서 물건 있음 확정되면, -amount돈 갈취 or -초대장 갈취를 주도적으로 한다.</strong></li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+<strong>seller</strong>의 주업무는 <strong>getTicket에 대한 비니지스 로직</strong>을 가지고 있게 된다.
+  <strong>갑으로서  audience에 대해 검사를 하면서 판매(트랜잭션)</strong> 한다.
+    <ul>
+      <li>
+<strong>초대장 있는지 확인한다.</strong>
+        <ul>
+          <li>
+<strong>있으면 NoFee로 Office에서 티켓을 떼온다.</strong>
+            <ul>
+              <li><strong>티켓이 있으면 (티켓을 주는 코드는 공통이라 맨 나중에) 초대장을 갈취(파기)한다</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>(초대장 없으면) 돈이 있는지 확인한다.</strong>
+        <ul>
+          <li>
+<strong>있으면 Fee로 Office에서 티켓을 떼온다.</strong>
+            <ul>
+              <li><strong>티켓이 있으면 (티켓을 주는 코드는 공통이라 맨 나중에) 돈을 갈취한다.</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>**TicketSeller는 아래와 같이 &amp; <code class="language-plaintext highlighter-rouge">계속 바뀌거나 추가될 가능성이 있는 &lt;invitation정책&gt; + &lt;요금정책&gt;의 도메인 지식(로직)</code>을 가지고 있어서, <code class="language-plaintext highlighter-rouge">대부분 고정된 로직인</code> ticketOffice와 다르기 때문에 <code class="language-plaintext highlighter-rouge">클래스가 분리</code>되었다.  **
+    <ol>
+      <li><strong>ticketOffice에 대해 Fee/NoFee경우 나누기</strong></li>
+      <li><strong>audience에 대해  검사 + 물건 확정시 - 초대장파기/돈 갈취</strong></li>
+    </ol>
+  </li>
+  <li>
+<strong>새로운 invitation정책</strong>이 생기거나 <strong>새로운 요금정책 -&gt; ticketOffice는 안건들이고 ticketSeller만 건들이면 된다.</strong>
+    <ul>
+      <li>격리가 된 파일이 된다.</li>
+    </ul>
+  </li>
+  <li>
+<strong>티켓판매 정책은 많이 바뀐다. + 많은 것들이 관여한다. + audience도 다양한 자식클래스로 파생 될 수 있다.</strong>
+    <ul>
+      <li>파생되는 고객종류들이 생길때마다 -&gt; 분리해놓은 ticketSeller만 수정한다.
+        <ul>
+          <li>ticketOffice가 변하고 망가지는 일들이 예방된다.</li>
+          <li>
+<strong>변하는</strong> 등급별 audience 파생 / 요금정책 등을 <strong>분리해놓은 ticketSeller</strong>가 다 받아서 해결한다. <strong>그래야 그 밑에 TicketOffice - theater등을 방어할 수 있기 때문에</strong>
+</li>
+        </ul>
+      </li>
+      <li><strong>밑으로의 수정 여파를 발생시키지 않기 위해서, TicketSeller라는 객체가 나왔다.</strong></li>
+    </ul>
+  </li>
+  <li>
+<strong>변동 가능성 높은, audience등급 마다 할인정책 / 분기별 바뀌는 요금 정책 / 시즌마다 제휴마다 이벤트마다 발생하는 변동</strong>
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">변하는 것과 관계없는 부분만</code> 따로 모아서 -&gt; <code class="language-plaintext highlighter-rouge">TicketOffice</code></strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">변하는 부분만</code> 따로 모아서 격리 -&gt; <code class="language-plaintext highlighter-rouge">TicketSeller</code></strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="audience">
+<a class="anchor" href="#audience" aria-hidden="true"><span class="octicon octicon-link"></span></a>Audience</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220124223050202.png" alt="image-20220124223050202"></p>
+
+<ul>
+  <li>audience(고객)은 동네북이다.</li>
+  <li><strong>고객이 가질 수 있는 ticket과 invitation을 EMPTY로 가지도록 default한다.</strong></li>
+  <li><strong>태어날때부터, 금수저/흙수저인지 amount를 생성자로 받아 태어난다.</strong></li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">buyTicket</code>으로 사려면? <code class="language-plaintext highlighter-rouge">audience는 을</code>이다. -&gt; <code class="language-plaintext highlighter-rouge">ticketSeller를 찾아가는 수밖에 없다</code></strong></p>
+
+    <ul>
+      <li>seller를 찾아간다. = <strong><code class="language-plaintext highlighter-rouge">seller를 인자로 받아와</code>서 티켓을 구매한다.</strong>
+</li>
+      <li>
+<strong>셀러에게 <code class="language-plaintext highlighter-rouge">"티켓좀 (Office에서 떼와서) 주세요. 저한테this"</code>의 메소드를 날린다. (seller는 티켓떼오면서 여러가지 을을 검사해서 줬었다)</strong>
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">ticket = seller.getTicket(this)</code></li>
+        </ul>
+      </li>
+      <li>티켓은 EMPTY이거나 있는 표가 올테니, <code class="language-plaintext highlighter-rouge">default EMPTY였던 티켓 갱신</code>하고, 극장에서 검사받는다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">hasAmount</code>(seller의 충분한 돈 있는지 검사용)과 <code class="language-plaintext highlighter-rouge">minusAmount</code>(seller의 진짜 표를 떼온 뒤, 돈 갈취)는 seller에 협박에 의해 최소 노출(getAmount가 최고노출)된 것이다. 안해주면, 갑인 seller는 거래안해준다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220124224002993.png" alt="image-20220124224002993"></p>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">getInvitation</code>(seller의 초대장 있는지 검사용)과 <code class="language-plaintext highlighter-rouge">removeInvitation</code>(seller의 진짜 표를 떼온 뒤, 초대장 강제파기) 역시 seller가 요구하는것이다.</strong>
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">hasAmount</code>, <code class="language-plaintext highlighter-rouge">minusAmount</code>, <code class="language-plaintext highlighter-rouge">getInvitation</code>, <code class="language-plaintext highlighter-rouge">removeInvitation</code> 4가지는 모두 seller가 <code class="language-plaintext highlighter-rouge">트랜잭션(거래)를 위해</code> 요구하는 스펙(<code class="language-plaintext highlighter-rouge">조건</code>)들</strong>이다.</li>
+      <li>
+<strong>위 4가지는 <code class="language-plaintext highlighter-rouge">인터페이스</code>로도 뺄 수 있다.?</strong>
+        <ul>
+          <li>그렇게 되면, <strong>audience를 더이상 audience class가 아닌 <code class="language-plaintext highlighter-rouge">트랜잭션 컨디션이라는 인터페이스</code>로 인식</strong>할 수 있다.</li>
+          <li>
+<strong>seller가 사실 원하는 것은 audience가 아니다. 4가지 조건들을 원한다. 이것들만 만족하면 티켓을 줄 수 있다고 seller는 생각한다.</strong>
+            <ul>
+              <li><strong>책에서 나오는 <code class="language-plaintext highlighter-rouge">인터페이스 빼기 = 책임을 분리하는 방법</code>이다. 어렵다…</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>getTicket()는 극장이 검사할 때 요구하는 것</strong>이다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220124224602963.png" alt="image-20220124224602963"></p>
+
+    <ul>
+      <li>표 있으면 줘봐.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>setInvitation</strong>은 theater에서 특정 audience들에게 표를 무료로 제공하는 <strong>초대장을 꽂아 주는 행위</strong></p>
+
+    <ul>
+      <li>theater만 audience를 일방적으로 알고 있다.
+        <ul>
+          <li>audience는 받아주는 서비스를 제공해야, theater가 초대장을 줄 수 있다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>다 다른클래스 접대 메서드이고, 스스로 행사할 수 있는 메소드는 <code class="language-plaintext highlighter-rouge">buyTicket()</code>밖에 없다.
+    <ul>
+      <li>바깥에 노출되는 <strong>public</strong>은 buyTicket()밖에 없다</li>
+      <li>나머지 4가지 -&gt; seller와 <strong>internal</strong>로 내부패키지(seller)끼리 필요한 것에게</li>
+      <li>나머지 2가지 -&gt; theater에게 internal로 필요한 것</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="main">
+<a class="anchor" href="#main" aria-hidden="true"><span class="octicon octicon-link"></span></a>Main</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220124225435095.png" alt="image-20220124225435095"><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220124225342945.png" alt="image-20220124225342945"></p>
+
+<ol>
+  <li>Theater를 만드는데
+    <ul>
+      <li>표값을 100원(100L)로 정한 극장이다. theater가 태어날때부터 안바뀌는 것은 표가격(fee)를 생성자로 받았다.</li>
+    </ul>
+  </li>
+  <li>Audience 2명을 만드는데, 흙수저(0L)과 은수저(50L) 로 만들었다.</li>
+  <li>TicketOffice는 재산, 자본(amount)를 생성자로 받아서 만들어진다
+    <ul>
+      <li>theater를 모르는 놈이다. 자본은 0원으로 만들었다.</li>
+    </ul>
+  </li>
+  <li>TicketSeller는 자유의지를 갖는 = 프리랜서로서, 소속기관을 set으로 박아주고 생성자로는 아무것도 안받는다.
+    <ul>
+      <li>그냥 태어난다</li>
+    </ul>
+  </li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220124225545022.png" alt="image-20220124225545022"></p>
+
+<ul>
+  <li>Theater가 자기와 거래할 TicketOffice와 계약( by setTicketOffices() )을 맺는다.
+    <ul>
+      <li>계약 맺은 직후, TicketOffice에게, ticket을 10장 지급한다.</li>
+      <li>(추가) 흙수저에게, 무료 표인 invitation을 1장 박아줬다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220124225758385.png" alt="image-20220124225758385"></p>
+
+<ul>
+  <li>프리랜서인 seller는 해당 TicketOffice와 계약을 했다.
+    <ul>
+      <li>변동 가능성 소속기관을,  set으로 박아 계약한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220124225904333.png" alt="image-20220124225904333"></p>
+
+<ul>
+  <li>고객1과 고객2가, seller에게 표를 사러 갔다.
+    <ul>
+      <li>그냥 사는 것 같아보여도, <strong>갑 &amp; 특정 seller에게 (인자로 받아서) 표를 사러간다.</strong>
+        <ul>
+          <li>내부에서는 갑이 메소드를 실행해서 거래한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220124230931572.png" alt="image-20220124230931572"></p>
+
+<ul>
+  <li>고객들은 theater에 입장했을 때 -&gt; 티켓을 꺼내 -&gt; 그 티켓이 isValid한지 검사하는데
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220124231041159.png" alt="image-20220124231041159">
+    <ul>
+      <li>고객1 -&gt; invitation이 있으므로 -&gt; 표로 바꿔서 -&gt; 들어가는 데 성공했을 것이다.</li>
+      <li>고객2 -&gt; 돈 없으므로 -&gt; 들어가는데 실패했을 것이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="교훈">
+<a class="anchor" href="#%EA%B5%90%ED%9B%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>교훈</h4>
+
+<ul>
+  <li>절대로 우리의 수준으로 class들 -&gt; main순으로 이렇게  짤 수 없다.
+    <ul>
+      <li>main코드를 먼저 짜고 -&gt; 거기에 맞는 class를 만들 수 밖에 없다.</li>
+    </ul>
+  </li>
+  <li>책에서는 다양한 책임을 먼저 구하고 -&gt; 역할들을 찾아보라곤 하지만
+    <ul>
+      <li>실제로는 그렇게 짤 순 없다.</li>
+    </ul>
+  </li>
+  <li>
+<strong>내 도메인에 맞는 시나리오(Main)부터 짜고 거기에 맞는 Class를 짜면 된다.</strong>
+    <ul>
+      <li>객체들의 협력상황을 보고 -&gt; class를 만들어야한다.
+        <ul>
+          <li>class짜는 것도 팀마다 있는 퀜트백(조영호)같은 사람이 짜면 된다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>테스트코드부터 설계에 반영하려면, 테스트코드가 실제 설계에 사용되는 client코드와 닮아있어야하는데
+    <ul>
+      <li>클래스를 완성되었다고 가정하고, 클래스를 객체로 어떻게 사용할 건지 먼저 짜보는게 훨씬 낫다
+        <ul>
+          <li>상상속으로  class를 짜봤자, 어떻게 사용되는지는 모른다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/object/2022/05/04/object1-3)theater_%EA%B0%9D%EC%B2%B4%EC%84%A4%EA%B3%84.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

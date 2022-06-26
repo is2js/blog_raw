@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>OBJECT 10 객체설계4_개발자의세계1_LSP위반(코드스핏츠) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="OBJECT 10 객체설계4_개발자의세계1_LSP위반(코드스핏츠)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<meta property="og:description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<link rel="canonical" href="blog.chojaeseong.com/object/2022/05/15/object1-10)%EA%B0%9C%EB%B0%9C%EC%9E%90%EC%9D%98%EC%84%B8%EA%B3%841_LSP%EC%9C%84%EB%B0%98%EC%8B%9C%ED%96%89%EC%B0%A9%EC%98%A4.html" />
+<meta property="og:url" content="blog.chojaeseong.com/object/2022/05/15/object1-10)%EA%B0%9C%EB%B0%9C%EC%9E%90%EC%9D%98%EC%84%B8%EA%B3%841_LSP%EC%9C%84%EB%B0%98%EC%8B%9C%ED%96%89%EC%B0%A9%EC%98%A4.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-05-15T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-05-15T00:00:00-05:00","url":"blog.chojaeseong.com/object/2022/05/15/object1-10)%EA%B0%9C%EB%B0%9C%EC%9E%90%EC%9D%98%EC%84%B8%EA%B3%841_LSP%EC%9C%84%EB%B0%98%EC%8B%9C%ED%96%89%EC%B0%A9%EC%98%A4.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"OBJECT 10 객체설계4_개발자의세계1_LSP위반(코드스핏츠)","dateModified":"2022-05-15T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/object/2022/05/15/object1-10)%EA%B0%9C%EB%B0%9C%EC%9E%90%EC%9D%98%EC%84%B8%EA%B3%841_LSP%EC%9C%84%EB%B0%98%EC%8B%9C%ED%96%89%EC%B0%A9%EC%98%A4.html"},"description":"object 책을 강의한 코드스핏츠 유튜브 요약","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OBJECT 10 객체설계4_개발자의세계1_LSP위반(코드스핏츠)</h1><p class="page-description">object 책을 강의한 코드스핏츠 유튜브 요약</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-05-15T00:00:00-05:00" itemprop="datePublished">
+        May 15, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      11 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#ch10-개발자의-세계">ch10. 개발자의 세계</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#개발자의-세계">개발자의 세계</a></li>
+<li class="toc-entry toc-h4"><a href="#director">Director</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#디렉터가-하는-일을-추상레이어로">디렉터가 하는 일을 추상레이어로</a></li>
+<li class="toc-entry toc-h5"><a href="#paper">Paper</a></li>
+<li class="toc-entry toc-h5"><a href="#programmer">Programmer</a></li>
+<li class="toc-entry toc-h5"><a href="#client">Client</a></li>
+<li class="toc-entry toc-h5"><a href="#serverclient">ServerClient</a></li>
+<li class="toc-entry toc-h5"><a href="#frontend">FrontEnd</a></li>
+<li class="toc-entry toc-h5"><a href="#backend">BackEnd</a></li>
+<li class="toc-entry toc-h5"><a href="#director-1">Director</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#error">Error</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#lsp위반-시행착오">LSP위반 시행착오</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#1-lsp위반-지점--일반적으로-정보없는-추상층paper에-의해--시작-frontend">1. LSP위반 지점- 일반적으로 정보없는 추상층Paper에 의해  시작: FrontEnd다운캐스팅&gt;</a></li>
+<li class="toc-entry toc-h5"><a href="#2-backend와-같이볼-때-dry위반으로-추상층에-공통로직올린-programmer">2. BackEnd와 같이볼 때 DRY위반으로 추상층에 공통로직올린: Programmer</a></li>
+<li class="toc-entry toc-h5"><a href="#3-추상층에겐-말고-로-떠넘긴-paper">3. 추상층에겐 말고 로 떠넘긴: Paper나에게&gt;물어보고&gt;</a></li>
+<li class="toc-entry toc-h5"><a href="#4-시-모든-대상에게-하기-위해-을-줬더니-정의시-전과하여-발생-client">4. 시 모든 대상에게 하기 위해 을 줬더니, 정의시 전과하여 발생: Client시켜서&gt;추상층&gt;시켜서&gt;</a></li>
+<li class="toc-entry toc-h5"><a href="#5-더-심각한-문제-serverclient">5. 더 심각한 문제: ServerClient</a></li>
+<li class="toc-entry toc-h5"><a href="#6-외부-객체-메세지를-받는-이상-if-분기는-외부context관점의-case들까지-다-처리해야하는데-client">6. 외부 객체 메세지를 받는 이상, if 분기는 외부context관점의 case들까지 다 처리해야하는데: Client</a></li>
+<li class="toc-entry toc-h5"><a href="#7-시행착오-교훈">7. 시행착오 교훈</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><ul>
+  <li>참고 유튜브 : https://www.youtube.com/watch?v=navJTjZlUGk</li>
+  <li>정리본: https://github.com/LenKIM/object-book</li>
+  <li>코드: https://github.com/eternity-oop/object</li>
+  <li>책(목차) : https://wikibook.co.kr/object/</li>
+</ul>
+
+<h3 id="ch10-개발자의-세계">
+<a class="anchor" href="#ch10-%EA%B0%9C%EB%B0%9C%EC%9E%90%EC%9D%98-%EC%84%B8%EA%B3%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>ch10. 개발자의 세계</h3>
+
+<h4 id="개발자의-세계">
+<a class="anchor" href="#%EA%B0%9C%EB%B0%9C%EC%9E%90%EC%9D%98-%EC%84%B8%EA%B3%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>개발자의 세계</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205203300192.png" alt="image-20220205203300192"></p>
+
+<ul>
+  <li>개발자는 IT회사내에서도 극히 희귀한 존재다.
+    <ul>
+      <li>개발자를 도구로 바라본다. (생각을 주면 프로그램으로 바꿔줄거야)</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="director">
+<a class="anchor" href="#director" aria-hidden="true"><span class="octicon octicon-link"></span></a>Director</h4>
+
+<h5 id="디렉터가-하는-일을-추상레이어로">
+<a class="anchor" href="#%EB%94%94%EB%A0%89%ED%84%B0%EA%B0%80-%ED%95%98%EB%8A%94-%EC%9D%BC%EC%9D%84-%EC%B6%94%EC%83%81%EB%A0%88%EC%9D%B4%EC%96%B4%EB%A1%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>디렉터가 하는 일을 추상레이어로</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205204027713.png" alt="image-20220205204027713"></p>
+
+<ul>
+  <li>악의 축 Director: 한국에선 잘 안쓰는 용어. 일본Director 미국, 한국PM</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205204120062.png" alt="image-20220205204120062">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205204253479.png" alt="image-20220205204253479"></p>
+
+<ul>
+  <li>
+    <p>디렉터가 하는 일:</p>
+
+    <ul>
+      <li>
+        <p>Paper: 어디선가 지령서(기획서, Paper)를 받는다. Paper안의 사양서는 2가지 범주(Class)가 있고, 범주에 해당하는 프로젝트들을 수행할 것이다.</p>
+
+        <ul>
+          <li>ServerClient : 1건, 서버+클라이언트 다 만든다.</li>
+          <li>Client: 2건, 클라이언트만 만든다.</li>
+        </ul>
+      </li>
+      <li>
+        <p>Programmer: Director는 기획서 안의 사양서(1건, 2건)을 다 살펴본 뒤, 개발자들을 섭외해온다.</p>
+
+        <ul>
+          <li>Programmer는 Paper(의 사양을 알아야 개발)를 기준으로 개발한다.(<strong>아는 관계 성립</strong>)
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205204425561.png" alt="image-20220205204425561">
+            <ul>
+              <li>디렉터는 <strong>Paper와 Programmer를 잘 연결</strong>해서 프로젝트를 수행하는 것이다.</li>
+            </ul>
+          </li>
+          <li>Programmer는
+            <ul>
+              <li>FrontEnd</li>
+              <li>BackEnd로 나뉜다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205204537445.png" alt="image-20220205204537445"></p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">Director</code>가 바라보는 추상레이어는 <code class="language-plaintext highlighter-rouge">Paper</code>와 <code class="language-plaintext highlighter-rouge">Programmer</code>가 될 것이고
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">Paper</code>와 <code class="language-plaintext highlighter-rouge">Programmer</code>가 각각 바라보는 추상레이어는
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">ServerClient</code>/<code class="language-plaintext highlighter-rouge">Client</code>와 <code class="language-plaintext highlighter-rouge">FrontEnd</code>/<code class="language-plaintext highlighter-rouge">BackEnd</code>가 될 것이다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="paper">
+<a class="anchor" href="#paper" aria-hidden="true"><span class="octicon octicon-link"></span></a>Paper</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205204930129.png" alt="image-20220205204930129"></p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">Paper</code>는 <code class="language-plaintext highlighter-rouge">형</code>으로서 아무것도 메소드가 없는 인터페이스로서의 형이다.
+    <ul>
+      <li>책에서는 인터페이스에 정의된 시그니쳐(추상메소드)를 <code class="language-plaintext highlighter-rouge">오퍼레이터</code>라 부름
+        <ul>
+          <li>그 오퍼레이션이 구상클래스에서 구현되는 것을 <code class="language-plaintext highlighter-rouge">메소드</code>라 부름</li>
+          <li>그렇다면, 인터페이스는 메소드를 가지는게 아니라 오퍼레이터를 가지는 것</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="programmer">
+<a class="anchor" href="#programmer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Programmer</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205205215745.png" alt="image-20220205205215745"></p>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">Programmer</code>는 <strong>외부에</strong> <code class="language-plaintext highlighter-rouge">프로그램을 만드는 인터페이스</code>를 제공한다</p>
+
+    <ul>
+      <li>
+        <p>my) 인터페이스 속 오퍼레이터, 메소드는 <strong>외부에 인터페이스를 제공하는 역할</strong>을 한다.</p>
+      </li>
+      <li>
+        <p>팀장(PM, Director)이 <code class="language-plaintext highlighter-rouge">"()(Paper paper)기획서를 던져주면서) 프로그램 만들어!"</code>라고 명령할 수 있게끔</p>
+
+        <ul>
+          <li>
+<strong>프로그래머들은… <code class="language-plaintext highlighter-rouge">팀장에게 기능을 제공</code>해주는 책임을 가지므로 메소드<code class="language-plaintext highlighter-rouge">makeProgram()</code>을 제공한다.</strong>
+            <ul>
+              <li>이 때, <strong>팀장이 기획서를 던져주면서 만들라고 하니, 인자를 던질 수 있게 기능 제공</strong>
+</li>
+            </ul>
+          </li>
+          <li>my) <strong>인터페이스든, 클래스든, 외부에서 <code class="language-plaintext highlighter-rouge">나를 쓰는 놈</code>에게  <code class="language-plaintext highlighter-rouge">기능을 제공하기 위해 메소드를 정의</code>한다.</strong>
+</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205205844064.png" alt="image-20220205205844064"></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="client">
+<a class="anchor" href="#client" aria-hidden="true"><span class="octicon octicon-link"></span></a>Client</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205205943360.png" alt="image-20220205205943360"></p>
+
+<ul>
+  <li>Paper라는 추상클래스를 기반으로 구상클래스 <code class="language-plaintext highlighter-rouge">Client</code>를 구현해보자.
+    <ul>
+      <li>my) Paper나 Programmer는 각각의 공통점을 뽑아놓 상위개념 -&gt; 추상층이다.
+        <ul>
+          <li>my) <strong><code class="language-plaintext highlighter-rouge">실존하는 것들은 범주별로 impl해서 구현</code>하고, 그 <code class="language-plaintext highlighter-rouge">공통점을 가진 윗 개념은 추상클래스or인터페이스</code>로 만들자.</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Paper는 <strong>메소드가 없는 <code class="language-plaintext highlighter-rouge">마커 인터페이스</code>다.</strong>
+    <ul>
+      <li><strong>Client용 프로젝트를 만들고 싶어서 Class로 구현한다.</strong></li>
+      <li>
+<strong>client의 <code class="language-plaintext highlighter-rouge">사양서</code>에 들어있어야하는 내용들을 <code class="language-plaintext highlighter-rouge">필드와 메소드</code></strong>로 채운다.
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">library</code>와 <code class="language-plaintext highlighter-rouge">language</code>를 지정해주고</li>
+          <li>프로젝트 담당할 <code class="language-plaintext highlighter-rouge">programmer</code>를 할당받을 변수도 미리 만들어놓자.
+            <ul>
+              <li>
+<strong>개발자는 프로젝트 사양서 나오고, 나중에 할당</strong>되니, 초기화 없이 변수만</li>
+            </ul>
+          </li>
+          <li>추후 투입될 programmer를 박아줄 <code class="language-plaintext highlighter-rouge">특정필드setter인 setProgrammer(프로그래머객체)</code>도 만들어준다.</li>
+        </ul>
+      </li>
+      <li>나중에 수십개의 필드가 추가 되어야할 것이다.</li>
+      <li><strong>나중에 생성자에서 만들어도 되는데, 지금은 일단 대입해서 필드 초기화</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="serverclient">
+<a class="anchor" href="#serverclient" aria-hidden="true"><span class="octicon octicon-link"></span></a>ServerClient</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205210600624.png" alt="image-20220205210600624"></p>
+
+<ul>
+  <li>
+    <p>마찬가지로 server + client를 다 개발할 수 있도록 하는 사양서의 내용을 채운다.</p>
+
+    <ul>
+      <li>사용할 <code class="language-plaintext highlighter-rouge">server</code>
+</li>
+      <li>랭귀지 앞/뒤 2개</li>
+      <li>프로그래머 앞/뒤 2명
+        <ul>
+          <li>프로그래머 setter 2개</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="frontend">
+<a class="anchor" href="#frontend" aria-hidden="true"><span class="octicon octicon-link"></span></a>FrontEnd</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206004905381.png" alt="image-20220206004905381"></p>
+
+<ul>
+  <li>language와 library를 인식해서 <strong>자기만의 프로그램을 만든다.</strong>
+    <ul>
+      <li>Programmer를 구현해서 -&gt; makeProgram을 제공하는데,
+        <ul>
+          <li>makeProgram내부에서 -&gt; 자신만의 make<strong>FrontEnd</strong>Program ( Program )을 만드는 기능을 제공한다.</li>
+        </ul>
+      </li>
+      <li>던지는 paper를 받아들여서, paper속에 있는 language와 library를 세팅해준 다음 -&gt; 자신만의 프로그램을 만든다.
+        <ul>
+          <li>
+<strong>이 때, Paper는 <code class="language-plaintext highlighter-rouge">마커인터페이스</code>이므로 <code class="language-plaintext highlighter-rouge">paper로부터는 어떠한 정보를 얻어낼 수 없다</code></strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206005321132.png" alt="image-20220206005321132">
+</li>
+          <li>
+<strong>마커인터페이스 paper를 구현한 Client에서 정보를 얻기 위해 <code class="language-plaintext highlighter-rouge">다운캐스팅(=OCP어김)</code>할 수 밖에 없는 상황이다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206005449364.png" alt="image-20220206005449364">
+            <ul>
+              <li>다른 방법이 생각이 안날 것이다…</li>
+              <li>대부분이 여기서 <strong>설계를 포기</strong>한다. <strong>오늘의 핵심은 이 문제의 해결</strong>이다.
+                <ul>
+                  <li>리스코프 치환 원칙을 어김</li>
+                  <li>OCP를 어김(부모자리에 자식이 들어갈 수 있다? 부모를 자식으로 바꿔야하는 상황에선.. 어기는 것이라고 함…)</li>
+                </ul>
+              </li>
+              <li><strong>SOLID원칙이나 설계원칙들을 배운다고 해서 이 문제를 해결할 순 없다. 저자가 강조하듯 <code class="language-plaintext highlighter-rouge">코드로서 익혀야햐한다</code></strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>마커인터페이스 <code class="language-plaintext highlighter-rouge">paper</code>를 객체로 받을 때</strong>
+    <ul>
+      <li>paper 구현체인 <code class="language-plaintext highlighter-rouge">Client</code>일 수도 있고, <code class="language-plaintext highlighter-rouge">ServerClient</code>이 들어갈 수도 있다.
+        <ul>
+          <li><strong>바깥에서 Paper 구상체들이 늘어날때마다 <code class="language-plaintext highlighter-rouge">if instanceof -&gt; (다운캐스팅) 분기</code>  가 늘어나도록 코드수정해야하는 문제점 발생할 것이다.</strong></li>
+          <li>else의 처리가 지금은 생략되어있지만, 필요하며.. 또 그 밑으로 추가될 수도 있다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>그래도 paper -&gt; 구현체속 정보가 세팅되어야 -&gt; 자신만의 프로그램을 만들 수 있는 상황이다.</li>
+</ul>
+
+<h5 id="backend">
+<a class="anchor" href="#backend" aria-hidden="true"><span class="octicon octicon-link"></span></a>BackEnd</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206010030897.png" alt="image-20220206010030897"></p>
+
+<ul>
+  <li>백엔드 개발자도, 사정이 똑같다.
+    <ul>
+      <li>마커인터페이스 -&gt; 택1 구현체를 받아서 정보 받기 -&gt; 확인용으로 다운캐스팅 해야하는 상황 + else 등 코드 추가 수정이 이루어질 예정임</li>
+    </ul>
+  </li>
+  <li>
+    <p>그래도 paper -&gt; 구현체속 정보가 세팅되어야 -&gt; 자신만의 프로그램을 만들 수 있는 상황이다.</p>
+  </li>
+  <li>
+<strong>개발자의 세계 핵심문제: Paper받아서 구현체로부터 정보 빼내야하는 상황</strong>
+    <ul>
+      <li>리스코프 치환 원칙을 어김</li>
+      <li>OCP를 어김 = 다운캐스팅 해야함
+        <ul>
+          <li>프로그램이 굳어서 paper의 자식class(구상체)를 겁나서 못만들게 됨.(코드 수정해야함)
+            <ul>
+              <li>Programmer를 구현한 모든 세부개발자들의 코드마다 if instanceof 분기를 수정해줘야함</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>if를 제거해서 외부쪽 클라이언트쪽으로 옮기는게 좋다.</li>
+    </ul>
+  </li>
+  <li>여기서 문제 발생 paper가 <strong>다운캐스팅을 시도</strong>하고 있다. <strong>그러면 이 클래스는 확장에 막혀있게 된다</strong>. 
+  이런 문제를 해결하기 위해서는 코드로서 문제를 해결하기 위한 방법을 모색해야 한다.
+    <ul>
+      <li>
+<strong>if는 goto를 일으켜서 런타임, 컴파일에러를 일으키지 않아</strong> 그래서 if나 swich를 쓰면 정적타입의 안정성을 잃어버리게 된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="director-1">
+<a class="anchor" href="#director-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Director</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206010649959.png" alt="image-20220206010649959"></p>
+
+<ul>
+  <li>디렉터는 <code class="language-plaintext highlighter-rouge">특정 프로젝트 이름(String)</code>으로  <code class="language-plaintext highlighter-rouge">특정 기획서 객체(Paper)들</code>을 소유하기 위해 hashmap에 소유하고 있다.
+    <ul>
+      <li>빈 hashmap에 <code class="language-plaintext highlighter-rouge">addProject</code> 메소드로 더한다. (remove나.. edit 등은 일단X)</li>
+    </ul>
+  </li>
+  <li>runProject()는 name으로 project의 paper를 꺼내는 데
+    <ul>
+      <li>**Paper는 마커인터페이스로 -&gt; 자식구현체<code class="language-plaintext highlighter-rouge">Class들</code>로 범주의 <code class="language-plaintext highlighter-rouge">여러 종류</code>가 정해져있으며 **
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206100812053.png" alt="image-20220206100812053">
+</li>
+      <li>
+<strong>paper로 꺼냈다면 -&gt; 구체적으로 어느 종류 사양서(client or serverclient)인지 모른다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206100750271.png" alt="image-20220206100750271">
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">if instanceof 분기</code>로 <code class="language-plaintext highlighter-rouge">종류마다 하나씩 분기</code>를 만들어줘야하는 수고로움 -&gt; 유지보수시 수정 많음.</strong></li>
+          <li>만약, 해당종류라고 분기가 되었으면 <strong><code class="language-plaintext highlighter-rouge">(해당종류로 다운캐스팅)해야</code> 마커에는 없던 기능들을 쓸 수 있다.</strong>
+            <ul>
+              <li>ServerClient project = (ServerClient)paper;
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206100829725.png" alt="image-20220206100829725">
+</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>만약, ServerClient 사양서를 가졌다면
+        <ul>
+          <li>FE/BE 각각 프로그래머 변수를 만든 뒤  -&gt; set으로 세팅해준다. (프리랜서 seller개념? 차후 세팅할려면 빈변수-&gt;setter)</li>
+        </ul>
+      </li>
+      <li>각각의 개발자들한테, 자신만의 프로그램 만들라고 <strong>마커인터페이스를 다운캐스팅한 (ServerClient)project</strong>를 넘겨서 만들게 한다.
+        <ul>
+          <li>각각의 개발자들의 완성품이 Program으로 같다</li>
+        </ul>
+      </li>
+      <li>deploy해준다.</li>
+    </ul>
+  </li>
+  <li>만약, client프로그램이라면
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">(해당종류로 다운캐스팅)해야</code> 마커에는 없던 기능들을 쓸 수 있다.</strong>
+        <ul>
+          <li>Client project = (Client)paper;</li>
+        </ul>
+      </li>
+      <li>개발자 1명만 변수 만들고 -&gt; setter로 세팅해주고 -&gt; (자신만의X, 공통적인) 프로그램만들라고 시키고 -&gt; deploy</li>
+    </ul>
+  </li>
+</ul>
+
+<h6 id="error">
+<a class="anchor" href="#error" aria-hidden="true"><span class="octicon octicon-link"></span></a>Error</h6>
+
+<ol>
+  <li>
+    <p>추상체인 paper를 받아도, 특정 구상체인 Client paper만 내부분기(if instanceof)로 받아 세팅하던 <strong><code class="language-plaintext highlighter-rouge">FrontEnd</code></strong>개발자에게 <strong><code class="language-plaintext highlighter-rouge">ServerClient</code> paper인 project</strong>를 넘겨봤자, <strong>language와 library를 세팅 못하기 때문에 <code class="language-plaintext highlighter-rouge">엄한 결과(context에러)</code></strong>가 나온다.</p>
+
+    <ul>
+      <li>Programmer중 <strong>FrontEnd</strong> 종류가 된 이상, <strong><code class="language-plaintext highlighter-rouge">Client로 다운캐스팅된 paper만 받아 처리(lang, lib 세팅)</code></strong>하도록 정의되어있다.
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">FrontEnd</code>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206102029062.png" alt="image-20220206102029062">
+</li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>paper 종류에 따라</strong> project가 <strong>가진 필드가 다르며, <code class="language-plaintext highlighter-rouge">FE/BE개발자는 Client가 아닌 ServerClient paper만 처리하도록 설계된 상태</code>다.</strong></p>
+
+        <ul>
+          <li>
+            <p><code class="language-plaintext highlighter-rouge">Client</code></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206101813803.png" alt="image-20220206101813803"></p>
+          </li>
+          <li>
+            <p><code class="language-plaintext highlighter-rouge">ServerClient</code></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206101922975.png" alt="image-20220206101922975"></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>if를 썼기 때문에 -&gt; 컴파일 에러가 안나고 내부에 문제가 숨어있게 된다.</strong>
+        <ul>
+          <li>모든 에러가 context에러로 빠져버렸다.</li>
+          <li>
+<strong>if</strong> -&gt; <strong>OCP원칙 파괴(다운캐스팅)</strong>로 <strong>끝나지않고</strong> 대부분의 에러가 <strong>context에러로 숨어버린다.</strong>
+            <ul>
+              <li>goto를 써서 runtime에 죽지도 않고, compile에 걸리지도 않는 context에러</li>
+              <li>여러 case로 사람이 따로 판별해볼수 밖에 없다.</li>
+            </ul>
+          </li>
+          <li>
+<strong>if -&gt; 다운캐스팅</strong>들이, 바깥에서 context에러를 일으킴.</li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>SOLID 원칙 중에서도 설계상에서는 <code class="language-plaintext highlighter-rouge">LSP와 OCP</code>를 더 신경써야한다.</strong></p>
+
+        <ul>
+          <li>LSP와 OCP를 지키면, 나머지 3개도 다 지켜진다</li>
+          <li>LSP는 지키기가 너무 힘들다.
+            <ul>
+              <li>심지어 <strong>Paper는 마커인터페이스</strong>로, 구상체들은 다 자기만의 메소드를 가질텐데, <strong>abc -&gt; abcd 확장성LSP가 어렵다고 했지만, 여기서는 구상체들 각각이 0 -&gt; d에 해당하는 경우</strong>이므로</li>
+              <li><strong>d의 문제를 해결하도록 습관적으로 연습하자</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="lsp위반-시행착오">
+<a class="anchor" href="#lsp%EC%9C%84%EB%B0%98-%EC%8B%9C%ED%96%89%EC%B0%A9%EC%98%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>LSP위반 시행착오</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206104025726.png" alt="image-20220206104025726"></p>
+
+<h5 id="1-lsp위반-지점--일반적으로-정보없는-추상층paper에-의해--시작-frontend">
+<a class="anchor" href="#1-lsp%EC%9C%84%EB%B0%98-%EC%A7%80%EC%A0%90--%EC%9D%BC%EB%B0%98%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%A0%95%EB%B3%B4%EC%97%86%EB%8A%94-%EC%B6%94%EC%83%81%EC%B8%B5paper%EC%97%90-%EC%9D%98%ED%95%B4--%EC%8B%9C%EC%9E%91-frontend" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. LSP위반 지점- 일반적으로 정보없는 추상층Paper에 의해  시작: FrontEnd다운캐스팅&gt;</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206104038160.png" alt="image-20220206104038160"></p>
+
+<ul>
+  <li>LSP를 위반하는 곳은 <code class="language-plaintext highlighter-rouge">빨간네모</code>코드이다. 이것에 의해 다운캐스팅 할 수 밖에 없었다.
+    <ul>
+      <li>
+<strong>LSP:  우리는 자식형을 &lt;— 부모형이 대신해도 충분해</strong>
+        <ul>
+          <li>
+<strong>부모형이 충분하지 못해서<code class="language-plaintext highlighter-rouge">LSP위반</code> -&gt; if -&gt; <code class="language-plaintext highlighter-rouge">다운캐스팅</code> -&gt; <code class="language-plaintext highlighter-rouge">OCP 위반</code></strong>
+            <ul>
+              <li>부모가 자식에게만 있는 d가 없거나</li>
+              <li>부모가 아예 메소드가 비어있는 마커인터페이스 등 <strong>자식이 확장형일 때</strong>
+</li>
+              <li><strong>왜 OCP위반(다운캐스팅)했냐?  -&gt; 항상 선행되는 LSP위반(부모가 자식을 대체못함)</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>paper(부모)가 충분했으면 = LSP 만족시켰으면 -&gt; 다운캐스팅 할 일이 없는데
+        <ul>
+          <li>paper가 paper로서 충분치 않았다.(<strong>부모가 자식 대신하는 역할</strong> = LSP 만족X) -&gt;  if instanceof -&gt; 다운캐스팅 -&gt; OCP 위반</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206104720198.png" alt="image-20220206104720198"></p>
+
+<ul>
+  <li>
+    <p><strong>확장형LSP -&gt; <code class="language-plaintext highlighter-rouge">d()의 문제</code>해결은, 6장에서 배운 <code class="language-plaintext highlighter-rouge">헐리우드 원칙 = 묻지말고 시켜라</code>이ㄷ다.</strong></p>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">"얘가 다운캐스팅 하는 이유는, 얘가 추상형(paper형)에 대해 구상 지식(client형의 지식)을 가지려 했기 때문이야"</code>
+        <ul>
+          <li>복잡한 상황은 내가 아닌, 외부로 추상화를 떠밀어야하는데, 그 방법이 <code class="language-plaintext highlighter-rouge">헐리우드 원칙</code>
+</li>
+        </ul>
+      </li>
+      <li>
+<strong>내가 Paper한테 너무 많이 물어봤다 -&gt; 물어보지 말랬는데, 첨부터 다 물어보고 있다.</strong>
+        <ul>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">"paper야 너 혹시 Client형이니?"</code></strong>
+            <ul>
+              <li><strong><code class="language-plaintext highlighter-rouge">"Client라면 이런 Data들 가지고 있지 않니?"</code></strong></li>
+            </ul>
+          </li>
+          <li>물어보는 순간부터 OCP위반(다운캐스팅 시작)</li>
+          <li>my) <strong><code class="language-plaintext highlighter-rouge">paper</code> <code class="language-plaintext highlighter-rouge">에게 물어보다</code> = <code class="language-plaintext highlighter-rouge">if절 (주체로 들어가)</code> <code class="language-plaintext highlighter-rouge">paper</code>야 instanceof Client 이니? + <code class="language-plaintext highlighter-rouge">가지고있으면 변수로 꺼내줄래?</code></strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>물어보지 않으면 OCP 위반(다운캐스팅) 안할 수 있다. + 시킬때 는 나(<code class="language-plaintext highlighter-rouge">this</code>)만 들어가는 것 같지만, 그 외에 같은 레벨의  구상체(BE)도 들어가야하는 공통코드라면 -&gt; <code class="language-plaintext highlighter-rouge">추상체인 (Programmer)로 정의</code>될 것이다.</strong></p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">"paper야 &lt;~이니? 맞으면 변수에 꺼내줄래?&gt; 대신 니가 [나에게] 데이터를 set해줘"</code>를 set으로 시킨다. -&gt; <code class="language-plaintext highlighter-rouge">paper.setData( this )</code></strong></p>
+      </li>
+      <li>
+        <p><strong>my) <code class="language-plaintext highlighter-rouge">if + 변수로 정보꺼내보며</code> 물어보지말고, <code class="language-plaintext highlighter-rouge">setXXX</code>( <code class="language-plaintext highlighter-rouge">this</code> )로 <code class="language-plaintext highlighter-rouge">나에게 세팅해줘(XXXX(this))</code>를 <code class="language-plaintext highlighter-rouge">set</code>으로 시킨다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206120118325.png" alt="image-20220206120118325"><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206120106161.png" alt="image-20220206120106161"></p>
+
+        <ul>
+          <li>나에게 ( this )</li>
+          <li>시킨다. setXXXX (this)</li>
+          <li>cf) <strong>시키려면 <code class="language-plaintext highlighter-rouge">해줄 사람</code>이  메소드로 기능을 제공</strong>해줘야한다 -&gt; 메소드로 만들기
+            <ul>
+              <li>개발자야, paper 던져줄테니, 프로그램 만들어줘
+                <ul>
+                  <li>Program makeProgram(Paper paper)</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>setData<strong>( <code class="language-plaintext highlighter-rouge">this</code> ) 의 인자</strong>는 <code class="language-plaintext highlighter-rouge">나에게</code> 자리에는 <code class="language-plaintext highlighter-rouge">FrontEnd</code>(구상적인)가 오든지, <code class="language-plaintext highlighter-rouge">Programmer</code>(추상적인)가 올 것인데, 딱히 <strong>관심없다. -&gt; 미뤘다.</strong></p>
+
+        <ul>
+          <li>paper가 뭔가를 하는데  <strong><code class="language-plaintext highlighter-rouge">this</code></strong> = 나에게 = <strong>언어 특징상 <code class="language-plaintext highlighter-rouge">상위(추상적인) Programmer</code>든, <code class="language-plaintext highlighter-rouge">하위(구체적인) FE/BE</code>이든  누구든지 올 수 있으며, 참고적으로 return은 부모(상위, 추상적인) Programmer로 받아야한다.</strong>
+</li>
+          <li>
+<strong>인자로 <code class="language-plaintext highlighter-rouge">this</code>를 사용한 순간</strong>
+            <ul>
+              <li><strong>형(Type)이 무엇인지 물어보던 것도 미뤘다. -&gt; 알아서 <code class="language-plaintext highlighter-rouge">인자의 특성상</code> 상위-&gt;하위 모든 <code class="language-plaintext highlighter-rouge">구상형들 모두 사용가능</code>이므로</strong></li>
+              <li>원래는 “if <code class="language-plaintext highlighter-rouge">너 무슨형</code>이니?”부터 물어봤었고 + 속성값들도 다 물어봤었는데
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206121240372.png" alt="image-20220206121240372">
+</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206121439718.png" alt="image-20220206121439718"></p>
+
+<ul>
+  <li>
+    <p><strong>물어보지 않고 시켜서 -&gt; paper에게 미룬 것들 정리</strong></p>
+
+    <ol>
+      <li>
+        <p><strong>paper에게, 무슨형인지 물어보는 것을 -&gt; this로 미룸</strong></p>
+      </li>
+      <li>
+        <p><strong>paper에게, 무슨 데이터가지고 있는지 물어보고 세팅하는 것 -&gt; setXXX로 미룸</strong></p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>앞으로 더 많은 paper(Programmer인듯?)의 자식class들이 생겨나도, <code class="language-plaintext highlighter-rouge">this</code>에 들어갈 수 있기 때문에, FrontEnd 클래스는 더이상 안고쳐도 된다.</strong></p>
+  </li>
+</ul>
+
+<h5 id="2-backend와-같이볼-때-dry위반으로-추상층에-공통로직올린-programmer">
+<a class="anchor" href="#2-backend%EC%99%80-%EA%B0%99%EC%9D%B4%EB%B3%BC-%EB%95%8C-dry%EC%9C%84%EB%B0%98%EC%9C%BC%EB%A1%9C-%EC%B6%94%EC%83%81%EC%B8%B5%EC%97%90-%EA%B3%B5%ED%86%B5%EB%A1%9C%EC%A7%81%EC%98%AC%EB%A6%B0-programmer" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. BackEnd와 같이볼 때 DRY위반으로 추상층에 공통로직올린: Programmer</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206152809213.png" alt="image-20220206152809213"></p>
+
+<ul>
+  <li>
+    <p>paper로 가기전에, backend를 보자.</p>
+
+    <ul>
+      <li>
+        <p>수정된 makeProgram() 내부에 있는 <code class="language-plaintext highlighter-rouge">makeBackEndProgram()</code>은  <strong>BE만의 특성</strong>이다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206152951480.png" alt="image-20220206152951480"></p>
+      </li>
+      <li>
+        <p>하지만, <code class="language-plaintext highlighter-rouge">paper</code>를 이용해서 [물어보지 않고 시키는] <code class="language-plaintext highlighter-rouge">.setData( this )</code>는 <strong>FE/BE 공통코드</strong>다</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">인터페이스</code>였던 Program을 -&gt; <code class="language-plaintext highlighter-rouge">추상클래스</code>로 upgrade <code class="language-plaintext highlighter-rouge">{ 템플릿메소드 + 훅 }</code>으로 변경해줘야한다.</strong></p>
+
+    <ul>
+      <li>두 하위(자식)범주(클래스)에 <code class="language-plaintext highlighter-rouge">공통코드 + 각자의 코드</code> -&gt; <code class="language-plaintext highlighter-rouge">템플릿메소드 + 훅</code>으로 각자코드</li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">DRY원칙</code>에 의해 <code class="language-plaintext highlighter-rouge">공통코드가 반복</code>되는 것을 막기위해  <code class="language-plaintext highlighter-rouge">&lt;로직없는 인터페이스&gt;</code> —&gt; <code class="language-plaintext highlighter-rouge">&lt;공통로직을 가진 추상클래스&gt;</code>로 upgrade</strong>
+        <ul>
+          <li><strong>왜 우리가 처음엔 인터페이스로 시작했다가 -&gt; 중간에 추상클래스로 바뀌는 이유는 DRY원칙 때문이다.</strong></li>
+        </ul>
+      </li>
+      <li>로직이 없던 <code class="language-plaintext highlighter-rouge">인터페이스</code>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206153600876.png" alt="image-20220206153600876">
+</li>
+      <li>공통코드는 <code class="language-plaintext highlighter-rouge">템플릿메소드</code> + 각 구상코드의 고유 코드가 들어가도록 <code class="language-plaintext highlighter-rouge">훅</code>을 가진 <code class="language-plaintext highlighter-rouge">추상클래스</code>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206153517023.png" alt="image-20220206153517023">
+        <ul>
+          <li>FE/BE 공통코드 <code class="language-plaintext highlighter-rouge">getProgram()</code>
+</li>
+          <li>개벌 고유코드를 정의해줄 들어갈 (코드없는 메소드)훅 <code class="language-plaintext highlighter-rouge">makeProgram()</code>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>공통코드를 중복제거 하기 위해서는 인터페이스 -&gt; 추상클래스 공통템플릿 + 훅으로 바뀌는 경우가 많음을 생각하자.</p>
+    <ul>
+      <li>
+<strong>템플릿 메소드 패턴은 <code class="language-plaintext highlighter-rouge">객체지향에서 중복발견</code>시마다 쓰이니, 엄청 자주 쓰인다.</strong>
+        <ul>
+          <li>인터페이스로 설계 -&gt; 중복발견해서 템플릿메소드를 가진 추상클래스로 바꾸는 것은 밥먹듯이 하는 일
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206153920292.png" alt="image-20220206153920292">
+</li>
+        </ul>
+      </li>
+      <li>만약, 공통코드가 아니다. (어떤 프로그래머Class는 paper.setData안한다 ) -&gt; 다시 인터페이스로 바꾸면 된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="3-추상층에겐-말고-로-떠넘긴-paper">
+<a class="anchor" href="#3-%EC%B6%94%EC%83%81%EC%B8%B5%EC%97%90%EA%B2%90-%EB%A7%90%EA%B3%A0-%EB%A1%9C-%EB%96%A0%EB%84%98%EA%B8%B4-paper" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. 추상층에겐 말고 로 떠넘긴: Paper나에게&gt;물어보고&gt;</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206154500020.png" alt="image-20220206154500020"><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206154422232.png" alt="image-20220206154422232"></p>
+
+<ul>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">추상레이어</code> =  <code class="language-plaintext highlighter-rouge">공통로직</code>에서 <code class="language-plaintext highlighter-rouge">.setData( 나에게 )</code>를 호출하는 이상은</strong>
+    <ul>
+      <li>
+<strong>공통로직을 그대로 가져가는 구상층</strong>인 FE에서 .setData( 나에게 )로 , BE도 .setData( 나에게 )로 부를 것이다.</li>
+      <li>그러려면, setData()의 인자는 <strong>추상형(FE/BE의 추상형 -&gt; Programmer)으로 정의해야한다.</strong>
+        <ul>
+          <li>하위(FE)를 받으면.. 다른 하위(BE)는 사용못함..</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>programmer도 <strong>abc(공통로직)은 거의 없었다. -&gt; 구상층의 공통점은 아주 조금</strong>이다.
+    <ul>
+      <li>
+<strong>paper</strong>도 마찬가지다. <strong>추상층으로서 abc공통로직은 아주 조금</strong>이이며 이게 정상이다.
+        <ul>
+          <li>추상층인 인터페이스, 추상클래스가 하는일은 진짜 극 소수이다.</li>
+          <li>
+<strong>구상층</strong>(FrontEnd, BackEnd)의 <strong>대부분은 d()코드로 차이점 코드들이 대부분</strong>이다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>paper도 마커 인터페이스라서, 정보가 없다( 추상클래스라도 공통로직은 조금인데 이건 아예 없다)
+    <ul>
+      <li>다운캐스팅해서 -&gt; 구상층으로 가서 정보를 물었었다.</li>
+      <li>**Programmer쪽에서 OCP를 지키려고, 정보물음의 대상인 Paper에게 <code class="language-plaintext highlighter-rouge">시켜서</code> **
+        <ul>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">Paper내부에서 정보를 받으라고 밀어버렸</code>다.</strong>
+            <ul>
+              <li><strong>Paper도 정보가 없는 놈이라 -&gt; <code class="language-plaintext highlighter-rouge">Paper의 구상층들에게 구현하도록 다시 민다.</code></strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="4-시-모든-대상에게-하기-위해-을-줬더니-정의시-전과하여-발생-client">
+<a class="anchor" href="#4-%EC%8B%9C-%EB%AA%A8%EB%93%A0-%EB%8C%80%EC%83%81%EC%97%90%EA%B2%8C-%ED%95%98%EA%B8%B0-%EC%9C%84%ED%95%B4-%EC%9D%84-%EC%A4%AC%EB%8D%94%EB%8B%88-%EC%A0%95%EC%9D%98%EC%8B%9C-%EC%A0%84%EA%B3%BC%ED%95%98%EC%97%AC-%EB%B0%9C%EC%83%9D-client" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. 시 모든 대상에게 하기 위해 을 줬더니, 정의시 전과하여 발생: Client시켜서&gt;추상층&gt;시켜서&gt;</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206155904296.png" alt="image-20220206155904296"></p>
+
+<ul>
+  <li>
+    <p>programmer가 <strong><code class="language-plaintext highlighter-rouge">물어봐서 받기</code>( if instance + 변수받기)를</strong>  paper에게 <strong><code class="language-plaintext highlighter-rouge">시켜서 꽂기</code> 떠넘겼는데 paper도 정보가 없는 인터페이스다</strong> -&gt; 자연스럽게 <strong>구상층 Client에게 `물어봐서 떠넘긴다.</strong></p>
+
+    <ul>
+      <li><strong>물어보는 로직자체는 안사라진다 -&gt; <code class="language-plaintext highlighter-rouge">Programmer - Paper - Client</code>로 넘어왔다.</strong></li>
+      <li>.setData(Programmer <code class="language-plaintext highlighter-rouge">programmer</code>)가  makeProgram(Paper <code class="language-plaintext highlighter-rouge">paper</code>)가 일어켰던 context에러를 일으킬 것이다.
+        <ul>
+          <li>
+<strong>이쯤에서 개발자들이 포기한다.</strong>
+            <ul>
+              <li>끙끙거리면서 Programmer를 개선시켰으나, 다음날 Paper에서 같은 문제가 또 발생해서 포기함</li>
+              <li>
+<code class="language-plaintext highlighter-rouge">if instanceof </code>로 <code class="language-plaintext highlighter-rouge">다운캐스팅하면서 물어보기</code> &amp; 구상층은 절대적으로 n개로 정해졌다고 합리화해버린다.(더이상 안늘어나므로 물어보기 써도된다고 합리화)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>LSP 해소방법이 <code class="language-plaintext highlighter-rouge">시켜서 꽂기</code>라서 시켰더니</strong></p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">꽂을 때도 &lt;다운캐스팅해서 꽂는기능이 있는지 물어보기&gt;</code>의 문제가 생겼다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206162318822.png" alt="image-20220206162318822"></p>
+      </li>
+      <li>
+        <p>추상층끼리만 대화하고, 구상층끼리는 완전히 격리되서 모르게 설계 = 잘 설계되었음에도 불구하고, **가 계속 떠넘겨진다.**다운&gt;</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206162429394.png" alt="image-20220206162429394"></p>
+
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">추상층이 포함하는 내용(공통로직)이 일반적으로 적어서</code> -&gt; 추상층에 정보가 적다 -&gt; <code class="language-plaintext highlighter-rouge">다운캐스팅해서 물어볼 수 밖에 없는게 일반적</code>이기 때문이다.</strong></li>
+        </ul>
+      </li>
+      <li>
+        <p>추상층인 discountPolicy와 discountCondition의 메소드 = 공통로직 abc()</p>
+
+        <ul>
+          <li>구상층도 abc() 공통로직만 가지고 있음 -&gt; 추상층이 구상층을 풀커버 가능(비현실적)
+            <ul>
+              <li>원래는 구상층에 d()가 대부분이어야한다.</li>
+            </ul>
+          </li>
+          <li>여기 예제에서 구상층 ServerClient와 Client의 공통로직은 아예 없다
+            <ul>
+              <li>setFE+setBE  vs   set프로그래머</li>
+              <li>
+<strong>우리가 알 수 있는 공통점이라고는 == <code class="language-plaintext highlighter-rouge">공통 추상층</code> == <code class="language-plaintext highlighter-rouge">형</code>(Programmer를 구현, 상속한 구상층들) 밖에 없다</strong>
+                <ul>
+                  <li>이게 정상이다.</li>
+                  <li>자식들의 공통점은 없다고 보면 된다.</li>
+                  <li>가장 좋은 인터페이스(공통점을 올려 추상화한 것)은 메소드(공통로직)가 없는 것이라고 이야기 할 정도..</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>공통점이 없을 게 뻔한데, 여기다 메소드들을 다 정의했다? -&gt; <code class="language-plaintext highlighter-rouge">성급화 추상화</code> -&gt; <code class="language-plaintext highlighter-rouge">그냥 공통로직(점)을 올린 추상층 인터페이스or추상클래스는 메소드가 없어야 or &lt;메소드 1개이하&gt;여야 정상</code></strong></p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">2개이상의 메소드가 있는 인터페이스, 추상클래스 -&gt; 성급한 추상화</code></strong></li>
+      <li><strong>근데, <code class="language-plaintext highlighter-rouge">성급한 추상화를 안하려고 &lt;공통로직&gt;=메소드가 적게 만들었지만 -&gt; 그로 인해 LSP위반으로 -&gt; 공통로직이 너무 정보가 없어서 다운캐스팅해야하는 상황이 발생</code></strong></li>
+      <li>어쩌라는 거지?</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>물어보는 애</strong>를 LSP, OCP를 없애기 위해서 <strong>시켰더니 -&gt; 핑퐁으로 주고받는 결과밖에 못얻었다</strong></p>
+  </li>
+</ul>
+
+<h5 id="5-더-심각한-문제-serverclient">
+<a class="anchor" href="#5-%EB%8D%94-%EC%8B%AC%EA%B0%81%ED%95%9C-%EB%AC%B8%EC%A0%9C-serverclient" aria-hidden="true"><span class="octicon octicon-link"></span></a>5. 더 심각한 문제: ServerClient</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206165506135.png" alt="image-20220206165506135"></p>
+
+<ul>
+  <li>
+    <p>setData( this )로 시켜서 (Programmer programmer)를 꽂을 때,</p>
+
+    <ul>
+      <li>
+        <p><strong>구상층 ServerClient입장</strong>에서 들어오는 <strong>programmer가 무조건 2개이상(n개를 대응해야한다)</strong>이다.</p>
+
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">관계역전 후</code> 시킨 paper쪽에서, 다 받기 위해 progammer를 알게 시켰더니(그림 설계상 위배된 화살표 반대방향)</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206165844359.png" alt="image-20220206165844359"></p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">관계역전 전</code>에는</strong></p>
+
+        <ul>
+          <li>
+<strong>구상층 BackEnd입장</strong>에서 들어오는 <strong>paper가 1개만</strong> 들어온다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206165829395.png" alt="image-20220206165829395">
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Client와 비교해서는</p>
+    <ul>
+      <li>Client는 programmer 한명만 대응하는 setData였지만
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206170304748.png" alt="image-20220206170304748">
+</li>
+      <li>ServerClient는 여러명의 programmer를 if로 나눠서 대응하여 책임이 훨씬 높아진 상태가 된다. 
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206170317302.png" alt="image-20220206170317302">
+</li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">결론적으로, 관계역전 전(programmer가 해결)보다 난이도가 높은 일이 되어버렸다.</code></strong>
+        <ul>
+          <li>1:M 책임(Paper에게 전과하여 다운캐스팅) 보다 1:1 책임(Programmer가 해결)이 더 쉽다
+            <ul>
+              <li>
+<strong>1:M 매칭은 더 일반화된 코드가 필요해서 더 어려운문제</strong>가 된다.</li>
+              <li>다운캐스팅은 안하는게 좋지만, <strong>누가 다운캐스팅을 가져가냐에 따라 난이도가 결정된다.</strong>
+</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="6-외부-객체-메세지를-받는-이상-if-분기는-외부context관점의-case들까지-다-처리해야하는데-client">
+<a class="anchor" href="#6-%EC%99%B8%EB%B6%80-%EA%B0%9D%EC%B2%B4-%EB%A9%94%EC%84%B8%EC%A7%80%EB%A5%BC-%EB%B0%9B%EB%8A%94-%EC%9D%B4%EC%83%81-if-%EB%B6%84%EA%B8%B0%EB%8A%94-%EC%99%B8%EB%B6%80context%EA%B4%80%EC%A0%90%EC%9D%98-case%EB%93%A4%EA%B9%8C%EC%A7%80-%EB%8B%A4-%EC%B2%98%EB%A6%AC%ED%95%B4%EC%95%BC%ED%95%98%EB%8A%94%EB%8D%B0-client" aria-hidden="true"><span class="octicon octicon-link"></span></a>6. 외부 객체 메세지를 받는 이상, if 분기는 외부context관점의 case들까지 다 처리해야하는데: Client</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220206194051454.png" alt="image-20220206194051454"></p>
+
+<ul>
+  <li>
+    <p>Client 프로젝트는 Paper의 setData()를 받아서</p>
+
+    <ul>
+      <li>
+<strong>set시킬 메소드를 제공하는 FrontEnd 개발자인지 만 확인</strong>한 뒤 처리했다.
+        <ul>
+          <li><strong>얘는 지금 BackEnd 개발자는 처리를 아예 안하고 있다.</strong></li>
+        </ul>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">if로 짜지말라고 하는 이유는 -&gt; 우리는 모든 Case를 다 알 수 없다.</code></strong>
+        <ul>
+          <li><strong>매 case를 if분기에 다 넣어야하는데</strong></li>
+          <li>
+<strong>Client 클래스를 짜다보면, Client관점에서 FrontEnd만 챙기는 오류를 범하기 때문</strong>
+            <ul>
+              <li><strong><code class="language-plaintext highlighter-rouge">작성중인 Class관점만 생각 -&gt; 다른 case를 안다루어도 된다고 생각하는 오류</code></strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>java를 비롯한 모든 랭기지들은, <strong>함수의 위치에 따라 메소드들이나 context가 다뀌는 문법</strong>을 사용한다
+        <ul>
+          <li>
+<strong>특정 위치 (</strong>Client class내부)에 <strong>함수를 넣음</strong>으로써 -&gt; 그 <strong>instance.(내부this.)에서 호출할 것이라고 생각</strong>하고 짠다.</li>
+          <li>즉, 보다 일반적인 상황이 아니라, 위치상의 context에 맞게 짜려고 한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>그러나, 인자에 <code class="language-plaintext highlighter-rouge">메세지로 넘어온 객체</code> (Programmer programmer)로서 <code class="language-plaintext highlighter-rouge">외부와 통신</code>하고 있는 이상 -&gt; <code class="language-plaintext highlighter-rouge">외부에 영향 받는</code> 이상</strong></p>
+
+    <ul>
+      <li>
+<strong>client코드에서 호출하는 <code class="language-plaintext highlighter-rouge">외부 context까지 다 파악</code>한 상태여야만 <code class="language-plaintext highlighter-rouge">내부 if 모든 case를 파악할 수 있다</code></strong>
+        <ul>
+          <li>Client class입장에서만 짜지말고, 외부에서 호출할 때 외부 context까지 다 생각해야한다.
+            <ul>
+              <li>측, FrontEnd만 들어온다가 아니라, BackEnd로서 programmer가 들어올 수도 있으며 그 경우에도 처리를 해야한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>메소드의 생성 이유: <code class="language-plaintext highlighter-rouge">남(외부 클라코드)이 시키도록 서비스 제공</code>하는 것</strong>
+        <ul>
+          <li>**<code class="language-plaintext highlighter-rouge">외부 클라 코드가 이 메소드를 어떻게 쓰는지, 모든 경우의 수를 </code> 생각하면서 메소드 짜기 **
+            <ul>
+              <li>형태가 특정 class안에 있다고 해서, 그 class관점에서만 짜면 안된다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>가둬지는 문법체계는 조심</strong>해라</p>
+
+    <ul>
+      <li><strong>test case를 최대한 많이 짜낸다.</strong></li>
+      <li><strong>외부 클라이언트 측면에서 이렇게 많이 부르는구나를 알고나서</strong></li>
+      <li><strong>메소드를 짠다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="7-시행착오-교훈">
+<a class="anchor" href="#7-%EC%8B%9C%ED%96%89%EC%B0%A9%EC%98%A4-%EA%B5%90%ED%9B%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>7. 시행착오 교훈</h5>
+
+<ol>
+  <li>
+<strong>한쪽 Class</strong>(Programmer -&gt; Paper로 문제 넘김)를 <strong>LSP, OCP지키도록 바꾼다</strong> 하더라도
+    <ul>
+      <li>추상페이퍼까지 이쁜데도 불구하고</li>
+    </ul>
+  </li>
+  <li><strong>받아준 쪽에서 문제가 옮겨갔을 뿐이지 해결되진 않았다.</strong></li>
+</ol>
+
+
+  </div><a class="u-url" href="/object/2022/05/15/object1-10)%EA%B0%9C%EB%B0%9C%EC%9E%90%EC%9D%98%EC%84%B8%EA%B3%841_LSP%EC%9C%84%EB%B0%98%EC%8B%9C%ED%96%89%EC%B0%A9%EC%98%A4.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

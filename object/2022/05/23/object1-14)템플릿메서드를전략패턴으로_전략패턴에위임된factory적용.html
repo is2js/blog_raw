@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>OBJECT 14 템플릿을 전략으로 + Factory(코드스핏츠) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="OBJECT 14 템플릿을 전략으로 + Factory(코드스핏츠)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<meta property="og:description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<link rel="canonical" href="blog.chojaeseong.com/object/2022/05/23/object1-14)%ED%85%9C%ED%94%8C%EB%A6%BF%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%9C%BC%EB%A1%9C_%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%97%90%EC%9C%84%EC%9E%84%EB%90%9Cfactory%EC%A0%81%EC%9A%A9.html" />
+<meta property="og:url" content="blog.chojaeseong.com/object/2022/05/23/object1-14)%ED%85%9C%ED%94%8C%EB%A6%BF%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%9C%BC%EB%A1%9C_%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%97%90%EC%9C%84%EC%9E%84%EB%90%9Cfactory%EC%A0%81%EC%9A%A9.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-05-23T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-05-23T00:00:00-05:00","url":"blog.chojaeseong.com/object/2022/05/23/object1-14)%ED%85%9C%ED%94%8C%EB%A6%BF%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%9C%BC%EB%A1%9C_%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%97%90%EC%9C%84%EC%9E%84%EB%90%9Cfactory%EC%A0%81%EC%9A%A9.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"OBJECT 14 템플릿을 전략으로 + Factory(코드스핏츠)","dateModified":"2022-05-23T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/object/2022/05/23/object1-14)%ED%85%9C%ED%94%8C%EB%A6%BF%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%9C%BC%EB%A1%9C_%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%97%90%EC%9C%84%EC%9E%84%EB%90%9Cfactory%EC%A0%81%EC%9A%A9.html"},"description":"object 책을 강의한 코드스핏츠 유튜브 요약","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OBJECT 14 템플릿을 전략으로 + Factory(코드스핏츠)</h1><p class="page-description">object 책을 강의한 코드스핏츠 유튜브 요약</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-05-23T00:00:00-05:00" itemprop="datePublished">
+        May 23, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      23 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#ch6-합성과-의존성">ch6. 합성과 의존성</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#template-method">Template method</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#개념">개념</a></li>
+<li class="toc-entry toc-h5"><a href="#이용자식-구현">이용(자식 구현)</a></li>
+<li class="toc-entry toc-h5"><a href="#부모---상속-자식으로의-여파가-없는-이유">부모 -&gt; 상속 자식으로의 여파가 없는 이유</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#strategy">Strategy</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#코드-비교">코드 비교</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#비교">비교</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#각각의-단점">각각의 단점</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#생성사용패턴과-팩토리">생성사용패턴과 팩토리</a></li>
+<li class="toc-entry toc-h4"><a href="#전략의-injection">전략의 Injection</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#전략의-factory">전략의 Factory</a></li>
+<li class="toc-entry toc-h5"><a href="#단순객체return-factory의-문제점열차전복">단순객체return Factory의 문제점(열차전복)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#위임된-팩토리">위임된 팩토리</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#simple-factory의-전복사고-해결">simple Factory의 전복사고 해결</a></li>
+<li class="toc-entry toc-h5"><a href="#위임된-팩토리의-정체">위임된 팩토리의 정체</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#추상-팩토리-메소드-패턴-for-의존성폭팔">추상 팩토리 메소드 패턴 for 의존성폭팔</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#factory에-의존성폭팔-만들어보기2종류-전략-공급으로-늘리기">Factory에 의존성폭팔 만들어보기(2종류 전략 공급으로 늘리기)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><ul>
+  <li>참고 유튜브 : https://www.youtube.com/watch?v=navJTjZlUGk</li>
+  <li>정리본: https://github.com/LenKIM/object-book</li>
+  <li>코드: https://github.com/eternity-oop/object</li>
+  <li>책(목차) : https://wikibook.co.kr/object/</li>
+</ul>
+
+<h3 id="ch6-합성과-의존성">
+<a class="anchor" href="#ch6-%ED%95%A9%EC%84%B1%EA%B3%BC-%EC%9D%98%EC%A1%B4%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>ch6. 합성과 의존성</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219105609538.png" alt="image-20220219105609538"></p>
+
+<p>디자인패턴에서 가장 중요한 패턴이 무엇이냐 물어보면 <strong><code class="language-plaintext highlighter-rouge">추상 팩토리 메서드 패턴</code></strong>이라고 답할 것이다.</p>
+
+<ul>
+  <li>그것과 더불어 <code class="language-plaintext highlighter-rouge">커맨드 패턴</code> 정도 이다. 이 2가지가 가장 중요한 패턴이다.</li>
+</ul>
+
+<p>책 9장부터 이어지는 <code class="language-plaintext highlighter-rouge">템플릿(추상 팩토리 메서드) 패턴</code>이 왜 복잡하게 일어나는지 <code class="language-plaintext highlighter-rouge">의존성</code>과 어떤 관계가 있는지 한번 살펴보자.</p>
+
+<p>책에선 합성과 상속에 대해 나와있다.</p>
+
+<ul>
+  <li>디자인 패턴에서 <strong><code class="language-plaintext highlighter-rouge">합성</code>과 <code class="language-plaintext highlighter-rouge">상속</code>의 차이를 패턴으로 알아보는 방법은 <code class="language-plaintext highlighter-rouge">템플릿 메소드 패턴</code>과 <code class="language-plaintext highlighter-rouge">전략 패턴</code>이 문제를 해결해나가는 패턴을 생각</strong>해보면 된다.
+    <ul>
+      <li>합성과 상속의 장단점을 살펴보면 된다</li>
+    </ul>
+  </li>
+  <li>합성과 상속을 하던 가장 큰 과제는 <strong><code class="language-plaintext highlighter-rouge">의존성</code></strong>이다.
+    <ul>
+      <li>책에서는 의존성을 3장을 할당한다.</li>
+      <li>
+<strong>그 이유는 우리는 객체로 문제를 해결할 때, <code class="language-plaintext highlighter-rouge">객체망</code>을 구성하는데, <code class="language-plaintext highlighter-rouge">다른 객체가 또다른 객체를 안다</code> = 안다는 <code class="language-plaintext highlighter-rouge">의존성</code>이 생긴 것</strong>
+        <ul>
+          <li>의존성없이는 객체망이 성립하지 않으니까, <strong>설계상의 핵심은 의존성을 적절하게 관리</strong>하는 것 but <strong>적절한 것은 없다. 오직 관리하는 방법은 <code class="language-plaintext highlighter-rouge">의존성을 양방향이 되지 않게 관리</code>하는 것</strong>
+</li>
+          <li>
+<strong>단 방향</strong>으로 만들자!</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="template-method">
+<a class="anchor" href="#template-method" aria-hidden="true"><span class="octicon octicon-link"></span></a>Template method</h4>
+
+<h5 id="개념">
+<a class="anchor" href="#%EA%B0%9C%EB%85%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>개념</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219105912066.png" alt="image-20220219105912066"></p>
+
+<ul>
+  <li>DiscountPolicy에 대해 <code class="language-plaintext highlighter-rouge">Template method</code>를 적용해보자.
+    <ul>
+      <li>현재는 discountpolicy를 set으로 소유</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">calculateFee</code>라는 메소드가 <strong>템플릿메소드로 작동</strong>하면서
+        <ul>
+          <li>my) <code class="language-plaintext highlighter-rouge">인자1+2</code>를 받는 메소드가 -&gt; <code class="language-plaintext highlighter-rouge">가지고 있는 list</code>를 돌면서 <code class="language-plaintext highlighter-rouge">if + 인자1 -&gt; element가 만족</code> -&gt; <code class="language-plaintext highlighter-rouge">인자2로만 다시 호출하는 같은이름의 추상메소드를 호출</code>
+</li>
+          <li>
+<strong>calculateFee라는 훅</strong>을 다시 내려주고 있다.</li>
+        </ul>
+      </li>
+      <li><strong>템플릿 메서드 -&gt; 위에서 <code class="language-plaintext highlighter-rouge">내부에 인자가 다른(줄은) abstract메소드를 호출</code> + 아래서 <code class="language-plaintext highlighter-rouge">사용되는 abstract메소드가 훅</code></strong></li>
+    </ul>
+  </li>
+  <li>
+<strong>템플릿메소드를 <code class="language-plaintext highlighter-rouge">좋은 상속의 예</code>로 소개하는 이유는?</strong>
+    <ul>
+      <li>의존성의 방향이 역전(여러자식들 -&gt; 부모 에서 부모-&gt; 자식들로 역전)되기 때문(보다 추상화된 쪽을?쪽으로? 역전)</li>
+      <li>책에서 말한 상속의 약점: 부모<code class="language-plaintext highlighter-rouge">&lt;---</code>자식 : <strong>자식이 부모를 쓴다 = 안다 = 의존한</strong>다.
+        <ul>
+          <li>일반적으로 <strong>상속으로 퍼져나갈 때, 자식이 부모를 안다. 부모는 자식을 모른다.</strong>
+</li>
+          <li>
+<strong>객체지향에서 자식이 부모를 안다?( 부모를 다운캐스팅해서 사용) 다운캐스팅이라 부르며 그것은 잘못 된 것.</strong>
+            <ul>
+              <li>다운캐스팅 = 리스코프 치환원칙</li>
+              <li>업캐스팅을 통해 자식은 부모를 대신할 수 있지만 부모는 자식을 대체할 수 없는 것</li>
+              <li><strong>상속을 하면 자동으로 자식 <code class="language-plaintext highlighter-rouge">---&gt;</code> 부모를 가리키게 됨. 의존성의 방향이 자식이 부모를 가리키기 때문에 <code class="language-plaintext highlighter-rouge">상속은 쓰면 문제</code>가 되는 <code class="language-plaintext highlighter-rouge">나쁜놈</code>이다.</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>왜 상속이 문제를 일으킬까?
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">여러개의 자식들</code>이 —&gt; <code class="language-plaintext highlighter-rouge">하나의 부모</code>를 가리키기 때문에</strong></li>
+          <li>
+<strong>부모를 건들이면 여러군데가 영향을 받는다.</strong>
+            <ul>
+              <li>상속을 썼더니 의존성이 넓게 퍼져버린다.</li>
+              <li>상속구조를 가진 이상, 부모를 건들이면 모든 자식이 영향</li>
+              <li><strong>부모레이어의 수정여파가 모든 자식한테 가서 <code class="language-plaintext highlighter-rouge">겁나서 부모를 건들이지 못하는 상황</code>이 된다.</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">DiscountPolicy</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">DiscountCondition</span><span class="o">&gt;</span> <span class="n">conditions</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashSet</span><span class="o">&lt;&gt;();</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addCondition</span><span class="o">(</span><span class="nc">DiscountCondition</span> <span class="n">condition</span> <span class="o">{</span>
+    <span class="n">conditions</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">condition</span><span class="o">);</span>
+  <span class="o">}</span>                          
+  <span class="kd">public</span> <span class="nc">Money</span> <span class="nf">calculateFee</span><span class="o">(</span><span class="nc">Screening</span> <span class="n">screening</span><span class="o">,</span> <span class="kt">int</span> <span class="n">count</span><span class="o">,</span> <span class="nc">Money</span> <span class="n">fee</span><span class="o">){</span>
+    	<span class="k">for</span><span class="o">(</span><span class="nc">DiscountCondition</span> <span class="nl">condition:</span><span class="n">conditions</span><span class="o">){</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">condition</span><span class="o">.</span><span class="na">isSatisfiedBy</span><span class="o">(</span><span class="n">screening</span><span class="o">,</span> <span class="n">count</span><span class="o">))</span> 
+          <span class="k">return</span> <span class="nf">calculateFee</span><span class="o">(</span><span class="n">fee</span><span class="o">);</span>
+	<span class="o">}</span>
+    <span class="k">return</span> <span class="n">fee</span><span class="o">;</span> 
+  <span class="o">}</span>
+  <span class="kd">protected</span> <span class="kd">abstract</span> <span class="nc">Money</span> <span class="nf">calculateFee</span><span class="o">(</span><span class="nc">Money</span> <span class="n">fee</span><span class="o">);</span> 
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+<strong>근데 <code class="language-plaintext highlighter-rouge">템플릿 메소드 패턴</code>은</strong>
+    <ol>
+      <li>
+<strong>부모</strong>(DiscountPolicy)<strong>가 자식들</strong>(이 반드시 가질 abstract protected메소드)<strong>을 알고 있다</strong>
+        <ul>
+          <li>자식들의 반드시 가질 수 밖에 없는 추상메소드만 알고=의존하고 있다.(의존 역전)</li>
+          <li>
+<strong>부모의 수정은 자식에게 영향을 끼치지 않는다.(상속 문제점 해결)</strong> -&gt; <strong>부모와 상관없이 자식만의 독립된 인터페이스만 구현하도록 시키고, 자식의 <code class="language-plaintext highlighter-rouge">메소드명</code>만 의존</strong>한다.</li>
+          <li>**<code class="language-plaintext highlighter-rouge">일반 상속</code>은 <code class="language-plaintext highlighter-rouge">자식이</code> —&gt; <code class="language-plaintext highlighter-rouge">부모의</code> <del>메소드명</del> 속성+메소드의 <code class="language-plaintext highlighter-rouge">세부 구현까지 알고서 이용</code>하도록 구현된다. 하지만 <code class="language-plaintext highlighter-rouge">템플릿 메소드 패턴</code>에서는 <code class="language-plaintext highlighter-rouge">역전</code>이되어 <code class="language-plaintext highlighter-rouge">부모가 일처리 + 자식이 미래구현하도록 확정된 오퍼레이터명</code>만 것을 <code class="language-plaintext highlighter-rouge">의존하여 부모 로직 정리</code> **
+            <ul>
+              <li><strong>자식은 제한되어있는 자기 책임(abstract메소드)만 구현하고 부모을 몰라도 된다.</strong></li>
+            </ul>
+          </li>
+          <li>
+<strong>실제 처리는 부모가</strong> 자식의 <strong>메소드명만 의존한 체로 처리</strong>한다.</li>
+        </ul>
+      </li>
+      <li>
+<strong>자식은 부모를 몰라도 되며, abstract에 따른 책임만 구현</strong>하면 된다.
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">추상메서드</code>로 이름만 정해주니까, 자식의 어떻게 구현/수정하든 여파가 부모로 올라오지 않는다. (<code class="language-plaintext highlighter-rouge">독립된 인터페이스를 구현</code>하는 자식)</li>
+          <li>그외 부모의 세부구현은 모름 -&gt; 수정해도 상관없음</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+<strong>상속을 사용할 때는, 부모의 변화가 자식에 여파를 일으키지 않는 <code class="language-plaintext highlighter-rouge">스킬=템플릿메소드</code>을 사용해야 <code class="language-plaintext highlighter-rouge">좋은 상속</code>이 된다</strong>고 책에서 소개한다.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219113941060.png" alt="image-20220219113941060"></p>
+
+<ul>
+  <li>역전된 상속을 만들어내는 <code class="language-plaintext highlighter-rouge">훅</code> -&gt; <strong>훅을 사용하는 메서드 = <code class="language-plaintext highlighter-rouge">템플릿 메서드</code></strong>
+    <ul>
+      <li><strong>미래에 자식들이 구현해야만하는, 제한된 책임 = <code class="language-plaintext highlighter-rouge">훅</code>을 이용해서 <code class="language-plaintext highlighter-rouge">부모쪽에서 로직을 구현함</code></strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="이용자식-구현">
+<a class="anchor" href="#%EC%9D%B4%EC%9A%A9%EC%9E%90%EC%8B%9D-%EA%B5%AC%ED%98%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>이용(자식 구현)</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219115233188.png" alt="image-20220219115233188"></p>
+
+<ul>
+  <li>템플릿메소드를 사용한(훅을 가진)  추상체를 <strong>상속한 자식들을 보자.</strong> 어떻게 관계의 역전을 사용했을까
+    <ol>
+      <li>
+<strong>훅을 가진 부모를 상속</strong>해서 자식을 구현한다</li>
+      <li>
+<strong>자식은 <code class="language-plaintext highlighter-rouge">부모가 처리해줄테니까 이것만 구현해라고 지어준 책임</code>을 구현한다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219115506778.png" alt="image-20220219115506778">
+</li>
+      <li>**자식의 <code class="language-plaintext highlighter-rouge">나머지 모든 구현</code>은 super(X) 부모속성(X) 부모메서드(X)  **
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219115515368.png" alt="image-20220219115515368">
+</li>
+    </ol>
+  </li>
+</ul>
+
+<h5 id="부모---상속-자식으로의-여파가-없는-이유">
+<a class="anchor" href="#%EB%B6%80%EB%AA%A8---%EC%83%81%EC%86%8D-%EC%9E%90%EC%8B%9D%EC%9C%BC%EB%A1%9C%EC%9D%98-%EC%97%AC%ED%8C%8C%EA%B0%80-%EC%97%86%EB%8A%94-%EC%9D%B4%EC%9C%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>부모 -&gt; 상속 자식으로의 여파가 없는 이유</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219120055439.png" alt="image-20220219120055439"></p>
+
+<ul>
+  <li>
+    <p>부모에 있는 <code class="language-plaintext highlighter-rouge">훅 제외</code>의 나머지를 보자.</p>
+
+    <ul>
+      <li>
+<strong>부모 private</strong> 변수 -&gt; <strong>자식이 부모 속성에 접근할 수 없다.</strong>
+</li>
+      <li>
+<strong>부모 public</strong> 메서드 -&gt; 자식(protected)가 아니라 <strong>자식포함 대외적 아무나 쓸 수 있다.</strong>
+        <ul>
+          <li>부모가 외부에 공개하는 것</li>
+          <li><strong>부모 public 은 자식들만 사용하고 있는 부모만의 유일한 것이 아님.</strong></li>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">부모 public을 수정하는 안건</code> —&gt; 자식에 여파주는 안건에 포함이 안됨 —&gt; <code class="language-plaintext highlighter-rouge">자식포함 public을 사용하는 모든 애들에게 여파를 각오하고 수정하는 안건</code></strong>
+            <ul>
+              <li>부모수정 -&gt; 자식들 모두 수정 되는 일반상속과는 조금 다른 안건이다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong><code class="language-plaintext highlighter-rouge">외부공개 인터페이스(public 메서드)외 모두 private</code>으로 만든 부모 -&gt; 자식은 부모의 내용을 사용할 수 없다 -&gt; <code class="language-plaintext highlighter-rouge">부모의 수정이 자식에게 여파를 끼치지 않는다.</code></strong></li>
+    </ul>
+  </li>
+  <li>
+    <p>근데, <strong>자식도 다 private으로 구현</strong>하면?</p>
+
+    <ul>
+      <li>
+        <p>부모는 원래 자식을 모름(=사용안함. 그리고 자식이 public으로 외부공개 아닌이상 못씀)</p>
+      </li>
+      <li>
+        <p><strong>근데 <code class="language-plaintext highlighter-rouge">템플릿메소드</code>는 부모가 자식을 알아야함(protected추메를 주고 자식public구현메만 당겨쓴다.)</strong></p>
+
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">미리 약속된 protected추메</code>는 <code class="language-plaintext highlighter-rouge">자식들이 나한테 public으로 제공해줄 의무</code>도 포함되어있다.</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219123846899.png" alt="image-20220219123846899"></p>
+      </li>
+      <li>
+        <p>자식들은</p>
+
+        <ul>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">자기의 사정(필드, 생성자, 메소드)</code>을 구현</strong>하면서 +</li>
+          <li><strong><code class="language-plaintext highlighter-rouge">부모와의 통신</code>은 <code class="language-plaintext highlighter-rouge">부모의지식사용X 미리 확정된 프로토콜(protected abstract)만 이용해서 대화를 주고 받는다.</code></strong></li>
+          <li>그 덕분에 헐리웃 원칙(tell, don’t ask)을 지키고 있다.
+            <ul>
+              <li>
+<strong>자식은 훅을 사용해서 말하기만 함</strong>
+                <ul>
+                  <li>통신대상인 부모에게서 <strong>getter로 뭐 읽어들이지 않음</strong>
+</li>
+                </ul>
+              </li>
+              <li>
+<strong>부모가 원하게 있으면 말을 검</strong>
+                <ul>
+                  <li>통신대상인 자식에게서 <strong>getter로 뭐 읽어들이지 않음.</strong>
+</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>상속을 쓰는데 <code class="language-plaintext highlighter-rouge">템플릿 메소드가 아닌 [부모가 상속한 메서드]</code>이나 <code class="language-plaintext highlighter-rouge">private이 아닌 [protected/public부모속성들]</code>을 쓰고 있다면 이미 꽝</strong>
+    <ul>
+      <li>상속 = <strong><code class="language-plaintext highlighter-rouge">상속된 부모클래스를 안 건들여야 한다.</code></strong>
+        <ul>
+          <li>건들이면, 여러 자식들이 와르르 다 무너지니까</li>
+          <li>cascading으로 여파가 안미치려면, 자식들이 부모의 상속한 속성+메서드를 쓰지말고 약속된 메서드만 제공해주고, 부모가 일을 처리하도록 역전</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>객체망에서는  부모객체와 자식객체는 서로 다른 객체일 뿐이다. 부모객체 만들고 자식객체 만든다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219153540946.png" alt="image-20220219153540946"></p>
+
+    <ul>
+      <li>
+        <p>원래는  <code class="language-plaintext highlighter-rouge">new AmountPolicy</code>하면, 자식객체 뿐만 아니라 부모 객체도 먼저 만들놓고, 부모객체-자식객체 2개를 묶어서 포인터로 관리된다.</p>
+
+        <ul>
+          <li>캐스팅이 가능한 이유는.. 부모 객체를 먼저 만들기 때문. 어느 형으로 갈지만 선택해주는 것</li>
+        </ul>
+      </li>
+      <li>
+        <p>하지만, <strong>객체망에서는 부모객체, 자식객체 서로 다른 것이고 따로 통신을 해줘야한다</strong></p>
+
+        <ul>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">템플릿 메소드</code>는 부모-객체의 대화 패턴 중 <code class="language-plaintext highlighter-rouge">서로 약속되어 있는 abstract메서드</code>를 통해서 프로토콜(인터페이스)만 가지고 대화하도록 도아주는 패턴이다.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219154310743.png" alt="image-20220219154310743"></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">부모를 사용하면 할수록, extends한 수많은 자식들에게 여파를 끼치니</code></strong></p>
+
+        <ul>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">상속 모양은 갖추되,  부모의 속성+메서드는 하나도 쓰지마! 꺼꾸로 부모가 자식을 알아서 쓸게!</code></strong></p>
+          </li>
+          <li>
+            <p>단일 의존 포인트</p>
+
+            <ul>
+              <li>
+                <p>하나의 객체를 너무 많은 객체가 알고 있으니, 생기는 문제</p>
+              </li>
+              <li>여파가 너무 쌔니까 이제 더이상 부모를 못 고친다.</li>
+              <li>부모를 복사해서 새로운 class를 만들기도</li>
+              <li>상속말고도 의존하는 것이 많아지는 것 자체가 문제</li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>부모를 (부모꺼 상속받아 써서) 많이 알고 있는 자식보다, 자식의 1개 프로토콜만 아는 부모로 관계를 가볍게 만든다.</strong></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>부모 —– 자식들의 선 5개   에서 
+          - 자식들의 공통  - 부모
+              - 자식이 늘어나도 메소드 1개만 가지면 관계를 유지함.훅&gt;</p>
+  </li>
+  <li>템플릿메소드를 잘쓴다 = 상속의 요령을 익히는 것</li>
+</ul>
+
+<p>똑같은 코드를 전략패턴으로 짜보자.</p>
+
+<p><strong>상속 -&gt; <code class="language-plaintext highlighter-rouge">템플릿 메소드 -&gt; 전략</code>으로 짜는 것은 밥 먹듯이 할 줄 알아야한다.</strong></p>
+
+<ul>
+  <li><strong>보통 <code class="language-plaintext highlighter-rouge">확장 가능성</code>으로 유연하게 더 연결될 것 같다? -&gt; <code class="language-plaintext highlighter-rouge">전략 패턴</code></strong></li>
+  <li><strong>안정화되어서 더이상 <code class="language-plaintext highlighter-rouge">확장안될 것 같다</code>? -&gt; 상속 구조를 가진 <code class="language-plaintext highlighter-rouge">템플릿 메소드</code>로 바꾼다.</strong></li>
+</ul>
+
+<h4 id="strategy">
+<a class="anchor" href="#strategy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Strategy</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219155354751.png" alt="image-20220219155354751"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DiscountPolicy</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kd">final</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">DiscountCondition</span><span class="o">&gt;</span> <span class="n">conditions</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashSet</span><span class="o">&lt;&gt;();</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Calculator</span> <span class="n">calculator</span><span class="o">;</span>
+	<span class="kd">public</span> <span class="nf">DiscountPolicy</span><span class="o">(</span><span class="nc">Calculator</span> <span class="n">calculator</span><span class="o">){</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">calculator</span> <span class="o">=</span> <span class="n">calculator</span><span class="o">;</span>
+  <span class="o">}</span> 
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addCondition</span><span class="o">(</span><span class="nc">DiscountCondition</span> <span class="n">condition</span> <span class="o">{</span> 
+    <span class="n">conditions</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">condition</span><span class="o">);</span>
+  <span class="o">}</span> 
+  <span class="kd">public</span> <span class="nc">Money</span> <span class="nf">calculateFee</span><span class="o">(</span><span class="nc">Screening</span> <span class="n">screening</span><span class="o">,</span> <span class="kt">int</span> <span class="n">count</span><span class="o">,</span> <span class="nc">Money</span> <span class="n">fee</span><span class="o">){</span>
+    <span class="k">for</span><span class="o">(</span><span class="nc">DiscountCondition</span> <span class="nl">condition:</span><span class="n">conditions</span><span class="o">){</span>
+      <span class="k">if</span><span class="o">(</span><span class="n">condition</span><span class="o">.</span><span class="na">isSatisfiedBy</span><span class="o">(</span><span class="n">screening</span><span class="o">,</span> <span class="n">count</span><span class="o">))</span> 
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">fee</span><span class="o">;</span> 
+  <span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>전략패턴은 우리가 계산을 할 때 <strong>상속이 아닌 <code class="language-plaintext highlighter-rouge">합성의 원리</code></strong>를 이용해야하므로 <strong><code class="language-plaintext highlighter-rouge">외부공급 객체를 받아줄 변수를 소유</code>를 해야한다.</strong>
+    <ul>
+      <li>부모였던 DiscountPolicy가 <code class="language-plaintext highlighter-rouge">private final Calcuator calcuator</code>라는 <strong>객체를 소유</strong>하게 되는데</li>
+      <li>DiscountPolicy를 <code class="language-plaintext highlighter-rouge">상속해서 처리해줬던 자식의 구현</code>을 가지고 있는 <strong><code class="language-plaintext highlighter-rouge">외부의 객체</code>의 도움을 받게 된다.  해당 <code class="language-plaintext highlighter-rouge">외부객체가 템플릿 메소드의 자식구현 역할</code>을 해줄 것이니까 받아준다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219160315991.png" alt="image-20220219160315991">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>상속을 이용했던 이유?</p>
+
+    <ul>
+      <li>
+        <p><strong>서로 다른</strong> 구현을, <strong>자식들에서 구현</strong>하기 위해</p>
+      </li>
+      <li>
+        <p><strong>하지만, 서로 다른 구현을 하는 자식클래스가, <code class="language-plaintext highlighter-rouge">서로 다른 구현을 하기 위해 자신만의 상태도 가지고 있어야함</code></strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219160611514.png" alt="image-20220219160611514"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>전략 패턴은?</p>
+
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">서로 다른 구현을 위한 상태</code></strong>를, 자식클래스가 아니라, <strong>상속이 아닌 <code class="language-plaintext highlighter-rouge">다른 클래스에서 -&gt; 외부 객체로 제공</code></strong>로 제공받으면 되지!
+        <ul>
+          <li>객체 통신을 위해 메모리에 객체 2개가 생길 것인데, 꼭 상속으로 만들어야 하나?
+            <ul>
+              <li>
+<code class="language-plaintext highlighter-rouge">상속</code>의 장점: 두 메모리간의 연결을 <code class="language-plaintext highlighter-rouge">컴파일러</code>가 해준다.</li>
+              <li>
+<code class="language-plaintext highlighter-rouge">합성</code>:  두 메모리간의 연결을 <code class="language-plaintext highlighter-rouge">우리가 직접</code> 해야한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>외부에서 서로 다른구현을 공급해줄 <code class="language-plaintext highlighter-rouge">객체</code>를 생성자를 통해 공급받고
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219161018228.png" alt="image-20220219161018228"></p>
+  </li>
+  <li>
+    <p><strong>공급받은 객체로, 서다구현을 직접 구현</strong>한다. 이 때, 필요한 상태도 상속계층이 아닌 외부객체의 클래스 내부에 위치되어있다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219161203719.png" alt="image-20220219161203719"></p>
+  </li>
+  <li>
+    <p>이 <code class="language-plaintext highlighter-rouge">외부객체Calculator</code>는 사실 <code class="language-plaintext highlighter-rouge">인터페이스</code>였으며, 서다른구현 메소드를 구현할 <code class="language-plaintext highlighter-rouge">추상메서드</code>를 가지고 있으며, <strong><code class="language-plaintext highlighter-rouge">상속이 아닌 impl구현</code>으로 <code class="language-plaintext highlighter-rouge">서로다른구현</code>이 가능해진다.</strong></p>
+
+    <ul>
+      <li>
+        <p>Calculator.java</p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Calculator</span> <span class="o">{</span>
+      <span class="nc">Money</span> <span class="nf">calculateFee</span><span class="o">(</span><span class="nc">Money</span> <span class="n">fee</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>서로다른구현1: AmountCalculator.java</p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">AmountCalculator</span> <span class="kd">implements</span> <span class="nc">Calculator</span> <span class="o">{</span>
+        
+      <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Money</span> <span class="n">amount</span><span class="o">;</span>
+        
+      <span class="kd">public</span> <span class="nf">AmountCalculator</span><span class="o">(</span><span class="nc">Money</span> <span class="n">amount</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">this</span><span class="o">.</span><span class="na">amount</span> <span class="o">=</span> <span class="n">amount</span><span class="o">;</span>
+      <span class="o">}</span>
+        
+      <span class="nd">@Override</span>
+      <span class="kd">public</span> <span class="nc">Money</span> <span class="nf">calculateFee</span><span class="o">(</span><span class="nc">Money</span> <span class="n">fee</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="n">fee</span><span class="o">.</span><span class="na">minus</span><span class="o">(</span><span class="n">amount</span><span class="o">);</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219161530933.png" alt="image-20220219161530933"></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="코드-비교">
+<a class="anchor" href="#%EC%BD%94%EB%93%9C-%EB%B9%84%EA%B5%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>코드 비교</h5>
+
+<p>템플릿메소드가 했던 일을 전략패턴으로 바꿀 수 있다. 2개를 비교해보자.</p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219161636479.png" alt="image-20220219161636479"></p>
+
+<ul>
+  <li><strong>우: 템플릿 메소드 패턴을 이용하기 위해 <code class="language-plaintext highlighter-rouge">상속레이어</code>사용</strong></li>
+  <li>
+<strong>좌: 전략 패턴을 이용하기 위해 <code class="language-plaintext highlighter-rouge">hasA모델</code> = <code class="language-plaintext highlighter-rouge">composition모델</code>을 사용</strong>
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">impl</code> 과 <code class="language-plaintext highlighter-rouge">extends</code>를 제외하고 <code class="language-plaintext highlighter-rouge">코드가 완전히 동일</code>하다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219172401296.png" alt="image-20220219172401296">
+        <ul>
+          <li><strong>부모를 상속 <code class="language-plaintext highlighter-rouge">extends DiscountPolicy</code>는 <code class="language-plaintext highlighter-rouge">Calculator라는 인터페이스 역할</code>을 수행하고 있었던 것이다.</strong></li>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">추상클래스</code>를 <code class="language-plaintext highlighter-rouge">인터페이스처럼 프로토콜로 사용</code>하고 있었다.</strong>는 말이다.</li>
+          <li><strong>상속을 잘쓰려면,  처음 부모를 짤 때  <code class="language-plaintext highlighter-rouge">프로토콜의 근간을 두고 있는 인터페이스</code>처럼 짜자!!</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>추상레이어<strong>(부모)를 잘짰는지 확인하는 방법 -&gt; 전략패턴으로 바꿔본다.</strong>
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">추상층(부모)</code>을 <code class="language-plaintext highlighter-rouge">hasA모델(전략패턴)</code>로 바꿀 시 잘바뀐다</li>
+      <li>잘 안바뀐다? -&gt; 뭔가의 context를 넣어줘야한다 -&gt; 부모 오염시 자식들 다 오염되 구조의 상속
+        <ul>
+          <li>말이 부모지, 인터페이스에 준하게 상속을 짜야한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219172446631.png" alt="image-20220219172446631">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219172551510.png" alt="image-20220219172551510"></p>
+
+<ul>
+  <li>
+    <p>의존성 관계가 simple해진다. (관계도가 작다)</p>
+
+    <ul>
+      <li>
+        <p>등장인물이 2명 밖에 없다.</p>
+      </li>
+      <li>
+        <p>의존성을 역전시켰다.</p>
+      </li>
+      <li>
+        <p>만약, hasA모델(전략패턴)으로 바꾸면 아래와 같다</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219172658921.png" alt="image-20220219172658921"></p>
+
+        <ul>
+          <li>의존성을 해결하는 방법이 서로 다르다.</li>
+          <li>
+<strong>전략패턴:</strong>
+            <ul>
+              <li>
+<code class="language-plaintext highlighter-rouge">DiscountPolicy</code>가 <code class="language-plaintext highlighter-rouge">AmountCalculator</code>는 모르도록 하기 위해<strong>(순환참조X 단방향으로 만들기 위해)</strong>
+</li>
+              <li>
+<strong><code class="language-plaintext highlighter-rouge">중간 레이어(전략 인터페이스?)를 끼워넣어</code> (공급받을 외부객체가 될 예정) <code class="language-plaintext highlighter-rouge">단방향 의존성으로 해결</code>해버렸다.</strong>
+                <ul>
+                  <li>템플릿 메소드(상속)에 비해서는  <code class="language-plaintext highlighter-rouge">의존성이 1개 추가</code>되었지만
+                    <ul>
+                      <li>하지만 <code class="language-plaintext highlighter-rouge">의존관계는 다 1:1</code>이다. <code class="language-plaintext highlighter-rouge">각각의 라인은 가벼워졌다.</code>
+</li>
+                    </ul>
+                  </li>
+                  <li>
+<code class="language-plaintext highlighter-rouge">끼워넣은 중간레이어Calculator(전략 인터페이스)</code>는 <strong>무거웠던 <code class="language-plaintext highlighter-rouge">템메패턴(상속)에서 일처리하던 부모역할 DiscountPolicy</code>가 짊어지던 짐을  -&gt; <code class="language-plaintext highlighter-rouge">전략패턴 인터페이스 객체 Calculator</code>가 짊어지게 된다.</strong> 
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219230026823.png" alt="image-20220219230026823">
+</li>
+                  <li>
+<strong>따라서, 전략패턴을 사용하면 <code class="language-plaintext highlighter-rouge">중간에 끼워넣은 전략인터페이스</code>를 바꾸기는 굉장히 힘들어진다.</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219230037484.png" alt="image-20220219230037484">
+</li>
+                  <li>추가적으로 **전략인터페이스를 구현한 구현체자식들도 다 이쪽으로 의존하게 된다. **
+                    <ul>
+                      <li>양쪽으로 무거워진다.</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>
+<strong>전략패턴 주의점: 프로토콜에 대한 확신이 없다면(전략 인터페이스 수정 가능성 있다면), 한번 전략패턴 도입후 수정시 엄청난 여파가 생긴다. (위/아래로 다)</strong>
+                <ul>
+                  <li>모든 곳에 여파가 생기는 전략패턴</li>
+                  <li>상속의 부모자식관계보다 더 무거워 위험해진다.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>전략패턴의 주의점(단점)을 생각</strong>해보면, 제한된 목적으로 꼼짝못하게 할 때는</p>
+
+    <ul>
+      <li>상속이라는 위험이 있음에도, 템플릿 메서드를 통해 <code class="language-plaintext highlighter-rouge">관계 단순화</code> + <code class="language-plaintext highlighter-rouge">방향성 고정</code>을 시키려고 하지만, <strong>처음에는 고정시킬만큼 도메인파악이 안되니, <code class="language-plaintext highlighter-rouge">가운데 전략인터페이스 수정의 위험</code>을 가지고 있지만, 처음에는 관계도를 분리해서 여파를 흡수해주는 놈으로 먼저 쓴다.</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">전략패턴을 통해</code> 우리는 <code class="language-plaintext highlighter-rouge">의존성 1개 끼워넣을 때마다 어댑터를 끼워넣었다고 생각</code>해야한다.</strong></p>
+
+    <ul>
+      <li>
+        <p>벽면에 있는 콘센트 &lt;— 노트북을 충전</p>
+
+        <ul>
+          <li>콘센트 — <code class="language-plaintext highlighter-rouge">어댑터</code> — 노트북 충전
+            <ul>
+              <li>여러 Volt 대응가능</li>
+              <li>추가 기능으로서 충전시간 조절가능</li>
+              <li>추가 기능으로 밧데리파워 어댑터 추가 꼽을 수 있음.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>그냥 콘센트에 꽂지 않고 <code class="language-plaintext highlighter-rouge">어댑터</code>를 끼워서 사용하면 할 수록 <code class="language-plaintext highlighter-rouge">여러 변화의 폭을 수용</code>할 수 있다.</strong></p>
+
+        <ul>
+          <li>스프링을 그냥 사용하는게 아니라 래핑된 클래스를 사용함</li>
+          <li>jquery를 그냥 사용X -&gt; 한번더 감싼 함수를 사용함.</li>
+          <li><strong>스프링, jquey가 업데이트되면, 래핑클래스의 대부분내용은 그대로고 업데이트 된 부분만 수정해서 그대로 사용</strong></li>
+        </ul>
+      </li>
+      <li>
+        <p>위아래의 <strong>변화(여파)충격</strong>를 <code class="language-plaintext highlighter-rouge">어댑팅</code>해줄 수 있다. <strong>얼마나 변화가 많냐에 따라 충격흡수해줄 중간층을 몇개 끼워줄 지 결정된다.</strong></p>
+
+        <ul>
+          <li>
+            <p>가운데 Calculator(<code class="language-plaintext highlighter-rouge">전략인페</code>)가 충격을 흡수해준다.</p>
+
+            <p>위아래 모두 <code class="language-plaintext highlighter-rouge">전략인페</code> 만 바라보고 있다 = 알고 있다 = 의존한다 -&gt; <strong>변화에 대한 충격은 <code class="language-plaintext highlighter-rouge">이용당하는 = 화살표받는</code>쪽에서 흡수</strong>한다. 
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219231841318.png" alt="image-20220219231841318"></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>반면에 템플릿메소드 패턴은 부모-자식이 직접통신하기 때문에, 상속의 방향은 역전시켜놨지만, <strong>중간에 여파 충격을 흡수할 층이 없다.</strong> 
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219231947820.png" alt="image-20220219231947820"></p>
+      </li>
+      <li>
+        <p>위/아래 각각의 변화가 서로 심하다</p>
+
+        <ul>
+          <li>1층의 쿠션(<code class="language-plaintext highlighter-rouge">Calculator</code>)으로는 충격완화가 안될 것 같다.</li>
+          <li>Policy의 변화를 잡아줄 <code class="language-plaintext highlighter-rouge">Policy</code>전략인페 + 각종 Calculator의 변화를 잡아줄 <code class="language-plaintext highlighter-rouge">Calculator</code>인페 -&gt; <strong>인페끼리 서로 대화하게 만든다.</strong>
+</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219233330001.png" alt="image-20220219233330001"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>전략패턴을 쓰면, 템메(상속역전)과는 비슷해보이지만, 2가지 차이점이 생겼다</p>
+
+    <ul>
+      <li>프로토콜로서  <strong><code class="language-plaintext highlighter-rouge">공용 인페</code>가 가운데 생긴다 -&gt; 무거워진다.</strong>
+        <ul>
+          <li>템메에서는 자식들과의 관계가 가볍다.</li>
+          <li>템메는 자식을 늘려도, 프로토콜에 의해 부모가 -&gt; 자식을 거꾸로 알게되는 가벼운 관계 1개씩 생긴다</li>
+        </ul>
+      </li>
+      <li>
+<strong>템메의 무게 = <code class="language-plaintext highlighter-rouge">본인(DiscountPolicy) 클래스에 존재하는 추상메서드(calculateFee)</code>에 대해 -&gt; 무게가 아주 약간씩 느는 것</strong>
+        <ul>
+          <li><strong>전략의 무게 = <code class="language-plaintext highlighter-rouge">중간에 끼어드는 인터페이스</code>가 다 감당해야하는 무게</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="비교">
+<a class="anchor" href="#%EB%B9%84%EA%B5%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>비교</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220103904576.png" alt="image-20220220103904576"></p>
+
+<ul>
+  <li>템메(상속 역전): 런타임에 <strong>타입 선택</strong>
+    <ul>
+      <li>
+<strong>if를 통해</strong> <code class="language-plaintext highlighter-rouge">Amount</code>DiscountPolicy냐 <code class="language-plaintext highlighter-rouge">Rate</code>DiscountPolicy냐 <strong>형을 선택</strong>
+        <ul>
+          <li>Type을 선택하는 순간, 그 안에 종합선물세트를 가지고 있게 된다. 해당 형인 동시에 <code class="language-plaintext highlighter-rouge">DiscountPolicy</code>이기도 하니까</li>
+        </ul>
+      </li>
+      <li><strong>원리: 추상메소드를 통해서 의존성을 역전</strong></li>
+    </ul>
+  </li>
+  <li>전략: 런타임에 합성
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">DiscountPolicy</code>는 그 자체(인페)로 존재하고, <strong>새로운 인페 구상체를 붙인다</strong> = <strong>합성한다.</strong>
+</li>
+      <li><strong>원리: 추가 인터페이스로 (중간에 끼워넣어서) 의존성을 분산</strong></li>
+    </ul>
+  </li>
+  <li>클라입장에서는 <code class="language-plaintext highlighter-rouge">템메</code> if를 통해 원하는 class선택해서 생성 /  <code class="language-plaintext highlighter-rouge">전략</code>  if없이 class를 생성후 -&gt; 합성하고 싶은 객체를 if를 통해 선택하여 생성
+    <ul>
+      <li>if의 대상이 서로 달라진다. <code class="language-plaintext highlighter-rouge">세트 전체 컨택하여 if</code> vs <code class="language-plaintext highlighter-rouge">추상체 - if각구상체</code>
+</li>
+    </ul>
+  </li>
+  <li>
+<strong>DiscountPolicy의 안전성은 전략패턴에서 유지</strong>된다.
+    <ul>
+      <li><strong>초반부터 확정되어있거나 안정화되어야하는 객체다? (반대인듯?) -&gt; 선택의 여지없이 <code class="language-plaintext highlighter-rouge">전략패턴</code>을 사용해야한다.</strong></li>
+      <li>
+<strong>중간에 교체할 수 없는, 초반부터 물고 있어야하는 것이라면 -&gt; 상속 계층을 가지고 있더라도 무조건 전략패턴으로 바꿔야한다.(전략패턴은 런타임시 포인터의 포인터 연산으로 선택하게 할 수 있으므로)</strong>
+        <ul>
+          <li>runtime = 포인터의 포인터 연산이 가능한 곳 = <strong>전략패턴 -&gt; <code class="language-plaintext highlighter-rouge">Rumtime시</code> calculator자리에 ` 구상체로 언제든지 바꿀 수 있다`.</strong>
+</li>
+          <li>
+<strong>전략패턴: DiscountPolicy.calculator는 런타임시에도 포인터의포인터로 계속 바꿀 수 있다.</strong>
+            <ul>
+              <li>포인터의 if포인터</li>
+            </ul>
+          </li>
+          <li>
+<strong>템메패턴: new AmountDiscountPolicy()로 만들어버려서 더이상 바꿀 수 없다.</strong>
+            <ul>
+              <li>포인터의 포인터 전략X  if 포인터로 끝남</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="각각의-단점">
+<a class="anchor" href="#%EA%B0%81%EA%B0%81%EC%9D%98-%EB%8B%A8%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>각각의 단점</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220105856902.png" alt="image-20220220105856902"></p>
+
+<ul>
+  <li>
+<strong>템메: <code class="language-plaintext highlighter-rouge">조합 폭팔</code>이 일어난다.</strong>
+    <ul>
+      <li>상속계층이 깊어지거나, 역할수행하는 자식들이 병렬구조가 아니라 중첩구조인 경우, 조합의 경우의가 계속 늘어난다.
+        <ul>
+          <li>책에서는 요금제의 문제가 있다. 요금이 결정될 때, 중첩이면서 병렬이다. 같은 레벨에 여러개가 있음에도 불구하고 그 밑에 또 다른레벨이 있어서, 경우의수 계산시 조합폭팔이다.</li>
+        </ul>
+      </li>
+      <li>템메의 경우, 조합 폭팔(경우의 수)만큼 자식의 class를 만들어야한다.
+        <ul>
+          <li>상속을 이용한 세트를 만들었기 때문에 조합 폭팔이 일어난다. 3가지의 박스 -&gt; 각각에 120가지 과자를 선택해야한다면? -&gt; <strong><code class="language-plaintext highlighter-rouge">그만큼 class만들어야한다.</code></strong>
+</li>
+          <li><strong>그에 비해 <code class="language-plaintext highlighter-rouge">전략</code>은 그 경우의 수만큼 들어갈 수 잇게 <code class="language-plaintext highlighter-rouge">비워두고 외부에서 선택해서 1개를 받으면</code> 된다.  <code class="language-plaintext highlighter-rouge">런타임에서 바꿔 꽂아주기만</code> 하면 된다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220110257061.png" alt="image-20220220110257061"></p>
+
+<ul>
+  <li>
+<strong>전략: <code class="language-plaintext highlighter-rouge">의존성 폭팔</code>이 생긴다.</strong>
+    <ul>
+      <li>
+<strong>선택해서 넣어줄</strong>  120개의 과자를 <strong>미리 알아서 내부에서 받아줘야한다.</strong>
+        <ul>
+          <li>class를 만들진 않았지만, <strong>만들어진 class들을 알고서 내부에서 받아서 사용</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220110722859.png" alt="image-20220220110722859"></p>
+
+<ul>
+  <li>
+    <p>그럼에도 불구하고, <strong>템메는 역전된 상속임에도 <code class="language-plaintext highlighter-rouge">상속의 근본적인 문제</code>가 해결되지 않는다.</strong></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">hasA모델  = 합성 = 조합 = 전략패턴</code>을 사용하라고 추천하는 이유는 <code class="language-plaintext highlighter-rouge">의존성 폭팔은 해결가능</code>하기 때문이다.</strong></p>
+
+    <ul>
+      <li>조합 폭팔을 일으키지 않을 곳 -&gt; 템플릿메소드 패턴 or 전략패턴  사용가능</li>
+      <li>
+<strong>내부에 여러 개의 (자식의존)구성요소</strong>를 가지고 있고, 그 만큼 class를 분산해야한다면 -&gt; 전략패턴 사용
+        <ul>
+          <li>calculateFee메서드 <strong>뿐만 아니라 다른 메서드도 추상메서드를 사용해야하는 템메</strong>라면? 조합 폭팔</li>
+          <li>조합 폭팔은 막을 수 없다.</li>
+          <li>세상에서 제일 좋은 팩토리메서드 패턴 -&gt; 훅이 1개만 있는 것( <strong>훅 2개이상부터는 이미 조합폭팔로 들어가고 있는 것</strong>)
+            <ul>
+              <li>클래스로 따지면 XXX DiscountPolicy -&gt; 훅 2개부터는 AAA BBB DiscountPolicy</li>
+              <li><strong>오직 <code class="language-plaintext highlighter-rouge">calculateFee() 추상메서드 1개</code> 때문에 -&gt; <code class="language-plaintext highlighter-rouge">Amount</code>DiscountPolicy가 됬었음.</strong></li>
+              <li><strong>훅 늘어날때마다 <code class="language-plaintext highlighter-rouge">이름에 훅이 들어가면서 조합폭팔로 class가 폭팔</code></strong></li>
+              <li><strong>템메패턴 주의점: <code class="language-plaintext highlighter-rouge">훅 메서드 2개이상 사용하지마!</code></strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>템메는 <code class="language-plaintext highlighter-rouge">훅(자식에게 구현시키는 추상메서드)</code>을 <code class="language-plaintext highlighter-rouge">1개만</code> 가져야하고, <code class="language-plaintext highlighter-rouge">2개이상 들어어가야할 것 같다 싶으면 전략패턴</code>으로 바꿔야한다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">템메의 2개의 상이한</code> asbtract method(<code class="language-plaintext highlighter-rouge">훅</code>)를 정의하는 대신 -&gt; <strong>2개의 전략객체가 나타났다면?</strong></p>
+
+    <ul>
+      <li>2개의 다른 인페를 가졌으며, <strong>조합을 짜도록 2개가 <code class="language-plaintext highlighter-rouge">안에서 서로 대화</code></strong>할 것이다.</li>
+      <li>그러나 <strong>형이 밖에서 확정되서 들어오기</strong> 때문에 <strong>대화는 문제가 안된다.</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>의존성폭팔 차악으로 선택</strong>했는데, 어떻게 해결할 것인가?</p>
+
+    <ul>
+      <li>템메 훅의 갯수 == 내부 if의 갯수 -&gt; 코드안에 if속에 if를 해결한 것
+        <ul>
+          <li>상속구조에서는 if AAA if BBB들을 각각 따로 떼어서 AAABBBDiscountPolicy로 class를 만드니 <strong>class 내부는 단순하다.</strong>
+</li>
+        </ul>
+      </li>
+      <li>
+<strong>외부 전략객체 갯수 == 외부 if의 갯수</strong>
+        <ul>
+          <li>외부에서 선택된 객체 -&gt; <strong><code class="language-plaintext highlighter-rouge">내부</code>에서 받아줄 때, <code class="language-plaintext highlighter-rouge">각 경우를 어떻게 쓸지를 작성하는 복잡한 코드</code>.</strong> == <strong><code class="language-plaintext highlighter-rouge">의존성 폭팔(코드가 각 객체에 따라 복잡해짐.)</code></strong>
+</li>
+        </ul>
+      </li>
+      <li>
+<strong>너무 많은 전략객체는 어떻게 해결할 것</strong>인가?
+        <ul>
+          <li>합성모델 사용했는데, 다중 합성 객체를 가질 경우의 의존성폭팔은 어떻게 해결할 것인가?</li>
+          <li>객체지향 목적의 1/2</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="생성사용패턴과-팩토리">
+<a class="anchor" href="#%EC%83%9D%EC%84%B1%EC%82%AC%EC%9A%A9%ED%8C%A8%ED%84%B4%EA%B3%BC-%ED%8C%A9%ED%86%A0%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>생성사용패턴과 팩토리</h4>
+
+<p>책 9장에서 나오는 의존성 폭팔을 해결해보자.</p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220113150656.png" alt="image-20220220113150656"></p>
+
+<ul>
+  <li>
+<strong>코드를 자세히 바라보면, <code class="language-plaintext highlighter-rouge">객체 생성코드</code>가 있고 <code class="language-plaintext highlighter-rouge">만들어진객체 사용코드</code> 따로 있다.</strong>
+    <ul>
+      <li>이 2 코드를 병행해서 쓰지마라.<strong>분리해서 관리하는 것이 훨씬 더 유지보수에 좋다.</strong>
+        <ul>
+          <li>생명주기가 다르다.(만드는 것은 1번만 만들고 끝. 사용은 계속)</li>
+          <li>쓰는 타이밍도 다르다.(지금 만들었는데, 쓰는 것은 10년 뒤 )</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220115116170.png" alt="image-20220220115116170"></p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">변화율에 따라 따로 코드관리</code>를 하는 것이 객체지향의 목표다.
+    <ul>
+      <li>객체지향이 변화율을 나눠주는 것이 아니라 <strong><code class="language-plaintext highlighter-rouge">책임기반 프로그래밍이 변화율을 나눠준다.</code></strong>
+        <ul>
+          <li><strong>생성(책임)코드  vs 사용(책임)코드 : <code class="language-plaintext highlighter-rouge">그 사이에 38선을 그어라</code></strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>둘을 나누자.</strong>
+    <ul>
+      <li>책에는 <code class="language-plaintext highlighter-rouge">생성코드 -&gt; client쪽</code>으로 밀어라
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220115144457.png" alt="image-20220220115144457">
+</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">사용코드 -&gt; service쪽</code>으로 들고와라</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220115212929.png" alt="image-20220220115212929"></p>
+
+<ul>
+  <li>
+<strong>clinet에서 -&gt; service쪽으로  <code class="language-plaintext highlighter-rouge">객체를 injection(주입)</code>할 수 밖에 없다.</strong>
+    <ul>
+      <li>원래는 service안에 뭉쳐있던 <strong>생성코드를 무조건 client쪽으로 더 밀어내자.</strong>
+        <ul>
+          <li>상대적인 것이기 때문에, main메서드가 아니더라도 보다 더 밀어내면 된다.</li>
+          <li>안타까운 얘기지만, 생성코드 밀어내는 것은 실력에 비례한다.</li>
+        </ul>
+      </li>
+      <li>사용쪽은 점점 service안쪽으로 데려오자. <strong>생성코드를 client쪽으로 밀어내는 것은 어렵다.</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">생성사용패턴</code>을 이용해서 코드를 리팩토링해야한다.
+    <ul>
+      <li>
+<strong>알고리즘이라 생각했던 것(생성코드가 없던 것)</strong>-&gt;</li>
+      <li>
+<strong>Type(형)으로 바꿔서 생성한다.(생성 코드로 바꿔서 형을 만든다.)</strong> (by 인페 -&gt; 구현한 class?) -&gt;</li>
+      <li>
+<strong>client를 밀어내서 생성하도록 알고리즘을 바꾼다.</strong>(인페를 받도록 하고 인페호출하도록 코드를 짠 뒤, 외부생성한 전략객체를 받아준다?)</li>
+    </ul>
+  </li>
+  <li>
+<strong>나의 떡진 알고리즘 -&gt; 일부를 형(Type)으로 바꾸는데 성공해야한다. -&gt; 생성해서 이용하는 코드로 바꾼다. -&gt; 생성한만큼 바깥으로 밀어낸다.</strong>
+    <ul>
+      <li>책 11장에서 설명함.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="전략의-injection">
+<a class="anchor" href="#%EC%A0%84%EB%9E%B5%EC%9D%98-injection" aria-hidden="true"><span class="octicon octicon-link"></span></a>전략의 Injection</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220121356777.png" alt="image-20220220121356777"></p>
+
+<ul>
+  <li>
+<strong>(전략객체는) <code class="language-plaintext highlighter-rouge">생성자</code>를 통해 외부에서 생성되어 <code class="language-plaintext highlighter-rouge">주입</code></strong>되고 있다.
+    <ul>
+      <li>my) 전략객체는 외부에서 선택생성하여 주입되는데 -&gt; <strong>생성자를 통해 외부에서 주입</strong>된다</li>
+    </ul>
+  </li>
+  <li>
+<strong>주입되는 것은 실무적으로 불만이 많다</strong>고 한다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220123326297.png" alt="image-20220220123326297">
+    <ul>
+      <li>주입 = <strong>바깥(Client생성코드)에서 주도적</strong>으로 여기(Service사용코드) 다 넣었다.
+        <ul>
+          <li>clinet는 자기가 원해서 주입했으니 능동적</li>
+        </ul>
+      </li>
+      <li>
+<strong>하지만, 독립된 책임과 역할을 가진 <code class="language-plaintext highlighter-rouge">DiscountPolicy</code>입장에서는 <code class="language-plaintext highlighter-rouge">달갑지 않다</code></strong>
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">왜 바깥에서 내 입에 단팥빵을 확 쑤셔넣지?</code></li>
+          <li><code class="language-plaintext highlighter-rouge">내 역할과 책임은 어디갔지?</code></li>
+        </ul>
+      </li>
+      <li><strong>injection은 외부에서 쑤셔넣는 것 -&gt; <code class="language-plaintext highlighter-rouge">생성자로 받아주는 쪽의 역할과 책임은 약화</code>된다.</strong></li>
+      <li>
+<strong>나는 <code class="language-plaintext highlighter-rouge">pushed</code>를 당하고 싶지 않다. 내가 원할 때만 <code class="language-plaintext highlighter-rouge">pull</code> 해줘</strong>
+        <ul>
+          <li>헐리웃 원칙 위배. <code class="language-plaintext highlighter-rouge">""내가 단팥빵 먹고 싶을 때 말할 거야. 니가 왜 쑤셔넣어"</code>
+</li>
+          <li><strong>my) 생성자를 통해 주입하는 방식 = pushed하여 제어권을 잃는 방식</strong></li>
+          <li>나쁜 코드</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="전략의-factory">
+<a class="anchor" href="#%EC%A0%84%EB%9E%B5%EC%9D%98-factory" aria-hidden="true"><span class="octicon octicon-link"></span></a>전략의 Factory</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220152122531.png" alt="image-20220220152122531"></p>
+
+<ul>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">제어권 역전</code>을 위해 <code class="language-plaintext highlighter-rouge">Factory</code>를 만들어보자.</strong></p>
+
+    <ul>
+      <li>
+        <p>함수형 프로그래밍에서 <code class="language-plaintext highlighter-rouge">지연 함수</code>와 같은 역할을 한다.</p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">Factory</code>: 외부에서 생성코드를 받을 때, <code class="language-plaintext highlighter-rouge">내가 원할 때 pull해올 수 있도록</code>해주는 <code class="language-plaintext highlighter-rouge">인터페이스</code>를 가지고 있다.</strong></p>
+
+        <ul>
+          <li>
+            <p><strong>외부에서</strong> setter와 유사하게 <strong>new 생성자()로 <code class="language-plaintext highlighter-rouge">강제로 &lt;이미 외부에서 생성된 전략객체&gt;를 pushed하게 주입</code></strong>하는 경우 -&gt; <code class="language-plaintext highlighter-rouge">무조건 받아놔야한다..</code> = pushed</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220154524964.png" alt="image-20220220154524964"></p>
+          </li>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">Factory</code>을 <code class="language-plaintext highlighter-rouge">미리 알고 있은 체</code>  내가 원할 때 <code class="language-plaintext highlighter-rouge">pull</code>하여 <code class="language-plaintext highlighter-rouge">주입 받기(단팥빵 먹기)</code></strong></p>
+
+            <ul>
+              <li>
+<code class="language-plaintext highlighter-rouge">전략인페 + 전략객체-메소드호출용 추상메소드</code> -&gt; 외부에서 전략객체 생성하여 공급
+  <code class="language-plaintext highlighter-rouge">전략 Factory인페 + 전략객체-반환용 추상메소드</code> -&gt; 외부에서 전략객체 supplier 공급</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220152959772.png" alt="image-20220220152959772"></p>
+
+<ul>
+  <li>
+    <p>재료인 money는 생성자를 통해 미리 받아야하지만, (Calculator를 사용하는 DiscountPolicy입장에서)<strong><code class="language-plaintext highlighter-rouge">원하는Calculator(전략객체)</code>를 <code class="language-plaintext highlighter-rouge">원할 때 + 캐쉬정책까지 사용</code>해서 <code class="language-plaintext highlighter-rouge">싱크로나이즈까지 걸어서 멀티쓰레드도 대처</code>하여 전략객체 반환</strong>한다.</p>
+
+    <ul>
+      <li>
+        <p>전략 객체가 pushe당하면 -&gt;그에 따른 메서드 호출만 정의해준 중간 전략인페 -&gt;  메서드 구현만 달리해주던 전략객체의 구상체class</p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">Factory</code>는 기본적으로 구상클래스를 모르게 감춰주는 역할 뿐만 아니라</strong>
+  (DiscountPolicy는 전략패턴 사용하면 client에서 만들어서 공급되므로 어차피 구상클래스를 모름)</p>
+
+        <ul>
+          <li><strong>pushed가 맘에 안들어서, 외부에서 어캐 공급하든 간에 <code class="language-plaintext highlighter-rouge">get전략객체()</code>메소드를 <code class="language-plaintext highlighter-rouge">사용처(DiscountPolicy)에 재공하여 필요할 때 외부객체를 pull</code>하도록 한다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>my) <strong>전략패턴의 <code class="language-plaintext highlighter-rouge">전략객체 외부공급</code>은 손(Factory) 쓰지 않으면 <code class="language-plaintext highlighter-rouge">사용을 위해 &lt;이미 외부생성&gt;-&gt; 생성자를 통해 무조건 &lt;전략객체를&gt; 받아쳐먹어야</code>하는 pushed 상황이었다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220160411281.png" alt="image-20220220160411281"></p>
+  </li>
+  <li>
+    <p><strong>Factory를 사용하는 이유</strong>는, <code class="language-plaintext highlighter-rouge">전략객체</code>를 받아서 바로 사용해야 하는<strong>미리생성된 전략객체 pushed 공급</strong>이 맘에 들지 않기 때문에  <strong><code class="language-plaintext highlighter-rouge">Factory를 먼저 pushed</code>해주는 작전이다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220160634824.png" alt="image-20220220160634824"></p>
+
+    <ul>
+      <li>
+        <p><strong>물론 주입 <code class="language-plaintext highlighter-rouge">pushed</code>되긴 한다. 하지만 <code class="language-plaintext highlighter-rouge">호출하는 전략객체(단팥빵)</code>을 입에 쑤셔넣는게 아니라 <code class="language-plaintext highlighter-rouge">원할 때 전략객체(단팥빵)을 생성</code> 할 수 있는 <code class="language-plaintext highlighter-rouge">supplier(리모콘) 인페객체</code>을 생성자를 통해 pushed받을 뿐이다.</strong></p>
+
+        <ul>
+          <li>my) <code class="language-plaintext highlighter-rouge">전략객체용-메서드호출 전략인페</code>만 가지고 있다가 -&gt; <code class="language-plaintext highlighter-rouge">전략인페 반환 supplier 인페</code>를 추가 구현후 -&gt; 구상체<code class="language-plaintext highlighter-rouge">supplier</code>를 외부에서 pushed받는다.</li>
+          <li>my) <code class="language-plaintext highlighter-rouge">전략객체 생성을 사용처(DiscountPolicy) 필요시 내부 supplier.getter().전략객체용메서드호출</code>로 사용한다.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220161243400.png" alt="image-20220220161243400"></p>
+      </li>
+      <li>
+        <p>Factory를 통해서, 조금 더 늦게 +  원할 때 + 캐슁까지 써서 pushed되는 것이 <code class="language-plaintext highlighter-rouge">Lazy pulled</code>라고 한다.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220161402094.png" alt="image-20220220161402094"></p>
+
+<ul>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">Factory로 pushed</code></strong>됬으면, 이제 <strong><code class="language-plaintext highlighter-rouge">Lazy pull</code>할 찬스가 생긴다.</strong></p>
+
+    <ul>
+      <li>원할 때, supplier를 통해 원하는 <strong>전략객체(XXXCalculator)를 얻을 수 있었다. 그 전까진 메모리에 생성X</strong> +  그이후론 <strong><code class="language-plaintext highlighter-rouge">supplier.getter() 정의부 = 해당전략 class의 변수에 캐슁</code>된 전략객체를 사용하게 된다.</strong>
+</li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">Factory</code>의 <code class="language-plaintext highlighter-rouge">.</code>체이닝을 이용한 <code class="language-plaintext highlighter-rouge">포인터의 포인터 getter()</code>는</strong>
+        <ul>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">supplier.getCalculator()</code>만 보면, 캐슁된 것(?) 다른 전략객체(?) 어느 것을 공급받을지 모른다.</strong> -&gt; <strong>DiscountPolicy는 Calculator만 알게 되는 <code class="language-plaintext highlighter-rouge">Factory</code>마법</strong>
+</li>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">lazyPulled</code>는  <code class="language-plaintext highlighter-rouge">지연연산을 통해</code> 런타임에서 다른 Calculator를 받을 수 있는 가능성을 가진다.</strong>
+            <ul>
+              <li>supplier.메서드()가 아니라 <strong>supplier(포인터)   <code class="language-plaintext highlighter-rouge">.(의 포인터)</code>를 통해 얻어서 .메서드()호출</strong>
+</li>
+              <li>포인터의 포인터는 정적바인딩이 아니라서, 런타임에서 얼마든지 바뀔 수 있다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Factory</strong>는 의존성을 역전하진 않지만, <strong><code class="language-plaintext highlighter-rouge">push -&gt; lazy pull의 사용성을 역전</code>시킨다.</strong></p>
+
+    <ul>
+      <li>
+        <p>Factory 사용이유는 다양한데, <strong>구상XXXX는 모르게 하는 이점도 있긴한데,</strong></p>
+
+        <p><strong>현재 상황(전략패턴)</strong>에서 DiscountPolicy는 Calculator는 알지 <strong><code class="language-plaintext highlighter-rouge">구상Calculator</code>는 원래 모르는 상황</strong>이다.</p>
+
+        <ul>
+          <li><strong>먼저, 사용성 역전(<code class="language-plaintext highlighter-rouge">전략객체 바로 pushed</code> -&gt; Factory의 supplier로 <code class="language-plaintext highlighter-rouge">캐슁+필요시 생성하는 lazyPull</code>이 가능해졌다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="단순객체return-factory의-문제점열차전복">
+<a class="anchor" href="#%EB%8B%A8%EC%88%9C%EA%B0%9D%EC%B2%B4return-factory%EC%9D%98-%EB%AC%B8%EC%A0%9C%EC%A0%90%EC%97%B4%EC%B0%A8%EC%A0%84%EB%B3%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>단순객체return Factory의 문제점(열차전복)</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220164010525.png" alt="image-20220220164010525"></p>
+
+<ul>
+  <li>
+    <p><strong>클래스는 <code class="language-plaintext highlighter-rouge">field에 있는 지식만 알아야한다</code>. 즉, <code class="language-plaintext highlighter-rouge">포인터의 포인터에서 사용</code>하면 안된다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220164101216.png" alt="image-20220220164101216"></p>
+
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">열차전복사고 = 디미터의 법칙 위반</code>이다.</strong> 내 필드에는 <code class="language-plaintext highlighter-rouge">factory= supplier</code>팩토리만 있고 팩토리만 사용해야하는데, getter()로 <strong>구상(포인터의포인터)Calculator</strong>를 불러와 그것을 사용하고 있기 때문에
+        <ul>
+          <li>사용가능한 지식: 필드 / 필드들의 형 / 자기가 만든 객체 / 인자로 넘어온 객체 / 지역변수들</li>
+          <li>
+<strong>이렇듯, <code class="language-plaintext highlighter-rouge">단순 객체 return 팩토리</code>는 무조건 <code class="language-plaintext highlighter-rouge">디미터 법칙을 위반</code>한다.</strong>
+            <ul>
+              <li>단순 객체 return하는 팩토리는 <code class="language-plaintext highlighter-rouge">팩토리.getter() </code> .메서드()를 사용하니까..</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220165032196.png" alt="image-20220220165032196"></p>
+
+<ul>
+  <li>
+    <p><strong>디미터법칙 위반 상황에서 2가지 선택지</strong>가 있다.</p>
+
+    <ul>
+      <li>factory뿐만 아니라…  <strong><code class="language-plaintext highlighter-rouge">field</code> or <code class="language-plaintext highlighter-rouge">지역변수</code>로 Calculator를 선언하여</strong> Calculator까지도 알도록 한다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220165139585.png" alt="image-20220220165139585">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>열차전복사고는 어쩔 수 없이 포인터의 포인터도 필드or지역변수로 알게 명시해줘야한단다. 근데 그렇게 되어도.. 순환참조가 발생할 수 밖에 없다.
+          - <strong><code class="language-plaintext highlighter-rouge">CalculatorFactory</code>는 아래쪽의 <code class="language-plaintext highlighter-rouge">구상CalculatorFactory</code>가 알고 있고</strong>
+          - <code class="language-plaintext highlighter-rouge">CalculatorFactory</code>는 객체return할 때, 추상클래스인 <code class="language-plaintext highlighter-rouge">Calculator</code>를 return한다.
+          - <code class="language-plaintext highlighter-rouge">구상CalculatorFactory</code>는 객체return할 때, 구상클래스인 <code class="language-plaintext highlighter-rouge">구상Calculator</code>를 을 알고 있다.
+      - <strong>팩토리 - return객체간에 <code class="language-plaintext highlighter-rouge">회전풍차(Factory Circulation)</code>도 무조건 생긴다.</strong>
+          <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220165614239.png" alt="image-20220220165614239"></p>
+  </li>
+  <li>
+    <p>요약:  <strong>Calculator도 알게 하면 답이 없다. simple Factory는 무조건 사용하지말라는 이유가 된다.</strong></p>
+  </li>
+  <li>
+    <p><strong>사용처가 <code class="language-plaintext highlighter-rouge">factory만 아는 것을 고수해도 열차전복사고가 안나도록 설계</code>를 바꾸는 방법??</strong></p>
+  </li>
+</ul>
+
+<h4 id="위임된-팩토리">
+<a class="anchor" href="#%EC%9C%84%EC%9E%84%EB%90%9C-%ED%8C%A9%ED%86%A0%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>위임된 팩토리</h4>
+
+<h5 id="simple-factory의-전복사고-해결">
+<a class="anchor" href="#simple-factory%EC%9D%98-%EC%A0%84%EB%B3%B5%EC%82%AC%EA%B3%A0-%ED%95%B4%EA%B2%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>simple Factory의 전복사고 해결</h5>
+
+<ul>
+  <li>simple Factory의 전복사고 해결 방법
+    <ul>
+      <li>Factory에 전략메소드()를 위임 -&gt;</li>
+      <li>구상Factory에  getter()정의 -&gt; getter()사용 -&gt; 전략객체가 됨 -. 전략메서드호출()까지 하여 최종결과물을 반환</li>
+      <li>사용처(discountPolicy)에서 더이상 getter().전략메서드()의 연쇄는 안해도됨</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220172123653.png" alt="image-20220220172123653"></p>
+
+<ul>
+  <li>
+    <p>사용처(DiscountPolicy)가 <code class="language-plaintext highlighter-rouge">Factory</code>만 알아도, 열차전복이 안일어나는 방법이 있을까?</p>
+
+    <ul>
+      <li>
+        <p><strong>get으로 물어보지 않고 <code class="language-plaintext highlighter-rouge">factory에게 &lt;최종 호출메서드 calculateFee&gt;를 내부로 위임</code>을 하는 것이다.</strong></p>
+
+        <ul>
+          <li>
+            <p>사용처 내부에서 -&gt; factory(supplier)가 <code class="language-plaintext highlighter-rouge">getter로 꺼낸 뒤, 사용처 내부에서</code> 메서드호출</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220172902891.png" alt="image-20220220172902891"></p>
+          </li>
+          <li>
+            <p><code class="language-plaintext highlighter-rouge">factory에서 getter로 꺼내지않고 factory 내부에서</code> 메서드 호출</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220173112960.png" alt="image-20220220173112960"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220173329333.png" alt="image-20220220173329333"></p>
+
+<ul>
+  <li>
+    <p>my) <strong>전략Factory도 추상인페라서.. 구상Factory가 있으며, <code class="language-plaintext highlighter-rouge">구상Factory에서 해당 전략객체를 반환하는 getter가 정의</code>되어있었다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220152959772.png" alt="image-20220220152959772"></p>
+  </li>
+  <li>
+    <p><strong>이제는 <code class="language-plaintext highlighter-rouge">구상Factory에게 메서드호출()의 책임</code>이 위임되었다. **
+  **my) <code class="language-plaintext highlighter-rouge">중간에 getter로 토해내지말고</code> -&gt; <code class="language-plaintext highlighter-rouge">뒤에 연결된 것도 다 해결해서 반환</code></strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220174409904.png" alt="image-20220220174409904"></p>
+
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">구상Factory 내부</code>에서  <code class="language-plaintext highlighter-rouge">Factory의 기본역할인 캐슁+getter</code>이외에 <code class="language-plaintext highlighter-rouge">전략메서드()까지 호출한 결과값을 반환하도록 수정</code></strong>
+        <ul>
+          <li>my) getter()로 중간값을 내뱉던 (구상Factory)놈에게, <strong>니가 정의한 getter를 내부에서 사용 -&gt; (runtime에선 전략객체 상태) 전략객체의 전략 메서드호출()하여 최종결과물까지 반환 (하도록 전략메서드를 Factory에서 정의하여 책임부여)</strong>
+</li>
+          <li>
+<strong>구상Factory안에서  <code class="language-plaintext highlighter-rouge">getter-&gt;(전략객체)-&gt;전략메소드까지 호출</code> 되도록 <code class="language-plaintext highlighter-rouge">Factory에  getter가 아닌 전략메소드의 책임 위임</code> 이 되어야, DiscountPolicy는 Factory만 알고 Calculcator를 몰라도 되는 상황이 된다.</strong>
+            <ul>
+              <li>Factory에 getter의 위임만 보통있다. -&gt; <strong><code class="language-plaintext highlighter-rouge">getter는 구상Factory로 옮기고</code> 거기서 사용하게 한다.</strong>
+</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220175850784.png" alt="image-20220220175850784"></p>
+
+<ul>
+  <li>사용처(DiscountPolicy)는 Factory만 알면된다.
+    <ul>
+      <li>factory.전략메서드()호출로 정의해서 끝난다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220175918219.png" alt="image-20220220175918219">
+</li>
+    </ul>
+  </li>
+  <li>위임된 팩토리가 아니면 디미터의법칙을 해결할 방법이 없고,</li>
+  <li>
+    <p>만약에 어겨서 2개(Factory + 전략인페)를 다 알게 해도 무조건 순환참조의 상황이 되게 한다.</p>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">전략패턴</code>에 + pushe주입해결을 위한 <code class="language-plaintext highlighter-rouge">팩토리</code>를 쓰는 순간  -&gt; <code class="language-plaintext highlighter-rouge">위임된 팩토리</code>를 쓸 수 밖에 없다.</li>
+</ul>
+
+<h5 id="위임된-팩토리의-정체">
+<a class="anchor" href="#%EC%9C%84%EC%9E%84%EB%90%9C-%ED%8C%A9%ED%86%A0%EB%A6%AC%EC%9D%98-%EC%A0%95%EC%B2%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>위임된 팩토리의 정체</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220180205155.png" alt="image-20220220180205155"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220180538421.png" alt="image-20220220180538421"></p>
+
+<ul>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">위임된 팩토리</code>의 정체는  원래 <code class="language-plaintext highlighter-rouge">전략 인페(Calculator)</code> 그 자체구나!!</strong>
+    <ul>
+      <li>위임된Factory -&gt; <code class="language-plaintext highlighter-rouge">전략인페</code>로 수정해야한다.</li>
+    </ul>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">전략 인페</code>는 <code class="language-plaintext highlighter-rouge">Factory</code>로 구상할 수 도있고, <code class="language-plaintext highlighter-rouge">구상클래스</code>들로 구상할 수 도 있던 것이었다.!</strong>
+    <ul>
+      <li>pushed 주입을 해결하기 위해 getter+캐슁해주는 Factory를 도입했다.</li>
+      <li>열차전복을 해결하기 위해 Factory에는 전략메소드책임을 -&gt; 구상Factory에는 getter()이외에 전략메소드()호출해서 최종결과물을 반환해줘야한다.</li>
+      <li>그랬더니 Factory는 전략인페와 완전히 동일한 놈이 되었다. -&gt; Factory자리에 전략인페로 교체함</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220181021716.png" alt="image-20220220181021716"></p>
+
+<ul>
+  <li>Factory대신 전략인페를 넣어주면 된다.
+    <ul>
+      <li><strong>사용처 DiscountPolicy는 <code class="language-plaintext highlighter-rouge">Factory</code>대신 <code class="language-plaintext highlighter-rouge">전략인페</code>를 아는 것으로 돌아가버렸다.</strong></li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">위임된 팩토리</code>의 특징은  팩토리가 안보인다</strong>는 것
+        <ul>
+          <li><strong>전략인페의 책임(전략메소드)을 위임받았다면 -&gt; 전략인페 == 위임된팩토리 똑같기 때문</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220181056735.png" alt="image-20220220181056735"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220181102383.png" alt="image-20220220181102383"></p>
+
+<ul>
+  <li>
+    <p><strong>보기에는 삼각형의 순환참조가 남아있는 것 같다.</strong></p>
+
+    <ul>
+      <li>
+        <p>하지만, 구상Calculator인 <code class="language-plaintext highlighter-rouge">AmountCalculator</code>가  <code class="language-plaintext highlighter-rouge">AmountCalculoatrFactory</code>의 역할을 대신할 수 있기 때문에 <code class="language-plaintext highlighter-rouge">AmountCalculoatrFactory</code>는 사라진다고 한다.</p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">위임된 팩토리</code>를 사용하면 기존 3개층만 남게된다. -&gt; <code class="language-plaintext highlighter-rouge">원래 인터페이스를 수정하여, 회전풍차 4각형을 쳐내서 기존 형태로 만들면서 구현하게 된다.</code></strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220181742994.png" alt="image-20220220181742994"></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="추상-팩토리-메소드-패턴-for-의존성폭팔">
+<a class="anchor" href="#%EC%B6%94%EC%83%81-%ED%8C%A9%ED%86%A0%EB%A6%AC-%EB%A9%94%EC%86%8C%EB%93%9C-%ED%8C%A8%ED%84%B4-for-%EC%9D%98%EC%A1%B4%EC%84%B1%ED%8F%AD%ED%8C%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>추상 팩토리 메소드 패턴 for 의존성폭팔</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220181900274.png" alt="image-20220220181900274"></p>
+
+<ul>
+  <li>
+<strong>전략 -&gt; <code class="language-plaintext highlighter-rouge">의존성 폭팔을 해결</code>하기 위한 패턴</strong>
+    <ul>
+      <li>위임되든, 위임되지 않은 팩토리건 간에 <strong>여러 계층의 객체를 반환할 수 있는 능력</strong>을 가지게 되는 패턴이다.</li>
+      <li>위에서는 객체 1 종류만 반환해도 디미터법칙 위반 했었다.
+        <ul>
+          <li><strong>객체 2종류를 반환하면 어떻게 될까</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="factory에-의존성폭팔-만들어보기2종류-전략-공급으로-늘리기">
+<a class="anchor" href="#factory%EC%97%90-%EC%9D%98%EC%A1%B4%EC%84%B1%ED%8F%AD%ED%8C%94-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EA%B8%B02%EC%A2%85%EB%A5%98-%EC%A0%84%EB%9E%B5-%EA%B3%B5%EA%B8%89%EC%9C%BC%EB%A1%9C-%EB%8A%98%EB%A6%AC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>Factory에 의존성폭팔 만들어보기(2종류 전략 공급으로 늘리기)</h5>
+
+<ul>
+  <li>아직까지 <strong>의존성 폭팔</strong>이 발생하지 않았다. <strong>Factory에서 공급받는 외부<code class="language-plaintext highlighter-rouge">전략의 종류</code> 1개(Calculator) 뿐이기 때문</strong>
+</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220182921161.png" alt="image-20220220182921161"></p>
+
+<ol>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">conditions</code>들을 Factory에 위임해서 -&gt; Factory에서 받아올  예정</strong>이다.
+    <ul>
+      <li>변수 + 기능을 일단 없애준다.</li>
+      <li>우리는 (전략인페 -&gt;) 전략인페동급Factory만 일단 알고 있으면 된다.</li>
+    </ul>
+  </li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220183112073.png" alt="image-20220220183112073"></p>
+
+<ol>
+  <li>
+    <p>기존에 의존성 1번째 전략객체getter -&gt; 전략메소드인 <code class="language-plaintext highlighter-rouge">getCalculator -&gt; 전략메소드 calculateFee()</code>에 추가하여 <strong><code class="language-plaintext highlighter-rouge">2번쨰 공급 전략객체getter인 getConditions()</code>를 받아온다.</strong></p>
+
+    <ul>
+      <li>
+        <p>Conditions도 getter()로 팩토리에서 공급받게 되는데,
+  Calculator도 원래는 getter()로 공급받으나 위임된팩토리로서 메서드까지 호출하게 되었다. 그래도 2종류를 공급하는 팩토리가 되었다.</p>
+
+        <ul>
+          <li>
+            <p>더이상 Calculator가 될순 없다. -&gt; <strong>PolicyFactory라는 별도의 <code class="language-plaintext highlighter-rouge">추상레이어</code>를 만들어  <code class="language-plaintext highlighter-rouge">기존 전략인페(위임된팩토리)</code> 이후 <code class="language-plaintext highlighter-rouge">2번째 전략을 공급받아줄 2번째 전략인페</code>만들어서 중간에 끼워넣을  필요가 있다</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220626141255493.png" alt="image-20220626141255493"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220184244911.png" alt="image-20220220184244911"></p>
+
+<ol>
+  <li>Calculator이면서, getConditions() - set객체를 반환해주는 getter를 가진 Factory여야한다.
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">전략1종류 - 전략2종류를 가진 구상체</code>의 코드를 (아래 그림에서)보면, 지금은 괜찮아보이긴한다. 외부에서 2종류만 받으니까…</li>
+      <li>하지만 <strong>여러 종류의 객체를 반환하는 경우가 되면, 그 반환 객체마다의 <code class="language-plaintext highlighter-rouge">추상(전략)인페</code>가 존재하게 되고, 그만큼 구상 조합의 수가 많아지게 된다.</strong>
+</li>
+    </ul>
+  </li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220185128201.png" alt="image-20220220185128201"></p>
+
+<ul>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">conditions</code>의 상태</strong>가, 원래는 사용처 <code class="language-plaintext highlighter-rouge">DiscountPolicy</code>에 편하게 있다가 -&gt;<strong><code class="language-plaintext highlighter-rouge">Factory</code>가 공급받는 식</strong>으로 바뀌어서 -&gt; <strong><code class="language-plaintext highlighter-rouge">구상Factory</code>로 이동</strong>
+    <ul>
+      <li>my) Factory는 getter() or 전략메서드명만 명시하는 인페일 뿐, 상태+기능은 구상Factory에서</li>
+    </ul>
+  </li>
+  <li>VO가 아니라 포장만 해서 그런지, add/remove기능도 구상Factory에 정의</li>
+  <li>
+    <p>구상Factory의 주 목적인 getter <code class="language-plaintext highlighter-rouge">getConditions</code>를 제공한다.</p>
+  </li>
+  <li>이제 Factory의 구상Factory마다 수출품은 2개가 된다.
+    <ul>
+      <li>Calculator -&gt; 직접 getter로 제공하지 않고, 메소드위임받아서 결과값을 주고</li>
+      <li>conditions(set) -&gt; getter로 직접 제공
+        <ul>
+          <li><strong>2개 이상 수출품을 가지는 Factory가 <code class="language-plaintext highlighter-rouge">추상 팩토리메서드 패턴</code>의 대상들이다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>우리는 <code class="language-plaintext highlighter-rouge">추상 팩토리메서드 패턴</code>를 왜 쓸까?</strong></p>
+
+<ul>
+  <li>사용처(DiscountPolicy)가 <strong>의존성 화살표를 줄일려고 -&gt; 의존성을 <code class="language-plaintext highlighter-rouge">구상Factory로</code> 몰아줄려고</strong>
+    <ul>
+      <li>Set</li>
+      <li>DiscountCondition</li>
+      <li>calculator
+        <ul>
+          <li>
+<strong>-&gt; 의존성이<code class="language-plaintext highlighter-rouge">Factory</code>  1개 아는 것</strong>으로 바뀌게 되었다.</li>
+          <li><strong>-&gt; 내부if에 해당하는 case를 <code class="language-plaintext highlighter-rouge">구상Factory</code>로만 구현만 할 수 있으면, 생성사용패턴으로 바꿀 수 있게 되었따.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>DiscountPolicy -&gt; 구상Factory로 몰빵된 의존성 -&gt;
+    <ul>
+      <li>
+<strong>구상Factory를 계속 찍어내면</strong>, <code class="language-plaintext highlighter-rouge">알고리즘(if , if의 조합)</code>을 바꿀 수 있게 된 것이다.
+        <ul>
+          <li>
+<strong>안에서 if로 처리하던 것을 class로 바깥으로 밀어낸 뒤, 바깥에서 공급</strong> 받을 수 있게 된 것</li>
+          <li>생성사용패턴으로 바꾸게 된 것</li>
+          <li>Factory패턴의 진정한 의미
+            <ul>
+              <li>내 원래 코드 -&gt; 인터페이스로 바꿈 -&gt; 각 case마다 형(class)로 만들고 -&gt; 바깥에서 생성하도록 밀어냄</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>우리들의 코드에서 <code class="language-plaintext highlighter-rouge">추상팩토리</code> or <code class="language-plaintext highlighter-rouge">팩토리</code>가 등장하지 않는 이유:  코드를 형으로 바꿔서 바깥에서 공급받도록 개조하지 않았기 때문 -&gt; 형을 통해서만 공급받아야한다.</li>
+      <li>그냥 주입하는게 아니라 <code class="language-plaintext highlighter-rouge">Factory</code>를 통해 주입 -&gt; <code class="language-plaintext highlighter-rouge">lazy Pull 땡기는 타이밍을 정할 수 </code>있게 되었다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220200300130.png" alt="image-20220220200300130"></p>
+
+<ul>
+  <li>이제 Factory만 받아오면 된다.
+    <ul>
+      <li>factory에게 getConditions
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">new HashSet의 생성코드</code>도 <code class="language-plaintext highlighter-rouge">Factory</code>에게 다 넘어갔다.</strong></li>
+        </ul>
+      </li>
+      <li>factory에게 Calculator역할의 메서드 호출</li>
+    </ul>
+  </li>
+  <li>하지만, 문제가 남아있다.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220200724416.png" alt="image-20220220200724416"></p>
+
+<ul>
+  <li>
+    <p><strong>forEach</strong>를 쓰고 있다. -&gt; <strong><code class="language-plaintext highlighter-rouge">열차 전복사고</code>가 안에 내장</strong>되어있다.</p>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">set.iterator() 호출이 생략</code>된 for문 -&gt; 열차전복사고 중</li>
+    </ul>
+  </li>
+  <li>
+    <p>DiscountPolicy는  <code class="language-plaintext highlighter-rouge">&lt;Set&gt;Conditions</code>가 무엇인지 모른다 -&gt; 무엇을 반환하는지도 모른다.</p>
+
+    <ul>
+      <li>
+<strong>만약, 뭘 가지고 있는지 안다? == 디미터 법칙에 의해 필드로</strong> 잡아서 받아줘야한다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">&lt;Set&gt;Condition</code>뿐만 아니라, <code class="language-plaintext highlighter-rouge">DiscountCondition</code>도 뭔지 모르는 상태 -&gt; 디미터법칙이 2중으로 일어나고 있다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220201355471.png" alt="image-20220220201355471"></p>
+
+    <ul>
+      <li>
+<strong>디미터법칙은 위임을 통해 해결</strong>한다.<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220201423238.png" alt="image-20220220201423238">
+</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220201438499.png" alt="image-20220220201438499"></p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">Factory</code>에게 <code class="language-plaintext highlighter-rouge">하늘색 박스 == DiscountPolicy가 모르는 부분</code>을 모두 위임시켜야한다.
+    <ul>
+      <li>모든 Factory마다 동일한 policy의 공통로직이다.</li>
+      <li><strong><code class="language-plaintext highlighter-rouge">인터페이스의 공통 로직</code>은 Factory라는  <code class="language-plaintext highlighter-rouge">인터페이스의 default메소드</code>로 구현하면 된다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220201633329.png" alt="image-20220220201633329"></p>
+
+<ul>
+  <li>상속한 Calculator 것들은 구상Factory에서 구현하도록 두고
+    <ul>
+      <li>공통로직 위임받은 것을 default메소드로 새로운 calculateFee()를 정의해준다.</li>
+      <li>이 때, <strong><code class="language-plaintext highlighter-rouge">getConditions()로직은 본인안에서 쓰게 된다 == getter()를 자기가 써서 최종결과물을 반환하는 디미터 해결</code></strong>
+</li>
+      <li>Factory는 원래 DiscountCondition을 알고 있었다.(원래 공급해야할 놈)  -&gt; 사용해도 괜춘 디미터법칙위반X
+        <ul>
+          <li>DiscountPolicy는 몰라서 문제가 됬었음.</li>
+        </ul>
+      </li>
+      <li>
+<code class="language-plaintext highlighter-rouge">return calculateFee( fee )</code>의 부분은  이 인페를 구상할 구상클래스가 만들어주는 <code class="language-plaintext highlighter-rouge">템메(상속역전)</code>패턴도 사용된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>전략 2종류를 공급하기 때문에, 2개의 훅이 생겼을 것이다.</p>
+
+<ol>
+  <li>Calculator 상속으로 인해 -&gt; 구상Calculator에서 받아오는 템메 훅</li>
+  <li>getCondtions라는 훅</li>
+</ol>
+
+<p>원래 <code class="language-plaintext highlighter-rouge">훅 2개의 문제점 == 템메의 조합폭팔</code>의 문제점들을 —&gt; Factory에게 밀어버렸다. —&gt; 외부에 밀어놓으 전략+Factory</p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220202835752.png" alt="image-20220220202835752"></p>
+
+<ul>
+  <li>최종 <code class="language-plaintext highlighter-rouge">DiscountPolicy</code>를 보면
+    <ul>
+      <li>Factory를 받아서, factory에게 calculateFee()를 위임하는 끝난다.</li>
+      <li>진정한 <code class="language-plaintext highlighter-rouge">사용코드</code> 밖에 없다</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">생성코드</code>밖에 없다?</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220203241684.png" alt="image-20220220203241684"></p>
+
+<ul>
+  <li>
+<strong>DiscountPolicy에 <code class="language-plaintext highlighter-rouge">생성</code>이 관여 or <code class="language-plaintext highlighter-rouge">중복 로직</code> or 더큰 문제는 <code class="language-plaintext highlighter-rouge">의존성 폭팔을 일으키는 &lt;내가 모르는 것&gt;</code>이 있나? 살펴보자.</strong>
+    <ul>
+      <li>Factory입장에서, 내가 알고 있는 애들끼리의 관계 -&gt; <strong>의존성폭팔(공급받아 가지고 있지만, 애들 사용법 지식을 다 알아야한다)</strong>
+</li>
+      <li>DiscountPolicy입장에서,
+        <ul>
+          <li>Factory로 부터 공급받은 <code class="language-plaintext highlighter-rouge">&lt;Set&gt; Conditions</code>와  <code class="language-plaintext highlighter-rouge">Calculator</code>에 대해 <strong>사용법 지식을 알려줘야한다.</strong>
+            <ul>
+              <li>보통은 공급받았다? -&gt; field(변수)에 잡아놨다. -&gt; 사용하는 지식은 어떻게 알아야하나?</li>
+              <li>DiscontPolicy가 <code class="language-plaintext highlighter-rouge">set conditions -&gt; loop -&gt; if 걸리면 -&gt; calculateFee()</code>의 지식을 다 알아야할까?</li>
+            </ul>
+          </li>
+          <li><strong>Factory를 만든 이유(지식 줄이고 Factory만 의존시키기)를 위해서 <code class="language-plaintext highlighter-rouge">의존하던 모든 것들을 Factory에 이동</code>시켜야한다.</strong></li>
+          <li><strong>Factory -&gt; 공급하는 2종류의 사용법도 Factory가 지식을 알도록 거기서 다 사용해서 최종결과물만 공급하도록 -&gt; 이사시킨다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">추상 팩토리 메서드 패턴</code>도 <code class="language-plaintext highlighter-rouge">위임된 팩토리</code>패턴을 가지게 된다.
+    <ul>
+      <li>팩토리 패턴이 어려운 이유: 위임의 시작 + 1종류보다 더 많은 것(공급하는 것들)을 가져오게 됨.</li>
+      <li>calculator와 condition만 공급해서 위임받을려 했는데, screening에 대한 책임까지 떠넘겨졌다.
+        <ul>
+          <li>Factory가 screening에 대한 의존성도 생기게 됨</li>
+          <li>DiscountPolicy의 의존성을 낮추려는 것이 목적. 보호하게 되었음.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>따라서, 아키텍쳐 상으로 가장 먼저 결정해야할 것은 <strong>변화에 가장 강하게 대응할 수 있게끔 <code class="language-plaintext highlighter-rouge">보호해야할 객체</code>가 누군지 알아야한다.</strong>
+    <ul>
+      <li>가장 변화가 생기는 부분부터 챙긴다. -&gt; 추가/변화/늘어나는/미정의 부분을 먼저 찾고 -&gt; <strong>상속도 받지않는 <code class="language-plaintext highlighter-rouge">안변하는 클래스</code>를 먼저 만든다. -&gt; 이것을 기준으로 <code class="language-plaintext highlighter-rouge">책임, 역할이 이 class로 향하도록</code> 짠다.</strong>
+</li>
+      <li>설계요령: <strong>의존성을 주입할 때, <code class="language-plaintext highlighter-rouge">변하지 않는 class</code>에다가 의존성(<code class="language-plaintext highlighter-rouge">factory</code> 등)을 주입한다</strong>
+        <ul>
+          <li>DiscountPolicy가 변하지 않는 이유 -&gt; 모든 DiscountPolicy의 변하는 부분을 Factory(다른 놈)이 받아가서</li>
+        </ul>
+      </li>
+      <li>
+<strong>왜 DiscountPolicy를 보호할까?</strong>
+        <ul>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">포인터</code>(DiscountPolicy)의 <code class="language-plaintext highlighter-rouge">포인터</code>(변하지 않는 놈에게 주입하는, 향하는 모든 것들, <code class="language-plaintext highlighter-rouge">Factory포함</code>)를 이용하려고</strong>
+            <ul>
+              <li>Factory는 포인터(DiscountPolicy)의 포인터기 때문에, runtime시 바꿔끼워넣을 수 있다.</li>
+              <li>하지만 <code class="language-plaintext highlighter-rouge">변하지 않는놈을 -&gt; 확정포인터</code>로 기준 코드를 쫘났기 때문에, 내가 알고 있는놈은 <code class="language-plaintext highlighter-rouge">절대 변하지 않게 된다</code>.</li>
+              <li>변하지 않는 사람에게 &lt;– 가짜 가면을 제공하고 &lt;– 가면을 계속 바꿔준다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>코드를 짤 때, <code class="language-plaintext highlighter-rouge">의존성</code>을 생각해서 상대적으로 짠다.</strong>
+    <ul>
+      <li>내가 어떤 코드A를 수정하는데, 의존하는 객체B가 있더라</li>
+      <li>
+<strong>변하지 않으면서 의존되는 객체B부터 빨리 확정</strong>지어야 -&gt; <strong>my) 거기에 <code class="language-plaintext highlighter-rouge">전략인페orFactory만</code>만 걸어놓고</strong> 변하는 코드A를 짤 수 있다.
+        <ul>
+          <li>도움을 받아야하는 객체들 -&gt; 모두 변하지 않게 만들어버려야한다. by 팩토리로 다 넘기고, 포인터의 포인터로 이용하게</li>
+          <li>포인터의 포인터(Factory)에게 싹다 넘기자.</li>
+          <li><strong>포인터(DiscountPolicy)는 변하지 않으니 -&gt; 이놈을 의존하는 코드들은 (내가 짤 코드 포함) 안전해질 것이다.</strong></li>
+          <li>내가 의존하는애들부터 확정시키자.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/object/2022/05/23/object1-14)%ED%85%9C%ED%94%8C%EB%A6%BF%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%9C%BC%EB%A1%9C_%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%97%90%EC%9C%84%EC%9E%84%EB%90%9Cfactory%EC%A0%81%EC%9A%A9.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

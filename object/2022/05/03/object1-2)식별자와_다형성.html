@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>OBJECT 02 식별자와 다형성(코드스핏츠) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="OBJECT 02 식별자와 다형성(코드스핏츠)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<meta property="og:description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<link rel="canonical" href="blog.chojaeseong.com/object/2022/05/03/object1-2)%EC%8B%9D%EB%B3%84%EC%9E%90%EC%99%80_%EB%8B%A4%ED%98%95%EC%84%B1.html" />
+<meta property="og:url" content="blog.chojaeseong.com/object/2022/05/03/object1-2)%EC%8B%9D%EB%B3%84%EC%9E%90%EC%99%80_%EB%8B%A4%ED%98%95%EC%84%B1.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-05-03T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-05-03T00:00:00-05:00","url":"blog.chojaeseong.com/object/2022/05/03/object1-2)%EC%8B%9D%EB%B3%84%EC%9E%90%EC%99%80_%EB%8B%A4%ED%98%95%EC%84%B1.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"OBJECT 02 식별자와 다형성(코드스핏츠)","dateModified":"2022-05-03T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/object/2022/05/03/object1-2)%EC%8B%9D%EB%B3%84%EC%9E%90%EC%99%80_%EB%8B%A4%ED%98%95%EC%84%B1.html"},"description":"object 책을 강의한 코드스핏츠 유튜브 요약","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OBJECT 02 식별자와 다형성(코드스핏츠)</h1><p class="page-description">object 책을 강의한 코드스핏츠 유튜브 요약</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-05-03T00:00:00-05:00" itemprop="datePublished">
+        May 3, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#ch2-객체지향이라면">ch2. 객체지향이라면</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#value--identifier-객체는-값이-아닌-식별자메모리주소로-식별">value &lt; identifier: 객체는 값이 아닌 식별자(메모리주소)로 식별</a></li>
+<li class="toc-entry toc-h4"><a href="#polymorphism-이게-지원되야-진짜-객체지향">Polymorphism: 이게 지원되야 진짜 객체지향</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#대체가능성-포인터1위쪽-여러-형들-껍데기의-포인터2변형가능성있는-메소드-or-변수">대체가능성: 포인터1(위쪽 여러 형들, 껍데기)의 포인터2(변형가능성있는 메소드 or 변수)</a></li>
+<li class="toc-entry toc-h5"><a href="#내적-동질성-메소드참조는-다른-형인-상태라도-출신class메소드를-참조">내적 동질성: 메소드참조는 다른 형인 상태라도 출신class메소드를 참조</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#object">object</a></li>
+</ul>
+</li>
+</ul><ul>
+  <li>참고 유튜브 : https://www.youtube.com/watch?v=navJTjZlUGk</li>
+  <li>정리본: https://github.com/LenKIM/object-book</li>
+  <li>코드: https://github.com/eternity-oop/object</li>
+  <li>책(목차) : https://wikibook.co.kr/object/</li>
+</ul>
+
+<h3 id="ch2-객체지향이라면">
+<a class="anchor" href="#ch2-%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%9D%B4%EB%9D%BC%EB%A9%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>ch2. 객체지향이라면</h3>
+
+<h4 id="value--identifier-객체는-값이-아닌-식별자메모리주소로-식별">
+<a class="anchor" href="#value--identifier-%EA%B0%9D%EC%B2%B4%EB%8A%94-%EA%B0%92%EC%9D%B4-%EC%95%84%EB%8B%8C-%EC%8B%9D%EB%B3%84%EC%9E%90%EB%A9%94%EB%AA%A8%EB%A6%AC%EC%A3%BC%EC%86%8C%EB%A1%9C-%EC%8B%9D%EB%B3%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>value &lt; identifier: 객체는 값이 아닌 식별자(메모리주소)로 식별</h4>
+
+<ul>
+  <li>
+    <p>값과 식별자</p>
+
+    <ul>
+      <li>
+        <p>객체지향에서의 <strong><code class="language-plaintext highlighter-rouge">객체</code> 구분은 <code class="language-plaintext highlighter-rouge">식별자</code>(runtime 적재되어있는 <code class="language-plaintext highlighter-rouge">메모리주소</code>)</strong> 한다.</p>
+      </li>
+      <li>
+        <p>값이 같다고 똑같은 객체X <strong><code class="language-plaintext highlighter-rouge">메모리주소</code>가 같다 = 같은 <code class="language-plaintext highlighter-rouge">식별자</code> = 같은 <code class="language-plaintext highlighter-rouge">객체</code>다</strong></p>
+      </li>
+      <li>
+        <p>값을 사용하는 context는 값만 같으면 같은 것이다.</p>
+      </li>
+      <li>
+        <p>값이 같더라도 메모리로 같고 다름을 평가한다? 객체로 평가한 것이다.</p>
+      </li>
+      <li>
+        <p><strong>java에서 문자열 비교시 .equals()를 사용하는 이유</strong></p>
+
+        <ul>
+          <li><strong>java에서는 <code class="language-plaintext highlighter-rouge">그냥 비교</code>하면 <code class="language-plaintext highlighter-rouge">식별자</code>를 비교해버린다.</strong></li>
+          <li>문자열을 값으로서 비교를 원하면 equals를 써야한다.</li>
+        </ul>
+      </li>
+      <li>
+        <p>현대언어에서는 이 모순(그냥 비교 == 식별자 비교 like java)를 해결해서</p>
+
+        <ul>
+          <li>값 context를 쓰는 애들은, <code class="language-plaintext highlighter-rouge">그냥 비교</code> = <code class="language-plaintext highlighter-rouge">값 비교</code>가 default가 연산자가 작동하게 된다.</li>
+          <li>javascript에서는 string을 객체로 안보고 값으로 본다.
+            <ul>
+              <li>할당하거나 인자를 보내면 무조건 복제본이 된다.(주소전달X)</li>
+              <li>비교시에도 안에 내용물만 비교</li>
+            </ul>
+          </li>
+          <li>java에서는 string을 값으로 보기엔, 사람들이 너무 멍청하니까, 기본적으로 객체(식별자)로 기본 비교하게 해놨다. -&gt; equals()를 써야 값으로만 비교한다.
+            <ul>
+              <li>비교시, 메모리의 주소인 식별자로 평가된다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>name이라는 <code class="language-plaintext highlighter-rouge">field</code>를 이용해서,  equals 메소드를 <code class="language-plaintext highlighter-rouge">field 값</code>이 <code class="language-plaintext highlighter-rouge">== 같은지</code>의 결과로 판단하도록 메소드를 짠다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220122193121636.png" alt="image-20220122193121636"></p>
+
+        <ul>
+          <li>
+            <p><strong>(필드)값으로써 비교하는 메소드가 된다.</strong></p>
+          </li>
+          <li>
+            <p><strong>값으로 쓰려고 마음 먹은 메소드. 더이상 객체가 아니라고 생각한다</strong></p>
+          </li>
+          <li>
+            <p>cf) 코틀린에서 <code class="language-plaintext highlighter-rouge">==</code> : 값으로 평가 <code class="language-plaintext highlighter-rouge">equals()</code>를 호출 / <code class="language-plaintext highlighter-rouge">===</code> : 식별자로 평가</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220122193414611.png" alt="image-20220122193414611"></p>
+
+            <ul>
+              <li>
+<code class="language-plaintext highlighter-rouge">값</code>으로 평가하는 메소드 <code class="language-plaintext highlighter-rouge">ValueType()</code>는 true가 나오고</li>
+              <li>
+<code class="language-plaintext highlighter-rouge">식별자</code>비교시에는 false가 나온다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>내가 이 객체를 값으로 볼지 vs 객체로 볼지 를 먼저 정해야한다.</strong></p>
+
+        <ul>
+          <li><strong>객체로 본다면 -&gt; 무슨 값을 가지든 식별자로서 확인이 된다</strong></li>
+          <li><strong>값으로 본다면 -&gt; 안에 있는 값만 확인한다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>객체지향에서는 객체를 지향하므로 <strong>모든 평가를 <code class="language-plaintext highlighter-rouge">식별자(identifier)</code>로 평가한다?</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>Okay. 미리 정해진 답이 아니라면 객체로 쓰자</strong>.</p>
+
+        <ul>
+          <li>
+            <p><strong>우리는 식별자로 시스템을 만들어가야한다</strong></p>
+          </li>
+          <li>
+            <p>setter로 협력자 객체를 받아왔다?</p>
+
+            <ul>
+              <li><strong>값으로 확인? (X) 식별자context를 통해서 식별한다.</strong></li>
+            </ul>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220122194001367.png" alt="image-20220122194001367"></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>특정값을 정해서 미리 가지고 있는 유형이 아니라면</p>
+
+        <ul>
+          <li>객체지향이라고 해서 숫자, 문자 안쓰는 것은 아님.</li>
+          <li>값 지향 -&gt; 함수형 시스템에서는 참조를 지향하지 않는다
+            <ul>
+              <li>불변성과 순수함수를 위해서</li>
+              <li>똑같이 나오려면 값 지향을 해야한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="polymorphism-이게-지원되야-진짜-객체지향">
+<a class="anchor" href="#polymorphism-%EC%9D%B4%EA%B2%8C-%EC%A7%80%EC%9B%90%EB%90%98%EC%95%BC-%EC%A7%84%EC%A7%9C-%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>Polymorphism: 이게 지원되야 진짜 객체지향</h4>
+
+<ul>
+  <li>객체지향이라 부를려면, <code class="language-plaintext highlighter-rouge">폴리모피즘(다형성)</code>이 시스템에서 지원되어야 객체지향이라 부를 수 있다.
+    <ul>
+      <li>
+<strong>이게 안되면</strong> 객체지향 <strong>방식으로 짜는 것일 뿐</strong>이다.</li>
+    </ul>
+  </li>
+  <li>
+<strong>다형성은 구체적인 2가지 요소가 충족</strong>되어야한다.
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">Substitution(대체가능성)</code>:</strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">Internal identity(내적동질성)</code>:</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="대체가능성-포인터1위쪽-여러-형들-껍데기의-포인터2변형가능성있는-메소드-or-변수">
+<a class="anchor" href="#%EB%8C%80%EC%B2%B4%EA%B0%80%EB%8A%A5%EC%84%B1-%ED%8F%AC%EC%9D%B8%ED%84%B01%EC%9C%84%EC%AA%BD-%EC%97%AC%EB%9F%AC-%ED%98%95%EB%93%A4-%EA%BB%8D%EB%8D%B0%EA%B8%B0%EC%9D%98-%ED%8F%AC%EC%9D%B8%ED%84%B02%EB%B3%80%ED%98%95%EA%B0%80%EB%8A%A5%EC%84%B1%EC%9E%88%EB%8A%94-%EB%A9%94%EC%86%8C%EB%93%9C-or-%EB%B3%80%EC%88%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>대체가능성: 포인터1(위쪽 여러 형들, 껍데기)의 포인터2(변형가능성있는 메소드 or 변수)</h5>
+
+<ul>
+  <li>예를 들어
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220122195245713.png" alt="image-20220122195245713">
+    <ul>
+      <li>클래스 Worker가 Runnable(인터페이스)를 implements해서 run()을 구현하고 있다.</li>
+      <li>이 때, 클래스Worker()객체는 Worker형이 아니라, Runnable형(인터페이스를 형)으로 지정해서 객체를 집어넣는다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220122195422209.png" alt="image-20220122195422209">
+        <ul>
+          <li>
+<strong>worker는 클래스Worker타입인데, 어떻게 인터페이스Runnable타입으로 들어갔을까</strong>
+            <ul>
+              <li>
+<strong>클래스Worker가 인페Runnable을 구상한 것이기 때문에 가능</strong>해진다.</li>
+              <li>
+<strong><code class="language-plaintext highlighter-rouge">자기형은 아닌데 자기형을 포괄하는 형에는 소속될 수 있다.</code>(상속아니므로 실제 포괄X)</strong>
+                <ul>
+                  <li>클래스Wokrer는 자기형=Worker형뿐만 아니라 Runnable형을 가지고 있다. 둘 중에 하나를 선택해서 객체를 집어넣을 수 있다.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>**포괄하는형에 넣은 순간부터는 worker는 Worker로서는 기능하지 못하고 Runnable로써 밖에 기능을 못한다 **
+        <ul>
+          <li><strong>왜냐면, <code class="language-plaintext highlighter-rouge">Pointer of Pointer</code>개념으로서, <code class="language-plaintext highlighter-rouge">껍데기인 Runnable</code>의 포인터를 통해서 <code class="language-plaintext highlighter-rouge">worker</code>의 포인터를 다루게 되므로</strong></li>
+          <li>
+<strong>Runnable의 포인터를 통해서 worker를 다루게 되므로</strong>
+            <ul>
+              <li><strong>Runnable안에 있는 집합만 사용가능</strong></li>
+              <li><strong>Worker객체지만, Worker의 run()만 사용가능해짐</strong></li>
+              <li>Runnable - run() —매핑—&gt; 실제구현된 worker 속 run() 메소드</li>
+              <li>사용자는 Runnable 밖에 못다룬다. -&gt; run() 밖에 못다룬다.</li>
+              <li>run()을 찾아들어간다면?  직접 run()? ㄴㄴ
+                <ul>
+                  <li>관계에 의해 Runnable을 통해 -&gt; run() -&gt; 매핑 -&gt; 실제구현된 worker의 run() 메소드까지 포인터의 포인터로 찾아들어간다.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>다형성을 쓰면, 직접 run()을 호출하는 것보다 느려질 수 밖에 없게 된다.
+            <ul>
+              <li>포인터의 포인터를 찾아가서. 그냥 바로 쓰는게 아니다.</li>
+              <li>다형성은 꽁짜가 아니라 비용이 크다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>자세히 보자면
+    <ul>
+      <li>인터페이스 상속한 클래스가 객체를 생성하는 순간, 쉽게 생각하려면, 
+  <strong>객체 생성자 호출시 -&gt;  메모리 속에 2개의 변수가 동시에 생성된다고 생각</strong>하자.
+        <ul>
+          <li><strong>Runnable 객체</strong></li>
+          <li><strong>Worker 객체</strong></li>
+          <li>
+<strong>2개 중에 배정하는 형에 포인터를 배정</strong>한다.
+            <ul>
+              <li>Runnable</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Runnable 객체인 <code class="language-plaintext highlighter-rouge">worker.run()</code>을 때리면 run()을 찾기 위해서
+        <ul>
+          <li>Runnable(껍데기 포인터)부터 찾아들어간 다음</li>
+          <li>run(내부 포인터)를 찾아들어간 다음</li>
+          <li>실제 구현부 Worker - run()을 찾아들어간다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>대체가능성(포인터의 포인터)을 실현하는 방법은 간단하다
+    <ul>
+      <li>자바스크립트: 프로토타입 체인 생성 -&gt; 포인터의 포인터…</li>
+      <li>책에서는 <code class="language-plaintext highlighter-rouge">동적 바인딩</code>이라 부르는데, runtime에서 포인터의 연쇄를 계산하기 때문이다.</li>
+    </ul>
+  </li>
+  <li>이번에는 인터페이스 -&gt; 구현이 아니라, class -&gt; 상속받은 클래스를 예를 들어보자.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220122201811311.png" alt="image-20220122201811311">
+    <ul>
+      <li>HardWorker()의 생성자를 호출하는 순간, 3개형의 변수가 메모리에 생성된다
+        <ul>
+          <li>Runnable</li>
+          <li>Worker</li>
+          <li>HardWorker
+            <ul>
+              <li>
+<strong>3개 중에 배정하는 형에 포인터를 배정</strong>한다.</li>
+            </ul>
+          </li>
+          <li>
+<strong>Runnable형인 <code class="language-plaintext highlighter-rouge">worker =</code> 변수에다가 할당</strong>해주는 순간
+            <ul>
+              <li>Runnable에 포인터를 배정하게 된다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>대체가능성</strong>의 실체
+    <ul>
+      <li>
+<strong>내가 객체를 만들 때, 다수의 형(상속, 구현 등 위쪽 껍데기-포인터1 후보들)을 선택할 수 있는 가능성</strong>이며</li>
+      <li>
+<strong>하나의 형을 선택하면, 그 형에 해당되는 포인터를 노출함으로써</strong>
+  <strong><code class="language-plaintext highlighter-rouge">동적 바인딩</code>으로 진짜 구현되어있는 곳으로 인도하는 행위</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="내적-동질성-메소드참조는-다른-형인-상태라도-출신class메소드를-참조">
+<a class="anchor" href="#%EB%82%B4%EC%A0%81-%EB%8F%99%EC%A7%88%EC%84%B1-%EB%A9%94%EC%86%8C%EB%93%9C%EC%B0%B8%EC%A1%B0%EB%8A%94-%EB%8B%A4%EB%A5%B8-%ED%98%95%EC%9D%B8-%EC%83%81%ED%83%9C%EB%9D%BC%EB%8F%84-%EC%B6%9C%EC%8B%A0class%EB%A9%94%EC%86%8C%EB%93%9C%EB%A5%BC-%EC%B0%B8%EC%A1%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>내적 동질성: 메소드참조는 다른 형인 상태라도 출신class메소드를 참조</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220122211317113.png" alt="image-20220122211317113"></p>
+
+<ul>
+  <li>
+    <p>Worker클래스안에 print()라는 메소드를 신설했다.</p>
+
+    <ul>
+      <li>보면, 내부에서는 run()을 호출하면서 프린트한다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>HardWorker객체를 Runnable형이 아니라 Worker형으로 만들었다.</p>
+
+    <ul>
+      <li>HardWorker()를 만드는 순간,
+        <ul>
+          <li>Runnable형</li>
+          <li>Worker형</li>
+          <li>HardWork형의 변수가 3개가 생성되며</li>
+        </ul>
+      </li>
+      <li>Worker형에 넣은 순간, 포인터가 Worker를 가리킨다고 했다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>그렇다면, worker.print() 때린다면</strong></p>
+
+    <ul>
+      <li>포인터가 가리키는 —&gt; Worker —&gt; 그내부 print()호출시, println( <strong>run()</strong> )에서의 run()은 <strong>this.run()</strong>일 텐데
+        <ul>
+          <li>
+<strong>Worker내부의 run()일까?  아니면 HardWorker내부의 run()일까?</strong>
+            <ul>
+              <li>나는 지금 Worker의 context로 들어와서 호출한 상태임.</li>
+              <li>context상 바로 위에 있는 Worker의 run()일까?  아니면 생성자 Hardworker()의 객체의 run()일까?</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>OOP 객체지향 프로그래밍에서 약속한 <code class="language-plaintext highlighter-rouge">내적 동질성</code>에 의해</strong></p>
+
+    <ul>
+      <li><strong>최초 생성한 객체(HardWorker)에 <code class="language-plaintext highlighter-rouge">함수포인터</code>는 여기로 유지하겠다.</strong></li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">비록 형은 달라지더라도, 변형된 형(class)속 함수가 아니라 내적으로 동질성은 유지하기 위해 생성자를 호출한 출신지class의 함수를 참조</code>한다.</strong>
+        <ul>
+          <li>Worker형으로 포장되더라도 run() 메소드는, Worker의 run()이 아니라 원래 객체의 class인 HardWorker의 run()을 참조한다.</li>
+          <li><strong>메소드 참조에서는 출신지가 더 중요하다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="object">
+<a class="anchor" href="#object" aria-hidden="true"><span class="octicon octicon-link"></span></a>object</h4>
+
+<ul>
+  <li>객체지향에서 객체가 갖춰야할 2가지
+    <ol>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">기능의 캡슐화(Encapsulation of Functionality)</code></strong>
+        <ul>
+          <li>ATM기: 외부에 상세기능을 다 노출하지 않고, 보다 잘 쓸 수 있게 노출한다.</li>
+          <li>이것을 하는 이유는 궁극적인 목표는, <strong><code class="language-plaintext highlighter-rouge">변화에 따라서 프로그램 수정/추가 등을 격리시키기 위함</code></strong>이다.
+            <ul>
+              <li><strong><code class="language-plaintext highlighter-rouge">캡슐화</code>하여 일부만 외부노출 -&gt; 다양한 나머지들은 <code class="language-plaintext highlighter-rouge">내부에 갖힘 = 격리 -&gt; 외부에 영향 줄어듬</code></strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">상태 관리(Maintenance of State)</code></strong>
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">관리</code> 중 대표적인 것이 은닉화</li>
+          <li>자율적인 데이터 갱신</li>
+          <li>변화시 외부 노티피케이션</li>
+          <li>B가 배신때릴 때, C와 D가 망가진 것은 상태관리에 실패한 것</li>
+          <li><strong>객체지향이 레퍼런스를 가리키고, 식별자로 참작, 식별자로만 구분 등 하는 이유는 <code class="language-plaintext highlighter-rouge">포인터의 포인터</code>를 쓰기 위함이다. 더 근본적으로는 상태관리를 위해서</strong></li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>격리되었는지 안되어있는지 확인 -&gt; 해당안건의 특정 파일만 수정했는데 성공</li>
+</ul>
+
+
+  </div><a class="u-url" href="/object/2022/05/03/object1-2)%EC%8B%9D%EB%B3%84%EC%9E%90%EC%99%80_%EB%8B%A4%ED%98%95%EC%84%B1.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>OBJECT 04 Type, Condition, 책임기반개발(코드스핏츠) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="OBJECT 04 Type, Condition, 책임기반개발(코드스핏츠)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<meta property="og:description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<link rel="canonical" href="blog.chojaeseong.com/object/2022/05/05/object1-4)Type_condition_%EC%B1%85%EC%9E%84%EA%B8%B0%EB%B0%98%EA%B0%9C%EB%B0%9C.html" />
+<meta property="og:url" content="blog.chojaeseong.com/object/2022/05/05/object1-4)Type_condition_%EC%B1%85%EC%9E%84%EA%B8%B0%EB%B0%98%EA%B0%9C%EB%B0%9C.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-05-05T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-05-05T00:00:00-05:00","url":"blog.chojaeseong.com/object/2022/05/05/object1-4)Type_condition_%EC%B1%85%EC%9E%84%EA%B8%B0%EB%B0%98%EA%B0%9C%EB%B0%9C.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"OBJECT 04 Type, Condition, 책임기반개발(코드스핏츠)","dateModified":"2022-05-05T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/object/2022/05/05/object1-4)Type_condition_%EC%B1%85%EC%9E%84%EA%B8%B0%EB%B0%98%EA%B0%9C%EB%B0%9C.html"},"description":"object 책을 강의한 코드스핏츠 유튜브 요약","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OBJECT 04 Type, Condition, 책임기반개발(코드스핏츠)</h1><p class="page-description">object 책을 강의한 코드스핏츠 유튜브 요약</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-05-05T00:00:00-05:00" itemprop="datePublished">
+        May 5, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      9 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#ch4-type과-condition">ch4. Type과 condition</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#type-형">Type: 형</a></li>
+<li class="toc-entry toc-h4"><a href="#static-enum-class-jvm-동원-가능-3가지-타입">static, enum, class: jvm 동원 가능 3가지 타입</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#static-인스턴스-단-1개만-존재시--동시성문제-보유">static: 인스턴스 단 1개만 존재시 + 동시성문제 보유</a></li>
+<li class="toc-entry toc-h5"><a href="#enum-제한된-수의-인스턴스-존재시--제네릭-사용불가">enum: 제한된 수의 인스턴스 존재시 + 제네릭 사용불가</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#condition-조건">Condition: 조건</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#내부-cohesion응집성-있는-코드한-눈에-잘보이는-코드">내부 cohesion응집성 있는 코드(한 눈에 잘보이는 코드)</a></li>
+<li class="toc-entry toc-h5"><a href="#분기를-외부화한-코드">분기를 외부화한 코드</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#책임기반-개발">책임기반 개발</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#책임들---역할---추가-책임">책임(들) -&gt; 역할 -&gt; 추가 책임</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><ul>
+  <li>참고 유튜브 : https://www.youtube.com/watch?v=navJTjZlUGk</li>
+  <li>정리본: https://github.com/LenKIM/object-book</li>
+  <li>코드: https://github.com/eternity-oop/object</li>
+  <li>
+    <p>책(목차) : https://wikibook.co.kr/object/</p>
+  </li>
+  <li>참고 유튜브 : https://www.youtube.com/watch?v=sWyZUzQW3IM&amp;list=PLBNdLLaRx_rI-UsVIGeWX_iv-e8cxpLxS&amp;index=1</li>
+  <li>정리본: https://github.com/LenKIM/object-book</li>
+  <li>코드: https://github.com/eternity-oop/object</li>
+  <li>책(목차) : https://wikibook.co.kr/object/</li>
+</ul>
+
+<h3 id="ch4-type과-condition">
+<a class="anchor" href="#ch4-type%EA%B3%BC-condition" aria-hidden="true"><span class="octicon octicon-link"></span></a>ch4. Type과 condition</h3>
+
+<h4 id="type-형">
+<a class="anchor" href="#type-%ED%98%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>Type: 형</h4>
+
+<ul>
+  <li>
+    <p>우리가 보통 알고 있는 type은 data type이다.</p>
+
+    <ul>
+      <li>
+<strong>변수이름</strong> = <strong>메모리 주소의 별명</strong>이다.
+        <ul>
+          <li>a = 3: a라는 메모리 주소에 3을 할당했다.</li>
+        </ul>
+      </li>
+      <li>
+<strong>data type</strong> = <strong>메모리 주소로부터 시작하여 얼만큼 길이를 차지</strong>하는지 <strong>데이터의 길이</strong>
+        <ul>
+          <li>java의 원시형 data type들도 다 데이터의 길이다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>객체지향에서 <code class="language-plaintext highlighter-rouge">Type(형)</code>은 dataType이 아니라 <code class="language-plaintext highlighter-rouge">모든 것을 형으로 바꿔서 생각</code>하는 개념이다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220125210447084.png" alt="image-20220125210447084">
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">~형(Type)</code>: 객체지향에서 구현 가능한 유일한 개념 -&gt; 무조건 ~형으로 구현한다.
+        <ul>
+          <li>Type(형)으로 만들 수 없으면, 개념을 구현할 수 없는 것이다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Type(형)의 사용
+    <ol>
+      <li>
+<strong>Role(역할): 역할은 반드시 Type으로 구현되어야한다.</strong>
+        <ul>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">인터페이스</code>가 됬든<code class="language-plaintext highlighter-rouge">class</code>가 됬든 <code class="language-plaintext highlighter-rouge">enum</code>이 됬든 Type으로 구현해야 역할을 지정</strong>한 것이다.</li>
+        </ul>
+      </li>
+      <li>
+<strong>Responsibility(책임): 책임(~할수있음을 수행)도 Type으로 드러난(로직을 구현)다.</strong>
+        <ul>
+          <li>어떤 애가 예약을 받을 수 있다 -&gt; <code class="language-plaintext highlighter-rouge">Reservationable</code> 인터페이스의 형(Type)
+            <ul>
+              <li>Reservationable이라는 형(Type)이 <code class="language-plaintext highlighter-rouge">예약받을 수 있음을 증명</code>한다 = <code class="language-plaintext highlighter-rouge">책임</code>
+</li>
+            </ul>
+          </li>
+          <li><strong>내가 수행해야할 책임(역할 중 특정 책임 수행시에도) = 형으로 드러난다</strong></li>
+          <li><strong>람다로 써서 함수로 넘기면요? -&gt; 함수의 시그니쳐도 다 형(func형)이다.</strong></li>
+        </ul>
+      </li>
+      <li>**Message(메세지): 특정 역할끼리 or 특정 책임끼리 협력을 위해 -&gt; 메세지를 주고 받을 때도 그 메세지 조차도 형(Type)으로 되어있다. **
+        <ul>
+          <li>궁금한 점: 다른 객체에게 메서드 호출해서 인자를 보낼 때, <strong>그 인자가<code class="language-plaintext highlighter-rouge"> string or integer</code>라면 형(type)</strong>으로 봐야할까?
+            <ul>
+              <li>(X) string or integer는 값이다.</li>
+              <li>형과 값의 차이는 ?
+                <ul>
+                  <li><strong><code class="language-plaintext highlighter-rouge">값</code>: <code class="language-plaintext highlighter-rouge">불변</code>이며, <code class="language-plaintext highlighter-rouge">보내도 복제</code>된 객체를 만들어낸다.</strong></li>
+                  <li><strong><code class="language-plaintext highlighter-rouge">형</code> 보내면 <code class="language-plaintext highlighter-rouge">객체의 주소(참조)</code>를 보낸다.</strong></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">값</code>은 <code class="language-plaintext highlighter-rouge">상태관리의 책임이 없</code>으며, (참조X -&gt;) <code class="language-plaintext highlighter-rouge">캡슐라이즈를 할 수 없</code>기 때문에, 객체지향에서 쓰지 않는다.</strong>
+            <ul>
+              <li><strong>값을 주고 받으면 -&gt; 책임 위임이 안됨 -&gt; 협력대상 X 동등한 대상X</strong></li>
+            </ul>
+          </li>
+          <li><strong>원하는 역할/책임(로직)/메세지를 받으면 형으로 바꿔야한다.</strong></li>
+        </ul>
+      </li>
+      <li>
+<strong>Protocal(프로토콜): 객체 양자간 협의에 의해 서로 동의된 공통요소를 쓰자고 합의를 본 내용</strong>
+        <ul>
+          <li>swift: 인터페이스 -&gt; 프로토콜이라고 씀. -&gt; 다 형으로 표현되어야 의미가 있다.</li>
+          <li>이펙티브 자바 책: 마커 인터페이스 -&gt; 우리가 원하는 계약을 형으로 표현하기 위해, 몸체는 없지만 형을 가지게 한다.</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<h4 id="static-enum-class-jvm-동원-가능-3가지-타입">
+<a class="anchor" href="#static-enum-class-jvm-%EB%8F%99%EC%9B%90-%EA%B0%80%EB%8A%A5-3%EA%B0%80%EC%A7%80-%ED%83%80%EC%9E%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>static, enum, class: jvm 동원 가능 3가지 타입</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220125212644256.png" alt="image-20220125212644256"></p>
+
+<h5 id="static-인스턴스-단-1개만-존재시--동시성문제-보유">
+<a class="anchor" href="#static-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EB%8B%A8-1%EA%B0%9C%EB%A7%8C-%EC%A1%B4%EC%9E%AC%EC%8B%9C--%EB%8F%99%EC%8B%9C%EC%84%B1%EB%AC%B8%EC%A0%9C-%EB%B3%B4%EC%9C%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>static: 인스턴스 단 1개만 존재시 + 동시성문제 보유</h5>
+
+<ul>
+  <li>싱글톤 대신 static을 쓰며, static이 적용된 field, contxext 전부 다 단 1개를 의미한다.</li>
+  <li>주의점: static 초기화 -&gt; 호출, 작동이 thread안전이 아니라는 점
+    <ul>
+      <li>jvm에서 동시성을 보장하는 장치가 없기 때문에, 싱글톤 보장하도록 코드를 직접짜야한다.</li>
+      <li>토이프로젝트에서는 문제 x , 상용 프로젝트에서는 문제점을 보게 됨.
+        <ul>
+          <li>그래서 많은 책에서는 static context를 완전히 버리기를 권유함. -&gt; instance context만 사용</li>
+          <li>왠만하면, static사용없이 instance로만 구현하자. 왜냐면 동시성 해결 잘 못할 것 같으니까</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="enum-제한된-수의-인스턴스-존재시--제네릭-사용불가">
+<a class="anchor" href="#enum-%EC%A0%9C%ED%95%9C%EB%90%9C-%EC%88%98%EC%9D%98-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%A1%B4%EC%9E%AC%EC%8B%9C--%EC%A0%9C%EB%84%A4%EB%A6%AD-%EC%82%AC%EC%9A%A9%EB%B6%88%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>enum: 제한된 수의 인스턴스 존재시 + 제네릭 사용불가</h5>
+
+<ul>
+  <li>사실 class와 완전히 동일하나, jvm이 시작시 instance를 만들어주고 시작한다.</li>
+  <li>
+<strong>class는 원하는 수만큼 instance를 만들어낼 수 있</strong>으나
+    <ul>
+      <li>
+<strong>enum은 명시된 제한된 수의 instance만 만들며, jvm이 static보다 더 빨리 만들어주고 시작한다.</strong>
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">생성에 대한 동시성 문제</code>에 대해 안전성이 확보됨.</li>
+          <li>하나의 instance를 만들더라도, 사실은 enum으로 만드는게 유리하다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>일반적으로</strong>
+    <ul>
+      <li><strong>1개의 인스턴스 생성할 때 -&gt; <code class="language-plaintext highlighter-rouge">static context</code></strong></li>
+      <li><strong>여러개의 인스턴스를 확정적으로 생성할 때 -&gt; <code class="language-plaintext highlighter-rouge">enum</code></strong></li>
+      <li>
+<strong>몇 개 만들지 모를 때, 무제한 인스턴스시 -&gt; <code class="language-plaintext highlighter-rouge">class</code></strong>
+        <ul>
+          <li>많은 경우에 인스턴스가 무한이 아니라는 알고 있어서, class -&gt; enum 으로 대체되는 경우가 많다.</li>
+          <li>enum은 값이 아니라 참조라는 점에서 좋다
+            <ul>
+              <li><strong>but  제네릭에 사용할 수 없다.는 것이 단점이다. -&gt; 형 대체가 불가능하다.</strong></li>
+              <li>그래서 마커 인터페이스를 비록한, <strong>다양한 class, 인터페이스로 형을 지정할 수 밖에없다.</strong>
+</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>정리:  동원할 수 있는 3개의 context중에 주력으로 할 것은
+    <ul>
+      <li>동시성문제X + 제네릭에 사용가능 + 무제한 인스턴스 생성가능한 <strong>class(+인터페이스)를 주력으로 형(Type)으로 쓰게 된다.</strong>
+</li>
+      <li>확장이 없는 제한된 instance -&gt; enum을 쓸 때도
+        <ul>
+          <li>값이나 type의 확정이 아닌, 일반적인 인스턴스가 확정될 수 잇는 경우에도 enum을..?</li>
+        </ul>
+      </li>
+      <li>
+<strong>static은 우리의 적이다. 왠만하면 쓰지 않는다.</strong>
+        <ul>
+          <li>**factory(자신context(X). 하나의 instance만들어주는 공장일뿐 -&gt; 동시성 문제 X)나 **</li>
+          <li>
+<strong>utility 함수(원래부터 상태를 갖지않음) 인 경우만 사용</strong>한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>이 책에서는 <strong>메소드의 정의</strong>를 4번을 다루지만, 간단히 <strong><code class="language-plaintext highlighter-rouge">유틸리티 함수</code>와 <code class="language-plaintext highlighter-rouge">인스턴스메서드</code>를 구분하는 방법은</strong>
+    <ul>
+      <li>
+<strong>class 속 메소드에 <code class="language-plaintext highlighter-rouge">this가 등장하지 않는다?</code> -&gt; <code class="language-plaintext highlighter-rouge">유틸리티 함수</code> -&gt; <code class="language-plaintext highlighter-rouge">class에서 빼내야한다</code></strong>
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">인자와 지역변수만</code> 가짐 or <code class="language-plaintext highlighter-rouge">모두 공유하는 전역context만</code> 가지고 정의</li>
+          <li><strong>class속 인스턴스메소드로  유지되면 절대 안됨</strong></li>
+        </ul>
+      </li>
+      <li><strong><code class="language-plaintext highlighter-rouge">this</code> 또는 <code class="language-plaintext highlighter-rouge">유지되는 instance의 사용범위 lifecycle?</code>을 가지고 있다면 -&gt; <code class="language-plaintext highlighter-rouge">class속 메서드</code></strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="condition-조건">
+<a class="anchor" href="#condition-%EC%A1%B0%EA%B1%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Condition: 조건</h4>
+
+<ul>
+  <li>조건: <strong>특정 상태(인스턴스의필드or변수)에 대한</strong> 연산
+    <ul>
+      <li>만약 특정상태(인스턴스의 필드 or 지역변수 or 변수)에 의존하지 않는 연산이라면, 고정되어서 분기될 일이 없어진다.
+        <ul>
+          <li>안쪽이 변수, 필드라서 runtime이 바뀔 가능성이 있어야 분기의 의미가 있다.</li>
+          <li>분기 = 특정 상태에 의한 분기 -&gt; 상태(필드, 변수)가 더 중요한 말이다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220125214330681.png" alt="image-20220125214330681"></p>
+
+<ol>
+  <li>
+<strong>조건 분기는 결코 제거할 수 없다.</strong>
+    <ul>
+      <li>
+<strong>우리는 코드안의 <code class="language-plaintext highlighter-rouge">if</code>를 절대 제거할 수 없다.</strong>
+        <ul>
+          <li>신입사원 연봉이 if 6개월 지났으면 100만원 더 오른다 -&gt; if 제거하면 구현 못한다.</li>
+        </ul>
+      </li>
+      <li>if는 몇단계 중첩까지 감당할 수 있을까?
+        <ul>
+          <li>if 2단계부터는 60%이상의 사람들은 감당 못한다 -&gt; if 1단계까지만 감당한다.
+            <ul>
+              <li>사람의 머리는 분기에 약하기 때문 -&gt; 분기 늘어나면 경우의 수를 빼먹게 된다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>조건 분기에 대해 쓸 수 있는 방법은 2가지 뿐이다.</strong>
+    <ol>
+      <li>
+<del><strong>내부에 응집성있게 모아두기</strong></del>
+        <ul>
+          <li>switch…
+            <ul>
+              <li>장점: 모든 경우의수를 한눈에 파악 (관리가 편하다)</li>
+              <li>단점: 분기 <strong>늘어날 때마다 코드 전체를 변경</strong> -&gt; 수많은 위험과 회귀테스트
+                <ul>
+                  <li>spring @annotation 대신 if문이라면..</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>외부에 분기를 위임하여 내부에선 처리기만 호출 -&gt; 외부에서 분기를 선택하는 방식</strong>
+        <ul>
+          <li>함수 내부에 있던 if + else  -&gt; <strong>함수 바깥에 if + else를 둔다.</strong>
+</li>
+          <li>
+<strong>조건 분기를 처리하는 방식은 내-&gt;외부로 <code class="language-plaintext highlighter-rouge">위치를 바꾸는 방법</code> 밖에 없다.</strong>
+            <ul>
+              <li><strong>장점: 분기 늘어날 때마다 외부 처리기에 if만 1개 추가 해준다. (전체코드변경X)</strong></li>
+              <li>
+<strong>단점: 모든 경우의 수를 내부에서 파악할 수 없다.</strong>
+                <ul>
+                  <li>외부에서 if분기가 끝난 객체 1개만 -&gt;  내부에서 받는다.
+                    <ul>
+                      <li>spring에서 @annotation 방식으로 url을 지정 -&gt; 총 몇개 url있는지 모르는 것과 마찬가지</li>
+                    </ul>
+                  </li>
+                  <li>책과 디자인패턴의 대부분이 이것을 구현하는 것</li>
+                </ul>
+              </li>
+              <li>디자인 패턴에서는 전략패턴, 상태패턴 등 대부분의 패턴이 이 방식이 따르고 있다.
+                <ul>
+                  <li><strong>전략 패턴:  전략 객체에 가서 처리 -&gt; 전략 객체 5개면, 5개의 if문을 함수안에 넣어도 되는데, <code class="language-plaintext highlighter-rouge">바깥에서 5개의 경우의 수만큼 전략객체</code>를 미리 만들고 <code class="language-plaintext highlighter-rouge">바깥에서 전략객체를 선택</code>해서 주면 -&gt; 내부는 받아서 수행만</strong></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<h5 id="내부-cohesion응집성-있는-코드한-눈에-잘보이는-코드">
+<a class="anchor" href="#%EB%82%B4%EB%B6%80-cohesion%EC%9D%91%EC%A7%91%EC%84%B1-%EC%9E%88%EB%8A%94-%EC%BD%94%EB%93%9C%ED%95%9C-%EB%88%88%EC%97%90-%EC%9E%98%EB%B3%B4%EC%9D%B4%EB%8A%94-%EC%BD%94%EB%93%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>내부 cohesion응집성 있는 코드(한 눈에 잘보이는 코드)</h5>
+
+<p>​	<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220125220548356.png" alt="image-20220125220548356"></p>
+
+<ul>
+  <li>processCondition하려면, 상태인 condition을 받아서
+    <ul>
+      <li>if로 해당 컨디션인지 검사한 뒤
+        <ul>
+          <li>거기에 맞는 처리기()를 호출해주고 있다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="분기를-외부화한-코드">
+<a class="anchor" href="#%EB%B6%84%EA%B8%B0%EB%A5%BC-%EC%99%B8%EB%B6%80%ED%99%94%ED%95%9C-%EC%BD%94%EB%93%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>분기를 외부화한 코드</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220125220802586.png" alt="image-20220125220802586"></p>
+
+<ul>
+  <li>바깥에서, 이미 정해진 분기마다, 처리기를 생성하도록 해놓고
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220125220928781.png" alt="image-20220125220928781">
+    <ul>
+      <li>생성된 처리기만 로 넘겨준다.
+  ![image-20220125220922980](https://raw.githubusercontent.com/is3js/screenshots/main/image-20220125220922980.png)아직&gt;</li>
+    </ul>
+  </li>
+  <li>
+    <p>내부에서는 처리기만 받아서, 호출만해주면 된다.
+  ![image-20220125221008291](https://raw.githubusercontent.com/is3js/screenshots/main/image-20220125221008291.png)미호출&gt;</p>
+  </li>
+  <li>**정확하게 <code class="language-plaintext highlighter-rouge">전략패턴</code>이다. <code class="language-plaintext highlighter-rouge">if</code>는 없어지지 않는다. <code class="language-plaintext highlighter-rouge">외부로 옮겼을 뿐</code> **
+    <ul>
+      <li>이 분기를 외부화했을 때의 장점은?
+        <ol>
+          <li>
+<strong>내부 코드는 수정할 필요가 없어진다.</strong>
+            <ul>
+              <li>외부코드 = client코드 = client마다 새로 작성해야할 코드 -&gt; <strong>어차피 원래 새로 작성/수정되는 곳에 if분기를 옮겨놨다.</strong>
+                <ul>
+                  <li><strong><code class="language-plaintext highlighter-rouge">변화가능성 있는 분기 if코드를 &lt;어차피 변화하는&gt; client코드로 옮기는 것이 목적</code>이다.</strong></li>
+                </ul>
+              </li>
+              <li>내부코드 = utilies측 코드 = <strong>수정없이 계속 재사용가능한 코드(library layer)</strong>
+                <ul>
+                  <li>계속 재사용 가능한 코드를 <strong>더이상 수정할 필요가 없어졌다.</strong>
+</li>
+                  <li>
+<strong><code class="language-plaintext highlighter-rouge">내부인 library layer 코드에 &lt;변화가능성의 if분기&gt;가 있다면 확장을 더이상 할 수 가 없다.</code></strong>
+                    <ul>
+                      <li>한번 배포하면 거의 못고침.</li>
+                      <li>예를 들어, 내부(server 코드)의 attack메소드(재사용되는 코드)를 작성하는데
+                        <ul>
+                          <li>
+<code class="language-plaintext highlighter-rouge">무기 100종마다 if문</code>이 attack에 작성되어있다고 치자(내부에 if분기)</li>
+                          <li>업데이트 때 101번째 무기가 추가된다면?
+                            <ul>
+                              <li>내부server의 attack이라는 기본모듈을 업데이트(전체 다운로드) 하나? ㄴㄴ</li>
+                            </ul>
+                          </li>
+                          <li>
+<code class="language-plaintext highlighter-rouge">외부(client쪽 코드)에 무기 분기를 두면</code>, 무기 추가시 -&gt; 외부에서 101번째 무기 분기만 추가해주고
+                            <ul>
+                              <li>내부 라이브러리 속 attack메소드에 101번째 무기 정보만 건네주면 된다.</li>
+                            </ul>
+                          </li>
+                          <li>
+<strong>변화율이 적은 코드(<code class="language-plaintext highlighter-rouge">무기사용 코드</code>)-&gt; 변화율 큰 if분기 등을 제외하고 배포해야한다.</strong>
+                            <ul>
+                              <li><strong>변화율 큰 코드(<code class="language-plaintext highlighter-rouge">무기 추가하는 분기 코드</code>) -&gt; 변화율 큰 쪽에 두어 어차피 수정할때 수정하게 한다</strong></li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>IF분기</strong>(를 포함한 자주바뀌는 코드)<strong>는 외부로 옮기고, 각 경우마다 객체를 만들어서 공급해주자.</strong>그럼 내부 2단계 분기 -&gt; 외부1단계 + 내부 1단계로 고칠 수 도 있다.
+    <ul>
+      <li>if의 depth를 1개까지만 주자. <strong>2개 이상의 복잡한 코드라면, 외부로 if를 빼고, 그 경우마다 객체를 만들어서 공급해주자.</strong>
+        <ul>
+          <li>my) 메소드라면, 미호출 메소드 = 객체로 넘긴다.</li>
+        </ul>
+      </li>
+      <li><strong>if를 내부에서 제거하는 방법은 이것 밖에 없다</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="책임기반-개발">
+<a class="anchor" href="#%EC%B1%85%EC%9E%84%EA%B8%B0%EB%B0%98-%EA%B0%9C%EB%B0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>책임기반 개발</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220126214842524.png" alt="image-20220126214842524"></p>
+
+<ul>
+  <li>2003년 웨슬리에서 나온 책이 2004년 번역되어서 나왔다. 구할 수 있음 구해봐라.
+    <ul>
+      <li>[Evans 2004] Evans, <em>Domain Driven</em>. Addison Wesley,2004. or</li>
+      <li>[Fowler 2003] Martin Folwer 등, <em>Patterns of Enterprise Application Architecture</em>, Addison Wesley, 2003.
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">책임기반의 개발</code>, <code class="language-plaintext highlighter-rouge">전문가 패턴</code> 등 패턴들을 다루게 된다.</li>
+          <li>
+<code class="language-plaintext highlighter-rouge">오브젝트</code>책은 이 책을 쉽게 해설한 책이다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="책임들---역할---추가-책임">
+<a class="anchor" href="#%EC%B1%85%EC%9E%84%EB%93%A4---%EC%97%AD%ED%95%A0---%EC%B6%94%EA%B0%80-%EC%B1%85%EC%9E%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>책임(들) -&gt; 역할 -&gt; 추가 책임</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220126215025571.png" alt="image-20220126215025571"></p>
+
+<ul>
+  <li>
+    <p>책임기반의 개발에서 나오는 여러가지 개념을 쉽게 설명하도록 하자.</p>
+
+    <ol>
+      <li>
+        <p>어떤 <strong>시스템의 가치</strong>는 무엇이냐? <strong>사용자에게 기능을 제공</strong>함으로써 가치가 생김</p>
+      </li>
+      <li>
+        <p><strong>사용자가 사용할 기능</strong> = <strong>가치</strong> =  시스템의 <strong>책임</strong></p>
+
+        <ul>
+          <li>예매사이트 들어갔는데 예매가 안된다? 싸이트의 가치는 0임.</li>
+          <li>사이트가 최우선적 방어해야할 책임 = 예매(사용자 기능)</li>
+          <li><strong>책임 = (기능 =) 가치 그자체( <code class="language-plaintext highlighter-rouge">시스템</code>, <code class="language-plaintext highlighter-rouge">객체</code>, <code class="language-plaintext highlighter-rouge">역할</code> 무엇이 됬든, 유일한 <code class="language-plaintext highlighter-rouge">가치</code>는 <code class="language-plaintext highlighter-rouge">책임(사용자 기능)</code>과 일치한다)</strong></li>
+        </ul>
+      </li>
+      <li>
+        <p>(시스템의 <strong>책임에만 집중</strong>하면 된다.) <strong>시스템 차원의 책임 -&gt; 더 작은 단위의 책임으로 분할하자. 그리고 책임은 = 기능이며 = (알고리즘 코드가  들어있는 진짜 working하고 있는) 함수 (인터페이스, 추상클래스는 X 프로토콜만 있는지 workingX 껍데기일 뿐. 구상클래스의 메소드가 책임)</strong></p>
+
+        <ul>
+          <li>
+            <p>예매 = 기능 = <strong>코드가 있지지만 너무 복잡한 함수 -&gt; depth2이상의 if 등 -&gt; 분리시킨다.</strong></p>
+          </li>
+          <li>예매가 잘되어야한다? -&gt; <strong>방대한 책임이다 -&gt; 머리가 나빠서 다 이해할 수 없다.</strong>
+</li>
+          <li>딱딱 잘라지진 않는다. -&gt; <strong>이게 바로 실력(3~5년 걸리는 역할모델의 책임)</strong>
+            <ul>
+              <li>응집성은 높으면서도(한눈에 보임) 의존성=결합도가 낮은 부분으로 쪼갤 수 있느냐</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>책임(쪼갠 함수)들의 <code class="language-plaintext highlighter-rouge">공통점/공통의존기능을 추상화</code>한 것을 -&gt;  <code class="language-plaintext highlighter-rouge">역할</code>이라고 정의</strong>할 수 있다. <strong>만약 성공했다면, 반대로 새로운 책임(케이스, 사례)을 추가할 수 도 있다.</strong></p>
+
+        <ul>
+          <li>
+            <p><strong>함수 분리과정에서 함수끼리 <code class="language-plaintext highlighter-rouge">공통점</code> or <code class="language-plaintext highlighter-rouge">공통의존 기능</code>을 발견하게 된다.</strong></p>
+          </li>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">역할</code>은 여러개의 책임(=기능=함수)가 아니다.</strong>
+            <ul>
+              <li>**1개의 책임(기능)이라도 더 높은 수준으로 정의 -&gt; 나중에 공통점이  모일 수도 있도록 <code class="language-plaintext highlighter-rouge">추상화</code>한 것 **</li>
+            </ul>
+          </li>
+          <li>
+<strong>책임 -&gt; 더 높은 수준 형태로 추상화 -&gt; <code class="language-plaintext highlighter-rouge">역할로 승격</code>되는 것임.</strong>
+            <ul>
+              <li>cf) 1-1시간에 배운 <code class="language-plaintext highlighter-rouge">추상화</code> - <code class="language-plaintext highlighter-rouge">객체지향적 추상화</code> - <code class="language-plaintext highlighter-rouge">일반화</code>: 인터페이스, 추상클래스 이용</li>
+            </ul>
+          </li>
+          <li>
+<strong>책임과 역할을 따로 생각하는 것이 어렵다.</strong>
+            <ul>
+              <li>무엇보다 다양한 책임에서 -&gt; 공통된 점(코드, 의존기능)을 뽑아내서 -&gt; 역할로 정의하는게 굉장히 어렵다.</li>
+              <li>
+<code class="language-plaintext highlighter-rouge">다양한 책임</code>으로부터 -&gt; <code class="language-plaintext highlighter-rouge">역할 정의</code>에 성공하면, 사례들 -&gt; 추상적인 것을 만들어낸 <code class="language-plaintext highlighter-rouge">연역법</code>이다.
+                <ul>
+                  <li>성공했으면, 추상화된 역할을 가지고 -&gt; 다른 사례를 만들어낸 귀납법을 사용할 수 있다.</li>
+                  <li>일단 <strong>추상클래스를 만들어낸 순간 -&gt; 다른 사례들을 만들어낼 수 있다.</strong>
+                    <ul>
+                      <li>if문 처리기를 더 만들어낼 수 있다.</li>
+                      <li>if분기만큼의 객체를 -&gt; 외부에 위임할 수 있다는 말이다.
+                        <ul>
+                          <li>
+<strong>depth if문 유일한 처리방법 : if문을 바깥쪽에 빼서, if문 case만큼 다른 객체들을 만드는 수 밖에 없다</strong>.</li>
+                          <li>만들어지는 객체들간에 공통점이 없는 것 같은데.. -&gt; 비슷한 사례들로 찾아내서 만든 역할 -&gt; 추상화된 역할로부터 새로운 다른객체를 생성하게 된다.</li>
+                          <li>어떤 사례들로 인해 객체가 생성되었어도 -&gt; 내부에선 Runnable이 왔으니까 run()만 시켜주면 된다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220126221800654.png" alt="image-20220126221800654">
+                            <ul>
+                              <li><strong>여기선 Runnable이 <code class="language-plaintext highlighter-rouge">실행되다라는 &lt;공통기능&gt; 역할</code>이다.</strong></li>
+                              <li>어떤 케이스로 인해 진입해서 객체를 생성했어도
+                                <ul>
+                                  <li>생성된 객체는 일괄 Runnable == 공통점</li>
+                                </ul>
+                              </li>
+                              <li>서로 다르게 구상되어있는 <strong>각 구상클래스 속 run()메소드들의 구상화 코드들이 <code class="language-plaintext highlighter-rouge">책임</code></strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220126222004509.png" alt="image-20220126222004509">
+</li>
+                              <li>**<code class="language-plaintext highlighter-rouge">책임</code>들의 <code class="language-plaintext highlighter-rouge">공통점</code>을 찾아서 <code class="language-plaintext highlighter-rouge">추상화 성공</code>한 것이 <code class="language-plaintext highlighter-rouge">Runnable이라는 역할</code> **
+                                <ol>
+                                  <li><strong>공통점1: 각각의 인자들을 인자를 안받고 return도 안한다</strong></li>
+                                  <li><strong>공통점2: …</strong></li>
+                                </ol>
+                              </li>
+                              <li>
+<strong>추상화 성공한 역할 <code class="language-plaintext highlighter-rouge">Runnable</code>을 통해 -&gt; d , e에 대한 케이스도 구상화해서 추가할 수 있게 된다.</strong>
+                                <ul>
+                                  <li>추상화과정은 위로 올라가기도 하지만(책임들 -&gt; 공통점 -&gt; 역할 = 인터페이스 or 추상클래스 정이 성공) 아래로 내려가기도 한다(역할 -&gt; 새로운 책임 -&gt; 새로운 처리기(케이스) 추가도 가능하다)</li>
+                                </ul>
+                              </li>
+                              <li>만약, 인자를 받는 경우라면? 내부 라이브러리 레이어들도 다 바뀌어야한다.
+                                <ul>
+                                  <li>추상화 능력이 떨어지면, 수시로 라이브러리가 업데이트 된다.</li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </li>
+                          <li>여러 케이스들을 받아들이는 처리기 -&gt; 각 케이스들의 공통점을 찾아내야한다.</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>역할에 따라 협력이 정의된다.</strong></p>
+
+        <ul>
+          <li>협력단계를 섵불리 책임단계에서 정의하고 싶지 않다.
+            <ul>
+              <li>책임단계에는 다양한 형식이 있음. 책임이 추가되면 협력도 깨져버림</li>
+              <li>
+<strong>보다 높은 단계인 <code class="language-plaintext highlighter-rouge">역할</code>단계에서 <code class="language-plaintext highlighter-rouge">협력을 구축</code>하고 싶다.</strong>
+                <ul>
+                  <li>하나하나의 lambda함수 run()수준(책임=함수)에서 프로세스를 만드는게 아니라 Runnable수준에서 프로세스를 만들어야 귀찮은 일이 발생하지 않는다.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li><strong>어설프게 책임(함수)단계에서 협력이 정의된다 -&gt; 책임 추가/변경시마다 협력시스템까지 위험해진다.</strong></li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>여기까지 정리</p>
+    <ul>
+      <li>값이 아니라 형Type을 써야한다</li>
+      <li>조건분기에 대해 쓸 수 있는 방법은 2가지 밖이다.</li>
+      <li>그걸이용해서 설계하는 방법은.. 책임-&gt; 역할</li>
+    </ul>
+  </li>
+</ul>
+
+  </div><a class="u-url" href="/object/2022/05/05/object1-4)Type_condition_%EC%B1%85%EC%9E%84%EA%B8%B0%EB%B0%98%EA%B0%9C%EB%B0%9C.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

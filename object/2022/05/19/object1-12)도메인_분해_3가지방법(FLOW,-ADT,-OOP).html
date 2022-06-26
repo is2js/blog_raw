@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>OBJECT 12 도메인분해 3가지 방법(코드스핏츠) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="OBJECT 12 도메인분해 3가지 방법(코드스핏츠)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<meta property="og:description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<link rel="canonical" href="blog.chojaeseong.com/object/2022/05/19/object1-12)%EB%8F%84%EB%A9%94%EC%9D%B8_%EB%B6%84%ED%95%B4_3%EA%B0%80%EC%A7%80%EB%B0%A9%EB%B2%95(FLOW,-ADT,-OOP).html" />
+<meta property="og:url" content="blog.chojaeseong.com/object/2022/05/19/object1-12)%EB%8F%84%EB%A9%94%EC%9D%B8_%EB%B6%84%ED%95%B4_3%EA%B0%80%EC%A7%80%EB%B0%A9%EB%B2%95(FLOW,-ADT,-OOP).html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-05-19T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-05-19T00:00:00-05:00","url":"blog.chojaeseong.com/object/2022/05/19/object1-12)%EB%8F%84%EB%A9%94%EC%9D%B8_%EB%B6%84%ED%95%B4_3%EA%B0%80%EC%A7%80%EB%B0%A9%EB%B2%95(FLOW,-ADT,-OOP).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"OBJECT 12 도메인분해 3가지 방법(코드스핏츠)","dateModified":"2022-05-19T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/object/2022/05/19/object1-12)%EB%8F%84%EB%A9%94%EC%9D%B8_%EB%B6%84%ED%95%B4_3%EA%B0%80%EC%A7%80%EB%B0%A9%EB%B2%95(FLOW,-ADT,-OOP).html"},"description":"object 책을 강의한 코드스핏츠 유튜브 요약","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OBJECT 12 도메인분해 3가지 방법(코드스핏츠)</h1><p class="page-description">object 책을 강의한 코드스핏츠 유튜브 요약</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-05-19T00:00:00-05:00" itemprop="datePublished">
+        May 19, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      11 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#ch12-3가지-도메인-분해-방법">ch12. 3가지 도메인 분해 방법</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#분해의-개념">분해의 개념</a></li>
+<li class="toc-entry toc-h4"><a href="#functional-decomposition">Functional decomposition</a></li>
+<li class="toc-entry toc-h4"><a href="#adtabstract-data-type">ADT(Abstract Data Type)</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#adt를-깨는-로직">ADT를 깨는 로직</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#oop">OOP</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#oop의-문제점">OOP의 문제점</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><ul>
+  <li>참고 유튜브 : https://www.youtube.com/watch?v=navJTjZlUGk</li>
+  <li>정리본: https://github.com/LenKIM/object-book</li>
+  <li>코드: https://github.com/eternity-oop/object</li>
+  <li>책(목차) : https://wikibook.co.kr/object/</li>
+</ul>
+
+<h3 id="ch12-3가지-도메인-분해-방법">
+<a class="anchor" href="#ch12-3%EA%B0%80%EC%A7%80-%EB%8F%84%EB%A9%94%EC%9D%B8-%EB%B6%84%ED%95%B4-%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>ch12. 3가지 도메인 분해 방법</h3>
+
+<ul>
+  <li>오브젝트 책 7장 (다음엔 9장~10장)</li>
+  <li>코드스피츠 84에서 나머지를 나갈 수 있다.
+    <ul>
+      <li>조영호님의 오브젝트 책 쓰면서 고생한 것은 통신사 요금 부분</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="분해의-개념">
+<a class="anchor" href="#%EB%B6%84%ED%95%B4%EC%9D%98-%EA%B0%9C%EB%85%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>분해의 개념</h4>
+
+<ul>
+  <li>모으거나 합체, 조립에 대한 영어단어는 많다.
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">assembly</code>, <code class="language-plaintext highlighter-rouge">composition</code>, … <strong>책에서 프로그래밍을 조립하는 것은 <code class="language-plaintext highlighter-rouge">composition</code>이라고 많이 부른다.</strong>
+        <ul>
+          <li>
+<strong>컴포지션</strong>: <strong>하나하나 의미가 있는 부속들</strong> -&gt; 모아서 하나의 결과물로 만드는 것</li>
+          <li>
+<strong>어쎔블</strong>: 의미없는 부속들 -&gt; <strong>정확히 모아야 의미있는 1개의 결과물</strong>이 됨.</li>
+        </ul>
+      </li>
+      <li>완성된 소프트웨어는 어쎔블?? 컴포지션??
+        <ul>
+          <li>어쎔블 상태로 만들어졌다? -&gt; 빼거나 더하면 망가진다. like 레고</li>
+          <li>컴포지션 상태로 만들어졌다? -&gt; 하나 고장나면 다른 것으로 끼워넣으면 된다.</li>
+          <li><strong>소프트웨어가 <code class="language-plaintext highlighter-rouge">컴포지션</code> 화 되었다 -&gt; <code class="language-plaintext highlighter-rouge">모듈화/격리가 잘 되어있다</code>.는 뜻</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>분해 -&gt; 책에서는 <strong>디컴포지션</strong> -&gt; 소프트웨어 만들 때, 컴포지션화 한 사람들에게만 쓸 수 있음.
+    <ul>
+      <li><strong>소프트웨어에서의 디 컴포지션 -&gt; <code class="language-plaintext highlighter-rouge">XXX(도메인)</code>를 모듈화/격리 -&gt; 결국 컴포지션된 소프트웨어로 만들기</strong></li>
+      <li>현실 세계의 복잡한 상황인 도메인 -&gt; 디 컴포지션 (각개격파)  하여 컴포지트를 만듬 -&gt; 컴포지션 -&gt; 소프트웨어</li>
+      <li>
+<strong>우리의 목표: <code class="language-plaintext highlighter-rouge">도메인을 어떻게 디 컴포지션 할 것인가</code></strong> for 컴포지션화된 소프트웨어를 만들기 위해</li>
+    </ul>
+  </li>
+  <li>
+    <p>대부분의 도메인은, 사람의 하는 일이라, 감성적+충동적+비이성적으로 일어나서, 도메인이 엉망진창으로 결합되어있다</p>
+
+    <ul>
+      <li>if가 30개씩 나와있다. 왜? 시대 순으로 만들어졌기 때문
+        <ul>
+          <li>android core API 뒤에는 숫자가 붙어있다 -&gt; 0 1.. 시대순으로 아닌 것 같은 것을 버릴 수 없으니 엉망진창으로 결합하고 숫자를 붙여놨다.</li>
+          <li>java에서는 decrecate된 것이 많다. 엉망진창으로 되어있어서</li>
+        </ul>
+      </li>
+      <li>사람이 만드는 <strong>도메인은 시간 순으로 만들어지기</strong> 때문에, 절대로 예쁘게 컴포지션 되어있지 않다. <strong>비 논리적으로 결합</strong>되어있다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>우리는 어떻게 <strong>비논리적인 도메인의 디컴포지션을 -&gt; 논리적으로 컴포지션(분해) 할 수 있을까</strong></p>
+
+    <ul>
+      <li><strong>분해를 꼭 해야할까? -&gt; <code class="language-plaintext highlighter-rouge">모델링</code>하려면 <code class="language-plaintext highlighter-rouge">분해후 일부만 추출</code>해야 할 수있다.</strong></li>
+      <li>분해를 안하면, <strong><code class="language-plaintext highlighter-rouge">복잡성 폭팔</code>(책에서는 <code class="language-plaintext highlighter-rouge">인지과부하</code>)</strong>가 되어 사람은 <strong>이해(감당)할 수 없다</strong>고 한다.
+        <ul>
+          <li>일반적으로는 <strong>if가 2단계(중첩if 3단계-if안에 A and B and C도)의 를 넘어서면 무조건 <code class="language-plaintext highlighter-rouge">복잡성 폭팔</code></strong>이 생긴다.</li>
+          <li>
+<strong>for안에 if</strong>도 감당 X -&gt; for 자체가 if기 때문에
+            <ul>
+              <li>감당할 수 있으려면, 기계가 되어, 진입표 -&gt; 상황별 모든  상태의 조합수를 표를 그려서 코딩으로 옮기는 방법 밖에…</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>if문 경우의 수만큼 쪼개서 다르게 만드는 것이 <code class="language-plaintext highlighter-rouge">분해의 시작</code></strong>
+        <ul>
+          <li>그렇지 않으면 복잡성이 폭팔한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="functional-decomposition">
+<a class="anchor" href="#functional-decomposition" aria-hidden="true"><span class="octicon octicon-link"></span></a>Functional decomposition</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213110356123.png" alt="image-20220213110356123"></p>
+
+<ul>
+  <li>
+<strong>기능(시작과 끝이 있는 flow)</strong>적으로 분해한다.
+    <ul>
+      <li>(수학적)함수적으로 분해한다라고도 해석해도 된다.</li>
+      <li>기능 = 액션 = behavior = 행위 = 어떤 알고리즘 수행 명령단위로 수행할 수 있다. = a -&gt; b까지 실행 후 c-&gt; d까지 수행할 수 있다. = <strong><code class="language-plaintext highlighter-rouge">수행 업무</code>는 <code class="language-plaintext highlighter-rouge">시작과 끝이 있는 하나의 flow</code>로 바라볼 수 있기 때문에 <code class="language-plaintext highlighter-rouge">쪼갤 수 있다</code>고 생각했다.</strong>
+        <ul>
+          <li>우리는 도메인을 로 나눌 수 있을까?
+시작과&gt;            <ul>
+              <li>핸드폰 개통해야한다 -&gt; 우리는 flow를 떠올린다. -&gt; 매장 가기 -&gt; 상담 -&gt; 가입신청서 -&gt; 절차 -&gt; 핸드폰 개통의 <code class="language-plaintext highlighter-rouge">flow</code> : 중간에 빠꾸 맞으면 돌아가는 과정도 있음.</li>
+            </ul>
+          </li>
+          <li>데이팅앱: 복잡한 연애절차를 우리 앱을 통해 flow로 해결할 수 있다 라고 생각한다.</li>
+          <li>메뉴결정앱: 복잡한 점심메뉴 고르기 -&gt; 단계별로 flow로 결정함.</li>
+        </ul>
+      </li>
+      <li>flow를 흐름도를 그리지 않아도 flow다 ex&gt; todo list(적고 해결한 순대로 체크)
+        <ul>
+          <li>쪼갤 수 있는게 중요함.</li>
+          <li><strong>할일을 쪼갤 땐, 어떻게 쪼갰나? functional하게 = 시작과 끝이 있는 flow형식으로 쪼갰을 것이다.</strong></li>
+        </ul>
+      </li>
+      <li>
+<strong>문제점</strong>: <strong>인간이 학습하기 때문에 변화</strong>가 일어난다 -&gt; <strong>flow는 변화에 취약</strong>하다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Flow Chart 기법</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213111349304.png" alt="image-20220213111349304"></p>
+
+    <ul>
+      <li>우리는 어떤 행위를 처리할 때, flow로 처리한다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213111413448.png" alt="image-20220213111413448"></p>
+
+    <ul>
+      <li>flow는 가만히 있을리 없다, 주황색 상태를 같이 처리한다. <strong>flow란 상태를 처리하기 위핸 flow다</strong>
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213111449639.png" alt="image-20220213111449639"></p>
+
+    <ul>
+      <li>
+<strong>다음flow에서도 해당 상태를 처리</strong>하려고 할 것이다.
+        <ul>
+          <li>첫번째 flow가 상태의 initialize였다면, 두번재flow는 네트워크 동기화 등</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213111544883.png" alt="image-20220213111544883"></p>
+
+    <ul>
+      <li>
+        <p>여기서, <strong>주황색 상태를 처리하려면, 애초에  (하늘색)다른 상태도 있어야함을 깨닮는다</strong>.</p>
+
+        <ul>
+          <li>
+            <p>처리해야할(주황색), 필요한 상태(하늘색)의 데이터들은 <strong>flow바깥의 전역변수</strong>들이다.</p>
+          </li>
+          <li>
+            <p>책으로 비유하면, 주황색=직원에 대한 데이터만 있으면 될 줄 알았더니, 직원들의 세금을 계산하다보니, 하늘색=시간제근무제를 분리할 수 있는 데이터가 추가로 필요하다.</p>
+          </li>
+          <li>
+            <p><strong>추가로 필요한 데이터는 여기 뿐만 아니라 처음부터 존재해야함(전역변수는 첨부터)을 깨닮는다.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213112017405.png" alt="image-20220213112017405"></p>
+
+            <ul>
+              <li>
+<strong>이 때, <code class="language-plaintext highlighter-rouge">처음flow</code>는 주황색만 있다고 가정하고 짠 flow기 때문에, 전역데이터 하늘색이 등장한 순간 <code class="language-plaintext highlighter-rouge">오염</code>된 flow다.</strong> -&gt; 해당 로직은 새로 만들어야한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213112259961.png" alt="image-20220213112259961"></p>
+
+    <ul>
+      <li>
+        <p>flow를 새로 만들다보니, 해당 flow에서는 <strong><code class="language-plaintext highlighter-rouge">분기 flow</code>가 생겼다</strong></p>
+      </li>
+      <li>
+        <p>살펴보니, <strong><code class="language-plaintext highlighter-rouge">초록색</code>에 따라서 주황색만 처리하거나 하늘색만 처리해야하는 분기라는 것을 알게 되었다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213112437194.png" alt="image-20220213112437194"></p>
+
+        <ul>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">특정조건 초록색</code>은 <code class="language-plaintext highlighter-rouge">분기처리에만</code> 사용되고, <code class="language-plaintext highlighter-rouge">다른데서는 사용 안</code>되기 때문에 -&gt; <code class="language-plaintext highlighter-rouge">절차적 변수(상태) 격리</code> 기법인 <code class="language-plaintext highlighter-rouge">변수의 유효범위(scopre)</code>를 정할 수 있다.</strong></p>
+
+            <ul>
+              <li>
+                <p><code class="language-plaintext highlighter-rouge">지역변수로 선언</code>하거나 or <code class="language-plaintext highlighter-rouge">인자를 함수로</code> 격리 or <code class="language-plaintext highlighter-rouge">중괄호를 통한 block scope</code>를 주는 방식으로 <strong>변수(상태)를 격리 by <code class="language-plaintext highlighter-rouge">scope</code></strong></p>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213112945497.png" alt="image-20220213112945497"></p>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>절차적인 flow에서 <code class="language-plaintext highlighter-rouge">변수(상태) 격리 방법은 scope</code>밖에 없다는 뜻이 된다.</strong></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>scope에 의한, <code class="language-plaintext highlighter-rouge">격리된 변수(상태)를 추가</code>하는 경우에는 기존 flow들을 수정할 필요 없게 된다.</strong></p>
+      </li>
+      <li>
+        <p><strong>flow 시스템에서 우리가 변수(상태)로 인한 회귀테스트를 피하는 유일한 방법은 <code class="language-plaintext highlighter-rouge">scope</code>밖에 없게 된다.</strong></p>
+
+        <ul>
+          <li>되도록이면 scope를 짧게, 라이프싸이클을 빨리 끝내도록 코드 작성하는 조언을 많이 들었을 것이다. 왜? <strong>유일한 수단</strong>이다.</li>
+          <li><strong>우리가 초록색(변수, 상태)를 도입했을 때, 이전 코드들을 건들이지 않아도 되는 유일한 수단, 쓸 수 있는 방법이 하나밖인 <code class="language-plaintext highlighter-rouge">scope지정</code>이다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213120430783.png" alt="image-20220213120430783"></p>
+
+    <ul>
+      <li>최종적으로 마무리 flow를 한다.</li>
+    </ul>
+
+    <p><strong>하지만 맨 마지막에 빨간색(변수, 상태)가 필요하다는 것을 깨닳는다. 사람이란 그런 것. 시간순으로 학습해서 발견</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213120543020.png" alt="image-20220213120543020"></p>
+
+    <ul>
+      <li>빨간색이 필요하다면, 첨부터 가지고 있어야할 것이다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213120620735.png" alt="image-20220213120620735"></p>
+
+    <ul>
+      <li>모든 flow가 오염되고 맨날 밤을 센다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213120642747.png" alt="image-20220213120642747"></p>
+
+    <ul>
+      <li>사람이기 때문에 어쩔 수가 없다. 맨 늦게 깨닮는다.</li>
+      <li>회귀테스트를 다 만들어놓고 하기 때문에 팀의 분위기가 안좋아진다.
+        <ul>
+          <li><strong>처음부터 파란색, 빨간색을 알았다면… 불타지 않았을 것</strong></li>
+          <li>
+<strong>처음부터 알려면, 내가 <code class="language-plaintext highlighter-rouge">마틴 파울러</code>이나 <code class="language-plaintext highlighter-rouge">퀜트 백</code>이 되는 수밖에 없는데…</strong>
+            <ul>
+              <li>그런데 이런 사람이 있으면, 어떻게든 돌아가는 프로그램을 만들어버리니.. 독이 될 수가 있다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>마틴옹이나 퀜트백이 아니라면, <code class="language-plaintext highlighter-rouge">flow로 디컴포지션하여 프로그램</code>을 짜면 안된다. <code class="language-plaintext highlighter-rouge">잘못된 것</code>라고 확정적으로 말할 수 있다.</strong></p>
+
+    <ul>
+      <li>우리는 이렇게 짤 수 없다.</li>
+      <li>무조건 상태(변수)가 새롭게 나타난다.
+        <ul>
+          <li>무조건 오염되어 회귀테스트가 생긴다</li>
+        </ul>
+      </li>
+      <li>나머지 개발론이 안먹히는 사람이다. 혼자서 다 만든다.
+        <ul>
+          <li>코드양이 적어서 혼자서 만들긴 다 만든다.</li>
+        </ul>
+      </li>
+      <li>복잡한 도메인에서는 불가한 방법
+        <ul>
+          <li>고인물인 게임이나 쇼핑물에선 가능하다.</li>
+        </ul>
+      </li>
+      <li>이직시 고려해야한다.
+        <ul>
+          <li>10년간 회계시스템, 오피스를 짠 회사 -&gt; 도메인 파악이 너무 확실함.</li>
+          <li>어떤 새로운 구조도 도입안할려고 함
+            <ul>
+              <li>이렇게 짜는게 가장 짧고 회사에 돈을 많이 벌게 해주니까</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="adtabstract-data-type">
+<a class="anchor" href="#adtabstract-data-type" aria-hidden="true"><span class="octicon octicon-link"></span></a>ADT(Abstract Data Type)</h4>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">추상 데이터 타입</code>부터는 <strong>데이터를 기준으로 세상을 바라보기 시작한다.</strong>
+    <ul>
+      <li>flow(절차적, 기능적 디컴포지션)은 <strong>절차(뭐할지를 보고) -&gt; 절차에 필요한 데이터를 깨닮으면서</strong> 디컴포지션 -&gt; <strong>마지막에</strong> 아차..하고 <strong>떠오르게 되어</strong> -&gt; 회귀테스트 반복
+        <ul>
+          <li>절차지향 -&gt; 행위를 통해 데이터 추출 -&gt; 나중에 깨닮은 과정이 많아 -&gt; 앞의 과정의 무시된다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>LSP 치환원칙 언급 전까지, 객체지향이 제대로 발전하지 못한 시대였다.
+    <ul>
+      <li>지금 우리가 보기에는 잘못된 방식이지만, 당시에는 혁명적인 데이터기반 알고리즘 구현 논문이었다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>ADT</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213122036634.png" alt="image-20220213122036634"></p>
+
+    <ul>
+      <li>뭐할지(절차)부터 보고난 뒤 데이터가 아니라 <code class="language-plaintext highlighter-rouge">데이터부터 먼저</code> 바라보자고 한다.
+        <ul>
+          <li>시간제근무가 아니라 급여를 가지고 있는 <strong>직원들(데이터)를 먼저 바라본다면, -&gt; 그 뒤에 내가 해야할일들</strong>이 생겨난다.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213122152625.png" alt="image-20220213122152625"></p>
+
+    <ul>
+      <li>데이터 -&gt; 해야할일(샐러리, 택스 계산하기 등)들을 보고서 <strong>데이터에 맞춰서 함수를 만들어내면, 우리가 관찰이 가능하다.</strong>
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213122327869.png" alt="image-20220213122327869"></p>
+
+    <ul>
+      <li>
+<strong>각 데이터에 따라 할일들</strong>이 만들어진다.
+        <ul>
+          <li>구조체(자료구조) -&gt; 그에 대한 함수들</li>
+        </ul>
+      </li>
+      <li>여기서는 <strong>각 데이터마다의 함수 시리즈 —&gt; 방향이 중요한게 아니라 <code class="language-plaintext highlighter-rouge">어느날 발견하게 되는 &lt;각 데이터마다 비슷한 기능을 하는 함수&gt;</code>가 중요하다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213122520921.png" alt="image-20220213122520921">
+</li>
+      <li>즉, <strong>각 데이터—&gt; 함수시리즈들을 놓고보니 <code class="language-plaintext highlighter-rouge">하려는 일은 비슷한 데이터만 다른(↓ 방향)것</code>의 <code class="language-plaintext highlighter-rouge">공통점을 발견</code>할 수 있다.</strong>
+        <ul>
+          <li>정규직, 시간제, 다른 형태고용자 ↓ <strong>데이터들 모두 <code class="language-plaintext highlighter-rouge">세금을 계산</code>하는 것은 비슷</strong>하다</li>
+        </ul>
+      </li>
+      <li><strong>하지만, <code class="language-plaintext highlighter-rouge">데이터들은 다른 것들이기 때문에, 약간의 차이</code>는 있을 뿐이다.</strong></li>
+      <li>
+<strong>따라서, <code class="language-plaintext highlighter-rouge">데이터모양의 차이점</code>만 있고, 개별 flow가 아니라<code class="language-plaintext highlighter-rouge">해야할 일(flow)의 공통점</code> 인식해야한다.</strong>
+        <ul>
+          <li><strong>데이터의 차이점 -&gt; if로 데이터를 나눌 뿐이지 <code class="language-plaintext highlighter-rouge">flow는 추상화 단계에서 인식</code>가능하다</strong></li>
+          <li>예를 들어, if문만 있으면, 어떤 데이터(직원)을 넣어도 세금을 계산해주는 함수를 만들 수 있다. <strong>내부에 if문</strong>만 넣어서 하늘색/주황색/빨간색으로 나눠주기만 하면 된다.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213123036038.png" alt="image-20220213123036038"></p>
+
+    <ul>
+      <li>
+        <p><strong>리스코프는 데이터 -&gt; 함수시리즈를 나열하되, <code class="language-plaintext highlighter-rouge">들어오는 데이터가 다르면, 내부 if로 나눠주되, 중요한 것은 공통점으로 추상화</code>이다.</strong></p>
+      </li>
+      <li>
+        <p>데이터에 따라 세금을 계산하는데, 세금계산만 공통점이므로 <strong><code class="language-plaintext highlighter-rouge">이러한 함수에는 필연적으로 내부if문이 들어간다. </code></strong></p>
+
+        <ul>
+          <li>
+             **[세금을 계산]** ↓
+데이터에&gt;
+          </li>
+          <li>
+             **[월급을 계산]** ↓
+데이터에&gt;
+            <ul>
+              <li><strong>바깥에서는 [~을 계산] 공통점만 노출</strong></li>
+              <li>**내부에서는 <if>**</if>
+</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">내부에서 if로 차이점을 가진  데이터들을 먹어서</code> 공통점  추상화가 가능해졌다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213123510152.png" alt="image-20220213123510152"></p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">내부에서</code> if문/swtich문을 이용해서 <code class="language-plaintext highlighter-rouge">서로 다른(차이점) 데이터를 먹으면</code>  뭐가 좋을까?</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213123638877.png" alt="image-20220213123638877"></p>
+
+        <ul>
+          <li>
+<strong>서로 다른 데이터들임에도 불구 하고 <code class="language-plaintext highlighter-rouge">모든 기능들이 모을 수 있어 응집성(-&gt;유지보수)이 증가</code>하게 된다</strong>
+            <ul>
+              <li>
+<strong>코드 응집성의 증가로 관리가 편해진다.</strong>
+                <ul>
+                  <li>각 직원(데이터마다) 세금계산 방법을 나눠서 함수를 만들면 유지보수가 어려움</li>
+                </ul>
+              </li>
+              <li>단점: case(데이터)가 늘어나면 그만큼 추가해줘야한다</li>
+              <li>장점: 지식을 모아둘 수 있다.
+                <ul>
+                  <li>지금도 선호하는 회사가 많다. 잘 구분도 안된다. ADT가 맞는지 확인도 쉽지가 않다.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>이제부터는 **외부에는  ADT를 `하나의 형`으로 노출하고 싶다**
+다른데이터라도&gt;            <ul>
+              <li>하얀 네모를 통째로 하나의 형으로 부르고 싶다</li>
+              <li>네모의 메서드 중 1개 를 호출하면, <strong>내부에 차이점을 먹은 형태기 때문에 외부에서는 이쁘게 나올 것이다. <code class="language-plaintext highlighter-rouge">각 변수(상태)들을 모두 수용</code>가능하며, <code class="language-plaintext highlighter-rouge">외부에는 결과값만 던져주는 이쁜 형태</code>이다.</strong>
+</li>
+            </ul>
+          </li>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">각 데이터별 특성을 안에 다 감춘 형태</code></strong>
+            <ul>
+              <li>
+<code class="language-plaintext highlighter-rouge">고도 추상화</code>가 된다. <strong><code class="language-plaintext highlighter-rouge">외부</code>에서는 아무런 지식없이 <code class="language-plaintext highlighter-rouge">Employee만 인식</code>하여 좋은 얘기 같아보인다</strong>.</li>
+              <li>팀내에 <code class="language-plaintext highlighter-rouge">ADT를 쓰는 사람들은 이렇게 설득</code>한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>장점: 안에 <strong>등장 가능한 상태(변수) 모두</strong>를 내부if로 먹고 있어서 <strong>메소드 추가가  외부노출없이 안에서 가능 (case를 모두 알고 있음?!)</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213130907544.png" alt="image-20220213130907544"></p>
+
+        <ul>
+          <li>해결메서드를 4번재 gray로 추가했는데, <strong>내부에 이미 모든 상태(변수)들을 알고 있기</strong> 때문에   <strong><code class="language-plaintext highlighter-rouge">딱 알고 있는 갯수(3개)의 분기만 해주면, 메소드 추가가 가능</code>하다.</strong>
+            <ul>
+              <li>확실하게 모든 분기를 알고 있으면, 메서드  추가가 쉽다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="adt를-깨는-로직">
+<a class="anchor" href="#adt%EB%A5%BC-%EA%B9%A8%EB%8A%94-%EB%A1%9C%EC%A7%81" aria-hidden="true"><span class="octicon octicon-link"></span></a>ADT를 깨는 로직</h5>
+
+<ul>
+  <li>ADT를 깨기는 쉽지 않다.
+    <ul>
+      <li>바깥에서 보면 고도로 추상화되어있다.</li>
+      <li>내부 기능(메서드) 확장도 쉬워서 유연한 것처럼 보인다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>메서드 추가는 쉬웠지만, <code class="language-plaintext highlighter-rouge">데이터 추가</code>는 큰 문제를 발생시킨다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213133604326.png" alt="image-20220213133604326"></p>
+
+    <ul>
+      <li><strong>ADT는 데이터(상태) 추가에 쥐약이다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213133631772.png" alt="image-20220213133631772"></p>
+
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">상태 하나 추가할 때마다, 모든 메서드가 if로 먹을 수 있게 분기하는 코드를 추가</code>해야한다.</strong>
+        <ul>
+          <li>작업량이 엄청 늘어난다.</li>
+          <li>클래스 내부 모든 메서드를 불태워야한다.</li>
+        </ul>
+      </li>
+      <li>ADT를 주장하는 팀원을 이기는 방법은 = <strong><code class="language-plaintext highlighter-rouge">OOP</code>를 선택하게 하려면</strong>
+        <ul>
+          <li>우리회사는 Employee의 다양한 고용형태를 수용해야한다.</li>
+          <li>만약, 20년간 새로운 고용형태는 회사에 없었다고 말한다면 못이긴다.
+            <ul>
+              <li>책에서도 기능만 추가되고, 데이터는 변화가 없다면 ADT는 나쁘지 않는 선택이다.라고 얘기하고 있다.</li>
+              <li>my) OOP에서 자식이 늘어나지 않는다고 가정하면…?</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>데이터 추가외에 <strong>공통이 아닌 메서드 d()의 문제도 못푼다. 즉, <code class="language-plaintext highlighter-rouge">특정 데이터(상태)의 전용메서드 추가가 어렵다</code></strong>.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213134033368.png" alt="image-20220213134033368"></p>
+
+    <ul>
+      <li>
+        <p><strong>리스코프 치환원칙</strong>에서 d()메서드는, 하늘/주황/빨간(상태)의 분기에서는 작동안해야한다. -&gt; <strong>초록색 외의 상태가 들어오면 <code class="language-plaintext highlighter-rouge">임의의 예외값을 내어놓아야</code>한다. -&gt; 특이해지는 상황</strong></p>
+
+        <ul>
+          <li>if a  if b … if d 의 context만 있다가</li>
+          <li>if d  (else) 예외값을 내어놓는 이질적인 context
+            <ul>
+              <li><strong>바깥에서는 d or null이기 때문에, D객체로 볼수 있다고 봄. instanceof를 이용하여 디텍팅용으로 쓸 수 밖에 없다.</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>ADT가 성립하는 경우는 2가지를 만족해야한다.</strong>
+    <ol>
+      <li>상태(변수, 데이터)가 더이상 확장되지 않고</li>
+      <li>안에 소속된 메소드들이 모든 상태들에 대해 결과값을 가지는 메소드일 때만</li>
+    </ol>
+  </li>
+  <li>그럼에도 불구하고 ADT를 쓰는 회사가 있다?
+    <ul>
+      <li>전체 구성원이 d()의 경우를 미리 알고 있어서, 그거는 원래 그래 라고 할 경우, 굉장히 힘들어진다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>ADT는 굉장히 제한적이라고 할 수있다.</p>
+  </li>
+  <li>
+<strong>안타깝게도, 우리가 객체지향을 짤 때, <code class="language-plaintext highlighter-rouge">대부분 ADT로 코딩</code>을 한다.</strong>
+    <ul>
+      <li>따라서 남이 유지보수할 때, ADT의 문제점에 봉착하게 된다.
+        <ul>
+          <li>우리는 이것을 legacy라고 부름.</li>
+          <li>남들은 legacy로 안보는게 문제</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>ADT를 알아야하는게 핵심이다. 알아야 ADT가 아닌 코드르 짤 수 있기 때문
+    <ul>
+      <li>my) ADT: 내부 if로 모든 상태를 분기로 먹어서, 서로 다른 데이터의 공통기능들도 모은 것.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="oop">
+<a class="anchor" href="#oop" aria-hidden="true"><span class="octicon octicon-link"></span></a>OOP</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213141048259.png" alt="image-20220213141048259"></p>
+
+<ul>
+  <li>
+    <p>ADT와는 완전히 다른 접근방식의 <code class="language-plaintext highlighter-rouge">추상화</code>이다.</p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">상태없이 미리 &lt;해야될 연산만 추상화&gt;</code>해놓고</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213141154538.png" alt="image-20220213141154538"></p>
+      </li>
+      <li>
+        <p><strong>추상화된 <code class="language-plaintext highlighter-rouge">연산이 &lt;상속&gt;받는 무언가</code>를 만드는 방식</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213141222577.png" alt="image-20220213141222577"></p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">뒤늦게 상속하는 이유</code>는 바로 <code class="language-plaintext highlighter-rouge">연산이 달라지는 &lt;서로 다른 상태&gt;에 따라 &lt;형을 새롭게 만들어 나가기&gt; 위해서</code></strong></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>따라서 객체지향은 <code class="language-plaintext highlighter-rouge">상태마다 형</code>을 늘려가는 구조다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213141459887.png" alt="image-20220213141459887"></p>
+
+    <ul>
+      <li>ADT는 <code class="language-plaintext highlighter-rouge">내부if로 서로 다른 상태를 먹어서</code> 하얀색 박스 안에 때려박은 <code class="language-plaintext highlighter-rouge">형을 줄여가는 구조</code>였다.</li>
+      <li><strong>객체지향을 사용하면, 상태에 따라 -&gt; 형이 늘어난다.</strong></li>
+      <li><strong>게다가 상태에 따른 형을 통합하는 추상형이 먼저 정의되므로 +1로 엄청 늘어난다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p>연산 정의 -&gt; 상태에 따라 다른 연산을 가지는 형을 정의 -&gt; 구상형들이 많아진다.</p>
+
+    <ul>
+      <li>대표적인 것이 추상형이지만,  구상형이 주인공들이고 점점 늘려나가는 방식</li>
+      <li><strong>인터페이스(추상형) 메소드를 호출하도록 코드를 짜면 -&gt; <code class="language-plaintext highlighter-rouge">레인지 바인딩</code>되어있는 구상형의 메소드가 호출된다.</strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">레인지 바인딩</code>을 이용해서 <code class="language-plaintext highlighter-rouge">형을 늘려가는 OOP</code></strong></li>
+    </ul>
+  </li>
+  <li>
+    <p>ADT vs OOP 한눈에 보는 방법</p>
+
+    <ul>
+      <li>형이 줄었다? ADT</li>
+      <li>형이 늘었다? OOP
+        <ul>
+          <li>추상형 + 1 -&gt; 구상형 으로 최소 ADT보다 1개의 형을 더 가짐</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">상태가 늘어날 때 OOP 압도적으로 유리</code>하다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213142224919.png" alt="image-20220213142224919"></p>
+
+    <ul>
+      <li>ADT는 상태(초록색) 증가 -&gt; 내부 메소드 전체가 불탐(메소드마다 초록색 분기 처리 다 넣어줘야함.)</li>
+      <li>
+<strong>OOP의 상태(초록색) 증가 -&gt;</strong>
+        <ul>
+          <li><strong>해당 초록색의 형이 추가하고 -&gt; 메소드를 정의하므로 <code class="language-plaintext highlighter-rouge">타 상태의 타 형에 영향을 주지 않는다.</code></strong></li>
+          <li>메소드가 상태마다 함수안에 if분기를 만들었던 것에 비해, 상태마다 객체의 클래스형을 만들어버림.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>저번시간부터 배운 것,</p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">ADT</code>에서는 [공통메서드]에서 <code class="language-plaintext highlighter-rouge">상태만큼 함수안에 if분기</code></strong></p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">OOP</code>에서는 <code class="language-plaintext highlighter-rouge">상태만큼 class(형)을 만듬</code> -&gt; [별도의 메소드]</strong></p>
+
+        <ul>
+          <li>
+            <p>if를 사용자client쪽으로 옮길려고</p>
+          </li>
+          <li>
+            <p><code class="language-plaintext highlighter-rouge">함수안에 if(ADT)</code>를 없애는 방법은, <code class="language-plaintext highlighter-rouge">사용자client쪽</code>으로 밀어내면서, <code class="language-plaintext highlighter-rouge">if분기수만큼 (형 -&gt; )객체</code>를 만드는 수 밖에 없다.</p>
+          </li>
+          <li>
+            <p><strong>그림상으로는 안보이지만, <code class="language-plaintext highlighter-rouge">if -&gt; 클라쪽에서 객체 생성을 선택</code>하는 것으로 밀려났다.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213143112383.png" alt="image-20220213143112383"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>OOP는 <code class="language-plaintext highlighter-rouge">복잡성 폭발을 제거</code>하려 한다.</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>if 2단계 -&gt; 전략객체가 2층으로 필요함.</strong> cf) if 1단계 -&gt; 전략객체가 1개 필요함.</p>
+
+        <ul>
+          <li>
+<strong>전략패턴안에 있는 전략객체가 또다시 전략객체</strong>를 가져야함.</li>
+          <li>2개다 바깥에서 공급해야한다.</li>
+          <li>Movie가 2단계 전략class를 쓰는 예이다.
+            <ul>
+              <li>policy가 condition을 갖는 것으로</li>
+              <li>원래는 if 2단계였을 것이다.
+                <ul>
+                  <li>if policy if condition</li>
+                </ul>
+              </li>
+              <li>마지막 클라코드:
+                <ul>
+                  <li>policy &lt;- 생성된 condition을 꽂아줌</li>
+                  <li>movie &lt;- policy를 꽂아줌</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>그냥 <code class="language-plaintext highlighter-rouge">공식</code>: 클라쪽으로 if를 옮기고, 그 분기(상태)만큼 형을 만들어서 객체생성으로 선택한다.</strong></p>
+      </li>
+      <li>
+        <p>아래 그림처럼, 함수안에 있던 원래 if는 4가지 상태에 따른 4가지 분기를 가질 것이다. -&gt; <strong>하지만 <code class="language-plaintext highlighter-rouge">내부if분기수 만큼</code> -&gt; <code class="language-plaintext highlighter-rouge">추상형에 따른 구상형을 4가지 형</code>을를 만들어놓고, <code class="language-plaintext highlighter-rouge">바깥에서 객체 생성으로 선택</code>하게 하여 if를 제거</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213143740720.png" alt="image-20220213143740720"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>이렇게 <strong>OOP를 쓰면 <code class="language-plaintext highlighter-rouge">상태 추가</code>에 강하다. <code class="language-plaintext highlighter-rouge">나머지 회귀테스트가 안일어난다</code></strong></p>
+    <ul>
+      <li>앞으로 우리는 Employee 고용형태에 재택근무자, 자유시간제 등 <strong>class(형)을 추가함으로써 -&gt; 내부if분기를 대신하여 <code class="language-plaintext highlighter-rouge">상태 추가</code></strong>를 할 수 있다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="oop의-문제점">
+<a class="anchor" href="#oop%EC%9D%98-%EB%AC%B8%EC%A0%9C%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>OOP의 문제점</h5>
+
+<ul>
+  <li>
+    <p>상태 추가(-&gt; 형 추가 생성)이 아닌 <strong><code class="language-plaintext highlighter-rouge">기능 추가</code>를 하면 <code class="language-plaintext highlighter-rouge">다같이 불타버린다</code>.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213152143639.png" alt="image-20220213152143639"></p>
+
+    <ul>
+      <li>
+<strong>객체지향에서 <code class="language-plaintext highlighter-rouge">기능 추가</code>시 굉장한 비용이 든다.</strong>
+        <ul>
+          <li><strong>같은 말로 <code class="language-plaintext highlighter-rouge">객체지향에서 성급한 추상화</code>시 굉장한 비용이 든다.</strong></li>
+          <li>my) 기능 추가는 추상체에서부터 시작하나보다.</li>
+        </ul>
+      </li>
+      <li>
+<strong>다른말로는 <code class="language-plaintext highlighter-rouge">아직 추상화가 제대로 되어 있지 않으면 함부러 상태를 늘리면 안된다.</code></strong>
+        <ul>
+          <li>상태가 1개일 뿐이라면 추상체 기능 추가 1실험을 -&gt; 구상체 1개에서만 하면 되지만.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213152440356.png" alt="image-20220213152440356">
+</li>
+          <li><strong>많은 상태 = 형 = class가 있는 상황에서 <code class="language-plaintext highlighter-rouge">기능 추가시... 모든 기능을 추가</code>해줘야한다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>**<code class="language-plaintext highlighter-rouge">성급한 추상화 하지마</code> 라고 말했지만, 우리가 퀜트백이 아닌 이상 <code class="language-plaintext highlighter-rouge">한번에 다 추상화 못한다. -&gt; 더 생각해보고 추상화해 라는 말이 아니다.</code> 생각해봤자 한번에 다 못한다. **</p>
+    <ul>
+      <li>
+<strong>대신, <code class="language-plaintext highlighter-rouge">기능 추가/삭제는 초반에 자주 일어나니 깨닮음이 발생하기 전까진, 상태를 추가하지말고 최소한의 상태(구상체)로만 테스트하자</code></strong>
+        <ul>
+          <li><strong>기능 추가시 , 확인을 해야하는 <code class="language-plaintext highlighter-rouge">key case까지만 구상체를 늘려 테스트</code></strong></li>
+        </ul>
+      </li>
+      <li><strong><code class="language-plaintext highlighter-rouge">추상화를 계속 반복해서, 정교하게 만들어가는 과정 중에, case를 확인할 수 있는 애들만 구상class를 만들자.</code> 확장은 나중에 하자.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220213153617144.png" alt="image-20220213153617144"></p>
+
+<ul>
+  <li>여기도 리스코프 치환원칙에서의 <strong>d()가 추가되는 문제</strong>는 똑같다.
+    <ul>
+      <li>외부에서 abc()만 가지고 있는 <strong>추상체(인터페이스)로 통신시 -&gt; d()를 인식</strong>할 수 있는 방법이 없다.</li>
+      <li>
+<strong>하지만, 저번시간에 배운 것처럼 <code class="language-plaintext highlighter-rouge">제네릭</code>을 이용해 <code class="language-plaintext highlighter-rouge">d()를 외부에서 구현해서 인식</code>한다.</strong>
+        <ul>
+          <li>제네릭말고 다른 해결방법도 있다.</li>
+          <li><strong>제네릭을 통해 구현을 클라이언트 쪽으로 미루는 방법</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/object/2022/05/19/object1-12)%EB%8F%84%EB%A9%94%EC%9D%B8_%EB%B6%84%ED%95%B4_3%EA%B0%80%EC%A7%80%EB%B0%A9%EB%B2%95(FLOW,-ADT,-OOP).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>OBJECT 06 객체간통신(코드스핏츠) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="OBJECT 06 객체간통신(코드스핏츠)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<meta property="og:description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<link rel="canonical" href="blog.chojaeseong.com/object/2022/05/08/object1-6)%EA%B0%9D%EC%B2%B4%EA%B0%84%ED%86%B5%EC%8B%A0.html" />
+<meta property="og:url" content="blog.chojaeseong.com/object/2022/05/08/object1-6)%EA%B0%9D%EC%B2%B4%EA%B0%84%ED%86%B5%EC%8B%A0.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-05-08T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-05-08T00:00:00-05:00","url":"blog.chojaeseong.com/object/2022/05/08/object1-6)%EA%B0%9D%EC%B2%B4%EA%B0%84%ED%86%B5%EC%8B%A0.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"OBJECT 06 객체간통신(코드스핏츠)","dateModified":"2022-05-08T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/object/2022/05/08/object1-6)%EA%B0%9D%EC%B2%B4%EA%B0%84%ED%86%B5%EC%8B%A0.html"},"description":"object 책을 강의한 코드스핏츠 유튜브 요약","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OBJECT 06 객체간통신(코드스핏츠)</h1><p class="page-description">object 책을 강의한 코드스핏츠 유튜브 요약</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-05-08T00:00:00-05:00" itemprop="datePublished">
+        May 8, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#ch6-객체망과-객체간-통신">ch6. 객체망과 객체간 통신</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#객체간-통신">객체간 통신</a></li>
+<li class="toc-entry toc-h4"><a href="#통신망의-구성">통신망의 구성</a></li>
+<li class="toc-entry toc-h4"><a href="#객체설계-난점">객체설계 난점</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#인터페이스의-그룹화">인터페이스의 그룹화</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><ul>
+  <li>참고 유튜브 : https://www.youtube.com/watch?v=navJTjZlUGk</li>
+  <li>정리본: https://github.com/LenKIM/object-book</li>
+  <li>코드: https://github.com/eternity-oop/object</li>
+  <li>책(목차) : https://wikibook.co.kr/object/</li>
+</ul>
+
+<h3 id="ch6-객체망과-객체간-통신">
+<a class="anchor" href="#ch6-%EA%B0%9D%EC%B2%B4%EB%A7%9D%EA%B3%BC-%EA%B0%9D%EC%B2%B4%EA%B0%84-%ED%86%B5%EC%8B%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>ch6. 객체망과 객체간 통신</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204103714606.png" alt="image-20220204103714606"></p>
+
+<ul>
+  <li>객체지향 관련 책들이 많지는 않다.
+    <ul>
+      <li>뻔한 얘기외에 구체적인 사례를 들어주는 책은 드물다.</li>
+    </ul>
+  </li>
+  <li>오브젝트 5장: 1234장을 정리
+    <ul>
+      <li>
+<strong>객체설계시 좋은 요령</strong>
+        <ul>
+          <li>
+<strong>지금까지의 theater코드에 요령 적용</strong>
+            <ul>
+              <li><strong>이 책은 알고있다고 가정하는게 너무 많다 -&gt; 이해 안되는게 정상</strong></li>
+              <li>맨 뒤에서, 책이 참고하고 있는 책 6권이상이 나열되어있음.
+                <ul>
+                  <li>
+<strong>사전요구사항이 되게 큰 책이</strong>다.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>오브젝트 6장부터: 새로운 내용의 시작</li>
+    </ul>
+  </li>
+  <li>
+<strong>지금까지의 내용 정리</strong>해보기
+    <ul>
+      <li>설계 이전에 중요한 것: 책임
+        <ul>
+          <li><strong>객체간의 <code class="language-plaintext highlighter-rouge">책임(함수)</code>을 주고받기 위해 <code class="language-plaintext highlighter-rouge">메세지(객체 인자)</code>를 사용</strong></li>
+        </ul>
+      </li>
+      <li>그렇다면, <code class="language-plaintext highlighter-rouge">누구에게</code> 책임? 메세지는 <code class="language-plaintext highlighter-rouge">어떻게</code> 사용? 이 설계의 목표다.
+        <ul>
+          <li>이 책에서 <strong>설계: 코드를 대치하는 기술</strong>
+            <ul>
+              <li>어차피 <strong>돌아가는 코드</strong>에 대해 향후 유지보수 등이 쉬워지는 코드를 <strong>설계</strong>한다</li>
+              <li>구동하는 코드를 만드는 것X -&gt; <strong>구동 코드를 어떻게 배치할 것</strong>인가</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">설계</code>: 코드를 <code class="language-plaintext highlighter-rouge">객체지향원리에 따라서 &lt;책임&gt;을 객체별로 나눠</code> 배치</strong>
+        <ul>
+          <li><strong>설계요령: 코드를 나누는 <code class="language-plaintext highlighter-rouge">요령: 역할책임모델</code></strong></li>
+        </ul>
+      </li>
+      <li>
+<strong>객체 만드는 이유: 역할(책임=메소드의 집합, 인터페이스?)</strong>
+        <ul>
+          <li>
+<strong>역할: 책임의 집합</strong>
+            <ul>
+              <li>
+<strong>책임을 어떤 객체가 가져가야할 것인가부터 부터 이해해야</strong>
+                <ul>
+                  <li><strong>어떤 객체에 그 코드를 할당해줄 것인가를 결정</strong></li>
+                  <li>객체지향에 의해 적절한 <strong>책임을</strong> 객체에 할당하는데, <strong>나눠가지려면 메세지를 주고 받아야한다.</strong>
+</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="객체간-통신">
+<a class="anchor" href="#%EA%B0%9D%EC%B2%B4%EA%B0%84-%ED%86%B5%EC%8B%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>객체간 통신</h4>
+
+<ul>
+  <li>객체가 책임을 나눠갖기 위해 메세지를 통해 주고받으니까
+  <strong>우리는 객체가 책임을 통해 통신하고 있는 네트워크를 생각해볼 수 있다.</strong>
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">객체망(object network)</code>: 역할책임모델 기반으로, 객체간 코드분리가 잘되어있는 형태</strong>
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">객체망에 소속되어있는 객체끼리</code> 메세지를 주고 받음 -&gt; 책임을 분담/분산해서 나눠가짐</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>객체간 통신
+    <ul>
+      <li>책에서는 다 안다고 가정하고, 메세지를 던지면 다 알아먹는다고 가정하고 있다. 하지만 잘 모른다.</li>
+      <li>실제 객체간통신은 복잡한 문제다</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204114749258.png" alt="image-20220204114749258"></p>
+
+<ul>
+  <li>객체 1개 가지고는 객체망(역할책임모델기반 객체간코드분리)을 형성할 수 없다
+    <ul>
+      <li>일단 <strong>객체</strong>에 대해서 더 살펴보자.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204114940217.png" alt="image-20220204114940217"></p>
+
+<ul>
+  <li>객체는 **내부에 <code class="language-plaintext highlighter-rouge">캡슐화</code>를 이용해서 <code class="language-plaintext highlighter-rouge">정보은닉</code>한 상태로, 외부와는 <code class="language-plaintext highlighter-rouge">메소드를 통해 소통</code>하고 있다. **
+    <ul>
+      <li>내부는 안보여준다.</li>
+      <li>외부는 캡슐화된 메소드만 제공해준다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204115103261.png" alt="image-20220204115103261"></p>
+
+<ul>
+  <li>
+    <p>객체는 2개이상이다.</p>
+
+    <ul>
+      <li>
+        <p><strong>서로 내장을 까지 않는 객체끼리는 <code class="language-plaintext highlighter-rouge">public interface(껍데기)</code>를 통해 <code class="language-plaintext highlighter-rouge">메세지</code>를 주고 받는다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204115202073.png" alt="image-20220204115202073"></p>
+      </li>
+      <li>
+        <p><strong>하지만, <code class="language-plaintext highlighter-rouge">현실세계 객체</code>는 위와 다르게 생겼다. <code class="language-plaintext highlighter-rouge">역할과 책임이 서로 틀리기 때문</code></strong></p>
+        <ul>
+          <li>객체의 <strong>책임</strong>은 <code class="language-plaintext highlighter-rouge">수행해야할 업무</code>
+</li>
+          <li>객체의 <strong>역할</strong>은 <code class="language-plaintext highlighter-rouge">객체가 당면한 어떠한 측면</code>
+            <ul>
+              <li>가정에서는 아빠, 회사에서는 사장</li>
+              <li>책임(업무)를 수행하되, <strong>소속공간, 바라보는 측면에 따라 <code class="language-plaintext highlighter-rouge">역할</code>이 달라진다.</strong>
+</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>객체의 본질은 <code class="language-plaintext highlighter-rouge">은닉화한 데이터를 자기만 컨트롤 가능</code>하지만, <code class="language-plaintext highlighter-rouge">public한 interface로 외부에 [책임]으로써 노출</code></strong></p>
+
+    <ul>
+      <li>집안(역할1)에서 돈(은닉화 데이터)을 나(객체1)만 가지고 있으면, 집에서 나만 돈 쓴다(역할1)</li>
+      <li>회사(역할2)돈(은닉화 데이터)을 나(객체1)만 가지고 있으면, 회사에서 나만 돈 쓴다(역할2)</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">은닉화 데이터</code>를 기준으로 -&gt; <code class="language-plaintext highlighter-rouge">책임</code> =<code class="language-plaintext highlighter-rouge">외부에 노출한 public interface</code>가 정해진다.</strong></p>
+
+    <ul>
+      <li>
+        <p>BUT, 데이터는 측면(역할)을 반영하진 않는다.</p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">측면</code> =<code class="language-plaintext highlighter-rouge">역할</code>  =  <code class="language-plaintext highlighter-rouge">객체를 둘러싸고 있는 인터페이스들</code>이다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204115805806.png" alt="image-20220204115805806"></p>
+
+        <ul>
+          <li>현실세계 객체는 위처럼 생겼다
+            <ul>
+              <li><strong>내부는 캡슐화 -&gt; 데이터 은닉화</strong></li>
+              <li>
+<strong>외부에 보여주는 것은 <code class="language-plaintext highlighter-rouge">역할=측면(A사장, B아빠, C남자)</code>에 따라 <code class="language-plaintext highlighter-rouge">외부노출되는 메소드는 다른 형태</code></strong>
+                <ul>
+                  <li>책임: 돈을 준다</li>
+                  <li>역할 -&gt; 바깥으로 나가는 측면에 따라 여러가지로
+                    <ul>
+                      <li>A: 급여 지급</li>
+                      <li>B: 용돈 지급</li>
+                      <li>C: 술값 지급</li>
+                    </ul>
+                  </li>
+                  <li><strong>&lt;역할참여=측면에따라&gt;  책임(메소드)는  다양하게 나타난다</strong></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>메소드 자체는 객체내 은닉화된 데이터에 의해서만 나올 수 있다.</p>
+
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">데이터에 따라, 객체가 가지는 메소드</code>는 정해져있다. **
+  **그러나 <code class="language-plaintext highlighter-rouge">다른 측면(역할)에 따라 여러가지를 구현</code>해줄 수 있다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>은닉화 데이터(돈)에 따라 책임(업무, 메소드)는 정해지는데</strong></p>
+
+    <ul>
+      <li>
+<strong>역할에 따라 = 측면에 따라 -&gt; 여러 인터페이스가 구현되는 것은 class <code class="language-plaintext highlighter-rouge">implements 사장, 아빠, 남자</code>를 통해 여러가지를 구현한다.</strong>
+        <ul>
+          <li>**<code class="language-plaintext highlighter-rouge">각 역할에 따라 메소드는 다른 방식으로 각각 구현</code>된다. **</li>
+        </ul>
+      </li>
+      <li>해당 데이터는 나만 가지고 있으므로, 무조건 내가 구현해야한다. 역할에 따라 다르게 구현한다.
+        <ul>
+          <li>
+<strong>현실세계 객체는 데이터 때문에 -&gt; 다양한 측면의 메소드를 가지는게 정상</strong>
+            <ul>
+              <li>
+<strong>책임(메소드)은, 각각 역할에 따라 1개씩 가진다.</strong>
+                <ul>
+                  <li><strong>모든 역할을 가지고 1개의 책임(메소드)만 가지는 것은 불가능. 각각 책임이 만들어진다.</strong></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>현실세계 객체(나)는, 다양한 역할(사장, 아빠, 남자)을 가지며, 그 역할에 따라 각각의 책임(급여지급, 용돈지급, 술값지급)을 수행한다.</strong></p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">요점: 나라는 객체가 -&gt; 사장만 impl하거나 아빠만 impl할순 없다 -&gt; 여러역할을 다 imple해서 -&gt; 역할에 따른 여러 책임을 수행한다</code></strong></li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204121000002.png" alt="image-20220204121000002"></p>
+
+<ul>
+  <li>객체간 통신이 어려운 이유:  객체망내 **다른 객체도 똑같이  중**이다.
+역할에&gt;    <ul>
+      <li>나 = 은닉화데이터에 따라 사장, 아빠 impl 구현 중.</li>
+      <li>옆사람 = 은닉화데이터에 따라 사원, 아들 impl하여 구현중.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204121114130.png" alt="image-20220204121114130"></p>
+
+<ul>
+  <li>객체간으로 볼 때, <strong>2 객체의 <code class="language-plaintext highlighter-rouge">추상층(추상레이어)</code>입장에서 볼 수 있다.</strong>
+    <ul>
+      <li>색깔별로 같은 병행 interface를 갖고 있다.
+        <ul>
+          <li>인터페이스 수준에서는 색깔별로 같은 놈으로 보인다.</li>
+        </ul>
+      </li>
+      <li>
+<strong>but 통신은 <code class="language-plaintext highlighter-rouge">서로를 바라보는 측면(역할)에 의해 객체간 통신</code>이 성립한다.</strong>
+        <ul>
+          <li>
+<strong>역할의 형태(바라보는 측면, 관점)</strong>에 따라 통신함
+            <ul>
+              <li>파란색 -&gt; 파란색을 바라보는 관점뿐만  아니라</li>
+              <li>파란색 -&gt; 갈색을 바라보는 관점으로 따로 또 통신할 수 있다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204133630243.png" alt="image-20220204133630243"></p>
+
+<ul>
+  <li>
+<strong>객체1개에서 <code class="language-plaintext highlighter-rouge">각 인터페이스별로 책임과권한</code>을 따로따로 가지고 있으며 <code class="language-plaintext highlighter-rouge">책임과권한을 가진 인터페이스를 모두 다 합한 것이 객체</code>가 된다.</strong>
+    <ul>
+      <li>아빠 -&gt; 아들에게 용돈주는 책임</li>
+      <li>사장 -&gt; 사원에게 급여를 주는 책임
+        <ul>
+          <li>
+<strong>각 <code class="language-plaintext highlighter-rouge">책임(과 권한)</code>을 -&gt; <code class="language-plaintext highlighter-rouge">인터페이스 Level별로 나눠서</code> 가지고 있다.</strong>
+            <ul>
+              <li>객체 = 떡진 덩어리가 아니라, <strong><code class="language-plaintext highlighter-rouge">[관점별]로 다르게  [구현]</code>한 것들을 [Type(형)]으로 분리해서 인식한 것</strong>
+</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204134020597.png" alt="image-20220204134020597"></p>
+
+<ul>
+  <li>각각의 **다양한 측면(관점)에 따라 <code class="language-plaintext highlighter-rouge">책임과권한</code>을 구현한 모든 인터페이스를 **
+한꺼번에&gt;    <ul>
+      <li>책임에는, 합당한 권한을 가져야 수행가능
+        <ul>
+          <li>아는게 있어야, 뭘 한다</li>
+        </ul>
+      </li>
+      <li>다 합친 게 역할 -&gt; 물주</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204134221271.png" alt="image-20220204134221271"></p>
+
+<ul>
+  <li>**<code class="language-plaintext highlighter-rouge">객체간통신</code>은  아름답게 [서로 스펙을 알고서 주로 받는게 아니다] **
+    <ul>
+      <li>각각 여러가지의 <code class="language-plaintext highlighter-rouge">책임별 인터페이스</code>를 가지면서 <code class="language-plaintext highlighter-rouge">역할</code>을 수행하는 객체들끼리
+        <ul>
+          <li><strong>객체1의 <code class="language-plaintext highlighter-rouge">일부 책임</code> -&gt; 객체2의  <code class="language-plaintext highlighter-rouge">다른 형태의 책임</code>을 가리키면서 걔와 통신을하는 복잡한 과정이다.</strong></li>
+        </ul>
+      </li>
+      <li>처음부터 파란색의 인터페이스는 -&gt; 상대를 갈색으로 바라보고 메세지를 날릴 준비를 한다.
+        <ul>
+          <li>
+<strong>아름답게 아빠(책임A)와 아들(책임a)의 통신이 아니라 <code class="language-plaintext highlighter-rouge">아빠(책임A)가 사원(책임b)에게 급여줄 생각</code>을 하고 있다는 말이다.</strong>
+            <ul>
+              <li>이게 실제 세계의 통신이다. 그룹끼리 묵어서 통신하지 않는다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>실제 객체간통신에 쓰려고 개발해도, 다각도적인 측면에서 복잡한 경우의수가 생기는 이유이다.
+        <ul>
+          <li><strong>객체 설계시, 절대 1개인터페이스-1개메소드를 가진 class를 만들 순 없다.</strong></li>
+          <li><strong>왜냐면 그 은닉화된 데이터 -&gt; 발현된 책임들이 정해져서 나오기 때문</strong></li>
+        </ul>
+      </li>
+      <li>예제에 나온 <code class="language-plaintext highlighter-rouge">Screening</code>을 예를 들면
+        <ul>
+          <li><strong>정보를 아는 것 때문에(은닉화된 데이터) -&gt; 어쩔 수 없이 reserve예약도 받게 되었음</strong></li>
+          <li>원래 상영 = 극장에서 영화시작시간을 알고 있는 책임만 있을 뿐인데
+            <ul>
+              <li><strong>왜 예약이라는 책임(메소드)를 떠맡았느냐? 상영 지 혼자만 아는 정보이므로 어쩔 수 없이</strong></li>
+            </ul>
+          </li>
+          <li>Screening
+            <ul>
+              <li>인터페이스A: screening 정보의 책임과 권한</li>
+              <li>인터페이스B: reserve()의 책임과 권한
+                <ul>
+                  <li>형식으로 생긴 것으로 생각해볼 수 있다.</li>
+                  <li>
+<strong>실제로는 책임 -&gt; reservator interface를 impl해서 메소드reserve()를 구현해야한다.</strong>
+                    <ul>
+                      <li>원래는 명시적으로 만들어서, Type으로 만들어야한다.
+                        <ul>
+                          <li>즉, interface로 만들고 -&gt; class가 impl해서 메소드 구현</li>
+                          <li>Screening implements <code class="language-plaintext highlighter-rouge">reservator</code> 로 구현한 뒤?
+                            <ul>
+                              <li>클라이언트: <code class="language-plaintext highlighter-rouge">reservator(screening).reserve()로 예약</code>해야한다.?? 이렇게 하면 모순점이 발생안한다.</li>
+                            </ul>
+                          </li>
+                          <li>
+<strong>screening이 예약을 하는 모순점이 사라지고, screening impl reservator를 하면 -&gt; reservator가 .reserve()를 하게 되고, Type(형)으로 이해가 된다.</strong>
+                            <ul>
+                              <li>책 2장의 모순이 해결된다.</li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="통신망의-구성">
+<a class="anchor" href="#%ED%86%B5%EC%8B%A0%EB%A7%9D%EC%9D%98-%EA%B5%AC%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>통신망의 구성</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204140422832.png" alt="image-20220204140422832"></p>
+
+<ul>
+  <li>객체가 2개가 아니라 4개 이상을 보자.
+    <ul>
+      <li>실제 객체는 어떤일 하기위해 누구에게 도움받았고, 서로 도움을 합체해 다른애들에게 도움을 요청한다.</li>
+      <li>2장 theater도 마찬가지다. screening에게 부탁했더니 movie에게 부탁 -&gt; policy -&gt; condition에게 부탁하고 있다.</li>
+    </ul>
+  </li>
+  <li>동시에 2군데에서 부탁하고, 도착한 부탁 2개가 있으면 내부에서 변환하여 -&gt; 1개로 다시 부탁할 수 있다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204140557470.png" alt="image-20220204140557470">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204140627020.png" alt="image-20220204140627020">
+    <ul>
+      <li>
+<strong>합체+대기+병합조건 등이 일어나면서 비동기인 경우도 많아서 복잡하다.</strong>
+        <ul>
+          <li><strong>객체통신은 비동기도 포함해서, 다양한 형들이 다양한 형들과 대화하는 복잡한 망으로 되어있다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>이 책을 보는 이유
+    <ul>
+      <li>스프링에 있는 controller, service만 주구장창 짜는게 아니라 구성하는 파워를 기르기 위함이다.(이 통신망을 짜기 위함)</li>
+      <li>비즈니스 도메인 -&gt; 코드로 변역하여 통신망을 짜는 힘
+        <ul>
+          <li><strong>도메인: 해결해야하는 문제</strong></li>
+          <li>
+<strong>협력하는 객체의 망 + 메시지로 연결할 수 있느냐</strong>
+            <ul>
+              <li><strong>코드를 분산시킨 그릇들 = 객체들을 만들고</strong></li>
+              <li><strong>메세지로 연결할 수 있느냐</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204141012415.png" alt="image-20220204141012415"></p>
+
+<ul>
+  <li>두 메세지망의 차이점은?
+    <ul>
+      <li>
+<strong>왼쪽: 비선형구조 / 오른쪽: 선형구조 (or 순환구조)</strong>
+        <ul>
+          <li>
+<strong>일반적으로 순환 통신망 -&gt; 잘못된 구조</strong>
+            <ul>
+              <li>3개 밖에 없어서 파악했는데, 일반적으로는 파악할 수 없다.</li>
+              <li>설계의 원칙을 지켜서 순환구조를 만들지말자.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>양방향 화살표, 서로 알고 있는 구조가 없어야한다.</strong>
+        <ul>
+          <li>
+<strong>설계의 목적: <code class="language-plaintext highlighter-rouge">의존성</code>을 제거할 수 없다 -&gt; <code class="language-plaintext highlighter-rouge">단방향화(simplex)</code> 시켜야한다.</strong>
+            <ul>
+              <li>설계 = 코드 대치의 목표 -&gt; 의존성을 단방향화 시키는데 있다.</li>
+            </ul>
+          </li>
+          <li>
+<strong>if 조건부</strong>을 제거하는 방법? 없다
+            <ul>
+              <li>
+<strong>관련된 의존성</strong>을 제거할 방법도 없다 ex&gt; 하나카드랑 같이 일하는데, 하나카드 화살표를 제거할 방법 없다.</li>
+              <li>도메인에서 원하는 것들만큼 화살표가 나가야한다. 제거할 방법 없다.</li>
+              <li>
+<strong>우리가 해야할 것은 순환 참조만 일어나지 않게 하는 것</strong>이다.
+                <ul>
+                  <li>직접 순환 뿐만 아니라, 돌다가 오는 것도 막아야한다.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="객체설계-난점">
+<a class="anchor" href="#%EA%B0%9D%EC%B2%B4%EC%84%A4%EA%B3%84-%EB%82%9C%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>객체설계 난점</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204142024113.png" alt="image-20220204142024113"></p>
+
+<ul>
+  <li>목표를 알았다. 순환참조를 안한다고 해도 <strong>객체설계에 난점</strong>들이 많다.</li>
+</ul>
+
+<h5 id="인터페이스의-그룹화">
+<a class="anchor" href="#%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EC%9D%98-%EA%B7%B8%EB%A3%B9%ED%99%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>인터페이스의 그룹화</h5>
+
+<ul>
+  <li>
+<strong>인터페이스: 특정 책임을 나타내는 것</strong>
+    <ul>
+      <li>제일 좋은 인터페이스 : 아무 메소드도 없는 것</li>
+      <li><strong>2번째 좋은 인터페이스 : 메소드 1개 있는 것</strong></li>
+      <li>안좋은 인터페이스 : 메소드 2개이상 있는 것
+        <ul>
+          <li>기본적으로 <strong>인터페이스 = 메소드 1개만 가진다고 가정</strong>하자. <strong>인터페이스를 왜 만들었을 까?</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">인터페이스</code></strong>는 <strong>합당한 <code class="language-plaintext highlighter-rouge">책임</code>을 <code class="language-plaintext highlighter-rouge">추상화</code></strong>한 것
+    <ul>
+      <li>
+<strong>책임은 어디서? <code class="language-plaintext highlighter-rouge">도메인</code>에서 나왔다.</strong>
+        <ul>
+          <li>
+<strong>도메인은 <code class="language-plaintext highlighter-rouge">여러 측면</code>을 가지고 있다.</strong>
+            <ul>
+              <li>사업자, 이용자, 에이전시 각각의 측면을 가지고 있다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>즉, <code class="language-plaintext highlighter-rouge">여러 측면</code>의 <code class="language-plaintext highlighter-rouge">도메인</code>에 따라 -&gt; <code class="language-plaintext highlighter-rouge">책임</code>이 관점에 따라 <code class="language-plaintext highlighter-rouge">여러가지</code> -&gt; <code class="language-plaintext highlighter-rouge">추상화한 인터페이스</code>도 <code class="language-plaintext highlighter-rouge">여러가지</code></strong></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204142608828.png" alt="image-20220204142608828"></p>
+
+<ul>
+  <li>
+<strong>도메인A관점(사업자) 측면에서 -&gt; 여러 책임 -&gt; 추상화한 여러 인터페이스 ABCD</strong>
+    <ul>
+      <li>도메인B관점(이용자) 측면에서 -&gt; … -&gt; 여러 인터페이스 abcd
+        <ul>
+          <li><strong>같은 객체인데, 도메인에 따라 인터페이스도 여러개 추출</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204142737185.png" alt="image-20220204142737185"></p>
+
+<ul>
+  <li>
+<strong>도메인이외에, 추가적인  관점들에 따라 -&gt; 여러 인터페이스들이 마구마구 나온다.</strong>
+    <ul>
+      <li>Player라는 객체를 만든다. 어떻게 바라볼 것이냐에 따라서
+        <ol>
+          <li>움직이는 로직관점: 유저직접 / AI / 랜덤으로 / 히스토리기반  으로의 인터페이스들</li>
+          <li>컨트롤러 관점: 조이스틱 / 키보드 / 마우스 으로의 인터페이스들</li>
+          <li>…</li>
+          <li>…</li>
+        </ol>
+      </li>
+      <li>수많은 인터페이스가 많은 관점으로 양산
+        <ul>
+          <li>왜? 우리는 책임(메소드)를 추상화하고 싶으니까
+            <ul>
+              <li>
+<strong>그 책임이라는 것은 관점이나 도메인에 소속</strong>되어있기 때문에 -&gt; <strong>관점에 따라 수많은 책임 도출 -&gt; 추상화하고 싶어서 인터페이스도 수많은 것이 도출</strong>
+</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>내가 사장or아빠인 것처럼, 1개의 객체는</p>
+
+    <ul>
+      <li>
+        <p>은닉화된 데이터 -&gt; 수용해야하는 관점이 많고 -&gt; 그만큼 인터페이스를 부여해야한다.</p>
+      </li>
+      <li>
+        <p>또한 객체마다 수용or소속되어있는 관점이 다르다.</p>
+        <ul>
+          <li>어떤 객체는 B인터페이스만 -&gt; 도메인A관점에만 사용됨</li>
+          <li>어떤 객체는 D, 라 -&gt;A관점, 모델링관점 2관점으로 사용됨</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>각 객체들은 <strong><code class="language-plaintext highlighter-rouge">소속된 관점</code>마다  <code class="language-plaintext highlighter-rouge">다양한 인터페이스를 &lt;부분적으로&gt; 가지고 있다</code></strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204144930849.png" alt="image-20220204144930849"></p>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204145201844.png" alt="image-20220204145201844"></p>
+
+<ul>
+  <li>각 객체들은 따로 존재하는게 아니라 <strong>망을 구성하고 있으니</strong>
+    <ul>
+      <li><strong>서로 다른 관점끼리 통신하기도 하지만</strong></li>
+      <li>
+<strong>같은 관점내에서 통신하기도 하고</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204145318775.png" alt="image-20220204145318775">
+</li>
+      <li>순환참조를 하고 있는 것도 있다.
+        <ul>
+          <li>책만 보면, 이런 설계를 할 수 도 있다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">여러관점을 수용한 객체망</code> &lt;-&gt; <code class="language-plaintext highlighter-rouge">인터페이스 그룹화</code>된 표가 상호작용을 하고 있다.</strong>
+    <ul>
+      <li>객체망 구성후 -&gt; <strong>모순점 or 잘못된 인터페이스 발견 -&gt; 인터페이스그룹화된 표를 다시 다 고쳐줘야한다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220204145447399.png" alt="image-20220204145447399">
+</li>
+    </ul>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/object/2022/05/08/object1-6)%EA%B0%9D%EC%B2%B4%EA%B0%84%ED%86%B5%EC%8B%A0.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

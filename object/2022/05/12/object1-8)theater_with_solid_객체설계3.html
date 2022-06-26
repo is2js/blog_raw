@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>OBJECT 08 객체설계3_Theater_with_SOLID(코드스핏츠) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="OBJECT 08 객체설계3_Theater_with_SOLID(코드스핏츠)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<meta property="og:description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<link rel="canonical" href="blog.chojaeseong.com/object/2022/05/12/object1-8)theater_with_solid_%EA%B0%9D%EC%B2%B4%EC%84%A4%EA%B3%843.html" />
+<meta property="og:url" content="blog.chojaeseong.com/object/2022/05/12/object1-8)theater_with_solid_%EA%B0%9D%EC%B2%B4%EC%84%A4%EA%B3%843.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-05-12T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-05-12T00:00:00-05:00","url":"blog.chojaeseong.com/object/2022/05/12/object1-8)theater_with_solid_%EA%B0%9D%EC%B2%B4%EC%84%A4%EA%B3%843.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"OBJECT 08 객체설계3_Theater_with_SOLID(코드스핏츠)","dateModified":"2022-05-12T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/object/2022/05/12/object1-8)theater_with_solid_%EA%B0%9D%EC%B2%B4%EC%84%A4%EA%B3%843.html"},"description":"object 책을 강의한 코드스핏츠 유튜브 요약","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OBJECT 08 객체설계3_Theater_with_SOLID(코드스핏츠)</h1><p class="page-description">object 책을 강의한 코드스핏츠 유튜브 요약</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-05-12T00:00:00-05:00" itemprop="datePublished">
+        May 12, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#ch8-theater_with_solid">ch8. theater_with_solid</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#movie">Movie</a></li>
+<li class="toc-entry toc-h4"><a href="#discountpolicy">DiscountPolicy</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#amountpolicy-percentpolicy">AmountPolicy, PercentPolicy</a></li>
+<li class="toc-entry toc-h5"><a href="#nosalepolicy">NosalePolicy</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#discountcondition">DiscountCondition</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#periodcondition">PeriodCondition</a></li>
+<li class="toc-entry toc-h5"><a href="#sequencecondition">SequenceCondition</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#ticketseller">TicketSeller</a></li>
+<li class="toc-entry toc-h4"><a href="#ticketoffice">TicketOffice</a></li>
+</ul>
+</li>
+</ul><ul>
+  <li>참고 유튜브 : https://www.youtube.com/watch?v=navJTjZlUGk</li>
+  <li>정리본: https://github.com/LenKIM/object-book</li>
+  <li>코드: https://github.com/eternity-oop/object</li>
+  <li>책(목차) : https://wikibook.co.kr/object/</li>
+</ul>
+
+<h3 id="ch8-theater_with_solid">
+<a class="anchor" href="#ch8-theater_with_solid" aria-hidden="true"><span class="octicon octicon-link"></span></a>ch8. theater_with_solid</h3>
+
+<h4 id="movie">
+<a class="anchor" href="#movie" aria-hidden="true"><span class="octicon octicon-link"></span></a>Movie</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205161147187.png" alt="image-20220205161147187"></p>
+
+<ul>
+  <li>책하고 동일하게 <code class="language-plaintext highlighter-rouge">policy</code>를 단일로 1개를 가지고 있다. <code class="language-plaintext highlighter-rouge">final</code>로 가지고 있다?</li>
+  <li>calculateFee()할때는 screening, count를 받아서
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">policy에게 calculateFee를 위임</code>하는데, 추가로 + <code class="language-plaintext highlighter-rouge">Movie속 fee</code>도 같이 건네줘야한다</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="discountpolicy">
+<a class="anchor" href="#discountpolicy" aria-hidden="true"><span class="octicon octicon-link"></span></a>DiscountPolicy</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205161328082.png" alt="image-20220205161328082"></p>
+
+<ul>
+  <li>discountpolicy는 <strong><code class="language-plaintext highlighter-rouge">hashSet을 통해 다수의 condition을 소유</code></strong>하고 있다.
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">(중간에 유연하게 더 받아들일 수 있도록)생성자에서 받지 않고</code></strong>, addCondition()메소드로 <strong><code class="language-plaintext highlighter-rouge">빈Set에서부터  추가/삭제</code></strong> 하려고 하는 것 같다
+        <ul>
+          <li>
+<strong>runtime context를 중요하게 생각(my) <code class="language-plaintext highlighter-rouge">condition을 유연하게 보유</code> )</strong>한다면, 책 2장의 형태로는 안된다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>2번째 문제는,  중간에 유연하게 원소를 더 받아들일 수 있는 conditions(hashset)을 가지는데,  Movie가 <code class="language-plaintext highlighter-rouge">final</code>로 선언한 <code class="language-plaintext highlighter-rouge">policy</code>지만 다른 <strong>policy로 바꿔치울 때, 내부 conditions는 어떻게 유지할 것인가?</strong></p>
+
+    <ul>
+      <li>5장에서, Movie가 <strong>policy를 가진 장점</strong> -&gt; <strong>Movie가 중간에 policy를 바꿀 수 있다.</strong>
+</li>
+      <li>그러나 policy와 condition은 별도의 객체다 -&gt;
+        <ul>
+          <li>policy를 바꿀 때, 기존 condition을 유지하는 방법은?
+            <ul>
+              <li><strong>내가 AmountPolicy -&gt; PercentPolicy로 바꿀 때, AmountPolicy내부에 있는 conditions를 유지하는 방법은?</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>**특정policy에게 <code class="language-plaintext highlighter-rouge">"나의 conditions를 물려줄게"</code> **
+        <ul>
+          <li><strong>물려준다=객체내부정보를 준다=객체내부에서만 가능하다 = 본인 내장을 까는 것이기 때문에 Policy클래스 내부에서 <code class="language-plaintext highlighter-rouge">copyCondition( 새로운policy) -&gt; 새로운policy.addAll(내장conditions)</code>을 통해 넘겨준다.</strong></li>
+        </ul>
+      </li>
+      <li>conditions은 Movie에 걸려있는 것이다. 근데, conditions를 소유하고 있는 policy를 바꿀 때, movie에게 그대로 넘겨줘야하니, <strong>바뀐policy에게 내장을까서 넘겨주는 메소드 copyConditions를 만드는 것</strong>이다.
+        <ul>
+          <li>원래는 Movie꺼지만, Movie의 지식을 줄이기 위해서 -&gt; policy에게 위임했던 condition
+            <ul>
+              <li>
+<strong>Movie가 policy와 condition을 둘다 아는 것보다 policy만 아는 것이 더 낫다고 판단</strong>했었다. 근데, policy를 교체한다면, 기존 condition을 다시 만들어서 넣어줘야하는 문제가 생겼다.
+                <ul>
+                  <li><strong>다시 만들면 안된다. 객체는 식별자를 통해 구분함. 값만 똑같이 만든다고 해서 기존 condition이 아님.</strong></li>
+                  <li>기존 condition그대로 유지해야하므로
+                    <ul>
+                      <li>내장에서 <strong>같은Classr객체BUT바뀐policy객체</strong>를 받아서, 빈set에 기존꺼 add해주기</li>
+                      <li>
+<code class="language-plaintext highlighter-rouge">기존policy.copyCondition</code>( <strong>바뀐policy</strong> )
+                        <ul>
+                          <li><strong>바뀐policy.빈conditions.addAll(<code class="language-plaintext highlighter-rouge">기존conditions</code>)</strong></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li><strong>같은종류의 객체끼리는 이렇게 내장까서 복사가 가능하다.</strong></li>
+        </ul>
+      </li>
+      <li>원래는 Movie가 가져야할 condition다.
+        <ul>
+          <li>하지만, policy가 condition을 가져왔기 때문에, policy교체시 condition도 옮겨줘야하는 책임이 딸려왔다.</li>
+          <li>객체에서, 소유권을 함부러 이전하면 그 여파는 반드시 온다.
+            <ul>
+              <li>아무 관계 없는 policy와 condition을 한줄로 엮어놔서… 책에서 문제가 발생한 것.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>calculateFee는 condition을 돌면서 계산하면 된다.</p>
+
+    <ul>
+      <li>
+        <p>NosalePolicy는 condition을 무시하고 계산해야한다.</p>
+
+        <ul>
+          <li>
+            <p><strong>Set안에 아무것도 안들어와있으면 -&gt; for돌린 것은 무시되니 -&gt; return이 for문 밖에서도 있게한다.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205164205144.png" alt="image-20220205164205144"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>현재까지 <code class="language-plaintext highlighter-rouge">DiscountPolicy</code>는 추상클래스이고</strong>
+    <ul>
+      <li>addCondition, copyCondition은 <strong>템플릿메소드</strong>이고</li>
+      <li>calculateFee같은 <strong>구상클래스에 위임한 훅</strong> 이 발동한다.</li>
+    </ul>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">템플릿 메소드패턴</code>은 언제 많이쓰나</strong>
+    <ul>
+      <li><strong>구현층에서 공통적으로 사용되는 로직이나 상태가 있음을 확신할 때</strong></li>
+      <li>수많은 policy가 나올 것이지만, <strong>어느정도 형태와 로직이 공통일 때, 형이 한정되어있을 때</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">전략패턴</code>은 인터페이스로서의 메소드 calculateFee()만 존재할 때</strong>
+    <ul>
+      <li>
+<strong>전략패턴은 <code class="language-plaintext highlighter-rouge">인터페이스만 공통</code> -&gt; 구현이나 상태의 공통점이 없다.(각기 다르게 구현되는 유연함을 가질 때)</strong>
+        <ul>
+          <li>만약 템플릿메소드를 써야할 곳에 전략패턴을 쓴다면..
+            <ul>
+              <li>템플릿메소드부분을 모두 들고 다녀야한다 -&gt; 버그 많아지고 수정할부분도 여러군데</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>만약, 템플릿메소드라고 생각했는데, 공통아닌 policy가 발견되었다? -&gt; 전략패턴으로 바꿔줘야한다.</li>
+</ul>
+
+<h5 id="amountpolicy-percentpolicy">
+<a class="anchor" href="#amountpolicy-percentpolicy" aria-hidden="true"><span class="octicon octicon-link"></span></a>AmountPolicy, PercentPolicy</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205164846747.png" alt="image-20220205164846747"></p>
+
+<ul>
+  <li>템플릿메소드패턴의 DiscountPolicy를 상속받았다면
+    <ul>
+      <li>calculateFee()에 쓰일 추가적으로 amount만 생성자에서 받아들여주고</li>
+      <li>자식마다 달라지는 훅의 calculateFee()부분만 @오버라이드 해서 구현해주면 된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205165027756.png" alt="image-20220205165027756"></p>
+
+<ul>
+  <li>PercentPolicy도 마찬가지다.</li>
+</ul>
+
+<h5 id="nosalepolicy">
+<a class="anchor" href="#nosalepolicy" aria-hidden="true"><span class="octicon octicon-link"></span></a>NosalePolicy</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205165149271.png" alt="image-20220205165149271"></p>
+
+<ul>
+  <li>
+    <p>percent는 오타</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">NosalePolicy</span> <span class="kd">extends</span> <span class="nc">DiscountPolicy</span> <span class="o">{</span>
+    
+      <span class="nd">@Override</span>
+      <span class="kd">public</span> <span class="kd">final</span> <span class="nc">Money</span> <span class="nf">calculateFee</span><span class="o">(</span><span class="nc">Money</span> <span class="n">fee</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="n">fee</span><span class="o">;</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+<strong>그냥 fee를 받으면 그대로 fee를 리턴한 것</strong>이다.</li>
+      <li>추상클래스 DiscountPolicy를 보면,
+        <ul>
+          <li><strong>condition을 가지고 있어서, 부모의 로직에서의 for문에 걸려 calculateFee(fee) -&gt; 훅 -&gt; return fee를 하나</strong></li>
+          <li><strong>컨디션 없이 return fee를 하나 동일하게 로직이 수행된다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205165549856.png" alt="image-20220205165549856"></p>
+
+    <ul>
+      <li>리스코프 치환 원칙에 의해서, <strong>if자식형을 찾지않고</strong> 부모형인 DiscountPolicy수준에서 찾는데 성공했다(?)
+        <ul>
+          <li>**로직이  if분기되지 않았다.**자식객체인지&gt;</li>
+          <li>conditions이 있든/없든 Nosale이 Amount, Percent와 동일한 로직으로 일반화(return fee만)되었다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="discountcondition">
+<a class="anchor" href="#discountcondition" aria-hidden="true"><span class="octicon octicon-link"></span></a>DiscountCondition</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205170231321.png" alt="image-20220205170231321"></p>
+
+<ul>
+  <li>추상클래스에선 할일이 없다.
+    <ul>
+      <li>구상클래스에선 <strong>메소드 1개만 구상</strong>하면 되니 <strong>좋은 인터페이스</strong>다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="periodcondition">
+<a class="anchor" href="#periodcondition" aria-hidden="true"><span class="octicon octicon-link"></span></a>PeriodCondition</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205170250233.png" alt="image-20220205170250233"></p>
+
+<ul>
+  <li>when받아서 when이 일치하는지 확인해주면 된다.</li>
+</ul>
+
+<h5 id="sequencecondition">
+<a class="anchor" href="#sequencecondition" aria-hidden="true"><span class="octicon octicon-link"></span></a>SequenceCondition</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205170320843.png" alt="image-20220205170320843"></p>
+
+<ul>
+  <li>마찬가지로 sequence 받아서 일치하는지 보면 된다.</li>
+</ul>
+
+<h4 id="ticketseller">
+<a class="anchor" href="#ticketseller" aria-hidden="true"><span class="octicon octicon-link"></span></a>TicketSeller</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205170435907.png" alt="image-20220205170435907"></p>
+
+<ul>
+  <li>TicketSeller는 customer+theater+movie+screening+count 5개를 인자로 받았다.
+    <ul>
+      <li><strong>인자로 받았다 = <code class="language-plaintext highlighter-rouge">Dependency로서 가지고 있다</code></strong></li>
+      <li>5개의 인자 = 지식들을 형으로 강제하면 좋은데, Seller는 TickeyOffice에게 해당 정보를 넘겨줘야하니, 기존 형을 모르게할 수가 없다.</li>
+      <li>
+<strong>도메인상, customer는 주문시 seller인 나에게 5개 정보를 다보낸다.</strong>
+        <ul>
+          <li>코드상으로는 5개 정보에 대해 dependency가 있지만, <strong>실제로 이 dependency(theater, movie, screening)를 사용하면 안된다.</strong>
+            <ul>
+              <li>왜? <strong>중개용으로서</strong> Customer -&gt; -&gt; TicketOffice에게 <strong>건네주기 위해 받았을 뿐</strong>
+                <ul>
+                  <li>**<code class="language-plaintext highlighter-rouge">중개 = 나와 계약한 ticketOffice = 원래 의존성 있던 객체</code>가 .reserve()에 <code class="language-plaintext highlighter-rouge">사용하도록 전달만</code>해줌. **
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205171528941.png" alt="image-20220205171528941">
+</li>
+                  <li>
+<strong><code class="language-plaintext highlighter-rouge">나한테 원래 의존성이 없던 , 인자로만 받았던 movie</code>가 사용해선 인자로 넘어온 dependency들을 사용해선 안된다.</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205171509277.png" alt="image-20220205171509277">
+</li>
+                </ul>
+              </li>
+              <li>dependency 받은 <strong>목적이 사용이 아니라 전달하기위함</strong>이었다.
+                <ul>
+                  <li>java에서는 표현할 능력이 없음.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>직접사용하는 코드 <code class="language-plaintext highlighter-rouge">movie.calculateFee( screening, count)</code>는 movie에게 <code class="language-plaintext highlighter-rouge">중개용, 전달용 dependency를 메세지로 전달</code>해서 사용하고 있는 <code class="language-plaintext highlighter-rouge">오류</code></strong> 를 발생시키고 있다.
+        <ul>
+          <li>도메인상 어쩔수 없이(전달 목적으로) 받은 dependency를 사용하게 되면, 겉잡을 수 없게 된다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205171559206.png" alt="image-20220205171559206"></p>
+
+<ul>
+  <li>
+    <p>빨간줄이 잘못되었다는 것을 깨달아야한다.</p>
+
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">최소지식의 원칙 = 디미터의 원칙</code></strong>으로 바꿔줘야한다.</li>
+      <li><strong><code class="language-plaintext highlighter-rouge">나와 직접적인 관계가 있는 TicketOffice에게 맡긴다</code></strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205171700434.png" alt="image-20220205171700434"></p>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">직접적인 관계가 없던 movie</code>가 하던 것을 -&gt; <code class="language-plaintext highlighter-rouge">ticketOffice</code>에게 시킴
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">theater, movie, screening의 변화에 안전해졌다.</code></strong></li>
+          <li>중개용 인자 (= 직접관계 객체라면, 걔만 사용가능)를 중개용으로만 사용되게 했다면, <strong>인자들에 대한 변화에 안전 = dependency가 사라짐</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="ticketoffice">
+<a class="anchor" href="#ticketoffice" aria-hidden="true"><span class="octicon octicon-link"></span></a>TicketOffice</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205172025099.png" alt="image-20220205172025099"></p>
+
+<ul>
+  <li>
+<strong>movie의 대한 지식(직접관계가) 원래 있던 TicketOffice는</strong>
+    <ul>
+      <li>calculateFee()를 내부에서 movie에게 시킬 수 있게 된다.</li>
+      <li><strong>결국엔 movie.calculateFee()를 할 예정이지만, <code class="language-plaintext highlighter-rouge">직접 관계있는 놈에서 실행시키도록 돌리는 wrapping method</code>를 TicketSeller에게 적용했던 것이다.</strong></li>
+    </ul>
+  </li>
+  <li>그렇게 수정하다보니, 코드중복이 떠서 하나는 내부메소드를 사용하게 한다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205172319775.png" alt="image-20220205172319775">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220205172357474.png" alt="image-20220205172357474">
+</li>
+</ul>
+
+
+  </div><a class="u-url" href="/object/2022/05/12/object1-8)theater_with_solid_%EA%B0%9D%EC%B2%B4%EC%84%A4%EA%B3%843.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
