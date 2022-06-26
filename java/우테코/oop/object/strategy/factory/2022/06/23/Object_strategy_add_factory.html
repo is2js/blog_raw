@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Object) [F1]Strategy + Factory 패턴 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Object) [F1]Strategy + Factory 패턴" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="전략패턴에 생성사용패턴을 적용하기 위해 Factory 도입" />
+<meta property="og:description" content="전략패턴에 생성사용패턴을 적용하기 위해 Factory 도입" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/strategy/factory/2022/06/23/Object_strategy_add_factory.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/strategy/factory/2022/06/23/Object_strategy_add_factory.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-06-23T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-06-23T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/strategy/factory/2022/06/23/Object_strategy_add_factory.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"Object) [F1]Strategy + Factory 패턴","dateModified":"2022-06-23T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/strategy/factory/2022/06/23/Object_strategy_add_factory.html"},"description":"전략패턴에 생성사용패턴을 적용하기 위해 Factory 도입","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Object) [F1]Strategy + Factory 패턴</h1><p class="page-description">전략패턴에 생성사용패턴을 적용하기 위해 Factory 도입</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-06-23T00:00:00-05:00" itemprop="datePublished">
+        Jun 23, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#oop">oop</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#strategy">strategy</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#factory">factory</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h5"><a href="#실습1-전략패턴에-simplex-factory-for-생성사용패턴">실습1-전략패턴에 simplex Factory for 생성사용패턴</a></li>
+<li class="toc-entry toc-h5"><a href="#실습2---위임된-factory-적용-for-factory-circulation">실습2 - 위임된 Factory 적용 for Factory circulation</a></li>
+</ul><h5 id="실습1-전략패턴에-simplex-factory-for-생성사용패턴">
+<a class="anchor" href="#%EC%8B%A4%EC%8A%B51-%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%97%90-simplex-factory-for-%EC%83%9D%EC%84%B1%EC%82%AC%EC%9A%A9%ED%8C%A8%ED%84%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>실습1-전략패턴에 simplex Factory for 생성사용패턴</h5>
+
+<ul>
+  <li><a href="https://github.com/is2js/OOP-Theater/tree/ea5e328af4a61480e8980c295341a043b81325e5/src/main/java/theater">적용 직전 커밋코드</a></li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>전략객체를 사용하는 DiscountPolicy에게, 전략객체를 강제pushed(생성자를 통한 객체주입)하는게 아니라 <code class="language-plaintext highlighter-rouge">전략객체Factory</code>를 통해 <code class="language-plaintext highlighter-rouge">원할 때 &amp;&amp; caching하며 생성</code>하여 주입할 수 있도록</strong></p>
+
+    <ul>
+      <li><strong>Factory를 통해 원할 때  &amp; caching 적용하여 생성하는 것을 <code class="language-plaintext highlighter-rouge">Lazy pulled</code>라고 한다.</strong></li>
+    </ul>
+
+    <ol>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">전략객체Factory</code> 인터페이스를 만든다.</strong></p>
+      </li>
+      <li>
+        <p><strong>전략객체를 반환하는 오퍼레이터</strong>를 가진다.</p>
+      </li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/9d3ad15b-68b8-4833-92ad-b4e85326a968.gif" alt="9d3ad15b-68b8-4833-92ad-b4e85326a968"></p>
+  </li>
+  <li>
+    <p>전략Factory를 구현한 <strong>개별전략객체Factory</strong>를 구현한다.</p>
+
+    <ul>
+      <li><strong>개별전략객체를 사용하고 싶은 곳(DiscountPolicy)에서는 전략객체 대신 전략Factory를 생성자주입한다.</strong></li>
+    </ul>
+
+    <ol>
+      <li>전략Factory를 구현하고</li>
+      <li>전략객체getter에서는 <strong><code class="language-plaintext highlighter-rouge">cache(전략객체)가 적용된 생성</code>을 위해</strong>
+        <ol>
+          <li>
+<code class="language-plaintext highlighter-rouge">if (cache(전략객체) == null)</code>: <strong>cache라는 전략객체가 아직 생성안되었다면, new 전략객체()를 생성해서 할당해준다.</strong>
+            <ul>
+              <li><strong><code class="language-plaintext highlighter-rouge">private 전략형 cache;</code> 변수는 애초에 null로 생성하는 것이 특징이다.</strong></li>
+            </ul>
+          </li>
+          <li>
+<code class="language-plaintext highlighter-rouge">return cache</code> : 전략객체가 들어갈 cache로 한다.</li>
+        </ol>
+      </li>
+      <li>
+<strong>전략객체 생성 개별 <code class="language-plaintext highlighter-rouge">구현에 필요한</code> Money amount는 <code class="language-plaintext highlighter-rouge">필드로 추가해서  생성자</code>에서 받아온다.</strong>
+        <ul>
+          <li>구현에 필요한 재료는 생성자에서 받아오기.</li>
+        </ul>
+      </li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/b8a8f98f-511f-4d70-94a4-3bbb11461680.gif" alt="b8a8f98f-511f-4d70-94a4-3bbb11461680"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220625224504986.png" alt="image-20220625224504986"></p>
+  </li>
+  <li>
+    <p><strong>이제 전략객체를 pushed받던 DiscountPolicy가 <code class="language-plaintext highlighter-rouge">전략Factory</code>를 주입받아, <code class="language-plaintext highlighter-rouge">사용하던 곳에서 그 때 생성</code>하는 Lazy pull을 사용하도 DiscountPolicy를 수정한다.</strong></p>
+
+    <ol>
+      <li>생성자로 주입될 놈(CalculatorFactory)은 field를 미리 만들어놓는다.</li>
+      <li>생성자에 파라미터를 추가해서 생성자 주입받는다.</li>
+      <li>기존 전략객체 주입은 생성자에서 삭제한다(signature)</li>
+      <li>
+<strong>기존 전략객체자리에  Factory를 통한 Lazypull된 것을 위치시킨다.</strong>
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">Factory를 통해 생성하여 가져올 전략객체는 DiscountPolicy가 모르게 된다. Factory의 마법</code>이다.</strong></li>
+        </ul>
+      </li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/f372f1a4-0c05-456b-ae4c-bfd067f4e976.gif" alt="f372f1a4-0c05-456b-ae4c-bfd067f4e976"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220625225028597.png" alt="image-20220625225028597"></p>
+  </li>
+  <li>
+    <p><strong>나머지</strong> 전략객체에 대한 <strong>구상Factory들을 생성</strong>해준다.</p>
+
+    <ul>
+      <li>영상에서는 Percent의 경우 synchronized 달아주는 것을 깜박함.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/a49169c7-410c-420e-b23f-a6f88c9d9f65.gif" alt="a49169c7-410c-420e-b23f-a6f88c9d9f65"></p>
+
+    <ul>
+      <li>Nosale도 마찬가지</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/9de6064a-85cf-4355-95a5-5523a16ea734.gif" alt="9de6064a-85cf-4355-95a5-5523a16ea734"></p>
+  </li>
+</ol>
+
+<h5 id="실습2---위임된-factory-적용-for-factory-circulation">
+<a class="anchor" href="#%EC%8B%A4%EC%8A%B52---%EC%9C%84%EC%9E%84%EB%90%9C-factory-%EC%A0%81%EC%9A%A9-for-factory-circulation" aria-hidden="true"><span class="octicon octicon-link"></span></a>실습2 - 위임된 Factory 적용 for Factory circulation</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220626232753379.png" alt="image-20220626232753379"></p>
+
+<ol>
+  <li>
+    <p>전략Factory에 존재하는 <strong>생성의 추상메서드 <code class="language-plaintext highlighter-rouge">getCalculator</code>를 추상메서드에서 <code class="language-plaintext highlighter-rouge">제거</code></strong>하고, <strong>전략객체의 <code class="language-plaintext highlighter-rouge">전략메서드를 복사해서 위임</code>받는다.</strong></p>
+
+    <ul>
+      <li>
+<strong>생성 추상메서드를 단순제거하고 -&gt; 구상Factory들의 <code class="language-plaintext highlighter-rouge">@Override만 지우고 + 내수용 private 메서드로 바꾼다</code> .</strong>
+        <ul>
+          <li>
+<strong>구상Factory의 생성책임</strong>이 생성용 추상메서드 개별구현이 아니라, <strong>자기메서드가 되어버리며, public 전략메서드의 내수로  private으로 객체호출없는 메서드로 사용될 예정.</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/a1773d55-7ea6-4fc3-aaac-bab4122880bc.gif" alt="a1773d55-7ea6-4fc3-aaac-bab4122880bc"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220626005535310.png" alt="image-20220626005535310">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220626005644545.png" alt="image-20220626005644545"></p>
+
+    <ul>
+      <li><strong>내수용 전략객체 생성메서드가 private으로 안바뀐 스샷임.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p>각 구상Factory는 <strong>위임된Factory의 전략메서드를 구현하되</strong></p>
+
+    <ol>
+      <li><strong>자신의 전략객체생성메서드(cache+원할때)를 사용해서 전략객체 생성 후</strong></li>
+      <li>
+<strong>전략객체의 전략메서드를 호출</strong>하게 한다.</li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220626011112869.png" alt="image-20220626011112869"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/6e1bec47-e595-4486-882f-1715a80635ce.gif" alt="6e1bec47-e595-4486-882f-1715a80635ce"></p>
+
+    <ul>
+      <li>
+<strong>이렇게 되면, Factory가 전략메서드 호출 -&gt; 내장된 구상Factory가 전략객체 생성메서드 호출 후 -&gt; 전략메서드 호출</strong>의 형태가 된다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>전략Factory를 사용하다가 열차전복사고가 일어난 DiscountPolicy에서 <strong>Factor.전략메서드()</strong>호출으로 <strong>구상Factory내부메서드로 내장된 생성메서드를 생략</strong>할 수 있게 된다.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220626011450717.png" alt="image-20220626011450717"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220626011433141.png" alt="image-20220626011433141"></p>
+  </li>
+  <li>
+    <p><strong>위임된 전략Factory</strong>를 만들었더니, <strong>전략인터페이스와 100%동일하다.</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220626012343087.png" alt="image-20220626012343087"></p>
+
+    <ol>
+      <li>pushed 주입을 해결하기 위해 getter+캐슁해주는 Factory를 도입했다.</li>
+      <li>열차전복을 해결하기 위해 Factory에는 전략메소드책임을 -&gt; 구상Factory에는 getter() 내수용 소유 -&gt; 전략메서드 구현시, getter()된 전략객체.전략메소드()호출해서 최종결과물을 반환해줘야한다.</li>
+      <li>그랬더니 Factory는 전략인페와 완전히 동일한 놈이 되었다. -&gt; Factory자리에 전략인페로 교체함</li>
+    </ol>
+
+    <ul>
+      <li><strong>전략Factory인터페이스를 삭제하고, 전략인터페이스를 imple하도록 한다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/63f0c34c-fb0c-4902-83ae-17a8f09fb9b0.gif" alt="63f0c34c-fb0c-4902-83ae-17a8f09fb9b0"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220626012944177.png" alt="image-20220626012944177"></p>
+  </li>
+  <li>
+    <p><strong>깨닮음: <code class="language-plaintext highlighter-rouge">전략인터페이스</code>는 <code class="language-plaintext highlighter-rouge">전략객체</code>뿐만 아니라, 전략객체별 <code class="language-plaintext highlighter-rouge">구상Factory</code>를 구상할 수도 있다.</strong></p>
+
+    <ul>
+      <li><strong>구상Factory는 내부에서 caching하여 전략객체 생성메서드를 내수용으로 만들고, 전략메서드 구현시, 전략객체가 전략메서드를 호출하도록 한다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220626013312123.png" alt="image-20220626013312123"></p>
+  </li>
+  <li>
+    <p>전략Factory 주입후 사용처 DiscounPolicy는</p>
+
+    <ul>
+      <li>
+        <p>전략객체 주입대신, 전략Factory를 주입했다가, <strong>다시 전략객체를 주입(<code class="language-plaintext highlighter-rouge">전략 인터페이스를 변수로 받는</code>)하는 형태가 되었다.</strong></p>
+
+        <ul>
+          <li>
+            <p><strong>형태는 전략 인터페이스를 받아 <code class="language-plaintext highlighter-rouge">전략객체를 주입하는 것 처럼 보이는</code> 형태지만</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220626014228621.png" alt="image-20220626014228621"></p>
+          </li>
+          <li>
+            <p><strong>개별 전략객체의 <code class="language-plaintext highlighter-rouge">구상Factory</code>들 역시 <code class="language-plaintext highlighter-rouge">전략인터페이의 구상체</code>이며, <code class="language-plaintext highlighter-rouge">외부에서는 구상Factory</code>를 실제로 주입한다.</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220626014249694.png" alt="image-20220626014249694"></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">전략인터페이스의 구상체가 전략객체가  뿐만 아니라 전략객체별 구상Factory도 같이 있다는 것을 생각</code>해야한다.</strong></p>
+
+        <ul>
+          <li>구상Factory의 전략메서드 구현내용에서
+            <ul>
+              <li><strong>전략객체를 내부에서 생성하고, 전략메서드를 호출</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/feb7be6e-feb5-4475-a020-dae81db57557.gif" alt="feb7be6e-feb5-4475-a020-dae81db57557"></p>
+
+    <ul>
+      <li>
+        <p>주입되는 전략인터페이스의 <strong>변수명을 factory로 바꿔주기</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220626124004887.png" alt="image-20220626124004887"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>생각해보기</p>
+
+    <ul>
+      <li>
+        <p><strong>위임된 전략Factory -&gt; 위임된 구상Factory -&gt; 전략Factory삭제</strong>의 과정에서 <strong><code class="language-plaintext highlighter-rouge">Factory circulation</code>(회전풍차)가 사라지게 된다.</strong></p>
+
+        <ul>
+          <li>
+            <p>기존
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220181056735.png" alt="image-20220220181056735"></p>
+          </li>
+          <li>
+            <p>위임된 후 추상Factory 삭제</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220181102383.png" alt="image-20220220181102383"></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>보기에는 삼각형의 순환구조 같지만</strong></p>
+
+        <ul>
+          <li>
+            <p><strong>생성된 전략객체는 구상Factory의 전략메서드 내용을 실질적으로 담당하기 때문에 <code class="language-plaintext highlighter-rouge">순환표에서 구상Factory는 삭제하여 생각</code>해도 된다.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220181742994.png" alt="image-20220220181742994"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/strategy/factory/2022/06/23/Object_strategy_add_factory.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

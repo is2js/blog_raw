@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Object)TemplateMethod to Strategy | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Object)TemplateMethod to Strategy" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="템플릿패턴(추상클래스, 상속)를 전략패턴(인터페이스, 조합)로 변경하기" />
+<meta property="og:description" content="템플릿패턴(추상클래스, 상속)를 전략패턴(인터페이스, 조합)로 변경하기" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/templatemethod/strategy/2022/06/22/Object_template_to_strategy.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/templatemethod/strategy/2022/06/22/Object_template_to_strategy.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-06-22T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-06-22T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/templatemethod/strategy/2022/06/22/Object_template_to_strategy.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"Object)TemplateMethod to Strategy","dateModified":"2022-06-22T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/templatemethod/strategy/2022/06/22/Object_template_to_strategy.html"},"description":"템플릿패턴(추상클래스, 상속)를 전략패턴(인터페이스, 조합)로 변경하기","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Object)TemplateMethod to Strategy</h1><p class="page-description">템플릿패턴(추상클래스, 상속)를 전략패턴(인터페이스, 조합)로 변경하기</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-06-22T00:00:00-05:00" itemprop="datePublished">
+        Jun 22, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#oop">oop</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#templatemethod">templatemethod</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#strategy">strategy</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h5"><a href="#전략패턴-핵심-요약">전략패턴 핵심 요약</a></li>
+<li class="toc-entry toc-h5"><a href="#현재코드템플릿메소드-패턴-설명">현재코드(템플릿메소드 패턴) 설명</a></li>
+<li class="toc-entry toc-h5"><a href="#실습-템플릿메소드패턴-to-전략패턴">실습 (템플릿메소드패턴 to 전략패턴)</a></li>
+<li class="toc-entry toc-h5"><a href="#비교">비교</a></li>
+<li class="toc-entry toc-h5"><a href="#각각의-단점">각각의 단점</a></li>
+</ul><ul>
+  <li>전략패턴: 구상체 확장에 용이하다.(유연성).
+    <ul>
+      <li><strong>템플릿메소드패턴에서 공통점이 없는 기능이 추가된다면 전략패턴으로 바꾼다.</strong></li>
+      <li>
+<strong>조합</strong> -&gt; 전략객체들을 통해 서로다른 구현을 처리한다.
+        <ul>
+          <li>부모-자식들이 없이, 일반class-주입 전략객체 구성</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>템플릿메소드패턴: 중복코드를 제거한다.
+    <ul>
+      <li><strong>전략패턴에서, 안정화되어 더이상 확장안된다면 템플릿메소드로 바꾼다.</strong></li>
+      <li>
+<strong>상속</strong> -&gt; 자식클래스들을 통해 서로다른 구현을 처리한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="전략패턴-핵심-요약">
+<a class="anchor" href="#%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4-%ED%95%B5%EC%8B%AC-%EC%9A%94%EC%95%BD" aria-hidden="true"><span class="octicon octicon-link"></span></a>전략패턴 핵심 요약</h5>
+
+<ol>
+  <li>
+    <p>현재 상태: <strong>추상클래스가 부모로 있고</strong> +  extends한 <strong>자식class에서 훅메서드만 구현(개별구현시 필요한 자신의 상태값을 같기도)</strong></p>
+
+    <ol>
+      <li>
+        <p><strong>종류별 개별구현을 위해 추상층 <code class="language-plaintext highlighter-rouge">abstract class(부모)</code>로 올라갔던 class(<code class="language-plaintext highlighter-rouge">DiscountPolicy</code>)를 <code class="language-plaintext highlighter-rouge">일반 class</code>로 낮추고 <code class="language-plaintext highlighter-rouge">훅메서드 정의부</code>를 삭제한다.</strong></p>
+
+        <ul>
+          <li>공통로직은 일반class안에 template method로 그대로 소유할 것이다.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219160315991.png" alt="image-20220219160315991"></p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>개별구현을 상속한자식class의 명칭 + 훅메서드 구현</strong>으로 구현하던 것을</p>
+
+    <ol>
+      <li><strong>일반클래스 + 추상화된 명칭(DiscountPolicy)를 유지하되</strong></li>
+      <li>
+<strong>개별구현의 전략객체의 전략메서드에서 할 예정이다. <code class="language-plaintext highlighter-rouge">전략객체들의 추상체 인터페이스</code>를  <code class="language-plaintext highlighter-rouge">(훅메서드명, 추상회된 메서드명) 전략메서드명</code>를 바탕으로 <code class="language-plaintext highlighter-rouge">-or</code>을 붙여 만든다.</strong>
+        <ul>
+          <li>훅메서드명과 동일한 <strong>전략메서드명</strong>: <strong>caclulateFee</strong>()</li>
+          <li><strong>전략객체의 인터페이스명: Calculator</strong></li>
+          <li>개별 전략객체의 명: Amount<strong>Calculator</strong>, Percent<strong>Calculator</strong>
+            <ul>
+              <li>사용: new AmountCalcultor -&gt; <code class="language-plaintext highlighter-rouge">Calculator.calculateFee()</code>
+</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>공통로직을 담은 일반class DiscountPolicy는 <code class="language-plaintext highlighter-rouge">훅메서드만 대신할 전략객체를 생성자에서 받아, 필드로 보유</code>하고, <code class="language-plaintext highlighter-rouge">훅메서드 자리에 대신해서 전략객체.전략메서드()</code>를 호출한다.</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219160315991.png" alt="image-20220219160315991"></p>
+  </li>
+  <li>
+    <p><strong>상속된 자식이, 개별구현을 위해 필드를 생성자로터 받아 사용</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219160611514.png" alt="image-20220219160611514"> -&gt; <strong>전략객체들도 자기 생성자에서 받아서 쓰면 된다.</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219161530933.png" alt="image-20220219161530933"></p>
+  </li>
+  <li>
+    <p><strong>자식class나 전략객체들이나 구상체의 구조는 <code class="language-plaintext highlighter-rouge">extends, impl</code>빼고 완전히 동일하다.</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219172401296.png" alt="image-20220219172401296"></p>
+
+    <ul>
+      <li>
+        <p>사실 훅메서드는 접근제한자 <code class="language-plaintext highlighter-rouge">proected</code>인데 public으로 오타인듯</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220624222615834.png" alt="image-20220624222615834"></p>
+      </li>
+      <li>
+        <p><strong>사실, 추상클래스의 상속을, <code class="language-plaintext highlighter-rouge">프로토콜(약속)을 가진</code> 인터페이스처럼 사용하고 있었던 것</strong></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>구조적 차이점</p>
+
+    <ul>
+      <li>상속: <strong><code class="language-plaintext highlighter-rouge">컴파일러</code>가 알아서 2객체를 연결한다</strong>
+</li>
+      <li>합성: <strong><code class="language-plaintext highlighter-rouge">직접</code> 생성자를 통해 공급받아, 필드로 보유하면서 사용한다</strong>
+</li>
+    </ul>
+  </li>
+</ol>
+
+<h5 id="현재코드템플릿메소드-패턴-설명">
+<a class="anchor" href="#%ED%98%84%EC%9E%AC%EC%BD%94%EB%93%9C%ED%85%9C%ED%94%8C%EB%A6%BF%EB%A9%94%EC%86%8C%EB%93%9C-%ED%8C%A8%ED%84%B4-%EC%84%A4%EB%AA%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>현재코드(템플릿메소드 패턴) 설명</h5>
+
+<ol>
+  <li>
+    <p>현재코드: 템플릿메소드 패턴으로 작성된 할인정책</p>
+
+    <ul>
+      <li>
+        <p>추상체</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220624215549118.png" alt="image-20220624215549118"></p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">DiscountPolicy</span> <span class="o">{</span>
+     
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">DiscountCondition</span><span class="o">&gt;</span> <span class="n">conditions</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashSet</span><span class="o">&lt;&gt;();</span>
+     
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addCondition</span><span class="o">(</span><span class="nc">DiscountCondition</span> <span class="n">discountCondition</span><span class="o">){</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">conditions</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">discountCondition</span><span class="o">);</span>
+    <span class="o">}</span>
+     
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">copyCondition</span><span class="o">(</span><span class="nc">DiscountPolicy</span> <span class="n">discountPolicy</span><span class="o">){</span>
+        <span class="n">discountPolicy</span><span class="o">.</span><span class="na">conditions</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="n">conditions</span><span class="o">);</span>
+    <span class="o">}</span>
+     
+    <span class="kd">public</span> <span class="nc">Money</span> <span class="nf">calculateFee</span><span class="o">(</span><span class="nc">Screening</span> <span class="n">screening</span><span class="o">,</span> <span class="kt">int</span> <span class="n">count</span><span class="o">,</span> <span class="nc">Money</span> <span class="n">fee</span><span class="o">){</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kd">final</span> <span class="nc">DiscountCondition</span> <span class="n">condition</span> <span class="o">:</span> <span class="n">conditions</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">condition</span><span class="o">.</span><span class="na">isSatisfiedBy</span><span class="o">(</span><span class="n">screening</span><span class="o">,</span> <span class="n">count</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="nf">calculateFee</span><span class="o">(</span><span class="n">fee</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">fee</span><span class="o">;</span>
+    <span class="o">}</span>
+     
+    <span class="kd">protected</span> <span class="kd">abstract</span> <span class="nc">Money</span> <span class="nf">calculateFee</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Money</span> <span class="n">fee</span><span class="o">);</span>
+<span class="o">}</span>
+     
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>구상체 중 1 AmountDiscount</p>
+
+        <ul>
+          <li><strong>훅메서드 구현시 자식class에서 자신만의 상태값도 필요했다.</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220624215829875.png" alt="image-20220624215829875"></p>
+      </li>
+      <li>
+        <p>사용 in Movie</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220624220007579.png" alt="image-20220624220007579"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h5 id="실습-템플릿메소드패턴-to-전략패턴">
+<a class="anchor" href="#%EC%8B%A4%EC%8A%B5-%ED%85%9C%ED%94%8C%EB%A6%BF%EB%A9%94%EC%86%8C%EB%93%9C%ED%8C%A8%ED%84%B4-to-%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>실습 (템플릿메소드패턴 to 전략패턴)</h5>
+
+<ol>
+  <li>
+    <p>클래스</p>
+
+    <ol>
+      <li>추상클래스: DiscountPolicy</li>
+      <li>구상클래스: AmountPolicy, NosalePolicy, PercentPolicy
+        <ul>
+          <li><a href="https://github.com/is2js/OOP-Theater/tree/step3/src/main/java/theater/discount/policy">step3 github 코드</a></li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>추상클래스를 일반class로 내리고, 추상메서드로 정의된 훅메서드도 삭제한다.</p>
+
+    <ol>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">훅메서드</code>를 대신하여 그자리에 <code class="language-plaintext highlighter-rouge">(소문자로)전략객체.전략메서드()</code>를 작성</strong>한다</li>
+      <li>
+<strong>빨간줄로 <code class="language-plaintext highlighter-rouge">전략객체 추상체</code>를 field로 생성</strong>
+        <ul>
+          <li><strong>전략객체명은 <code class="language-plaintext highlighter-rouge">전략메서드명 + -or</code>을 통해 생성한다.</strong></li>
+        </ul>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">전략객체 인터페이스</code>를 생성</strong>
+        <ul>
+          <li>이왕이면 전략객체명으로 package를 파서 한다?</li>
+          <li>아니면 정책전략(DiscountStrategy?)</li>
+        </ul>
+      </li>
+      <li><strong>필드에 적힌 전략객체 필드를 생성자로부터 외부에서 주입</strong></li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/95c8e408-6bed-4553-85e1-eea3de38329f.gif" alt="95c8e408-6bed-4553-85e1-eea3de38329f"></p>
+  </li>
+  <li>
+    <p><strong>템플릿메소드패턴의 구상체 &lt;-&gt; 전략객체 구상체 거의 유사</strong>하므로</p>
+
+    <ol>
+      <li>strategy 패키지를 만들어 옮긴 뒤</li>
+      <li>
+<strong>기존 추상클래스의 자식 구상체의 <code class="language-plaintext highlighter-rouge">class명</code>들을</strong>로 <code class="language-plaintext highlighter-rouge">전략객체 명칭</code>을 뒤쪽에 가지도록 바꾼다.
+        <ul>
+          <li>AmountPolicy -&gt; Amount<strong>Calculator</strong>
+            <ul>
+              <li>class명을 바꿀 땐 F2로 바꿔야지 다 적용된다.~!</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>상속의 extends 추상클래스를 <strong><code class="language-plaintext highlighter-rouge">implements 전략인터페이스</code>로 바꾼다.</strong>
+</li>
+      <li>
+<strong>훅메서드 구현시 접근제한자</strong>였던 <code class="language-plaintext highlighter-rouge">proected</code>를 <strong><code class="language-plaintext highlighter-rouge">public</code>으로 바꾼다.</strong>
+</li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/d9268fe0-bc76-4989-877f-12928eaea111.gif" alt="d9268fe0-bc76-4989-877f-12928eaea111"></p>
+  </li>
+  <li>
+    <p>Main에서는</p>
+
+    <ol>
+      <li>기존 추상클래스DiscountPolicy 구상체 생성 -&gt; <strong>Calculator 전략객체 생성</strong>
+</li>
+      <li>전략객체를 생성자에서 인자로 받는 일반class DiscountPolicy 객체 생성
+        <ul>
+          <li><strong>DiscountPolicy는 개별구상체를 안가지며, 대신 개별 전략객체를 주입받아 가진다.</strong></li>
+        </ul>
+      </li>
+      <li>기존 policy구상체에 add condition -&gt; 일반 DiscountPolicy 객체에 add condition</li>
+      <li>Movie에 개별policy구상체 인자 -&gt; 전략객체를 머금은 discountPolicy객체</li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/106d5730-bc2c-4bb6-a076-fe5eb0a34615.gif" alt="106d5730-bc2c-4bb6-a076-fe5eb0a34615"></p>
+  </li>
+</ol>
+
+<h5 id="비교">
+<a class="anchor" href="#%EB%B9%84%EA%B5%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>비교</h5>
+
+<ul>
+  <li>서로다른 구현을 해주는 구상체 AmountCalculator vs AmountPolicy</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219161636479.png" alt="image-20220219161636479"></p>
+
+<ul>
+  <li>서로 다른 구현을 위해
+    <ul>
+      <li>좌: 전략객체 impl 전략인터페이스, <strong>hasA모델, compositio모델이 된다.</strong>
+</li>
+      <li>우: 자식클래스 extends 추상클래스</li>
+    </ul>
+  </li>
+  <li>
+    <p>전략패턴의 장점</p>
+
+    <ul>
+      <li>
+        <p>의존성관계가 simple해진다.</p>
+
+        <ul>
+          <li>
+            <p>일반상속: 자식이 공통코드를 가진 부모를 앎</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220625111517654.png" alt="image-20220625111517654"></p>
+          </li>
+          <li>
+            <p>템플릿매소드패턴 상속: 부모가 자식의 추상메서드만 앎</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220625111532049.png" alt="image-20220625111532049"></p>
+          </li>
+          <li>
+            <p>전략패턴: 여러 전략객체들을 아는 전략인터페이스만, 1개 클래스가 앎</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220625111549733.png" alt="image-20220625111549733"></p>
+
+            <ul>
+              <li>
+<strong>DiscountPolicy는 개별전략객체를 모른다.</strong>
+                <ul>
+                  <li>
+<strong>상속</strong>이면, 최소 자식class<strong>들</strong>은 알아야했다.</li>
+                </ul>
+              </li>
+              <li>
+<strong>전략인터페이스</strong>가 <strong>중간추상층으로 끼어들어가, 외부공급개별 전략객체는 직접적으로 몰라도 된다.</strong>
+</li>
+              <li>
+<strong>상속에 비해, 의존성이 1개 중간에 추가되었지만</strong>
+                <ul>
+                  <li>
+<strong>각각이 다 1:1관계로 알고 있다.</strong>
+                    <ul>
+                      <li>policy -&gt; calculator(추상체라 1)</li>
+                      <li>
+<strong>AmountCaculator(N인데 시작점이라 1)</strong> -&gt; calculator</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>
+<strong>무거웠던 부모의 역할을, 부모는일반클래스로 해방 + 전략객체 1개만 주입</strong>되어 더 가벼워진다.</li>
+              <li>그러나, 중간에 전략인터페이스 자체를 바꾸는 것은 까다롭다.
+                <ul>
+                  <li><strong><code class="language-plaintext highlighter-rouge">개별구현을 원하는 DiscountPolicy</code>도, <code class="language-plaintext highlighter-rouge">개별구현을 담당하는 전략객체들</code>도 1개의 전략인터페이스를 바라보고 있기 때문</strong></li>
+                  <li><strong>전략인터페이스가 무거워진다.</strong></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>전략패턴의 단점</p>
+
+    <ul>
+      <li>처음에는, 확장가능성이 있으니, 템플릿메서드패턴의 상속을 쓰긴 어렵다. 처음에는 중간추상층으로 들어가는 전략패턴을 가지고 시작하여, <strong><code class="language-plaintext highlighter-rouge">가운데서 각각이 의존</code>하는 무거운 인터페이스로서 시작을 해야하지만, <code class="language-plaintext highlighter-rouge">수정시 여파</code>은 존재한다.</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>전략패턴의 추가 장점</p>
+
+    <ul>
+      <li>
+        <p>전략인터페이스는 하나의 어댑터로 생각하고, 전략객체들을 바뀔 수 있다.</p>
+
+        <ul>
+          <li>전략객체들이 업데이트되어도, 업데이트 된 부분만 수정하고, 개별구현을 원하는 DiscountPolicy는 안변한다.</li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>어댑터로서, 외부의 변화에 대한 충격을, 사용처(DiscountPolicy)에게 안전해지게 흡수한다.</strong></p>
+
+        <ul>
+          <li>
+            <p>그냥 꽂지않고 어댑터를 끼워 사용하면, 여러변화의 폭을 수용할 수 있다</p>
+          </li>
+          <li>
+            <p><strong>화살표를 받는 쪽 = 이용당하는 쪽 = 알고 있다 = 의존한다 = <code class="language-plaintext highlighter-rouge">다른 방향에서 오는 여러개의 화살표들을 먹어 충격을 흡수</code>해준다</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219231841318.png" alt="image-20220219231841318"></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>템플릿메소드패턴은 상속으로서 <code class="language-plaintext highlighter-rouge">부모와 자식이 직접 통신</code>하기 때문에, 방향을 역전시켜놓았어도 <strong>중간에서 여파의 충격을 흡수할 추상층이 없다.</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219231947820.png" alt="image-20220219231947820"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>만약 위(-Policy)/아래(-Calculator)로 <code class="language-plaintext highlighter-rouge">변화가 심했다</code>면?</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>변화가 심한 쪽마다 <code class="language-plaintext highlighter-rouge">인터페이스(중간추상층)</code>로 충격을 흡수시켜야하므로 <code class="language-plaintext highlighter-rouge">인터페이스끼리 대화하게 만든다.</code></strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220219233330001.png" alt="image-20220219233330001"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>가운데 생기는 <code class="language-plaintext highlighter-rouge">인터페이스</code>는 충격을 흡수하는 어댑터이자 전략인터페이스이다.</p>
+
+    <ul>
+      <li><strong>하지만,  개별구현 객체들을 다 감당해야하는 <code class="language-plaintext highlighter-rouge">가운데가 무거워</code>지는 관계.</strong></li>
+      <li>템플릿메서드패턴의 상속은 자식이 부모를 알고서 받아 사용하다가, <strong>부모가 자식을 알고서 개별구현을 받아쓰므로, <code class="language-plaintext highlighter-rouge">가벼운 관계</code>이다.</strong>
+        <ul>
+          <li><strong>훅메서드만 알고있으면 되니, 무게가 가벼운 것들을 여러개 안다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>다시 비교
+    <ul>
+      <li>템메(상속 역전):  여러 종류를 가진 class는 추상클래스로 바꾸고, 그것의 <strong>구상체를 사용하여 Type(형)을 만들고, <code class="language-plaintext highlighter-rouge">runtime에 Type을 선택</code></strong>만 해주면 된다.
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">new AmountDiscountPolicy()</code>로 runtime시 선택하여 객체 생성 -&gt; <code class="language-plaintext highlighter-rouge">amountDiscountPolicy.calculateFee()</code>로 사용 runtime내에선 더이상 바꿀 수 없다?</strong></li>
+          <li>단순 포인터 1개</li>
+        </ul>
+      </li>
+      <li>전략패턴: 여러 종류를 가질 class는 일반클래스로 유지하되, <strong>중간추상층으로 <code class="language-plaintext highlighter-rouge">의존성을 1개 늘려 runtime에 선택된 구상층을 합성</code></strong>하여 개별 구현함.
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">new AmountCalculator()</code> -&gt; Calculator -&gt;  <code class="language-plaintext highlighter-rouge">calculator.calculateFee()</code>
+</li>
+          <li>
+<strong>Calculator자리에 다른 전략객체로 언제든지 바꿀 수 있다??</strong>
+            <ul>
+              <li>포인터의 포인터</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="각각의-단점">
+<a class="anchor" href="#%EA%B0%81%EA%B0%81%EC%9D%98-%EB%8B%A8%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>각각의 단점</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220220110722859.png" alt="image-20220220110722859"></p>
+
+<ul>
+  <li>템메: (아래층 생길 시 == 훅메서드 2개이상) <strong>조합의 폭발</strong>
+    <ul>
+      <li>
+<strong>자식층이 점점 깊어지</strong>거나, 자식들이 병렬이 아닌 <strong>중첩구조</strong>인 경우
+        <ul>
+          <li>한 레벨 아래 여러개가 있는데 또 <strong>그아래 레벨이 생기는 경우</strong>
+            <ul>
+              <li><strong>추상층 늘어난다 -&gt; 훅이 1개더 추가된다(기존 구상층은 중간추상층이 되어 1개를 가운데서 미리 구현하여 막아줌)</strong></li>
+              <li>
+<strong>훅(추상) 메서드가 2개다 -&gt; 자식이 2층이다. -&gt; 조합폭발이다.</strong>
+                <ul>
+                  <li>ex&gt; theater - <a href="https://github.com/is2js/OOP-Theater/blob/step2/src/main/java/theater/discount/DiscountCondition.java">step2의 DiscountCondition</a>
+                    <ul>
+                      <li>
+<strong>중간 추상층(자식1층)</strong> with DiscountPolicy
+                        <ul>
+                          <li>훅메서드 calculateFee만 먼저 구현</li>
+                        </ul>
+                      </li>
+                      <li>
+<strong>최종 구상층(자식2층)</strong>
+                        <ul>
+                          <li>훅메서드 isSatisfiedBy 구현</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>부모Policy - 자식 3개의 Policy - 자식마다 2개씩 Policy
+            <ul>
+              <li>1 x 3 x 2 =  최소 6개의class</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>경우의수만큼 계속 늘어난 class를 만들어야한다.</strong></li>
+      <li>그에 비해 전략패턴은?
+        <ul>
+          <li>
+<strong>외부에서 1개의 전략객체를 만들어 넣어주고, <code class="language-plaintext highlighter-rouge">필요하다면 바꿔서 넣어주면 된다.</code></strong>
+            <ul>
+              <li>전략객체를 만드는 것에 대해.. 생각안하고 있음..</li>
+              <li>전략객체는 미리 6개 class를 만들었다고 가정한다?</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>전략: (전략메서드 2개 -&gt; 인터페이스를 2개)<strong>의존성 폭발</strong> but <strong>해결 가능</strong>
+    <ul>
+      <li>
+<strong>템매의 조합폭발(훅메서드 2개이상)은 못막는다.</strong>
+        <ul>
+          <li><strong>훅메서드가 2개이상 들어갈 것 같다 싶으면, 전략패턴으로 구현하자.</strong></li>
+        </ul>
+      </li>
+      <li>반면,  hasA모델 = 합성 = 조합 = 전략패턴의 <strong>의존성 폭발은 해결가능</strong>
+        <ul>
+          <li>외부에서 들어오는 <strong>전략객체 2개의 다중합성</strong> -&gt; <strong>사용처 안에서 알아서 대화함.</strong>
+            <ul>
+              <li>형자체는 외부에서 결정되어 들어오므로 문제가 안될 것이다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>구체적으로는 어떻게 해결할까?</strong></li>
+    </ul>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/templatemethod/strategy/2022/06/22/Object_template_to_strategy.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
