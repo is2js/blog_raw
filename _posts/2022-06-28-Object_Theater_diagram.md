@@ -26,7 +26,7 @@ image: "images/posts/java.png"
 
 #### theater_ticketoffice.png
 
-![03_theater_ticketoffice](https://raw.githubusercontent.com/is3js/screenshots/main/03_theater_ticketoffice.png)
+![03_theater_ticketoffice_1](https://raw.githubusercontent.com/is3js/screenshots/main/03_theater_ticketoffice_1.png)
 
 #### ticketoffice_ticket.png
 
