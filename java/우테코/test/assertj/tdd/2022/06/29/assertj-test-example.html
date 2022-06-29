@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>TEST) Assertj 및 @annotation 모음 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="TEST) Assertj 및 @annotation 모음" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="assertj시리즈와 @어노테이션들(Assertion)" />
+<meta property="og:description" content="assertj시리즈와 @어노테이션들(Assertion)" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/test/assertj/tdd/2022/06/29/assertj-test-example.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/test/assertj/tdd/2022/06/29/assertj-test-example.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/wootech.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-06-29T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-06-29T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/test/assertj/tdd/2022/06/29/assertj-test-example.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"TEST) Assertj 및 @annotation 모음","dateModified":"2022-06-29T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/test/assertj/tdd/2022/06/29/assertj-test-example.html"},"description":"assertj시리즈와 @어노테이션들(Assertion)","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">TEST) Assertj 및 @annotation 모음</h1><p class="page-description">assertj시리즈와 @어노테이션들(Assertion)</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-06-29T00:00:00-05:00" itemprop="datePublished">
+        Jun 29, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      17 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#test">test</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#assertj">assertj</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#TDD">TDD</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#assertj-및-annotation-with-junit5">assertj 및 annotation with Junit5</a></li>
+<li class="toc-entry toc-h2"><a href="#live-template">Live template</a></li>
+<li class="toc-entry toc-h2"><a href="#용례">용례</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#vo">VO</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#숫자-vo">숫자 VO</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#2개를-뽑아서-일치-or-대소비교">2개를 뽑아서 일치 or 대소비교</a></li>
+<li class="toc-entry toc-h5"><a href="#캐싱---메모리-주소까지-같은지">캐싱 -&gt; 메모리 주소까지 같은지</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#count-vo">COUNT VO</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#0까지-허용하여--음수-생성자-에러">0까지 허용하여  음수 생성자 에러</a></li>
+<li class="toc-entry toc-h5"><a href="#1개-뽑--감소된-것-뽑----감소된-로직후-동일한지-비교">1개 뽑 + 감소된 것 뽑 -&gt;  감소된 로직후 동일한지 비교</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#단일객체">단일객체</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#상수단일객체-issameas-실시간생성-단일객체-">상수단일객체 .isSameAs( 실시간생성 단일객체 )</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#일급">일급</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#숫자vo-list">숫자VO List</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#갯수--수동-개별원소-포함검사---랜덤제한된-범위-경계값-대소-검사">갯수 + (수동) 개별원소 포함검사 +  (랜덤)제한된 범위 경계값 대소 검사</a></li>
+<li class="toc-entry toc-h5"><a href="#assertthat---list----hassizen-or-isnotempty">assertThat(   list   ) .hasSize(n) or .isNotEmpty()</a></li>
+<li class="toc-entry toc-h5"><a href="#list의-순서까지-검사-containsexactly-">list의 순서까지 검사 .containsExactly ()</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#list">list</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#일부-필드만-추출해서-검사-extractingcontainsexactly">일부 필드만 추출해서 검사 .extracting(“”).containsExactly()</a></li>
+<li class="toc-entry toc-h5"><a href="#일부-필드-2개이상-추출-containsexactly--tuple">일부 필드 2개이상 추출 containsExactly + tuple</a></li>
+<li class="toc-entry toc-h5"><a href="#일부-필드-제외-검사-usingrecursivecomparisonignoringfields">일부 필드 제외 검사 usingRecursiveComparison().ignoringFields(“”)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#enum">ENUM</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#응답값인-상수enum-객체-종류별로-정펙매-case-test---혹은-정펙매로-찾은-enum추가로직">응답값인 상수Enum 객체 종류별로 정펙매 case Test -&gt; 혹은 정펙매로 찾은 Enum.추가로직()</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#결과값-포장-새응답-map">결과값 포장 (새응답) Map</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#tomap로직의-생성자---getcountbykey-객체key-테스트">[toMap로직의 생성자] &amp;&amp;  getCountByKey( 객체key) 테스트</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#객체-응답하는-메서드-test">[객체 응답]하는 메서드 Test</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#추상체-변수로-받았어도---해당-구현체-객체-맞음-확인-isinstanceof-특정객체의클래스class">추상체 변수로 받았어도 -&gt; 해당 구현체 객체 맞음 확인 .isInstanceOf( 특정객체의클래스.class)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#예외발생이-통과인-호출---assert문내부에서-예외명시하며-호출">예외발생이 통과인 호출 -&gt; assert문내부에서 예외명시하며 호출</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#생성자-by-assertthrows-일레갈argument익셉션class----메서드호출-">생성자 by assertThrows( 일레갈Argument익셉션.class, () -&gt; 메서드호출 )</a></li>
+<li class="toc-entry toc-h4"><a href="#메서드-by-assertthrows-일레갈state익셉션class----메서드호출-">메서드 by assertThrows( 일레갈State익셉션.class, () -&gt; 메서드호출 )</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#사용법">사용법</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#stringtest">StringTest</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#dependency">dependency</a></li>
+<li class="toc-entry toc-h4"><a href="#assertthat-for-동일한지-검사">assertThat for 동일한지 검사</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#contains-containsonly-containsexactly">contains, containsOnly, containsExactly</a></li>
+<li class="toc-entry toc-h5"><a href="#issameas">isSameAs</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#assertthrows--for--더-진행시-게임종료">assertThrows  for  더 진행시 게임종료</a></li>
+<li class="toc-entry toc-h4"><a href="#assertthatthrownby">assertThatThrownBy</a></li>
+<li class="toc-entry toc-h4"><a href="#assertthatthrownby--hasmessagecontaining">assertThatThrownBy + hasMessageContaining</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#자동차경주">자동차경주</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#assertdoesnotthrow">assertDoesNotThrow</a></li>
+<li class="toc-entry toc-h4"><a href="#assertthatisnotnull">assertThat().isNotNull();</a></li>
+<li class="toc-entry toc-h4"><a href="#assertthat-service-extracting내부-인스턴스-변수">assertThat( service ).extracting(“내부 인스턴스 변수”)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#범위검사">범위검사</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#값-1개-랜던뽑기를--여러번-repeatedtest100--assertthatisbetweenab-랜덤응답의-범위-검사">값 1개: 랜던뽑기를  여러번 @RepeatedTest(100) + assertThat().isBetween(a,b) 랜덤응답의 범위 검사</a></li>
+<li class="toc-entry toc-h4"><a href="#랜덤값-list-원소들--매번범위-검사--listiterator를-만든-뒤-while-hasnext-동안-next하면서-체이닝으로-크거나같최소값-객체-작거나같최대값-객체">랜덤값 List 원소들 : 매번범위 검사 : listIterator()를 만든 뒤, while( .hasNext() )동안 next()하면서, 체이닝으로 .크거나같(최소값 객체) .작거나같(최대값 객체)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#settest">SetTest</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#beforeeach">@BeforeEach</a></li>
+<li class="toc-entry toc-h4"><a href="#parameterizeedtest-for-여러case">@ParameterizeedTest for 여러case</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#valuesource-인자-1개-변수--expected-고정">@ValueSource: 인자 1개 변수 + expected 고정</a></li>
+<li class="toc-entry toc-h5"><a href="#csvsource-인자-1개이상-변수--expected-가변---arg1arg2expected같이-주되-delimiter로-끊음">@CsvSource: 인자 1개이상 변수 + expected 가변 -&gt; “arg1:arg2:expected”같이 주되 delimiter로 끊음</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#nullandemptysource">@NullAndEmptySource</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#로또">로또</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#methodsource-인자-list-or-객체-or-string으로-표현할-수-없는-인자--expected-가변">@MethodSource: 인자 list or 객체 or string으로 표현할 수 없는 인자 + expected 가변</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#블랙잭">블랙잭</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#nested">@Nested</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#그외-assertj-메소드-모음">그외 Assertj 메소드 모음</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#assertj-string-예제">assertj string 예제</a></li>
+<li class="toc-entry toc-h4"><a href="#assertj-number-예제">assertj number 예제</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h2 id="assertj-및-annotation-with-junit5">
+<a class="anchor" href="#assertj-%EB%B0%8F-annotation-with-junit5" aria-hidden="true"><span class="octicon octicon-link"></span></a>assertj 및 annotation with Junit5</h2>
+
+<ul>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">학습테스트</code>: 모듈 사용법 읽히기</strong>  -&gt; <strong>다른사람이 만든 코드(api)를 검증  =  학습 테스트</strong>
+</li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">단위테스트</code>: 내가 짠 코드를 검증하기 위해 만드는 테스트</strong>
+    <ul>
+      <li>단위테스트부터 모든 코드를 설계하는 -&gt; <strong>TDD</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="live-template">
+<a class="anchor" href="#live-template" aria-hidden="true"><span class="octicon octicon-link"></span></a>Live template</h2>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">asall</code></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">assertAll</span><span class="o">(</span>
+      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">().</span><span class="na">isEqualTo</span><span class="o">(),</span>
+      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">().</span><span class="na">hasSize</span><span class="o">()</span>
+  <span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">asnotthr</code></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertDoesNotThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">$WHEN</span><span class="err">$</span><span class="o">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">asthat</code></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">(</span><span class="n">$ACTUAL</span><span class="err">$</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">$EXPECTED</span><span class="err">$</span><span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">asthr</code></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">$WHEN</span><span class="err">$</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="n">$EXCEPTION</span><span class="err">$</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">hasMessage</span><span class="o">(</span><span class="s">"$MESSAGE$"</span><span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="용례">
+<a class="anchor" href="#%EC%9A%A9%EB%A1%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>용례</h2>
+
+<h3 id="vo">
+<a class="anchor" href="#vo" aria-hidden="true"><span class="octicon octicon-link"></span></a>VO</h3>
+
+<h4 id="숫자-vo">
+<a class="anchor" href="#%EC%88%AB%EC%9E%90-vo" aria-hidden="true"><span class="octicon octicon-link"></span></a>숫자 VO</h4>
+
+<h5 id="2개를-뽑아서-일치-or-대소비교">
+<a class="anchor" href="#2%EA%B0%9C%EB%A5%BC-%EB%BD%91%EC%95%84%EC%84%9C-%EC%9D%BC%EC%B9%98-or-%EB%8C%80%EC%86%8C%EB%B9%84%EA%B5%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>2개를 뽑아서 일치 or 대소비교</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="n">로또_번호_일치_여부_검사</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">LottoNumber</span> <span class="n">lottoNumber</span> <span class="o">=</span> <span class="nc">LottoNumber</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+    <span class="nc">LottoNumber</span> <span class="n">lottoNumber2</span> <span class="o">=</span> <span class="nc">LottoNumber</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">lottoNumber</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">lottoNumber2</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">comparable</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">LottoNumber</span> <span class="n">lowerLottoNumber</span> <span class="o">=</span> <span class="nc">LottoNumber</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+    <span class="kd">final</span> <span class="nc">LottoNumber</span> <span class="n">largerLottoNumber</span> <span class="o">=</span> <span class="nc">LottoNumber</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="mi">20</span><span class="o">);</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">lowerLottoNumber</span><span class="o">).</span><span class="na">isLessThan</span><span class="o">(</span><span class="n">largerLottoNumber</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="캐싱---메모리-주소까지-같은지">
+<a class="anchor" href="#%EC%BA%90%EC%8B%B1---%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%A3%BC%EC%86%8C%EA%B9%8C%EC%A7%80-%EA%B0%99%EC%9D%80%EC%A7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>캐싱 -&gt; 메모리 주소까지 같은지</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">create2</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">LottoNumber</span> <span class="n">lottoNumber</span> <span class="o">=</span> <span class="nc">LottoNumber</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+    <span class="kd">final</span> <span class="nc">LottoNumber</span> <span class="n">lottoNumber2</span> <span class="o">=</span> <span class="nc">LottoNumber</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+
+    <span class="c1">// 정펙매를 이용한 [같은 객체 다시 부를 땐] 완전히 동일한 캐싱 객체 가져오기</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">lottoNumber</span><span class="o">).</span><span class="na">isSameAs</span><span class="o">(</span><span class="n">lottoNumber2</span><span class="o">);</span> <span class="c1">// true</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="count-vo">
+<a class="anchor" href="#count-vo" aria-hidden="true"><span class="octicon octicon-link"></span></a>COUNT VO</h4>
+
+<h5 id="0까지-허용하여--음수-생성자-에러">
+<a class="anchor" href="#0%EA%B9%8C%EC%A7%80-%ED%97%88%EC%9A%A9%ED%95%98%EC%97%AC--%EC%9D%8C%EC%88%98-%EC%83%9D%EC%84%B1%EC%9E%90-%EC%97%90%EB%9F%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>0까지 허용하여  음수 생성자 에러</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">create</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">assertAll</span><span class="o">(</span>
+        <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">assertDoesNotThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">LottoCount</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+            <span class="n">assertDoesNotThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">LottoCount</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+            <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">LottoCount</span><span class="o">(-</span><span class="mi">1</span><span class="o">));</span>
+        <span class="o">}</span>
+    <span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="1개-뽑--감소된-것-뽑----감소된-로직후-동일한지-비교">
+<a class="anchor" href="#1%EA%B0%9C-%EB%BD%91--%EA%B0%90%EC%86%8C%EB%90%9C-%EA%B2%83-%EB%BD%91----%EA%B0%90%EC%86%8C%EB%90%9C-%EB%A1%9C%EC%A7%81%ED%9B%84-%EB%8F%99%EC%9D%BC%ED%95%9C%EC%A7%80-%EB%B9%84%EA%B5%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>1개 뽑 + 감소된 것 뽑 -&gt;  감소된 로직후 동일한지 비교</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">decrease</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">LottoCount</span> <span class="n">lottoCount</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LottoCount</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+    <span class="kd">final</span> <span class="nc">LottoCount</span> <span class="n">expected</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LottoCount</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span> <span class="c1">// 감소된 것 미리 뽑기</span>
+
+    <span class="kd">final</span> <span class="nc">LottoCount</span> <span class="n">actual</span> <span class="o">=</span> <span class="n">lottoCount</span><span class="o">.</span><span class="na">decrease</span><span class="o">();</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="단일객체">
+<a class="anchor" href="#%EB%8B%A8%EC%9D%BC%EA%B0%9D%EC%B2%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>단일객체</h3>
+
+<h4 id="상수단일객체-issameas-실시간생성-단일객체-">
+<a class="anchor" href="#%EC%83%81%EC%88%98%EB%8B%A8%EC%9D%BC%EA%B0%9D%EC%B2%B4-issameas-%EC%8B%A4%EC%8B%9C%EA%B0%84%EC%83%9D%EC%84%B1-%EB%8B%A8%EC%9D%BC%EA%B0%9D%EC%B2%B4-" aria-hidden="true"><span class="octicon octicon-link"></span></a>상수단일객체 .isSameAs( 실시간생성 단일객체 )</h4>
+
+<p><strong>상수객체가 정상 단일객체럼 행동하는지 <code class="language-plaintext highlighter-rouge">해당 객체 테스트</code>에서 <code class="language-plaintext highlighter-rouge">객체상수</code> isSamaAs <code class="language-plaintext highlighter-rouge">생성한 객체</code> 테스트를 해보자</strong></p>
+
+<ul>
+  <li>
+    <p>기존 테스트</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">of</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">Card</span> <span class="n">card</span> <span class="o">=</span> <span class="nc">Card</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">HEARTS</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">ACE</span><span class="o">);</span>
+    
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">card</span><span class="o">).</span><span class="na">isSameAs</span><span class="o">(</span><span class="nc">Card</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">HEARTS</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">ACE</span><span class="o">));</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>사용되는 단일객체를 -&gt; 상수객체로 뽑아서 옮겨놓고 상수로 가져오자.</p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220321003729070.png" alt="image-20220321003729070"></td>
+          <td><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220321003745221.png" alt="image-20220321003745221"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220321003805797.png" alt="image-20220321003805797"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220321003815981.png" alt="image-20220321003815981"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220321003822240.png" alt="image-20220321003822240"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220321003840933.png" alt="image-20220321003840933"></p>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">of</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="no">HEART_ACE</span><span class="o">).</span><span class="na">isSameAs</span><span class="o">(</span><span class="nc">Card</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">HEARTS</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">ACE</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>나머지 사용되는 단일객체들도 다 상수화 -&gt; Fixutre에 public 상수로 옮기기 해주자</li>
+</ul>
+
+<h3 id="일급">
+<a class="anchor" href="#%EC%9D%BC%EA%B8%89" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급</h3>
+
+<ul>
+  <li>
+<strong>getValue()</strong>로 뽑아내고 한다.
+    <ul>
+      <li>extracting은 assertThat() .<strong>extracting</strong>(“value”) <strong>이후 추가 메서드를 못쓴다. list 그대로 비교해야됨.</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="숫자vo-list">
+<a class="anchor" href="#%EC%88%AB%EC%9E%90vo-list" aria-hidden="true"><span class="octicon octicon-link"></span></a>숫자VO List</h4>
+
+<h5 id="갯수--수동-개별원소-포함검사---랜덤제한된-범위-경계값-대소-검사">
+<a class="anchor" href="#%EA%B0%AF%EC%88%98--%EC%88%98%EB%8F%99-%EA%B0%9C%EB%B3%84%EC%9B%90%EC%86%8C-%ED%8F%AC%ED%95%A8%EA%B2%80%EC%82%AC---%EB%9E%9C%EB%8D%A4%EC%A0%9C%ED%95%9C%EB%90%9C-%EB%B2%94%EC%9C%84-%EA%B2%BD%EA%B3%84%EA%B0%92-%EB%8C%80%EC%86%8C-%EA%B2%80%EC%82%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>갯수 + (수동) 개별원소 포함검사 +  (랜덤)제한된 범위 경계값 대소 검사</h5>
+
+<ul>
+  <li>
+    <p><strong>갯수</strong> -&gt; 꺼내서 size()</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">size</span><span class="o">()</span> <span class="o">{</span>
+      <span class="c1">//given &amp; when</span>
+      <span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">lotto</span> <span class="o">=</span> <span class="nc">LottoFactory</span><span class="o">.</span><span class="na">generateLotto</span><span class="o">();</span>
+      <span class="kd">final</span> <span class="kt">int</span> <span class="n">lottoSize</span> <span class="o">=</span> <span class="n">lotto</span><span class="o">.</span><span class="na">getValue</span><span class="o">().</span><span class="na">size</span><span class="o">();</span>
+    
+      <span class="c1">//then</span>
+      <span class="c1">//일급 재료list구성에 랜덤이 있다면, 갯수 + 제한된 범위 -&gt; 경계값 대소 검사</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">lottoSize</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">6</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="assertthat---list----hassizen-or-isnotempty">
+<a class="anchor" href="#assertthat---list----hassizen-or-isnotempty" aria-hidden="true"><span class="octicon octicon-link"></span></a>assertThat(   list   ) .hasSize(n) or .isNotEmpty()</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"4. findAll _by_select"</span><span class="o">)</span>
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">select_findAll</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">MemberDao</span> <span class="n">memberDao</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MemberDao</span><span class="o">();</span><span class="c1">// 1. dao.crud()중에</span>
+    <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Member</span><span class="o">&gt;</span> <span class="n">members</span> <span class="o">=</span> <span class="n">memberDao</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span> <span class="c1">//2.findall 메서드는?</span>
+
+    <span class="c1">//3. list의 size를 검사할 때, 빈 것(null같은)에 대핸 비교는 isNotEmpty();로 해주면 된다.</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">members</span><span class="o">).</span><span class="na">isNotEmpty</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="list의-순서까지-검사-containsexactly-">
+<a class="anchor" href="#list%EC%9D%98-%EC%88%9C%EC%84%9C%EA%B9%8C%EC%A7%80-%EA%B2%80%EC%82%AC-containsexactly-" aria-hidden="true"><span class="octicon octicon-link"></span></a>list의 순서까지 검사 .containsExactly ()</h5>
+
+<ul>
+  <li>
+    <p>한번에 생성한 일급 -&gt; <strong>개별원소를 안다면, 제대로 포함하고 있는지 테스트</strong></p>
+
+    <ul>
+      <li>contains -&gt; 일부 포함 (중복가능, 순서틀려도 가능)</li>
+      <li>containsExactly -&gt; 순서+갯수 모두 일치해야하는 거의 equal</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">contains</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">manualLotto</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ManualLottoIssuer</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">).</span><span class="na">issue</span><span class="o">();</span>
+    
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">manualLotto</span><span class="o">.</span><span class="na">getValue</span><span class="o">()).</span><span class="na">containsExactly</span><span class="o">(</span>
+          <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span>
+          <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">2</span><span class="o">),</span>
+          <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">3</span><span class="o">),</span>
+          <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">4</span><span class="o">),</span>
+          <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">5</span><span class="o">),</span>
+          <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">6</span><span class="o">)</span>
+      <span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>제한된 범위 -&gt; 경계값 대소 검사</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">range</span><span class="o">()</span> <span class="o">{</span>
+      <span class="c1">//given &amp; when</span>
+      <span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">lotto</span> <span class="o">=</span> <span class="nc">LottoFactory</span><span class="o">.</span><span class="na">generateLotto</span><span class="o">();</span>
+      <span class="c1">//일급 재료list구성에 랜덤이 있다면, 갯수 + 제한된 범위 -&gt; 경계값 대소 검사</span>
+      <span class="c1">// 1. list Iterator 만들고</span>
+      <span class="kd">final</span> <span class="nc">ListIterator</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">lottoNumberIterator</span> <span class="o">=</span> <span class="n">lotto</span><span class="o">.</span><span class="na">getValue</span><span class="o">().</span><span class="na">listIterator</span><span class="o">();</span>
+    
+      <span class="c1">//then</span>
+      <span class="c1">// 2. hasNext()로 돌면서</span>
+      <span class="k">while</span> <span class="o">(</span><span class="n">lottoNumberIterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span> <span class="o">{</span>
+          <span class="c1">// 3. actual란에 next()로 하나씩 떨궈주기</span>
+          <span class="n">assertThat</span><span class="o">(</span><span class="n">lottoNumberIterator</span><span class="o">.</span><span class="na">next</span><span class="o">())</span>
+              <span class="c1">// 4. Comparable 먼저 impl안하면 아래 문장 2개 에러남</span>
+              <span class="o">.</span><span class="na">isLessThanOrEqualTo</span><span class="o">(</span><span class="nc">LottoNumber</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="mi">45</span><span class="o">))</span>
+              <span class="o">.</span><span class="na">isGreaterThanOrEqualTo</span><span class="o">(</span><span class="nc">LottoNumber</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="list">
+<a class="anchor" href="#list" aria-hidden="true"><span class="octicon octicon-link"></span></a>list</h4>
+
+<h5 id="일부-필드만-추출해서-검사-extractingcontainsexactly">
+<a class="anchor" href="#%EC%9D%BC%EB%B6%80-%ED%95%84%EB%93%9C%EB%A7%8C-%EC%B6%94%EC%B6%9C%ED%95%B4%EC%84%9C-%EA%B2%80%EC%82%AC-extractingcontainsexactly" aria-hidden="true"><span class="octicon octicon-link"></span></a>일부 필드만 추출해서 검사 .extracting(“”).containsExactly()</h5>
+
+<ul>
+  <li>
+    <p>hasSize()에 이어서 chaining해서 검사할 수 있다.</p>
+  </li>
+  <li>
+    <p><strong>해당 필드값 list로 변하게 되니 -&gt; <code class="language-plaintext highlighter-rouge">.containsExactly( 1값, 2값, ...)</code>로 검사한다</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">assertAll</span><span class="o">(</span>
+      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">statusCode</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="nc">HttpStatus</span><span class="o">.</span><span class="na">OK</span><span class="o">.</span><span class="na">value</span><span class="o">()),</span>
+      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">body</span><span class="o">().</span><span class="na">jsonPath</span><span class="o">().</span><span class="na">getList</span><span class="o">(</span><span class="s">"stations"</span><span class="o">))</span> <span class="c1">// 최단거리 1-2-3-4-5(50) &lt;  1-5 (55)</span>
+      <span class="o">.</span><span class="na">hasSize</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span> <span class="c1">// list의 size와 숫자 비교 (완료됨에도 이어서 list 검증을 chaining할 수 있음)</span>
+      <span class="o">.</span><span class="na">extracting</span><span class="o">(</span><span class="s">"name"</span><span class="o">)</span> <span class="c1">// list의 특정필드 비교 -&gt; 콤마를 통해 2개를 뽑아낼 수 도 있음. -&gt; 이 땐, t</span>
+      <span class="o">.</span><span class="na">containsExactly</span><span class="o">(</span><span class="s">"강남역"</span><span class="o">,</span> <span class="s">"잠실역"</span><span class="o">,</span> <span class="s">"선릉역"</span><span class="o">,</span> <span class="s">"사당역"</span><span class="o">,</span> <span class="s">"신림역"</span><span class="o">)</span>
+      <span class="c1">// contains -&gt; 일부 포함 (중복가능, 순서틀려도 가능) vs containsExactly -&gt; 순서+갯수 모두 일치해야하는 거의 equal</span>
+  <span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="일부-필드-2개이상-추출-containsexactly--tuple">
+<a class="anchor" href="#%EC%9D%BC%EB%B6%80-%ED%95%84%EB%93%9C-2%EA%B0%9C%EC%9D%B4%EC%83%81-%EC%B6%94%EC%B6%9C-containsexactly--tuple" aria-hidden="true"><span class="octicon octicon-link"></span></a>일부 필드 2개이상 추출 containsExactly + tuple</h5>
+
+<ul>
+  <li>
+    <p>필드를 1개만 추출할 땐, containsExactly()의 힌트가 <code class="language-plaintext highlighter-rouge">Object...</code> values로  <code class="language-plaintext highlighter-rouge">콤마로 값 1개</code>만 입력하면 되었는데</p>
+  </li>
+  <li>
+    <p><strong>필드르 2개 추출하는 순간, 힌트가 <code class="language-plaintext highlighter-rouge">Tuple</code>… values</strong>로 바뀐다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220524214646548.png" alt="image-20220524214646548"></p>
+
+    <ul>
+      <li>2개이상의 값을 <code class="language-plaintext highlighter-rouge">tuple()</code>에 씌우면 된다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220524214725474.png" alt="image-20220524214725474"></p>
+
+    <ul>
+      <li><strong>특이한 점은 id가 long -&gt; json(string) -&gt; 뽑아오니 다시 int가되어있어서, int로 비교해야한다는 점</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">assertAll</span><span class="o">(</span>
+    <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">statusCode</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="nc">HttpStatus</span><span class="o">.</span><span class="na">OK</span><span class="o">.</span><span class="na">value</span><span class="o">()),</span>
+    <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">body</span><span class="o">().</span><span class="na">jsonPath</span><span class="o">().</span><span class="na">getList</span><span class="o">(</span><span class="s">"stations"</span><span class="o">))</span> <span class="c1">// 최단거리 1-2-3-4-5(50) &lt;  1-5 (55)</span>
+    <span class="o">.</span><span class="na">hasSize</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span> <span class="c1">// list의 size와 숫자 비교 (완료됨에도 이어서 list 검증을 chaining할 수 있음)</span>
+    <span class="o">.</span><span class="na">extracting</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"name"</span><span class="o">)</span> <span class="c1">// list의 특정필드 비교 -&gt; 콤마를 통해 2개를 뽑아낼 수 도 있음. -&gt; 이 땐, t</span>
+    <span class="o">.</span><span class="na">containsExactly</span><span class="o">(</span>
+        <span class="n">tuple</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"강남역"</span><span class="o">),</span>
+        <span class="n">tuple</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"잠실역"</span><span class="o">),</span>
+        <span class="n">tuple</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s">"선릉역"</span><span class="o">),</span>
+        <span class="n">tuple</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="s">"사당역"</span><span class="o">),</span>
+        <span class="n">tuple</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="s">"신림역"</span><span class="o">))</span>
+    <span class="c1">// contains -&gt; 일부 포함 (중복가능, 순서틀려도 가능) vs containsExactly -&gt; 순서+갯수 모두 일치해야하는 거의 equal</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<h5 id="일부-필드-제외-검사-usingrecursivecomparisonignoringfields">
+<a class="anchor" href="#%EC%9D%BC%EB%B6%80-%ED%95%84%EB%93%9C-%EC%A0%9C%EC%99%B8-%EA%B2%80%EC%82%AC-usingrecursivecomparisonignoringfields" aria-hidden="true"><span class="octicon octicon-link"></span></a>일부 필드 제외 검사 usingRecursiveComparison().ignoringFields(“”)</h5>
+
+<ol>
+  <li>
+    <p>entity(id필드 배정 전) -&gt; save -&gt; domain(id 배정후) -&gt; <strong>id를 제외한 필드를 비교해서 객체 생성 확인</strong></p>
+
+    <ul>
+      <li>그 전에는, id와 같은 기능을 하는 unique field를 꺼내와 검사함</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@Test</span>
+ <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"노선을 저장한다."</span><span class="o">)</span>
+ <span class="kt">void</span> <span class="nf">save</span><span class="o">()</span> <span class="o">{</span>
+     <span class="c1">//given</span>
+     <span class="kd">final</span> <span class="nc">Line</span> <span class="n">이호선_그린_entity</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Line</span><span class="o">(</span><span class="s">"2호선"</span><span class="o">,</span> <span class="s">"green"</span><span class="o">);</span>
+    
+     <span class="c1">//when</span>
+     <span class="kd">final</span> <span class="nc">Line</span> <span class="n">이호선_그린_domain</span> <span class="o">=</span> <span class="n">lineDao</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">이호선_그린_entity</span><span class="o">);</span>
+    
+     <span class="c1">//then</span>
+     <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">(</span><span class="n">이호선_그린_domain</span><span class="o">).</span><span class="na">usingRecursiveComparison</span><span class="o">()</span>
+         <span class="o">.</span><span class="na">ignoringFields</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span> <span class="c1">// isEqualTo전에 객체에서 무시할 field를 지정</span>
+         <span class="o">.</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">이호선_그린_entity</span><span class="o">);</span>
+    
+     <span class="n">lineDao</span><span class="o">.</span><span class="na">deleteById</span><span class="o">(</span><span class="n">이호선_그린_domain</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>객체안에 <strong>비교하기 힘든 list필드 등을 제외하고 객체간 비교</strong></p>
+
+    <ul>
+      <li>다른 list까지 짬뽕된 reponseDto vs 예상값으로 핵심 필드(값)만 뽑은 reponseDto 비교</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220525105219686.png" alt="image-20220525105219686"></p>
+  </li>
+</ol>
+
+<h3 id="enum">
+<a class="anchor" href="#enum" aria-hidden="true"><span class="octicon octicon-link"></span></a>ENUM</h3>
+
+<h5 id="응답값인-상수enum-객체-종류별로-정펙매-case-test---혹은-정펙매로-찾은-enum추가로직">
+<a class="anchor" href="#%EC%9D%91%EB%8B%B5%EA%B0%92%EC%9D%B8-%EC%83%81%EC%88%98enum-%EA%B0%9D%EC%B2%B4-%EC%A2%85%EB%A5%98%EB%B3%84%EB%A1%9C-%EC%A0%95%ED%8E%99%EB%A7%A4-case-test---%ED%98%B9%EC%9D%80-%EC%A0%95%ED%8E%99%EB%A7%A4%EB%A1%9C-%EC%B0%BE%EC%9D%80-enum%EC%B6%94%EA%B0%80%EB%A1%9C%EC%A7%81" aria-hidden="true"><span class="octicon octicon-link"></span></a>응답값인 상수Enum 객체 종류별로 정펙매 case Test -&gt; 혹은 정펙매로 찾은 Enum.추가로직()</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">rank_1</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">rank</span> <span class="o">=</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">6</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">rank</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">RANK_1</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">rank_2</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">rank</span> <span class="o">=</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">rank</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">RANK_2</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@ParameterizedTest</span>
+<span class="nd">@CsvSource</span><span class="o">({</span><span class="s">"5,false,RANK_3"</span><span class="o">,</span> <span class="s">"4, false, RANK_4"</span><span class="o">,</span> <span class="s">"3, false, RANK_5"</span><span class="o">})</span>
+<span class="kt">void</span> <span class="nf">rank_3_5</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">matchCount</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">matchBonus</span><span class="o">,</span> <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">expected</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">rank</span> <span class="o">=</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">matchCount</span><span class="o">,</span> <span class="n">matchBonus</span><span class="o">);</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">rank</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>추가로직까지 더해진다면</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"1등의 상금을 계산할 수 있다."</span><span class="o">)</span>
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">calculateFirstRankMoney</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">first</span> <span class="o">=</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">FIRST</span><span class="o">;</span>
+    <span class="kd">final</span> <span class="kt">long</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">calculateMoney</span><span class="o">(</span><span class="n">first</span><span class="o">,</span> <span class="n">count</span><span class="o">)).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">6000000000L</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"2등의 상금을 계산할 수 있다."</span><span class="o">)</span>
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">calculateSecondRankMoney</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">second</span> <span class="o">=</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">SECOND</span><span class="o">;</span>
+    <span class="kd">final</span> <span class="kt">long</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">calculateMoney</span><span class="o">(</span><span class="n">second</span><span class="o">,</span> <span class="n">count</span><span class="o">)).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">60000000L</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"3등의 상금을 계산할 수 있다."</span><span class="o">)</span>
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">calculateThirdRankMoney</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">third</span> <span class="o">=</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">THIRD</span><span class="o">;</span>
+    <span class="kd">final</span> <span class="kt">long</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">calculateMoney</span><span class="o">(</span><span class="n">third</span><span class="o">,</span> <span class="n">count</span><span class="o">)).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">6000000L</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"4등의 상금을 계산할 수 있다."</span><span class="o">)</span>
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">calculateFourthRankMoney</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">fourth</span> <span class="o">=</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">FOURTH</span><span class="o">;</span>
+    <span class="kd">final</span> <span class="kt">long</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">calculateMoney</span><span class="o">(</span><span class="n">fourth</span><span class="o">,</span> <span class="n">count</span><span class="o">)).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">100000</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"5등의 상금을 계산할 수 있다."</span><span class="o">)</span>
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">calculateFifthRankMoney</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">fifth</span> <span class="o">=</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">FIFTH</span><span class="o">;</span>
+    <span class="kd">final</span> <span class="kt">long</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+
+    <span class="n">assertThat</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">calculateMoney</span><span class="o">(</span><span class="n">fifth</span><span class="o">,</span> <span class="n">count</span><span class="o">)).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">10000</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"맞은 갯수와 보너스 여부를 가지고 랭크를 반환할 수 있다."</span><span class="o">)</span>
+<span class="nd">@Nested</span>
+<span class="kd">class</span> <span class="nc">CalculateRank</span> <span class="o">{</span>
+
+    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"1등 반환"</span><span class="o">)</span>
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">firstRank</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">rank</span> <span class="o">=</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">calculateCurrentRank</span><span class="o">(</span><span class="mi">6</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+
+        <span class="n">assertThat</span><span class="o">(</span><span class="n">rank</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">FIRST</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"2등 반환"</span><span class="o">)</span>
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">secondRank</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">rank</span> <span class="o">=</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">calculateCurrentRank</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+
+        <span class="n">assertThat</span><span class="o">(</span><span class="n">rank</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">SECOND</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"3등 반환"</span><span class="o">)</span>
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">thirdRank</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">rank</span> <span class="o">=</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">calculateCurrentRank</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+
+        <span class="n">assertThat</span><span class="o">(</span><span class="n">rank</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">THIRD</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"4등 반환"</span><span class="o">)</span>
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">fourthRank</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">rank</span> <span class="o">=</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">calculateCurrentRank</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+
+        <span class="n">assertThat</span><span class="o">(</span><span class="n">rank</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">FOURTH</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"5등 반환"</span><span class="o">)</span>
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">fifthRank</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">rank</span> <span class="o">=</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">calculateCurrentRank</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+
+        <span class="n">assertThat</span><span class="o">(</span><span class="n">rank</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">FIFTH</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"Nothing 반환"</span><span class="o">)</span>
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">NothingRank</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">Rank</span> <span class="n">rank</span> <span class="o">=</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">calculateCurrentRank</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+
+        <span class="n">assertThat</span><span class="o">(</span><span class="n">rank</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">NOT_THING</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="결과값-포장-새응답-map">
+<a class="anchor" href="#%EA%B2%B0%EA%B3%BC%EA%B0%92-%ED%8F%AC%EC%9E%A5-%EC%83%88%EC%9D%91%EB%8B%B5-map" aria-hidden="true"><span class="octicon octicon-link"></span></a>결과값 포장 (새응답) Map</h3>
+
+<h4 id="tomap로직의-생성자---getcountbykey-객체key-테스트">
+<a class="anchor" href="#tomap%EB%A1%9C%EC%A7%81%EC%9D%98-%EC%83%9D%EC%84%B1%EC%9E%90---getcountbykey-%EA%B0%9D%EC%B2%B4key-%ED%85%8C%EC%8A%A4%ED%8A%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>[toMap로직의 생성자] &amp;&amp;  getCountByKey( 객체key) 테스트</h4>
+
+<ul>
+  <li>Result( Enum Count Map ) 준비사항</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LottoResult</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Rank</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">value</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">LottoResult</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Lotto</span><span class="o">&gt;</span> <span class="n">lottos</span><span class="o">,</span> <span class="kd">final</span> <span class="nc">WinningLotto</span> <span class="n">winningLotto</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">lottos</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">groupingBy</span><span class="o">(</span>
+                <span class="n">lotto</span> <span class="o">-&gt;</span> <span class="n">match</span><span class="o">(</span><span class="n">lotto</span><span class="o">,</span> <span class="n">winningLotto</span><span class="o">),</span>
+                <span class="nc">Collectors</span><span class="o">.</span><span class="na">summingInt</span><span class="o">(</span><span class="n">count</span> <span class="o">-&gt;</span> <span class="mi">1</span><span class="o">)));</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">결과값 Map</code>을 <strong>만들 재료 중 일부만</strong> setup에 준비한다. <strong>여러 재료라면 <code class="language-plaintext highlighter-rouge">가변쉬운것을 테스트에서</code> -&gt; <code class="language-plaintext highlighter-rouge">많고 복잡한 것을 setup</code>에 고정</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">class</span> <span class="nc">LottoResultTest</span> <span class="o">{</span>
+    
+     <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Lotto</span><span class="o">&gt;</span> <span class="n">lottos</span><span class="o">;</span>
+    
+     <span class="nd">@BeforeEach</span>
+     <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+         <span class="c1">//new LottoResult(lottos, winningLotto);</span>
+         <span class="c1">//새로운 응답값 생성(결과값 포장 클래스 생성자)에 필요한 재료 먼저 선언</span>
+         <span class="c1">// -&gt; case별 변동이 쉬운 winningLotto는 놔두고, lottos를 미리 만들어놓자.</span>
+         <span class="n">lottos</span> <span class="o">=</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+             <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">),</span>
+             <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">7</span><span class="o">),</span>
+             <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">8</span><span class="o">),</span>
+             <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">9</span><span class="o">)</span>
+         <span class="o">);</span>
+     <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>count Map이라면, 맘 편하게 <code class="language-plaintext highlighter-rouge">.getCount( 객체key )</code>를 맘편하게 만들자</strong></p>
+
+    <ul>
+      <li>
+        <p>뷰에서 쓸 일 있으면 쓰고, 없으면 삭제하면 된다. default를 0으로 해서 count인 value값을 가져오자.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220310161607226.png" alt="image-20220310161607226"></p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="nc">Integer</span> <span class="nf">getCountByRank</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Rank</span> <span class="n">rank</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="na">getOrDefault</span><span class="o">(</span><span class="n">rank</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>해당 key의 Count를 꺼내와서 정확한지 확인하기</strong></p>
+
+    <ul>
+      <li>할수 있다면, debug활용해서 내부값 까보면서 같이하면 될 듯.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220310162521006.png" alt="image-20220310162521006">
+</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="nf">create</span><span class="o">()</span> <span class="o">{</span>
+     <span class="c1">//given -&gt; 1등이 1개 있도록 가정인자를 만들어줌</span>
+     <span class="kd">final</span> <span class="nc">LottoResult</span> <span class="n">lottoResult</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LottoResult</span><span class="o">(</span><span class="n">lottos</span><span class="o">,</span>
+                                                     <span class="k">new</span> <span class="nf">WinningLotto</span><span class="o">(</span>
+                                                         <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">),</span>
+                                                         <span class="k">new</span> <span class="nf">LottoNumber</span><span class="o">(</span><span class="mi">7</span><span class="o">)</span>
+                                                     <span class="o">));</span>
+    
+     <span class="c1">// map이 세고 있던 객체key를 넣어주고 -&gt; Count를 반환하는 메서드 개발</span>
+     <span class="c1">//when</span>
+     <span class="kd">final</span> <span class="nc">Integer</span> <span class="n">actual</span> <span class="o">=</span> <span class="n">lottoResult</span><span class="o">.</span><span class="na">getCountByRank</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">RANK_1</span><span class="o">);</span>
+    
+     <span class="c1">//then</span>
+     <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+ <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="객체-응답하는-메서드-test">
+<a class="anchor" href="#%EA%B0%9D%EC%B2%B4-%EC%9D%91%EB%8B%B5%ED%95%98%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C-test" aria-hidden="true"><span class="octicon octicon-link"></span></a>[객체 응답]하는 메서드 Test</h3>
+
+<h4 id="추상체-변수로-받았어도---해당-구현체-객체-맞음-확인-isinstanceof-특정객체의클래스class">
+<a class="anchor" href="#%EC%B6%94%EC%83%81%EC%B2%B4-%EB%B3%80%EC%88%98%EB%A1%9C-%EB%B0%9B%EC%95%98%EC%96%B4%EB%8F%84---%ED%95%B4%EB%8B%B9-%EA%B5%AC%ED%98%84%EC%B2%B4-%EA%B0%9D%EC%B2%B4-%EB%A7%9E%EC%9D%8C-%ED%99%95%EC%9D%B8-isinstanceof-%ED%8A%B9%EC%A0%95%EA%B0%9D%EC%B2%B4%EC%9D%98%ED%81%B4%EB%9E%98%EC%8A%A4class" aria-hidden="true"><span class="octicon octicon-link"></span></a>추상체 변수로 받았어도 -&gt; 해당 구현체 객체 맞음 확인 .isInstanceOf( 특정객체의클래스.class)</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">blackjack</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// given &amp; when : hit</span>
+    <span class="kd">final</span> <span class="nc">State</span> <span class="n">state</span> <span class="o">=</span> <span class="nc">Game</span><span class="o">.</span><span class="na">start</span><span class="o">(</span><span class="nc">Card</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">SPADES</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">ACE</span><span class="o">),</span>
+                                       <span class="nc">Card</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">SPADES</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">JACK</span><span class="o">));</span>
+
+    <span class="c1">// then</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">state</span><span class="o">).</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">Blackjack</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="예외발생이-통과인-호출---assert문내부에서-예외명시하며-호출">
+<a class="anchor" href="#%EC%98%88%EC%99%B8%EB%B0%9C%EC%83%9D%EC%9D%B4-%ED%86%B5%EA%B3%BC%EC%9D%B8-%ED%98%B8%EC%B6%9C---assert%EB%AC%B8%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%EC%98%88%EC%99%B8%EB%AA%85%EC%8B%9C%ED%95%98%EB%A9%B0-%ED%98%B8%EC%B6%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>예외발생이 통과인 호출 -&gt; assert문내부에서 예외명시하며 호출</h3>
+
+<h4 id="생성자-by-assertthrows-일레갈argument익셉션class----메서드호출-">
+<a class="anchor" href="#%EC%83%9D%EC%84%B1%EC%9E%90-by-assertthrows-%EC%9D%BC%EB%A0%88%EA%B0%88argument%EC%9D%B5%EC%85%89%EC%85%98class----%EB%A9%94%EC%84%9C%EB%93%9C%ED%98%B8%EC%B6%9C-" aria-hidden="true"><span class="octicon octicon-link"></span></a>생성자 by assertThrows( 일레갈Argument익셉션.class, () -&gt; 메서드호출 )</h4>
+
+<h4 id="메서드-by-assertthrows-일레갈state익셉션class----메서드호출-">
+<a class="anchor" href="#%EB%A9%94%EC%84%9C%EB%93%9C-by-assertthrows-%EC%9D%BC%EB%A0%88%EA%B0%88state%EC%9D%B5%EC%85%89%EC%85%98class----%EB%A9%94%EC%84%9C%EB%93%9C%ED%98%B8%EC%B6%9C-" aria-hidden="true"><span class="octicon octicon-link"></span></a>메서드 by assertThrows( 일레갈State익셉션.class, () -&gt; 메서드호출 )</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">blackjackDraw</span><span class="o">()</span> <span class="o">{</span>
+
+    <span class="kd">final</span> <span class="nc">Blackjack</span> <span class="n">state</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Blackjack</span><span class="o">)</span> <span class="nc">Game</span><span class="o">.</span><span class="na">start</span><span class="o">(</span><span class="nc">Card</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">SPADES</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">ACE</span><span class="o">),</span>
+                                                   <span class="nc">Card</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">SPADES</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">JACK</span><span class="o">));</span>
+
+    <span class="n">assertThrows</span><span class="o">(</span><span class="nc">IllegalStateException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span>
+                 <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">state</span><span class="o">.</span><span class="na">draw</span><span class="o">(</span><span class="nc">Card</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">SPADES</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">TEN</span><span class="o">)));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="사용법">
+<a class="anchor" href="#%EC%82%AC%EC%9A%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>사용법</h2>
+
+<h3 id="stringtest">
+<a class="anchor" href="#stringtest" aria-hidden="true"><span class="octicon octicon-link"></span></a>StringTest</h3>
+
+<h4 id="dependency">
+<a class="anchor" href="#dependency" aria-hidden="true"><span class="octicon octicon-link"></span></a>dependency</h4>
+
+<ol>
+  <li>
+    <p><strong>build.gradle에 <code class="language-plaintext highlighter-rouge">assertj</code>추가 -&gt; depenecies <code class="language-plaintext highlighter-rouge">run</code> or 우측에 gradle &gt; <code class="language-plaintext highlighter-rouge">Reload All Gradle Project</code></strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">:</span><span class="n">assertj</span><span class="o">-</span><span class="nl">core:</span><span class="mf">3.22</span><span class="o">.</span><span class="mi">0</span><span class="err">'</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">assertThat()</code>메서드 사용안될 시</p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.*;</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="assertthat-for-동일한지-검사">
+<a class="anchor" href="#assertthat-for-%EB%8F%99%EC%9D%BC%ED%95%9C%EC%A7%80-%EA%B2%80%EC%82%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>assertThat for 동일한지 검사</h4>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">given(data)</code> -&gt; <code class="language-plaintext highlighter-rouge">when(actual값)</code> -&gt;  <code class="language-plaintext highlighter-rouge">then(expected넣어서 비교)</code> 나눠서 코드를 짠다.</p>
+
+    <ul>
+      <li><strong>배열 Test: <code class="language-plaintext highlighter-rouge">.contains( ) or .containsExactly()</code> + 콤마로 개별원소 입력</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="n">숫자2개_분리</span><span class="o">()</span> <span class="o">{</span>
+     <span class="c1">//given</span>
+     <span class="nc">String</span> <span class="n">data</span> <span class="o">=</span> <span class="s">"1,2"</span><span class="o">;</span>
+     <span class="c1">//when</span>
+     <span class="nc">String</span><span class="o">[]</span> <span class="n">actual</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">","</span><span class="o">);</span>
+     <span class="c1">//then</span>
+     <span class="c1">//        assertThat(actual).contains("1", "2");</span>
+     <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">containsExactly</span><span class="o">(</span><span class="s">"1"</span><span class="o">,</span> <span class="s">"2"</span><span class="o">);</span>
+ <span class="o">}</span>
+    
+ <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="n">숫자1개_분리</span><span class="o">()</span> <span class="o">{</span>
+     <span class="c1">//given</span>
+     <span class="nc">String</span> <span class="n">data</span> <span class="o">=</span> <span class="s">"1"</span><span class="o">;</span>
+     <span class="c1">//when</span>
+     <span class="nc">String</span><span class="o">[]</span> <span class="n">actual</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">","</span><span class="o">);</span>
+     <span class="c1">//then</span>
+     <span class="c1">//        assertThat(actual).contains("1", "2");</span>
+     <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">containsExactly</span><span class="o">(</span><span class="s">"1"</span><span class="o">);</span>
+ <span class="o">}</span>
+    
+    
+ <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="n">괄호제거</span><span class="o">()</span> <span class="o">{</span>
+     <span class="nc">String</span> <span class="n">data</span> <span class="o">=</span> <span class="s">"(1,2)"</span><span class="o">;</span>
+     <span class="nc">String</span> <span class="n">actual</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+     <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">"1,2"</span><span class="o">);</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="contains-containsonly-containsexactly">
+<a class="anchor" href="#contains-containsonly-containsexactly" aria-hidden="true"><span class="octicon octicon-link"></span></a>contains, <del>containsOnly</del>, containsExactly</h5>
+
+<ul>
+  <li><a href="https://bcp0109.tistory.com/317">참고블로그</a></li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>contains: 순서틀려도, 중복해서 나열해도(갯수파괴해도) <code class="language-plaintext highlighter-rouge">포함만 되어있으면 통과</code></strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="n">containsvoid</span> <span class="nf">containsTest</span><span class="o">()</span> <span class="o">{</span>
+     <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+    
+     <span class="c1">// Success: 모든 원소를 입력하지 않아도 성공</span>
+     <span class="n">assertThat</span><span class="o">(</span><span class="n">list</span><span class="o">).</span><span class="na">contains</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
+    
+     <span class="c1">// Success: 중복된 값이 있어도 포함만 되어 있으면 성공</span>
+     <span class="n">assertThat</span><span class="o">(</span><span class="n">list</span><span class="o">).</span><span class="na">contains</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
+    
+     <span class="c1">// Success: 순서가 바뀌어도 값만 맞으면 성공</span>
+     <span class="n">assertThat</span><span class="o">(</span><span class="n">list</span><span class="o">).</span><span class="na">contains</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
+    
+     <span class="c1">// Fail: List 에 없는 값을 입력하면 실패</span>
+     <span class="n">assertThat</span><span class="o">(</span><span class="n">list</span><span class="o">).</span><span class="na">contains</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>containsOnly: 중복하더라도 <code class="language-plaintext highlighter-rouge">순서는 틀려도, 중복 제외한 총 갯수가 일치해야 통과(contains가 아님)</code></strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="cm">/*
+  * containsOnly 실패 케이스
+  *
+  * assertThat(list).containsOnly(1, 2);       -&gt; 원소 3 이 일치하지 않아서 실패
+  * assertThat(list).containsOnly(1, 2, 3, 4); -&gt; 원소 4 가 일치하지 않아서 실패
+  */</span>
+ <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="nf">containsOnlyTest</span><span class="o">()</span> <span class="o">{</span>
+     <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+    
+     <span class="n">assertThat</span><span class="o">(</span><span class="n">list</span><span class="o">).</span><span class="na">containsOnly</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+     <span class="n">assertThat</span><span class="o">(</span><span class="n">list</span><span class="o">).</span><span class="na">containsOnly</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+     <span class="n">assertThat</span><span class="o">(</span><span class="n">list</span><span class="o">).</span><span class="na">containsOnly</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>containsExactly : <code class="language-plaintext highlighter-rouge">순서+갯수+중복불허   순서대로 모두 같아야 통과(contains가 아니라 일치)</code></strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="cm">/*
+  * containsExactly 실패 케이스
+  *
+  * assertThat(list).containsExactly(1, 2);       -&gt; 원소 3 이 일치하지 않아서
+  * assertThat(list).containsExactly(3, 2, 1);    -&gt; list 의 순서가 달라서 실패
+  * assertThat(list).containsExactly(1, 2, 3, 3); -&gt; list 에 중복된 원소가 있어서 실패
+  */</span>
+ <span class="nd">@Test</span>
+ <span class="kt">void</span> <span class="nf">containsExactlyTest</span><span class="o">()</span> <span class="o">{</span>
+     <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+    
+     <span class="n">assertThat</span><span class="o">(</span><span class="n">list</span><span class="o">).</span><span class="na">containsExactly</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="issameas">
+<a class="anchor" href="#issameas" aria-hidden="true"><span class="octicon octicon-link"></span></a>isSameAs</h5>
+
+<ul>
+  <li>
+    <p><strong>메모리 주소까지 같은지 -&gt; 한번 생성했으면 <code class="language-plaintext highlighter-rouge">캐싱된 것</code>가져오는지</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">create</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">LottoNumber</span> <span class="n">lottoNumber</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+      <span class="kd">final</span> <span class="nc">LottoNumber</span> <span class="n">lottoNumber2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+    
+      <span class="c1">// isSameAs: 메모리 주소가 같은지, 오버라이딩된 VO도 같다고 안나옴. 더 엄격한 완전히 같은 객체일 때, True</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">lottoNumber</span><span class="o">).</span><span class="na">isSameAs</span><span class="o">(</span><span class="n">lottoNumber2</span><span class="o">);</span> <span class="c1">// false</span>
+  <span class="o">}</span>
+    
+  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">create2</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">LottoNumber</span> <span class="n">lottoNumber</span> <span class="o">=</span> <span class="nc">LottoNumber</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+      <span class="kd">final</span> <span class="nc">LottoNumber</span> <span class="n">lottoNumber2</span> <span class="o">=</span> <span class="nc">LottoNumber</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+    
+      <span class="c1">// 정펙매를 이용한 [같은 객체 다시 부를 땐] 완전히 동일한 캐싱 객체 가져오기</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">lottoNumber</span><span class="o">).</span><span class="na">isSameAs</span><span class="o">(</span><span class="n">lottoNumber2</span><span class="o">);</span> <span class="c1">// true</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="assertthrows--for--더-진행시-게임종료">
+<a class="anchor" href="#assertthrows--for--%EB%8D%94-%EC%A7%84%ED%96%89%EC%8B%9C-%EA%B2%8C%EC%9E%84%EC%A2%85%EB%A3%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>assertThrows  for  더 진행시 게임종료</h4>
+
+<p><strong>지정한 에러가 나타나야 통과</strong></p>
+
+<ul>
+  <li>
+    <p>여기선 에러메세지 등 확인은 없다.</p>
+  </li>
+  <li>
+    <p>예외발생시 통과하는 메서드호출을 테스트한다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@Test</span>
+  <span class="kt">void</span> <span class="nf">blackjackDraw</span><span class="o">()</span> <span class="o">{</span>
+    
+      <span class="kd">final</span> <span class="nc">State</span> <span class="n">state</span> <span class="o">=</span> <span class="nc">Game</span><span class="o">.</span><span class="na">start</span><span class="o">(</span><span class="nc">Card</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">SPADES</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">ACE</span><span class="o">),</span>
+                                     <span class="nc">Card</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">SPADES</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">JACK</span><span class="o">));</span>
+    
+      <span class="c1">// 블랙잭상태에서 -&gt; 카드받는 메서드 호출시 예외발생하며 종료해야한다.</span>
+      <span class="n">assertThrows</span><span class="o">(</span><span class="nc">IllegalStateException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span>
+                   <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">state</span><span class="o">.</span><span class="na">draw</span><span class="o">(</span><span class="nc">Card</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">SPADES</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">TEN</span><span class="o">)));</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="assertthatthrownby">
+<a class="anchor" href="#assertthatthrownby" aria-hidden="true"><span class="octicon octicon-link"></span></a>assertThatThrownBy</h4>
+
+<p><strong>지정한 에러가 나타나야 통과</strong></p>
+
+<ol>
+  <li>
+    <p><strong>에러 내는 테스트는 <code class="language-plaintext highlighter-rouge">assertThatThrownBy( () -&gt; {} ).isinstanceof();</code>에다가 <code class="language-plaintext highlighter-rouge">예외이름.class</code>를 인자로 줘서 해당 예외일때 통과된다.</strong></p>
+
+    <ul>
+      <li>**필요하다면, <code class="language-plaintext highlighter-rouge">해당에러 + 에러메세지까지 확인</code>하기 위해 <code class="language-plaintext highlighter-rouge">.hasMessageContaining( "메세지" );</code>까지 체이닝한다. **</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c1">//원하는 에러을 안줬더니... 테스트 통과 못한다.</span>
+ <span class="nd">@Test</span>
+ <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"문자열 인덱스 에러 테스트1"</span><span class="o">)</span>
+ <span class="kt">void</span> <span class="n">문자열_인덱스_테스트</span><span class="o">()</span> <span class="o">{</span>
+     <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+         <span class="s">"abc"</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+     <span class="o">}).</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+ <span class="o">}</span>
+    
+ <span class="c1">//    java.lang.AssertionError:</span>
+ <span class="c1">//    Expecting actual throwable to be an instance of:</span>
+ <span class="c1">//    java.lang.IllegalArgumentException</span>
+ <span class="c1">//    but was:</span>
+ <span class="c1">//    java.lang.StringIndexOutOfBoundsException: String index out of range: 4</span>
+    
+ <span class="nd">@Test</span>
+ <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"문자열 인덱스 에러 테스트2"</span><span class="o">)</span>
+ <span class="kt">void</span> <span class="n">문자열_인덱스_테스트2</span><span class="o">()</span> <span class="o">{</span>
+     <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+         <span class="s">"abc"</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+     <span class="o">}).</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">StringIndexOutOfBoundsException</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="assertthatthrownby--hasmessagecontaining">
+<a class="anchor" href="#assertthatthrownby--hasmessagecontaining" aria-hidden="true"><span class="octicon octicon-link"></span></a>assertThatThrownBy + hasMessageContaining</h4>
+
+<ul>
+  <li>
+    <p>해당 에러 + 해당 메세지까지 내어야 통과</p>
+
+    <ul>
+      <li><strong>도메인 생성자에 포함된 로직에서 메세지까지 같이 검사하자</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"로또 번호가 유효하지 않는 경우 예외를 발생시킨다."</span><span class="o">)</span>
+  <span class="nd">@ParameterizedTest</span>
+  <span class="nd">@ValueSource</span><span class="o">(</span><span class="n">strings</span> <span class="o">=</span> <span class="o">{</span><span class="s">"0"</span><span class="o">,</span> <span class="s">"46"</span><span class="o">,</span> <span class="s">"-1"</span><span class="o">})</span>
+  <span class="kt">void</span> <span class="nf">input_lottoNumber_invalid</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">LottoNumber</span><span class="o">(</span><span class="n">number</span><span class="o">))</span>
+          <span class="o">.</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+          <span class="o">.</span><span class="na">hasMessageContaining</span><span class="o">(</span><span class="s">"로또 번호가 유효한 범위"</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="자동차경주">
+<a class="anchor" href="#%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>자동차경주</h3>
+
+<h4 id="assertdoesnotthrow">
+<a class="anchor" href="#assertdoesnotthrow" aria-hidden="true"><span class="octicon octicon-link"></span></a>assertDoesNotThrow</h4>
+
+<ul>
+  <li>
+    <p>assertThatThrownBy와 달리 <strong>에러가 안나야 통과</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@ParameterizedTest</span>
+  <span class="nd">@ValueSource</span><span class="o">(</span><span class="n">strings</span> <span class="o">=</span> <span class="o">{</span><span class="s">"o"</span><span class="o">,</span> <span class="s">"brown"</span><span class="o">})</span>
+  <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"1이상 5이하의 자동차 이름의 길이 확인"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">car_name_length_of_positive_name</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">assertDoesNotThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="n">name</span><span class="o">));</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="assertthatisnotnull">
+<a class="anchor" href="#assertthatisnotnull" aria-hidden="true"><span class="octicon octicon-link"></span></a>assertThat().isNotNull();</h4>
+
+<ul>
+  <li>inputView에서 하는 null or Empty검사시 할 것 같다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">final</span> <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="s">"재성"</span><span class="o">);</span>
+
+<span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">).</span><span class="na">isNotNull</span><span class="o">();</span>
+</code></pre></div></div>
+
+<h4 id="assertthat-service-extracting내부-인스턴스-변수">
+<a class="anchor" href="#assertthat-service-extracting%EB%82%B4%EB%B6%80-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EB%B3%80%EC%88%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>assertThat( service ).extracting(“내부 인스턴스 변수”)</h4>
+
+<ul>
+  <li>
+<strong>service 내부에</strong> 존재하는 일급or객체List를 toDto로 가져오는 반면, <strong>VO나 단일 값 변수는 직접 가져와 객체-예상객체 / 값-예상값</strong>으로 비교할 수 있다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">get_round</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">racingService</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingService</span><span class="o">(</span><span class="n">carNames</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+
+    <span class="c1">//when, then</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">racingService</span><span class="o">).</span><span class="na">extracting</span><span class="o">(</span><span class="s">"round"</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="k">new</span> <span class="nc">Round</span><span class="o">(</span><span class="mi">5</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="범위검사">
+<a class="anchor" href="#%EB%B2%94%EC%9C%84%EA%B2%80%EC%82%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>범위검사</h3>
+
+<h4 id="값-1개-랜던뽑기를--여러번-repeatedtest100--assertthatisbetweenab-랜덤응답의-범위-검사">
+<a class="anchor" href="#%EA%B0%92-1%EA%B0%9C-%EB%9E%9C%EB%8D%98%EB%BD%91%EA%B8%B0%EB%A5%BC--%EC%97%AC%EB%9F%AC%EB%B2%88-repeatedtest100--assertthatisbetweenab-%EB%9E%9C%EB%8D%A4%EC%9D%91%EB%8B%B5%EC%9D%98-%EB%B2%94%EC%9C%84-%EA%B2%80%EC%82%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>값 1개: 랜던뽑기를  여러번 @RepeatedTest(100) + assertThat().isBetween(a,b) 랜덤응답의 범위 검사</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//사용할 객체 만들고</span>
+<span class="nc">RandomNumberGenerator</span> <span class="n">randomNumberGenerator</span><span class="o">;</span>
+
+<span class="nd">@BeforeEach</span>
+<span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+<span class="n">randomNumberGenerator</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RandomNumberGenerator</span><span class="o">();</span>
+<span class="o">}</span>
+
+
+<span class="c1">//응답값의 범위 확인을 여러번</span>
+<span class="nd">@RepeatedTest</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">range_test</span><span class="o">()</span> <span class="o">{</span>
+<span class="n">assertThat</span><span class="o">(</span><span class="n">randomNumberGenerator</span><span class="o">.</span><span class="na">generate</span><span class="o">()).</span><span class="na">isBetween</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">9</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="랜덤값-list-원소들--매번범위-검사--listiterator를-만든-뒤-while-hasnext-동안-next하면서-체이닝으로-크거나같최소값-객체-작거나같최대값-객체">
+<a class="anchor" href="#%EB%9E%9C%EB%8D%A4%EA%B0%92-list-%EC%9B%90%EC%86%8C%EB%93%A4--%EB%A7%A4%EB%B2%88%EB%B2%94%EC%9C%84-%EA%B2%80%EC%82%AC--listiterator%EB%A5%BC-%EB%A7%8C%EB%93%A0-%EB%92%A4-while-hasnext-%EB%8F%99%EC%95%88-next%ED%95%98%EB%A9%B4%EC%84%9C-%EC%B2%B4%EC%9D%B4%EB%8B%9D%EC%9C%BC%EB%A1%9C-%ED%81%AC%EA%B1%B0%EB%82%98%EA%B0%99%EC%B5%9C%EC%86%8C%EA%B0%92-%EA%B0%9D%EC%B2%B4-%EC%9E%91%EA%B1%B0%EB%82%98%EA%B0%99%EC%B5%9C%EB%8C%80%EA%B0%92-%EA%B0%9D%EC%B2%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>랜덤값 List 원소들 : 매번범위 검사 : listIterator()를 만든 뒤, while( .hasNext() )동안 next()하면서, 체이닝으로 .크거나같(최소값 객체) .작거나같(최대값 객체)</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="n">Random_숫자범위_검사</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// 원래는 랜덤으로 차있는 list -&gt; iterator</span>
+    <span class="kd">final</span> <span class="nc">ListIterator</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">44</span><span class="o">,</span> <span class="mi">45</span><span class="o">).</span><span class="na">listIterator</span><span class="o">();</span>
+
+    <span class="c1">// 랜덤값들을 돌면서 검사</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">numbers</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">assertThat</span><span class="o">(</span><span class="n">numbers</span><span class="o">.</span><span class="na">next</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">isGreaterThanOrEqualTo</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">isLessThanOrEqualTo</span><span class="o">(</span><span class="mi">20</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="settest">
+<a class="anchor" href="#settest" aria-hidden="true"><span class="octicon octicon-link"></span></a>SetTest</h3>
+
+<h4 id="beforeeach">
+<a class="anchor" href="#beforeeach" aria-hidden="true"><span class="octicon octicon-link"></span></a>@BeforeEach</h4>
+
+<ol>
+  <li>
+    <p><strong>매번 초기화해야하는 변수는 <code class="language-plaintext highlighter-rouge">Test안에서의 class &lt;빈&gt; 변수</code> + <code class="language-plaintext highlighter-rouge">@BeforeEach</code>로 정의한 <code class="language-plaintext highlighter-rouge">setUp</code>메소드에서 <code class="language-plaintext highlighter-rouge">초기화 + 데이터삽입</code>해준다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">SetTest</span> <span class="o">{</span>
+    
+     <span class="c1">// [빈 변수] -&gt; 매 TEST마다 초기화+데이터 삽입을 반복해준다.</span>
+     <span class="kd">private</span> <span class="nc">HashSet</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">numbers</span><span class="o">;</span>
+    
+     <span class="nd">@BeforeEach</span>
+     <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+         <span class="n">numbers</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashSet</span><span class="o">&lt;&gt;();</span>
+         <span class="n">numbers</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+         <span class="n">numbers</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+         <span class="n">numbers</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+         <span class="n">numbers</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+     <span class="o">}</span>
+    
+     <span class="nd">@Test</span>
+     <span class="kt">void</span> <span class="n">사이즈_확인</span><span class="o">()</span> <span class="o">{</span>
+         <span class="c1">//given, when</span>
+         <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+         <span class="c1">//then</span>
+         <span class="n">assertThat</span><span class="o">(</span><span class="n">size</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="parameterizeedtest-for-여러case">
+<a class="anchor" href="#parameterizeedtest-for-%EC%97%AC%EB%9F%ACcase" aria-hidden="true"><span class="octicon octicon-link"></span></a>@ParameterizeedTest for 여러case</h4>
+
+<ul>
+  <li>local varaible로 뽑힌 변수들을 <code class="language-plaintext highlighter-rouge">ctrl+alt+p</code>를 통해 테스트메서드의 인자로 올리면서 수행하면 된다.</li>
+  <li>CsvSource의 delimeter는 1개의 char기 때문에 <code class="language-plaintext highlighter-rouge">":"</code>가 아닌 <code class="language-plaintext highlighter-rouge">':'</code> 작은 따옴표를 활용한다.
+    <ul>
+      <li>알아서 변환되기 때문에 <code class="language-plaintext highlighter-rouge">"1L"</code>대신 <code class="language-plaintext highlighter-rouge">"1"</code>을 주면 파라미터 Long이 알아서 받아준다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="valuesource-인자-1개-변수--expected-고정">
+<a class="anchor" href="#valuesource-%EC%9D%B8%EC%9E%90-1%EA%B0%9C-%EB%B3%80%EC%88%98--expected-%EA%B3%A0%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>@ValueSource: <code class="language-plaintext highlighter-rouge">인자 1개</code> 변수 + <code class="language-plaintext highlighter-rouge">expected 고정</code>
+</h5>
+
+<p><strong><code class="language-plaintext highlighter-rouge">@ParameterizedTest</code>로 중복해서 테스트할 필요없이, <code class="language-plaintext highlighter-rouge">given으로 들어갈 메소드인자</code> or <code class="language-plaintext highlighter-rouge">given + expected</code>로 들어갈 메소드 인자들</strong>을 지정해서 여러 케이스를 테스트한다.</p>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">@ValueSource</code>(ints = {1,2,3,4})</p>
+
+    <ul>
+      <li><strong>한가지 값만 뿌려줄 때</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@ParameterizedTest</span>
+  <span class="nd">@ValueSource</span><span class="o">(</span><span class="n">ints</span> <span class="o">=</span> <span class="o">{</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">})</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">set_contains</span><span class="o">(</span><span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">assertThat</span><span class="o">(</span><span class="n">numbers</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">number</span><span class="o">)).</span><span class="na">isTrue</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="csvsource-인자-1개이상-변수--expected-가변---arg1arg2expected같이-주되-delimiter로-끊음">
+<a class="anchor" href="#csvsource-%EC%9D%B8%EC%9E%90-1%EA%B0%9C%EC%9D%B4%EC%83%81-%EB%B3%80%EC%88%98--expected-%EA%B0%80%EB%B3%80---arg1arg2expected%EA%B0%99%EC%9D%B4-%EC%A3%BC%EB%90%98-delimiter%EB%A1%9C-%EB%81%8A%EC%9D%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>@CsvSource: 인자 1개이상 변수 + <code class="language-plaintext highlighter-rouge">expected 가변</code> -&gt; “arg1:arg2:expected”같이 주되 delimiter로 끊음</h5>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">@CsvSource</code>(value = {“1:true”, “2:true”, “3:true”, “4:false”}, delimiter = ‘:’)</p>
+
+    <ul>
+      <li><strong>여러가지 값 -&gt; <code class="language-plaintext highlighter-rouge">여러개의 인자</code>로 뿌려 줄 때</strong></li>
+      <li>delimiter 옵션을 안쓰려면, 그냥 <code class="language-plaintext highlighter-rouge">,</code>콤마로 데이터들을 구분해주면 된다.
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">@CsvSource</code>({“1:,true”, “2,true”, “3,true”, “4,false”})</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@ParameterizedTest</span>
+  <span class="nd">@CsvSource</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span><span class="s">"1:true"</span><span class="o">,</span> <span class="s">"2:true"</span><span class="o">,</span> <span class="s">"3:true"</span><span class="o">,</span> <span class="s">"4:false"</span><span class="o">},</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="sc">':'</span><span class="o">)</span>
+  <span class="kt">void</span> <span class="nf">set_contains2</span><span class="o">(</span><span class="kt">int</span> <span class="n">number</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">expected</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">assertEquals</span><span class="o">(</span><span class="n">numbers</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">number</span><span class="o">),</span> <span class="n">expected</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="nullandemptysource">
+<a class="anchor" href="#nullandemptysource" aria-hidden="true"><span class="octicon octicon-link"></span></a>@NullAndEmptySource</h4>
+
+<ul>
+  <li>
+    <p>테스트 메서드의 인자에다가 @어노테이션으로는 null을 넘길 수 없다.</p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">@NullAndEmptySource</code>를 달아주면, 인자에 1,2번째로 null과 emtpy가 전달된다.</strong></li>
+      <li>추가로 <code class="language-plaintext highlighter-rouge">@ValueSouce</code>를 주면 3번째 인자로 넘어간다.
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">"이 름"</code>를 주게 되면 <strong>blank</strong>까지 테스트가 된다.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@ParameterizedTest</span>
+  <span class="nd">@NullAndEmptySource</span>
+  <span class="nd">@ValueSource</span><span class="o">(</span><span class="n">strings</span> <span class="o">=</span> <span class="o">{</span><span class="s">"이 름"</span><span class="o">})</span>
+  <span class="kt">void</span> <span class="nf">nullAndEmpty_or_blank</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+      <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+      <span class="n">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">(</span><span class="n">name</span><span class="o">))</span>
+          <span class="o">.</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="nc">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="로또">
+<a class="anchor" href="#%EB%A1%9C%EB%98%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>로또</h3>
+
+<h4 id="methodsource-인자-list-or-객체-or-string으로-표현할-수-없는-인자--expected-가변">
+<a class="anchor" href="#methodsource-%EC%9D%B8%EC%9E%90-list-or-%EA%B0%9D%EC%B2%B4-or-string%EC%9C%BC%EB%A1%9C-%ED%91%9C%ED%98%84%ED%95%A0-%EC%88%98-%EC%97%86%EB%8A%94-%EC%9D%B8%EC%9E%90--expected-%EA%B0%80%EB%B3%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>@MethodSource: 인자 list or 객체 or string으로 표현할 수 없는 인자 + expected 가변</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Arguments</span><span class="o">&gt;</span> <span class="nf">provideOtherLottoAndExpected</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+        <span class="nc">Arguments</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1"</span><span class="o">,</span> <span class="s">"2"</span><span class="o">,</span> <span class="s">"3"</span><span class="o">,</span> <span class="s">"4"</span><span class="o">,</span> <span class="s">"5"</span><span class="o">,</span> <span class="s">"6"</span><span class="o">),</span> <span class="mi">6</span><span class="o">),</span>
+        <span class="nc">Arguments</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1"</span><span class="o">,</span> <span class="s">"2"</span><span class="o">,</span> <span class="s">"3"</span><span class="o">,</span> <span class="s">"4"</span><span class="o">,</span> <span class="s">"5"</span><span class="o">,</span> <span class="s">"7"</span><span class="o">),</span> <span class="mi">5</span><span class="o">),</span>
+        <span class="nc">Arguments</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1"</span><span class="o">,</span> <span class="s">"2"</span><span class="o">,</span> <span class="s">"3"</span><span class="o">,</span> <span class="s">"4"</span><span class="o">,</span> <span class="s">"7"</span><span class="o">,</span> <span class="s">"8"</span><span class="o">),</span> <span class="mi">4</span><span class="o">),</span>
+        <span class="nc">Arguments</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1"</span><span class="o">,</span> <span class="s">"2"</span><span class="o">,</span> <span class="s">"3"</span><span class="o">,</span> <span class="s">"7"</span><span class="o">,</span> <span class="s">"8"</span><span class="o">,</span> <span class="s">"9"</span><span class="o">),</span> <span class="mi">3</span><span class="o">)</span>
+    <span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@ParameterizedTest</span>
+<span class="nd">@MethodSource</span><span class="o">(</span><span class="s">"provideOtherLottoAndExpected"</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">compare_lotto_by_lotto</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">otherLottoInput</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">matchedCount</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//given</span>
+    <span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">lotto</span> <span class="o">=</span> <span class="nc">Lotto</span><span class="o">.</span><span class="na">fromInput</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1"</span><span class="o">,</span> <span class="s">"2"</span><span class="o">,</span> <span class="s">"3"</span><span class="o">,</span> <span class="s">"4"</span><span class="o">,</span> <span class="s">"5"</span><span class="o">,</span> <span class="s">"6"</span><span class="o">));</span>
+    <span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">otherLotto</span> <span class="o">=</span> <span class="nc">Lotto</span><span class="o">.</span><span class="na">fromInput</span><span class="o">(</span><span class="n">otherLottoInput</span><span class="o">);</span>
+    <span class="c1">//when</span>
+    <span class="kd">final</span> <span class="kt">int</span> <span class="n">actual</span> <span class="o">=</span> <span class="n">lotto</span><span class="o">.</span><span class="na">compare</span><span class="o">(</span><span class="n">otherLotto</span><span class="o">);</span>
+    <span class="c1">//then</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">matchedCount</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p><strong>주로 <code class="language-plaintext highlighter-rouge">일급 재료 1개</code>에 대해서 <code class="language-plaintext highlighter-rouge">비교할 &lt;&lt;여러&gt;&gt; 일급 case + expected</code>를 테스트할 때</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c1">//given</span>
+ <span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">lotto</span> <span class="o">=</span> <span class="nc">Lotto</span><span class="o">.</span><span class="na">fromInput</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1"</span><span class="o">,</span> <span class="s">"2"</span><span class="o">,</span> <span class="s">"3"</span><span class="o">,</span> <span class="s">"4"</span><span class="o">,</span> <span class="s">"5"</span><span class="o">,</span> <span class="s">"6"</span><span class="o">));</span>
+ <span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">otherLotto</span> <span class="o">=</span> <span class="nc">Lotto</span><span class="o">.</span><span class="na">fromInput</span><span class="o">(</span><span class="n">otherLottoInput</span><span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>@ParameterizedTest + @MethodSource 붙이면서 <code class="language-plaintext highlighter-rouge">"함수명"</code>을 string으로 적어준다.</strong></p>
+
+    <ul>
+      <li>
+        <p>만약, <strong>expected의 case도 나누고 싶다면 함수를 2개를 제공하면 된다</strong></p>
+
+        <p><code class="language-plaintext highlighter-rouge">@MethodSource({ "provideOther일급AndExpected1", "provideOther일급AndExpected2"})</code></p>
+      </li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c1">//1. 정해진 일급 1개에 대해서 vs &lt;비교에 들어갈&gt; others일급-정답의 비교가 필요한 순간에 MethodSource를 쓴다.</span>
+ <span class="c1">//2. 쓰는 순간 "provideOther일급And정답" 메서드명만적어주고 -&gt; 생성 -&gt; 파라미터로 받아주자.</span>
+ <span class="nd">@ParameterizedTest</span>
+ <span class="nd">@MethodSource</span><span class="o">(</span><span class="s">"provideOtherLottoAndExpected"</span><span class="o">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">함수명을 주지 않고 @MethodSource</code>만 붙인 상태에서 <code class="language-plaintext highlighter-rouge">generate하면, 테스트메서드명과 동일한 명칭으로 생성된다.</code></strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/464f4fb0-7e6a-4347-8beb-19ac58a53035.gif" alt="464f4fb0-7e6a-4347-8beb-19ac58a53035"></p>
+  </li>
+  <li>
+    <p>string함수명에서 <code class="language-plaintext highlighter-rouge">generate</code>시키면 함수를 만들 수 있다.</p>
+
+    <ul>
+      <li>응답 형이 <code class="language-plaintext highlighter-rouge">Stream&lt;Arguments&gt;</code>가 자동으로 작성된다.</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c1">//3. 메서드를 공짜로 만들면, 응답값이 자동으로 Stream&lt;Arguments&gt;다.</span>
+ <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Arguments</span><span class="o">&gt;</span> <span class="nf">provideOtherLottoAndExpected</span><span class="o">()</span> <span class="o">{</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>return은 Stream으로 만들어줘야하니 <strong>method body를 <code class="language-plaintext highlighter-rouge">return Stream.of( )</code>형태로 일단 작성</strong>한다.</p>
+
+    <ul>
+      <li><strong>테스트함수에 전달될 파라미터 갯수대로 <code class="language-plaintext highlighter-rouge">Arguments.of( , , )</code>에 순서대로 작성해준다.</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Arguments</span><span class="o">&gt;</span> <span class="nf">provideOtherLottoAndExpected</span><span class="o">()</span> <span class="o">{</span>
+     <span class="k">return</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+         <span class="nc">Arguments</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1"</span><span class="o">,</span> <span class="s">"2"</span><span class="o">,</span> <span class="s">"3"</span><span class="o">,</span> <span class="s">"4"</span><span class="o">,</span> <span class="s">"5"</span><span class="o">,</span> <span class="s">"6"</span><span class="o">),</span> <span class="mi">6</span><span class="o">),</span>
+         <span class="nc">Arguments</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1"</span><span class="o">,</span> <span class="s">"2"</span><span class="o">,</span> <span class="s">"3"</span><span class="o">,</span> <span class="s">"4"</span><span class="o">,</span> <span class="s">"5"</span><span class="o">,</span> <span class="s">"7"</span><span class="o">),</span> <span class="mi">5</span><span class="o">),</span>
+         <span class="nc">Arguments</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1"</span><span class="o">,</span> <span class="s">"2"</span><span class="o">,</span> <span class="s">"3"</span><span class="o">,</span> <span class="s">"4"</span><span class="o">,</span> <span class="s">"7"</span><span class="o">,</span> <span class="s">"8"</span><span class="o">),</span> <span class="mi">4</span><span class="o">),</span>
+         <span class="nc">Arguments</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1"</span><span class="o">,</span> <span class="s">"2"</span><span class="o">,</span> <span class="s">"3"</span><span class="o">,</span> <span class="s">"7"</span><span class="o">,</span> <span class="s">"8"</span><span class="o">,</span> <span class="s">"9"</span><span class="o">),</span> <span class="mi">3</span><span class="o">)</span>
+     <span class="o">);</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>테스트 함수에서 <code class="language-plaintext highlighter-rouge">파라미터 정의</code>를 위해, Arguments.of()에 들어간 인자들을 1개 복사해와서 변수추출로 작성하면 쉽다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@ParameterizedTest</span>
+ <span class="nd">@MethodSource</span><span class="o">(</span><span class="s">"provideOtherLottoAndExpected"</span><span class="o">)</span>
+ <span class="kt">void</span> <span class="nf">compare_lotto_by_lotto</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">otherLottoInput</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">matchedCount</span><span class="o">)</span> <span class="o">{</span>
+     <span class="c1">//Arrays.asList("1", "2", "3", "4", "5", "6"), 6</span>
+     <span class="c1">//final List&lt;String&gt; otherLottoInput = Arrays.asList("1", "2", "3", "4", "5", "6");</span>
+     <span class="c1">//final int matchedCount = 6;</span>
+     <span class="c1">//final List&lt;String&gt; otherLottoInput, final int matchedCount</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">String표현불가 객체/list 등의 1개이상의 변수 파라미터</code>를 <code class="language-plaintext highlighter-rouge">actual에서 미리 빨간색으로 작성 -&gt; 파라미터 추출(ctrl+alt+P)로 파라미터를 채우면 쉽다</code></strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/95fb732d-4ea2-479f-a39f-f19971ddebb2.gif" alt="95fb732d-4ea2-479f-a39f-f19971ddebb2"></p>
+  </li>
+  <li>
+    <p>완성본</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nd">@ParameterizedTest</span>
+ <span class="nd">@MethodSource</span><span class="o">(</span><span class="s">"provideOtherLottoAndExpected"</span><span class="o">)</span>
+ <span class="kt">void</span> <span class="nf">compare_lotto_by_lotto</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">otherLottoInput</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">matchedCount</span><span class="o">)</span> <span class="o">{</span>
+     <span class="c1">//given</span>
+     <span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">lotto</span> <span class="o">=</span> <span class="nc">Lotto</span><span class="o">.</span><span class="na">fromInput</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1"</span><span class="o">,</span> <span class="s">"2"</span><span class="o">,</span> <span class="s">"3"</span><span class="o">,</span> <span class="s">"4"</span><span class="o">,</span> <span class="s">"5"</span><span class="o">,</span> <span class="s">"6"</span><span class="o">));</span>
+     <span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">otherLotto</span> <span class="o">=</span> <span class="nc">Lotto</span><span class="o">.</span><span class="na">fromInput</span><span class="o">(</span><span class="n">otherLottoInput</span><span class="o">);</span>
+     <span class="c1">//when</span>
+     <span class="kd">final</span> <span class="kt">int</span> <span class="n">actual</span> <span class="o">=</span> <span class="n">lotto</span><span class="o">.</span><span class="na">compare</span><span class="o">(</span><span class="n">otherLotto</span><span class="o">);</span>
+     <span class="c1">//then</span>
+     <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">matchedCount</span><span class="o">);</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="블랙잭">
+<a class="anchor" href="#%EB%B8%94%EB%9E%99%EC%9E%AD" aria-hidden="true"><span class="octicon octicon-link"></span></a>블랙잭</h3>
+
+<h4 id="nested">
+<a class="anchor" href="#nested" aria-hidden="true"><span class="octicon octicon-link"></span></a>@Nested</h4>
+
+<ol>
+  <li>
+    <p><strong>setUp할 예시가 달라지는 경우 <code class="language-plaintext highlighter-rouge">서로 다른 @BeforeEach</code>를 가지게 할려고 <code class="language-plaintext highlighter-rouge">기존 @beforeEach - setUp</code>를 <code class="language-plaintext highlighter-rouge">Nest</code>클래스에 넣어주려고 사용한다.</strong></p>
+
+    <ul>
+      <li>즉, 같은 상태값을 setup하는 경우만 묶어서 처리해준다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">@Nested 명시이후 @디플("")이후</code> <code class="language-plaintext highlighter-rouge">ClassName이Test</code>로 끝나야한다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">class</span> <span class="nc">GameResultTest</span> <span class="o">{</span>
+    
+     <span class="c1">//1. 가변으로 셋업에서 초기화하는데</span>
+     <span class="nc">Dealer</span> <span class="n">dealer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Dealer</span><span class="o">();</span>
+     <span class="nc">Gambler</span> <span class="n">gambler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Gambler</span><span class="o">(</span><span class="s">"돌범"</span><span class="o">);</span>
+     <span class="nc">CardDeck</span> <span class="n">cardDeck</span><span class="o">;</span>
+     <span class="nc">PlayingCard</span> <span class="n">card1</span><span class="o">;</span>
+     <span class="nc">PlayingCard</span> <span class="n">card2</span><span class="o">;</span>
+    
+    
+     <span class="c1">//3. @beforEach를 Nest에 넣어준다.</span>
+     <span class="nd">@Nested</span>
+     <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"버스트가 없는 경우에 한하여"</span><span class="o">)</span>
+     <span class="kd">class</span> <span class="nc">GameResultWithoutBurstTest</span> <span class="o">{</span>
+         <span class="nd">@BeforeEach</span>
+         <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+             <span class="c1">//given</span>
+             <span class="n">card1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PlayingCard</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">CLUBS</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">FIVE</span><span class="o">);</span>
+             <span class="n">card2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PlayingCard</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">CLUBS</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">SIX</span><span class="o">);</span>
+             <span class="nc">Deque</span><span class="o">&lt;</span><span class="nc">PlayingCard</span><span class="o">&gt;</span> <span class="n">rawCardDeck</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayDeque</span><span class="o">&lt;&gt;();</span>
+             <span class="n">rawCardDeck</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">card1</span><span class="o">);</span>
+             <span class="n">rawCardDeck</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">card2</span><span class="o">);</span>
+             <span class="n">cardDeck</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CardDeck</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">rawCardDeck</span><span class="o">);</span>
+         <span class="o">}</span>
+    
+         <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"카드 점수에 따라 승에 해당하는 객체를 반환하는지 확인한다."</span><span class="o">)</span>
+         <span class="nd">@Test</span>
+         <span class="kt">void</span> <span class="nf">win</span><span class="o">()</span> <span class="o">{</span>
+             <span class="c1">//given</span>
+             <span class="n">cardDeck</span><span class="o">.</span><span class="na">drawTo</span><span class="o">(</span><span class="n">dealer</span><span class="o">);</span> <span class="c1">// six to dealer</span>
+             <span class="n">cardDeck</span><span class="o">.</span><span class="na">drawTo</span><span class="o">(</span><span class="n">gambler</span><span class="o">);</span> <span class="c1">// five to gambler</span>
+    
+             <span class="c1">//when</span>
+             <span class="kd">final</span> <span class="nc">GameResult</span> <span class="n">result</span> <span class="o">=</span> <span class="nc">GameResult</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">dealer</span><span class="o">,</span> <span class="n">gambler</span><span class="o">);</span>
+    
+             <span class="c1">//then</span>
+             <span class="n">assertThat</span><span class="o">(</span><span class="n">result</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="nc">GameResult</span><span class="o">.</span><span class="na">WIN</span><span class="o">);</span>
+         <span class="o">}</span>
+     <span class="o">}</span>
+    
+    
+ 	<span class="c1">//2. 갑자기 예시가 셋업데이터가 달라져야할 경우,</span>
+     <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"딜러가 버스트인 경우, 패배 결과 객체를 반환하는지 확인한다."</span><span class="o">)</span>
+     <span class="nd">@Test</span>
+     <span class="kt">void</span> <span class="nf">burst_dealer_lose</span><span class="o">()</span> <span class="o">{</span>
+         <span class="c1">//4. 원래 이후 새로운 예시도 -&gt; nest -&gt; 서로 다른 @beforeEach를 지정해서 사용해야한다.</span>
+         <span class="c1">//given</span>
+         <span class="nc">PlayingCard</span> <span class="n">card</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PlayingCard</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">CLUBS</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">KING</span><span class="o">);</span>
+         <span class="nc">PlayingCard</span> <span class="n">burst1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PlayingCard</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">HEARTS</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">KING</span><span class="o">);</span>
+         <span class="nc">PlayingCard</span> <span class="n">burst2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PlayingCard</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">HEARTS</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">JACK</span><span class="o">);</span>
+         <span class="nc">PlayingCard</span> <span class="n">burst3</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PlayingCard</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">HEARTS</span><span class="o">,</span> <span class="nc">Denomination</span><span class="o">.</span><span class="na">QUEEN</span><span class="o">);</span>
+         <span class="nc">Deque</span><span class="o">&lt;</span><span class="nc">PlayingCard</span><span class="o">&gt;</span> <span class="n">rawCardDeck</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayDeque</span><span class="o">&lt;&gt;();</span>
+         <span class="n">rawCardDeck</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">card</span><span class="o">);</span>
+         <span class="n">rawCardDeck</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">burst1</span><span class="o">);</span>
+         <span class="n">rawCardDeck</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">burst2</span><span class="o">);</span>
+         <span class="n">rawCardDeck</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">burst3</span><span class="o">);</span>
+         <span class="n">cardDeck</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CardDeck</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">rawCardDeck</span><span class="o">);</span>
+    
+         <span class="n">cardDeck</span><span class="o">.</span><span class="na">drawTo</span><span class="o">(</span><span class="n">dealer</span><span class="o">);</span>
+         <span class="n">cardDeck</span><span class="o">.</span><span class="na">drawTo</span><span class="o">(</span><span class="n">dealer</span><span class="o">);</span>
+         <span class="n">cardDeck</span><span class="o">.</span><span class="na">drawTo</span><span class="o">(</span><span class="n">dealer</span><span class="o">);</span>
+         <span class="n">cardDeck</span><span class="o">.</span><span class="na">drawTo</span><span class="o">(</span><span class="n">gambler</span><span class="o">);</span>
+    
+         <span class="c1">//when</span>
+         <span class="kd">final</span> <span class="nc">GameResult</span> <span class="n">result</span> <span class="o">=</span> <span class="nc">GameResult</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">dealer</span><span class="o">,</span> <span class="n">gambler</span><span class="o">);</span>
+    
+         <span class="c1">//then</span>
+         <span class="n">assertThat</span><span class="o">(</span><span class="n">result</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="nc">GameResult</span><span class="o">.</span><span class="na">LOSE</span><span class="o">);</span>
+     <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="그외-assertj-메소드-모음">
+<a class="anchor" href="#%EA%B7%B8%EC%99%B8-assertj-%EB%A9%94%EC%86%8C%EB%93%9C-%EB%AA%A8%EC%9D%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>그외 Assertj 메소드 모음</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>
+<strong>isEqualTo</strong>(obj)</th>
+      <th>obj 와 같다</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+<strong>isNotEqualTo</strong>(obj)</td>
+      <td>obj 와 다르다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isEqualToIgnoringCase</strong>(str)</td>
+      <td>str 와 같다 (대소문자 무시)</td>
+    </tr>
+    <tr>
+      <td>
+<strong>contains</strong>(str)</td>
+      <td>str 를 포함한다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>containsIgnoringCase</strong>(str)</td>
+      <td>str 를 포함한다 (대소문자 무시)</td>
+    </tr>
+    <tr>
+      <td>
+<strong>doesNotContain</strong>(str)</td>
+      <td>str 를 포함하지 않는다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>startsWith</strong>(str)</td>
+      <td>str 로 시작한다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>doesNotStartWith</strong>(str)</td>
+      <td>str 로 시작하지 않는다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>endsWith</strong>(str)</td>
+      <td>str 로 끝난다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>doesNotEndWith</strong>(str)</td>
+      <td>str 로 끝나지 않는다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>matches</strong>(regex)</td>
+      <td>regex 정규식과 같다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>doesNotMatch</strong>(regex)</td>
+      <td>regex 정규식과 같지 않다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isLowerCase</strong>(str)</td>
+      <td>str 은 소문자로 이루어져 있다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isUpperCase</strong>(str)</td>
+      <td>str 은 대문자로 이루어져 있다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isZero</strong>(n)</td>
+      <td>n 은 0 이다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isNotZero</strong>(n)</td>
+      <td>n 은 0 이 아니다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isOne</strong>(n)</td>
+      <td>n 은 1 이다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isPositive</strong>(n)</td>
+      <td>n 은 양수 이다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isNegative</strong>(n)</td>
+      <td>n 은 음수 이다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isNotPositive</strong>(n)</td>
+      <td>n 은 양수 또는 0 이다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isBetween</strong>(start, end)</td>
+      <td>start 와 end 사이의 값 이다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isStrictlyBetween</strong>(start, end)</td>
+      <td>start 와 end 사이의 값이 아니다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isCloseTo</strong>(n, within 또는 offset)</td>
+      <td>주어진 within 또는 offset 에 가까운 값이다.</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isNotCloseTo</strong>(n, byLessThan 또는 offset)</td>
+      <td>주어진 within 또는 offset 에 가까운 값이 아니다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isCloseTo</strong>(n, withinPercentage)</td>
+      <td>주어진 백분율 내에서 주어진 숫자에 가깝다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isNotCloseTo</strong>(n, withinPercentage)</td>
+      <td>주어진 백분율 내에서 주어진 숫자에 가깝지 않다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isTrue</strong>()</td>
+      <td>참이다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isFalse</strong>()</td>
+      <td>거짓이다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isNull</strong>()</td>
+      <td>null 값 이다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isNotNull</strong>()</td>
+      <td>null 값 아니다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isBlank</strong>()</td>
+      <td>빈 값 이다 (공백 미포함)</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isNotBlank</strong>()</td>
+      <td>빈 값 아니다 (공백 미포함)</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isEmpty</strong>()</td>
+      <td>빈 값 이다 (공백 포함)</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isNotEmpty</strong>()</td>
+      <td>빈 값 아니다 (공백 미포함)</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isNullOrEmpty</strong>()</td>
+      <td>null 값 이거나 빈 값 이다 (공백 포함)</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isLessThan</strong>(str)</td>
+      <td>str 보다 낮은 문자열 이다 (Ascii 코드)</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isIn</strong>(…obj)</td>
+      <td>여러개의 obj 중 1개와 같다</td>
+    </tr>
+    <tr>
+      <td>
+<strong>isNotIn</strong>(…obj)</td>
+      <td>여러개의 obj 와 모두 다르다</td>
+    </tr>
+    <tr>
+      <td><strong>filteredOn(…)</strong></td>
+      <td>list 필터</td>
+    </tr>
+    <tr>
+      <td><strong>extracting(…)</strong></td>
+      <td>list 프로퍼티 값</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="assertj-string-예제">
+<a class="anchor" href="#assertj-string-%EC%98%88%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>assertj string 예제</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">assertThat</span><span class="o">(</span><span class="s">"Hello, world! Nice to meet you."</span><span class="o">)</span> <span class="c1">// 주어진 "Hello, world! Nice to meet you."라는 문자열은</span>
+				<span class="o">.</span><span class="na">isNotEmpty</span><span class="o">()</span> <span class="c1">// 비어있지 않고</span>
+				<span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s">"Nice"</span><span class="o">)</span> <span class="c1">// "Nice"를 포함하고</span>
+				<span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s">"world"</span><span class="o">)</span> <span class="c1">// "world"도 포함하고</span>
+				<span class="o">.</span><span class="na">doesNotContain</span><span class="o">(</span><span class="s">"ZZZ"</span><span class="o">)</span> <span class="c1">// "ZZZ"는 포함하지 않으며</span>
+				<span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">"Hell"</span><span class="o">)</span> <span class="c1">// "Hell"로 시작하고</span>
+				<span class="o">.</span><span class="na">endsWith</span><span class="o">(</span><span class="s">"u."</span><span class="o">)</span> <span class="c1">// "u."로 끝나며</span>
+				<span class="o">.</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">"Hello, world! Nice to meet you."</span><span class="o">);</span> <span class="c1">// "Hello, world! Nice to meet you."과 일치합니다.</span>
+</code></pre></div></div>
+
+<h4 id="assertj-number-예제">
+<a class="anchor" href="#assertj-number-%EC%98%88%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>assertj number 예제</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">assertThat</span><span class="o">(</span><span class="mf">3.14d</span><span class="o">)</span> <span class="c1">// 주어진 3.14라는 숫자는</span>
+				<span class="o">.</span><span class="na">isPositive</span><span class="o">()</span> <span class="c1">// 양수이고</span>
+				<span class="o">.</span><span class="na">isGreaterThan</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span> <span class="c1">// 3보다 크며</span>
+				<span class="o">.</span><span class="na">isLessThan</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span> <span class="c1">// 4보다 작습니다</span>
+				<span class="o">.</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">offset</span><span class="o">(</span><span class="mi">1</span><span class="n">d</span><span class="o">))</span> <span class="c1">// 오프셋 1 기준으로 3과 같고</span>
+				<span class="o">.</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mf">3.1</span><span class="o">,</span> <span class="n">offset</span><span class="o">(</span><span class="mf">0.1d</span><span class="o">))</span> <span class="c1">// 오프셋 0.1 기준으로 3.1과 같으며</span>
+				<span class="o">.</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mf">3.14</span><span class="o">);</span> <span class="c1">// 오프셋 없이는 3.14와 같습니다</span>
+</code></pre></div></div>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/test/assertj/tdd/2022/06/29/assertj-test-example.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
