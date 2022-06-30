@@ -18,7 +18,13 @@ image: "images/posts/wootech.png"
     - 단위테스트부터 모든 코드를 설계하는 -> **TDD**
 
 
-
+## 의존성 추가
+- `@Test` 대신 `@ParameterizedTest` for 여러case 를 쓰기 위해서 아래 의존성을 추가해야한다.
+    ```java
+    // Assertions
+    testImplementation 'org.assertj:assertj-core:3.22.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.4.2' 
+    ```
 ## Live template
 
 - `asall`
@@ -1023,7 +1029,14 @@ void Random_숫자범위_검사() {
 
     
 
-#### @ParameterizeedTest for 여러case
+#### @ParameterizedTest for 여러case
+
+- @Test 대신 쓰려면 아래 의존성을 추가해야한다.
+    ```java
+    // Assertions
+    testImplementation 'org.assertj:assertj-core:3.22.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.4.2' 
+    ```
 
 - local varaible로 뽑힌 변수들을 `ctrl+alt+p`를 통해 테스트메서드의 인자로 올리면서 수행하면 된다.
 - CsvSource의 delimeter는 1개의 char기 때문에 `":"`가 아닌 `':'` 작은 따옴표를 활용한다.
