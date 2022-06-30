@@ -283,7 +283,7 @@ window.onload = wrap_img;
 
     <div class="language-java highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>  <span class="n">assertAll</span><span class="o">(</span>
-      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">().</span><span class="na">isEqualTo</span><span class="o">(),</span>
+      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">),</span>
       <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">().</span><span class="na">hasSize</span><span class="o">()</span>
   <span class="o">);</span>
 </code></pre></div>    </div>
@@ -299,7 +299,7 @@ window.onload = wrap_img;
     <p><code class="language-plaintext highlighter-rouge">asthat</code></p>
 
     <div class="language-java highlighter-rouge">
-<div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">(</span><span class="n">$ACTUAL</span><span class="err">$</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">$EXPECTED</span><span class="err">$</span><span class="o">);</span>
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">);</span>
 </code></pre></div>    </div>
   </li>
   <li>
