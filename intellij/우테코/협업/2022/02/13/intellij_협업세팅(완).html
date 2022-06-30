@@ -237,18 +237,26 @@ window.onload = wrap_img;
 <a class="anchor" href="#assert%EB%AC%B8-live-template%EC%97%90-%EC%B6%94%EA%B0%80%ED%95%B4%EB%86%93%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>assert문 live template에 추가해놓기</h5>
 <ul>
   <li>
+<code class="language-plaintext highlighter-rouge">@Test</code> 대신 <code class="language-plaintext highlighter-rouge">@ParameterizedTest</code> for 여러case 를 쓰기 위해서 아래 의존성을 추가해야한다.
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">// Assertions</span>
+  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">:</span><span class="n">assertj</span><span class="o">-</span><span class="nl">core:</span><span class="mf">3.22</span><span class="o">.</span><span class="mi">0</span><span class="err">'</span>
+  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">jupiter</span><span class="o">:</span><span class="n">junit</span><span class="o">-</span><span class="n">jupiter</span><span class="o">-</span><span class="nl">params:</span><span class="mf">5.4</span><span class="o">.</span><span class="mi">2</span><span class="err">'</span> 
+</code></pre></div>    </div>
+  </li>
+  <li>
 <code class="language-plaintext highlighter-rouge">as+all</code>
     <div class="language-java highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>  <span class="n">assertAll</span><span class="o">(</span>
-      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">().</span><span class="na">isEqualTo</span><span class="o">(),</span>
-      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">().</span><span class="na">hasSize</span><span class="o">()</span>
+      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">),</span>
+      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">hasSize</span><span class="o">()</span>
   <span class="o">);</span>
 </code></pre></div>    </div>
   </li>
   <li>
 <code class="language-plaintext highlighter-rouge">as+that</code>
     <div class="language-java highlighter-rouge">
-<div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">(</span><span class="n">$ACTUAL</span><span class="err">$</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">$EXPECTED</span><span class="err">$</span><span class="o">);</span>
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">(</span><span class="n">actaul</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">);</span>
 </code></pre></div>    </div>
   </li>
   <li>

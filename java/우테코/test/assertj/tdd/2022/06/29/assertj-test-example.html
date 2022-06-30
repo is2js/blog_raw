@@ -134,6 +134,7 @@ window.onload = wrap_img;
     <h3>📜 제목으로 보기</h3>
     <ul class="section-nav">
 <li class="toc-entry toc-h2"><a href="#assertj-및-annotation-with-junit5">assertj 및 annotation with Junit5</a></li>
+<li class="toc-entry toc-h2"><a href="#의존성-추가">의존성 추가</a></li>
 <li class="toc-entry toc-h2"><a href="#live-template">Live template</a></li>
 <li class="toc-entry toc-h2"><a href="#용례">용례</a>
 <ul>
@@ -231,7 +232,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h3"><a href="#settest">SetTest</a>
 <ul>
 <li class="toc-entry toc-h4"><a href="#beforeeach">@BeforeEach</a></li>
-<li class="toc-entry toc-h4"><a href="#parameterizeedtest-for-여러case">@ParameterizeedTest for 여러case</a>
+<li class="toc-entry toc-h4"><a href="#parameterizedtest-for-여러case">@ParameterizedTest for 여러case</a>
 <ul>
 <li class="toc-entry toc-h5"><a href="#valuesource-인자-1개-변수--expected-고정">@ValueSource: 인자 1개 변수 + expected 고정</a></li>
 <li class="toc-entry toc-h5"><a href="#csvsource-인자-1개이상-변수--expected-가변---arg1arg2expected같이-주되-delimiter로-끊음">@CsvSource: 인자 1개이상 변수 + expected 가변 -&gt; “arg1:arg2:expected”같이 주되 delimiter로 끊음</a></li>
@@ -274,10 +275,19 @@ window.onload = wrap_img;
   </li>
 </ul>
 
-<h2 id="live-template">
-<a class="anchor" href="#live-template" aria-hidden="true"><span class="octicon octicon-link"></span></a>Live template</h2>
-
+<h2 id="의존성-추가">
+<a class="anchor" href="#%EC%9D%98%EC%A1%B4%EC%84%B1-%EC%B6%94%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>의존성 추가</h2>
 <ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">@Test</code> 대신 <code class="language-plaintext highlighter-rouge">@ParameterizedTest</code> for 여러case 를 쓰기 위해서 아래 의존성을 추가해야한다.
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">// Assertions</span>
+  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">:</span><span class="n">assertj</span><span class="o">-</span><span class="nl">core:</span><span class="mf">3.22</span><span class="o">.</span><span class="mi">0</span><span class="err">'</span>
+  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">jupiter</span><span class="o">:</span><span class="n">junit</span><span class="o">-</span><span class="n">jupiter</span><span class="o">-</span><span class="nl">params:</span><span class="mf">5.4</span><span class="o">.</span><span class="mi">2</span><span class="err">'</span> 
+</code></pre></div>    </div>
+    <h2 id="live-template">
+<a class="anchor" href="#live-template" aria-hidden="true"><span class="octicon octicon-link"></span></a>Live template</h2>
+  </li>
   <li>
     <p><code class="language-plaintext highlighter-rouge">asall</code></p>
 
@@ -1303,10 +1313,17 @@ window.onload = wrap_img;
   </li>
 </ol>
 
-<h4 id="parameterizeedtest-for-여러case">
-<a class="anchor" href="#parameterizeedtest-for-%EC%97%AC%EB%9F%ACcase" aria-hidden="true"><span class="octicon octicon-link"></span></a>@ParameterizeedTest for 여러case</h4>
+<h4 id="parameterizedtest-for-여러case">
+<a class="anchor" href="#parameterizedtest-for-%EC%97%AC%EB%9F%ACcase" aria-hidden="true"><span class="octicon octicon-link"></span></a>@ParameterizedTest for 여러case</h4>
 
 <ul>
+  <li>@Test 대신 쓰려면 아래 의존성을 추가해야한다.
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">// Assertions</span>
+  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">:</span><span class="n">assertj</span><span class="o">-</span><span class="nl">core:</span><span class="mf">3.22</span><span class="o">.</span><span class="mi">0</span><span class="err">'</span>
+  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">jupiter</span><span class="o">:</span><span class="n">junit</span><span class="o">-</span><span class="n">jupiter</span><span class="o">-</span><span class="nl">params:</span><span class="mf">5.4</span><span class="o">.</span><span class="mi">2</span><span class="err">'</span> 
+</code></pre></div>    </div>
+  </li>
   <li>local varaible로 뽑힌 변수들을 <code class="language-plaintext highlighter-rouge">ctrl+alt+p</code>를 통해 테스트메서드의 인자로 올리면서 수행하면 된다.</li>
   <li>CsvSource의 delimeter는 1개의 char기 때문에 <code class="language-plaintext highlighter-rouge">":"</code>가 아닌 <code class="language-plaintext highlighter-rouge">':'</code> 작은 따옴표를 활용한다.
     <ul>
