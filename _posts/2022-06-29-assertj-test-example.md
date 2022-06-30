@@ -25,7 +25,7 @@ image: "images/posts/wootech.png"
 
     ```java
     assertAll(
-        () -> assertThat().isEqualTo(),
+        () -> assertThat(actual).isEqualTo(expected),
         () -> assertThat().hasSize()
     );
     ```
@@ -39,7 +39,7 @@ image: "images/posts/wootech.png"
 - `asthat`
 
     ```java
-    Assertions.assertThat($ACTUAL$).isEqualTo($EXPECTED$);
+    Assertions.assertThat(actual).isEqualTo(expected);
     ```
 
 - `asthr`
