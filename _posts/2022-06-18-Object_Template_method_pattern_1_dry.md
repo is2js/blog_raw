@@ -1,10 +1,10 @@
 ---
 toc: true
 layout: post
-title: Object)Template method pattern1(DRY원칙)
+title: Object)DTemplateMethod for DRY(개발자의세계)
 description: 구현체들의 중복되는 공통로직 제거를 위한 템플릿메소드 패턴
 
-categories: [java, 우테코, oop, object, templatemethod, pattern, comparefiles]
+categories: [java, 우테코, oop, object, 개발자의세계, templatemethod, pattern, comparefiles]
 image: "images/posts/java.png"
 ---
 

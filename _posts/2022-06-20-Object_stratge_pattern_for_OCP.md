@@ -1,10 +1,10 @@
 ---
 toc: true
 layout: post
-title: Object) Strategy pattern for OCP
+title: Object)StrategyPattern for OCP(개발자의세계)
 description: 추상체를 넘겨받았음에도 여러개의 if -> 추상체 정보 강화
 
-categories: [java, 우테코, oop, object, strategy, OCP]
+categories: [java, 우테코, oop, object, 개발자의세계, strategy, OCP]
 image: "images/posts/java.png"
 ---
 
