@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-title: Object)DTemplateMethod for DRY(개발자의세계)
+title: Object)TemplateMethod for DRY(개발자의세계)
 description: 구현체들의 중복되는 공통로직 제거를 위한 템플릿메소드 패턴
 
 categories: [java, 우테코, oop, object, 개발자의세계, templatemethod, pattern, comparefiles]
