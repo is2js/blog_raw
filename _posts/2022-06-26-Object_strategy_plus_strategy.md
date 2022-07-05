@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-title: (Object) [F2]Trigger Strategy to Factory
+title: Object) [F2]Trigger Strategy to Factory
 description: 조건에 대한 전략객체를, 1번째 전략객체 담당 Factory에게 위임하기
 
 categories: [java, 우테코, oop, object, strategy, factory]

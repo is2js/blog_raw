@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-title: (Object)Generic for remove instanceof+@(개발자의세계)
+title: Object)Generic for remove instanceof+@(개발자의세계)
 description: 추상체를 확인해야할 경우->자신이 여러형을 알아야할 경우
 
 categories: [java, 우테코, oop, object, 개발자의세계, generic, instanceof]
