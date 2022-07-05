@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>SIDE)특정객체에 정책적용 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="SIDE)특정객체에 정책적용" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="특정 객체에 정책을 적용하는 2가지 방법" />
+<meta property="og:description" content="특정 객체에 정책을 적용하는 2가지 방법" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/policy/side/hospital/2022/07/01/side)%ED%8A%B9%EC%A0%95%EA%B0%9D%EC%B2%B4%EC%97%90-%EC%A0%95%EC%B1%85%EC%A0%81%EC%9A%A9.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/policy/side/hospital/2022/07/01/side)%ED%8A%B9%EC%A0%95%EA%B0%9D%EC%B2%B4%EC%97%90-%EC%A0%95%EC%B1%85%EC%A0%81%EC%9A%A9.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-01T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-07-01T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/policy/side/hospital/2022/07/01/side)%ED%8A%B9%EC%A0%95%EA%B0%9D%EC%B2%B4%EC%97%90-%EC%A0%95%EC%B1%85%EC%A0%81%EC%9A%A9.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"SIDE)특정객체에 정책적용","dateModified":"2022-07-01T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/policy/side/hospital/2022/07/01/side)%ED%8A%B9%EC%A0%95%EA%B0%9D%EC%B2%B4%EC%97%90-%EC%A0%95%EC%B1%85%EC%A0%81%EC%9A%A9.html"},"description":"특정 객체에 정책을 적용하는 2가지 방법","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">SIDE)특정객체에 정책적용</h1><p class="page-description">특정 객체에 정책을 적용하는 2가지 방법</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-01T00:00:00-05:00" itemprop="datePublished">
+        Jul 1, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      10 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#oop">oop</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#policy">policy</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#side">side</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#hospital">hospital</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#준비물정책-조건과-액션">준비물(정책 조건과 액션)</a></li>
+<li class="toc-entry toc-h3"><a href="#method1-triggeraction의-인터페이스--마커-인터페이스">method1: trigger+action의 인터페이스 + 마커 인터페이스</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#설명">설명</a></li>
+<li class="toc-entry toc-h4"><a href="#실습">실습</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#action-중간추상층-1개---conditionaction-최종구상체-1개--생성">Action 중간추상층 1개 -&gt; Condition+Action 최종구상체 1개  생성</a></li>
+<li class="toc-entry toc-h5"><a href="#최종구상체들추가-conditionaction">최종구상체들추가 Condition+Action</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#dayofweekamountdiscount">DayOfWeekAmountDiscount</a></li>
+<li class="toc-entry toc-h6"><a href="#periodamountdiscount">PeriodAmountDiscount</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h5"><a href="#action-중간추상층-추가">Action 중간추상층 추가</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#percentdiscount">PercentDiscount</a></li>
+<li class="toc-entry toc-h6"><a href="#nonediscount">NoneDiscount</a></li>
+<li class="toc-entry toc-h6"><a href="#overlappeddiscount---불가-action-1개당-1개의-condition만-배정되는-상태">OverlappedDiscount -&gt; 불가. action 1개당 1개의 condition만 배정되는 상태</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h5"><a href="#정책적용-객체specialty가-여러-정책객체최종구상체를-가지게-하기">정책적용 객체(Specialty)가 여러 정책객체(최종구상체)를 가지게 하기</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#method2-1-전략condition을-머금은-템플릿policy">method2-1: 전략condition을 머금은 템플릿policy</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#설명-1">설명</a></li>
+<li class="toc-entry toc-h4"><a href="#실습-1">실습</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#method2-2-템플릿policy를-일반class--전략policy로-변환2개의-전략객체를-사용하는-일반policy">method2-2: 템플릿policy를 일반class + 전략policy로 변환(2개의 전략객체를 사용하는 일반policy)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#설명-2">설명</a></li>
+<li class="toc-entry toc-h4"><a href="#실습-2">실습</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#method2-3-policy전략객체마다-위임캐싱된-policy전략factory-생성">method2-3: policy전략객체마다 위임&amp;캐싱된 policy전략Factory 생성</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#설명-3">설명</a></li>
+<li class="toc-entry toc-h4"><a href="#실습-3">실습</a></li>
+</ul>
+</li>
+</ul><h3 id="준비물정책-조건과-액션">
+<a class="anchor" href="#%EC%A4%80%EB%B9%84%EB%AC%BC%EC%A0%95%EC%B1%85-%EC%A1%B0%EA%B1%B4%EA%B3%BC-%EC%95%A1%EC%85%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>준비물(정책 조건과 액션)</h3>
+
+<ol>
+  <li>정책 조건과 액션 종류
+    <ol>
+      <li>조건(-Condition)
+        <ol>
+          <li>Sequence: 순서에 해당한다는 조건(혹은 선착순 몇명 안에 조건)</li>
+          <li>Period: 특정 기간내에 해당한다는 조건(혹은 특정기간에 드는 조건)</li>
+          <li>DayOfWeek: 특정 요일에 해당한다는 조건</li>
+          <li>None: 조건없이 시행</li>
+        </ol>
+      </li>
+      <li>액션(-Discount)
+        <ol>
+          <li>Amount: 일정 금액을 Discount해준다.</li>
+          <li>Percent: 일정비율을 Discount해준다.</li>
+          <li>None: 할인 없음.</li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<h3 id="method1-triggeraction의-인터페이스--마커-인터페이스">
+<a class="anchor" href="#method1-triggeraction%EC%9D%98-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4--%EB%A7%88%EC%BB%A4-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>method1: trigger+action의 인터페이스 + 마커 인터페이스</h3>
+
+<h4 id="설명">
+<a class="anchor" href="#%EC%84%A4%EB%AA%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>설명</h4>
+
+<ol>
+  <li>
+    <p>정책 <strong>condition</strong> 인터페이스: <strong>trigger와 action추상메서드를 다 가질 것임.</strong></p>
+
+    <ol>
+      <li>발동조건 검증 메서드 역할(추메)</li>
+      <li>액션 메서드 역할(추메)</li>
+    </ol>
+  </li>
+  <li>
+    <p>정책 <strong>action</strong> 인터페이스: <strong>마커인터페이스들을 내부에서 가짐.(enum과 비슷한 역할)</strong></p>
+
+    <ul>
+      <li>
+        <p>enum대신 인터페이스 속 마커 인터페이스들로 구성 됨.</p>
+      </li>
+      <li>
+        <p>마커인 이유: 실제 정책내용을 같이 붙어다니는 조건 정책의 액션메서드에서 실제 정책내용을 구현할 예정</p>
+
+        <ol>
+          <li>
+            <p><strong>정책 trigger 인터페이스가 2개의 추상메서드(trigger, action)을 다 가진다.</strong></p>
+          </li>
+          <li>
+            <p><strong>정책action마커인터페이스를 구현한 <code class="language-plaintext highlighter-rouge">정책action별 중간추상층(추상class)</code>을 두어 1개의 추상메서드만 구현한다.</strong></p>
+
+            <ul>
+              <li><strong>이 때, <code class="language-plaintext highlighter-rouge">특정 action마커인터페이스 구현 &amp;&amp; action메서드를 먼저 구현</code>한 중간추상층으로 만들어야</strong></li>
+            </ul>
+          </li>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">정책을 적용할 객체</code> 생성시, <code class="language-plaintext highlighter-rouge">특정 action 중간추상층 알도록(T자리에 대체)</code>한 최종구상체를 선택하여 <code class="language-plaintext highlighter-rouge">action이 적용된 객체</code>를 생성할 수 있게 된다.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220629162111785.png" alt="image-20220629162111785"></p>
+          </li>
+          <li>
+            <p>제네릭을 통해, 특정action추상층을 알게된 <code class="language-plaintext highlighter-rouge">정책적용객체</code>는 <code class="language-plaintext highlighter-rouge">제네릭으로 알게된 만큼, 그 추상층를 생성자 인자</code>로 사용하여, <strong>생성자에서 <code class="language-plaintext highlighter-rouge">구상체</code>들을 받을 수 있게 된다.</strong></p>
+          </li>
+          <li>
+            <p><strong>action별 중간추상층마다 <code class="language-plaintext highlighter-rouge">condition별 최종구상층</code>을 만들어서, condition메서드를 구현하여 구상화한다.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220629163810539.png" alt="image-20220629163810539"></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220629123058343.png" alt="image-20220629123058343" style="zoom: 80%;"></p>
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<ul>
+  <li>
+    <p>my)</p>
+
+    <ul>
+      <li>
+        <p>각각이 추상메서드로 가지는 인터페이스로 구현했다면?</p>
+
+        <ul>
+          <li>DiscountPolicy인터페이스에 action메서드가 올라가며</li>
+          <li>DiscountCondition인터페이스의 trigger메서드도 같이 implements하여</li>
+          <li>최종구상체는 2개의 메서드를 구상하게 된다.</li>
+          <li>하지만, movie마다 특정 action정책을 줘야하는 카테고리화를 못한다(action별 추상층이 없다)</li>
+          <li>movie가 특정action에 대한 여러 condition들을 동시에 인자로 받을 수 없다(action별 추상층이 없다.)</li>
+        </ul>
+      </li>
+      <li>
+        <p>action X condition의 조합의 상태에서,</p>
+
+        <ul>
+          <li><strong>2가지 중 1가지로 카테고리화하려면, 추상층이 2개(action -&gt; condition  or  condition -&gt; action)여야하며</strong></li>
+          <li><strong>카테고리 대상(action)인터페이스를 먼저 구현하는 중간추상층이  필요하다.</strong></li>
+          <li>조합의 나머지(condition)은 구상층에서 구현한다.</li>
+          <li>상위 추상층은 2개의 메서드를 가지는 1개(DiscountCondition)로도 충분하지만</li>
+          <li>1개 메서드를 구현한 중간추상층을 만들 때, <strong><code class="language-plaintext highlighter-rouge">중간추상층별 나는 특정action 상층이다!</code>를 나타내줄 <code class="language-plaintext highlighter-rouge">마커인터페이스들</code>이 필요하다.</strong>
+</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220629172007035.png" alt="image-20220629172007035"></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="실습">
+<a class="anchor" href="#%EC%8B%A4%EC%8A%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>실습</h4>
+
+<h5 id="action-중간추상층-1개---conditionaction-최종구상체-1개--생성">
+<a class="anchor" href="#action-%EC%A4%91%EA%B0%84%EC%B6%94%EC%83%81%EC%B8%B5-1%EA%B0%9C---conditionaction-%EC%B5%9C%EC%A2%85%EA%B5%AC%EC%83%81%EC%B2%B4-1%EA%B0%9C--%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Action 중간추상층 1개 -&gt; Condition+Action 최종구상체 1개  생성</h5>
+
+<ol>
+  <li>
+    <p><strong>정책을 적용할 객체를 정책주입 없이 먼저 구현한다.</strong></p>
+
+    <ul>
+      <li>
+        <p>내부 정책이 적용될 대상메서드 등이 다 구현되어있어야한다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220629174625128.png" alt="image-20220629174625128"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>적용할 정책을 설계해보기 위해, client에서 그림을 그려보기</strong></p>
+
+    <ul>
+      <li>
+<strong>정책적용은 action</strong>(어떤 할인 적용할지)  <strong>vs condition</strong>(어떤 조건에 적용할지) <strong>2가지 카테고리가 있는 상태</strong>다
+        <ol>
+          <li>각 카테고리마다 나올 <strong>2가지 전략메서드를 한개의 인터페이스에 몰아넣는다 생각한다.</strong>
+</li>
+          <li><strong>먼저 1개는 중간추상층엑에서 구현 -&gt; 나머지 1개는 최종구상체에 이름을 추가하여 구현한다고 생각한다</strong></li>
+          <li>
+<strong>먼저 구현할 카테고리의 종류마다 -&gt; 나머지 카테고리들을 가지게 된다고 생각한다.</strong>
+            <ul>
+              <li>action을 먼저 구현한다면
+                <ul>
+                  <li>
+<strong>Amount</strong>Discount, <strong>Percent</strong>Discount (중간추상층 2개)
+                    <ul>
+                      <li>
+<strong>a</strong>AmountDiscount, <strong>b</strong>AmountDiscount, <strong>c</strong>AmountDiscount,<strong>d</strong>AmountDiscount (각 중간추상층 마다 4개)</li>
+                      <li>
+<strong>a</strong>PercentDiscount, <strong>b</strong>PercentDiscount, <strong>c</strong>PercentDiscount,<strong>d</strong>PercentDiscount (각 중간추상층 마다 4개)</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li><strong>그렇다면, 2가지 카테고리 중 <code class="language-plaintext highlighter-rouge">어느 카테고리를 먼저 선택</code>할 것인지에 따라 <code class="language-plaintext highlighter-rouge">중간추상층으로 먼저 구현</code>하게 한다고 생각한다</strong></li>
+          <li><strong>정책적용 객체는 <code class="language-plaintext highlighter-rouge">중간추상층을 upperbound</code>로 제네릭을 적용하여 -&gt; <code class="language-plaintext highlighter-rouge">해당 중간추상층을 구상체들만</code> 알고서 인자/파라미터에 받을 수 있게하여 <code class="language-plaintext highlighter-rouge">해당 카테고리의 1개만 적용</code>할 수 있게 한다고 생각한다.</strong></li>
+        </ol>
+      </li>
+      <li>
+        <p>아래의 예시는</p>
+
+        <ul>
+          <li>
+            <p><strong>action으로 먼저 카테고리화하고, 각 action마다 중간추상층을 만들 것이다.</strong></p>
+          </li>
+          <li>
+            <p><strong>제네릭에 action중간추상층을 사용하면, 내부 T로 정의한 변수들은 중간추상층의 구상체들만 올 수있게 되므로, 해당action에 대한 condition들을 선택하여 집어넣을 수 있다.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220701133250205.png" alt="image-20220701133250205"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>먼저 적용할 카테고리인 action 중에 1개의 중간추상층</strong>과 <strong>condition 중 1개를 추가반영한 최종구상체</strong> 1개를 반영해 빨간줄로 만든다.</p>
+    <ul>
+      <li>
+<strong>최종구상체를 먼저 만들고 -&gt; extends 중간추상층 -&gt; impl 상위추상층 <code class="language-plaintext highlighter-rouge">DiscountCondition</code></strong>을 만든다.
+        <ul>
+          <li>상위추상층의 이름이 Condition인 이유는, **중간추상층에 action을 구현했다는 마커인터페이스를 DiscountPolicy 내부에서 만들것 이기 때문 **</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220701133309755.png" alt="image-20220701133309755"></p>
+
+<ol>
+  <li>
+    <p><strong>최종구상층 1개 -&gt; 중간추상층 중 1개 -&gt; <code class="language-plaintext highlighter-rouge">action+condition 전략메서드 2개를 달 예정인, 상위 추상층 DiscountCondition</code> -&gt; action마커인터페이스</strong>를 순서대로 <strong>틀만 만든다.</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>최종구상층을 1개를 먼저</strong> 만들되, 중간추상층을 상속하도록 만들고, 중간추상층도 상위추상층 DiscountCondition을 implements하도록 만든다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/622e14b6-0dff-47ab-98e5-961d785e29d8.gif" alt="622e14b6-0dff-47ab-98e5-961d785e29d8"></p>
+      </li>
+      <li>
+        <p><strong>사용 제네릭의 빨간줄을 해당class정의부에 T로 만들어주는 기능은 없다. -&gt; <code class="language-plaintext highlighter-rouge">생성자에 파라미터 추가</code>를 이용해 해당 제네릭에 최종구상체의 추상체인 중간추상층이 들어가도록 <code class="language-plaintext highlighter-rouge">특정형 T -&gt; upperbound 상위추상층</code>으로 내부에 정의해서 <code class="language-plaintext highlighter-rouge">빨간줄제네릭을 해결</code></strong> 하도록 해야한다.</p>
+
+        <ul>
+          <li>
+<strong>하지만, 제네릭 빨간줄 때문에 생성자 자동생성이 안된다. 잠시 지웠다가, 생성자에 <code class="language-plaintext highlighter-rouge">T형(사용시 중간추상층 들어갈 예정) 파라미터로 들어가는 전략객체</code>를 추가하고, <code class="language-plaintext highlighter-rouge">T upperbound 상위추상층</code>으로 정의 한뒤 사용제네릭을 다시 넣어주자.</strong>
+            <ul>
+              <li>
+<strong>T에는 최종구상체들의 추상체인 <code class="language-plaintext highlighter-rouge">[중간추상층들이 사용]될 수 이도록 T type 파라미터 -&gt; [T의 upperbound에 상위추상층]</code>으로 지정해줘야한다.</strong>
+                <ul>
+                  <li><strong>사용되는 제네릭 중간추상층은 <code class="language-plaintext highlighter-rouge">T 정의시 직접적으로 사용X upperbound에 의해 결정</code>되는 것이 제네릭의 특징</strong></li>
+                </ul>
+              </li>
+              <li>최종구상체들의 파라미터를 T로 정의하여 <strong>생성자 인자 추가</strong>때, change signature에 <strong>추가 되는 인자에 대해 최종구상체 1개 deafult value로 들어가면 related problem들이 알아서 해결</strong>됨.</li>
+            </ul>
+          </li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/f5a4f9a5-b0d1-4e12-9f8d-b2122aa7593c.gif" alt="f5a4f9a5-b0d1-4e12-9f8d-b2122aa7593c"></p>
+      </li>
+      <li>
+        <p>생성자에 주입받은 정책용 전략객체를 필드로 받아준다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220701155331929.png" alt="image-20220701155331929"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>이제 정책적용에 필요한 2가지 <code class="language-plaintext highlighter-rouge">전략메서드를 사용하면서 하나씩 정의</code>하고 올려준다.</strong></p>
+
+    <ul>
+      <li>
+        <p>할인정책을 적용할 메서드(calculateFee) 내부에서</p>
+
+        <ol>
+          <li>
+            <p>정책 적용전 로직은 그대로 두고, <strong>early return을 활용하여 <code class="language-plaintext highlighter-rouge">정책적용시 변화가 생길 field</code>를 action메서드의 인자로 + <code class="language-plaintext highlighter-rouge">정책조건에 판단정보의 field</code>를 trigger메서드의 인자로</strong>받아가며 아래와 같이 정의해준다.</p>
+
+            <ol>
+              <li>
+<strong>if 정책객체.isStatisFiedBy()</strong>를 사용하여 <strong>정책 조건trigger메서드를 사용하고</strong>
+</li>
+              <li>
+<strong>if내부 early return에 <code class="language-plaintext highlighter-rouge">기존 반환값 로직</code>에서 <code class="language-plaintext highlighter-rouge">정책을 적용하여 바뀔 부분</code>과 <code class="language-plaintext highlighter-rouge">나머지 로직</code>을 나눈 뒤, <code class="language-plaintext highlighter-rouge">정책 적용 대상</code>만 정책 적용action메서드의 인자로 사용</strong>한다. <strong>이 때, 정책적용전 메서드 이름을 가져온다.</strong>
+</li>
+            </ol>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220701161018186.png" alt="image-20220701161018186"></p>
+          </li>
+        </ol>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/b315ff3f-9b52-4bcd-9118-88f13bc0a6ea.gif" alt="b315ff3f-9b52-4bcd-9118-88f13bc0a6ea"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220701155940305.png" alt="image-20220701155940305"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">빨간불로 최종구상체에서 작성한 2개의 전략메서드 create method</code>하면 <code class="language-plaintext highlighter-rouge">중간최상층을 지나 바로 -&gt; 상위추상층(인터페이스)에 알아서 오페이터로 작성</code>된다.</strong></p>
+
+    <ul>
+      <li>최종구상체 : isSatisfiedBy의 2번째 카테고리(Condition)만 개별구현할 예정</li>
+      <li>중간추상층 : calculateFee의 1번째 카테고리(Policy)만 개별구현할 예정
+        <ul>
+          <li><strong>이 때, 중간추상층마다 가질 action별 마커인터페이스를 달아줄 예정</strong></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/6763fa0c-661e-4668-a1f4-6be7025587c5.gif" alt="6763fa0c-661e-4668-a1f4-6be7025587c5"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220701161744298.png" alt="image-20220701161744298"></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">중간추상층</code>은 2개의 오페이터 중 <code class="language-plaintext highlighter-rouge">action 메서드만 먼저 구현</code>하고,  <code class="language-plaintext highlighter-rouge">최종구상층</code>은 나머지 <code class="language-plaintext highlighter-rouge">trigger 메서드</code>를 구현한다.</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220701162009758.png" alt="image-20220701162009758"></p>
+
+    <ol>
+      <li>
+        <p><strong>중간추상층은 에서 action메서드 구현시, <code class="language-plaintext highlighter-rouge">정책 적용에 필요한 정보</code>들은 <code class="language-plaintext highlighter-rouge">추상클래스의 생성자주입</code>으로 해결하고, <code class="language-plaintext highlighter-rouge">나중에 최종구상체들이 그 생성자주입부 + 필드를 super()로 물려받아 구상체 생성시 받아서 부모에게 넘겨준다</code></strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/2ed7522c-df2a-4a03-bff7-9f80c27bde55.gif" alt="2ed7522c-df2a-4a03-bff7-9f80c27bde55"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220701162620673.png" alt="image-20220701162620673"></p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">주의</code>! 중간추상층은 <code class="language-plaintext highlighter-rouge">추상층으로서 개별구현이 구현되면 반드시 final로 자식이 못건들이게 막자</code> -&gt; <code class="language-plaintext highlighter-rouge">추상층에 구현된 개별구현 method + 사용된 field</code></strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220701164435699.png" alt="image-20220701164435699"></p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>최종구상체는 <code class="language-plaintext highlighter-rouge">실제 외부Client에서 생성되고, 값을 받아들이는 놈</code>으로서 <code class="language-plaintext highlighter-rouge">부모의 생성자주입에 필요한 값을 자식이 대신 받아</code> <code class="language-plaintext highlighter-rouge">super()</code>를 통해 부모선에서 처리되도록 던져준다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/1701b44f-10f5-4457-8e26-6eeb63316d61.gif" alt="1701b44f-10f5-4457-8e26-6eeb63316d61"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220701164832888.png" alt="image-20220701164832888"></p>
+  </li>
+  <li>
+    <p><strong>최종 구상체는 2개 전략메서드 중 1개인 <code class="language-plaintext highlighter-rouge">정책조건trigger메서드를 구현</code>하며, 필요한 것이 있으면 생성자로부터 받아서 정의한다.</strong></p>
+
+    <ul>
+      <li>Sequence -&gt;  Treatment정보에 찍혀있으며, <strong><code class="language-plaintext highlighter-rouge">외부에서 입력해줄 선착순 sequence명</code>에게만 적용되는 정책조건이라고 가정</strong>하자.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/9412b45b-4451-4dec-85b3-34eda2ea37a8.gif" alt="9412b45b-4451-4dec-85b3-34eda2ea37a8"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220701165529581.png" alt="image-20220701165529581"></p>
+  </li>
+  <li>
+    <p>최종구상체의 주입을 받는 부분에서,  <strong>최종구상체의 생성자주입 인자 중간추상층(부모)용 1개 + 최종구상체용 1개</strong> 의 인자가 늘어나므로 <strong>deafult값을 미리 명시</strong>해놓고  주거나 안꼬이게 할려면, 미리 NONE정책으로 구현했어야할 듯 하다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220701165922687.png" alt="image-20220701165922687"></p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">ctrl+F6</code>으로 생성자에서 Sequence를 삭제후 바로</strong> <strong>정책조건에 만족 안되는 값을 default로 주기</strong></p>
+
+        <ul>
+          <li><strong>중간추상층에 default값을 주면, <code class="language-plaintext highlighter-rouge">최종구상층에 적용</code>되어버리니 하지말기</strong></li>
+          <li><strong><code class="language-plaintext highlighter-rouge">super()에 들어갈 부모를 위한 생성자인자</code>도 <code class="language-plaintext highlighter-rouge">최종구상층에서 지웠다가 default값과 함께 추가</code>하기</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/9049c127-7148-4c77-9dea-27a7eb708029.gif" alt="9049c127-7148-4c77-9dea-27a7eb708029"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/d526c636-9875-4833-8604-5de5a6405ea4.gif" alt="d526c636-9875-4833-8604-5de5a6405ea4">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220701170329563.png" alt="image-20220701170329563"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>중간추상층의 abstract class에 <code class="language-plaintext highlighter-rouge">Discountpolicy 카테고리인터페이스 &gt; 개별 마커인터페이스</code>로 1개 카테고리의 개별종류 표시하기</strong></p>
+
+    <ul>
+      <li>Amount외에 Percent, Count, None 등의 할인정책action들이 있다.</li>
+      <li>
+<strong>메서드가 없는 마커인터페이스를 만들고, 하위 최종구상체들을 묶어줄 카구체 테고리를 표시한다.</strong>
+        <ul>
+          <li>
+<strong>현재 Condition X policy의 조합인데, 인터페이스가 그만큼 명시되어있어야하며, Amount계열/Pecent계열의 최종구상체를 묶어서 한번에 처리할 수 있다?</strong>
+            <ul>
+              <li>추상클래스론 안되는가??</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <ol>
+      <li>
+        <p><strong>DiscountPolicy의 카테고리 인터페이스를 만든다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220701174315226.png" alt="image-20220701174315226"></p>
+      </li>
+      <li>
+        <p><strong>인터페이스 내부에서 마커인터페이스들을 만든다.</strong></p>
+
+        <ul>
+          <li>인터페이스 내부 인터페이스는 <strong><code class="language-plaintext highlighter-rouge">상위인터페이스{}</code>를 <code class="language-plaintext highlighter-rouge">extends</code>하여 구현한다.</strong>
+</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220701181420024.png" alt="image-20220701181420024"></p>
+      </li>
+      <li>
+        <p><strong>완성된 action중간추상층에 마커인터페이스를 <code class="language-plaintext highlighter-rouge">추가 impl</code>한다.</strong></p>
+
+        <ul>
+          <li>extends상속은 1개만 되지만,</li>
+          <li>카테고리 인터페이스의 implements는 콤마로 여러 개 할 수 있다.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220701181633711.png" alt="image-20220701181633711"></p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">중간추상층의  제네릭사용</code>을 위한 <code class="language-plaintext highlighter-rouge">정책적용객체(Specialty)</code>의 <code class="language-plaintext highlighter-rouge">제네릭정의부 T의 upperbound</code>를  중간추상층의 상위추상층을 줘야하는데, 1개더 추가되었을 땐, <code class="language-plaintext highlighter-rouge">&lt;T extends A &amp; B&gt;</code>형태로 <code class="language-plaintext highlighter-rouge">&amp; 추가인터페이스</code>를 주면 된다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220701181902023.png" alt="image-20220701181902023"></p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>완성된 discountpolicy 관련 파일들을 <code class="language-plaintext highlighter-rouge">discountpolicy패키지로 이동</code>시키고, <code class="language-plaintext highlighter-rouge">개별 action중간추상층별로 패키지를 만들어서 관리</code>한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220701182023449.png" alt="image-20220701182023449"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220701182127338.png" alt="image-20220701182127338"></p>
+  </li>
+</ol>
+
+<h5 id="최종구상체들추가-conditionaction">
+<a class="anchor" href="#%EC%B5%9C%EC%A2%85%EA%B5%AC%EC%83%81%EC%B2%B4%EB%93%A4%EC%B6%94%EA%B0%80-conditionaction" aria-hidden="true"><span class="octicon octicon-link"></span></a>최종구상체들추가 Condition+Action</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702114805493.png" alt="image-20220702114805493"></p>
+
+<ol>
+  <li>
+    <p><strong>이제<code class="language-plaintext highlighter-rouge"> AMOUNT계열</code>의 Sequnce Trigger외 다른condition들을 반영한 <code class="language-plaintext highlighter-rouge">최종구상체들</code>을 늘려간다.</strong></p>
+
+    <ol>
+      <li>
+        <p>AmountDiscount라는 중간추상층(추상클래스)가 인터페이스 2개와 1개의 전략메서드를 구현하고 있으니, <strong>최종구상체는 추상클래스 1개 상속 및 super()에 전달위한 인자 생성자 주입</strong>만 해주면 된다.</p>
+
+        <ul>
+          <li>Sequence 조건외에 <code class="language-plaintext highlighter-rouge">Period</code>, <code class="language-plaintext highlighter-rouge">Weekend</code>이 남았음</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/9cb38c56-0459-4fea-9b38-00c06c0a9b78.gif" alt="9cb38c56-0459-4fea-9b38-00c06c0a9b78"></p>
+      </li>
+      <li>
+        <p>추가된 2개의 AMOUNT계열 최종구상체의 trigger메서들 구현한다</p>
+
+        <ul>
+          <li><a href="https://java119.tistory.com/52">요일참고 블로그</a></li>
+          <li>
+            <p><a href="https://eastglow.github.io/back-end/2019/03/19/Java-%ED%8A%B9%EC%A0%95-%EB%82%A0%EC%A7%9C%EA%B0%80-%ED%8A%B9%EC%A0%95-%EA%B8%B0%EA%B0%84-%EC%82%AC%EC%9D%B4%EC%97%90-%EC%9E%88%EB%8A%94%EC%A7%80-%EC%B2%B4%ED%81%AC%ED%95%98%EA%B8%B0.html">특정날짜 기간 참고</a></p>
+          </li>
+          <li>(예비) <a href="https://github.com/LenKIM/object-book/blob/master/object-origin-book/chapter09/src/main/java/org/eternity/movie/step03/pricing/PeriodCondition.java">시간대 period적용시에는 참고</a>
+</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<h6 id="dayofweekamountdiscount">
+<a class="anchor" href="#dayofweekamountdiscount" aria-hidden="true"><span class="octicon octicon-link"></span></a>DayOfWeekAmountDiscount</h6>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702113907731.png" alt="image-20220702113907731"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702113952530.png" alt="image-20220702113952530"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702113917236.png" alt="image-20220702113917236"></p>
+
+<h6 id="periodamountdiscount">
+<a class="anchor" href="#periodamountdiscount" aria-hidden="true"><span class="octicon octicon-link"></span></a>PeriodAmountDiscount</h6>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702114034822.png" alt="image-20220702114034822"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702114050396.png" alt="image-20220702114050396"></p>
+
+<h5 id="action-중간추상층-추가">
+<a class="anchor" href="#action-%EC%A4%91%EA%B0%84%EC%B6%94%EC%83%81%EC%B8%B5-%EC%B6%94%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>Action 중간추상층 추가</h5>
+
+<ul>
+  <li>
+    <p>action을 구현한 action 중간추상층은 아래과 같이 형성되어있다.</p>
+
+    <ol>
+      <li>
+<strong>package로 따로 분리</strong>해서, 하위에 condition을 단 최종구상체들이 오도록 한다.</li>
+      <li>
+<strong>2개의 오퍼레이터를 가진 상위추상층 DiscountPolicy</strong>와 <strong>action에 대한 마커인터페이스 DiscounPolicy.XXXX</strong> 2개의 인터페이스를 구현한 <strong>추상클래스</strong>로 만든다.</li>
+      <li>action메서드 <strong>구현에 필요한 것은 생성자 주입</strong>으로 받는다.
+        <ul>
+          <li>추상메서드(오페레이터, 전략메서드)에서는 이미 시그니쳐가 정해져있음.</li>
+        </ul>
+      </li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/e3f19794-3572-4d3a-93cb-038096223569.gif" alt="e3f19794-3572-4d3a-93cb-038096223569"></p>
+  </li>
+</ul>
+
+<h6 id="percentdiscount">
+<a class="anchor" href="#percentdiscount" aria-hidden="true"><span class="octicon octicon-link"></span></a>PercentDiscount</h6>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702124241422.png" alt="image-20220702124241422"></p>
+
+<h6 id="nonediscount">
+<a class="anchor" href="#nonediscount" aria-hidden="true"><span class="octicon octicon-link"></span></a>NoneDiscount</h6>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702120315954.png" alt="image-20220702120315954"></p>
+
+<h6 id="overlappeddiscount---불가-action-1개당-1개의-condition만-배정되는-상태">
+<a class="anchor" href="#overlappeddiscount---%EB%B6%88%EA%B0%80-action-1%EA%B0%9C%EB%8B%B9-1%EA%B0%9C%EC%9D%98-condition%EB%A7%8C-%EB%B0%B0%EC%A0%95%EB%90%98%EB%8A%94-%EC%83%81%ED%83%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>OverlappedDiscount -&gt; 불가. action 1개당 1개의 condition만 배정되는 상태</h6>
+
+<ul>
+  <li>현재 movie에는 1개의 action - 1개의 condition이 반영된 최종구상체만 들어간다.
+    <ul>
+      <li>만약, <strong>1개의 action을 여러번 적용하려면, <code class="language-plaintext highlighter-rouge">정책적용 객체</code>가 <code class="language-plaintext highlighter-rouge">여러개의 정책객체를 받도록</code> <code class="language-plaintext highlighter-rouge">해당계열 최종구상체들을 가변배열</code>로 여러개 받게 한다.</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="정책적용-객체specialty가-여러-정책객체최종구상체를-가지게-하기">
+<a class="anchor" href="#%EC%A0%95%EC%B1%85%EC%A0%81%EC%9A%A9-%EA%B0%9D%EC%B2%B4specialty%EA%B0%80-%EC%97%AC%EB%9F%AC-%EC%A0%95%EC%B1%85%EA%B0%9D%EC%B2%B4%EC%B5%9C%EC%A2%85%EA%B5%AC%EC%83%81%EC%B2%B4%EB%A5%BC-%EA%B0%80%EC%A7%80%EA%B2%8C-%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>정책적용 객체(Specialty)가 여러 정책객체(최종구상체)를 가지게 하기</h5>
+
+<ul>
+  <li>
+    <p>action과 trigger를 동시에 가지는 정책객체이므로 <strong>여러 trigger를 돌면서 fee객체에 <code class="language-plaintext highlighter-rouge">만족시마다 여러번 정책 적용</code>시키도록, <code class="language-plaintext highlighter-rouge">생성자 주입 정책객체를 가변배열로 여러개</code> 받도록 수정하기</strong></p>
+
+    <ul>
+      <li>
+        <p>변경전</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702125635800.png" alt="image-20220702125635800"></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>생성자 파라미터를 <code class="language-plaintext highlighter-rouge">...</code> 가변배열로 바꾼다.</strong></p>
+  </li>
+  <li>
+    <p>필드를 <strong>빈 Set으로 바꾼다.</strong></p>
+  </li>
+  <li>
+    <p>생성자에서 <strong>배열 -&gt; List -&gt; addAll 으로 초기화</strong>해준다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/010c1558-4d73-4569-b570-09e1a448855e.gif" alt="010c1558-4d73-4569-b570-09e1a448855e"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702131044105.png" alt="image-20220702131044105"></p>
+  </li>
+  <li>
+    <p><strong>여러개의 정책객체를 for문으로 돌면서, 만족할때마다 적용시켜주며, <code class="language-plaintext highlighter-rouge">누적 적용에 대한 코드</code>를 작성한다.</strong></p>
+
+    <ol>
+      <li>
+<code class="language-plaintext highlighter-rouge">.multi(count)</code>는 1개당 가격에 정책이 다 적용된 뒤 곱해야한다.</li>
+      <li>여러개가 누적되서 적용이므로 <strong>누적적용용 재할당 누적변수</strong>를 for문 위에 만들어놓는다.
+        <ul>
+          <li>
+<strong>내부에서 trigger를 만족할때마다 누적변수에 적용</strong> 후 <strong>누적변수에 재할당</strong>한다.</li>
+        </ul>
+      </li>
+      <li>마지막에 정책적용후 로직인 <code class="language-plaintext highlighter-rouge">.multi(count)</code>를 적용한다.</li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702132713712.png" alt="image-20220702132713712"></p>
+  </li>
+</ol>
+
+<h3 id="method2-1-전략condition을-머금은-템플릿policy">
+<a class="anchor" href="#method2-1-%EC%A0%84%EB%9E%B5condition%EC%9D%84-%EB%A8%B8%EA%B8%88%EC%9D%80-%ED%85%9C%ED%94%8C%EB%A6%BFpolicy" aria-hidden="true"><span class="octicon octicon-link"></span></a>method2-1: 전략condition을 머금은 템플릿policy</h3>
+
+<h4 id="설명-1">
+<a class="anchor" href="#%EC%84%A4%EB%AA%85-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>설명</h4>
+
+<ul>
+  <li>
+    <p><a href="https://blog.chojaeseong.com/object/2022/05/25/object1-15">참고 내 블로그</a>object_part1_summary.html#discountpolicy-1)</p>
+  </li>
+  <li>
+    <p>as-is</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702164431579.png" alt="image-20220702164431579"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702163401201.png" alt="image-20220702163401201"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702171035277.png" alt="image-20220702171035277"></p>
+  </li>
+  <li>
+    <p>to-be
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702164553323.png" alt="image-20220702164553323"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702214527693.png" alt="image-20220702214527693"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702235625410.png" alt="image-20220702235625410"></p>
+  </li>
+  <li>
+    <p>기존 discountpolicy 관련 로직을 다 삭제함</p>
+
+    <ul>
+      <li><a href="https://github.com/is2js/HospitalPackageManager/commit/8876371c20894cde6e35d3bdf516e4ecee7bddc1">step4</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="실습-1">
+<a class="anchor" href="#%EC%8B%A4%EC%8A%B5-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>실습</h4>
+
+<ol>
+  <li>
+    <p><strong>정책적용 대상 객체(Specialty)에 <code class="language-plaintext highlighter-rouge">action policy(템플릿)의 구상체부터 시작</code></strong>하되, <code class="language-plaintext highlighter-rouge">step1의 2개 인터페이스 조합 -&gt; action중간추상층을 생성 -&gt; 특정 중간추상층을 사용하기 위한 제네릭 </code>이 필요 없다.</p>
+
+    <ul>
+      <li>직전: 최종구상체 SequenceAmountDiscount -&gt; action 중간추상층 AmountDiscount -&gt; 그외 action추상층들을 제네릭으로 선택해야, 그 하위 condition조합된 최종구상층들을 받을 수 있었음.</li>
+      <li>현재: condition전략을 선택해서 받은 action템플릿의 자식1개만 알면 된다.
+        <ul>
+          <li><strong>조합으로 인해 생긴 중간추상층이 없음 -&gt; 제네릭 필요 없음.</strong></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702175358898.png" alt="image-20220702175358898"></p>
+
+    <ul>
+      <li>생성자 인자 추가시 <code class="language-plaintext highlighter-rouge">change signature -&gt; default value</code>를 활용한다.
+        <ul>
+          <li>기존에 생성되어 사용되고 있는 객체면, 자동으로 defaultValue 지정 change signature가 뜸.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/4cea01d0-f858-4213-a416-711282566b84.gif" alt="4cea01d0-f858-4213-a416-711282566b84"></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">정책적용대상 객체 내부</code>에서, 생성자로 받은 <code class="language-plaintext highlighter-rouge">action템플릿 객체를 사용</code>해서 -&gt; <code class="language-plaintext highlighter-rouge">추상체 변수로 받으면서 추상클래스 생성</code> + <code class="language-plaintext highlighter-rouge">public 템플릿메소드를 빨간줄로 완성</code>해보자.</strong></p>
+
+    <ul>
+      <li><strong>action템플릿메소드는 <code class="language-plaintext highlighter-rouge">정책적용 필드</code> 뿐만 아니라 <code class="language-plaintext highlighter-rouge">내부에 머금을 condition을 위한 조건정보(treatment, count)</code>도 같이 건네줘야한다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/2d836cc3-f0f0-42ba-bd77-68518a7e3535.gif" alt="2d836cc3-f0f0-42ba-bd77-68518a7e3535"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702180820809.png" alt="image-20220702180820809"></p>
+
+    <ul>
+      <li>
+        <p><strong>템플릿 추상층만 만들었으니, 연결해준다.</strong></p>
+
+        <ul>
+          <li>훅메서드를 만들어서 올리는 구조가 아니라서 직접 상속해준다.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702183252725.png" alt="image-20220702183252725"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>action템플릿을 작성할 때, <strong>구상체로부터 올리는 것은 <code class="language-plaintext highlighter-rouge">@Override + protected 훅메서드</code>밖에 없으니 <code class="language-plaintext highlighter-rouge">템플릿메소드부터 직접 작성</code>해준다</strong></p>
+
+    <ul>
+      <li>
+<strong>여기서 템플릿action에서는 <code class="language-plaintext highlighter-rouge">여러개의 condition전략객체들</code>을 알고 있다고 가정한다.</strong>
+        <ul>
+          <li>여러 조건들을 다 적용시킬 예정</li>
+        </ul>
+      </li>
+      <li><strong><code class="language-plaintext highlighter-rouge">템플릿 메소드 내에서 훅메서드 만드는 방법</code>은 <code class="language-plaintext highlighter-rouge">내수용 private메서드로 작성</code>해서 <code class="language-plaintext highlighter-rouge">proteced abstract</code>로 빼야한다.</strong></li>
+    </ul>
+
+    <ol>
+      <li>conditions들을 반복문 돌리려면, DiscountCondition전략인터페이스 생성 -&gt; 빈컬렉션으로 초기화 한다.</li>
+      <li>condition의 trigger전략메서드를 사용하면서 정의한다.</li>
+      <li><strong>개별action적용을 위해 <code class="language-plaintext highlighter-rouge">내수용 메서드(객체없이 정의)</code>를 통해<code class="language-plaintext highlighter-rouge">정책을 적용할 필드(객체)에 훅메서드를 건다</code>.</strong></li>
+      <li>누적 적용을 위해서, 초기값(fee 파라미터)을 누적용 변수에 넣고, 누적용 변수에 적용해서 반복문 안에서 재할당한다.</li>
+      <li>적용된 객체를 반환한다.</li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/0a34e2a9-9984-4bf7-aa29-427e672285d3.gif" alt="0a34e2a9-9984-4bf7-aa29-427e672285d3"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702182527647.png" alt="image-20220702182527647"></p>
+  </li>
+  <li>
+    <p>템플릿policy를 직접 작성하여 <strong>내부 훅이 정의 (by 내수용 메서드)되었으면</strong>, <strong>구상policy에서 훅을 구현</strong>하여 완성한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/83dc9bb7-6a04-4b65-ae0e-001cb7446ff7.gif" alt="83dc9bb7-6a04-4b65-ae0e-001cb7446ff7"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702213051959.png" alt="image-20220702213051959"></p>
+  </li>
+  <li>
+    <p><strong>action템플릿(추상클래스)도 <code class="language-plaintext highlighter-rouge">condition전략객체를 생성자 주입</code>하는데 <code class="language-plaintext highlighter-rouge">conditions가 여러개면서 유연하게 받으려면 빈컬렉션 초기화+ void setter(add)를 이용</code>한다</strong></p>
+
+    <ol>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">여러 전략객체들을 받으며</code></strong> -&gt; 빈컬렉션 필드</p>
+
+        <ul>
+          <li><strong>빈컬렉션으로 초기화한 순간 생성자에 자동주입은 안된다.</strong></li>
+          <li><strong><code class="language-plaintext highlighter-rouge">생성자에서도 받아서 add</code>하도록 시킬 수 있는데, 이럴 경우 <code class="language-plaintext highlighter-rouge">생성시 반드시 입력해야해서 유연성이 사라져버린다는 단점</code>이 생긴다.</strong></li>
+        </ul>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">policy 생성후에도 condition들을 유연하게 추가</code></strong> -&gt; ( setter-&gt;add)
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/74425e91-8575-46f8-931b-55b954737ac3.gif" alt="74425e91-8575-46f8-931b-55b954737ac3"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702183855502.png" alt="image-20220702183855502"></p>
+      </li>
+      <li>
+        <p>외부에서는  <strong>지역변수로 미리 생성해놓고고 condition전략객체들을 add해서</strong>받는다.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/75725ec8-1b16-4ba9-b0be-43721086fb05.gif" alt="75725ec8-1b16-4ba9-b0be-43721086fb05"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702184212613.png" alt="image-20220702184212613"></p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>구상 템플릿policy -&gt; 추상 템플릿policy -&gt; 구상템플릿policy 완성 -&gt; 추상 전략condition -&gt; <strong>구상 전략condition</strong>순서로 개발 중이다.</p>
+
+    <ul>
+      <li>
+        <p><strong>구상condition을 추상condition 변수자리에 넣어 사용하면서 만든다</strong>.</p>
+
+        <ul>
+          <li>구상 전략객체를 개별정의시, 역시 필요한 정보는 생성자 주입 받는다.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/8ad42169-147f-4f18-8cd1-fb80dde1acfa.gif" alt="8ad42169-147f-4f18-8cd1-fb80dde1acfa"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702213143740.png" alt="image-20220702213143740"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>전략condition 객체 1개와  전략condition을 먹금은 템플릿policy 구상체 1개가 만들어진 상태다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702214640301.png" alt="image-20220702214640301"></p>
+
+    <ul>
+      <li>
+        <p><strong>전략Condition과, 템플릿Policy가 따로 관리되므로 <code class="language-plaintext highlighter-rouge">package를 분리</code>해준다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702214813223.png" alt="image-20220702214813223"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>만들어진 구상체들을 테스트해준다.</p>
+
+    <ul>
+      <li>
+        <p><strong>가장 하위계층에 있는 condition을 테스트하고 -&gt; condition을 먹금은 템플릿policy을 테스트하는 순서대로 진행</strong>한다.</p>
+      </li>
+      <li>
+        <p><strong>템플릿의 구상체는 <code class="language-plaintext highlighter-rouge">상속된 자식</code>으로서  개별구현하는 <code class="language-plaintext highlighter-rouge">훅메서드</code> 이외에 <code class="language-plaintext highlighter-rouge">보이지 않는 템플릿메소드 및 추상클래스에 정의한 필드 + 메서드들</code>을 활용해야한다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702222121951.png" alt="image-20220702222121951"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>남은 전략Condition객체</strong> 생성</p>
+
+    <ul>
+      <li>
+        <p>PeriodCondition<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702231048260.png" alt="image-20220702231048260"></p>
+      </li>
+      <li>
+        <p>DayOfWeekCondition</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702234127414.png" alt="image-20220702234127414"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>남은 템플릿policy 구상체들 생성</strong>. 템플릿의 구상체들은 훅메서드만 개별구현한다.</p>
+
+    <ul>
+      <li>
+        <p>PercentPolicy</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702234640823.png" alt="image-20220702234640823"></p>
+      </li>
+      <li>
+        <p>NonePolicy</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220702235055319.png" alt="image-20220702235055319"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="method2-2-템플릿policy를-일반class--전략policy로-변환2개의-전략객체를-사용하는-일반policy">
+<a class="anchor" href="#method2-2-%ED%85%9C%ED%94%8C%EB%A6%BFpolicy%EB%A5%BC-%EC%9D%BC%EB%B0%98class--%EC%A0%84%EB%9E%B5policy%EB%A1%9C-%EB%B3%80%ED%99%982%EA%B0%9C%EC%9D%98-%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EC%9D%BC%EB%B0%98policy" aria-hidden="true"><span class="octicon octicon-link"></span></a>method2-2: 템플릿policy를 일반class + 전략policy로 변환(2개의 전략객체를 사용하는 일반policy)</h3>
+
+<h4 id="설명-2">
+<a class="anchor" href="#%EC%84%A4%EB%AA%85-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>설명</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220703010442315.png" alt="image-20220703010442315"></p>
+
+<ul>
+  <li>
+    <p>현재 전략condition을 머금은 <strong><code class="language-plaintext highlighter-rouge">템플릿policy(확장시 조합폭발)</code>를 확장가능성을 고려한 차악 <code class="language-plaintext highlighter-rouge">일반policy클래스 + 전략action(의존성폭발)</code>로 변경</strong>한다</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220703010930908.png" alt="image-20220703010930908"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220703121338772.png" alt="image-20220703121338772"></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/is2js/HospitalPackageManager/commit/89687c2860c5946c222f10e126f589e5bdd94d13">step5</a></p>
+  </li>
+</ul>
+
+<h4 id="실습-2">
+<a class="anchor" href="#%EC%8B%A4%EC%8A%B5-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>실습</h4>
+
+<ol>
+  <li>
+    <p>템플릿메소드패턴의 <strong>추상클래스 DiscountPolicy를 -&gt; 일반클래스로</strong> 바꾼다.</p>
+
+    <ol>
+      <li><strong>abstract제거 &amp; 훅메서드 정의 제거</strong></li>
+      <li>템플릿메소드내 훅메서드(내수용메서드)앞에 <strong>전략객체(전략메서드+ -er)</strong> <code class="language-plaintext highlighter-rouge">소문자로 달아서</code> <strong>훅메서드 -&gt; 전략객체.전략메서드()로 변경하여 개별구현시키기</strong>
+</li>
+      <li>
+<strong>전략객체를 필드로 생성후 생성자 주입</strong>
+        <ul>
+          <li>현재 전략condition을 머금고 있기 때문에, 전략객체 2개를 사용하는 일반클래스가 된다.</li>
+          <li>전략condition은 생성자 주입이 아니라, 빈컬렉션 -&gt; 여러개+유연하게 setter(add)로 처리하는 중이다.</li>
+        </ul>
+      </li>
+      <li>
+<strong>전략 인터페이스 및 오페레이터 완성</strong>
+        <ul>
+          <li>전략이 들어가는 순간 strategy패키지로 파서 넣어주자.</li>
+        </ul>
+      </li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220703125424909.png" alt="image-20220703125424909"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220703122843764.png" alt="image-20220703122843764"></p>
+  </li>
+  <li>
+    <p>템플릿메소드패턴의 <strong>구상체들</strong>을 전략객체로 변경한다. <strong>구조가 유사하므로 조금만 바꿔준다.</strong></p>
+
+    <ol>
+      <li>
+        <p>클래스명을  <code class="language-plaintext highlighter-rouge">구상내용</code>+<code class="language-plaintext highlighter-rouge">전략인터페이스명</code>으로 변경</p>
+      </li>
+      <li>
+        <p>상속을 impl로 변경</p>
+
+        <ol>
+          <li>상속관련 super() 등 삭제</li>
+        </ol>
+      </li>
+      <li>
+        <p>protected 훅메서드를 public 전략메서드로 접근제한자 변경</p>
+      </li>
+      <li>
+        <p>훅메서드명을 전략메서드로 변경</p>
+
+        <ul>
+          <li><strong>메서드명 변경이나 삭제시 f2/alt+del 이용해서 변경/삭제할 것</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/929d79a1-c499-4b7d-ab02-4bf2fc422a54.gif" alt="929d79a1-c499-4b7d-ab02-4bf2fc422a54"></p>
+      </li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220703123552827.png" alt="image-20220703123552827"></p>
+
+    <ul>
+      <li>
+        <p>나머지 템플릿 구상체들도 전략객체로 바꿔준다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220703124134384.png" alt="image-20220703124134384"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220703124208358.png" alt="image-20220703124208358"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Main이나 Test에서는 전략객체를 생성하고, 일반클래스 DiscountPolicy에 생성자 주입하도록 변경해서 사용한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220703125228058.png" alt="image-20220703125228058"></p>
+  </li>
+</ol>
+
+<h3 id="method2-3-policy전략객체마다-위임캐싱된-policy전략factory-생성">
+<a class="anchor" href="#method2-3-policy%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%A7%88%EB%8B%A4-%EC%9C%84%EC%9E%84%EC%BA%90%EC%8B%B1%EB%90%9C-policy%EC%A0%84%EB%9E%B5factory-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>method2-3: policy전략객체마다 위임&amp;캐싱된 policy전략Factory 생성</h3>
+
+<h4 id="설명-3">
+<a class="anchor" href="#%EC%84%A4%EB%AA%85-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>설명</h4>
+
+<ul>
+  <li>생성 &lt;-&gt; 사용을 분리한다.
+    <ul>
+      <li>생성해주는 Factory를 만든다.
+        <ul>
+          <li>Factory별 캐싱을 적용해서, 전략객체별-Factory객체 -&gt; 전략객체별 한번만 만든다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>생성(전략객체 생성)해주는 Factory가 사용(전략객체로 전략메서드 호출)의 책임까지 위임받는다.
+    <ul>
+      <li>전략인터페이스 구현 -&gt; 전략메서드 정의시 내부에서 생성-&gt;사용까지</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220703213949395.png" alt="image-20220703213949395"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220703213448253.png" alt="image-20220703213448253"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220703225131663.png" alt="image-20220703225131663"></p>
+
+<h4 id="실습-3">
+<a class="anchor" href="#%EC%8B%A4%EC%8A%B5-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>실습</h4>
+
+<ol>
+  <li>
+    <p><strong>전략인터페이스를 구현한 <code class="language-plaintext highlighter-rouge">위임된 Factory</code>를 생성하고, 정책적용객체(전략객체 주입)의 변수명을 <code class="language-plaintext highlighter-rouge">전략객체 -&gt; factory</code>로 변경한다.</strong></p>
+
+    <ul>
+      <li>위임된 팩토리는 <code class="language-plaintext highlighter-rouge">전략객체별로 생성</code>하며, <strong>전략객체를 미리 생성 -&gt; 강제 주입하는 대신<code class="language-plaintext highlighter-rouge">전략객체 대신 factory로 주입</code>하고 factory가 내부에서 전략객체를 필요시마다 캐싱하여 1회만 생성하며, 사용될때 생성을 한다.</strong>
+        <ol>
+          <li>전략인터페이스 구현한 Factory 생성
+            <ul>
+              <li><strong>기존 전략객체명 복사해놓은 상태 + Factory만 붙이기</strong></li>
+            </ul>
+          </li>
+          <li>정책적용 객체는 <code class="language-plaintext highlighter-rouge">기존에는 미리 생성된 전략객체를 강제 주입</code> -&gt; <strong><code class="language-plaintext highlighter-rouge">전략객체 대신 factory를 주입할 예정</code></strong>
+</li>
+        </ol>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/70179341-05f7-4ce2-9be8-b7c60cb64ee0.gif" alt="70179341-05f7-4ce2-9be8-b7c60cb64ee0"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220703212941879.png" alt="image-20220703212941879"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220703213005159.png" alt="image-20220703213005159"></p>
+  </li>
+  <li>
+    <p><strong>Factory가 구현해야할 전략메서드 내부에서, <code class="language-plaintext highlighter-rouge">내수용 &amp; synchronized 캐싱 전략객체 생성메서드를 정의</code>한 뒤, 전략메서드를 사용</strong>한다.</p>
+
+    <ol>
+      <li>전략메서드 내부에서, <strong><code class="language-plaintext highlighter-rouge">전략객체 생성 메서드create() or get전략객체</code> (내수용 + <code class="language-plaintext highlighter-rouge">synchronized</code>)</strong>를 작성하되, <strong>내부에서 캐싱 적용</strong>
+        <ul>
+          <li>빈 cache필드를 이용하여 없으면 재할당해서 채운다. 있으면 그대로 반환한다.</li>
+        </ul>
+      </li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/2af594aa-420a-49a0-93fc-367202f7792c.gif" alt="2af594aa-420a-49a0-93fc-367202f7792c"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220703223428293.png" alt="image-20220703223428293"></p>
+  </li>
+  <li>
+    <p><strong>정책적용 객체(DiscountPolicy)</strong>에 전략객체가 아닌 <strong>전략Factory</strong>를 주입시키도록 기존코드를 변경한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/90a18b29-ea0c-49be-a925-709840ec0bce.gif" alt="90a18b29-ea0c-49be-a925-709840ec0bce"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220703223504638.png" alt="image-20220703223504638"></p>
+  </li>
+</ol>
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/policy/side/hospital/2022/07/01/side)%ED%8A%B9%EC%A0%95%EA%B0%9D%EC%B2%B4%EC%97%90-%EC%A0%95%EC%B1%85%EC%A0%81%EC%9A%A9.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
