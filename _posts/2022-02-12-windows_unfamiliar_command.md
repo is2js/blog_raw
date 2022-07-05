@@ -73,6 +73,7 @@ image: "images/posts/config.png"
 	- `/anaconda3` : 아나콘다 폴더 가기
 - `%PROGRAMFILES(X86)%` or `%PROGRAMFILES%`: 프로그램 폴더
 
+- `%temp%` : 임시파일들
 
 
 #### 프로그래밍
