@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-title: Object) Theater 상호의존표 관계 정리
+title: (Object) Theater 상호의존표 관계 정리
 description: v1, v2 각각 객체간의 상호의존 관계 정리
 
 categories: [java, 우테코, oop, object, relationship]

@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-title: TEST) Assertj 및 @annotation 모음
+title: (TEST) Assertj 및 @annotation 모음
 description: assertj시리즈와 @어노테이션들(Assertion)
 categories: [java, 우테코, test, assertj, TDD]
 image: "images/posts/wootech.png"

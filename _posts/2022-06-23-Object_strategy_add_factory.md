@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-title: Object) [F1]Strategy + Factory 패턴
+title: (Object) [F1]Strategy + Factory 패턴
 description: 전략패턴에 생성사용패턴을 적용하기 위해 Factory 도입
 
 categories: [java, 우테코, oop, object, strategy, factory]

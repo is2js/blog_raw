@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-title: OOP2) 객체지향프로그래밍(python)
+title: OOP2 객체지향프로그래밍(python)
 description: 유튜브 python 객체지향 tip 5
 categories: [oop, 객체지향, python]
 
