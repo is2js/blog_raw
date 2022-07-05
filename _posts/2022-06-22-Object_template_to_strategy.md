@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-title: (Object)TemplateMethod to Strategy
+title: Object) TemplateMethod to Strategy
 description: 템플릿패턴(추상클래스, 상속)를 전략패턴(인터페이스, 조합)로 변경하기
 
 categories: [java, 우테코, oop, object, templatemethod, strategy]
