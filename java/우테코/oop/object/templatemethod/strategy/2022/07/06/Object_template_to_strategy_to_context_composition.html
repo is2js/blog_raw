@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Object) TemplateMethod to Strategy2(Plan) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Object) TemplateMethod to Strategy2(Plan)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="훅메서드 -&gt; 전략메서드 -&gt; context공유로 책임커진, 연결되는 합성객체" />
+<meta property="og:description" content="훅메서드 -&gt; 전략메서드 -&gt; context공유로 책임커진, 연결되는 합성객체" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/templatemethod/strategy/2022/07/06/Object_template_to_strategy_to_context_composition.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/templatemethod/strategy/2022/07/06/Object_template_to_strategy_to_context_composition.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-06T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-07-06T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/templatemethod/strategy/2022/07/06/Object_template_to_strategy_to_context_composition.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"Object) TemplateMethod to Strategy2(Plan)","dateModified":"2022-07-06T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/templatemethod/strategy/2022/07/06/Object_template_to_strategy_to_context_composition.html"},"description":"훅메서드 -&gt; 전략메서드 -&gt; context공유로 책임커진, 연결되는 합성객체","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Object) TemplateMethod to Strategy2(Plan)</h1><p class="page-description">훅메서드 -> 전략메서드 -> context공유로 책임커진, 연결되는 합성객체</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-06T00:00:00-05:00" itemprop="datePublished">
+        Jul 6, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      1 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#oop">oop</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#templatemethod">templatemethod</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#strategy">strategy</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#템플렛-메소드-패턴---전략패턴---연결되는-합성객체">템플렛 메소드 패턴 -&gt; 전략패턴 -&gt; 연결되는 합성객체</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#좋은-상속템플릿메소드패턴---합성객체전략패턴">좋은 상속(템플릿메소드패턴) -&gt; 합성객체(전략패턴)</a></li>
+<li class="toc-entry toc-h3"><a href="#최소-책임-전략---context를-공유하는-연결되는-합성객체">최소 책임 전략 -&gt; context를 공유하는 연결되는 합성객체</a></li>
+</ul>
+</li>
+</ul><h2 id="템플렛-메소드-패턴---전략패턴---연결되는-합성객체">
+<a class="anchor" href="#%ED%85%9C%ED%94%8C%EB%A0%9B-%EB%A9%94%EC%86%8C%EB%93%9C-%ED%8C%A8%ED%84%B4---%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4---%EC%97%B0%EA%B2%B0%EB%90%98%EB%8A%94-%ED%95%A9%EC%84%B1%EA%B0%9D%EC%B2%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>템플렛 메소드 패턴 -&gt; 전략패턴 -&gt; 연결되는 합성객체</h2>
+
+<h3 id="좋은-상속템플릿메소드패턴---합성객체전략패턴">
+<a class="anchor" href="#%EC%A2%8B%EC%9D%80-%EC%83%81%EC%86%8D%ED%85%9C%ED%94%8C%EB%A6%BF%EB%A9%94%EC%86%8C%EB%93%9C%ED%8C%A8%ED%84%B4---%ED%95%A9%EC%84%B1%EA%B0%9D%EC%B2%B4%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>좋은 상속(템플릿메소드패턴) -&gt; 합성객체(전략패턴)</h3>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/is2js/object2/tree/252f7b91d886eb9ce04edc6f75e26eec3441339c/src/main/java/goodComposition">시작 커밋</a></p>
+  </li>
+  <li>
+    <p><a href="https://blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/policy/side/hospital/2022/07/01/(side)%ED%8A%B9%EC%A0%95%EA%B0%9D%EC%B2%B4%EC%97%90-%EC%A0%95%EC%B1%85%EC%A0%81%EC%9A%A9.html#method2-2-%ED%85%9C%ED%94%8C%EB%A6%BFpolicy%EB%A5%BC-%EC%9D%BC%EB%B0%98class--%EC%A0%84%EB%9E%B5policy%EB%A1%9C-%EB%B3%80%ED%99%982%EA%B0%9C%EC%9D%98-%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EC%9D%BC%EB%B0%98policy">참고 내 블로그 정책적용 글</a></p>
+  </li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">템플릿메서드</code>는 <strong>기계적</strong>으로 <strong>전략패턴의 전략객체</strong>로 만들 수 있으며, 그 방법이 <code class="language-plaintext highlighter-rouge">상속모델</code> -&gt; <strong>합성모델</strong>로 바꾸는 것과 마찬가지다</p>
+
+<ul>
+  <li>판단은 <strong>조합폭팔이 일어날 것 같을 때 기계적으로 바꾸면 된다.</strong>
+</li>
+  <li>연습은 <strong>상속이 보이면 조합으로 바꾸기(합성)</strong>를 해보면 된다.</li>
+</ul>
+
+<ol>
+  <li>
+    <p>템플릿추상클래스를 <strong>일반클래스로 내리고, 훅메서드 정의부 삭제</strong>하기</p>
+
+    <ul>
+      <li>훅메서드가 내려가지 않고, 전략객체로 정의된 내용이 외부에서 주입된다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>훅메서드() 호출부를 전략객체.전략메서드()호출로 변경</strong>하기</p>
+
+    <ul>
+      <li>추상클래스의 훅메서드 구상 자식클래스들을
+        <ul>
+          <li>전략객체가 대신한다.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/f401af7f-90a8-430d-a4fd-25b646351870.gif" alt="f401af7f-90a8-430d-a4fd-25b646351870"></p>
+  </li>
+  <li>
+    <p><del>전략객체를 생성자 주입하기</del> <strong>전략객체를 생성자주입이 아닌 <code class="language-plaintext highlighter-rouge">void setter받기기능</code>으로 받기</strong></p>
+
+    <ul>
+      <li><strong>템플릿 추상클래스는 <code class="language-plaintext highlighter-rouge">전략객체 주입 일반클래스</code>로 바뀌어도 <code class="language-plaintext highlighter-rouge">여전히 추상층으로서 확장(상속) 가능성이 있다면, 생성자 주입하면 안된다.</code></strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/47be155d-07a9-4f68-a8a0-87585cdfdbcf.gif" alt="47be155d-07a9-4f68-a8a0-87585cdfdbcf"></p>
+  </li>
+  <li>
+    <p>전략메서드 만들어서 올리기</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/60c8b15d-181a-4a9f-afc4-85cf52ee4799.gif" alt="60c8b15d-181a-4a9f-afc4-85cf52ee4799"></p>
+  </li>
+  <li>
+    <p><strong>훅메서드 구현체자식들을 전략객체</strong>로 변경</p>
+
+    <ol>
+      <li>클래스명을 <code class="language-plaintext highlighter-rouge">구상내용 + 전략인페명</code>으로 바꾸기</li>
+      <li>
+<strong>extedns <code class="language-plaintext highlighter-rouge">템플릿추상체</code> -&gt; implements <code class="language-plaintext highlighter-rouge">전략인터페이스</code></strong> 로 바꾸기</li>
+      <li>
+<strong>protected</strong>훅메서드들 <strong>public</strong>전략메서드명으로 바꾸기</li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/1b8b8eb1-f27e-4e89-a5a2-8c0df357b859.gif" alt="1b8b8eb1-f27e-4e89-a5a2-8c0df357b859"></p>
+  </li>
+  <li>
+    <p><strong>전략객체를 받기기능으로 받아, <code class="language-plaintext highlighter-rouge">상속(확장)가능성이 있다면 class에 final을 달지말고 3가지 원칙 지키는지 확인</code>하기</strong></p>
+    <ol>
+      <li>private변수</li>
+      <li>final or protected abstract 메서드로 구성</li>
+      <li>생성자 주입 말고 받기기능으로 받을 것</li>
+    </ol>
+  </li>
+</ol>
+
+<h3 id="최소-책임-전략---context를-공유하는-연결되는-합성객체">
+<a class="anchor" href="#%EC%B5%9C%EC%86%8C-%EC%B1%85%EC%9E%84-%EC%A0%84%EB%9E%B5---context%EB%A5%BC-%EA%B3%B5%EC%9C%A0%ED%95%98%EB%8A%94-%EC%97%B0%EA%B2%B0%EB%90%98%EB%8A%94-%ED%95%A9%EC%84%B1%EA%B0%9D%EC%B2%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>최소 책임 전략 -&gt; context를 공유하는 연결되는 합성객체</h3>
+
+<ul>
+  <li>
+    <p><strong>훅메서드의 최소 책임 합성 -&gt; 연결되는 합성객체는 context를 공유받아 메서드단위(SRP)의 책임을 위임받을 수 있음.</strong></p>
+  </li>
+  <li>
+    <p>현재 전략객체는 <code class="language-plaintext highlighter-rouge">1개의 call</code>만 유틸메서드처럼 입력받아  값을 반환해주며 <strong>실질적으로 연산 전체의 상태(누적변수result, 초기값 Money.Zero)인 context를 위임받진 못하고 있다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220706225207429.png" alt="image-20220706225207429"></p>
+
+    <ul>
+      <li>
+<strong>하지만, 연결되는 합성객체가 되려면 <code class="language-plaintext highlighter-rouge">해당 메서드내 context를 공유받아서 처리</code>해줘야 <code class="language-plaintext highlighter-rouge">제대로 책임위임</code></strong>받는 것이다.
+        <ul>
+          <li>훅메서드는 상속 특성상 최소의 구현만 맡고 있었고, 그것을 합성으로 변경하려다 보니, <strong>합성객체는 context공유받아 관련 SRP를 전체로 책임질 수 있는데 못하고 있는 상태다.</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>기존 코드(Plan - 전략객체 적용(주입) class)</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220706232831912.png" alt="image-20220706232831912"></p>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p>기존 전략객체의 작은 책임을 포함하여 <strong>전략적용 메서드 전체를 전략메서드로 빼기 위해 <code class="language-plaintext highlighter-rouge">인자가 잡힌 내수용 메서드</code>로 추출한다.</strong></p>
+
+    <ol>
+      <li>
+        <p>현재 적용객체 <strong>context의 시작 값들을 지역변수로  메서드 추출 위로 뺀다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/869188b5-22af-4abb-9992-7e4d13f6b54a.gif" alt="869188b5-22af-4abb-9992-7e4d13f6b54a"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220706232733176.png" alt="image-20220706232733176"></p>
+      </li>
+      <li>
+        <p>전략 인터페이스로 move시키기 위해 <strong>내수용으로 추출 후, 위에 빼놓은 지역변수를 인라인 으로 인자 자리에 넣어준다</strong></p>
+
+        <ul>
+          <li>미리 사용되는 변수들의 선언을 지역변수로 위에 빼놨기 때문에, <strong>내수용메서드로 추출하여도 인자로 잡힌다.</strong>
+</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/cc3eafe1-b155-4363-ab77-f94237b0e4a6.gif" alt="cc3eafe1-b155-4363-ab77-f94237b0e4a6"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220706233118121.png" alt="image-20220706233118121"></p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>인자잡힌 내수용 메서드를 <strong>move를 통해 전략 인터페이스로 이동시킨다.</strong></p>
+
+    <ul>
+      <li>구현부가 존재하니, default 메서드로 이동된다.</li>
+      <li><strong>내부context로서 사용된 변수들이 인자가 이미 잡혀있으므로 잘못생긴<code class="language-plaintext highlighter-rouge">this 파라미터는 제거</code>한다</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/f5eb59ba-ba28-44b9-ba1c-db1e4e91a798.gif" alt="f5eb59ba-ba28-44b9-ba1c-db1e4e91a798"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220706233435516.png" alt="image-20220706233435516"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220706233508424.png" alt="image-20220706233508424"></p>
+  </li>
+  <li>
+    <p><strong>새로운 전략메서드에 기존 전략메서드가 내수용으로 사용되고 있다. -&gt; <code class="language-plaintext highlighter-rouge">인라인 리팩토링으로 제거</code>될 예정이다</strong></p>
+
+    <ol>
+      <li>새로운 전략메서드로서 default를 지우고, 구상체들이 구현하게 한다.</li>
+      <li>default내용을 구현부를 복사해서 전략객체들이 구현부에 넣어준다.</li>
+      <li>기존 전략메서드는 inline refactoring을 이용해서 지운다.</li>
+      <li>기존 전략메서드를 인터페이스에서 지운다.</li>
+      <li>모든 전략객체에 구현부 복붙이 끝났으면, 전략메서드의 구현부도 삭제한다.</li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/050eb1da-1f0f-422c-b14e-809b2f3c33d0.gif" alt="050eb1da-1f0f-422c-b14e-809b2f3c33d0"></p>
+  </li>
+</ol>
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/templatemethod/strategy/2022/07/06/Object_template_to_strategy_to_context_composition.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
