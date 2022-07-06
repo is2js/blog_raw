@@ -2,10 +2,10 @@
   
     
         "post0": {
-            "title": "SIDE)추상체X추상체 관계에서 템플릿,전략패턴 적용",
+            "title": "반복문을 꼬리재귀로 변경하기",
             "content": "반복문 -&gt; 꼬리 재귀 만드는 법 . 2개 변수 누적연산의 피보나치를 단계별로 . 초기 코드: 0부터 n까지 피보나치 함수 . def tail_recursive_fibo(n): # 반복문과 관계없이 바로 return되는 초기값들 if n &lt;= 1: return n # n &gt;=2 부터 반복문에 의해 계산된다. a, b = 0, 1 for i in range(2, n + 1): a, b = b, a + b return b . | . 꼬리재귀는 n이외에 최소 1개 파라미터가 추가(누적결과변수를 파라미터로 업데이트)하므로 재귀 호출함수로 꼬리재귀함수를 메소드로 분리한다. . 함수명은 helper를 쓰면 된다. | . . . | 꼬리재귀형태를 만들기 위해 반복문후 반환되는 누적결과값 변수b의 업데이트 로직파라미터로서 추가하고 n을 1개 깍은 n-1의 업데이트로직을 반영한 return 꼬리재귀( 업데이트 로직)을 함수 맨 마지막 단독return한다 . 그 과정에서 원래 함수에 업데이트 전 원래 누적결과값 변수b를 파라미터로 추가한다. 이 때, b를 업데이트 하는 로직에 반복문의 i가 사용되었다면 n으로 대체해서 업데이트 로직을 반영한다. | . | n번째 업데이트에 대해 좌측 식별자 -&gt; 정의 꼬리재귀 파라미터 / 우측 업데이트 값 -&gt; 다음 꼬리재귀 호출부형태로 만들어줘서, 다음 호출시 업데이트 된 값이 들어가게 한다. | . . . | 누적결과값 반환변수b이외에 a라는 식별자도 업데이트되어 사용되기 때문에 . 호출부에는 업데이트 로직 | 정의부에는 변수를 넣어준다. | . . . | 초기값 및 초기값으로 인해 반복문이 돌지 않는 부분은 종착역이 된다. . n=2서부터 도니까 최종 연산은 n==2까지 재귀되어야하며, 꼬리재귀는 최종연산값 다음번 n==1이 종착역으로서 최종결과값 변수b만 반환해준다. | . . . | n이외에 업데이트되는 변수들은 초기값을 꼬리재귀 호출시 넣어준다. . . . | 초기값들을 n반환 대신 추가된 초기값을 가진 업데이트 변수가 되도록 수정해준다. . . . | def tail_recursive_fibo(n): return helper(n, 0, 1) def helper(n, a, b): if n == 0: return a if n == 1: return b return helper(n - 1, b, a + b) . 1개 변수 업데이트되는 누적합 . 코드 . def loop_sum(n): s = 0 for i in range(1, n + 1): s += i return s . | 과정 . . | 최종 . def loop_sum(n): return helper(n, 0) def helper(n, s): if n == 0: return s return helper(n-1, s + n) . | .",
-            "url": "blog.chojaeseong.com/python/recursive/tailrecursive/loop/2022/07/06/%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%84_%EA%BC%AC%EB%A6%AC_%EC%9E%AC%EA%B7%80%EB%A1%9C_%EB%B3%80%EA%B2%BD.html",
-            "relUrl": "/python/recursive/tailrecursive/loop/2022/07/06/%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%84_%EA%BC%AC%EB%A6%AC_%EC%9E%AC%EA%B7%80%EB%A1%9C_%EB%B3%80%EA%B2%BD.html",
+            "url": "blog.chojaeseong.com/python/recursive/tailrecursive/loop/algorithm/2022/07/06/%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%84_%EA%BC%AC%EB%A6%AC_%EC%9E%AC%EA%B7%80%EB%A1%9C_%EB%B3%80%EA%B2%BD.html",
+            "relUrl": "/python/recursive/tailrecursive/loop/algorithm/2022/07/06/%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%84_%EA%BC%AC%EB%A6%AC_%EC%9E%AC%EA%B7%80%EB%A1%9C_%EB%B3%80%EA%B2%BD.html",
             "date": " • Jul 6, 2022"
         }
         
