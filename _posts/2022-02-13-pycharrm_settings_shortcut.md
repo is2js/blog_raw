@@ -97,7 +97,20 @@ image: "images/posts/python.png"
 
 
 ### 단축키
-- move statement: 메서드 이동 단축키
+- **move statement: 메서드 이동 단축키 지정**
     ![20220706182502](https://raw.githubusercontent.com/is3js/screenshots/main/20220706182502.png)
     - Move staetment Down : **`alt + shift + PgUp`**
     - Move staetment Up: **`alt +shift + PgUp`**
+
+- **`alt + shift + o`: optimize import**
+    - **리포맷팅 해도 import는 정렬안해주는데, 해당 기능을 이용해야한다.**
+    ![c754c2b1-df35-49a5-98e7-2e6991b03da4](https://raw.githubusercontent.com/is3js/screenshots/main/c754c2b1-df35-49a5-98e7-2e6991b03da4.gif)
+
+
+- **`(드래그 후)ctrl + alt + F8`(assign) : Evaluate Expression**
+    - 기존 quick evluate expression을 삭제하고 배정한다.
+    - 디버깅시 `의심Line F9` -> 디버깅 -> `수정해볼 부분만 드래그후 Evaluate Pression (Ctrl + Alt + F8)`**
+        - **`ctrl + shift + enter`를 치면 아래 watcher부분에 기록을 남긴다.**
+    ![20220707004036](https://raw.githubusercontent.com/is3js/screenshots/main/20220707004036.png)
+    ![20220707004102](https://raw.githubusercontent.com/is3js/screenshots/main/20220707004102.png)
+    ![8f9c3a17-afa3-4a23-a474-829913b929af](https://raw.githubusercontent.com/is3js/screenshots/main/8f9c3a17-afa3-4a23-a474-829913b929af.gif)
