@@ -87,11 +87,17 @@ image: "images/posts/python.png"
     ![9b2a113c-7453-4f5d-90c2-af6b406eda6a](https://raw.githubusercontent.com/is2js/screenshots/main/9b2a113c-7453-4f5d-90c2-af6b406eda6a.gif)
 
 
-#### 실시간 반영 지우고 단축키로 
-- c + s + a + B로 하면 될 듯
+#### 실시간 반영 지우고 단축키로 하려면
+- ctrl + shift + alt + B로 하면 될 듯
 	- [참고](https://medium.com/daehyun-baek/python-%EC%BD%94%EB%93%9C-%EC%8A%A4%ED%83%80%EC%9D%BC-%ED%88%B4-pycharm-%ED%99%98%EA%B2%BD-flake8-black-4adba134696a)
 
 
 
+
+
+
 ### 단축키
-1. 
+- move statement: 메서드 이동 단축키
+    ![20220706182502](https://raw.githubusercontent.com/is3js/screenshots/main/20220706182502.png)
+    - Move staetment Down : **`alt + shift + PgUp`**
+    - Move staetment Up: **`alt +shift + PgUp`**
