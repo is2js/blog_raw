@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>PRACTICE) 여러 전략객체를 적용하는 방법 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="PRACTICE) 여러 전략객체를 적용하는 방법" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="적용대상 &lt;-&gt; 전략패턴 사이에 전략주입 구상클래스 + setNext 받기체이닝" />
+<meta property="og:description" content="적용대상 &lt;-&gt; 전략패턴 사이에 전략주입 구상클래스 + setNext 받기체이닝" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/practice/strategy/setnext/chaining/2022/07/08/(practice)%EC%97%AC%EB%9F%AC_%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4_%EC%A0%81%EC%9A%A9.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/practice/strategy/setnext/chaining/2022/07/08/(practice)%EC%97%AC%EB%9F%AC_%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4_%EC%A0%81%EC%9A%A9.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-08T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-07-08T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/practice/strategy/setnext/chaining/2022/07/08/(practice)%EC%97%AC%EB%9F%AC_%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4_%EC%A0%81%EC%9A%A9.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"PRACTICE) 여러 전략객체를 적용하는 방법","dateModified":"2022-07-08T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/practice/strategy/setnext/chaining/2022/07/08/(practice)%EC%97%AC%EB%9F%AC_%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4_%EC%A0%81%EC%9A%A9.html"},"description":"적용대상 &lt;-&gt; 전략패턴 사이에 전략주입 구상클래스 + setNext 받기체이닝","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">PRACTICE) 여러 전략객체를 적용하는 방법</h1><p class="page-description">적용대상 <-> 전략패턴 사이에 전략주입 구상클래스 + setNext 받기체이닝</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-08T00:00:00-05:00" itemprop="datePublished">
+        Jul 8, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#oop">oop</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#practice">practice</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#strategy">strategy</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#setNext">setNext</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#chaining">chaining</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#여러-전략객체-적용하기">여러 전략객체 적용하기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#설명">설명</a></li>
+<li class="toc-entry toc-h4"><a href="#실습">실습</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#정잭적용객체---전략객체들-사이에-전략주입-구상클래스의-다리를-만든다">정잭적용객체 &lt;-&gt; 전략객체들 사이에 [전략주입 구상클래스]의 다리를 만든다.</a></li>
+<li class="toc-entry toc-h5"><a href="#여러-전략을-받는-전략주입-구상클래스는-return-this가-달린--add받기기능인-외부-체이닝-받기기능을-가진다">여러 전략을 받는, 전략주입 구상클래스는 return this가 달린  add받기기능인 [외부 체이닝 받기기능]을 가진다.</a></li>
+<li class="toc-entry toc-h5"><a href="#적용객체에-주입되어-적용대상-객체context를-여러-전략이-적용되어-누적되서-반환될-것의-초기값을-전달받은-뒤-내부에-소유한-여러-전략객체를--forloop로-돌면서-여러번-전략메서드를-누적-호출한-뒤-변화된-객체를-최종-반환한다">적용객체에 주입되어, 적용대상 객체context를 [여러 전략이 적용되어 누적되서 반환될 것의 초기값]을 전달받은 뒤, 내부에 소유한 여러 전략객체를  forloop로 돌면서 여러번 전략메서드를 누적 호출한 뒤 변화된 객체를 최종 반환한다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h3 id="여러-전략객체-적용하기">
+<a class="anchor" href="#%EC%97%AC%EB%9F%AC-%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>여러 전략객체 적용하기</h3>
+
+<ul>
+  <li><a href="https://github.com/is2js/object2/commit/37e2deb737c18c7ebf0cbbb559b020765f81370e">완성 커밋</a></li>
+</ul>
+
+<h4 id="설명">
+<a class="anchor" href="#%EC%84%A4%EB%AA%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>설명</h4>
+
+<ul>
+  <li>사실, 여러 전략객체들을 적용하려다보니
+    <ul>
+      <li>원래는 각 전략객체마다 <code class="language-plaintext highlighter-rouge">next</code>의 다음 타자 전략객체를 소지하고 있어야하며</li>
+      <li>next <code class="language-plaintext highlighter-rouge">필드</code> + 다음 타자전략객체들을 재귀형식으로 호출해줄 <code class="language-plaintext highlighter-rouge">공통로직</code>에 의해 <code class="language-plaintext highlighter-rouge">템플릿메소드패턴</code>의 추상클래스가 전략인터페이스를 대체하여 바뀌며</li>
+      <li>좋은 상속은 <code class="language-plaintext highlighter-rouge">합성</code>으로 다시 변경되어서 <code class="language-plaintext highlighter-rouge">구상클래스화</code> + <code class="language-plaintext highlighter-rouge">전략인페 추가</code>+  <code class="language-plaintext highlighter-rouge">전략객체들</code>형태가 된다.</li>
+      <li>
+<strong>이 때, <code class="language-plaintext highlighter-rouge">추상클래스-상속</code>에서 -&gt; <code class="language-plaintext highlighter-rouge">전략주입 구상-합성</code>으로 변경할 때 로직이 변경되는데</strong>
+        <ol>
+          <li>
+<strong>다음 타자<code class="language-plaintext highlighter-rouge">next</code>소유 + <code class="language-plaintext highlighter-rouge">return null터미네이팅 + next로 전략메서드()를 재귀호출</code></strong>로직을
+            <ul>
+              <li><strong>전체 타자 <code class="language-plaintext highlighter-rouge">컬렉선</code> 소유 + <code class="language-plaintext highlighter-rouge">forloop 누적 연산</code>으로 바뀌고</strong></li>
+            </ul>
+          </li>
+          <li>
+<strong>다음 타자 [받기 + <code class="language-plaintext highlighter-rouge">&lt;추상체this&gt;</code>(현재구상체) 반환]의 <code class="language-plaintext highlighter-rouge">외부 &lt;타자별&gt; 체이닝 받기</code></strong>로직을
+            <ul>
+              <li><strong><code class="language-plaintext highlighter-rouge">첫번째 타자 생성자 필수 add받기 + 2번째부터 [add받기 + &lt;구상체this반환&gt;]의 외부 &lt;자신의 연속&gt; 체이닝 받기</code></strong></li>
+              <li>추상체this반환 받기기능은, 현재구상체가 반환되어 다음 타자로 넘어간다?</li>
+              <li>구상체this반환 받기기능은, <strong>받아서 상태가 달라진 현재상태의 객체를 다시 반환하여, 체이닝해서 연속해서 받기가 가능해진다.</strong>
+</li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="실습">
+<a class="anchor" href="#%EC%8B%A4%EC%8A%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>실습</h4>
+
+<h5 id="정잭적용객체---전략객체들-사이에-전략주입-구상클래스의-다리를-만든다">
+<a class="anchor" href="#%EC%A0%95%EC%9E%AD%EC%A0%81%EC%9A%A9%EA%B0%9D%EC%B2%B4---%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%93%A4-%EC%82%AC%EC%9D%B4%EC%97%90-%EC%A0%84%EB%9E%B5%EC%A3%BC%EC%9E%85-%EA%B5%AC%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EC%9D%98-%EB%8B%A4%EB%A6%AC%EB%A5%BC-%EB%A7%8C%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>정잭적용객체 &lt;-&gt; 전략객체들 사이에 [전략주입 구상클래스]의 다리를 만든다.</h5>
+
+<ul>
+  <li>단순히 전략메서드만 적용하는 것이 아니라
+    <ol>
+      <li><strong>전략조건을 여러개 받아야할 때, 중간에 구상클래스를 둔다.</strong></li>
+      <li><strong>여러 전략객체들을 모아 한번에 적용할 때, 중간에 구상클래스를 둔다.</strong></li>
+      <li><strong>여러 카테고리의 전략이 필요할 때, 중간에 구상클래스를 둔다.</strong></li>
+    </ol>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220708000059341.png" alt="image-20220708000059341"></p>
+
+<h5 id="여러-전략을-받는-전략주입-구상클래스는-return-this가-달린--add받기기능인-외부-체이닝-받기기능을-가진다">
+<a class="anchor" href="#%EC%97%AC%EB%9F%AC-%EC%A0%84%EB%9E%B5%EC%9D%84-%EB%B0%9B%EB%8A%94-%EC%A0%84%EB%9E%B5%EC%A3%BC%EC%9E%85-%EA%B5%AC%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EB%8A%94-return-this%EA%B0%80-%EB%8B%AC%EB%A6%B0--add%EB%B0%9B%EA%B8%B0%EA%B8%B0%EB%8A%A5%EC%9D%B8-%EC%99%B8%EB%B6%80-%EC%B2%B4%EC%9D%B4%EB%8B%9D-%EB%B0%9B%EA%B8%B0%EA%B8%B0%EB%8A%A5%EC%9D%84-%EA%B0%80%EC%A7%84%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>여러 전략을 받는, 전략주입 구상클래스는 return this가 달린  add받기기능인 [외부 체이닝 받기기능]을 가진다.</h5>
+
+<ul>
+  <li>받아서 변화된 상태의 자신을 반환하면, 또다시 받기가 가능하다.</li>
+</ul>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">CalculatorBasedOnCalls</code>는 <strong>전략주입 구상클래스</strong>로서</p>
+
+    <ol>
+      <li>
+        <p><strong>첫번째 전략객체는 생성자 주입으로 인한 <code class="language-plaintext highlighter-rouge">필수 받기 to 컬렉션</code></strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/c9b717fe-d69d-4c3d-8b05-79342208df17.gif" alt="c9b717fe-d69d-4c3d-8b05-79342208df17"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220708000544910.png" alt="image-20220708000544910"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220708000632146.png" alt="image-20220708000632146"></p>
+      </li>
+      <li>
+        <p><strong>2번재 전략객체부터는 <code class="language-plaintext highlighter-rouge">setNext()의 받기 + this반환</code>의 <code class="language-plaintext highlighter-rouge">외부 연속 체이닝 받기 to 컬렉션</code></strong> 을 적용할 것이다.</p>
+
+        <ul>
+          <li><strong>my) 받기기능을 체이닝으로 하려면 setter느낌이지만, <code class="language-plaintext highlighter-rouge">받고나서 return this</code>로 인해 <code class="language-plaintext highlighter-rouge">상태변화된 나 자신을 반환</code>해준다.</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/6bb137c0-08ff-4bb9-bc02-ff707ae88528.gif" alt="6bb137c0-08ff-4bb9-bc02-ff707ae88528"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220708001024865.png" alt="image-20220708001024865"></p>
+      </li>
+      <li>
+        <p>받아서 변화된 나를 반환해주는 setNext()를 정의하면 <strong>외부에서 체이닝해서 계속 받을 수 있다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/ffb08a1c-98b8-4703-8120-fda4deff1958.gif" alt="ffb08a1c-98b8-4703-8120-fda4deff1958"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220708001228391.png" alt="image-20220708001228391"></p>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<h5 id="적용객체에-주입되어-적용대상-객체context를-여러-전략이-적용되어-누적되서-반환될-것의-초기값을-전달받은-뒤-내부에-소유한-여러-전략객체를--forloop로-돌면서-여러번-전략메서드를-누적-호출한-뒤-변화된-객체를-최종-반환한다">
+<a class="anchor" href="#%EC%A0%81%EC%9A%A9%EA%B0%9D%EC%B2%B4%EC%97%90-%EC%A3%BC%EC%9E%85%EB%90%98%EC%96%B4-%EC%A0%81%EC%9A%A9%EB%8C%80%EC%83%81-%EA%B0%9D%EC%B2%B4context%EB%A5%BC-%EC%97%AC%EB%9F%AC-%EC%A0%84%EB%9E%B5%EC%9D%B4-%EC%A0%81%EC%9A%A9%EB%90%98%EC%96%B4-%EB%88%84%EC%A0%81%EB%90%98%EC%84%9C-%EB%B0%98%ED%99%98%EB%90%A0-%EA%B2%83%EC%9D%98-%EC%B4%88%EA%B8%B0%EA%B0%92%EC%9D%84-%EC%A0%84%EB%8B%AC%EB%B0%9B%EC%9D%80-%EB%92%A4-%EB%82%B4%EB%B6%80%EC%97%90-%EC%86%8C%EC%9C%A0%ED%95%9C-%EC%97%AC%EB%9F%AC-%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%A5%BC--forloop%EB%A1%9C-%EB%8F%8C%EB%A9%B4%EC%84%9C-%EC%97%AC%EB%9F%AC%EB%B2%88-%EC%A0%84%EB%9E%B5%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EB%88%84%EC%A0%81-%ED%98%B8%EC%B6%9C%ED%95%9C-%EB%92%A4-%EB%B3%80%ED%99%94%EB%90%9C-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%B5%9C%EC%A2%85-%EB%B0%98%ED%99%98%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>적용객체에 주입되어, 적용대상 객체context를 [여러 전략이 적용되어 누적되서 반환될 것의 초기값]을 전달받은 뒤, 내부에 소유한 여러 전략객체를  forloop로 돌면서 여러번 전략메서드를 누적 호출한 뒤 변화된 객체를 최종 반환한다.</h5>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">전략이 주입되는 적용대상 객체 Plan</code>이 직접 계산해서 <code class="language-plaintext highlighter-rouge">외부에 전략으로 계산된 요금을 제공</code>한다.</strong></li>
+  <li><strong>전략 객체가 <code class="language-plaintext highlighter-rouge">누적연산한다면, 그 초기값을 건네</code>주어 -&gt; <code class="language-plaintext highlighter-rouge">누적된 값을 반환받는 것이 context공유</code>의 한 부분이다.</strong></li>
+</ul>
+
+<ol>
+  <li>
+    <p>전략적용 객체 Plan은, 전략주입 구상클래스를 주입받은 것을 활용해서 내부에서 처리를 해주는데, <strong>plan 내부에 있는 <code class="language-plaintext highlighter-rouge">적용대상 객체(여기선 객체에 적용하진 x)</code> or <code class="language-plaintext highlighter-rouge">누적연산이라면 초기값(Money.ZERO)</code> + <code class="language-plaintext highlighter-rouge">계산시 필요한 정보(calls)</code>을를  전략주입 구상클래스에게 적용하라고 건네준다.</strong></p>
+
+    <ul>
+      <li>
+<strong>요금계산 적용객체는<code class="language-plaintext highlighter-rouge">계산정보 calls</code>와  <code class="language-plaintext highlighter-rouge">누적 연산 초기값</code>을 건네준다.</strong>
+        <ul>
+          <li>
+<strong>초기값을 건네주고</strong>, <strong>누적연산</strong>을 받는 것이야말로 <strong>객체context 공유다</strong>
+            <ul>
+              <li>값을 건네주고 <strong>업데이트된 상태값</strong>을 받는다.</li>
+              <li>값을 건네주고 쌩뚱맞은 값을 반환받거나 반환안받으면 객체context공유가 아님.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/9ce39675-7c9b-494c-9720-e0faa8ee6abf.gif" alt="9ce39675-7c9b-494c-9720-e0faa8ee6abf"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220708004651632.png" alt="image-20220708004651632"></p>
+  </li>
+  <li>
+    <p>필요한 부수재료들을 만들어준다.</p>
+
+    <ul>
+      <li>List컬렉션은 index에 값을 사용하므로 값context다</li>
+      <li><strong>HashSet은 순서가 보장되며 + 중복검증해주며 + 객체로 꺼내고 넣는 객체context라서 적극 활용한다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/62838eac-7c76-44df-be6b-89fd22637531.gif" alt="62838eac-7c76-44df-be6b-89fd22637531"></p>
+  </li>
+  <li>
+    <p><strong>전략주입 구상클래스에서 여러 전략객체들을 forloop돌면서 누적 적용한다.</strong></p>
+
+    <ul>
+      <li>개별 전략메서드마다 계산한 값을 <strong><code class="language-plaintext highlighter-rouge">파라미터로 온 초기값을 for문위 누적변수(지역변수) 삼아서 누적</code>해주고, 반환해준다.</strong>
+        <ul>
+          <li>넘어가는 초기값의 type은 Money의 VO로서 값객체다.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/8f8b25db-9e05-4d0d-9315-02c75f156daa.gif" alt="8f8b25db-9e05-4d0d-9315-02c75f156daa"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220708004603264.png" alt="image-20220708004603264"></p>
+  </li>
+</ol>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/practice/strategy/setnext/chaining/2022/07/08/(practice)%EC%97%AC%EB%9F%AC_%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4_%EC%A0%81%EC%9A%A9.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
