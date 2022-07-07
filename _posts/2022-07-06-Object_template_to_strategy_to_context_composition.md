@@ -1,10 +1,10 @@
 ---
 toc: true
 layout: post
-title: Object) TemplateMethod to Strategy2(Plan)
+title: Object) TemplateMethod to Strategy2(Plan1)
 description: 훅메서드 -> 전략메서드 -> context공유로 책임커진, 연결되는 합성객체
 
-categories: [java, 우테코, oop, object, templatemethod, strategy]
+categories: [java, 우테코, oop, object, templatemethod, strategy, plan]
 image: "images/posts/java.png"
 ---
 
