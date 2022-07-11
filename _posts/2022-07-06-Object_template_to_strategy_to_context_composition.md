@@ -4,12 +4,26 @@ layout: post
 title: Object) TemplateMethod to Strategy2(Plan1)
 description: 훅메서드 -> 전략메서드 -> context공유로 책임커진, 연결되는 합성객체
 
-categories: [java, 우테코, oop, object, templatemethod, strategy, plan]
+categories: [java, 우테코, oop, object, templatemethod, strategy, plan, context]
 image: "images/posts/java.png"
 ---
 
-## 템플렛 메소드 패턴 -> 전략패턴 -> 연결되는 합성객체
+## 템플렛 메소드 패턴 -> 전략패턴
 
+### 요약
+
+- 전략적용대상의 class가 추상클래스로 개별로직을 가지는 상태 
+
+1. 전략적용대상 추상class를 일반클래스로 변경 및 훅메서드 정의부 삭제
+2. 내수용 private훅메서드 호출부를, 주입된 전략객체.전략메서드()호출로 변경
+3. 전략 인터페이스 만들면서, 전략객체 주입 (생성자 or 확장(좋은 상속 가능성)있으면 setter로 받기)
+4. 전략메서드 올리기 
+5. 훅메서드구현 개별자식들을 [구상내용+전략인페명]으로 변경하고, 전략인터페이스 구현
+6. @Override 개별구현 proected훅메서드 ->  public전략메서드로 시그니쳐 변경
+7. 부모의 템플릿메소드 공통로직 with 내부 context변수들 -> 전체를 전략메서드에 인자로 context위임
+    - 내부context변수들(보라색)을 지역변수로 추출 이후 -> 제외하고 메서드 추출 -> 인라인으로 메서드인자로 context 넘겨주기
+8. delegate로 추출한 전체로직을 전략메서드에 default메서드로 위임 
+9. 위임된 default메서드 로직에서, default를 지우고 로직을 개별 전략객체들에게 구현->전달후, 기존 전략메서드(context인자X)는 삭제
 
 
 ### 좋은 상속(템플릿메소드패턴) -> 합성객체(전략패턴)
