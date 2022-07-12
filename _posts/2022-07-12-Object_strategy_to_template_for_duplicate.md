@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-title: Object) 중복제거를 위한 Strategy to Templatemethod (Plan3)
+title: Object)중복로직제거 Strategy to Templatemethod(Plan3)
 description: next필드 + setter + 다음타자 재귀호출 중복로직을 추상클래스로 제거
 
 categories: [java, 우테코, oop, object, strategy, templatemethod, plan, connectobject ]
