@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      1 min read
+      2 min read
     
 </span></p>
 
@@ -139,22 +139,48 @@ window.onload = wrap_img;
     <!-- toc가 먼저 나오므로 h3로 안내하기 -->
     <h3>📜 제목으로 보기</h3>
     <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#예시-미리-정리">예시 미리 정리</a></li>
 <li class="toc-entry toc-h3"><a href="#pycharm-알고리즘-풀기-세팅">pycharm 알고리즘 풀기 세팅</a></li>
 <li class="toc-entry toc-h3"><a href="#batch파일---해결한-문제-특정폴더에-백업하기">batch파일 -&gt; 해결한 문제 특정폴더에 백업하기</a></li>
-</ul><h3 id="pycharm-알고리즘-풀기-세팅">
+</ul><h3 id="예시-미리-정리">
+<a class="anchor" href="#%EC%98%88%EC%8B%9C-%EB%AF%B8%EB%A6%AC-%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>예시 미리 정리</h3>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># backjoon/101/Solution(heap).py + input, output.pxt 백업</span><span class="w">
+</span><span class="o">.</span><span class="nf">/sol.bat</span><span class="w"> </span><span class="nx">bj</span><span class="w"> </span><span class="nx">101</span><span class="w"> </span><span class="nx">heap</span><span class="w"> 
+
+</span><span class="c"># programmers/101/Solution.py + input, output.pxt 백업</span><span class="w">
+</span><span class="o">.</span><span class="nf">/sol.bat</span><span class="w"> </span><span class="nx">pg</span><span class="w"> </span><span class="nx">101</span><span class="w">
+
+</span><span class="c"># leetcode/101/Solution(heap).py + input, output.pxt 백업</span><span class="w">
+</span><span class="o">.</span><span class="nf">/sol.bat</span><span class="w"> </span><span class="nx">lc</span><span class="w"> </span><span class="nx">101</span><span class="w"> </span><span class="nx">heap</span><span class="w">
+
+</span><span class="c"># others/101/Solution.py + input, output.pxt 백업</span><span class="w">
+</span><span class="o">.</span><span class="nf">/sol.bat</span><span class="w"> </span><span class="nx">others</span><span class="w"> </span><span class="nx">101</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="pycharm-알고리즘-풀기-세팅">
 <a class="anchor" href="#pycharm-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%ED%92%80%EA%B8%B0-%EC%84%B8%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>pycharm 알고리즘 풀기 세팅</h3>
 
 <ol>
   <li>
-    <p>루트폴더에 <code class="language-plaintext highlighter-rouge">input.txt</code> , <code class="language-plaintext highlighter-rouge">output.txt</code>, <code class="language-plaintext highlighter-rouge">solution.py</code>를 만든다.</p>
+    <p><strong>루트폴더에 <code class="language-plaintext highlighter-rouge">input.txt</code> , <code class="language-plaintext highlighter-rouge">output.txt</code>, <code class="language-plaintext highlighter-rouge">Solution.py</code>를 만든다.</strong></p>
 
     <ul>
       <li>
         <p><strong>solution.py는 아래내용으로 작성한다.</strong></p>
 
         <div class="language-python highlighter-rouge">
-<div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
-<span class="nb">input</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span>
+<div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span> 
+      
+<span class="nb">input</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span> 
+      
+      
+<span class="k">def</span> <span class="nf">solution</span><span class="p">():</span> 
+    <span class="k">pass</span> 
+      
+      
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span> 
+    <span class="n">solution</span><span class="p">()</span> 
 </code></pre></div>        </div>
       </li>
     </ul>
@@ -162,7 +188,7 @@ window.onload = wrap_img;
     <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/b9b19bac-7a88-4cbe-b938-48f353f9c207.gif" alt="b9b19bac-7a88-4cbe-b938-48f353f9c207"></p>
   </li>
   <li>
-    <p>Edit Configurations &gt; <code class="language-plaintext highlighter-rouge">+</code> &gt; <code class="language-plaintext highlighter-rouge">algorithm</code>으로 설정을 생성한 뒤</p>
+    <p><strong>Edit Configurations &gt; <code class="language-plaintext highlighter-rouge">+</code> &gt; <code class="language-plaintext highlighter-rouge">Algorithm</code>으로 설정을 생성한 뒤</strong></p>
 
     <ol>
       <li>
@@ -200,46 +226,117 @@ window.onload = wrap_img;
   <li>
     <p>root 경로에 <code class="language-plaintext highlighter-rouge">sol.bat</code>파일을 만든다.</p>
 
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">sol.bat [ ] [ ] [ ]</code>  or <code class="language-plaintext highlighter-rouge">sol.bat [ ] [ ]</code> 형식으로 사용한다.
+        <ul>
+          <li>첫번째 인자는 <code class="language-plaintext highlighter-rouge">bj</code> or <code class="language-plaintext highlighter-rouge">pg</code> or <code class="language-plaintext highlighter-rouge">lc</code> or <code class="language-plaintext highlighter-rouge">others</code>가 되어야한다.</li>
+          <li>2번째 인자는 <code class="language-plaintext highlighter-rouge">첫번째인자 폴더 아래 생길 문제번호폴더</code>명이면서 Solution.py가 <code class="language-plaintext highlighter-rouge">%2인자.py</code>로 백업될 파일명이와야한다
+            <ul>
+              <li><strong>이미 푼 문제로서 해당 폴더가 존재하면 에러가 뜨고 종료된다.</strong></li>
+            </ul>
+          </li>
+          <li>3번째 인자는 <code class="language-plaintext highlighter-rouge">%2인자(%3인자).py</code>로서 파일명 뒤에 괄호로 추가 설명이 오도록 한다.</li>
+        </ul>
+      </li>
+    </ul>
+
     <div class="language-bat highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>@echo <span class="na">off</span>
    
-<span class="c">::backjoon가 없으면 일단 생성한다.</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="ow">exist</span> <span class="s2">".\backjoon\"</span> <span class="nb">md</span> <span class="s2">".\backjoon"</span>
-<span class="c">::backjoon/ 첫번째인수명/ 으로 폴더를 생성한다.</span>
-<span class="nb">md</span> <span class="s2">".\backjoon\</span><span class="err">%</span><span class="s2">1"</span>
+<span class="k">if</span> <span class="s2">"</span><span class="err">%</span><span class="s2">1"</span> <span class="o">==</span> <span class="s2">"bj"</span> <span class="o">(</span>
+    ::backjoon폴더가 없으면 일단 생성한다.
+    <span class="k">if</span> <span class="ow">not</span> <span class="ow">exist</span> <span class="s2">".\backjoon\"</span> <span class="nb">md</span> <span class="s2">".\backjoon"</span>
+    ::backjoon/ 첫번째인수명/ 으로 해당 문제의 폴더를 생성한다.
+    <span class="k">if</span> <span class="ow">not</span> <span class="ow">exist</span> <span class="s2">".\backjoon\</span><span class="err">%</span><span class="s2">2"</span> <span class="o">(</span>
+        <span class="nb">md</span> <span class="s2">".\backjoon\</span><span class="err">%</span><span class="s2">2"</span>
+    <span class="o">)</span> <span class="k">else</span> <span class="o">(</span>
+        <span class="nb">echo</span> <span class="s2">"already solved problem"</span>
+        <span class="kd">GOTO</span><span class="nl">:EOF</span>
+    <span class="o">)</span>
+    ::변수할당시 <span class="o">=</span> 사이에 공백이 있으면 안된다.
+    <span class="kd">Set</span> <span class="kd">CURRENT_FOLDER</span><span class="o">=</span><span class="kd">backjoon</span>
+<span class="o">)</span> <span class="k">else</span> <span class="k">if</span> <span class="s2">"</span><span class="err">%</span><span class="s2">1"</span> <span class="o">==</span> <span class="s2">"pg"</span> <span class="o">(</span>
+    :: <span class="k">else</span>는 닫는괄호와 같은 위치여야한다.
+    :: <span class="kd">programmers</span>폴더가 없으면 일단 생성한다.
+    <span class="k">if</span> <span class="ow">not</span> <span class="ow">exist</span> <span class="s2">".\programmers\"</span> <span class="nb">md</span> <span class="s2">".\programmers"</span>
+    ::programmers/ 첫번째인수명/ 으로 해당 문제의 폴더를 생성한다.
+    <span class="k">if</span> <span class="ow">not</span> <span class="ow">exist</span> <span class="s2">".\programmers\</span><span class="err">%</span><span class="s2">2"</span> <span class="o">(</span>
+        <span class="nb">md</span> <span class="s2">".\programmers\</span><span class="err">%</span><span class="s2">2"</span>
+    <span class="o">)</span> <span class="k">else</span> <span class="o">(</span>
+        <span class="nb">echo</span> <span class="s2">"already solved problem"</span>
+        <span class="kd">GOTO</span><span class="nl">:EOF</span>
+    <span class="o">)</span>
+    <span class="kd">Set</span> <span class="kd">CURRENT_FOLDER</span><span class="o">=</span><span class="kd">programmers</span>
+<span class="o">)</span>  <span class="k">else</span> <span class="k">if</span> <span class="s2">"</span><span class="err">%</span><span class="s2">1"</span> <span class="o">==</span> <span class="s2">"lc"</span> <span class="o">(</span>
+    ::leetcode폴더가 없으면 일단 생성한다.
+    <span class="k">if</span> <span class="ow">not</span> <span class="ow">exist</span> <span class="s2">".\leetcode\"</span> <span class="nb">md</span> <span class="s2">".\leetcode"</span>
+    ::leetcode/ 첫번째인수명/ 으로 해당 문제의 폴더를 생성한다.
+    <span class="k">if</span> <span class="ow">not</span> <span class="ow">exist</span> <span class="s2">".\leetcode\</span><span class="err">%</span><span class="s2">2"</span> <span class="o">(</span>
+        <span class="nb">md</span> <span class="s2">".\leetcode\</span><span class="err">%</span><span class="s2">2"</span>
+    <span class="o">)</span> <span class="k">else</span> <span class="o">(</span>
+        <span class="nb">echo</span> <span class="s2">"already solved problem"</span>
+        <span class="kd">GOTO</span><span class="nl">:EOF</span>
+    <span class="o">)</span>
+    <span class="kd">Set</span> <span class="kd">CURRENT_FOLDER</span><span class="o">=</span><span class="kd">leetcode</span>
+<span class="o">)</span>  <span class="k">else</span> <span class="k">if</span> <span class="s2">"</span><span class="err">%</span><span class="s2">1"</span> <span class="o">==</span> <span class="s2">"others"</span> <span class="o">(</span>
+   ::leetcode폴더가 없으면 일단 생성한다.
+   <span class="k">if</span> <span class="ow">not</span> <span class="ow">exist</span> <span class="s2">".\others\"</span> <span class="nb">md</span> <span class="s2">".\others"</span>
+   ::leetcode/ 첫번째인수명/ 으로 해당 문제의 폴더를 생성한다.
+   <span class="k">if</span> <span class="ow">not</span> <span class="ow">exist</span> <span class="s2">".\others\</span><span class="err">%</span><span class="s2">2"</span> <span class="o">(</span>
+       <span class="nb">md</span> <span class="s2">".\others\</span><span class="err">%</span><span class="s2">2"</span>
+   <span class="o">)</span> <span class="k">else</span> <span class="o">(</span>
+       <span class="nb">echo</span> <span class="s2">"already solved problem"</span>
+       <span class="kd">GOTO</span><span class="nl">:EOF</span>
+   <span class="o">)</span>
+   <span class="kd">Set</span> <span class="kd">CURRENT_FOLDER</span><span class="o">=</span><span class="kd">others</span>
+<span class="o">)</span>  <span class="k">else</span> <span class="o">(</span>
+    <span class="nb">echo</span> <span class="s2">"Must First arguments contains bj, pg, lc, others"</span>
+    <span class="kd">GOTO</span><span class="nl">:EOF</span>
+<span class="o">)</span>
    
 <span class="c">::Solution.py -&gt; .\backjoon\첫번째인수명\첫번째인수명.py으로 복사한다</span>
-<span class="k">if</span> <span class="s2">"</span><span class="err">%</span><span class="s2">2"</span> <span class="o">==</span> <span class="s2">""</span> <span class="nb">copy</span> <span class="nv">%cd%</span>\Solution.py .\backjoon\<span class="err">%</span><span class="m">1</span>\<span class="err">%</span><span class="m">1</span>.py
+<span class="k">if</span> <span class="s2">"</span><span class="err">%</span><span class="s2">3"</span> <span class="o">==</span> <span class="s2">""</span> <span class="nb">copy</span> <span class="nv">%cd%</span>\Solution.py .\<span class="nv">%CURRENT_FOLDER%</span>\<span class="err">%</span><span class="m">2</span>\<span class="err">%</span><span class="m">2</span>.py
 <span class="c">::               만약, 2번째 인수가 존재한다면-&gt; .\backjoon\첫번째인수명(2번째인수명).py으로 복사한다.</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="s2">"</span><span class="err">%</span><span class="s2">2"</span> <span class="o">==</span> <span class="s2">""</span> <span class="nb">copy</span> <span class="nv">%cd%</span>\Solution.py .\backjoon\<span class="err">%</span><span class="m">1</span>\<span class="err">%</span><span class="m">1</span><span class="o">(</span><span class="err">%</span><span class="m">2</span><span class="o">)</span>.py
+<span class="k">if</span> <span class="ow">not</span> <span class="s2">"</span><span class="err">%</span><span class="s2">3"</span> <span class="o">==</span> <span class="s2">""</span> <span class="nb">copy</span> <span class="nv">%cd%</span>\Solution.py .\<span class="nv">%CURRENT_FOLDER%</span>\<span class="err">%</span><span class="m">2</span>\<span class="err">%</span><span class="m">2</span><span class="o">(</span><span class="err">%</span><span class="m">3</span><span class="o">)</span>.py
 <span class="c">:: input, output.txt를 .\backjoon\첫번째인수명 폴더로 복사한다.</span>
-<span class="nb">copy</span> <span class="nv">%cd%</span>\input.txt .\backjoon\<span class="err">%</span><span class="m">1</span>\input.txt
-<span class="nb">copy</span> <span class="nv">%cd%</span>\output.txt .\backjoon\<span class="err">%</span><span class="m">1</span>\output.txt
+<span class="nb">copy</span> <span class="nv">%cd%</span>\input.txt .\<span class="nv">%CURRENT_FOLDER%</span>\<span class="err">%</span><span class="m">2</span>\input.txt
+<span class="nb">copy</span> <span class="nv">%cd%</span>\output.txt .\<span class="nv">%CURRENT_FOLDER%</span>\<span class="err">%</span><span class="m">2</span>\output.txt
    
    
 <span class="c">::기존 Solution.py 초기문장 적어 초기화</span>
 <span class="nb">echo</span> <span class="kd">import</span> <span class="kd">sys</span> <span class="o">&gt;</span> .\Solution.py
+<span class="nb">echo</span>. <span class="o">&gt;&gt;</span> .\Solution.py
 <span class="nb">echo</span> <span class="kd">input</span> <span class="o">=</span> <span class="kd">sys</span>.stdin.readline <span class="o">&gt;&gt;</span> .\Solution.py
 <span class="nb">echo</span>. <span class="o">&gt;&gt;</span> .\Solution.py
+<span class="nb">echo</span>. <span class="o">&gt;&gt;</span> .\Solution.py
+<span class="nb">echo</span> <span class="kd">def</span> <span class="kd">solution</span><span class="o">()</span>: <span class="o">&gt;&gt;</span> .\Solution.py
+<span class="nb">echo</span>     <span class="kd">pass</span> <span class="o">&gt;&gt;</span> .\Solution.py
+<span class="nb">echo</span>. <span class="o">&gt;&gt;</span> .\Solution.py
+<span class="nb">echo</span>. <span class="o">&gt;&gt;</span> .\Solution.py
+<span class="nb">echo</span> <span class="k">if</span> __name__ <span class="o">==</span> <span class="s1">'__main__'</span>: <span class="o">&gt;&gt;</span> .\Solution.py
+<span class="nb">echo</span>     <span class="kd">solution</span><span class="o">()</span> <span class="o">&gt;&gt;</span> .\Solution.py
    
 <span class="c">:: 기존 input, output.txt를 빈 파일로 생성</span>
 <span class="nb">type</span> <span class="kd">NUL</span> <span class="o">&gt;</span> .\input.txt
 <span class="nb">type</span> <span class="kd">NUL</span> <span class="o">&gt;</span> .\output.txt
+   
 </code></pre></div>    </div>
   </li>
   <li>
-    <p>문제를 다 풀었으면, 터미널에서 <code class="language-plaintext highlighter-rouge">./sol.bat [문제폴더]</code>형태로 백업하고, 3개 기본 파일을 초기화한다.</p>
+    <p>문제를 다 풀었으면, 터미널에서 <code class="language-plaintext highlighter-rouge">./sol.bat [bj] [문제번호] [optional]</code>형태로 백업하고, 3개 기본 파일을 초기화한다.</p>
 
     <ul>
-      <li>기본 저장경로는 <code class="language-plaintext highlighter-rouge">./backjoon/ 첫번째인자명</code>이다.</li>
-      <li><strong>첫번째 인자는 폴더명이자 py파일명이다.</strong></li>
-      <li><strong>2번째 인자는 존재한다면, py파일명(괄호) 괄호안에 텍스트를 적는다.</strong></li>
+      <li>기본 저장경로는 <code class="language-plaintext highlighter-rouge">./%1의 full word/%2</code>이다.</li>
+      <li><strong>2번째 인자는 폴더명이자 py파일명이다.</strong></li>
+      <li><strong>3번째 인자는 존재한다면, py파일명(괄호) 괄호안에 텍스트를 적는다.</strong></li>
     </ul>
 
-    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/f0406774-11bf-4279-adef-b4775af78a5b.gif" alt="f0406774-11bf-4279-adef-b4775af78a5b"></p>
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/09eff8de-9a45-47ae-9fcf-70f3b8e3aac1.gif" alt="09eff8de-9a45-47ae-9fcf-70f3b8e3aac1"></p>
 
-    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707144037645.png" alt="image-20220707144037645">
-<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707144052452.png" alt="image-20220707144052452"></p>
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716002917002.png" alt="image-20220716002917002"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716002930356.png" alt="image-20220716002930356"></p>
   </li>
 </ol>
 
