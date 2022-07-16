@@ -69,7 +69,7 @@ image: "images/posts/python.png"
 
 
 
-#### File Watchers에 Black 추가하여 실시간 반영
+#### ~~File Watchers에 Black 추가하여 실시간 반영~~
 
 1. `settings > tools > File Watchers`
 
@@ -87,8 +87,10 @@ image: "images/posts/python.png"
     ![9b2a113c-7453-4f5d-90c2-af6b406eda6a](https://raw.githubusercontent.com/is2js/screenshots/main/9b2a113c-7453-4f5d-90c2-af6b406eda6a.gif)
 
 
-#### 실시간 반영 지우고 단축키로 하려면
-- ctrl + shift + alt + B로 하면 될 듯
+#### External Tool로 등록한 Black의 단축키로 반영
+- keymap > `external tool`검색 > `black` 확인하여 단축키 설정
+- `ctrl + shift + alt + B`(assign)
+    ![20220716132507](https://raw.githubusercontent.com/is3js/screenshots/main/20220716132507.png)
 	- [참고](https://medium.com/daehyun-baek/python-%EC%BD%94%EB%93%9C-%EC%8A%A4%ED%83%80%EC%9D%BC-%ED%88%B4-pycharm-%ED%99%98%EA%B2%BD-flake8-black-4adba134696a)
 
 
@@ -114,3 +116,6 @@ image: "images/posts/python.png"
     ![20220707004036](https://raw.githubusercontent.com/is3js/screenshots/main/20220707004036.png)
     ![20220707004102](https://raw.githubusercontent.com/is3js/screenshots/main/20220707004102.png)
     ![8f9c3a17-afa3-4a23-a474-829913b929af](https://raw.githubusercontent.com/is3js/screenshots/main/8f9c3a17-afa3-4a23-a474-829913b929af.gif)
+
+- `ctrl + shift + alt + B`(assign): black 포맷터 실행
+    ![20220716132507](https://raw.githubusercontent.com/is3js/screenshots/main/20220716132507.png)
