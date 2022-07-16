@@ -140,7 +140,7 @@ window.onload = wrap_img;
 <ul>
 <li class="toc-entry toc-h4"><a href="#로컬python에-black설치---external-tools에-추가">로컬python에 black설치 -&gt; external tools에 추가</a></li>
 <li class="toc-entry toc-h4"><a href="#file-watchers에-black-추가하여-실시간-반영">File Watchers에 Black 추가하여 실시간 반영</a></li>
-<li class="toc-entry toc-h4"><a href="#실시간-반영-지우고-단축키로-하려면">실시간 반영 지우고 단축키로 하려면</a></li>
+<li class="toc-entry toc-h4"><a href="#external-tool로-등록한-black의-단축키로-반영">External Tool로 등록한 Black의 단축키로 반영</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h3"><a href="#단축키">단축키</a></li>
@@ -252,7 +252,8 @@ window.onload = wrap_img;
 </ol>
 
 <h4 id="file-watchers에-black-추가하여-실시간-반영">
-<a class="anchor" href="#file-watchers%EC%97%90-black-%EC%B6%94%EA%B0%80%ED%95%98%EC%97%AC-%EC%8B%A4%EC%8B%9C%EA%B0%84-%EB%B0%98%EC%98%81" aria-hidden="true"><span class="octicon octicon-link"></span></a>File Watchers에 Black 추가하여 실시간 반영</h4>
+<a class="anchor" href="#file-watchers%EC%97%90-black-%EC%B6%94%EA%B0%80%ED%95%98%EC%97%AC-%EC%8B%A4%EC%8B%9C%EA%B0%84-%EB%B0%98%EC%98%81" aria-hidden="true"><span class="octicon octicon-link"></span></a><del>File Watchers에 Black 추가하여 실시간 반영</del>
+</h4>
 
 <ol>
   <li>
@@ -282,10 +283,13 @@ window.onload = wrap_img;
   </li>
 </ol>
 
-<h4 id="실시간-반영-지우고-단축키로-하려면">
-<a class="anchor" href="#%EC%8B%A4%EC%8B%9C%EA%B0%84-%EB%B0%98%EC%98%81-%EC%A7%80%EC%9A%B0%EA%B3%A0-%EB%8B%A8%EC%B6%95%ED%82%A4%EB%A1%9C-%ED%95%98%EB%A0%A4%EB%A9%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>실시간 반영 지우고 단축키로 하려면</h4>
+<h4 id="external-tool로-등록한-black의-단축키로-반영">
+<a class="anchor" href="#external-tool%EB%A1%9C-%EB%93%B1%EB%A1%9D%ED%95%9C-black%EC%9D%98-%EB%8B%A8%EC%B6%95%ED%82%A4%EB%A1%9C-%EB%B0%98%EC%98%81" aria-hidden="true"><span class="octicon octicon-link"></span></a>External Tool로 등록한 Black의 단축키로 반영</h4>
 <ul>
-  <li>ctrl + shift + alt + B로 하면 될 듯
+  <li>keymap &gt; <code class="language-plaintext highlighter-rouge">external tool</code>검색 &gt; <code class="language-plaintext highlighter-rouge">black</code> 확인하여 단축키 설정</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">ctrl + shift + alt + B</code>(assign)
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/20220716132507.png" alt="20220716132507">
     <ul>
       <li><a href="https://medium.com/daehyun-baek/python-%EC%BD%94%EB%93%9C-%EC%8A%A4%ED%83%80%EC%9D%BC-%ED%88%B4-pycharm-%ED%99%98%EA%B2%BD-flake8-black-4adba134696a">참고</a></li>
     </ul>
@@ -330,6 +334,10 @@ window.onload = wrap_img;
       </li>
     </ul>
   </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">ctrl + shift + alt + B</code>(assign): black 포맷터 실행
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/20220716132507.png" alt="20220716132507">
+</li>
 </ul>
 
   </div><a class="u-url" href="/pycharm/settings/shortcut/2022/02/13/pycharrm_settings_shortcut.html" hidden></a>
