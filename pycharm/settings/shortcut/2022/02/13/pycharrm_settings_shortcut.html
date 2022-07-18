@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      1 min read
+      2 min read
     
 </span></p>
 
@@ -335,9 +335,33 @@ window.onload = wrap_img;
     </ul>
   </li>
   <li>
-<code class="language-plaintext highlighter-rouge">ctrl + shift + alt + B</code>(assign): black 포맷터 실행
-  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/20220716132507.png" alt="20220716132507">
+    <p><code class="language-plaintext highlighter-rouge">ctrl + shift + alt + B</code>(assign): black 포맷터 실행
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/20220716132507.png" alt="20220716132507"></p>
+  </li>
+  <li>
+<strong>생성자 및 필드 추가 과정</strong>
+    <ol>
+      <li>client에서 해당 객체로 필드들 노란줄 작성하고</li>
+      <li>action으로 <code class="language-plaintext highlighter-rouge">add field</code>를 해주어, None상태로 바로 enter쳐서 확정짓는다.
+        <ul>
+          <li><strong>파라미터 추출시 default value의 변수명이 자동으로 바뀌기 때문에 다음에 바꿔줄 것</strong></li>
+        </ul>
+      </li>
+      <li>None들을 하나하나 <code class="language-plaintext highlighter-rouge">ctrl + alt + p</code>로 파라미터 추출한 뒤</li>
+      <li><strong>None을 삭제후 <code class="language-plaintext highlighter-rouge">alt + /</code>를 직전단어를 추출해서, 필드명과 파라미터명을 맞춘다.</strong></li>
+      <li>모든 필드의 값들을 파라미터 추출하고 난 뒤,<code class="language-plaintext highlighter-rouge">ctrl + F6</code>으로 enter + tab + space를 활용해서 default값 사용을 체크해제 시킨다.
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/983c637c-e1a7-4908-a042-f2f13318fc17.gif" alt="983c637c-e1a7-4908-a042-f2f13318fc17">
 </li>
+    </ol>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">_필드와 property</code> 추가 과정</strong>
+    <ol>
+      <li>client에서 해당 객체로 필드들 <code class="language-plaintext highlighter-rouge">_필드</code>명으로 작성하고</li>
+      <li>action <code class="language-plaintext highlighter-rouge">add field</code> 부터 필드 추가과정을 따른다.</li>
+      <li>다시 client코드의 _필드에  &gt; <code class="language-plaintext highlighter-rouge">add property</code>를 사용해서 property코드도 추가한다.</li>
+    </ol>
+  </li>
 </ul>
 
   </div><a class="u-url" href="/pycharm/settings/shortcut/2022/02/13/pycharrm_settings_shortcut.html" hidden></a>

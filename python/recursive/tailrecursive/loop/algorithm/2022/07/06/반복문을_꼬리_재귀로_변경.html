@@ -4,9 +4,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>반복문을 꼬리재귀로 변경하기 | 돌범텤놑</title>
+<title>method 수준의 반복문&lt;-&gt;꼬리재귀 변환 | 돌범텤놑</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="반복문을 꼬리재귀로 변경하기" />
+<meta property="og:title" content="method 수준의 반복문&lt;-&gt;꼬리재귀 변환" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="꼬리 재귀를 통해 stack이 쌓이지 않고 바로 누적결과변수를 반환" />
 <meta property="og:description" content="꼬리 재귀를 통해 stack이 쌓이지 않고 바로 누적결과변수를 반환" />
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-07-06T00:00:00-05:00" />
 <script type="application/ld+json">
-{"datePublished":"2022-07-06T00:00:00-05:00","url":"blog.chojaeseong.com/python/recursive/tailrecursive/loop/algorithm/2022/07/06/%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%84_%EA%BC%AC%EB%A6%AC_%EC%9E%AC%EA%B7%80%EB%A1%9C_%EB%B3%80%EA%B2%BD.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/python.png","headline":"반복문을 꼬리재귀로 변경하기","dateModified":"2022-07-06T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/python/recursive/tailrecursive/loop/algorithm/2022/07/06/%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%84_%EA%BC%AC%EB%A6%AC_%EC%9E%AC%EA%B7%80%EB%A1%9C_%EB%B3%80%EA%B2%BD.html"},"description":"꼬리 재귀를 통해 stack이 쌓이지 않고 바로 누적결과변수를 반환","@context":"https://schema.org"}</script>
+{"datePublished":"2022-07-06T00:00:00-05:00","url":"blog.chojaeseong.com/python/recursive/tailrecursive/loop/algorithm/2022/07/06/%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%84_%EA%BC%AC%EB%A6%AC_%EC%9E%AC%EA%B7%80%EB%A1%9C_%EB%B3%80%EA%B2%BD.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/python.png","headline":"method 수준의 반복문&lt;-&gt;꼬리재귀 변환","dateModified":"2022-07-06T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/python/recursive/tailrecursive/loop/algorithm/2022/07/06/%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%84_%EA%BC%AC%EB%A6%AC_%EC%9E%AC%EA%B7%80%EB%A1%9C_%EB%B3%80%EA%B2%BD.html"},"description":"꼬리 재귀를 통해 stack이 쌓이지 않고 바로 누적결과변수를 반환","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <!-- 폰트추가를 위한 link태그 삽입 -->
   <!-- 폰트1:  기본 spoqa 웹폰트 -->
@@ -96,13 +96,13 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">반복문을 꼬리재귀로 변경하기</h1><p class="page-description">꼬리 재귀를 통해 stack이 쌓이지 않고 바로 누적결과변수를 반환</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-06T00:00:00-05:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">method 수준의 반복문&lt;-&gt;꼬리재귀 변환</h1><p class="page-description">꼬리 재귀를 통해 stack이 쌓이지 않고 바로 누적결과변수를 반환</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-06T00:00:00-05:00" itemprop="datePublished">
         Jul 6, 2022
       </time>
        • <span class="read-time" title="Estimated read time">
     
     
-      1 min read
+      2 min read
     
 </span></p>
 
@@ -133,9 +133,11 @@ window.onload = wrap_img;
     <!-- toc가 먼저 나오므로 h3로 안내하기 -->
     <h3>📜 제목으로 보기</h3>
     <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#method-수준에서-반복문과-꼬리재귀">method 수준에서 반복문과 꼬리재귀</a>
+<ul>
 <li class="toc-entry toc-h2"><a href="#반복문-to-꼬리재귀">반복문 to 꼬리재귀</a>
 <ul>
-<li class="toc-entry toc-h3"><a href="#피보나치-수열-반복문업데이트-변수-2개">피보나치 수열 반복문(업데이트 변수 2개)</a>
+<li class="toc-entry toc-h3"><a href="#ex1-피보나치-수열-반복문업데이트-변수-2개">ex1) 피보나치 수열 반복문(업데이트 변수 2개)</a>
 <ul>
 <li class="toc-entry toc-h4"><a href="#01-전체로직을-업데이트변수를-가지는-꼬리재귀-함수helper로-추출">01 전체로직을 업데이트변수를 가지는 꼬리재귀 함수helper로 추출</a></li>
 <li class="toc-entry toc-h4"><a href="#02-반복문에서-업데이트되는-변수들의-초기값들의-반복문-위의-초기값을---파라미터로-추출-후-최초-호출-인자로-대입">02 반복문에서 업데이트되는 변수들의 초기값들의, 반복문 위의 초기값을 -&gt; 파라미터로 추출 후 최초 호출 인자로 대입</a></li>
@@ -143,14 +145,33 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h4"><a href="#04-반복문-끝-횟수n-to-시작의-다음을-종착역으로-잡아-종착역에서-누적-결과값-반환">04 반복문 끝 횟수(n to 시작)의 다음을 종착역으로 잡아, 종착역에서 누적 결과값 반환</a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h3"><a href="#누적합-반복문업데이트-변수-1개">누적합 반복문(업데이트 변수 1개)</a></li>
+<li class="toc-entry toc-h3"><a href="#ex2-누적합-반복문업데이트-변수-1개--n도-로직에-사용">ex2) 누적합 반복문(업데이트 변수 1개 + n도 로직에 사용)</a></li>
 </ul>
 </li>
-</ul><h2 id="반복문-to-꼬리재귀">
+<li class="toc-entry toc-h2"><a href="#꼬리재귀-to-반복문">꼬리재귀 to 반복문</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#ex1-피보나치-수열-꼬리-재귀">ex1) 피보나치 수열 꼬리 재귀</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-꼬리재귀문과-꼬리재귀-호출부를-복사해놓고-시작한다">01 꼬리재귀문과 [꼬리재귀 호출부]를 복사해놓고 시작한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#02-n부터-깍여내려가-early-return되는-종착역을-보고-1연산하는-종착역인지-vs-누적결과값만-반환하는-특이점인지-확인-뒤-2업데이트-반복문-횟수n종착역직전-or-n종착역-및-return할-누적결과값-변수를-확인후-일단-n만-인자로-가지는-메서드를-작성한다">02 n부터 깍여내려가, early return되는 종착역을 보고, (1)연산하는 종착역인지 vs 누적결과값만 반환하는 특이점인지 확인 뒤, (2)업데이트 반복문 횟수(n~종착역직전 or n~종착역) 및 return할 누적결과값 변수를 확인후 일단 n만 인자로 가지는 메서드를 작성한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#03-꼬리재귀-최초-호출부로-넘어간-누적-업데이트-변수들의-초기값들을-확인하여-n을-제외하고-반복문위에-업데이트-변수의-초기값으로-선언한다">03 꼬리재귀 최초 호출부로 넘어간, 누적 업데이트 변수들의 초기값들을 확인하여, n을 제외하고 반복문위에 업데이트 변수의 초기값으로 선언한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#04-n정의-파라미터들---n-1일때-업데이트되는-인자들을-보고-업데이트-로직을-반복문-내부에-넣어준다">04 n정의 파라미터들 -&gt; n-1일때 업데이트되는 인자들을 보고, 업데이트 로직을 반복문 내부에 넣어준다.</a></li>
+<li class="toc-entry toc-h4"><a href="#05-특이점-종착역을-포함하여-초기값-early-return문들은-그대로-복사-한-뒤-종착역의--누적결과값-반환이-아니라-초기값들을-반환하도록-처리해준다-특이점-종착역도-연산이-없어서-반복문에-반영안되므로-초기값으로서-early-return으로-처리해줘야한다-만약-의미가-없는-초기값이면-삭제해도-된다">05 특이점 종착역을 포함하여 초기값 early return문들은 그대로 복사 한 뒤, 종착역의  누적결과값 반환이 아니라, 초기값들을 반환하도록 처리해준다. (특이점 종착역도 연산이 없어서 반복문에 반영안되므로 초기값으로서 early return으로 처리해줘야한다. 만약, 의미가 없는 초기값이면 삭제해도 된다.)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#ex-누적합-꼬리-재귀">ex) 누적합 꼬리 재귀</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h1 id="method-수준에서-반복문과-꼬리재귀">
+<a class="anchor" href="#method-%EC%88%98%EC%A4%80%EC%97%90%EC%84%9C-%EB%B0%98%EB%B3%B5%EB%AC%B8%EA%B3%BC-%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>method 수준에서 반복문과 꼬리재귀</h1>
+
+<h2 id="반복문-to-꼬리재귀">
 <a class="anchor" href="#%EB%B0%98%EB%B3%B5%EB%AC%B8-to-%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>반복문 to 꼬리재귀</h2>
 
-<h3 id="피보나치-수열-반복문업데이트-변수-2개">
-<a class="anchor" href="#%ED%94%BC%EB%B3%B4%EB%82%98%EC%B9%98-%EC%88%98%EC%97%B4-%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EB%B3%80%EC%88%98-2%EA%B0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>피보나치 수열 반복문(업데이트 변수 2개)</h3>
+<h3 id="ex1-피보나치-수열-반복문업데이트-변수-2개">
+<a class="anchor" href="#ex1-%ED%94%BC%EB%B3%B4%EB%82%98%EC%B9%98-%EC%88%98%EC%97%B4-%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EB%B3%80%EC%88%98-2%EA%B0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>ex1) 피보나치 수열 반복문(업데이트 변수 2개)</h3>
 
 <ul>
   <li>
@@ -256,8 +277,8 @@ window.onload = wrap_img;
   </li>
 </ol>
 
-<h3 id="누적합-반복문업데이트-변수-1개">
-<a class="anchor" href="#%EB%88%84%EC%A0%81%ED%95%A9-%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EB%B3%80%EC%88%98-1%EA%B0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>누적합 반복문(업데이트 변수 1개)</h3>
+<h3 id="ex2-누적합-반복문업데이트-변수-1개--n도-로직에-사용">
+<a class="anchor" href="#ex2-%EB%88%84%EC%A0%81%ED%95%A9-%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EB%B3%80%EC%88%98-1%EA%B0%9C--n%EB%8F%84-%EB%A1%9C%EC%A7%81%EC%97%90-%EC%82%AC%EC%9A%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>ex2) 누적합 반복문(업데이트 변수 1개 + n도 로직에 사용)</h3>
 
 <ul>
   <li>
@@ -286,6 +307,90 @@ window.onload = wrap_img;
     <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716140729103.png" alt="image-20220716140729103"></p>
   </li>
 </ul>
+
+<h2 id="꼬리재귀-to-반복문">
+<a class="anchor" href="#%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80-to-%EB%B0%98%EB%B3%B5%EB%AC%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>꼬리재귀 to 반복문</h2>
+
+<h3 id="ex1-피보나치-수열-꼬리-재귀">
+<a class="anchor" href="#ex1-%ED%94%BC%EB%B3%B4%EB%82%98%EC%B9%98-%EC%88%98%EC%97%B4-%EA%BC%AC%EB%A6%AC-%EC%9E%AC%EA%B7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>ex1) 피보나치 수열 꼬리 재귀</h3>
+
+<h4 id="01-꼬리재귀문과-꼬리재귀-호출부를-복사해놓고-시작한다">
+<a class="anchor" href="#01-%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80%EB%AC%B8%EA%B3%BC-%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80-%ED%98%B8%EC%B6%9C%EB%B6%80%EB%A5%BC-%EB%B3%B5%EC%82%AC%ED%95%B4%EB%86%93%EA%B3%A0-%EC%8B%9C%EC%9E%91%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 꼬리재귀문과 [꼬리재귀 호출부]를 복사해놓고 시작한다.</h4>
+
+<ul>
+  <li>
+    <p><strong>호출부의 인자는 <code class="language-plaintext highlighter-rouge">원래 반복문 위에 있던 업데이트 변수들의 초기값</code>들이다.</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/fa6bb144-71e6-4576-bfb7-28695b622e53.gif" alt="fa6bb144-71e6-4576-bfb7-28695b622e53"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718155306969.png" alt="image-20220718155306969"></p>
+  </li>
+</ul>
+
+<h4 id="02-n부터-깍여내려가-early-return되는-종착역을-보고-1연산하는-종착역인지-vs-누적결과값만-반환하는-특이점인지-확인-뒤-2업데이트-반복문-횟수n종착역직전-or-n종착역-및-return할-누적결과값-변수를-확인후-일단-n만-인자로-가지는-메서드를-작성한다">
+<a class="anchor" href="#02-n%EB%B6%80%ED%84%B0-%EA%B9%8D%EC%97%AC%EB%82%B4%EB%A0%A4%EA%B0%80-early-return%EB%90%98%EB%8A%94-%EC%A2%85%EC%B0%A9%EC%97%AD%EC%9D%84-%EB%B3%B4%EA%B3%A0-1%EC%97%B0%EC%82%B0%ED%95%98%EB%8A%94-%EC%A2%85%EC%B0%A9%EC%97%AD%EC%9D%B8%EC%A7%80-vs-%EB%88%84%EC%A0%81%EA%B2%B0%EA%B3%BC%EA%B0%92%EB%A7%8C-%EB%B0%98%ED%99%98%ED%95%98%EB%8A%94-%ED%8A%B9%EC%9D%B4%EC%A0%90%EC%9D%B8%EC%A7%80-%ED%99%95%EC%9D%B8-%EB%92%A4-2%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EB%B0%98%EB%B3%B5%EB%AC%B8-%ED%9A%9F%EC%88%98n%EC%A2%85%EC%B0%A9%EC%97%AD%EC%A7%81%EC%A0%84-or-n%EC%A2%85%EC%B0%A9%EC%97%AD-%EB%B0%8F-return%ED%95%A0-%EB%88%84%EC%A0%81%EA%B2%B0%EA%B3%BC%EA%B0%92-%EB%B3%80%EC%88%98%EB%A5%BC-%ED%99%95%EC%9D%B8%ED%9B%84-%EC%9D%BC%EB%8B%A8-n%EB%A7%8C-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EA%B0%80%EC%A7%80%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EC%9E%91%EC%84%B1%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 n부터 깍여내려가, early return되는 종착역을 보고, (1)연산하는 종착역인지 vs 누적결과값만 반환하는 특이점인지 확인 뒤, (2)업데이트 반복문 횟수(n~종착역직전 or n~종착역) 및 return할 누적결과값 변수를 확인후 일단 n만 인자로 가지는 메서드를 작성한다.</h4>
+
+<ul>
+  <li>
+    <p><strong>n부터</strong> 내려가다가, <strong>종착역은 n==1</strong>이며, 연산없이 결과값만 반환하므로 <strong>실제 반복문 구간은 n==2</strong>까지다.</p>
+
+    <ul>
+      <li>
+        <p><strong>2~n까지 <code class="language-plaintext highlighter-rouge">range(2, n+1)</code>로  작성</strong>해준다.</p>
+
+        <ul>
+          <li>
+            <p><strong>스샷에는 range(2, n)으로 오타</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718161845614.png" alt="image-20220718161845614"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/12427ca7-fd67-44a6-87a5-bd02e189f19e.gif" alt="12427ca7-fd67-44a6-87a5-bd02e189f19e"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718160401891.png" alt="image-20220718160401891"></p>
+  </li>
+</ul>
+
+<h4 id="03-꼬리재귀-최초-호출부로-넘어간-누적-업데이트-변수들의-초기값들을-확인하여-n을-제외하고-반복문위에-업데이트-변수의-초기값으로-선언한다">
+<a class="anchor" href="#03-%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80-%EC%B5%9C%EC%B4%88-%ED%98%B8%EC%B6%9C%EB%B6%80%EB%A1%9C-%EB%84%98%EC%96%B4%EA%B0%84-%EB%88%84%EC%A0%81-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EB%B3%80%EC%88%98%EB%93%A4%EC%9D%98-%EC%B4%88%EA%B8%B0%EA%B0%92%EB%93%A4%EC%9D%84-%ED%99%95%EC%9D%B8%ED%95%98%EC%97%AC-n%EC%9D%84-%EC%A0%9C%EC%99%B8%ED%95%98%EA%B3%A0-%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9C%84%EC%97%90-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EB%B3%80%EC%88%98%EC%9D%98-%EC%B4%88%EA%B8%B0%EA%B0%92%EC%9C%BC%EB%A1%9C-%EC%84%A0%EC%96%B8%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 꼬리재귀 최초 호출부로 넘어간, 누적 업데이트 변수들의 초기값들을 확인하여, n을 제외하고 반복문위에 업데이트 변수의 초기값으로 선언한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/e32d5aa3-7645-4927-9243-323e18f28450.gif" alt="e32d5aa3-7645-4927-9243-323e18f28450"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718160625304.png" alt="image-20220718160625304"></p>
+
+<h4 id="04-n정의-파라미터들---n-1일때-업데이트되는-인자들을-보고-업데이트-로직을-반복문-내부에-넣어준다">
+<a class="anchor" href="#04-n%EC%A0%95%EC%9D%98-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%93%A4---n-1%EC%9D%BC%EB%95%8C-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EB%90%98%EB%8A%94-%EC%9D%B8%EC%9E%90%EB%93%A4%EC%9D%84-%EB%B3%B4%EA%B3%A0-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EB%A1%9C%EC%A7%81%EC%9D%84-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%82%B4%EB%B6%80%EC%97%90-%EB%84%A3%EC%96%B4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 n정의 파라미터들 -&gt; n-1일때 업데이트되는 인자들을 보고, 업데이트 로직을 반복문 내부에 넣어준다.</h4>
+
+<ul>
+  <li>python이므로, 파라미터 복사 = 인자 복사 형태로 그대로 복사해서 넣어줘도 된다.</li>
+  <li>만약, 업데이트로 로직에 n이 들어가면, 반복문의 index i 를 사용하면 된다.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/1e9c1d3d-50df-4c7b-a3c4-a6a3c7530bdc.gif" alt="1e9c1d3d-50df-4c7b-a3c4-a6a3c7530bdc"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718161048908.png" alt="image-20220718161048908"></p>
+
+<h4 id="05-특이점-종착역을-포함하여-초기값-early-return문들은-그대로-복사-한-뒤-종착역의--누적결과값-반환이-아니라-초기값들을-반환하도록-처리해준다-특이점-종착역도-연산이-없어서-반복문에-반영안되므로-초기값으로서-early-return으로-처리해줘야한다-만약-의미가-없는-초기값이면-삭제해도-된다">
+<a class="anchor" href="#05-%ED%8A%B9%EC%9D%B4%EC%A0%90-%EC%A2%85%EC%B0%A9%EC%97%AD%EC%9D%84-%ED%8F%AC%ED%95%A8%ED%95%98%EC%97%AC-%EC%B4%88%EA%B8%B0%EA%B0%92-early-return%EB%AC%B8%EB%93%A4%EC%9D%80-%EA%B7%B8%EB%8C%80%EB%A1%9C-%EB%B3%B5%EC%82%AC-%ED%95%9C-%EB%92%A4-%EC%A2%85%EC%B0%A9%EC%97%AD%EC%9D%98--%EB%88%84%EC%A0%81%EA%B2%B0%EA%B3%BC%EA%B0%92-%EB%B0%98%ED%99%98%EC%9D%B4-%EC%95%84%EB%8B%88%EB%9D%BC-%EC%B4%88%EA%B8%B0%EA%B0%92%EB%93%A4%EC%9D%84-%EB%B0%98%ED%99%98%ED%95%98%EB%8F%84%EB%A1%9D-%EC%B2%98%EB%A6%AC%ED%95%B4%EC%A4%80%EB%8B%A4-%ED%8A%B9%EC%9D%B4%EC%A0%90-%EC%A2%85%EC%B0%A9%EC%97%AD%EB%8F%84-%EC%97%B0%EC%82%B0%EC%9D%B4-%EC%97%86%EC%96%B4%EC%84%9C-%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%97%90-%EB%B0%98%EC%98%81%EC%95%88%EB%90%98%EB%AF%80%EB%A1%9C-%EC%B4%88%EA%B8%B0%EA%B0%92%EC%9C%BC%EB%A1%9C%EC%84%9C-early-return%EC%9C%BC%EB%A1%9C-%EC%B2%98%EB%A6%AC%ED%95%B4%EC%A4%98%EC%95%BC%ED%95%9C%EB%8B%A4-%EB%A7%8C%EC%95%BD-%EC%9D%98%EB%AF%B8%EA%B0%80-%EC%97%86%EB%8A%94-%EC%B4%88%EA%B8%B0%EA%B0%92%EC%9D%B4%EB%A9%B4-%EC%82%AD%EC%A0%9C%ED%95%B4%EB%8F%84-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 특이점 종착역을 포함하여 초기값 early return문들은 그대로 복사 한 뒤, 종착역의  누적결과값 반환이 아니라, 초기값들을 반환하도록 처리해준다. (특이점 종착역도 연산이 없어서 반복문에 반영안되므로 초기값으로서 early return으로 처리해줘야한다. 만약, 의미가 없는 초기값이면 삭제해도 된다.)</h4>
+
+<ul>
+  <li>
+    <p>특이점 종착역은, 누적결과값만 반환하고 <strong>업데이트 연산로직이 없어서 반복문에 반영이 안됬다. -&gt; 그 종착역과 그 이전 초기값들 처리를 해줘야한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718161615229.png" alt="image-20220718161615229"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/27fa6ca0-73ef-4703-ac49-dfaf793db280.gif" alt="27fa6ca0-73ef-4703-ac49-dfaf793db280"></p>
+  </li>
+</ul>
+
+<p>​	<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718161902584.png" alt="image-20220718161902584"></p>
+
+<h3 id="ex-누적합-꼬리-재귀">
+<a class="anchor" href="#ex-%EB%88%84%EC%A0%81%ED%95%A9-%EA%BC%AC%EB%A6%AC-%EC%9E%AC%EA%B7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>ex) 누적합 꼬리 재귀</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/3eb9ba74-70eb-4ff8-8da6-87564ba9205c.gif" alt="3eb9ba74-70eb-4ff8-8da6-87564ba9205c"></p>
 
 
   </div><a class="u-url" href="/python/recursive/tailrecursive/loop/algorithm/2022/07/06/%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%84_%EA%BC%AC%EB%A6%AC_%EC%9E%AC%EA%B7%80%EB%A1%9C_%EB%B3%80%EA%B2%BD.html" hidden></a>
