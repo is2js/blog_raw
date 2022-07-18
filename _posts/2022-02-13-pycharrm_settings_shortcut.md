@@ -119,3 +119,18 @@ image: "images/posts/python.png"
 
 - `ctrl + shift + alt + B`(assign): black 포맷터 실행
     ![20220716132507](https://raw.githubusercontent.com/is3js/screenshots/main/20220716132507.png)
+
+
+- **생성자 및 필드 추가 과정**
+    1. client에서 해당 객체로 필드들 노란줄 작성하고
+    2. action으로 `add field`를 해주어, None상태로 바로 enter쳐서 확정짓는다.
+        - **파라미터 추출시 default value의 변수명이 자동으로 바뀌기 때문에 다음에 바꿔줄 것**
+    3. None들을 하나하나 `ctrl + alt + p`로 파라미터 추출한 뒤
+    4. **None을 삭제후 `alt + /`를 직전단어를 추출해서, 필드명과 파라미터명을 맞춘다.**
+    5. 모든 필드의 값들을 파라미터 추출하고 난 뒤,`ctrl + F6`으로 enter + tab + space를 활용해서 default값 사용을 체크해제 시킨다.
+        ![983c637c-e1a7-4908-a042-f2f13318fc17](https://raw.githubusercontent.com/is3js/screenshots/main/983c637c-e1a7-4908-a042-f2f13318fc17.gif)
+
+- **`_필드와 property` 추가 과정**
+    1. client에서 해당 객체로 필드들 `_필드`명으로 작성하고
+    2. action `add field` 부터 필드 추가과정을 따른다.
+    3. 다시 client코드의 _필드에  > `add property`를 사용해서 property코드도 추가한다.
