@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Object) prev vs next 비교 및 next를 컬렉션소유 전략패턴으로(Plan6) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Object) prev vs next 비교 및 next를 컬렉션소유 전략패턴으로(Plan6)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="next데코객체는 동적 추가처리가 안되어 컬렉션 add로 동적기능 추가" />
+<meta property="og:description" content="next데코객체는 동적 추가처리가 안되어 컬렉션 add로 동적기능 추가" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/decorator/prev/next/section/2022/07/18/prev_vs_next_%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%B9%84%EA%B5%90_next%EB%8D%B0%EC%BD%94%EB%A5%BC_%EC%BB%AC%EB%A0%89%EC%85%98%EC%86%8C%EC%9C%A0_%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%9C%BC%EB%A1%9C.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/decorator/prev/next/section/2022/07/18/prev_vs_next_%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%B9%84%EA%B5%90_next%EB%8D%B0%EC%BD%94%EB%A5%BC_%EC%BB%AC%EB%A0%89%EC%85%98%EC%86%8C%EC%9C%A0_%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%9C%BC%EB%A1%9C.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-18T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-07-18T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/decorator/prev/next/section/2022/07/18/prev_vs_next_%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%B9%84%EA%B5%90_next%EB%8D%B0%EC%BD%94%EB%A5%BC_%EC%BB%AC%EB%A0%89%EC%85%98%EC%86%8C%EC%9C%A0_%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%9C%BC%EB%A1%9C.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"Object) prev vs next 비교 및 next를 컬렉션소유 전략패턴으로(Plan6)","dateModified":"2022-07-18T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/decorator/prev/next/section/2022/07/18/prev_vs_next_%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%B9%84%EA%B5%90_next%EB%8D%B0%EC%BD%94%EB%A5%BC_%EC%BB%AC%EB%A0%89%EC%85%98%EC%86%8C%EC%9C%A0_%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%9C%BC%EB%A1%9C.html"},"description":"next데코객체는 동적 추가처리가 안되어 컬렉션 add로 동적기능 추가","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Object) prev vs next 비교 및 next를 컬렉션소유 전략패턴으로(Plan6)</h1><p class="page-description">next데코객체는 동적 추가처리가 안되어 컬렉션 add로 동적기능 추가</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-18T00:00:00-05:00" itemprop="datePublished">
+        Jul 18, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#oop">oop</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#decorator">decorator</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#prev">prev</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#next">next</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#section">section</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#prev데코객체-vs-next데코객체-비교">prev데코객체 vs next데코객체 비교</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#공통점">공통점</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#같은형의-다음타자를-필드로-가지고-있어-필요하다면-객체class내에서-꼬리재귀-호출필드검사-터미네이팅--다음타자-꼬리재귀-호출-가능하다">같은형의 다음타자를 필드로 가지고 있어, 필요하다면 객체class내에서 꼬리재귀 호출(필드검사 터미네이팅 + 다음타자 꼬리재귀 호출) 가능하다.</a></li>
+<li class="toc-entry toc-h3"><a href="#데코객체-소유-클래스는-1개의-필드만-가지고-있어도-연결된-모든-객체를-호출할-수-있다">데코객체 소유 클래스는 1개의 필드만 가지고 있어도 연결된 모든 객체를 호출할 수 있다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#차이점">차이점</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#다음-타자를-업데이트-방식과-주체가-다르다">다음 타자를 업데이트 방식과 주체가 다르다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#prev">prev</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#prev는-마지막부터-실행될-예정이며-소유클래스에는-시작특이점객체를-공유한다-prev를-소유하는-데코객체-소유-클래스는-시작특이점을-알고-출발하며-이미-존재하는-prev를-prev필드로-넣으면서-다음-타자가-생겨나므로-prev를-들고-있는-데코객체-소유-클래스가-내부에서-다음-타자를-생성--prev객체필드를-다음타자로--업데이트시키며-최종에는-마지막-타자만-알게되어-뒤에서부터-시작점까지-돌아간다">prev는 마지막부터 실행될 예정이며, 소유클래스에는 시작특이점객체를 공유한다. prev를 소유하는 데코객체 소유 클래스는 시작특이점을 알고 출발하며, 이미 존재하는 prev를 prev필드로 넣으면서 다음 타자가 생겨나므로, prev를 들고 있는 [데코객체 소유 클래스]가 내부에서 다음 타자를 생성 + prev객체필드를 다음타자로  업데이트시키며, 최종에는 마지막 타자만 알게되어, 뒤에서부터 시작점까지 돌아간다.</a></li>
+<li class="toc-entry toc-h5"><a href="#요약-다음타자-업데이트-주최는-데코객체-소유-클래스--애초에-시작특이점-객체를-prev로서-들고서-시작됨">요약: 다음타자 업데이트 주최는 데코객체 소유 클래스 + 애초에 시작특이점 객체를 prev로서 들고서 시작됨.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#next">next</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#next는-순서대로-실행되기-위해-외부에서-미리-다-연결된-상태로-시작데코객체만-공유하므로-시작객체-생성시-모든-연결이-완료가-되어야한다-next라는-것은-아직-존재하지-않기-때문에-생성자에서-받더라도-실제-생성시-생성자-내부에서-next가-생성되어야하므로-생성자-체이닝으로-한번에-다-연결된-뒤-시작객체가-반환되어야한다-next를-소유하는-데코객체-소유-클래스는-시작부터-끝null까지-아무것도-모른다-또한-넣어주는-시작next데코객체만-받아서-처음부터---마지막까지-순서대로-순환한다-next데코객체-자신이--생성자or-setter로-다음-타자를-받아들이되-시작객체가-반환되어야한다">next는 순서대로 실행되기 위해, 외부에서 미리 다 연결된 상태로 시작데코객체만 공유하므로, 시작객체 생성시 모든 연결이 완료가 되어야한다. next라는 것은 아직 존재하지 않기 때문에, 생성자에서 받더라도, 실제 생성시 생성자 내부에서 next가 생성되어야하므로 생성자 체이닝으로 한번에 다 연결된 뒤, 시작객체가 반환되어야한다. next를 소유하는 데코객체 소유 클래스는 시작부터 끝(null)까지 아무것도 모른다. 또한, 넣어주는 시작next데코객체만 받아서, 처음부터 -&gt; 마지막까지 순서대로 순환한다. [next데코객체 자신이]  생성자or setter로 다음 타자를 받아들이되, 시작객체가 반환되어야한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#요약-다음타자-업데이트는-객체자신-내부에서-시작부터-끝까지-다-받기--데코-소유-클래스는-시작next데코객체만-공유받음">요약: 다음타자 업데이트는, 객체자신 내부에서, 시작부터 끝까지 다 받기 + 데코 소유 클래스는 시작next데코객체만 공유받음.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#실행순서가-다르니-용도도-다르다">실행순서가 다르니 용도도 다르다?</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#prev-1">prev</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#prev는-끝을-모르지만-시작은-아는-구간처리를-했었는데-각-데코객체들이-개별구간을-정해놓고-그곳만-처리하면-되니-마지막부터-실행되어도-상관없다게다가-필드의-prev정보가-있어-마지막부터-개별구간-처리해도-문제없다">prev는 끝을 모르지만, 시작은 아는 구간처리를 했었는데, 각 데코객체들이 개별구간을 정해놓고, 그곳만 처리하면 되니, 마지막부터 실행되어도 상관없다(게다가 필드의 prev정보가 있어 마지막부터 개별구간 처리해도 문제없다)</a></li>
+<li class="toc-entry toc-h5"><a href="#마지막이-정해지지-않는--순서대로-적용-안해도-되는-기능계산-자체가-순서와-상관없이-특정금액-누적-추가-or-마지막이-정해지지-않는-구간을-미리-쪼개놓고-해당부분만-개별처리-하는-곳에-사용한다---마지막부터-실행되므로-순서대로-누적적용은-못하고-개별구간-처리만-하되-for문에서-누적시키는-것을-생각하자">마지막이 정해지지 않는 &amp; 순서대로 적용 안해도 되는 기능(계산 자체가 순서와 상관없이 특정금액 누적?) 추가 or 마지막이 정해지지 않는 구간을 미리 쪼개놓고 해당부분만 개별처리 하는 곳에 사용한다. -&gt; 마지막부터 실행되므로 순서대로 누적적용은 못하고, 개별구간 처리만 하되 for문에서 누적시키는 것을 생각하자.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#next-1">next</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#next는-처음부터-시작하니-직전까지의-결과값을-메서드-인자로-들고다니며-누적된-계산을할-때-좋을-것-같다----for문에서는-누적하면-안된다">next는 처음부터 시작하니 [직전까지의 결과값을 메서드 인자로 들고다니며 누적된 계산]을할 때 좋을 것 같다.  -&gt; for문에서는 누적하면 안된다.</a></li>
+<li class="toc-entry toc-h5"><a href="#처음부터-순서대로-마지막까지-누적-적용하고-싶은-곳에-직전결과값을-들고-있는-메소드로-사용한다-대신-for문에서는-누적안하고-업데이트만-하게-한다">처음부터 순서대로 마지막까지 누적 적용하고 싶은 곳에 [직전결과값을 들고 있는 메소드]로 사용한다. 대신 for문에서는 누적안하고 업데이트만 하게 한다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#구상next데코객체-1개-소유-대신-컬렉션set필드에-전략객체-소유하기">구상next데코객체 1개 소유 대신, 컬렉션Set필드에 전략객체 소유하기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#순서대로-누적적용-연산을-반복문do-while으로-할거면-동적-기능-추가-안되는-구상next데코객체-소유-대신-동적-추가-가능한-set컬렉션-필드-소유와-for문으로-해결">순서대로 누적적용 연산을 반복문(do-while)으로 할거면, 동적 기능 추가 안되는 구상next데코객체 소유 대신, 동적 추가 가능한 Set컬렉션 필드 소유와 for문으로 해결</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#01-next데코객체의-추상체인-abstcaclculator추상클래스를-전략-인터페이스로-변경하면서-next와-객체자신이-다음타자를-받는-체이닝setter-등-전략메서드만-남기고-다-삭제한다">01 next데코객체의 추상체인 AbstCaclculator추상클래스를 전략 인터페이스로 변경하면서, next와 객체자신이 다음타자를 받는 체이닝setter 등 전략메서드만 남기고 다 삭제한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#02-전략인터페이스명으로-변경하고-훅메서드-구현자식들next데코객체class들은-전략인페를-구현하도록-수정한다">02 전략인터페이스명으로 변경하고, 훅메서드 구현자식들(next데코객체class들)은 전략인페를 구현하도록 수정한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#03-전략주입-구상클래스구-next데코-1개-소유-클래스에서-필드를-set컬렉션으로-변경후---실행기-반복문을-do-while--getnext--null터미네이팅로직을---for문으로-바꾼다">03 전략주입 구상클래스(구, next데코 1개 소유 클래스)에서 필드를 Set컬렉션으로 변경후 -&gt; 실행기 반복문을 do while + getNext() + null터미네이팅로직을 -&gt; for문으로 바꾼다.</a></li>
+<li class="toc-entry toc-h5"><a href="#04-전략주입-구상클래스가-set필드에-동적으로-다음타자를-추가--체이닝-할-수-있도록-컬렉션필드에-체이닝setter를-만든다">04 전략주입 구상클래스가, Set필드에 동적으로 다음타자를 추가 + 체이닝 할 수 있도록 컬렉션필드에 체이닝setter를 만든다.</a></li>
+<li class="toc-entry toc-h5"><a href="#05-client에서는-전략주입-구상클래스의--필수로-1개를-넣어서-생성후---set필드에-체이닝해서-편하게-전략객체들을-동적으로-받는다">05 client에서는 전략주입 구상클래스의  필수로 1개를 넣어서 생성후 -&gt; set필드에 체이닝해서 편하게 전략객체들을 동적으로 받는다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h1 id="prev데코객체-vs-next데코객체-비교">
+<a class="anchor" href="#prev%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-vs-next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-%EB%B9%84%EA%B5%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>prev데코객체 vs next데코객체 비교</h1>
+
+<h2 id="공통점">
+<a class="anchor" href="#%EA%B3%B5%ED%86%B5%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>공통점</h2>
+
+<h3 id="같은형의-다음타자를-필드로-가지고-있어-필요하다면-객체class내에서-꼬리재귀-호출필드검사-터미네이팅--다음타자-꼬리재귀-호출-가능하다">
+<a class="anchor" href="#%EA%B0%99%EC%9D%80%ED%98%95%EC%9D%98-%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90%EB%A5%BC-%ED%95%84%EB%93%9C%EB%A1%9C-%EA%B0%80%EC%A7%80%EA%B3%A0-%EC%9E%88%EC%96%B4-%ED%95%84%EC%9A%94%ED%95%98%EB%8B%A4%EB%A9%B4-%EA%B0%9D%EC%B2%B4class%EB%82%B4%EC%97%90%EC%84%9C-%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80-%ED%98%B8%EC%B6%9C%ED%95%84%EB%93%9C%EA%B2%80%EC%82%AC-%ED%84%B0%EB%AF%B8%EB%84%A4%EC%9D%B4%ED%8C%85--%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90-%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80-%ED%98%B8%EC%B6%9C-%EA%B0%80%EB%8A%A5%ED%95%98%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>같은형의 다음타자를 필드로 가지고 있어, 필요하다면 객체class내에서 꼬리재귀 호출(필드검사 터미네이팅 + 다음타자 꼬리재귀 호출) 가능하다.</h3>
+
+<ul>
+  <li>
+    <p>다음 타자를 필드로 가지고 있어서 <strong>데코객체 내부에서 꼬리재귀 호출로 다음 것으로 넘어가는 것이 가능</strong>하다.</p>
+
+    <ul>
+      <li>
+        <p>구간처리 prev</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718235553256.png" alt="image-20220718235553256"></p>
+      </li>
+      <li>
+        <p>기능추가 next
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718235532171.png" alt="image-20220718235532171"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>하지만, 재귀호출은 stackoverflow를 발생시키므로, <code class="language-plaintext highlighter-rouge">데코객체 소유 클래스에서 반복문 + 다음타자로 업데이트</code>를 통해 실행한다.</strong></p>
+  </li>
+</ul>
+
+<h3 id="데코객체-소유-클래스는-1개의-필드만-가지고-있어도-연결된-모든-객체를-호출할-수-있다">
+<a class="anchor" href="#%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-%EC%86%8C%EC%9C%A0-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%8A%94-1%EA%B0%9C%EC%9D%98-%ED%95%84%EB%93%9C%EB%A7%8C-%EA%B0%80%EC%A7%80%EA%B3%A0-%EC%9E%88%EC%96%B4%EB%8F%84-%EC%97%B0%EA%B2%B0%EB%90%9C-%EB%AA%A8%EB%93%A0-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%ED%98%B8%EC%B6%9C%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>데코객체 소유 클래스는 1개의 필드만 가지고 있어도 연결된 모든 객체를 호출할 수 있다.</h3>
+
+<ul>
+  <li>데코객체 특징 자체가 <strong>다음타자를 필드로 소유하기 때문에 <code class="language-plaintext highlighter-rouge">연결된 여러객체를 알 필요가 없다</code></strong>
+    <ul>
+      <li>
+        <p>prev
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719000552063.png" alt="image-20220719000552063"></p>
+      </li>
+      <li>
+        <p>next</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719000524469.png" alt="image-20220719000524469"></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="차이점">
+<a class="anchor" href="#%EC%B0%A8%EC%9D%B4%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>차이점</h2>
+
+<p>###</p>
+
+<h3 id="다음-타자를-업데이트-방식과-주체가-다르다">
+<a class="anchor" href="#%EB%8B%A4%EC%9D%8C-%ED%83%80%EC%9E%90%EB%A5%BC-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EB%B0%A9%EC%8B%9D%EA%B3%BC-%EC%A3%BC%EC%B2%B4%EA%B0%80-%EB%8B%A4%EB%A5%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>다음 타자를 업데이트 방식과 주체가 다르다.</h3>
+
+<ul>
+  <li>데코 소유 클래스는 필드 1개로만 소유하고 있으며, <strong>add(prev)나 void setter(next) 메서드</strong>를 통해, 다음 타자를 붙여야하는데</li>
+</ul>
+
+<h4 id="prev">
+<a class="anchor" href="#prev" aria-hidden="true"><span class="octicon octicon-link"></span></a>prev</h4>
+
+<h5 id="prev는-마지막부터-실행될-예정이며-소유클래스에는-시작특이점객체를-공유한다-prev를-소유하는-데코객체-소유-클래스는-시작특이점을-알고-출발하며-이미-존재하는-prev를-prev필드로-넣으면서-다음-타자가-생겨나므로-prev를-들고-있는-데코객체-소유-클래스가-내부에서-다음-타자를-생성--prev객체필드를-다음타자로--업데이트시키며-최종에는-마지막-타자만-알게되어-뒤에서부터-시작점까지-돌아간다">
+<a class="anchor" href="#prev%EB%8A%94-%EB%A7%88%EC%A7%80%EB%A7%89%EB%B6%80%ED%84%B0-%EC%8B%A4%ED%96%89%EB%90%A0-%EC%98%88%EC%A0%95%EC%9D%B4%EB%A9%B0-%EC%86%8C%EC%9C%A0%ED%81%B4%EB%9E%98%EC%8A%A4%EC%97%90%EB%8A%94-%EC%8B%9C%EC%9E%91%ED%8A%B9%EC%9D%B4%EC%A0%90%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EA%B3%B5%EC%9C%A0%ED%95%9C%EB%8B%A4-prev%EB%A5%BC-%EC%86%8C%EC%9C%A0%ED%95%98%EB%8A%94-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-%EC%86%8C%EC%9C%A0-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%8A%94-%EC%8B%9C%EC%9E%91%ED%8A%B9%EC%9D%B4%EC%A0%90%EC%9D%84-%EC%95%8C%EA%B3%A0-%EC%B6%9C%EB%B0%9C%ED%95%98%EB%A9%B0-%EC%9D%B4%EB%AF%B8-%EC%A1%B4%EC%9E%AC%ED%95%98%EB%8A%94-prev%EB%A5%BC-prev%ED%95%84%EB%93%9C%EB%A1%9C-%EB%84%A3%EC%9C%BC%EB%A9%B4%EC%84%9C-%EB%8B%A4%EC%9D%8C-%ED%83%80%EC%9E%90%EA%B0%80-%EC%83%9D%EA%B2%A8%EB%82%98%EB%AF%80%EB%A1%9C-prev%EB%A5%BC-%EB%93%A4%EA%B3%A0-%EC%9E%88%EB%8A%94-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-%EC%86%8C%EC%9C%A0-%ED%81%B4%EB%9E%98%EC%8A%A4%EA%B0%80-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%EB%8B%A4%EC%9D%8C-%ED%83%80%EC%9E%90%EB%A5%BC-%EC%83%9D%EC%84%B1--prev%EA%B0%9D%EC%B2%B4%ED%95%84%EB%93%9C%EB%A5%BC-%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90%EB%A1%9C--%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EC%8B%9C%ED%82%A4%EB%A9%B0-%EC%B5%9C%EC%A2%85%EC%97%90%EB%8A%94-%EB%A7%88%EC%A7%80%EB%A7%89-%ED%83%80%EC%9E%90%EB%A7%8C-%EC%95%8C%EA%B2%8C%EB%90%98%EC%96%B4-%EB%92%A4%EC%97%90%EC%84%9C%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91%EC%A0%90%EA%B9%8C%EC%A7%80-%EB%8F%8C%EC%95%84%EA%B0%84%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>prev는 마지막부터 실행될 예정이며, 소유클래스에는 시작특이점객체를 공유한다. prev를 소유하는 데코객체 소유 클래스는 시작특이점을 알고 출발하며, 이미 존재하는 prev를 prev필드로 넣으면서 다음 타자가 생겨나므로, prev를 들고 있는 [데코객체 소유 클래스]가 내부에서 다음 타자를 생성 + prev객체필드를 다음타자로  업데이트시키며, 최종에는 마지막 타자만 알게되어, 뒤에서부터 시작점까지 돌아간다.</h5>
+
+<ul>
+  <li>
+    <p>데코 소유 클래스는, prev데코객체의 <strong>시작특이점 객체로 초기화된 prev데코객체를 가지고 태어난다.</strong></p>
+  </li>
+  <li>
+    <p>데코 소유 클래스는, <strong>생성된 prev를 들고 있으므로, 자신의 내부에서 prev를 저장하는 다음타자를 생성하여, 알고있는 데코객체를 업데이트(재할당) 한다.</strong><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719001041913.png" alt="image-20220719001041913"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719001501252.png" alt="image-20220719001501252"></p>
+  </li>
+  <li>
+    <p><strong>그로 인해, 맨 마지막 타자부터 -&gt; 시작특이점까지 순환하게 된다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719001614978.png" alt="image-20220719001614978"></p>
+  </li>
+</ul>
+
+<h5 id="요약-다음타자-업데이트-주최는-데코객체-소유-클래스--애초에-시작특이점-객체를-prev로서-들고서-시작됨">
+<a class="anchor" href="#%EC%9A%94%EC%95%BD-%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EC%A3%BC%EC%B5%9C%EB%8A%94-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-%EC%86%8C%EC%9C%A0-%ED%81%B4%EB%9E%98%EC%8A%A4--%EC%95%A0%EC%B4%88%EC%97%90-%EC%8B%9C%EC%9E%91%ED%8A%B9%EC%9D%B4%EC%A0%90-%EA%B0%9D%EC%B2%B4%EB%A5%BC-prev%EB%A1%9C%EC%84%9C-%EB%93%A4%EA%B3%A0%EC%84%9C-%EC%8B%9C%EC%9E%91%EB%90%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>요약: 다음타자 업데이트 주최는 데코객체 소유 클래스 + 애초에 시작특이점 객체를 prev로서 들고서 시작됨.</h5>
+
+<h4 id="next">
+<a class="anchor" href="#next" aria-hidden="true"><span class="octicon octicon-link"></span></a>next</h4>
+
+<h5 id="next는-순서대로-실행되기-위해-외부에서-미리-다-연결된-상태로-시작데코객체만-공유하므로-시작객체-생성시-모든-연결이-완료가-되어야한다-next라는-것은-아직-존재하지-않기-때문에-생성자에서-받더라도-실제-생성시-생성자-내부에서-next가-생성되어야하므로-생성자-체이닝으로-한번에-다-연결된-뒤-시작객체가-반환되어야한다-next를-소유하는-데코객체-소유-클래스는-시작부터-끝null까지-아무것도-모른다-또한-넣어주는-시작next데코객체만-받아서-처음부터---마지막까지-순서대로-순환한다-next데코객체-자신이--생성자or-setter로-다음-타자를-받아들이되-시작객체가-반환되어야한다">
+<a class="anchor" href="#next%EB%8A%94-%EC%88%9C%EC%84%9C%EB%8C%80%EB%A1%9C-%EC%8B%A4%ED%96%89%EB%90%98%EA%B8%B0-%EC%9C%84%ED%95%B4-%EC%99%B8%EB%B6%80%EC%97%90%EC%84%9C-%EB%AF%B8%EB%A6%AC-%EB%8B%A4-%EC%97%B0%EA%B2%B0%EB%90%9C-%EC%83%81%ED%83%9C%EB%A1%9C-%EC%8B%9C%EC%9E%91%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%A7%8C-%EA%B3%B5%EC%9C%A0%ED%95%98%EB%AF%80%EB%A1%9C-%EC%8B%9C%EC%9E%91%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1%EC%8B%9C-%EB%AA%A8%EB%93%A0-%EC%97%B0%EA%B2%B0%EC%9D%B4-%EC%99%84%EB%A3%8C%EA%B0%80-%EB%90%98%EC%96%B4%EC%95%BC%ED%95%9C%EB%8B%A4-next%EB%9D%BC%EB%8A%94-%EA%B2%83%EC%9D%80-%EC%95%84%EC%A7%81-%EC%A1%B4%EC%9E%AC%ED%95%98%EC%A7%80-%EC%95%8A%EA%B8%B0-%EB%95%8C%EB%AC%B8%EC%97%90-%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90%EC%84%9C-%EB%B0%9B%EB%8D%94%EB%9D%BC%EB%8F%84-%EC%8B%A4%EC%A0%9C-%EC%83%9D%EC%84%B1%EC%8B%9C-%EC%83%9D%EC%84%B1%EC%9E%90-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-next%EA%B0%80-%EC%83%9D%EC%84%B1%EB%90%98%EC%96%B4%EC%95%BC%ED%95%98%EB%AF%80%EB%A1%9C-%EC%83%9D%EC%84%B1%EC%9E%90-%EC%B2%B4%EC%9D%B4%EB%8B%9D%EC%9C%BC%EB%A1%9C-%ED%95%9C%EB%B2%88%EC%97%90-%EB%8B%A4-%EC%97%B0%EA%B2%B0%EB%90%9C-%EB%92%A4-%EC%8B%9C%EC%9E%91%EA%B0%9D%EC%B2%B4%EA%B0%80-%EB%B0%98%ED%99%98%EB%90%98%EC%96%B4%EC%95%BC%ED%95%9C%EB%8B%A4-next%EB%A5%BC-%EC%86%8C%EC%9C%A0%ED%95%98%EB%8A%94-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-%EC%86%8C%EC%9C%A0-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%8A%94-%EC%8B%9C%EC%9E%91%EB%B6%80%ED%84%B0-%EB%81%9Dnull%EA%B9%8C%EC%A7%80-%EC%95%84%EB%AC%B4%EA%B2%83%EB%8F%84-%EB%AA%A8%EB%A5%B8%EB%8B%A4-%EB%98%90%ED%95%9C-%EB%84%A3%EC%96%B4%EC%A3%BC%EB%8A%94-%EC%8B%9C%EC%9E%91next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%A7%8C-%EB%B0%9B%EC%95%84%EC%84%9C-%EC%B2%98%EC%9D%8C%EB%B6%80%ED%84%B0---%EB%A7%88%EC%A7%80%EB%A7%89%EA%B9%8C%EC%A7%80-%EC%88%9C%EC%84%9C%EB%8C%80%EB%A1%9C-%EC%88%9C%ED%99%98%ED%95%9C%EB%8B%A4-next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-%EC%9E%90%EC%8B%A0%EC%9D%B4--%EC%83%9D%EC%84%B1%EC%9E%90or-setter%EB%A1%9C-%EB%8B%A4%EC%9D%8C-%ED%83%80%EC%9E%90%EB%A5%BC-%EB%B0%9B%EC%95%84%EB%93%A4%EC%9D%B4%EB%90%98-%EC%8B%9C%EC%9E%91%EA%B0%9D%EC%B2%B4%EA%B0%80-%EB%B0%98%ED%99%98%EB%90%98%EC%96%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>next는 순서대로 실행되기 위해, 외부에서 미리 다 연결된 상태로 시작데코객체만 공유하므로, 시작객체 생성시 모든 연결이 완료가 되어야한다. next라는 것은 아직 존재하지 않기 때문에, 생성자에서 받더라도, 실제 생성시 생성자 내부에서 next가 생성되어야하므로 생성자 체이닝으로 한번에 다 연결된 뒤, 시작객체가 반환되어야한다. next를 소유하는 데코객체 소유 클래스는 시작부터 끝(null)까지 아무것도 모른다. 또한, 넣어주는 시작next데코객체만 받아서, 처음부터 -&gt; 마지막까지 순서대로 순환한다. [next데코객체 자신이]  생성자or setter로 다음 타자를 받아들이되, 시작객체가 반환되어야한다.</h5>
+
+<ul>
+  <li>
+    <p>next데코객체는 <strong>순서대로 시작되기를 원해, 시작데코객체만 반환되어 공유되므로, 소유클래스가 아닌 <code class="language-plaintext highlighter-rouge">데코객체 자신</code>내부에서 생성자체이닝이나 <code class="language-plaintext highlighter-rouge">체이닝setter(next필드에 다음타자를 채우되, 반환은 나 자신 return this;</code>가 되어야한다</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719003203194.png" alt="image-20220719003203194"></p>
+  </li>
+  <li>
+    <p>return this의 <strong>체이닝 받기는 setter를 호출한 나 자신이  반환되므로, 시작객체가 반환된다.</strong></p>
+
+    <ul>
+      <li>데코 소유 클래스에서 들어가는 것은 <code class="language-plaintext highlighter-rouge">시작데코객체인 BaseCalc</code>만 들어간다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719003331699.png" alt="image-20220719003331699"></p>
+  </li>
+  <li>
+    <p><strong>체이닝으로 한번에 받지만, 아는 것은 시작데코객체 뿐 -&gt; <code class="language-plaintext highlighter-rouge">마지막 연결된 놈을 모르며 접근이 불가능</code>하므로 prev때처럼의 동적기능추가가 안된다.</strong></p>
+
+    <ul>
+      <li><strong>시작객체가 반환된 상태인데, 또 next를 추가할 순없다. 미리 한번에 추가됬어야 하며, null로 끝내놓은 상태일 것이다.</strong></li>
+      <li><strong>null까지 모든 게 결정되어있을 때만 next데코객체를 써야하나보다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p>next데코객체 소유클래스는 아무것도 모르고, **이미 다 연결된 데코객체만 받는다. **</p>
+
+    <ul>
+      <li>이로 인해, <strong>동적으로 추가가 안된다.</strong>
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719001929191.png" alt="image-20220719001929191"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719002419839.png" alt="image-20220719002419839"></p>
+  </li>
+</ul>
+
+<h5 id="요약-다음타자-업데이트는-객체자신-내부에서-시작부터-끝까지-다-받기--데코-소유-클래스는-시작next데코객체만-공유받음">
+<a class="anchor" href="#%EC%9A%94%EC%95%BD-%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EB%8A%94-%EA%B0%9D%EC%B2%B4%EC%9E%90%EC%8B%A0-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%EC%8B%9C%EC%9E%91%EB%B6%80%ED%84%B0-%EB%81%9D%EA%B9%8C%EC%A7%80-%EB%8B%A4-%EB%B0%9B%EA%B8%B0--%EB%8D%B0%EC%BD%94-%EC%86%8C%EC%9C%A0-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%8A%94-%EC%8B%9C%EC%9E%91next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%A7%8C-%EA%B3%B5%EC%9C%A0%EB%B0%9B%EC%9D%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>요약: 다음타자 업데이트는, 객체자신 내부에서, 시작부터 끝까지 다 받기 + 데코 소유 클래스는 시작next데코객체만 공유받음.</h5>
+
+<h3 id="실행순서가-다르니-용도도-다르다">
+<a class="anchor" href="#%EC%8B%A4%ED%96%89%EC%88%9C%EC%84%9C%EA%B0%80-%EB%8B%A4%EB%A5%B4%EB%8B%88-%EC%9A%A9%EB%8F%84%EB%8F%84-%EB%8B%A4%EB%A5%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>실행순서가 다르니 용도도 다르다?</h3>
+
+<h4 id="prev-1">
+<a class="anchor" href="#prev-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>prev</h4>
+
+<h5 id="prev는-끝을-모르지만-시작은-아는-구간처리를-했었는데-각-데코객체들이-개별구간을-정해놓고-그곳만-처리하면-되니-마지막부터-실행되어도-상관없다게다가-필드의-prev정보가-있어-마지막부터-개별구간-처리해도-문제없다">
+<a class="anchor" href="#prev%EB%8A%94-%EB%81%9D%EC%9D%84-%EB%AA%A8%EB%A5%B4%EC%A7%80%EB%A7%8C-%EC%8B%9C%EC%9E%91%EC%9D%80-%EC%95%84%EB%8A%94-%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC%EB%A5%BC-%ED%96%88%EC%97%88%EB%8A%94%EB%8D%B0-%EA%B0%81-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%93%A4%EC%9D%B4-%EA%B0%9C%EB%B3%84%EA%B5%AC%EA%B0%84%EC%9D%84-%EC%A0%95%ED%95%B4%EB%86%93%EA%B3%A0-%EA%B7%B8%EA%B3%B3%EB%A7%8C-%EC%B2%98%EB%A6%AC%ED%95%98%EB%A9%B4-%EB%90%98%EB%8B%88-%EB%A7%88%EC%A7%80%EB%A7%89%EB%B6%80%ED%84%B0-%EC%8B%A4%ED%96%89%EB%90%98%EC%96%B4%EB%8F%84-%EC%83%81%EA%B4%80%EC%97%86%EB%8B%A4%EA%B2%8C%EB%8B%A4%EA%B0%80-%ED%95%84%EB%93%9C%EC%9D%98-prev%EC%A0%95%EB%B3%B4%EA%B0%80-%EC%9E%88%EC%96%B4-%EB%A7%88%EC%A7%80%EB%A7%89%EB%B6%80%ED%84%B0-%EA%B0%9C%EB%B3%84%EA%B5%AC%EA%B0%84-%EC%B2%98%EB%A6%AC%ED%95%B4%EB%8F%84-%EB%AC%B8%EC%A0%9C%EC%97%86%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>prev는 끝을 모르지만, 시작은 아는 구간처리를 했었는데, 각 데코객체들이 개별구간을 정해놓고, 그곳만 처리하면 되니, 마지막부터 실행되어도 상관없다(게다가 필드의 prev정보가 있어 마지막부터 개별구간 처리해도 문제없다)</h5>
+
+<h5 id="마지막이-정해지지-않는--순서대로-적용-안해도-되는-기능계산-자체가-순서와-상관없이-특정금액-누적-추가-or-마지막이-정해지지-않는-구간을-미리-쪼개놓고-해당부분만-개별처리-하는-곳에-사용한다---마지막부터-실행되므로-순서대로-누적적용은-못하고-개별구간-처리만-하되-for문에서-누적시키는-것을-생각하자">
+<a class="anchor" href="#%EB%A7%88%EC%A7%80%EB%A7%89%EC%9D%B4-%EC%A0%95%ED%95%B4%EC%A7%80%EC%A7%80-%EC%95%8A%EB%8A%94--%EC%88%9C%EC%84%9C%EB%8C%80%EB%A1%9C-%EC%A0%81%EC%9A%A9-%EC%95%88%ED%95%B4%EB%8F%84-%EB%90%98%EB%8A%94-%EA%B8%B0%EB%8A%A5%EA%B3%84%EC%82%B0-%EC%9E%90%EC%B2%B4%EA%B0%80-%EC%88%9C%EC%84%9C%EC%99%80-%EC%83%81%EA%B4%80%EC%97%86%EC%9D%B4-%ED%8A%B9%EC%A0%95%EA%B8%88%EC%95%A1-%EB%88%84%EC%A0%81-%EC%B6%94%EA%B0%80-or-%EB%A7%88%EC%A7%80%EB%A7%89%EC%9D%B4-%EC%A0%95%ED%95%B4%EC%A7%80%EC%A7%80-%EC%95%8A%EB%8A%94-%EA%B5%AC%EA%B0%84%EC%9D%84-%EB%AF%B8%EB%A6%AC-%EC%AA%BC%EA%B0%9C%EB%86%93%EA%B3%A0-%ED%95%B4%EB%8B%B9%EB%B6%80%EB%B6%84%EB%A7%8C-%EA%B0%9C%EB%B3%84%EC%B2%98%EB%A6%AC-%ED%95%98%EB%8A%94-%EA%B3%B3%EC%97%90-%EC%82%AC%EC%9A%A9%ED%95%9C%EB%8B%A4---%EB%A7%88%EC%A7%80%EB%A7%89%EB%B6%80%ED%84%B0-%EC%8B%A4%ED%96%89%EB%90%98%EB%AF%80%EB%A1%9C-%EC%88%9C%EC%84%9C%EB%8C%80%EB%A1%9C-%EB%88%84%EC%A0%81%EC%A0%81%EC%9A%A9%EC%9D%80-%EB%AA%BB%ED%95%98%EA%B3%A0-%EA%B0%9C%EB%B3%84%EA%B5%AC%EA%B0%84-%EC%B2%98%EB%A6%AC%EB%A7%8C-%ED%95%98%EB%90%98-for%EB%AC%B8%EC%97%90%EC%84%9C-%EB%88%84%EC%A0%81%EC%8B%9C%ED%82%A4%EB%8A%94-%EA%B2%83%EC%9D%84-%EC%83%9D%EA%B0%81%ED%95%98%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>마지막이 정해지지 않는 &amp; 순서대로 적용 안해도 되는 기능(계산 자체가 순서와 상관없이 특정금액 누적?) 추가 or 마지막이 정해지지 않는 구간을 미리 쪼개놓고 해당부분만 개별처리 하는 곳에 사용한다. -&gt; 마지막부터 실행되므로 순서대로 누적적용은 못하고, 개별구간 처리만 하되 for문에서 누적시키는 것을 생각하자.</h5>
+
+<h4 id="next-1">
+<a class="anchor" href="#next-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>next</h4>
+
+<h5 id="next는-처음부터-시작하니-직전까지의-결과값을-메서드-인자로-들고다니며-누적된-계산을할-때-좋을-것-같다----for문에서는-누적하면-안된다">
+<a class="anchor" href="#next%EB%8A%94-%EC%B2%98%EC%9D%8C%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91%ED%95%98%EB%8B%88-%EC%A7%81%EC%A0%84%EA%B9%8C%EC%A7%80%EC%9D%98-%EA%B2%B0%EA%B3%BC%EA%B0%92%EC%9D%84-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%93%A4%EA%B3%A0%EB%8B%A4%EB%8B%88%EB%A9%B0-%EB%88%84%EC%A0%81%EB%90%9C-%EA%B3%84%EC%82%B0%EC%9D%84%ED%95%A0-%EB%95%8C-%EC%A2%8B%EC%9D%84-%EA%B2%83-%EA%B0%99%EB%8B%A4----for%EB%AC%B8%EC%97%90%EC%84%9C%EB%8A%94-%EB%88%84%EC%A0%81%ED%95%98%EB%A9%B4-%EC%95%88%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>next는 처음부터 시작하니 [직전까지의 결과값을 메서드 인자로 들고다니며 누적된 계산]을할 때 좋을 것 같다.  -&gt; for문에서는 누적하면 안된다.</h5>
+
+<h5 id="처음부터-순서대로-마지막까지-누적-적용하고-싶은-곳에-직전결과값을-들고-있는-메소드로-사용한다-대신-for문에서는-누적안하고-업데이트만-하게-한다">
+<a class="anchor" href="#%EC%B2%98%EC%9D%8C%EB%B6%80%ED%84%B0-%EC%88%9C%EC%84%9C%EB%8C%80%EB%A1%9C-%EB%A7%88%EC%A7%80%EB%A7%89%EA%B9%8C%EC%A7%80-%EB%88%84%EC%A0%81-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B3%A0-%EC%8B%B6%EC%9D%80-%EA%B3%B3%EC%97%90-%EC%A7%81%EC%A0%84%EA%B2%B0%EA%B3%BC%EA%B0%92%EC%9D%84-%EB%93%A4%EA%B3%A0-%EC%9E%88%EB%8A%94-%EB%A9%94%EC%86%8C%EB%93%9C%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%9C%EB%8B%A4-%EB%8C%80%EC%8B%A0-for%EB%AC%B8%EC%97%90%EC%84%9C%EB%8A%94-%EB%88%84%EC%A0%81%EC%95%88%ED%95%98%EA%B3%A0-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EB%A7%8C-%ED%95%98%EA%B2%8C-%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>처음부터 순서대로 마지막까지 누적 적용하고 싶은 곳에 [직전결과값을 들고 있는 메소드]로 사용한다. 대신 for문에서는 누적안하고 업데이트만 하게 한다.</h5>
+
+<h3 id="구상next데코객체-1개-소유-대신-컬렉션set필드에-전략객체-소유하기">
+<a class="anchor" href="#%EA%B5%AC%EC%83%81next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-1%EA%B0%9C-%EC%86%8C%EC%9C%A0-%EB%8C%80%EC%8B%A0-%EC%BB%AC%EB%A0%89%EC%85%98set%ED%95%84%EB%93%9C%EC%97%90-%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4-%EC%86%8C%EC%9C%A0%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>구상next데코객체 1개 소유 대신, 컬렉션Set필드에 전략객체 소유하기</h3>
+
+<ul>
+  <li><a href="https://github.com/is2js/object2/tree/78c5ceed27bd8a1f60b77bac8889a24f09512c32/src/main/java/practice_next_deco_for_adding_cumulative_func">시작커밋</a></li>
+</ul>
+
+<h4 id="순서대로-누적적용-연산을-반복문do-while으로-할거면-동적-기능-추가-안되는-구상next데코객체-소유-대신-동적-추가-가능한-set컬렉션-필드-소유와-for문으로-해결">
+<a class="anchor" href="#%EC%88%9C%EC%84%9C%EB%8C%80%EB%A1%9C-%EB%88%84%EC%A0%81%EC%A0%81%EC%9A%A9-%EC%97%B0%EC%82%B0%EC%9D%84-%EB%B0%98%EB%B3%B5%EB%AC%B8do-while%EC%9C%BC%EB%A1%9C-%ED%95%A0%EA%B1%B0%EB%A9%B4-%EB%8F%99%EC%A0%81-%EA%B8%B0%EB%8A%A5-%EC%B6%94%EA%B0%80-%EC%95%88%EB%90%98%EB%8A%94-%EA%B5%AC%EC%83%81next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-%EC%86%8C%EC%9C%A0-%EB%8C%80%EC%8B%A0-%EB%8F%99%EC%A0%81-%EC%B6%94%EA%B0%80-%EA%B0%80%EB%8A%A5%ED%95%9C-set%EC%BB%AC%EB%A0%89%EC%85%98-%ED%95%84%EB%93%9C-%EC%86%8C%EC%9C%A0%EC%99%80-for%EB%AC%B8%EC%9C%BC%EB%A1%9C-%ED%95%B4%EA%B2%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>순서대로 누적적용 연산을 반복문(do-while)으로 할거면, 동적 기능 추가 안되는 구상next데코객체 소유 대신, 동적 추가 가능한 Set컬렉션 필드 소유와 for문으로 해결</h4>
+
+<ul>
+  <li>반복문내에서 <code class="language-plaintext highlighter-rouge">동적 기능 추가 안되는 next데코객체</code>를 부를 거면
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">동적 기능 추가가 가능한 컬렉션(Set)</code>으로 소유하고,<code class="language-plaintext highlighter-rouge">객체 소유 클래스에서 add로 동적 추가</code>가 가능하며, 순차적으로 누적적용 시킬 수 있다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="01-next데코객체의-추상체인-abstcaclculator추상클래스를-전략-인터페이스로-변경하면서-next와-객체자신이-다음타자를-받는-체이닝setter-등-전략메서드만-남기고-다-삭제한다">
+<a class="anchor" href="#01-next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EC%9D%98-%EC%B6%94%EC%83%81%EC%B2%B4%EC%9D%B8-abstcaclculator%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A5%BC-%EC%A0%84%EB%9E%B5-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%A1%9C-%EB%B3%80%EA%B2%BD%ED%95%98%EB%A9%B4%EC%84%9C-next%EC%99%80-%EA%B0%9D%EC%B2%B4%EC%9E%90%EC%8B%A0%EC%9D%B4-%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90%EB%A5%BC-%EB%B0%9B%EB%8A%94-%EC%B2%B4%EC%9D%B4%EB%8B%9Dsetter-%EB%93%B1-%EC%A0%84%EB%9E%B5%EB%A9%94%EC%84%9C%EB%93%9C%EB%A7%8C-%EB%82%A8%EA%B8%B0%EA%B3%A0-%EB%8B%A4-%EC%82%AD%EC%A0%9C%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 next데코객체의 추상체인 AbstCaclculator추상클래스를 전략 인터페이스로 변경하면서, next와 객체자신이 다음타자를 받는 체이닝setter 등 전략메서드만 남기고 다 삭제한다.</h5>
+
+<ul>
+  <li>더이상 다음타자를 next데코 객체 자신(시작객체가 전를 체이닝으로)이 안받는다 -&gt;  소유객체가 Set으로 받을 예정으로 순차적으로 동적기능 추가가 가능해진다.</li>
+  <li>각 데코객체들은 다양한 기능만 가지므로 전략객체로 변경한다.</li>
+  <li><strong><a href="https://blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/strategy/templatemethod/convert/2022/07/12/Object_strategy_templatemethod_convert_text.html">템플릿메소드패턴 &lt;-&gt; 전략패턴 전환 정리글 참고</a></strong></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/19b67bb9-c192-43ae-83c2-c0d09eeb8c81.gif" alt="19b67bb9-c192-43ae-83c2-c0d09eeb8c81"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719122746173.png" alt="image-20220719122746173"></p>
+
+<h5 id="02-전략인터페이스명으로-변경하고-훅메서드-구현자식들next데코객체class들은-전략인페를-구현하도록-수정한다">
+<a class="anchor" href="#02-%EC%A0%84%EB%9E%B5%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%AA%85%EC%9C%BC%EB%A1%9C-%EB%B3%80%EA%B2%BD%ED%95%98%EA%B3%A0-%ED%9B%85%EB%A9%94%EC%84%9C%EB%93%9C-%EA%B5%AC%ED%98%84%EC%9E%90%EC%8B%9D%EB%93%A4next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4class%EB%93%A4%EC%9D%80-%EC%A0%84%EB%9E%B5%EC%9D%B8%ED%8E%98%EB%A5%BC-%EA%B5%AC%ED%98%84%ED%95%98%EB%8F%84%EB%A1%9D-%EC%88%98%EC%A0%95%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 전략인터페이스명으로 변경하고, 훅메서드 구현자식들(next데코객체class들)은 전략인페를 구현하도록 수정한다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/4cbf6ec2-1886-43fb-a54f-db81a948f50a.gif" alt="4cbf6ec2-1886-43fb-a54f-db81a948f50a"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719123257723.png" alt="image-20220719123257723"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719123306401.png" alt="image-20220719123306401"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719123317919.png" alt="image-20220719123317919"></p>
+
+<h5 id="03-전략주입-구상클래스구-next데코-1개-소유-클래스에서-필드를-set컬렉션으로-변경후---실행기-반복문을-do-while--getnext--null터미네이팅로직을---for문으로-바꾼다">
+<a class="anchor" href="#03-%EC%A0%84%EB%9E%B5%EC%A3%BC%EC%9E%85-%EA%B5%AC%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EA%B5%AC-next%EB%8D%B0%EC%BD%94-1%EA%B0%9C-%EC%86%8C%EC%9C%A0-%ED%81%B4%EB%9E%98%EC%8A%A4%EC%97%90%EC%84%9C-%ED%95%84%EB%93%9C%EB%A5%BC-set%EC%BB%AC%EB%A0%89%EC%85%98%EC%9C%BC%EB%A1%9C-%EB%B3%80%EA%B2%BD%ED%9B%84---%EC%8B%A4%ED%96%89%EA%B8%B0-%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%84-do-while--getnext--null%ED%84%B0%EB%AF%B8%EB%84%A4%EC%9D%B4%ED%8C%85%EB%A1%9C%EC%A7%81%EC%9D%84---for%EB%AC%B8%EC%9C%BC%EB%A1%9C-%EB%B0%94%EA%BE%BC%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 전략주입 구상클래스(구, next데코 1개 소유 클래스)에서 필드를 Set컬렉션으로 변경후 -&gt; 실행기 반복문을 do while + getNext() + null터미네이팅로직을 -&gt; for문으로 바꾼다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/15b61506-2af8-4777-b386-0af8bd9f52eb.gif" alt="15b61506-2af8-4777-b386-0af8bd9f52eb"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719123806076.png" alt="image-20220719123806076"></p>
+
+<h5 id="04-전략주입-구상클래스가-set필드에-동적으로-다음타자를-추가--체이닝-할-수-있도록-컬렉션필드에-체이닝setter를-만든다">
+<a class="anchor" href="#04-%EC%A0%84%EB%9E%B5%EC%A3%BC%EC%9E%85-%EA%B5%AC%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EA%B0%80-set%ED%95%84%EB%93%9C%EC%97%90-%EB%8F%99%EC%A0%81%EC%9C%BC%EB%A1%9C-%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90%EB%A5%BC-%EC%B6%94%EA%B0%80--%EC%B2%B4%EC%9D%B4%EB%8B%9D-%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8F%84%EB%A1%9D-%EC%BB%AC%EB%A0%89%EC%85%98%ED%95%84%EB%93%9C%EC%97%90-%EC%B2%B4%EC%9D%B4%EB%8B%9Dsetter%EB%A5%BC-%EB%A7%8C%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 전략주입 구상클래스가, Set필드에 동적으로 다음타자를 추가 + 체이닝 할 수 있도록 <code class="language-plaintext highlighter-rouge">컬렉션필드에 체이닝setter</code>를 만든다.</h5>
+
+<ul>
+  <li>next데코객체의 체이닝setter는 필드가 1개 뿐이라 return this하는 순간, next의 추가는 어려워졌지만
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">컬렉션필드로 들고 있는 소유클래스</code>의 체이닝setter</strong>로 <strong>동적으로 객체(기능)을 추가</strong>할 수 있다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/302ed38f-a3f2-422c-87d6-c3de5db41a83.gif" alt="302ed38f-a3f2-422c-87d6-c3de5db41a83"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719124310723.png" alt="image-20220719124310723"></p>
+
+<h5 id="05-client에서는-전략주입-구상클래스의--필수로-1개를-넣어서-생성후---set필드에-체이닝해서-편하게-전략객체들을-동적으로-받는다">
+<a class="anchor" href="#05-client%EC%97%90%EC%84%9C%EB%8A%94-%EC%A0%84%EB%9E%B5%EC%A3%BC%EC%9E%85-%EA%B5%AC%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EC%9D%98--%ED%95%84%EC%88%98%EB%A1%9C-1%EA%B0%9C%EB%A5%BC-%EB%84%A3%EC%96%B4%EC%84%9C-%EC%83%9D%EC%84%B1%ED%9B%84---set%ED%95%84%EB%93%9C%EC%97%90-%EC%B2%B4%EC%9D%B4%EB%8B%9D%ED%95%B4%EC%84%9C-%ED%8E%B8%ED%95%98%EA%B2%8C-%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%93%A4%EC%9D%84-%EB%8F%99%EC%A0%81%EC%9C%BC%EB%A1%9C-%EB%B0%9B%EB%8A%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 client에서는 전략주입 구상클래스의  필수로 1개를 넣어서 생성후 -&gt; set필드에 체이닝해서 편하게 전략객체들을 동적으로 받는다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/f41205e5-0185-4c71-98d8-16efc40629e8.gif" alt="f41205e5-0185-4c71-98d8-16efc40629e8"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719124847905.png" alt="image-20220719124847905"></p>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/decorator/prev/next/section/2022/07/18/prev_vs_next_%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%B9%84%EA%B5%90_next%EB%8D%B0%EC%BD%94%EB%A5%BC_%EC%BB%AC%EB%A0%89%EC%85%98%EC%86%8C%EC%9C%A0_%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%9C%BC%EB%A1%9C.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

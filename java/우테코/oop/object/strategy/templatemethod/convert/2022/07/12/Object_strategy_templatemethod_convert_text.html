@@ -145,6 +145,8 @@ window.onload = wrap_img;
 <a class="anchor" href="#%ED%85%9C%ED%94%8C%EB%A6%BF%EB%A9%94%EC%86%8C%EB%93%9C%ED%8C%A8%ED%84%B4-to-%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>템플릿메소드패턴 to 전략패턴</h4>
 
 <ol>
+  <li>만약, <strong>템플릿메소드의 자식이 주입되는 전략주입 구상클래스가 이미 존재하는 상황</strong>이고,  <strong>템플릿추상클래스가 [훅구현 자식들의 기능]외에 공통로직이 없는 상황이면, <code class="language-plaintext highlighter-rouge">추상클래스를 인터페이스로 변경후, 훅메서드 정의부(proteceted abstract) -&gt; 전략메서드 정의부로 변경(public)로 변경해서 남기고 다 지운 뒤, 바로 5번</code>으로 가면 된다.</strong>
+</li>
   <li>추상class를 일반클래스로 변경 및 훅메서드 정의부 삭제
     <ul>
       <li>훅메서드를 alt+del로 삭제하면, 구상체들의 개별로직이 재활용안되므로 그냥 삭제한다.</li>
@@ -158,7 +160,7 @@ window.onload = wrap_img;
   <li>전략 인터페이스 만들고, 전략메서드를 올린다.</li>
   <li>전략객체를 생성자 주입받는다 (생성자 or 확장(좋은 상속 가능성)있으면 setter로 받기)
     <ul>
-      <li>일단은 1개만 필수로 받도록 생성자 주입 받는다.</li>
+      <li>일단은 1개만 필수로 받도록 생성자 주입 받는다.(base)</li>
     </ul>
   </li>
   <li>훅메서드구현 개별자식들을 [구상내용+전략인페명]으로 변경하고, 전략인터페이스 구현시킨다.</li>

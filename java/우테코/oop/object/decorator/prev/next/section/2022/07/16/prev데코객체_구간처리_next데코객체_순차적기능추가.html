@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Object) prev, next 데코객체 적용 예시(Plan5) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Object) prev, next 데코객체 적용 예시(Plan5)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="prev를 이용한 동적 구간처리 + next를 이용한 정적 순차기능추가" />
+<meta property="og:description" content="prev를 이용한 동적 구간처리 + next를 이용한 정적 순차기능추가" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/decorator/prev/next/section/2022/07/16/prev%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4_%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC_next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4_%EC%88%9C%EC%B0%A8%EC%A0%81%EA%B8%B0%EB%8A%A5%EC%B6%94%EA%B0%80.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/decorator/prev/next/section/2022/07/16/prev%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4_%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC_next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4_%EC%88%9C%EC%B0%A8%EC%A0%81%EA%B8%B0%EB%8A%A5%EC%B6%94%EA%B0%80.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-16T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-07-16T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/decorator/prev/next/section/2022/07/16/prev%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4_%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC_next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4_%EC%88%9C%EC%B0%A8%EC%A0%81%EA%B8%B0%EB%8A%A5%EC%B6%94%EA%B0%80.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"Object) prev, next 데코객체 적용 예시(Plan5)","dateModified":"2022-07-16T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/decorator/prev/next/section/2022/07/16/prev%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4_%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC_next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4_%EC%88%9C%EC%B0%A8%EC%A0%81%EA%B8%B0%EB%8A%A5%EC%B6%94%EA%B0%80.html"},"description":"prev를 이용한 동적 구간처리 + next를 이용한 정적 순차기능추가","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Object) prev, next 데코객체 적용 예시(Plan5)</h1><p class="page-description">prev를 이용한 동적 구간처리 + next를 이용한 정적 순차기능추가</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-16T00:00:00-05:00" itemprop="datePublished">
+        Jul 16, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      9 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#oop">oop</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#decorator">decorator</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#prev">prev</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#next">next</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#section">section</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#시작특이점을-아는-동일형prev데코객체-for-0부터-시작하는-구간처리">시작특이점을 아는 (동일형)prev데코객체 for 0부터 시작하는 구간처리</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#0부터-시작하는-연속된-구간을-받아-미리-쪼개놓은-구간별--데코-객체들이-돌아가며-처리하여-누적하는-계산기">0부터 시작하는 연속된 구간을 받아, [미리 쪼개놓은 구간별  데코 객체들이 돌아가며 처리]하여 누적하는 계산기</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#sectionpricerule구간별-요금을-각자-구간만큼-처리해줄-시작특이점의-데코객체">SectionPriceRule#구간별 요금을 각자 구간만큼 처리해줄 시작특이점의 데코객체</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#구간처리-데코-시작특이점을-아는-데코-객체는-같은-형의-prev로-생성자로-받아-저장한다-처리할-구간은-start는-없이-처음부터--끝to처리구간전체를-가지되-내부에서-prev를-이용해-짜른다">구간처리 데코, 시작특이점을 아는 데코 객체는, 같은 형의 prev로 생성자로 받아 저장한다. 처리할 구간은 start는 없이 처음부터 ~ 끝to(처리구간전체)를 가지되, 내부에서 prev를 이용해 짜른다.</a></li>
+<li class="toc-entry toc-h4"><a href="#1개-데코객체의-구간처리는-누적될-결과값을-반환하므로-prev가-null인-시작특이점-객체-검사invariant--전체구간이-처리구간보다-짧은지-검사precondition검사-후-부적절시-0에-해당하는-결과값-null객체를-반환한다">1개 데코객체의 구간처리는, 누적될 결과값을 반환하므로, prev가 null인 시작특이점 객체 검사(invariant) + 전체구간이 처리구간보다 짧은지 검사(precondition)검사 후 부적절시 0에 해당하는 결과값 NULL객체를 반환한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#전체구간의-상한이-내-상한-안쪽인지---duration이-상한-vs-내-상한보다-큰지---to가-상한-을-확인한다-시작이-구간-비교--상한-비교">전체구간의 상한이 내 상한 안쪽인지 -&gt; duration이 상한 vs 내 상한보다 큰지 -&gt; to가 상한 을 확인한다. (시작이 구간 비교 == 상한 비교)</a></li>
+<li class="toc-entry toc-h4"><a href="#구간을-시간초로-바꿔서-초당-가격을-곱하여-구간별-요금처리를-마무리한다">구간을 시간(초)로 바꿔서, 초당 가격을 곱하여 구간별 요금처리를 마무리한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#test-duration은-localdatetime-2개를-between으로-구한다">test# duration은 LocalDateTime 2개를 between으로 구한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#sectionpricecalc협력할-데코객체를-1개만-소유--다음타자를-생성하고-기존은-prev에-저장해서-누적---재귀형식으로-다음-객체에-저장하면서-마지막-타자만-가지고-있는-클래스">SectionPriceCalc#협력할 데코객체를 1개만 소유 + 다음타자를 생성하고 기존은 prev에 저장해서 누적 -&gt; 재귀형식으로 다음 객체에 저장하면서 마지막 타자만 가지고 있는 클래스</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#구간처리시작특이점-데코객체를-소유하여-협력하는-계산클래스는-시작특이점-객체를-1개를-미리-소유하고-있다-어차피-변경될-필드이라서--final의-생성자-초기화는-불가능하다-컬렉션처럼-빈컬렉션시작특이점객체--add로-받기기능-형태">구간처리(시작특이점) 데코객체를 소유하여 협력하는 계산클래스는 시작특이점 객체를 1개를 미리 소유하고 있다. (어차피 변경될 필드이라서  final의 생성자 초기화는 불가능하다. 컬렉션처럼 빈컬렉션(시작특이점객체) + add로 받기기능 형태)</a></li>
+<li class="toc-entry toc-h4"><a href="#시작특이점-데코객체를-이용하는-클래스는-데코객체를-필드로-1개만-소유하되-setter받기기능-메서드-호출을-통해-내부에서-다음타자를-생성하고-필드에-재할당한다-이-때-다음-타자-생성에-필요한-prev제외-필드정보들을-넣어줘야한다다음타자-생성에-필요한-정보prev가-내부에-있으니-그외-정보만-받아서-내부에서-생성해야한다">시작특이점 데코객체를 이용하는 클래스는, 데코객체를 필드로 1개만 소유하되, setter받기기능 메서드 호출을 통해 내부에서 다음타자를 생성하고 필드에 재할당한다. 이 때, 다음 타자 생성에 필요한 prev제외 필드정보들을 넣어줘야한다.(다음타자 생성에 필요한 정보prev가 내부에 있으니, 그외 정보만 받아서, 내부에서 생성해야한다.)</a></li>
+<li class="toc-entry toc-h4"><a href="#prev를-가지는-시작특이점-데코객체는-다음-타자를-생성하여-후-1개-필드에-마지막-타자만-재할당해서-소유하면-반복문을-통해-마지막-타자---저장된-prev---그것의-저장된-prev----시작특이점-객체까지-소환할-수-있다">prev를 가지는 시작특이점 데코객체는, 다음 타자를 생성하여 후 1개 필드에 마지막 타자만 재할당해서 소유하면, 반복문을 통해, 마지막 타자 -&gt; 저장된 prev -&gt; 그것의 저장된 prev -&gt;  시작특이점 객체까지 소환할 수 있다.</a></li>
+<li class="toc-entry toc-h4"><a href="#데코객체-다음타자의-개별구나-추가시-구간은-start없는-처음부터이므로-인자로는-duratonofseconds등의-0부터-시작하는-구간을-준다">데코객체 다음타자의 개별구나 추가시 구간은 start없는 처음부터이므로 인자로는 Duraton.ofSeconds()등의 0부터 시작하는 구간을 준다.</a></li>
+<li class="toc-entry toc-h4"><a href="#마지막-타자rule필드부터-시작하는-순차적-데코객체-loop실행기는--현재-타자를-지역변수로-뺀-뒤-처리-후-prev로-업데이트-해-나가되-do-while문을-사용해서-마지막타자부터-시작특이점-객체까지-개별처리를-누적한다">마지막 타자(rule필드)부터 시작하는 순차적 데코객체 loop실행기는,  현재 타자를 지역변수로 뺀 뒤, 처리 후 prev로 업데이트 해 나가되, do-while문을 사용해서 마지막타자부터 시작특이점 객체까지 개별처리를 누적한다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#데코객체는-반복문-속에서-prev로-업데이트될-예정이므로-누적-결과값-처럼-반복문-위에서-지역변수로-빼서-재할당하며-업데이트-되어야한다">데코객체는 반복문 속에서 prev로 업데이트될 예정이므로, 누적 결과값 처럼, 반복문 위에서 지역변수로 빼서 재할당하며 업데이트 되어야한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#현재-target-데코객체는-prev를-꺼내서-재할당-업데이트-한다-그-prevtarget의-prev가-null이면-시작특이점-객체라서-연산없이-종료된다-재귀-데코객체-실행기-등의-종착역은-계산-안하는-곳이다">현재 target 데코객체는, prev를 꺼내서 재할당 업데이트 한다. 그 prev(target)의 prev가 null이면, 시작특이점 객체라서, 연산없이 종료된다. (재귀, 데코객체 실행기 등의 종착역은 계산 안하는 곳이다.)</a></li>
+<li class="toc-entry toc-h5"><a href="#주의-쪼개놓은-구간의-데코객체들은-자기구간이-아니면-default값을-반환하니-postcondition에서-zero를-검사하면-안된다">주의) 쪼개놓은 구간의 데코객체들은, 자기구간이 아니면 default값을 반환하니, postcondition에서 zero를 검사하면 안된다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#구간처리에서-중간구간을-계산하고싶다면-0중간구간-끝---0중간구간-시작-형태로-계산해야한다">구간처리에서 중간구간을 계산하고싶다면, [0~중간구간 끝] - [0~중간구간 시작] 형태로 계산해야한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#my-중간에-구간추가하는-로직-짜보기">my) 중간에 구간추가하는 로직 짜보기</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#시작을-모르지만-끝이-정해진-템플릿추상클래스-구상-next데코객체-for-정해진-기능-추가">시작을 모르지만, 끝이 정해진 (템플릿추상클래스) 구상 next데코객체 for 정해진 기능 추가</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#동적-기능추가를-next로-연결한-뒤-꼬리재귀호출로-누적-적용하는-방법">동적 기능추가를 next로 연결한 뒤, 꼬리재귀호출로 누적 적용하는 방법</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#서로-다른-기능을-가졌지만-같은-형으로서-next에-받기-위해서는-추상체아래-구상체로서-기능을-수행해야한다-근데-next라는-공통필드를-가지므로-추상클래스여야한다">서로 다른 기능을 가졌지만, 같은 형으로서 next에 받기 위해서는, 추상체아래 구상체로서 기능을 수행해야한다. 근데, next라는 공통필드를 가지므로, 추상클래스여야한다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#일단-next를-첫번째-인자로-받고-생성자체이닝하는-구상-next데코객체들을-만들자">일단 next를 첫번째 인자로 받고 생성자체이닝하는 구상 next데코객체들을 만들자.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#구상체들은-추상체의-next필드와-그-것을-받는-생성자를-공통으로-필요로-한다---하지만-좋은-부모는-생성자를-쓰지-않으므로-생성자-대신-not-final-필드--체이닝setter로-변경후-public-템플릿메소드로-올린다">구상체들은 추상체의 next필드와 그 것을 받는 생성자를 공통으로 필요로 한다. -&gt; 하지만, 좋은 부모는 생성자를 쓰지 않으므로, [생성자 대신, not final 필드 + 체이닝setter로 변경후 public 템플릿메소드]로 올린다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#공통필드next를-생성자에서-받던-자식들은-not-final-필드--체이닝setter-조합으로-만들어서-public템플릿메서드로-올린다">공통필드(next)를 생성자에서 받던 자식들은, not final 필드 + 체이닝setter 조합으로 만들어서 public템플릿메서드로 올린다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#구상-next데코객체의-소유해서-사용하는-class는-외부에서-setter체이닝by-null이-끝나-완성된-시작-next데코객체만-받는다">구상 next데코객체의 소유해서 사용하는 class는 외부에서 setter체이닝(by null)이 끝나 완성된, 시작 next데코객체만 받는다.</a></li>
+<li class="toc-entry toc-h4"><a href="#next데코객체-소유-클래스에서-계산책임위임시---추상체에-public템플릿-공통메서드이자-모든-구상체들이-재귀호추할-꼬리재귀함수로서-누적결과값변수를-포함해야하며-초기값을-인자로-넣어서-호출되어야한다">next데코객체 소유 클래스에서, 계산책임위임시 - 추상체에 public템플릿 공통메서드이자 모든 구상체들이 재귀호추할 [꼬리재귀함수]로서, 누적결과값변수를 포함해야하며, 초기값을 인자로 넣어서 호출되어야한다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#next데코객체의-실행기-메서드의-2가지-선택지---꼬리재귀-or-반복문">next데코객체의 실행기 메서드의 2가지 선택지 -&gt; 꼬리재귀 or 반복문</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#데코객체소유-클래스에서-데코객체-실행기메서드내부에서-훅메서드로-개별계산-후-업데이트된-누적결과값-변수를-null터미네이팅--꼬리재귀로-호출하기">데코객체소유 클래스에서, 데코객체 실행기메서드내부에서, [훅메서드로 개별계산] 후 [업데이트된 누적결과값 변수를 null터미네이팅 + 꼬리재귀]로 호출하기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#꼬리재귀를-호출할-next데코객체들의-추상클래스는-현재-구상체-상태이며-재귀호출로-다음-것으로-넘어온-상태임을-인지해야한다-그래야-나는-마지막-타자까지-넘어왔다고-생각하여---next필드에-null이-차있으면-터미네이팅도-쉽게-생각이-든다">꼬리재귀를 호출할 next데코객체들의 추상클래스는, 현재 구상체 상태이며, 재귀호출로 다음 것으로 넘어온 상태임을 인지해야한다. 그래야, “나는 마지막 타자까지 넘어왔다고 생각하여 -&gt; next필드에 null이 차있으면 터미네이팅”도 쉽게 생각이 든다.</a></li>
+<li class="toc-entry toc-h5"><a href="#꼬리재귀-필수조건은-return문내-update된-누적결과값변수를-포함한-인자들로-다음재귀호출이며-현재객체의-연산까지-마치고-누적결과값을-반환하고-싶다면-연산후-return문내에서-삼항연산자로-null로-터미네이팅종착역-처리를-한다">꼬리재귀 필수조건은 return문내 update된 누적결과값변수를 포함한 인자들로 다음재귀호출이며, 현재객체의 연산까지 마치고 누적결과값을 반환하고 싶다면, 연산후 return문내에서 삼항연산자로 null로 터미네이팅(종착역) 처리를 한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#각각의-훅구상체들의-개별계산로직을-넣어준다--개별구상체들-계산에서-필요한-정보가-있다면-자식수준에서-생성자에서-주입받도록-정의하면-된다">각각의 훅구상체들의, 개별계산로직을 넣어준다.  개별구상체들 계산에서 필요한 정보가 있다면, 자식수준에서 생성자에서 주입받도록 정의하면 된다.</a></li>
+<li class="toc-entry toc-h4"><a href="#중요-오류수정-꼬리재귀하는-구상next데코-객체들의-계산내부에-이미--기존-누적값---여기에-추가하는-누적의-성질이-존재하기-때문에-구상next데코객체를-소유하는-추상클래스의-재귀호출에서는-누적계산완료된-결과값변수를-재할당-업데이트만-해주면-된다">중요! 오류수정: 꼬리재귀하는 구상next데코 객체들의 계산내부에 이미  기존 누적값 -&gt; 여기에 추가하는 누적의 성질이 존재하기 때문에, 구상next데코객체를 소유하는, 추상클래스의 재귀호출에서는 [누적계산완료된 결과값변수를 재할당 업데이트만] 해주면 된다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#구상next데코객체-자체-꼬리재귀-대신-객체-소유-클래스의-반복문으로-호출하도록-변경">구상next데코객체 자체 꼬리재귀 대신 객체 소유 클래스의 반복문으로 호출하도록 변경</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#값의-n---n-1의-메서드재귀를-메서드루프로-바꾸는것-과-달리-데코객체의-꼬리재귀자신class의-method내에서-다음객체를-바로-호출--데코객체의-메서드에-처음부터-누적결과변수-끝까지-달고-다님---데코객체의-반복문외부에서-소유class가-데코객체를-다음타자로-업데이트--각-객체는-누적없이-자신의-연산만-처리함으로-변경하는-것은-더-복잡하다">값의 n -&gt; n-1의 메서드재귀를 메서드루프로 바꾸는것 과 달리, 데코객체의 꼬리재귀(자신class의 method내에서 다음객체를 바로 호출 + 데코객체의 메서드에 처음부터 누적결과변수 끝까지 달고 다님) -&gt; 데코객체의 반복문(외부에서 소유class가 데코객체를 다음타자로 업데이트 + 각 객체는 누적없이 자신의 연산만 처리함)으로 변경하는 것은 더 복잡하다.</a></li>
+<li class="toc-entry toc-h4"><a href="#구상next데코객체-소유-클래스반복문이-생기는-곳부터-수정">구상next데코객체 소유 클래스(반복문이 생기는 곳)부터 수정</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#01-누적결과값을-가지고-다녀-매번-누적후-종착역특이점-도달시-한번에-누적결과값을-반환하는-로직을-반복문위의-누적변수에-누적하기-위해-자기것만-계산하는-로직으로-바꿔야하며-객체는-자신의-계산만-반환후-객체-바깥으로-반환되어-누적되도록해야하므로--데코객체-소유-클래스에서-반복문을-형성하게-된다">01 누적결과값을 가지고 다녀 매번 누적후 종착역(특이점) 도달시 한번에 누적결과값을 반환하는 로직을, 반복문위의 누적변수에 누적하기 위해 자기것만 계산하는 로직으로 바꿔야하며 객체는 자신의 계산만 반환후 객체 바깥으로 반환되어 누적되도록해야하므로, –&gt; 데코객체 소유 클래스에서 반복문을 형성하게 된다.</a></li>
+<li class="toc-entry toc-h5"><a href="#02-꼬리재귀-정의-파라미터----다음타자-꼬리재귀-호출의-인자를-보고-업데이트-로직을-가져와-반영한다---for문이-아니므로-다음타자로-넘어가는-업데이트-로직도-반영한다--더이상-데코객체가-누적을-안할-것이기-때문에-반복문에서-누적해야한다--값객체라서-누적도-재할당으로-반영해야한다">02 꼬리재귀 정의 파라미터 -&gt;  다음타자 꼬리재귀 호출의 인자를 보고 업데이트 로직을 가져와 반영한다.  + for문이 아니므로, 다음타자로 넘어가는 업데이트 로직도 반영한다. + 더이상 데코객체가 누적을 안할 것이기 때문에, 반복문에서 누적해야한다 + 값객체라서 누적도 재할당으로 반영해야한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#03-구상next데코객체의-반복문-while의-종착역은-특이점객체연산x-필드만null가-아니라-자신의-연산까지-끝낸-상태이므로-다음타자를-불렀을-때-null이면-종료한다">03 구상next데코객체의 반복문 while의 종착역은 특이점객체(연산x, 필드만null)가 아니라, 자신의 연산까지 끝낸 상태이므로, 다음타자를 불렀을 때 null이면 종료한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#04-누적된-결과값을-반환한다필요시-postcondition검사">04 누적된 결과값을 반환한다(필요시 postcondition검사)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#구상next데코객체가-더이상-누적연산이-아니라-자신의-차례에-자신의-연산만-하도록-변경">구상next데코객체가 더이상 누적연산이 아니라, 자신의 차례에 자신의 연산만 하도록 변경</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-꼬리재귀의-흔적인-return-속-종착역--다음타자-부르는-처리를-삭제하고-자신의-처리훅메서드만-하도록-수정한다">01 꼬리재귀의 흔적인 return 속 종착역 + 다음타자 부르는 처리를 삭제하고, 자신의 처리(훅메서드)만 하도록 수정한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#02-이제-for문에서-누적--개별next데코객체는-자기값만-반환-vs-for문은-업데이트만--개별next데코객체가-기존값을-받아-유지하면서-누적하는-방법-중-1가지를-선택한다">02 이제 [for문에서 누적 + 개별next데코객체는 자기값만 반환] vs [for문은 업데이트만 + 개별next데코객체가 기존값을 받아 유지하면서 누적]하는 방법 중 1가지를 선택한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#03-구상next데코객체는-넣어준-순서대로-next로-나아가긴-하나-생성하는-순간-현재-존재하니-않는-nxt다음타자도-생성자에서-실시간-생성해야하며-끝-null까지-다-한번에-넣어줘야한다-즉-동적-기능-추가가-어렵다-고전적인-데코레이터도-base기능을-생성자에-넣는-prev방식으로-바깥에서-직전타자를-감싸서-넣어줬다">03 구상next데코객체는 넣어준 순서대로 next로 나아가긴 하나, 생성하는 순간, 현재 존재하니 않는 nxt다음타자도 생성자에서 실시간 생성해야하며, 끝 null까지 다 한번에 넣어줘야한다. 즉, 동적 기능 추가가 어렵다. (고전적인 데코레이터도, base기능을 생성자에 넣는, prev방식으로 바깥에서 직전타자를 감싸서 넣어줬다.)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#prev-vs-next-비교">prev vs next 비교</a></li>
+<li class="toc-entry toc-h3"><a href="#next-대신-컬렉션으로-연결--전략패턴으로-변경해서-사용하기">next 대신 컬렉션으로 연결 + 전략패턴으로 변경해서 사용하기</a></li>
+</ul>
+</li>
+</ul><h1 id="시작특이점을-아는-동일형prev데코객체-for-0부터-시작하는-구간처리">
+<a class="anchor" href="#%EC%8B%9C%EC%9E%91%ED%8A%B9%EC%9D%B4%EC%A0%90%EC%9D%84-%EC%95%84%EB%8A%94-%EB%8F%99%EC%9D%BC%ED%98%95prev%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-for-0%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91%ED%95%98%EB%8A%94-%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>시작특이점을 아는 (동일형)prev데코객체 for 0부터 시작하는 구간처리</h1>
+
+<h2 id="0부터-시작하는-연속된-구간을-받아-미리-쪼개놓은-구간별--데코-객체들이-돌아가며-처리하여-누적하는-계산기">
+<a class="anchor" href="#0%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91%ED%95%98%EB%8A%94-%EC%97%B0%EC%86%8D%EB%90%9C-%EA%B5%AC%EA%B0%84%EC%9D%84-%EB%B0%9B%EC%95%84-%EB%AF%B8%EB%A6%AC-%EC%AA%BC%EA%B0%9C%EB%86%93%EC%9D%80-%EA%B5%AC%EA%B0%84%EB%B3%84--%EB%8D%B0%EC%BD%94-%EA%B0%9D%EC%B2%B4%EB%93%A4%EC%9D%B4-%EB%8F%8C%EC%95%84%EA%B0%80%EB%A9%B0-%EC%B2%98%EB%A6%AC%ED%95%98%EC%97%AC-%EB%88%84%EC%A0%81%ED%95%98%EB%8A%94-%EA%B3%84%EC%82%B0%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>0부터 시작하는 연속된 구간을 받아, [미리 쪼개놓은 구간별  데코 객체들이 돌아가며 처리]하여 누적하는 계산기</h2>
+
+<ul>
+  <li>
+    <p>10 ~ 12 / 12 ~ 14의 구간을 쪼개놓았는데,  11~13을  11~12 /12 ~13을 계산하는 방식이 아니다</p>
+
+    <ul>
+      <li>0 ~ 14까지, 0~5, ~10, ~12, ~14 를 쪼개놓았더라도</li>
+      <li>11~13을 계산하는 것이 아니라, 0~2로 계산된다.</li>
+      <li><strong>즉, 중간만 계산못하고, 처음부터 구간만큼만 계산되는데</strong></li>
+      <li><strong>중간구간을 계산하고 싶으면, <code class="language-plaintext highlighter-rouge">0~13</code> - <code class="language-plaintext highlighter-rouge">0~11</code>로 하면 된다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716231314849.png" alt="image-20220716231314849"></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">SectionPriceCalc</code></p>
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">SectionPriceRule</code> : prev로 연결할 데코레이터 객체
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">SectionPriceRule#calculateFee(duration)</code>: 데코레이터 실행기</li>
+        </ul>
+      </li>
+      <li>
+<code class="language-plaintext highlighter-rouge">SectionPriceCalc#calculateFee(duration)</code>: 처리할 구간을 외부에서 받아와 구간별 계산해줄 메서드</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="sectionpricerule구간별-요금을-각자-구간만큼-처리해줄-시작특이점의-데코객체">
+<a class="anchor" href="#sectionpricerule%EA%B5%AC%EA%B0%84%EB%B3%84-%EC%9A%94%EA%B8%88%EC%9D%84-%EA%B0%81%EC%9E%90-%EA%B5%AC%EA%B0%84%EB%A7%8C%ED%81%BC-%EC%B2%98%EB%A6%AC%ED%95%B4%EC%A4%84-%EC%8B%9C%EC%9E%91%ED%8A%B9%EC%9D%B4%EC%A0%90%EC%9D%98-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>SectionPriceRule#구간별 요금을 각자 구간만큼 처리해줄 시작특이점의 데코객체</h3>
+
+<h4 id="구간처리-데코-시작특이점을-아는-데코-객체는-같은-형의-prev로-생성자로-받아-저장한다-처리할-구간은-start는-없이-처음부터--끝to처리구간전체를-가지되-내부에서-prev를-이용해-짜른다">
+<a class="anchor" href="#%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC-%EB%8D%B0%EC%BD%94-%EC%8B%9C%EC%9E%91%ED%8A%B9%EC%9D%B4%EC%A0%90%EC%9D%84-%EC%95%84%EB%8A%94-%EB%8D%B0%EC%BD%94-%EA%B0%9D%EC%B2%B4%EB%8A%94-%EA%B0%99%EC%9D%80-%ED%98%95%EC%9D%98-prev%EB%A1%9C-%EC%83%9D%EC%84%B1%EC%9E%90%EB%A1%9C-%EB%B0%9B%EC%95%84-%EC%A0%80%EC%9E%A5%ED%95%9C%EB%8B%A4-%EC%B2%98%EB%A6%AC%ED%95%A0-%EA%B5%AC%EA%B0%84%EC%9D%80-start%EB%8A%94-%EC%97%86%EC%9D%B4-%EC%B2%98%EC%9D%8C%EB%B6%80%ED%84%B0--%EB%81%9Dto%EC%B2%98%EB%A6%AC%EA%B5%AC%EA%B0%84%EC%A0%84%EC%B2%B4%EB%A5%BC-%EA%B0%80%EC%A7%80%EB%90%98-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-prev%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%B4-%EC%A7%9C%EB%A5%B8%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>구간처리 데코, 시작특이점을 아는 데코 객체는, 같은 형의 prev로 생성자로 받아 저장한다. 처리할 구간은 start는 없이 처음부터 ~ 끝to(처리구간전체)를 가지되, 내부에서 prev를 이용해 짜른다.</h4>
+
+<ol>
+  <li>
+    <p>구간별 요금 처리를, <strong>구간별로 담당해줄 데코레이터 객체(-Rule)</strong>를 만든다. 각 구간처리 데코 객체들은</p>
+
+    <ol>
+      <li>
+<strong>자신이 처리할 구간</strong>(시간: Duration)의 <strong>(처음부터~) <code class="language-plaintext highlighter-rouge">to</code></strong>를 받으며 ,<strong>중간에 짤린 시작from은 안받는다.</strong>
+        <ul>
+          <li>
+<strong>소유할 prev객체로부터 prev의 to를 이용해서 짜를 것</strong>이다.</li>
+        </ul>
+      </li>
+      <li><strong>자신의 구간에서 계산에 필요한 정보(돈) <code class="language-plaintext highlighter-rouge">Money</code>을 받는다.</strong></li>
+      <li>
+<strong>데코 객체 특이성으로서 자신의형의 <code class="language-plaintext highlighter-rouge">prev</code>(혹은 next)</strong>를 받아서 태어난다.
+        <ul>
+          <li>
+<strong>구간은 제일 처음( 구간0 )의 특이점 객체를 알기 때문에, 다음 타자는 prev를 받는다.</strong>
+            <ul>
+              <li>특이점객체는 연산을 하지 않는 꼬리재귀 종착역으로서, 그 타이밍에 현재까지 누적계산된 값을 반환한다.</li>
+              <li>구간처리 데코 or 시작특이점을 아는 데코객체는 prev를 인자로 받아 생성된다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716165027865.png" alt="image-20220716165027865"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716170217741.png" alt="image-20220716170217741"></p>
+
+    <ul>
+      <li>내가 처리할 구간은, 처음부터 시작되는 것 같지만, <strong>변수명을 <code class="language-plaintext highlighter-rouge">to</code>로 하고 내부의 <code class="language-plaintext highlighter-rouge">prev</code>의 상한<code class="language-plaintext highlighter-rouge">to</code>를 이용해서 짤라서 처리할 예정이다.</strong>
+</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="1개-데코객체의-구간처리는-누적될-결과값을-반환하므로-prev가-null인-시작특이점-객체-검사invariant--전체구간이-처리구간보다-짧은지-검사precondition검사-후-부적절시-0에-해당하는-결과값-null객체를-반환한다">
+<a class="anchor" href="#1%EA%B0%9C-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EC%9D%98-%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC%EB%8A%94-%EB%88%84%EC%A0%81%EB%90%A0-%EA%B2%B0%EA%B3%BC%EA%B0%92%EC%9D%84-%EB%B0%98%ED%99%98%ED%95%98%EB%AF%80%EB%A1%9C-prev%EA%B0%80-null%EC%9D%B8-%EC%8B%9C%EC%9E%91%ED%8A%B9%EC%9D%B4%EC%A0%90-%EA%B0%9D%EC%B2%B4-%EA%B2%80%EC%82%ACinvariant--%EC%A0%84%EC%B2%B4%EA%B5%AC%EA%B0%84%EC%9D%B4-%EC%B2%98%EB%A6%AC%EA%B5%AC%EA%B0%84%EB%B3%B4%EB%8B%A4-%EC%A7%A7%EC%9D%80%EC%A7%80-%EA%B2%80%EC%82%ACprecondition%EA%B2%80%EC%82%AC-%ED%9B%84-%EB%B6%80%EC%A0%81%EC%A0%88%EC%8B%9C-0%EC%97%90-%ED%95%B4%EB%8B%B9%ED%95%98%EB%8A%94-%EA%B2%B0%EA%B3%BC%EA%B0%92-null%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%B0%98%ED%99%98%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>1개 데코객체의 구간처리는, 누적될 결과값을 반환하므로, prev가 null인 시작특이점 객체 검사(invariant) + 전체구간이 처리구간보다 짧은지 검사(precondition)검사 후 부적절시 0에 해당하는 결과값 NULL객체를 반환한다.</h4>
+
+<ol>
+  <li>
+    <p><strong>구간처리 데코객체는, 전체구간을 받되, 각 데코객체별로 처리할 수 있는 구간을 짤라서 해당 부분만 계산해준다.</strong></p>
+
+    <ul>
+      <li>
+<strong>처음부터 <code class="language-plaintext highlighter-rouge">to의 끝</code>만 정해진 처리구간을 가지고 있지만 내부에서는, 소유한 <code class="language-plaintext highlighter-rouge">prev의 상한 ~ 내 상한</code>큼만 계산</strong>해서 반환해준다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716165548249.png" alt="image-20220716165548249"></p>
+  </li>
+  <li>
+    <p><strong>구간처리 데코객체는, 내부에서 <code class="language-plaintext highlighter-rouge">필수 invariant검사 및 precondition(전체구간) 검증</code>을 해야한다.</strong></p>
+
+    <ul>
+      <li>구간처리 데코객체의 1구간 처리는 <strong>전체 데코객체들을 돌고 있는 외부에 누적될 결과값을 반환</strong>할 것이다.</li>
+    </ul>
+
+    <ol>
+      <li>invariant: <strong>prev는 시작특이점(연산X)가 아니여야한다</strong>. -&gt; 맞다면, 연산하지말고, 누적될 결과값을 NULL객체를 반환한다.</li>
+      <li>precondition: <strong>들어오는 전체구간은, 내 하한인 prev의 상한보다 더 길어야한다</strong>. 같거나 더 짧으면, 내가 처리할이유가 없어서 누적될 결과값을 NULL객체를 반환한다.</li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716173001348.png" alt="image-20220716173001348"></p>
+  </li>
+</ol>
+
+<h4 id="전체구간의-상한이-내-상한-안쪽인지---duration이-상한-vs-내-상한보다-큰지---to가-상한-을-확인한다-시작이-구간-비교--상한-비교">
+<a class="anchor" href="#%EC%A0%84%EC%B2%B4%EA%B5%AC%EA%B0%84%EC%9D%98-%EC%83%81%ED%95%9C%EC%9D%B4-%EB%82%B4-%EC%83%81%ED%95%9C-%EC%95%88%EC%AA%BD%EC%9D%B8%EC%A7%80---duration%EC%9D%B4-%EC%83%81%ED%95%9C-vs-%EB%82%B4-%EC%83%81%ED%95%9C%EB%B3%B4%EB%8B%A4-%ED%81%B0%EC%A7%80---to%EA%B0%80-%EC%83%81%ED%95%9C-%EC%9D%84-%ED%99%95%EC%9D%B8%ED%95%9C%EB%8B%A4-%EC%8B%9C%EC%9E%91%EC%9D%B4-%EA%B5%AC%EA%B0%84-%EB%B9%84%EA%B5%90--%EC%83%81%ED%95%9C-%EB%B9%84%EA%B5%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>전체구간의 상한이 내 상한 안쪽인지 -&gt; duration이 상한 vs 내 상한보다 큰지 -&gt; to가 상한 을 확인한다. (시작이 구간 비교 == 상한 비교)</h4>
+
+<ol>
+  <li>
+    <p>시작이 0에서 시작하는 것으로 같으므로, <code class="language-plaintext highlighter-rouge">구간의 비교 == 상한 비교</code>가 된다.</p>
+
+    <ol>
+      <li>duration &gt; to : 내가 처리할 수 있는 끝인 to가 상한</li>
+      <li>duration &lt;= to: duration이 상한</li>
+    </ol>
+  </li>
+  <li>
+    <p>상한이 결정되면, prev의 상한인 <strong>prev.to를 하한으로 하여 <code class="language-plaintext highlighter-rouge">처리할 구간 결정</code></strong>한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716174240929.png" alt="image-20220716174240929"></p>
+  </li>
+</ol>
+
+<h4 id="구간을-시간초로-바꿔서-초당-가격을-곱하여-구간별-요금처리를-마무리한다">
+<a class="anchor" href="#%EA%B5%AC%EA%B0%84%EC%9D%84-%EC%8B%9C%EA%B0%84%EC%B4%88%EB%A1%9C-%EB%B0%94%EA%BF%94%EC%84%9C-%EC%B4%88%EB%8B%B9-%EA%B0%80%EA%B2%A9%EC%9D%84-%EA%B3%B1%ED%95%98%EC%97%AC-%EA%B5%AC%EA%B0%84%EB%B3%84-%EC%9A%94%EA%B8%88%EC%B2%98%EB%A6%AC%EB%A5%BC-%EB%A7%88%EB%AC%B4%EB%A6%AC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>구간을 시간(초)로 바꿔서, 초당 가격을 곱하여 구간별 요금처리를 마무리한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716174355742.png" alt="image-20220716174355742"></p>
+
+<h4 id="test-duration은-localdatetime-2개를-between으로-구한다">
+<a class="anchor" href="#test-duration%EC%9D%80-localdatetime-2%EA%B0%9C%EB%A5%BC-between%EC%9C%BC%EB%A1%9C-%EA%B5%AC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>test# duration은 LocalDateTime 2개를 between으로 구한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716174741401.png" alt="image-20220716174741401"></p>
+
+<h3 id="sectionpricecalc협력할-데코객체를-1개만-소유--다음타자를-생성하고-기존은-prev에-저장해서-누적---재귀형식으로-다음-객체에-저장하면서-마지막-타자만-가지고-있는-클래스">
+<a class="anchor" href="#sectionpricecalc%ED%98%91%EB%A0%A5%ED%95%A0-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%A5%BC-1%EA%B0%9C%EB%A7%8C-%EC%86%8C%EC%9C%A0--%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90%EB%A5%BC-%EC%83%9D%EC%84%B1%ED%95%98%EA%B3%A0-%EA%B8%B0%EC%A1%B4%EC%9D%80-prev%EC%97%90-%EC%A0%80%EC%9E%A5%ED%95%B4%EC%84%9C-%EB%88%84%EC%A0%81---%EC%9E%AC%EA%B7%80%ED%98%95%EC%8B%9D%EC%9C%BC%EB%A1%9C-%EB%8B%A4%EC%9D%8C-%EA%B0%9D%EC%B2%B4%EC%97%90-%EC%A0%80%EC%9E%A5%ED%95%98%EB%A9%B4%EC%84%9C-%EB%A7%88%EC%A7%80%EB%A7%89-%ED%83%80%EC%9E%90%EB%A7%8C-%EA%B0%80%EC%A7%80%EA%B3%A0-%EC%9E%88%EB%8A%94-%ED%81%B4%EB%9E%98%EC%8A%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>SectionPriceCalc#협력할 데코객체를 1개만 소유 + 다음타자를 생성하고 기존은 prev에 저장해서 누적 -&gt; 재귀형식으로 다음 객체에 저장하면서 마지막 타자만 가지고 있는 클래스</h3>
+
+<h4 id="구간처리시작특이점-데코객체를-소유하여-협력하는-계산클래스는-시작특이점-객체를-1개를-미리-소유하고-있다-어차피-변경될-필드이라서--final의-생성자-초기화는-불가능하다-컬렉션처럼-빈컬렉션시작특이점객체--add로-받기기능-형태">
+<a class="anchor" href="#%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC%EC%8B%9C%EC%9E%91%ED%8A%B9%EC%9D%B4%EC%A0%90-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%86%8C%EC%9C%A0%ED%95%98%EC%97%AC-%ED%98%91%EB%A0%A5%ED%95%98%EB%8A%94-%EA%B3%84%EC%82%B0%ED%81%B4%EB%9E%98%EC%8A%A4%EB%8A%94-%EC%8B%9C%EC%9E%91%ED%8A%B9%EC%9D%B4%EC%A0%90-%EA%B0%9D%EC%B2%B4%EB%A5%BC-1%EA%B0%9C%EB%A5%BC-%EB%AF%B8%EB%A6%AC-%EC%86%8C%EC%9C%A0%ED%95%98%EA%B3%A0-%EC%9E%88%EB%8B%A4-%EC%96%B4%EC%B0%A8%ED%94%BC-%EB%B3%80%EA%B2%BD%EB%90%A0-%ED%95%84%EB%93%9C%EC%9D%B4%EB%9D%BC%EC%84%9C--final%EC%9D%98-%EC%83%9D%EC%84%B1%EC%9E%90-%EC%B4%88%EA%B8%B0%ED%99%94%EB%8A%94-%EB%B6%88%EA%B0%80%EB%8A%A5%ED%95%98%EB%8B%A4-%EC%BB%AC%EB%A0%89%EC%85%98%EC%B2%98%EB%9F%BC-%EB%B9%88%EC%BB%AC%EB%A0%89%EC%85%98%EC%8B%9C%EC%9E%91%ED%8A%B9%EC%9D%B4%EC%A0%90%EA%B0%9D%EC%B2%B4--add%EB%A1%9C-%EB%B0%9B%EA%B8%B0%EA%B8%B0%EB%8A%A5-%ED%98%95%ED%83%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>구간처리(시작특이점) 데코객체를 소유하여 협력하는 계산클래스는 시작특이점 객체를 1개를 미리 소유하고 있다. (어차피 변경될 필드이라서  final의 생성자 초기화는 불가능하다. 컬렉션처럼 빈컬렉션(시작특이점객체) + add로 받기기능 형태)</h4>
+
+<ul>
+  <li>
+    <p>생성자로 안받고, 내부에서 미리 필드 초기화해서 가지고 있다.</p>
+
+    <ul>
+      <li>생성자 type이 아니라 필드 type으로 초기화한다. 어차피 <strong>다음 타자 데코객체를 재할당해서 알고 있을 예정이므로</strong>
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716175400821.png" alt="image-20220716175400821"></p>
+  </li>
+  <li>
+    <p><strong>시작특이점 객체로 초기화할 땐, 그것의 NULL객체들로 채워준다. <code class="language-plaintext highlighter-rouge">prev는 null</code>이어야한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/65f78c19-f527-40d4-9a22-71e3435c0ea8.gif" alt="65f78c19-f527-40d4-9a22-71e3435c0ea8"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716175755444.png" alt="image-20220716175755444"></p>
+  </li>
+</ul>
+
+<h4 id="시작특이점-데코객체를-이용하는-클래스는-데코객체를-필드로-1개만-소유하되-setter받기기능-메서드-호출을-통해-내부에서-다음타자를-생성하고-필드에-재할당한다-이-때-다음-타자-생성에-필요한-prev제외-필드정보들을-넣어줘야한다다음타자-생성에-필요한-정보prev가-내부에-있으니-그외-정보만-받아서-내부에서-생성해야한다">
+<a class="anchor" href="#%EC%8B%9C%EC%9E%91%ED%8A%B9%EC%9D%B4%EC%A0%90-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%98%EB%8A%94-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%8A%94-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%A5%BC-%ED%95%84%EB%93%9C%EB%A1%9C-1%EA%B0%9C%EB%A7%8C-%EC%86%8C%EC%9C%A0%ED%95%98%EB%90%98-setter%EB%B0%9B%EA%B8%B0%EA%B8%B0%EB%8A%A5-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%98%B8%EC%B6%9C%EC%9D%84-%ED%86%B5%ED%95%B4-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90%EB%A5%BC-%EC%83%9D%EC%84%B1%ED%95%98%EA%B3%A0-%ED%95%84%EB%93%9C%EC%97%90-%EC%9E%AC%ED%95%A0%EB%8B%B9%ED%95%9C%EB%8B%A4-%EC%9D%B4-%EB%95%8C-%EB%8B%A4%EC%9D%8C-%ED%83%80%EC%9E%90-%EC%83%9D%EC%84%B1%EC%97%90-%ED%95%84%EC%9A%94%ED%95%9C-prev%EC%A0%9C%EC%99%B8-%ED%95%84%EB%93%9C%EC%A0%95%EB%B3%B4%EB%93%A4%EC%9D%84-%EB%84%A3%EC%96%B4%EC%A4%98%EC%95%BC%ED%95%9C%EB%8B%A4%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90-%EC%83%9D%EC%84%B1%EC%97%90-%ED%95%84%EC%9A%94%ED%95%9C-%EC%A0%95%EB%B3%B4prev%EA%B0%80-%EB%82%B4%EB%B6%80%EC%97%90-%EC%9E%88%EC%9C%BC%EB%8B%88-%EA%B7%B8%EC%99%B8-%EC%A0%95%EB%B3%B4%EB%A7%8C-%EB%B0%9B%EC%95%84%EC%84%9C-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%EC%83%9D%EC%84%B1%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>시작특이점 데코객체를 이용하는 클래스는, 데코객체를 필드로 1개만 소유하되, setter받기기능 메서드 호출을 통해 내부에서 다음타자를 생성하고 필드에 재할당한다. 이 때, 다음 타자 생성에 필요한 prev제외 필드정보들을 넣어줘야한다.(다음타자 생성에 필요한 정보prev가 내부에 있으니, 그외 정보만 받아서, 내부에서 생성해야한다.)</h4>
+
+<ul>
+  <li>
+    <p><strong>다음 타자는, prev로서 rule필드값이 필요하므로, <code class="language-plaintext highlighter-rouge">그외 정보만 받아와서 내부에서 생성</code>한다.</strong></p>
+  </li>
+  <li>
+    <p>다음타자 정보들은, 내부정보를 이용하여 preconditino검증을 해야한다.</p>
+
+    <ul>
+      <li>to(다음타자의 구간(상한)) : <strong>예비 prev구간인 <code class="language-plaintext highlighter-rouge">rule.getTo()</code>보다 커야한다.</strong>
+</li>
+      <li>price : 계산 결과값을 0으로 만드는 NULL객체가 아니어야한다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716184627058.png" alt="image-20220716184627058"></p>
+  </li>
+</ul>
+
+<h4 id="prev를-가지는-시작특이점-데코객체는-다음-타자를-생성하여-후-1개-필드에-마지막-타자만-재할당해서-소유하면-반복문을-통해-마지막-타자---저장된-prev---그것의-저장된-prev----시작특이점-객체까지-소환할-수-있다">
+<a class="anchor" href="#prev%EB%A5%BC-%EA%B0%80%EC%A7%80%EB%8A%94-%EC%8B%9C%EC%9E%91%ED%8A%B9%EC%9D%B4%EC%A0%90-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%8A%94-%EB%8B%A4%EC%9D%8C-%ED%83%80%EC%9E%90%EB%A5%BC-%EC%83%9D%EC%84%B1%ED%95%98%EC%97%AC-%ED%9B%84-1%EA%B0%9C-%ED%95%84%EB%93%9C%EC%97%90-%EB%A7%88%EC%A7%80%EB%A7%89-%ED%83%80%EC%9E%90%EB%A7%8C-%EC%9E%AC%ED%95%A0%EB%8B%B9%ED%95%B4%EC%84%9C-%EC%86%8C%EC%9C%A0%ED%95%98%EB%A9%B4-%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%84-%ED%86%B5%ED%95%B4-%EB%A7%88%EC%A7%80%EB%A7%89-%ED%83%80%EC%9E%90---%EC%A0%80%EC%9E%A5%EB%90%9C-prev---%EA%B7%B8%EA%B2%83%EC%9D%98-%EC%A0%80%EC%9E%A5%EB%90%9C-prev----%EC%8B%9C%EC%9E%91%ED%8A%B9%EC%9D%B4%EC%A0%90-%EA%B0%9D%EC%B2%B4%EA%B9%8C%EC%A7%80-%EC%86%8C%ED%99%98%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>prev를 가지는 시작특이점 데코객체는, 다음 타자를 생성하여 후 1개 필드에 마지막 타자만 재할당해서 소유하면, 반복문을 통해, 마지막 타자 -&gt; 저장된 prev -&gt; 그것의 저장된 prev -&gt;  시작특이점 객체까지 소환할 수 있다.</h4>
+
+<ul>
+  <li>
+    <p><strong>다음타자를 생성하고, 그 전 타자(현재 rule 필드)는, 다음타자 prev에 저장</strong>되게 한다.</p>
+  </li>
+  <li>
+    <p><strong>마지막 타자만 rule필드에 소유하고 있으면 된다. 그 전에 것들은 다음 타자의 prev에 연쇄적으로 저장되어있다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220715191930750.png" alt="image-20220715191930750">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716184940917.png" alt="image-20220716184940917"></p>
+  </li>
+</ul>
+
+<h4 id="데코객체-다음타자의-개별구나-추가시-구간은-start없는-처음부터이므로-인자로는-duratonofseconds등의-0부터-시작하는-구간을-준다">
+<a class="anchor" href="#%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90%EC%9D%98-%EA%B0%9C%EB%B3%84%EA%B5%AC%EB%82%98-%EC%B6%94%EA%B0%80%EC%8B%9C-%EA%B5%AC%EA%B0%84%EC%9D%80-start%EC%97%86%EB%8A%94-%EC%B2%98%EC%9D%8C%EB%B6%80%ED%84%B0%EC%9D%B4%EB%AF%80%EB%A1%9C-%EC%9D%B8%EC%9E%90%EB%A1%9C%EB%8A%94-duratonofseconds%EB%93%B1%EC%9D%98-0%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91%ED%95%98%EB%8A%94-%EA%B5%AC%EA%B0%84%EC%9D%84-%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>데코객체 다음타자의 개별구나 추가시 구간은 start없는 처음부터이므로 인자로는 Duraton.ofSeconds()등의 0부터 시작하는 구간을 준다.</h4>
+
+<ul>
+  <li>
+    <p>사용 : <strong>아래는 잘못되었다, 입력은 start가 없이 end로서 <code class="language-plaintext highlighter-rouge">처음부터 상한까지의 개별구간</code>을 입력해줘야한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716190238359.png" alt="image-20220716190238359"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716190437846.png" alt="image-20220716190437846"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716231442497.png" alt="image-20220716231442497"></p>
+  </li>
+</ul>
+
+<h4 id="마지막-타자rule필드부터-시작하는-순차적-데코객체-loop실행기는--현재-타자를-지역변수로-뺀-뒤-처리-후-prev로-업데이트-해-나가되-do-while문을-사용해서-마지막타자부터-시작특이점-객체까지-개별처리를-누적한다">
+<a class="anchor" href="#%EB%A7%88%EC%A7%80%EB%A7%89-%ED%83%80%EC%9E%90rule%ED%95%84%EB%93%9C%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91%ED%95%98%EB%8A%94-%EC%88%9C%EC%B0%A8%EC%A0%81-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-loop%EC%8B%A4%ED%96%89%EA%B8%B0%EB%8A%94--%ED%98%84%EC%9E%AC-%ED%83%80%EC%9E%90%EB%A5%BC-%EC%A7%80%EC%97%AD%EB%B3%80%EC%88%98%EB%A1%9C-%EB%BA%80-%EB%92%A4-%EC%B2%98%EB%A6%AC-%ED%9B%84-prev%EB%A1%9C-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%ED%95%B4-%EB%82%98%EA%B0%80%EB%90%98-do-while%EB%AC%B8%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C-%EB%A7%88%EC%A7%80%EB%A7%89%ED%83%80%EC%9E%90%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91%ED%8A%B9%EC%9D%B4%EC%A0%90-%EA%B0%9D%EC%B2%B4%EA%B9%8C%EC%A7%80-%EA%B0%9C%EB%B3%84%EC%B2%98%EB%A6%AC%EB%A5%BC-%EB%88%84%EC%A0%81%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>마지막 타자(rule필드)부터 시작하는 순차적 데코객체 loop실행기는,  현재 타자를 지역변수로 뺀 뒤, 처리 후 prev로 업데이트 해 나가되, do-while문을 사용해서 마지막타자부터 시작특이점 객체까지 개별처리를 누적한다.</h4>
+
+<ul>
+  <li>
+    <p>외부에서 전체 구간을 주고, 누적될 결과값을 초기값을 준다고 가정한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716215613117.png" alt="image-20220716215613117"></p>
+  </li>
+</ul>
+
+<h5 id="데코객체는-반복문-속에서-prev로-업데이트될-예정이므로-누적-결과값-처럼-반복문-위에서-지역변수로-빼서-재할당하며-업데이트-되어야한다">
+<a class="anchor" href="#%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%8A%94-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EC%86%8D%EC%97%90%EC%84%9C-prev%EB%A1%9C-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EB%90%A0-%EC%98%88%EC%A0%95%EC%9D%B4%EB%AF%80%EB%A1%9C-%EB%88%84%EC%A0%81-%EA%B2%B0%EA%B3%BC%EA%B0%92-%EC%B2%98%EB%9F%BC-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EC%9C%84%EC%97%90%EC%84%9C-%EC%A7%80%EC%97%AD%EB%B3%80%EC%88%98%EB%A1%9C-%EB%B9%BC%EC%84%9C-%EC%9E%AC%ED%95%A0%EB%8B%B9%ED%95%98%EB%A9%B0-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EB%90%98%EC%96%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>데코객체는 반복문 속에서 prev로 업데이트될 예정이므로, 누적 결과값 처럼, 반복문 위에서 지역변수로 빼서 재할당하며 업데이트 되어야한다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716220206426.png" alt="image-20220716220206426"></p>
+
+<h5 id="현재-target-데코객체는-prev를-꺼내서-재할당-업데이트-한다-그-prevtarget의-prev가-null이면-시작특이점-객체라서-연산없이-종료된다-재귀-데코객체-실행기-등의-종착역은-계산-안하는-곳이다">
+<a class="anchor" href="#%ED%98%84%EC%9E%AC-target-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%8A%94-prev%EB%A5%BC-%EA%BA%BC%EB%82%B4%EC%84%9C-%EC%9E%AC%ED%95%A0%EB%8B%B9-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%ED%95%9C%EB%8B%A4-%EA%B7%B8-prevtarget%EC%9D%98-prev%EA%B0%80-null%EC%9D%B4%EB%A9%B4-%EC%8B%9C%EC%9E%91%ED%8A%B9%EC%9D%B4%EC%A0%90-%EA%B0%9D%EC%B2%B4%EB%9D%BC%EC%84%9C-%EC%97%B0%EC%82%B0%EC%97%86%EC%9D%B4-%EC%A2%85%EB%A3%8C%EB%90%9C%EB%8B%A4-%EC%9E%AC%EA%B7%80-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-%EC%8B%A4%ED%96%89%EA%B8%B0-%EB%93%B1%EC%9D%98-%EC%A2%85%EC%B0%A9%EC%97%AD%EC%9D%80-%EA%B3%84%EC%82%B0-%EC%95%88%ED%95%98%EB%8A%94-%EA%B3%B3%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>현재 target 데코객체는, prev를 꺼내서 재할당 업데이트 한다. 그 prev(target)의 prev가 null이면, 시작특이점 객체라서, 연산없이 종료된다. (재귀, 데코객체 실행기 등의 종착역은 계산 안하는 곳이다.)</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716231538565.png" alt="image-20220716231538565"></p>
+
+<h5 id="주의-쪼개놓은-구간의-데코객체들은-자기구간이-아니면-default값을-반환하니-postcondition에서-zero를-검사하면-안된다">
+<a class="anchor" href="#%EC%A3%BC%EC%9D%98-%EC%AA%BC%EA%B0%9C%EB%86%93%EC%9D%80-%EA%B5%AC%EA%B0%84%EC%9D%98-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%93%A4%EC%9D%80-%EC%9E%90%EA%B8%B0%EA%B5%AC%EA%B0%84%EC%9D%B4-%EC%95%84%EB%8B%88%EB%A9%B4-default%EA%B0%92%EC%9D%84-%EB%B0%98%ED%99%98%ED%95%98%EB%8B%88-postcondition%EC%97%90%EC%84%9C-zero%EB%A5%BC-%EA%B2%80%EC%82%AC%ED%95%98%EB%A9%B4-%EC%95%88%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>주의) 쪼개놓은 구간의 데코객체들은, 자기구간이 아니면 default값을 반환하니, postcondition에서 zero를 검사하면 안된다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716231636477.png" alt="image-20220716231636477"></p>
+
+<h4 id="구간처리에서-중간구간을-계산하고싶다면-0중간구간-끝---0중간구간-시작-형태로-계산해야한다">
+<a class="anchor" href="#%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC%EC%97%90%EC%84%9C-%EC%A4%91%EA%B0%84%EA%B5%AC%EA%B0%84%EC%9D%84-%EA%B3%84%EC%82%B0%ED%95%98%EA%B3%A0%EC%8B%B6%EB%8B%A4%EB%A9%B4-0%EC%A4%91%EA%B0%84%EA%B5%AC%EA%B0%84-%EB%81%9D---0%EC%A4%91%EA%B0%84%EA%B5%AC%EA%B0%84-%EC%8B%9C%EC%9E%91-%ED%98%95%ED%83%9C%EB%A1%9C-%EA%B3%84%EC%82%B0%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>구간처리에서 중간구간을 계산하고싶다면, [0~중간구간 끝] - [0~중간구간 시작] 형태로 계산해야한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716231836044.png" alt="image-20220716231836044"></p>
+
+<h3 id="my-중간에-구간추가하는-로직-짜보기">
+<a class="anchor" href="#my-%EC%A4%91%EA%B0%84%EC%97%90-%EA%B5%AC%EA%B0%84%EC%B6%94%EA%B0%80%ED%95%98%EB%8A%94-%EB%A1%9C%EC%A7%81-%EC%A7%9C%EB%B3%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) 중간에 구간추가하는 로직 짜보기</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717012443186.png" alt="image-20220717012443186"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717012452357.png" alt="image-20220717012452357"></p>
+
+<h1 id="시작을-모르지만-끝이-정해진-템플릿추상클래스-구상-next데코객체-for-정해진-기능-추가">
+<a class="anchor" href="#%EC%8B%9C%EC%9E%91%EC%9D%84-%EB%AA%A8%EB%A5%B4%EC%A7%80%EB%A7%8C-%EB%81%9D%EC%9D%B4-%EC%A0%95%ED%95%B4%EC%A7%84-%ED%85%9C%ED%94%8C%EB%A6%BF%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4-%EA%B5%AC%EC%83%81-next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-for-%EC%A0%95%ED%95%B4%EC%A7%84-%EA%B8%B0%EB%8A%A5-%EC%B6%94%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>시작을 모르지만, 끝이 정해진 (템플릿추상클래스) 구상 next데코객체 for 정해진 기능 추가</h1>
+
+<h3 id="동적-기능추가를-next로-연결한-뒤-꼬리재귀호출로-누적-적용하는-방법">
+<a class="anchor" href="#%EB%8F%99%EC%A0%81-%EA%B8%B0%EB%8A%A5%EC%B6%94%EA%B0%80%EB%A5%BC-next%EB%A1%9C-%EC%97%B0%EA%B2%B0%ED%95%9C-%EB%92%A4-%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%EB%A1%9C-%EB%88%84%EC%A0%81-%EC%A0%81%EC%9A%A9%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>동적 기능추가를 next로 연결한 뒤, 꼬리재귀호출로 누적 적용하는 방법</h3>
+
+<h4 id="서로-다른-기능을-가졌지만-같은-형으로서-next에-받기-위해서는-추상체아래-구상체로서-기능을-수행해야한다-근데-next라는-공통필드를-가지므로-추상클래스여야한다">
+<a class="anchor" href="#%EC%84%9C%EB%A1%9C-%EB%8B%A4%EB%A5%B8-%EA%B8%B0%EB%8A%A5%EC%9D%84-%EA%B0%80%EC%A1%8C%EC%A7%80%EB%A7%8C-%EA%B0%99%EC%9D%80-%ED%98%95%EC%9C%BC%EB%A1%9C%EC%84%9C-next%EC%97%90-%EB%B0%9B%EA%B8%B0-%EC%9C%84%ED%95%B4%EC%84%9C%EB%8A%94-%EC%B6%94%EC%83%81%EC%B2%B4%EC%95%84%EB%9E%98-%EA%B5%AC%EC%83%81%EC%B2%B4%EB%A1%9C%EC%84%9C-%EA%B8%B0%EB%8A%A5%EC%9D%84-%EC%88%98%ED%96%89%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4-%EA%B7%BC%EB%8D%B0-next%EB%9D%BC%EB%8A%94-%EA%B3%B5%ED%86%B5%ED%95%84%EB%93%9C%EB%A5%BC-%EA%B0%80%EC%A7%80%EB%AF%80%EB%A1%9C-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EC%97%AC%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>서로 다른 기능을 가졌지만, 같은 형으로서 next에 받기 위해서는, 추상체아래 구상체로서 기능을 수행해야한다. 근데, next라는 공통필드를 가지므로, 추상클래스여야한다.</h4>
+
+<h5 id="일단-next를-첫번째-인자로-받고-생성자체이닝하는-구상-next데코객체들을-만들자">
+<a class="anchor" href="#%EC%9D%BC%EB%8B%A8-next%EB%A5%BC-%EC%B2%AB%EB%B2%88%EC%A7%B8-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%B0%9B%EA%B3%A0-%EC%83%9D%EC%84%B1%EC%9E%90%EC%B2%B4%EC%9D%B4%EB%8B%9D%ED%95%98%EB%8A%94-%EA%B5%AC%EC%83%81-next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%93%A4%EC%9D%84-%EB%A7%8C%EB%93%A4%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>일단 next를 첫번째 인자로 받고 생성자체이닝하는 구상 next데코객체들을 만들자.</h5>
+
+<ol>
+  <li>
+    <p>일단 <strong>next필드를 1번째 인자로 가질 첫번째 구상체 데코객체</strong>를 만든다.</p>
+
+    <ul>
+      <li>
+<strong>각 구상체들은 여러번 누적 적용시킬 것이므로, <code class="language-plaintext highlighter-rouge">직전 next데코객체의 계산 결과값</code>을 인자로 가져야한다.</strong>
+        <ul>
+          <li><strong>첫번째 인자로 줘야, 생성자 체이닝이 매끄럽게 나온다.</strong></li>
+          <li>괄호에서부터 줄바꿈한다.</li>
+        </ul>
+      </li>
+      <li>그외 <strong><code class="language-plaintext highlighter-rouge">자신만의 계산에 필요한 정보</code></strong>가 필요하나, <strong><code class="language-plaintext highlighter-rouge">메서드에서 실제 계산로직 수행시, 생성자에서 받도록 추가 예정</code>이다.</strong>
+        <ul>
+          <li><strong>결과값은 메서드로 호출되어 메서드로 반환하니, 누적결과값변수는 여기서 안받는다.</strong></li>
+        </ul>
+      </li>
+      <li>
+<strong>마지막 next데코객체라면, <code class="language-plaintext highlighter-rouge">연산을 하는 끝 특이점 객체</code>로서 next로 null을 가진다.</strong>
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">시작특이점 객체</code>는 구간을 처리하고, 그 구간이 0으로서, 연산이 없다.</strong></li>
+          <li><strong><code class="language-plaintext highlighter-rouge">끝특이점 객체</code>는 추가기능의 마지막으로서, 마지막인 자신의 연산까지 하고 결과값을 반환해야한다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717133534680.png" alt="image-20220717133534680"></p>
+  </li>
+  <li>
+    <p><strong>생성자 첫번째 인자의 파라미터를 <code class="language-plaintext highlighter-rouge">next필드를 공통으로 가질 추상클래스</code>로 주고 추상체를 만들고 상속한뒤, <code class="language-plaintext highlighter-rouge">next</code>필드에 받아준다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717133650708.png" alt="image-20220717133650708"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717133808818.png" alt="image-20220717133808818"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717133846676.png" alt="image-20220717133846676"></p>
+  </li>
+</ol>
+
+<h4 id="구상체들은-추상체의-next필드와-그-것을-받는-생성자를-공통으로-필요로-한다---하지만-좋은-부모는-생성자를-쓰지-않으므로-생성자-대신-not-final-필드--체이닝setter로-변경후-public-템플릿메소드로-올린다">
+<a class="anchor" href="#%EA%B5%AC%EC%83%81%EC%B2%B4%EB%93%A4%EC%9D%80-%EC%B6%94%EC%83%81%EC%B2%B4%EC%9D%98-next%ED%95%84%EB%93%9C%EC%99%80-%EA%B7%B8-%EA%B2%83%EC%9D%84-%EB%B0%9B%EB%8A%94-%EC%83%9D%EC%84%B1%EC%9E%90%EB%A5%BC-%EA%B3%B5%ED%86%B5%EC%9C%BC%EB%A1%9C-%ED%95%84%EC%9A%94%EB%A1%9C-%ED%95%9C%EB%8B%A4---%ED%95%98%EC%A7%80%EB%A7%8C-%EC%A2%8B%EC%9D%80-%EB%B6%80%EB%AA%A8%EB%8A%94-%EC%83%9D%EC%84%B1%EC%9E%90%EB%A5%BC-%EC%93%B0%EC%A7%80-%EC%95%8A%EC%9C%BC%EB%AF%80%EB%A1%9C-%EC%83%9D%EC%84%B1%EC%9E%90-%EB%8C%80%EC%8B%A0-not-final-%ED%95%84%EB%93%9C--%EC%B2%B4%EC%9D%B4%EB%8B%9Dsetter%EB%A1%9C-%EB%B3%80%EA%B2%BD%ED%9B%84-public-%ED%85%9C%ED%94%8C%EB%A6%BF%EB%A9%94%EC%86%8C%EB%93%9C%EB%A1%9C-%EC%98%AC%EB%A6%B0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>구상체들은 추상체의 next필드와 그 것을 받는 생성자를 공통으로 필요로 한다. -&gt; 하지만, 좋은 부모는 생성자를 쓰지 않으므로, [생성자 대신, not final 필드 + 체이닝setter로 변경후 public 템플릿메소드]로 올린다.</h4>
+
+<h5 id="공통필드next를-생성자에서-받던-자식들은-not-final-필드--체이닝setter-조합으로-만들어서-public템플릿메서드로-올린다">
+<a class="anchor" href="#%EA%B3%B5%ED%86%B5%ED%95%84%EB%93%9Cnext%EB%A5%BC-%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90%EC%84%9C-%EB%B0%9B%EB%8D%98-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%80-not-final-%ED%95%84%EB%93%9C--%EC%B2%B4%EC%9D%B4%EB%8B%9Dsetter-%EC%A1%B0%ED%95%A9%EC%9C%BC%EB%A1%9C-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%84%9C-public%ED%85%9C%ED%94%8C%EB%A6%BF%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EC%98%AC%EB%A6%B0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>공통필드(next)를 생성자에서 받던 자식들은, not final 필드 + 체이닝setter 조합으로 만들어서 public템플릿메서드로 올린다.</h5>
+
+<ul>
+  <li>생성자의 결과는 자기자신이다.
+    <ul>
+      <li>setter후에도 자기자신이 나오려면, return this의 체이닝setter로 변경해줘야한다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>추상클래스의 구상체들은, <code class="language-plaintext highlighter-rouge">공통 필드에 대해서만</code>, 해당필드를 애초에 생성자에서 받지말고 <code class="language-plaintext highlighter-rouge">필드 + setter</code>조합으로 올리자!!!</strong></p>
+  </li>
+  <li>
+    <p><strong>체이닝 setter를 만드는 과정에서, 자동완성하면 -&gt; <code class="language-plaintext highlighter-rouge">return this</code> 대신, 파라미터가 나아가버리니, 수정해줘야한다.</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/101b57e5-13e3-48c6-abcb-55baebe00b03.gif" alt="101b57e5-13e3-48c6-abcb-55baebe00b03"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717134611052.png" alt="image-20220717134611052"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717134623372.png" alt="image-20220717134623372"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717134634155.png" alt="image-20220717134634155"></p>
+  </li>
+  <li>
+    <p><strong>setter를 pull members up으로 올리면, not final 필드도 같이 올릴 수 있다.</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717134802056.png" alt="image-20220717134802056"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717134830467.png" alt="image-20220717134830467"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717134853570.png" alt="image-20220717134853570"></p>
+  </li>
+  <li>
+    <p><strong>추상체로 메서드 등을 올리고 난 뒤에는, <code class="language-plaintext highlighter-rouge">좋은 부모의 조건</code>을 확인해서 수정해준다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717134932044.png" alt="image-20220717134932044"></p>
+  </li>
+  <li>
+    <p>나머지 구상 next데코객체에서도 공통로직은 삭제한다</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717134949742.png" alt="image-20220717134949742"></p>
+  </li>
+</ul>
+
+<h4 id="구상-next데코객체의-소유해서-사용하는-class는-외부에서-setter체이닝by-null이-끝나-완성된-시작-next데코객체만-받는다">
+<a class="anchor" href="#%EA%B5%AC%EC%83%81-next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EC%9D%98-%EC%86%8C%EC%9C%A0%ED%95%B4%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-class%EB%8A%94-%EC%99%B8%EB%B6%80%EC%97%90%EC%84%9C-setter%EC%B2%B4%EC%9D%B4%EB%8B%9Dby-null%EC%9D%B4-%EB%81%9D%EB%82%98-%EC%99%84%EC%84%B1%EB%90%9C-%EC%8B%9C%EC%9E%91-next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%A7%8C-%EB%B0%9B%EB%8A%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>구상 next데코객체의 소유해서 사용하는 class는 외부에서 setter체이닝(by null)이 끝나 완성된, 시작 next데코객체만 받는다.</h4>
+
+<ul>
+  <li>
+    <p>prev데코객체처럼, 해당 <strong>데코객체 소유 클래스 생성 후엔 동적으로 기능 추가는 못한다.</strong></p>
+
+    <ul>
+      <li>외부에서 체이닝을 통해 <strong><code class="language-plaintext highlighter-rouge">동적기능추가가 완료된 시작 next데코객체</code>만 받는다.</strong>
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717164032195.png" alt="image-20220717164032195"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717164103545.png" alt="image-20220717164103545"></p>
+  </li>
+</ul>
+
+<h4 id="next데코객체-소유-클래스에서-계산책임위임시---추상체에-public템플릿-공통메서드이자-모든-구상체들이-재귀호추할-꼬리재귀함수로서-누적결과값변수를-포함해야하며-초기값을-인자로-넣어서-호출되어야한다">
+<a class="anchor" href="#next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-%EC%86%8C%EC%9C%A0-%ED%81%B4%EB%9E%98%EC%8A%A4%EC%97%90%EC%84%9C-%EA%B3%84%EC%82%B0%EC%B1%85%EC%9E%84%EC%9C%84%EC%9E%84%EC%8B%9C---%EC%B6%94%EC%83%81%EC%B2%B4%EC%97%90-public%ED%85%9C%ED%94%8C%EB%A6%BF-%EA%B3%B5%ED%86%B5%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%B4%EC%9E%90-%EB%AA%A8%EB%93%A0-%EA%B5%AC%EC%83%81%EC%B2%B4%EB%93%A4%EC%9D%B4-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%94%ED%95%A0-%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98%EB%A1%9C%EC%84%9C-%EB%88%84%EC%A0%81%EA%B2%B0%EA%B3%BC%EA%B0%92%EB%B3%80%EC%88%98%EB%A5%BC-%ED%8F%AC%ED%95%A8%ED%95%B4%EC%95%BC%ED%95%98%EB%A9%B0-%EC%B4%88%EA%B8%B0%EA%B0%92%EC%9D%84-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%84%A3%EC%96%B4%EC%84%9C-%ED%98%B8%EC%B6%9C%EB%90%98%EC%96%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>next데코객체 소유 클래스에서, 계산책임위임시 - 추상체에 public템플릿 공통메서드이자 모든 구상체들이 재귀호추할 [꼬리재귀함수]로서, 누적결과값변수를 포함해야하며, 초기값을 인자로 넣어서 호출되어야한다.</h4>
+
+<ul>
+  <li><strong>올리는 메서드가, 단순 public 템플릿메서드가 아니라, <code class="language-plaintext highlighter-rouge">꼬리재귀로 호출될 public 템플릿메소드</code>이다.</strong></li>
+  <li>계산에 필요한 정보 + <strong>누적결과값 변수를 파라미터로 가질 것이며 -&gt; <code class="language-plaintext highlighter-rouge">최초호출시 누적결과값 초기값</code>을 넣어 호출한다.</strong>
+</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717170310959.png" alt="image-20220717170310959"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717170933175.png" alt="image-20220717170933175"></p>
+
+<h5 id="next데코객체의-실행기-메서드의-2가지-선택지---꼬리재귀-or-반복문">
+<a class="anchor" href="#next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EC%9D%98-%EC%8B%A4%ED%96%89%EA%B8%B0-%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%98-2%EA%B0%80%EC%A7%80-%EC%84%A0%ED%83%9D%EC%A7%80---%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80-or-%EB%B0%98%EB%B3%B5%EB%AC%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>next데코객체의 실행기 메서드의 2가지 선택지 -&gt; 꼬리재귀 or 반복문</h5>
+
+<ul>
+  <li>
+<strong>둘다 돌아가면서 계산값을 누적결과값 변수를 업데이트하는 것은 동일하다</strong>
+    <ol>
+      <li>꼬리재귀 -&gt; <strong>누적결과값을 파라미터로</strong> 가지고 다니며, <strong>누적 전 초기값을 인자로 주고 호출 시작</strong>한다.
+        <ul>
+          <li>return문에서 다음 next데코객체를 호출하며, 삼항연산자로 재귀문 첫줄처럼 nul로 터미네이팅한다.</li>
+          <li><strong><code class="language-plaintext highlighter-rouge">객체의 꼬리재귀는 객체내부에서 next필드의 메소드를 호출함으로써 다음타자를 부른다.</code></strong></li>
+        </ul>
+      </li>
+      <li>반복문 -&gt; <strong>누적결과값을 반복문내에서 update</strong>하며, <strong>반복문 위에 update되는 결과값의 초기값을 지역변수로 선언</strong>한다.
+        <ul>
+          <li>while문에서 null로 시작특이점 or 끝특이점 객체를 찾는다.</li>
+          <li><strong><code class="language-plaintext highlighter-rouge">객체의 재귀 데코객체를 반복문으로 만드려면, 데코객체 소유 클래스에서 돌려야한다.</code></strong></li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<h4 id="데코객체소유-클래스에서-데코객체-실행기메서드내부에서-훅메서드로-개별계산-후-업데이트된-누적결과값-변수를-null터미네이팅--꼬리재귀로-호출하기">
+<a class="anchor" href="#%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EC%86%8C%EC%9C%A0-%ED%81%B4%EB%9E%98%EC%8A%A4%EC%97%90%EC%84%9C-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-%EC%8B%A4%ED%96%89%EA%B8%B0%EB%A9%94%EC%84%9C%EB%93%9C%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%ED%9B%85%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EA%B0%9C%EB%B3%84%EA%B3%84%EC%82%B0-%ED%9B%84-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EB%90%9C-%EB%88%84%EC%A0%81%EA%B2%B0%EA%B3%BC%EA%B0%92-%EB%B3%80%EC%88%98%EB%A5%BC-null%ED%84%B0%EB%AF%B8%EB%84%A4%EC%9D%B4%ED%8C%85--%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80%EB%A1%9C-%ED%98%B8%EC%B6%9C%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>데코객체소유 클래스에서, 데코객체 실행기메서드내부에서, [훅메서드로 개별계산] 후 [업데이트된 누적결과값 변수를 null터미네이팅 + 꼬리재귀]로 호출하기</h4>
+
+<h5 id="꼬리재귀를-호출할-next데코객체들의-추상클래스는-현재-구상체-상태이며-재귀호출로-다음-것으로-넘어온-상태임을-인지해야한다-그래야-나는-마지막-타자까지-넘어왔다고-생각하여---next필드에-null이-차있으면-터미네이팅도-쉽게-생각이-든다">
+<a class="anchor" href="#%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80%EB%A5%BC-%ED%98%B8%EC%B6%9C%ED%95%A0-next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%93%A4%EC%9D%98-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EB%8A%94-%ED%98%84%EC%9E%AC-%EA%B5%AC%EC%83%81%EC%B2%B4-%EC%83%81%ED%83%9C%EC%9D%B4%EB%A9%B0-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%EB%A1%9C-%EB%8B%A4%EC%9D%8C-%EA%B2%83%EC%9C%BC%EB%A1%9C-%EB%84%98%EC%96%B4%EC%98%A8-%EC%83%81%ED%83%9C%EC%9E%84%EC%9D%84-%EC%9D%B8%EC%A7%80%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4-%EA%B7%B8%EB%9E%98%EC%95%BC-%EB%82%98%EB%8A%94-%EB%A7%88%EC%A7%80%EB%A7%89-%ED%83%80%EC%9E%90%EA%B9%8C%EC%A7%80-%EB%84%98%EC%96%B4%EC%99%94%EB%8B%A4%EA%B3%A0-%EC%83%9D%EA%B0%81%ED%95%98%EC%97%AC---next%ED%95%84%EB%93%9C%EC%97%90-null%EC%9D%B4-%EC%B0%A8%EC%9E%88%EC%9C%BC%EB%A9%B4-%ED%84%B0%EB%AF%B8%EB%84%A4%EC%9D%B4%ED%8C%85%EB%8F%84-%EC%89%BD%EA%B2%8C-%EC%83%9D%EA%B0%81%EC%9D%B4-%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>꼬리재귀를 호출할 <code class="language-plaintext highlighter-rouge">next데코객체들의 추상클래스</code>는, <code class="language-plaintext highlighter-rouge">현재 구상체 상태이며, 재귀호출로 다음 것으로 넘어온 상태임</code>을 인지해야한다. 그래야, “나는 마지막 타자까지 넘어왔다고 생각하여 -&gt; next필드에 null이 차있으면 터미네이팅”도 쉽게 생각이 든다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717180702790.png" alt="image-20220717180702790"></p>
+
+<ul>
+  <li>개별 데코객체들의 계산은 내수용형태의 훅메서드로, 누적 결과값 변수를 인자로 받았다가 -&gt; 반환받아 업데이트 한다.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717175244464.png" alt="image-20220717175244464"></p>
+
+<h5 id="꼬리재귀-필수조건은-return문내-update된-누적결과값변수를-포함한-인자들로-다음재귀호출이며-현재객체의-연산까지-마치고-누적결과값을-반환하고-싶다면-연산후-return문내에서-삼항연산자로-null로-터미네이팅종착역-처리를-한다">
+<a class="anchor" href="#%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80-%ED%95%84%EC%88%98%EC%A1%B0%EA%B1%B4%EC%9D%80-return%EB%AC%B8%EB%82%B4-update%EB%90%9C-%EB%88%84%EC%A0%81%EA%B2%B0%EA%B3%BC%EA%B0%92%EB%B3%80%EC%88%98%EB%A5%BC-%ED%8F%AC%ED%95%A8%ED%95%9C-%EC%9D%B8%EC%9E%90%EB%93%A4%EB%A1%9C-%EB%8B%A4%EC%9D%8C%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%EC%9D%B4%EB%A9%B0-%ED%98%84%EC%9E%AC%EA%B0%9D%EC%B2%B4%EC%9D%98-%EC%97%B0%EC%82%B0%EA%B9%8C%EC%A7%80-%EB%A7%88%EC%B9%98%EA%B3%A0-%EB%88%84%EC%A0%81%EA%B2%B0%EA%B3%BC%EA%B0%92%EC%9D%84-%EB%B0%98%ED%99%98%ED%95%98%EA%B3%A0-%EC%8B%B6%EB%8B%A4%EB%A9%B4-%EC%97%B0%EC%82%B0%ED%9B%84-return%EB%AC%B8%EB%82%B4%EC%97%90%EC%84%9C-%EC%82%BC%ED%95%AD%EC%97%B0%EC%82%B0%EC%9E%90%EB%A1%9C-null%EB%A1%9C-%ED%84%B0%EB%AF%B8%EB%84%A4%EC%9D%B4%ED%8C%85%EC%A2%85%EC%B0%A9%EC%97%AD-%EC%B2%98%EB%A6%AC%EB%A5%BC-%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>꼬리재귀 필수조건은 return문내 update된 누적결과값변수를 포함한 인자들로 다음재귀호출이며, 현재객체의 연산까지 마치고 누적결과값을 반환하고 싶다면, 연산후 return문내에서 삼항연산자로 null로 터미네이팅(종착역) 처리를 한다.</h5>
+
+<ul>
+  <li>
+    <p>꼬리재귀 필수족거return내에서 [삼항연산자]로 null터미네이팅(지금까지 누적결과값 변수를 반환)  + next필드에 저장된 다음 next데코객체로 [업데이트된 누적결과값을 받아 꼬리재귀]를 호출한다</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717175449153.png" alt="image-20220717175449153"></p>
+  </li>
+</ul>
+
+<h4 id="각각의-훅구상체들의-개별계산로직을-넣어준다--개별구상체들-계산에서-필요한-정보가-있다면-자식수준에서-생성자에서-주입받도록-정의하면-된다">
+<a class="anchor" href="#%EA%B0%81%EA%B0%81%EC%9D%98-%ED%9B%85%EA%B5%AC%EC%83%81%EC%B2%B4%EB%93%A4%EC%9D%98-%EA%B0%9C%EB%B3%84%EA%B3%84%EC%82%B0%EB%A1%9C%EC%A7%81%EC%9D%84-%EB%84%A3%EC%96%B4%EC%A4%80%EB%8B%A4--%EA%B0%9C%EB%B3%84%EA%B5%AC%EC%83%81%EC%B2%B4%EB%93%A4-%EA%B3%84%EC%82%B0%EC%97%90%EC%84%9C-%ED%95%84%EC%9A%94%ED%95%9C-%EC%A0%95%EB%B3%B4%EA%B0%80-%EC%9E%88%EB%8B%A4%EB%A9%B4-%EC%9E%90%EC%8B%9D%EC%88%98%EC%A4%80%EC%97%90%EC%84%9C-%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90%EC%84%9C-%EC%A3%BC%EC%9E%85%EB%B0%9B%EB%8F%84%EB%A1%9D-%EC%A0%95%EC%9D%98%ED%95%98%EB%A9%B4-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>각각의 훅구상체들의, 개별계산로직을 넣어준다.  개별구상체들 계산에서 필요한 정보가 있다면, 자식수준에서 생성자에서 주입받도록 정의하면 된다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717181020761.png" alt="image-20220717181020761"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717181042943.png" alt="image-20220717181042943"></p>
+
+<h4 id="중요-오류수정-꼬리재귀하는-구상next데코-객체들의-계산내부에-이미--기존-누적값---여기에-추가하는-누적의-성질이-존재하기-때문에-구상next데코객체를-소유하는-추상클래스의-재귀호출에서는-누적계산완료된-결과값변수를-재할당-업데이트만-해주면-된다">
+<a class="anchor" href="#%EC%A4%91%EC%9A%94-%EC%98%A4%EB%A5%98%EC%88%98%EC%A0%95-%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80%ED%95%98%EB%8A%94-%EA%B5%AC%EC%83%81next%EB%8D%B0%EC%BD%94-%EA%B0%9D%EC%B2%B4%EB%93%A4%EC%9D%98-%EA%B3%84%EC%82%B0%EB%82%B4%EB%B6%80%EC%97%90-%EC%9D%B4%EB%AF%B8--%EA%B8%B0%EC%A1%B4-%EB%88%84%EC%A0%81%EA%B0%92---%EC%97%AC%EA%B8%B0%EC%97%90-%EC%B6%94%EA%B0%80%ED%95%98%EB%8A%94-%EB%88%84%EC%A0%81%EC%9D%98-%EC%84%B1%EC%A7%88%EC%9D%B4-%EC%A1%B4%EC%9E%AC%ED%95%98%EA%B8%B0-%EB%95%8C%EB%AC%B8%EC%97%90-%EA%B5%AC%EC%83%81next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%86%8C%EC%9C%A0%ED%95%98%EB%8A%94-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EC%9D%98-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%EC%97%90%EC%84%9C%EB%8A%94-%EB%88%84%EC%A0%81%EA%B3%84%EC%82%B0%EC%99%84%EB%A3%8C%EB%90%9C-%EA%B2%B0%EA%B3%BC%EA%B0%92%EB%B3%80%EC%88%98%EB%A5%BC-%EC%9E%AC%ED%95%A0%EB%8B%B9-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EB%A7%8C-%ED%95%B4%EC%A3%BC%EB%A9%B4-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>중요! 오류수정: 꼬리재귀하는 구상next데코 객체들의 계산내부에 이미  기존 누적값 -&gt; 여기에 추가하는 누적의 성질이 존재하기 때문에, 구상next데코객체를 소유하는, 추상클래스의 재귀호출에서는 [누적계산완료된 결과값변수를 재할당 업데이트만] 해주면 된다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220717182018534.png" alt="image-20220717182018534"></p>
+
+<h3 id="구상next데코객체-자체-꼬리재귀-대신-객체-소유-클래스의-반복문으로-호출하도록-변경">
+<a class="anchor" href="#%EA%B5%AC%EC%83%81next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-%EC%9E%90%EC%B2%B4-%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80-%EB%8C%80%EC%8B%A0-%EA%B0%9D%EC%B2%B4-%EC%86%8C%EC%9C%A0-%ED%81%B4%EB%9E%98%EC%8A%A4%EC%9D%98-%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9C%BC%EB%A1%9C-%ED%98%B8%EC%B6%9C%ED%95%98%EB%8F%84%EB%A1%9D-%EB%B3%80%EA%B2%BD" aria-hidden="true"><span class="octicon octicon-link"></span></a>구상next데코객체 자체 꼬리재귀 대신 객체 소유 클래스의 반복문으로 호출하도록 변경</h3>
+
+<h4 id="값의-n---n-1의-메서드재귀를-메서드루프로-바꾸는것-과-달리-데코객체의-꼬리재귀자신class의-method내에서-다음객체를-바로-호출--데코객체의-메서드에-처음부터-누적결과변수-끝까지-달고-다님---데코객체의-반복문외부에서-소유class가-데코객체를-다음타자로-업데이트--각-객체는-누적없이-자신의-연산만-처리함으로-변경하는-것은-더-복잡하다">
+<a class="anchor" href="#%EA%B0%92%EC%9D%98-n---n-1%EC%9D%98-%EB%A9%94%EC%84%9C%EB%93%9C%EC%9E%AC%EA%B7%80%EB%A5%BC-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A3%A8%ED%94%84%EB%A1%9C-%EB%B0%94%EA%BE%B8%EB%8A%94%EA%B2%83-%EA%B3%BC-%EB%8B%AC%EB%A6%AC-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EC%9D%98-%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80%EC%9E%90%EC%8B%A0class%EC%9D%98-method%EB%82%B4%EC%97%90%EC%84%9C-%EB%8B%A4%EC%9D%8C%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%B0%94%EB%A1%9C-%ED%98%B8%EC%B6%9C--%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EC%9D%98-%EB%A9%94%EC%84%9C%EB%93%9C%EC%97%90-%EC%B2%98%EC%9D%8C%EB%B6%80%ED%84%B0-%EB%88%84%EC%A0%81%EA%B2%B0%EA%B3%BC%EB%B3%80%EC%88%98-%EB%81%9D%EA%B9%8C%EC%A7%80-%EB%8B%AC%EA%B3%A0-%EB%8B%A4%EB%8B%98---%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EC%9D%98-%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%99%B8%EB%B6%80%EC%97%90%EC%84%9C-%EC%86%8C%EC%9C%A0class%EA%B0%80-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90%EB%A1%9C-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8--%EA%B0%81-%EA%B0%9D%EC%B2%B4%EB%8A%94-%EB%88%84%EC%A0%81%EC%97%86%EC%9D%B4-%EC%9E%90%EC%8B%A0%EC%9D%98-%EC%97%B0%EC%82%B0%EB%A7%8C-%EC%B2%98%EB%A6%AC%ED%95%A8%EC%9C%BC%EB%A1%9C-%EB%B3%80%EA%B2%BD%ED%95%98%EB%8A%94-%EA%B2%83%EC%9D%80-%EB%8D%94-%EB%B3%B5%EC%9E%A1%ED%95%98%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>값의 n -&gt; n-1의 메서드재귀를 메서드루프로 바꾸는것 과 달리, 데코객체의 꼬리재귀(자신class의 method내에서 다음객체를 바로 호출 + 데코객체의 메서드에 처음부터 누적결과변수 끝까지 달고 다님) -&gt; 데코객체의 반복문(외부에서 소유class가 데코객체를 다음타자로 업데이트 + 각 객체는 누적없이 자신의 연산만 처리함)으로 변경하는 것은 더 복잡하다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718182305257.png" alt="image-20220718182305257"></p>
+
+<h4 id="구상next데코객체-소유-클래스반복문이-생기는-곳부터-수정">
+<a class="anchor" href="#%EA%B5%AC%EC%83%81next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-%EC%86%8C%EC%9C%A0-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%B4-%EC%83%9D%EA%B8%B0%EB%8A%94-%EA%B3%B3%EB%B6%80%ED%84%B0-%EC%88%98%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>구상next데코객체 소유 클래스(반복문이 생기는 곳)부터 수정</h4>
+
+<h5 id="01-누적결과값을-가지고-다녀-매번-누적후-종착역특이점-도달시-한번에-누적결과값을-반환하는-로직을-반복문위의-누적변수에-누적하기-위해-자기것만-계산하는-로직으로-바꿔야하며-객체는-자신의-계산만-반환후-객체-바깥으로-반환되어-누적되도록해야하므로--데코객체-소유-클래스에서-반복문을-형성하게-된다">
+<a class="anchor" href="#01-%EB%88%84%EC%A0%81%EA%B2%B0%EA%B3%BC%EA%B0%92%EC%9D%84-%EA%B0%80%EC%A7%80%EA%B3%A0-%EB%8B%A4%EB%85%80-%EB%A7%A4%EB%B2%88-%EB%88%84%EC%A0%81%ED%9B%84-%EC%A2%85%EC%B0%A9%EC%97%AD%ED%8A%B9%EC%9D%B4%EC%A0%90-%EB%8F%84%EB%8B%AC%EC%8B%9C-%ED%95%9C%EB%B2%88%EC%97%90-%EB%88%84%EC%A0%81%EA%B2%B0%EA%B3%BC%EA%B0%92%EC%9D%84-%EB%B0%98%ED%99%98%ED%95%98%EB%8A%94-%EB%A1%9C%EC%A7%81%EC%9D%84-%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9C%84%EC%9D%98-%EB%88%84%EC%A0%81%EB%B3%80%EC%88%98%EC%97%90-%EB%88%84%EC%A0%81%ED%95%98%EA%B8%B0-%EC%9C%84%ED%95%B4-%EC%9E%90%EA%B8%B0%EA%B2%83%EB%A7%8C-%EA%B3%84%EC%82%B0%ED%95%98%EB%8A%94-%EB%A1%9C%EC%A7%81%EC%9C%BC%EB%A1%9C-%EB%B0%94%EA%BF%94%EC%95%BC%ED%95%98%EB%A9%B0-%EA%B0%9D%EC%B2%B4%EB%8A%94-%EC%9E%90%EC%8B%A0%EC%9D%98-%EA%B3%84%EC%82%B0%EB%A7%8C-%EB%B0%98%ED%99%98%ED%9B%84-%EA%B0%9D%EC%B2%B4-%EB%B0%94%EA%B9%A5%EC%9C%BC%EB%A1%9C-%EB%B0%98%ED%99%98%EB%90%98%EC%96%B4-%EB%88%84%EC%A0%81%EB%90%98%EB%8F%84%EB%A1%9D%ED%95%B4%EC%95%BC%ED%95%98%EB%AF%80%EB%A1%9C--%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-%EC%86%8C%EC%9C%A0-%ED%81%B4%EB%9E%98%EC%8A%A4%EC%97%90%EC%84%9C-%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%84-%ED%98%95%EC%84%B1%ED%95%98%EA%B2%8C-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 누적결과값을 가지고 다녀 매번 누적후 종착역(특이점) 도달시 한번에 누적결과값을 반환하는 로직을, 반복문위의 누적변수에 누적하기 위해 자기것만 계산하는 로직으로 바꿔야하며 객체는 자신의 계산만 반환후 <code class="language-plaintext highlighter-rouge">객체 바깥으로 반환되어 누적되도록</code>해야하므로, –&gt; <code class="language-plaintext highlighter-rouge">데코객체 소유 클래스에서 반복문을 형성</code>하게 된다.</h5>
+
+<ul>
+  <li>
+    <p>기존</p>
+
+    <ul>
+      <li>데코객체 소유 클래스
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718182606519.png" alt="image-20220718182606519">
+</li>
+      <li>구상 next데코객체의 추상체
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718182911600.png" alt="image-20220718182911600">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>그러려면, 데코객체 소유class(Calculator)는 데코객체에게 <code class="language-plaintext highlighter-rouge">(반복문이라면 초기값으로 줬던) 꼬리재귀 최초 호출 인자</code>의 계산위임 -&gt;  <code class="language-plaintext highlighter-rouge">인자에 있던 누적 초기값을 변수로 선언하고, 반복문내에서 next데코객체들도 직접 업데이트해주기 위해  업데이트변수로 초기값을 선언</code>한다.</strong></p>
+
+    <ul>
+      <li>데코객체들의 종특(다음타자를 필드로 저장)으로서 <strong>자신은 연산후, 자신의 정보를 통해 다음타자를 확인한다면, do-while문을 쓴다.</strong>
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/ee57ad3a-fec7-4d13-8b58-d53a1b61fd41.gif" alt="ee57ad3a-fec7-4d13-8b58-d53a1b61fd41"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718182627631.png" alt="image-20220718182627631"></p>
+  </li>
+</ul>
+
+<h5 id="02-꼬리재귀-정의-파라미터----다음타자-꼬리재귀-호출의-인자를-보고-업데이트-로직을-가져와-반영한다---for문이-아니므로-다음타자로-넘어가는-업데이트-로직도-반영한다--더이상-데코객체가-누적을-안할-것이기-때문에-반복문에서-누적해야한다--값객체라서-누적도-재할당으로-반영해야한다">
+<a class="anchor" href="#02-%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80-%EC%A0%95%EC%9D%98-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0----%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90-%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80-%ED%98%B8%EC%B6%9C%EC%9D%98-%EC%9D%B8%EC%9E%90%EB%A5%BC-%EB%B3%B4%EA%B3%A0-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EB%A1%9C%EC%A7%81%EC%9D%84-%EA%B0%80%EC%A0%B8%EC%99%80-%EB%B0%98%EC%98%81%ED%95%9C%EB%8B%A4---for%EB%AC%B8%EC%9D%B4-%EC%95%84%EB%8B%88%EB%AF%80%EB%A1%9C-%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90%EB%A1%9C-%EB%84%98%EC%96%B4%EA%B0%80%EB%8A%94-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EB%A1%9C%EC%A7%81%EB%8F%84-%EB%B0%98%EC%98%81%ED%95%9C%EB%8B%A4--%EB%8D%94%EC%9D%B4%EC%83%81-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EA%B0%80-%EB%88%84%EC%A0%81%EC%9D%84-%EC%95%88%ED%95%A0-%EA%B2%83%EC%9D%B4%EA%B8%B0-%EB%95%8C%EB%AC%B8%EC%97%90-%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%97%90%EC%84%9C-%EB%88%84%EC%A0%81%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4--%EA%B0%92%EA%B0%9D%EC%B2%B4%EB%9D%BC%EC%84%9C-%EB%88%84%EC%A0%81%EB%8F%84-%EC%9E%AC%ED%95%A0%EB%8B%B9%EC%9C%BC%EB%A1%9C-%EB%B0%98%EC%98%81%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 꼬리재귀 정의 파라미터 -&gt;  다음타자 꼬리재귀 호출의 인자를 보고 업데이트 로직을 가져와 반영한다.  + for문이 아니므로, 다음타자로 넘어가는 업데이트 로직도 반영한다. + 더이상 데코객체가 누적을 안할 것이기 때문에, 반복문에서 누적해야한다 + 값객체라서 누적도 재할당으로 반영해야한다.</h5>
+
+<ul>
+  <li>
+<strong>오타</strong>: 아래 보라색 필드의 calculator가 아니라 업데이트될 직전 targetCalculator로 수정되어야한다.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718183816092.png" alt="image-20220718183816092"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/0420f9f3-b32a-4c56-a2a5-a8a4bee00b36.gif" alt="0420f9f3-b32a-4c56-a2a5-a8a4bee00b36"></p>
+
+<h5 id="03-구상next데코객체의-반복문-while의-종착역은-특이점객체연산x-필드만null가-아니라-자신의-연산까지-끝낸-상태이므로-다음타자를-불렀을-때-null이면-종료한다">
+<a class="anchor" href="#03-%EA%B5%AC%EC%83%81next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EC%9D%98-%EB%B0%98%EB%B3%B5%EB%AC%B8-while%EC%9D%98-%EC%A2%85%EC%B0%A9%EC%97%AD%EC%9D%80-%ED%8A%B9%EC%9D%B4%EC%A0%90%EA%B0%9D%EC%B2%B4%EC%97%B0%EC%82%B0x-%ED%95%84%EB%93%9C%EB%A7%8Cnull%EA%B0%80-%EC%95%84%EB%8B%88%EB%9D%BC-%EC%9E%90%EC%8B%A0%EC%9D%98-%EC%97%B0%EC%82%B0%EA%B9%8C%EC%A7%80-%EB%81%9D%EB%82%B8-%EC%83%81%ED%83%9C%EC%9D%B4%EB%AF%80%EB%A1%9C-%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90%EB%A5%BC-%EB%B6%88%EB%A0%80%EC%9D%84-%EB%95%8C-null%EC%9D%B4%EB%A9%B4-%EC%A2%85%EB%A3%8C%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 구상next데코객체의 반복문 while의 종착역은 특이점객체(연산x, 필드만null)가 아니라, 자신의 연산까지 끝낸 상태이므로, 다음타자를 불렀을 때 null이면 종료한다.</h5>
+
+<ul>
+  <li>
+    <p>prev는 종착역이 계산을 안하지만, 필드만 null인 객체라서, 업데이트된  다음타자의 필드를 ull이면 끝내지만</p>
+
+    <ul>
+      <li>
+        <p><strong>prev는 <code class="language-plaintext highlighter-rouge">종착역</code>에는 시작특이점 객체가 존재하며, <code class="language-plaintext highlighter-rouge">필드로 null</code>을 가지기 때문에, <code class="language-plaintext highlighter-rouge">다음타자의 필드 null을 검사</code>한다.</strong></p>
+
+        <ul>
+          <li>왜냐면, 시작을 null객체로 시작할 수 없기 때문에 <code class="language-plaintext highlighter-rouge">구간0의 필드가null</code>인 객체를 따로 잡았다.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718184708170.png" alt="image-20220718184708170"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>next는 특이점객체가 없으며, 업데이트된 다음타자가 null이면 종료다.</p>
+
+    <ul>
+      <li><strong>next는 <code class="language-plaintext highlighter-rouge">종착역</code>이 끝 특이점 객체 없이, 마지막까지 연산하고, 다음타자 자체가 null객체이므로 <code class="language-plaintext highlighter-rouge">다음타자가 null인지</code>를 검사한다</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/1f6afcc7-3c1c-4724-bd9e-5e891b743dfe.gif" alt="1f6afcc7-3c1c-4724-bd9e-5e891b743dfe"></p>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718184605361.png" alt="image-20220718184605361"></p>
+
+<h5 id="04-누적된-결과값을-반환한다필요시-postcondition검사">
+<a class="anchor" href="#04-%EB%88%84%EC%A0%81%EB%90%9C-%EA%B2%B0%EA%B3%BC%EA%B0%92%EC%9D%84-%EB%B0%98%ED%99%98%ED%95%9C%EB%8B%A4%ED%95%84%EC%9A%94%EC%8B%9C-postcondition%EA%B2%80%EC%82%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 누적된 결과값을 반환한다(필요시 postcondition검사)</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718185126427.png" alt="image-20220718185126427"></p>
+
+<h3 id="구상next데코객체가-더이상-누적연산이-아니라-자신의-차례에-자신의-연산만-하도록-변경">
+<a class="anchor" href="#%EA%B5%AC%EC%83%81next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EA%B0%80-%EB%8D%94%EC%9D%B4%EC%83%81-%EB%88%84%EC%A0%81%EC%97%B0%EC%82%B0%EC%9D%B4-%EC%95%84%EB%8B%88%EB%9D%BC-%EC%9E%90%EC%8B%A0%EC%9D%98-%EC%B0%A8%EB%A1%80%EC%97%90-%EC%9E%90%EC%8B%A0%EC%9D%98-%EC%97%B0%EC%82%B0%EB%A7%8C-%ED%95%98%EB%8F%84%EB%A1%9D-%EB%B3%80%EA%B2%BD" aria-hidden="true"><span class="octicon octicon-link"></span></a>구상next데코객체가 더이상 누적연산이 아니라, 자신의 차례에 자신의 연산만 하도록 변경</h3>
+
+<ul>
+  <li>
+    <p>이미 밖에서 누적시키고 있으니, 구상next데코객체는 자신의 연산만 해서 반환해주면 된다.</p>
+
+    <ul>
+      <li><strong>이 때, 직전까지의 누적값이 필요하면 인자로 받지만, 꼬리 재귀호출은 하지 않는다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718185343656.png" alt="image-20220718185343656"></p>
+  </li>
+</ul>
+
+<h4 id="01-꼬리재귀의-흔적인-return-속-종착역--다음타자-부르는-처리를-삭제하고-자신의-처리훅메서드만-하도록-수정한다">
+<a class="anchor" href="#01-%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80%EC%9D%98-%ED%9D%94%EC%A0%81%EC%9D%B8-return-%EC%86%8D-%EC%A2%85%EC%B0%A9%EC%97%AD--%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90-%EB%B6%80%EB%A5%B4%EB%8A%94-%EC%B2%98%EB%A6%AC%EB%A5%BC-%EC%82%AD%EC%A0%9C%ED%95%98%EA%B3%A0-%EC%9E%90%EC%8B%A0%EC%9D%98-%EC%B2%98%EB%A6%AC%ED%9B%85%EB%A9%94%EC%84%9C%EB%93%9C%EB%A7%8C-%ED%95%98%EB%8F%84%EB%A1%9D-%EC%88%98%EC%A0%95%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 꼬리재귀의 흔적인 return 속 종착역 + 다음타자 부르는 처리를 삭제하고, 자신의 처리(훅메서드)만 하도록 수정한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/f8d6ad4c-3494-4077-bcc2-cff5a904c2bd.gif" alt="f8d6ad4c-3494-4077-bcc2-cff5a904c2bd"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718223219251.png" alt="image-20220718223219251"></p>
+
+<h4 id="02-이제-for문에서-누적--개별next데코객체는-자기값만-반환-vs-for문은-업데이트만--개별next데코객체가-기존값을-받아-유지하면서-누적하는-방법-중-1가지를-선택한다">
+<a class="anchor" href="#02-%EC%9D%B4%EC%A0%9C-for%EB%AC%B8%EC%97%90%EC%84%9C-%EB%88%84%EC%A0%81--%EA%B0%9C%EB%B3%84next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%8A%94-%EC%9E%90%EA%B8%B0%EA%B0%92%EB%A7%8C-%EB%B0%98%ED%99%98-vs-for%EB%AC%B8%EC%9D%80-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EB%A7%8C--%EA%B0%9C%EB%B3%84next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EA%B0%80-%EA%B8%B0%EC%A1%B4%EA%B0%92%EC%9D%84-%EB%B0%9B%EC%95%84-%EC%9C%A0%EC%A7%80%ED%95%98%EB%A9%B4%EC%84%9C-%EB%88%84%EC%A0%81%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95-%EC%A4%91-1%EA%B0%80%EC%A7%80%EB%A5%BC-%EC%84%A0%ED%83%9D%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 이제 [for문에서 누적 + 개별next데코객체는 자기값만 반환] vs [for문은 업데이트만 + 개별next데코객체가 기존값을 받아 유지하면서 누적]하는 방법 중 1가지를 선택한다.</h4>
+
+<ul>
+  <li>
+    <p>현재는 <strong><code class="language-plaintext highlighter-rouge">현재까지의 계산결과</code>에 <code class="language-plaintext highlighter-rouge">누적하며 계산</code>하는 로직이기 때문에 <code class="language-plaintext highlighter-rouge">for문이 개별next데코객체가 누적완료한 값으로, 누적 결과값 변수를 업데이트만</code>하는 것으로 유지하자.</strong></p>
+
+    <ul>
+      <li>
+<strong>next데코</strong>는, 직전까지의 <code class="language-plaintext highlighter-rouge">계산후 업데이트된 결과변수</code>를 인자로 받아 사용해야하므로 <strong>현재까지 누적된 결과를 가져오니, for문은 업데이트만 하자.</strong>
+</li>
+      <li>prev데코는, 구간처리에 쓰였는데, 계산메서드가 누적결과값을 변수로 받지않고, 자기 일만 하므로, 바깥의 for문에서는 누적을 해줬어야했다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/ff6d8bea-12d1-46ab-9fd9-b5ea34528ab6.gif" alt="ff6d8bea-12d1-46ab-9fd9-b5ea34528ab6"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718225235493.png" alt="image-20220718225235493"></p>
+  </li>
+</ul>
+
+<h4 id="03-구상next데코객체는-넣어준-순서대로-next로-나아가긴-하나-생성하는-순간-현재-존재하니-않는-nxt다음타자도-생성자에서-실시간-생성해야하며-끝-null까지-다-한번에-넣어줘야한다-즉-동적-기능-추가가-어렵다-고전적인-데코레이터도-base기능을-생성자에-넣는-prev방식으로-바깥에서-직전타자를-감싸서-넣어줬다">
+<a class="anchor" href="#03-%EA%B5%AC%EC%83%81next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%8A%94-%EB%84%A3%EC%96%B4%EC%A4%80-%EC%88%9C%EC%84%9C%EB%8C%80%EB%A1%9C-next%EB%A1%9C-%EB%82%98%EC%95%84%EA%B0%80%EA%B8%B4-%ED%95%98%EB%82%98-%EC%83%9D%EC%84%B1%ED%95%98%EB%8A%94-%EC%88%9C%EA%B0%84-%ED%98%84%EC%9E%AC-%EC%A1%B4%EC%9E%AC%ED%95%98%EB%8B%88-%EC%95%8A%EB%8A%94-nxt%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90%EB%8F%84-%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90%EC%84%9C-%EC%8B%A4%EC%8B%9C%EA%B0%84-%EC%83%9D%EC%84%B1%ED%95%B4%EC%95%BC%ED%95%98%EB%A9%B0-%EB%81%9D-null%EA%B9%8C%EC%A7%80-%EB%8B%A4-%ED%95%9C%EB%B2%88%EC%97%90-%EB%84%A3%EC%96%B4%EC%A4%98%EC%95%BC%ED%95%9C%EB%8B%A4-%EC%A6%89-%EB%8F%99%EC%A0%81-%EA%B8%B0%EB%8A%A5-%EC%B6%94%EA%B0%80%EA%B0%80-%EC%96%B4%EB%A0%B5%EB%8B%A4-%EA%B3%A0%EC%A0%84%EC%A0%81%EC%9D%B8-%EB%8D%B0%EC%BD%94%EB%A0%88%EC%9D%B4%ED%84%B0%EB%8F%84-base%EA%B8%B0%EB%8A%A5%EC%9D%84-%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90-%EB%84%A3%EB%8A%94-prev%EB%B0%A9%EC%8B%9D%EC%9C%BC%EB%A1%9C-%EB%B0%94%EA%B9%A5%EC%97%90%EC%84%9C-%EC%A7%81%EC%A0%84%ED%83%80%EC%9E%90%EB%A5%BC-%EA%B0%90%EC%8B%B8%EC%84%9C-%EB%84%A3%EC%96%B4%EC%A4%AC%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 구상next데코객체는 넣어준 순서대로 next로 나아가긴 하나, 생성하는 순간, 현재 존재하니 않는 nxt다음타자도 생성자에서 실시간 생성해야하며, 끝 null까지 다 한번에 넣어줘야한다. 즉, 동적 기능 추가가 어렵다. (고전적인 데코레이터도, base기능을 생성자에 넣는, prev방식으로 바깥에서 직전타자를 감싸서 넣어줬다.)</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718232134842.png" alt="image-20220718232134842"></p>
+
+<ul>
+  <li>
+    <p>고전적인 데코레이터 패턴도 <strong>prev데코객체 형식으로서, 다음타자자 생성시, 직전객체를 넣어주고, 마지막 타자로 업데이트하여, -&gt; 마지막 타자에<code class="language-plaintext highlighter-rouge"> 다음타자를 동적으로 추가가 가능</code>하다</strong></p>
+
+    <ul>
+      <li>실제로는 <strong>다양한 기능을 가진 <code class="language-plaintext highlighter-rouge">구상 prev데코객체</code>로 표현하며</strong>의</li>
+      <li>
+<strong>prev필드를 추상클래스가 가지고서, 각 구상체들은 <code class="language-plaintext highlighter-rouge">부모가 정의해놓은 prev의 기능 호출</code> + <code class="language-plaintext highlighter-rouge">현재 구상체의 현재기능추가</code>로 메서드를 오버라이딩해서 호출한다</strong>
+        <ul>
+          <li>우리는 구간처리에 있어서는 prev데코객체가 정보만 같은 형으로 구성되었었음.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718232258550.png" alt="image-20220718232258550"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718233157342.png" alt="image-20220718233157342"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718232717159.png" alt="image-20220718232717159"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220718232839228.png" alt="image-20220718232839228"></p>
+  </li>
+</ul>
+
+<h3 id="prev-vs-next-비교">
+<a class="anchor" href="#prev-vs-next-%EB%B9%84%EA%B5%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>prev vs next 비교</h3>
+
+<h3 id="next-대신-컬렉션으로-연결--전략패턴으로-변경해서-사용하기">
+<a class="anchor" href="#next-%EB%8C%80%EC%8B%A0-%EC%BB%AC%EB%A0%89%EC%85%98%EC%9C%BC%EB%A1%9C-%EC%97%B0%EA%B2%B0--%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%9C%BC%EB%A1%9C-%EB%B3%80%EA%B2%BD%ED%95%B4%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>next 대신 컬렉션으로 연결 + 전략패턴으로 변경해서 사용하기</h3>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/decorator/prev/next/section/2022/07/16/prev%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4_%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC_next%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4_%EC%88%9C%EC%B0%A8%EC%A0%81%EA%B8%B0%EB%8A%A5%EC%B6%94%EA%B0%80.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
