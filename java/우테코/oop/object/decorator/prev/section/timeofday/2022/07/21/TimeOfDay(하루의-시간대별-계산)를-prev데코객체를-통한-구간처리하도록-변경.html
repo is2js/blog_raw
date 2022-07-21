@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Object)하루 시간대별 계산(TimeOfDayCalc)을 prev데코객체로 처리(Plan7) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Object)하루 시간대별 계산(TimeOfDayCalc)을 prev데코객체로 처리(Plan7)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="구간처리에 사용되는 prev데코객체를 시간대별 계산에 적용하기" />
+<meta property="og:description" content="구간처리에 사용되는 prev데코객체를 시간대별 계산에 적용하기" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/decorator/prev/section/timeofday/2022/07/21/TimeOfDay(%ED%95%98%EB%A3%A8%EC%9D%98-%EC%8B%9C%EA%B0%84%EB%8C%80%EB%B3%84-%EA%B3%84%EC%82%B0)%EB%A5%BC-prev%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%A5%BC-%ED%86%B5%ED%95%9C-%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC%ED%95%98%EB%8F%84%EB%A1%9D-%EB%B3%80%EA%B2%BD.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/decorator/prev/section/timeofday/2022/07/21/TimeOfDay(%ED%95%98%EB%A3%A8%EC%9D%98-%EC%8B%9C%EA%B0%84%EB%8C%80%EB%B3%84-%EA%B3%84%EC%82%B0)%EB%A5%BC-prev%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%A5%BC-%ED%86%B5%ED%95%9C-%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC%ED%95%98%EB%8F%84%EB%A1%9D-%EB%B3%80%EA%B2%BD.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-21T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-07-21T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/decorator/prev/section/timeofday/2022/07/21/TimeOfDay(%ED%95%98%EB%A3%A8%EC%9D%98-%EC%8B%9C%EA%B0%84%EB%8C%80%EB%B3%84-%EA%B3%84%EC%82%B0)%EB%A5%BC-prev%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%A5%BC-%ED%86%B5%ED%95%9C-%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC%ED%95%98%EB%8F%84%EB%A1%9D-%EB%B3%80%EA%B2%BD.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"Object)하루 시간대별 계산(TimeOfDayCalc)을 prev데코객체로 처리(Plan7)","dateModified":"2022-07-21T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/decorator/prev/section/timeofday/2022/07/21/TimeOfDay(%ED%95%98%EB%A3%A8%EC%9D%98-%EC%8B%9C%EA%B0%84%EB%8C%80%EB%B3%84-%EA%B3%84%EC%82%B0)%EB%A5%BC-prev%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%A5%BC-%ED%86%B5%ED%95%9C-%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC%ED%95%98%EB%8F%84%EB%A1%9D-%EB%B3%80%EA%B2%BD.html"},"description":"구간처리에 사용되는 prev데코객체를 시간대별 계산에 적용하기","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Object)하루 시간대별 계산(TimeOfDayCalc)을 prev데코객체로 처리(Plan7)</h1><p class="page-description">구간처리에 사용되는 prev데코객체를 시간대별 계산에 적용하기</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-21T00:00:00-05:00" itemprop="datePublished">
+        Jul 21, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#oop">oop</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#decorator">decorator</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#prev">prev</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#section">section</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#timeofday">timeofday</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#timeofdaycalc를-암묵적-index로-묶인-컬렉션필드---prev데코객체로-처리하도록-변경하기">TimeOfDayCalc를 암묵적 index로 묶인 컬렉션필드 -&gt; prev데코객체로 처리하도록 변경하기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#구간처리를-해줄-prev데코객체-생성-및-필드-1개로-소유하기">구간처리를 해줄 prev데코객체 생성 및 필드 1개로 소유하기</a></li>
+<li class="toc-entry toc-h4"><a href="#prev데코객체는-시작특이점객체로-필드초기화하니-생성자는-정의해줄-필요-없이-체이닝setter로-받되-매번-다음타자로-업데이트하고-현재-rule을-prev필드에-저장하게-한다">prev데코객체는 시작특이점객체로 필드초기화하니, 생성자는 정의해줄 필요 없이 체이닝setter로 받되, 매번 다음타자로 업데이트하고, 현재 rule을 prev필드에 저장하게 한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#기존-전략메서드는-놔두고-public-기본메서드로-새로-작성후-다음타자로-업데이트까지-필요한-틀을-잡는다">기존 전략메서드는 놔두고, public 기본메서드로 새로 작성후, 다음타자로 업데이트까지 필요한 틀을 잡는다.</a></li>
+<li class="toc-entry toc-h4"><a href="#prev데코객체의-개별처리-메서드는--자신의to와-prev의-to로-인해--정해놓은개별구간만-처리하지만-전체-처리할-구간을-duration으로-변형된-인자를-받는다-durationofsecconds나-기존-startend-localdatetime---between활용">prev데코객체의 개별처리 메서드는,  자신의to와 prev의 to로 인해  정해놓은개별구간만 처리하지만, 전체 처리할 구간을 duration으로 변형된 인자를 받는다. (Duration.ofSecconds()나 기존 start+end (localdatetime) -&gt; between()활용)</a></li>
+<li class="toc-entry toc-h4"><a href="#추가-처리해야할-구간이-처음부터-시작안할-수-있다-그럴-경우-a-b-구간을--0-b구간-처리---0-a구간처리로-나눠서-처리해야한다---물어보고-중간구간이면-2번-계산후-차이를-구해야한다-데코객체-자체가-0부터-시작하는-구간으로-인지하고-비교-등-연산하기-때문">[추가] 처리해야할 구간이 처음부터 시작안할 수 있다. 그럴 경우, a-b 구간을 = 0-b구간 처리 - 0-a구간처리로 나눠서 처리해야한다. -&gt; 물어보고 중간구간이면, 2번 계산후 차이를 구해야한다. (데코객체 자체가 0부터 시작하는 구간으로 인지하고 비교 등 연산하기 때문)</a></li>
+<li class="toc-entry toc-h4"><a href="#prev데코객체들이-개별구간을-처리하기-전에-확인해야할-2가지">prev데코객체들이 개별구간을 처리하기 전에 확인해야할 2가지</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#01-내-자신이-시작특이점은-아닌지-확인한다prev필드--null---차후에는-외부-반복문-돌릴-때-조건에-걸려서-없어진다-처음-rule객체-작성-및-테스트시에-넣는다">01 내 자신이 시작특이점은 아닌지 확인한다.(prev필드 == null) -&gt; 차후에는 외부 반복문 돌릴 때, 조건에 걸려서 없어진다. 처음 Rule객체 작성 및 테스트시에 넣는다.</a></li>
+<li class="toc-entry toc-h5"><a href="#02-처리할-구간이-나보다는-작아도-되지만-내-하한인-prev의-to보다는-커야-일을-한다---prev데코객체-생성시에는-내-처리구간의-끝to를-localtime으로-받더라도-연산은-0시부터-시작하는-구간으로-변환해야한다">02 처리할 구간이 나보다는 작아도 되지만, 내 하한인 (prev의 to)보다는 커야 일을 한다. -&gt; prev데코객체 생성시에는 내 처리구간의 끝(to)를 LocalTime으로 받더라도, 연산은 0(시)부터 시작하는 구간으로 변환해야한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#03-쪼개놓은-모든-구간은-반복문으로-돌아가므로-외부에선-값을-누적하고-있다면-내가-일을-하지-않을-땐-누적0의-값을-반환하게-한다thr-x">03 쪼개놓은 모든 구간은 반복문으로 돌아가므로, 외부에선 값을 누적하고 있다면, 내가 일을 하지 않을 땐 누적0의 값을 반환하게 한다(thr X)</a></li>
+<li class="toc-entry toc-h5"><a href="#04-내가-처리해야할-구간이라면-내-상한-vs-처리구간-상한을-비교하여-실제-처리할-구간의-upperbound를-찾는다-하한은-이미-prev의-상한으로-정해져있다-이-때-localtime으로-상한을-받았으니-메서드를-이용해서-0부터-시작하는-duration으로-변경해준다">04 내가 처리해야할 구간이라면, 내 상한 vs 처리구간 상한을 비교하여, 실제 처리할 구간의 upperbound를 찾는다. 하한은 이미 prev의 상한으로 정해져있다. 이 때, localtime으로 상한을 받았으니, 메서드를 이용해서 0부터 시작하는 duration으로 변경해준다.</a></li>
+<li class="toc-entry toc-h5"><a href="#05-추가--localtimeof의-입력한계는-23-59-59인데-1-내-구간이-23-59-59를-담당하고-있고-2-처리해야할구간과-비교하여-정한-상한upperbound가-23-59-59까지-실제-처리해야한다면-durationofseconds1로-1초를-더해준다">05 [추가]  localtime.of의 입력한계는 23, 59, 59인데, (1) 내 구간이 23, 59, 59를 담당하고 있고 (2) 처리해야할구간과 비교하여 정한 상한upperbound가 23, 59, 59까지 실제 처리해야한다면, Duration.ofSeconds(1)로 1초를 더해준다.</a></li>
+<li class="toc-entry toc-h5"><a href="#06-실제상한--prev상한으로-만든-하한의-구간-차를-duration으로-계산후-getseconds로-환산후-단위초당-요금을-부과한다">06 실제상한 ~ prev상한으로 만든 하한의 구간 차를 duration으로 계산후, getSeconds()로 환산후 단위초당 요금을 부과한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#07-백업한-전략메서드를-지우고-구간처리로-바꾼-메서드로-대체한다">07 백업한 전략메서드를 지우고, 구간처리로 바꾼 메서드로 대체한다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h3 id="timeofdaycalc를-암묵적-index로-묶인-컬렉션필드---prev데코객체로-처리하도록-변경하기">
+<a class="anchor" href="#timeofdaycalc%EB%A5%BC-%EC%95%94%EB%AC%B5%EC%A0%81-index%EB%A1%9C-%EB%AC%B6%EC%9D%B8-%EC%BB%AC%EB%A0%89%EC%85%98%ED%95%84%EB%93%9C---prev%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%A1%9C-%EC%B2%98%EB%A6%AC%ED%95%98%EB%8F%84%EB%A1%9D-%EB%B3%80%EA%B2%BD%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>TimeOfDayCalc를 암묵적 index로 묶인 컬렉션필드 -&gt; prev데코객체로 처리하도록 변경하기</h3>
+
+<ul>
+  <li><a href="https://github.com/is2js/object2/tree/b940b38244e68e03bf68f7b6899962b5e1544f9a/src/main/java/goodComposition">시작커밋</a></li>
+</ul>
+
+<h4 id="구간처리를-해줄-prev데코객체-생성-및-필드-1개로-소유하기">
+<a class="anchor" href="#%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC%EB%A5%BC-%ED%95%B4%EC%A4%84-prev%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1-%EB%B0%8F-%ED%95%84%EB%93%9C-1%EA%B0%9C%EB%A1%9C-%EC%86%8C%EC%9C%A0%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>구간처리를 해줄 prev데코객체 생성 및 필드 1개로 소유하기</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719171653377.png" alt="image-20220719171653377"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719171730734.png" alt="image-20220719171730734"></p>
+
+<h4 id="prev데코객체는-시작특이점객체로-필드초기화하니-생성자는-정의해줄-필요-없이-체이닝setter로-받되-매번-다음타자로-업데이트하고-현재-rule을-prev필드에-저장하게-한다">
+<a class="anchor" href="#prev%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%8A%94-%EC%8B%9C%EC%9E%91%ED%8A%B9%EC%9D%B4%EC%A0%90%EA%B0%9D%EC%B2%B4%EB%A1%9C-%ED%95%84%EB%93%9C%EC%B4%88%EA%B8%B0%ED%99%94%ED%95%98%EB%8B%88-%EC%83%9D%EC%84%B1%EC%9E%90%EB%8A%94-%EC%A0%95%EC%9D%98%ED%95%B4%EC%A4%84-%ED%95%84%EC%9A%94-%EC%97%86%EC%9D%B4-%EC%B2%B4%EC%9D%B4%EB%8B%9Dsetter%EB%A1%9C-%EB%B0%9B%EB%90%98-%EB%A7%A4%EB%B2%88-%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90%EB%A1%9C-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%ED%95%98%EA%B3%A0-%ED%98%84%EC%9E%AC-rule%EC%9D%84-prev%ED%95%84%EB%93%9C%EC%97%90-%EC%A0%80%EC%9E%A5%ED%95%98%EA%B2%8C-%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>prev데코객체는 시작특이점객체로 필드초기화하니, 생성자는 정의해줄 필요 없이 체이닝setter로 받되, 매번 다음타자로 업데이트하고, 현재 rule을 prev필드에 저장하게 한다.</h4>
+
+<ul>
+  <li>
+    <p>prev객체를 필드로 소유하는 클래스는, 생성자에서 받지 않고, 이미 내부에 시작특이점 객체를 가지고 있어서, setter를 정의해준다.</p>
+  </li>
+  <li>
+    <p>테스트코드가 돌아가도록 기존필드를 받는 생성자를 둔 상태에서, <strong>생성자는 추가 선언이 되므로, 빈 생성자를 하나 추가해준다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719172253910.png" alt="image-20220719172253910"></p>
+  </li>
+  <li>
+    <p>테스트코드에서 (컬렉션은 아니지만 버금가는 연결 데코객체므로) <strong>addRule( )을 사용 생성하되, <code class="language-plaintext highlighter-rouge">다음 타자를 외부에 생성후 넣는게 아니라 다음타자 생성에 필요한 prev제외 나머지 정보</code></strong> 를 주어서 **<code class="language-plaintext highlighter-rouge">prev소유  클래스 내부에서 필드로 가지고 있던 prev를 필드로 넣은 다음타자</code>생성한 뒤, <code class="language-plaintext highlighter-rouge">다음타자를 필드로 가지고 있도록 setter를 정의</code>한다. **</p>
+
+    <ul>
+      <li>
+        <p>test코드에서 사용 생성하면된다.</p>
+
+        <ul>
+          <li>
+            <p>Rule 생성에 필요한 정보를 <strong>생성자 정의부 파라미터 복사해서 가져와 prev를 제외하고 넣어줘야한다.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719174124317.png" alt="image-20220719174124317"></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719174202753.png" alt="image-20220719174202753"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>다음타자를, 60초를 단위시간으로 10원씩 부과하며, 다음구간은 <strong>0시 출발이므로</strong> <strong>2시까지</strong>로 한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719174401859.png" alt="image-20220719174401859"></p>
+  </li>
+  <li>
+    <p>다음구간의 끝은, 무조건 직전구간보다 커야한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719175105522.png" alt="image-20220719175105522"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719175803103.png" alt="image-20220719175803103"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719180017200.png" alt="image-20220719180017200"></p>
+  </li>
+</ul>
+
+<h4 id="기존-전략메서드는-놔두고-public-기본메서드로-새로-작성후-다음타자로-업데이트까지-필요한-틀을-잡는다">
+<a class="anchor" href="#%EA%B8%B0%EC%A1%B4-%EC%A0%84%EB%9E%B5%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-%EB%86%94%EB%91%90%EA%B3%A0-public-%EA%B8%B0%EB%B3%B8%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EC%83%88%EB%A1%9C-%EC%9E%91%EC%84%B1%ED%9B%84-%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90%EB%A1%9C-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EA%B9%8C%EC%A7%80-%ED%95%84%EC%9A%94%ED%95%9C-%ED%8B%80%EC%9D%84-%EC%9E%A1%EB%8A%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>기존 전략메서드는 놔두고, public 기본메서드로 새로 작성후, 다음타자로 업데이트까지 필요한 틀을 잡는다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719182614143.png" alt="image-20220719182614143"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719184610957.png" alt="image-20220719184610957"></p>
+
+<h4 id="prev데코객체의-개별처리-메서드는--자신의to와-prev의-to로-인해--정해놓은개별구간만-처리하지만-전체-처리할-구간을-duration으로-변형된-인자를-받는다-durationofsecconds나-기존-startend-localdatetime---between활용">
+<a class="anchor" href="#prev%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EC%9D%98-%EA%B0%9C%EB%B3%84%EC%B2%98%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94--%EC%9E%90%EC%8B%A0%EC%9D%98to%EC%99%80-prev%EC%9D%98-to%EB%A1%9C-%EC%9D%B8%ED%95%B4--%EC%A0%95%ED%95%B4%EB%86%93%EC%9D%80%EA%B0%9C%EB%B3%84%EA%B5%AC%EA%B0%84%EB%A7%8C-%EC%B2%98%EB%A6%AC%ED%95%98%EC%A7%80%EB%A7%8C-%EC%A0%84%EC%B2%B4-%EC%B2%98%EB%A6%AC%ED%95%A0-%EA%B5%AC%EA%B0%84%EC%9D%84-duration%EC%9C%BC%EB%A1%9C-%EB%B3%80%ED%98%95%EB%90%9C-%EC%9D%B8%EC%9E%90%EB%A5%BC-%EB%B0%9B%EB%8A%94%EB%8B%A4-durationofsecconds%EB%82%98-%EA%B8%B0%EC%A1%B4-startend-localdatetime---between%ED%99%9C%EC%9A%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>prev데코객체의 개별처리 메서드는,  자신의to와 prev의 to로 인해  정해놓은개별구간만 처리하지만, 전체 처리할 구간을 duration으로 변형된 인자를 받는다. (Duration.ofSecconds()나 기존 start+end (localdatetime) -&gt; between()활용)</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719185144906.png" alt="image-20220719185144906"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719185130799.png" alt="image-20220719185130799"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719184901537.png" alt="image-20220719184901537"></p>
+
+<h4 id="추가-처리해야할-구간이-처음부터-시작안할-수-있다-그럴-경우-a-b-구간을--0-b구간-처리---0-a구간처리로-나눠서-처리해야한다---물어보고-중간구간이면-2번-계산후-차이를-구해야한다-데코객체-자체가-0부터-시작하는-구간으로-인지하고-비교-등-연산하기-때문">
+<a class="anchor" href="#%EC%B6%94%EA%B0%80-%EC%B2%98%EB%A6%AC%ED%95%B4%EC%95%BC%ED%95%A0-%EA%B5%AC%EA%B0%84%EC%9D%B4-%EC%B2%98%EC%9D%8C%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91%EC%95%88%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4-%EA%B7%B8%EB%9F%B4-%EA%B2%BD%EC%9A%B0-a-b-%EA%B5%AC%EA%B0%84%EC%9D%84--0-b%EA%B5%AC%EA%B0%84-%EC%B2%98%EB%A6%AC---0-a%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC%EB%A1%9C-%EB%82%98%EB%88%A0%EC%84%9C-%EC%B2%98%EB%A6%AC%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4---%EB%AC%BC%EC%96%B4%EB%B3%B4%EA%B3%A0-%EC%A4%91%EA%B0%84%EA%B5%AC%EA%B0%84%EC%9D%B4%EB%A9%B4-2%EB%B2%88-%EA%B3%84%EC%82%B0%ED%9B%84-%EC%B0%A8%EC%9D%B4%EB%A5%BC-%EA%B5%AC%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-%EC%9E%90%EC%B2%B4%EA%B0%80-0%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91%ED%95%98%EB%8A%94-%EA%B5%AC%EA%B0%84%EC%9C%BC%EB%A1%9C-%EC%9D%B8%EC%A7%80%ED%95%98%EA%B3%A0-%EB%B9%84%EA%B5%90-%EB%93%B1-%EC%97%B0%EC%82%B0%ED%95%98%EA%B8%B0-%EB%95%8C%EB%AC%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>[추가] 처리해야할 구간이 처음부터 시작안할 수 있다. 그럴 경우, a-b 구간을 = 0-b구간 처리 - 0-a구간처리로 나눠서 처리해야한다. -&gt; 물어보고 중간구간이면, 2번 계산후 차이를 구해야한다. (데코객체 자체가 0부터 시작하는 구간으로 인지하고 비교 등 연산하기 때문)</h4>
+
+<ul>
+  <li>
+    <p>먼저 <strong>처리해야할 구간을 가진 interval</strong>한테, <strong>0부터 시작하는 구간인지 vs 중간구간인지 물어본다</strong>.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719233235699.png" alt="image-20220719233235699"></p>
+  </li>
+  <li>
+    <p><strong>중간 구간이라면, <code class="language-plaintext highlighter-rouge">0~큰구간</code> 과 <code class="language-plaintext highlighter-rouge">0~작은구간</code>을 가지고와서, <code class="language-plaintext highlighter-rouge">각각을 계산후 차이</code>를 내야한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719233319241.png" alt="image-20220719233319241"></p>
+  </li>
+</ul>
+
+<h4 id="prev데코객체들이-개별구간을-처리하기-전에-확인해야할-2가지">
+<a class="anchor" href="#prev%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%93%A4%EC%9D%B4-%EA%B0%9C%EB%B3%84%EA%B5%AC%EA%B0%84%EC%9D%84-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B8%B0-%EC%A0%84%EC%97%90-%ED%99%95%EC%9D%B8%ED%95%B4%EC%95%BC%ED%95%A0-2%EA%B0%80%EC%A7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>prev데코객체들이 개별구간을 처리하기 전에 확인해야할 2가지</h4>
+
+<h5 id="01-내-자신이-시작특이점은-아닌지-확인한다prev필드--null---차후에는-외부-반복문-돌릴-때-조건에-걸려서-없어진다-처음-rule객체-작성-및-테스트시에-넣는다">
+<a class="anchor" href="#01-%EB%82%B4-%EC%9E%90%EC%8B%A0%EC%9D%B4-%EC%8B%9C%EC%9E%91%ED%8A%B9%EC%9D%B4%EC%A0%90%EC%9D%80-%EC%95%84%EB%8B%8C%EC%A7%80-%ED%99%95%EC%9D%B8%ED%95%9C%EB%8B%A4prev%ED%95%84%EB%93%9C--null---%EC%B0%A8%ED%9B%84%EC%97%90%EB%8A%94-%EC%99%B8%EB%B6%80-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%8F%8C%EB%A6%B4-%EB%95%8C-%EC%A1%B0%EA%B1%B4%EC%97%90-%EA%B1%B8%EB%A0%A4%EC%84%9C-%EC%97%86%EC%96%B4%EC%A7%84%EB%8B%A4-%EC%B2%98%EC%9D%8C-rule%EA%B0%9D%EC%B2%B4-%EC%9E%91%EC%84%B1-%EB%B0%8F-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%8B%9C%EC%97%90-%EB%84%A3%EB%8A%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 내 자신이 시작특이점은 아닌지 확인한다.(prev필드 == null) -&gt; 차후에는 외부 반복문 돌릴 때, 조건에 걸려서 없어진다. 처음 Rule객체 작성 및 테스트시에 넣는다.</h5>
+
+<h5 id="02-처리할-구간이-나보다는-작아도-되지만-내-하한인-prev의-to보다는-커야-일을-한다---prev데코객체-생성시에는-내-처리구간의-끝to를-localtime으로-받더라도-연산은-0시부터-시작하는-구간으로-변환해야한다">
+<a class="anchor" href="#02-%EC%B2%98%EB%A6%AC%ED%95%A0-%EA%B5%AC%EA%B0%84%EC%9D%B4-%EB%82%98%EB%B3%B4%EB%8B%A4%EB%8A%94-%EC%9E%91%EC%95%84%EB%8F%84-%EB%90%98%EC%A7%80%EB%A7%8C-%EB%82%B4-%ED%95%98%ED%95%9C%EC%9D%B8-prev%EC%9D%98-to%EB%B3%B4%EB%8B%A4%EB%8A%94-%EC%BB%A4%EC%95%BC-%EC%9D%BC%EC%9D%84-%ED%95%9C%EB%8B%A4---prev%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1%EC%8B%9C%EC%97%90%EB%8A%94-%EB%82%B4-%EC%B2%98%EB%A6%AC%EA%B5%AC%EA%B0%84%EC%9D%98-%EB%81%9Dto%EB%A5%BC-localtime%EC%9C%BC%EB%A1%9C-%EB%B0%9B%EB%8D%94%EB%9D%BC%EB%8F%84-%EC%97%B0%EC%82%B0%EC%9D%80-0%EC%8B%9C%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91%ED%95%98%EB%8A%94-%EA%B5%AC%EA%B0%84%EC%9C%BC%EB%A1%9C-%EB%B3%80%ED%99%98%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 처리할 구간이 나보다는 작아도 되지만, 내 하한인 (prev의 to)보다는 커야 일을 한다. -&gt; prev데코객체 생성시에는 내 처리구간의 끝(to)를 LocalTime으로 받더라도, 연산은 0(시)부터 시작하는 구간으로 변환해야한다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719215606852.png" alt="image-20220719215606852"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719215644437.png" alt="image-20220719215644437"></p>
+
+<h5 id="03-쪼개놓은-모든-구간은-반복문으로-돌아가므로-외부에선-값을-누적하고-있다면-내가-일을-하지-않을-땐-누적0의-값을-반환하게-한다thr-x">
+<a class="anchor" href="#03-%EC%AA%BC%EA%B0%9C%EB%86%93%EC%9D%80-%EB%AA%A8%EB%93%A0-%EA%B5%AC%EA%B0%84%EC%9D%80-%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9C%BC%EB%A1%9C-%EB%8F%8C%EC%95%84%EA%B0%80%EB%AF%80%EB%A1%9C-%EC%99%B8%EB%B6%80%EC%97%90%EC%84%A0-%EA%B0%92%EC%9D%84-%EB%88%84%EC%A0%81%ED%95%98%EA%B3%A0-%EC%9E%88%EB%8B%A4%EB%A9%B4-%EB%82%B4%EA%B0%80-%EC%9D%BC%EC%9D%84-%ED%95%98%EC%A7%80-%EC%95%8A%EC%9D%84-%EB%95%90-%EB%88%84%EC%A0%810%EC%9D%98-%EA%B0%92%EC%9D%84-%EB%B0%98%ED%99%98%ED%95%98%EA%B2%8C-%ED%95%9C%EB%8B%A4thr-x" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 쪼개놓은 모든 구간은 반복문으로 돌아가므로, 외부에선 값을 누적하고 있다면, 내가 일을 하지 않을 땐 누적0의 값을 반환하게 한다(thr X)</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719215749765.png" alt="image-20220719215749765"></p>
+
+<h5 id="04-내가-처리해야할-구간이라면-내-상한-vs-처리구간-상한을-비교하여-실제-처리할-구간의-upperbound를-찾는다-하한은-이미-prev의-상한으로-정해져있다-이-때-localtime으로-상한을-받았으니-메서드를-이용해서-0부터-시작하는-duration으로-변경해준다">
+<a class="anchor" href="#04-%EB%82%B4%EA%B0%80-%EC%B2%98%EB%A6%AC%ED%95%B4%EC%95%BC%ED%95%A0-%EA%B5%AC%EA%B0%84%EC%9D%B4%EB%9D%BC%EB%A9%B4-%EB%82%B4-%EC%83%81%ED%95%9C-vs-%EC%B2%98%EB%A6%AC%EA%B5%AC%EA%B0%84-%EC%83%81%ED%95%9C%EC%9D%84-%EB%B9%84%EA%B5%90%ED%95%98%EC%97%AC-%EC%8B%A4%EC%A0%9C-%EC%B2%98%EB%A6%AC%ED%95%A0-%EA%B5%AC%EA%B0%84%EC%9D%98-upperbound%EB%A5%BC-%EC%B0%BE%EB%8A%94%EB%8B%A4-%ED%95%98%ED%95%9C%EC%9D%80-%EC%9D%B4%EB%AF%B8-prev%EC%9D%98-%EC%83%81%ED%95%9C%EC%9C%BC%EB%A1%9C-%EC%A0%95%ED%95%B4%EC%A0%B8%EC%9E%88%EB%8B%A4-%EC%9D%B4-%EB%95%8C-localtime%EC%9C%BC%EB%A1%9C-%EC%83%81%ED%95%9C%EC%9D%84-%EB%B0%9B%EC%95%98%EC%9C%BC%EB%8B%88-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%B4%EC%84%9C-0%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91%ED%95%98%EB%8A%94-duration%EC%9C%BC%EB%A1%9C-%EB%B3%80%EA%B2%BD%ED%95%B4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 내가 처리해야할 구간이라면, 내 상한 vs 처리구간 상한을 비교하여, 실제 처리할 구간의 upperbound를 찾는다. 하한은 이미 prev의 상한으로 정해져있다. 이 때, localtime으로 상한을 받았으니, 메서드를 이용해서 0부터 시작하는 duration으로 변경해준다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719234021769.png" alt="image-20220719234021769"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719234058582.png" alt="image-20220719234058582"></p>
+
+<h5 id="05-추가--localtimeof의-입력한계는-23-59-59인데-1-내-구간이-23-59-59를-담당하고-있고-2-처리해야할구간과-비교하여-정한-상한upperbound가-23-59-59까지-실제-처리해야한다면-durationofseconds1로-1초를-더해준다">
+<a class="anchor" href="#05-%EC%B6%94%EA%B0%80--localtimeof%EC%9D%98-%EC%9E%85%EB%A0%A5%ED%95%9C%EA%B3%84%EB%8A%94-23-59-59%EC%9D%B8%EB%8D%B0-1-%EB%82%B4-%EA%B5%AC%EA%B0%84%EC%9D%B4-23-59-59%EB%A5%BC-%EB%8B%B4%EB%8B%B9%ED%95%98%EA%B3%A0-%EC%9E%88%EA%B3%A0-2-%EC%B2%98%EB%A6%AC%ED%95%B4%EC%95%BC%ED%95%A0%EA%B5%AC%EA%B0%84%EA%B3%BC-%EB%B9%84%EA%B5%90%ED%95%98%EC%97%AC-%EC%A0%95%ED%95%9C-%EC%83%81%ED%95%9Cupperbound%EA%B0%80-23-59-59%EA%B9%8C%EC%A7%80-%EC%8B%A4%EC%A0%9C-%EC%B2%98%EB%A6%AC%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4%EB%A9%B4-durationofseconds1%EB%A1%9C-1%EC%B4%88%EB%A5%BC-%EB%8D%94%ED%95%B4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 [추가]  localtime.of의 입력한계는 23, 59, 59인데, (1) 내 구간이 23, 59, 59를 담당하고 있고 (2) 처리해야할구간과 비교하여 정한 상한upperbound가 23, 59, 59까지 실제 처리해야한다면, Duration.ofSeconds(1)로 1초를 더해준다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719233809584.png" alt="image-20220719233809584"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719233820454.png" alt="image-20220719233820454"></p>
+
+<h5 id="06-실제상한--prev상한으로-만든-하한의-구간-차를-duration으로-계산후-getseconds로-환산후-단위초당-요금을-부과한다">
+<a class="anchor" href="#06-%EC%8B%A4%EC%A0%9C%EC%83%81%ED%95%9C--prev%EC%83%81%ED%95%9C%EC%9C%BC%EB%A1%9C-%EB%A7%8C%EB%93%A0-%ED%95%98%ED%95%9C%EC%9D%98-%EA%B5%AC%EA%B0%84-%EC%B0%A8%EB%A5%BC-duration%EC%9C%BC%EB%A1%9C-%EA%B3%84%EC%82%B0%ED%9B%84-getseconds%EB%A1%9C-%ED%99%98%EC%82%B0%ED%9B%84-%EB%8B%A8%EC%9C%84%EC%B4%88%EB%8B%B9-%EC%9A%94%EA%B8%88%EC%9D%84-%EB%B6%80%EA%B3%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>06 실제상한 ~ prev상한으로 만든 하한의 구간 차를 duration으로 계산후, getSeconds()로 환산후 단위초당 요금을 부과한다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220719235241782.png" alt="image-20220719235241782"></p>
+
+<h5 id="07-백업한-전략메서드를-지우고-구간처리로-바꾼-메서드로-대체한다">
+<a class="anchor" href="#07-%EB%B0%B1%EC%97%85%ED%95%9C-%EC%A0%84%EB%9E%B5%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EC%A7%80%EC%9A%B0%EA%B3%A0-%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC%EB%A1%9C-%EB%B0%94%EA%BE%BC-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EB%8C%80%EC%B2%B4%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>07 백업한 전략메서드를 지우고, 구간처리로 바꾼 메서드로 대체한다.</h5>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/decorator/prev/section/timeofday/2022/07/21/TimeOfDay(%ED%95%98%EB%A3%A8%EC%9D%98-%EC%8B%9C%EA%B0%84%EB%8C%80%EB%B3%84-%EA%B3%84%EC%82%B0)%EB%A5%BC-prev%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%A5%BC-%ED%86%B5%ED%95%9C-%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC%ED%95%98%EB%8F%84%EB%A1%9D-%EB%B3%80%EA%B2%BD.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

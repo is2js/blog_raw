@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Object)요일(묶음)별 계산(DayOfWeekCalc)을 Set rules로 구현(Plan8) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Object)요일(묶음)별 계산(DayOfWeekCalc)을 Set rules로 구현(Plan8)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="구간처리에 사용되는 prev데코객체를 시간대별 계산에 적용하기" />
+<meta property="og:description" content="구간처리에 사용되는 prev데코객체를 시간대별 계산에 적용하기" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/rule/dayofweek/2022/07/22/%EC%84%9C%EB%A1%9C%EB%8B%A4%EB%A5%B8-%EC%9A%94%EC%9D%BC%EB%B3%84-%EC%9A%94%EA%B8%88(DayPrice)-%EA%B3%84%EC%82%B0(DayOfWeekCal).html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/rule/dayofweek/2022/07/22/%EC%84%9C%EB%A1%9C%EB%8B%A4%EB%A5%B8-%EC%9A%94%EC%9D%BC%EB%B3%84-%EC%9A%94%EA%B8%88(DayPrice)-%EA%B3%84%EC%82%B0(DayOfWeekCal).html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-22T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-07-22T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/rule/dayofweek/2022/07/22/%EC%84%9C%EB%A1%9C%EB%8B%A4%EB%A5%B8-%EC%9A%94%EC%9D%BC%EB%B3%84-%EC%9A%94%EA%B8%88(DayPrice)-%EA%B3%84%EC%82%B0(DayOfWeekCal).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"Object)요일(묶음)별 계산(DayOfWeekCalc)을 Set rules로 구현(Plan8)","dateModified":"2022-07-22T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/rule/dayofweek/2022/07/22/%EC%84%9C%EB%A1%9C%EB%8B%A4%EB%A5%B8-%EC%9A%94%EC%9D%BC%EB%B3%84-%EC%9A%94%EA%B8%88(DayPrice)-%EA%B3%84%EC%82%B0(DayOfWeekCal).html"},"description":"구간처리에 사용되는 prev데코객체를 시간대별 계산에 적용하기","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Object)요일(묶음)별 계산(DayOfWeekCalc)을 Set&lt;rule&gt; rules로 구현(Plan8)</h1><p class="page-description">구간처리에 사용되는 prev데코객체를 시간대별 계산에 적용하기</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-22T00:00:00-05:00" itemprop="datePublished">
+        Jul 22, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      1 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#oop">oop</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#rule">rule</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#dayofweek">dayofweek</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#연속된-구간이-아닌-범주별처리-or-범주묶음별-처리도-rule객체-소유">연속된 구간이 아닌 범주별처리 or 범주묶음별 처리도 Rule객체 소유</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#요일별-요금-계산dayofweekcal">요일별 요금 계산(DayOfWeekCal)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#이미-정해져있는-범주별로-계산해줄-rule객체를-만들고-계산클래스는-rule컬렉션set-1개만-필드로-보유한다-rule들은-자신이-처리할-대상이-맞는지-확인해야한다">이미 정해져있는 범주별로 계산해줄 Rule객체를 만들고, 계산클래스는 Rule컬렉션(Set) 1개만 필드로 보유한다. Rule들은 자신이 처리할 대상이 맞는지 확인해야한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#rule객체의-class는-자신의-처리구간요일--처리시-필요정보단위시간과-단위시간당-부과할-요금를-필드로-가진다">Rule객체의 class는 자신의 처리구간(요일) + 처리시 필요정보(단위시간과, 단위시간당 부과할 요금)를 필드로 가진다</a></li>
+<li class="toc-entry toc-h4"><a href="#rule객체는-처리할-대상이-범주1개가-아니라-범주묶음이라면-set컬렉션필드를-가지면-된다-자신이-처리할-대상이-1개의-범주라서-contains로-확인하면-된다">Rule객체는 처리할 대상이 범주1개가 아니라 범주묶음이라면, Set컬렉션필드를 가지면 된다. 자신이 처리할 대상이 1개의 범주라서 contains로 확인하면 된다.</a></li>
+<li class="toc-entry toc-h4"><a href="#rule들을-소유한-calc는-처리대상을-만들어주고-rule를-반복문-돌리되-개별계산은-해당없을시-zero반환하여-바깥에서-누적계산이-되도록-한다">Rule들을 소유한 Calc는 처리대상을 만들어주고, rule를 반복문 돌리되, 개별계산은 해당없을시 ZERO반환하여 바깥에서 누적계산이 되도록 한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#주의-시간-구간처리시-23-59-59의-가능성이-있다면-1초-예외처리를-해줘야한다">주의) 시간 구간처리시, 23, 59, 59의 가능성이 있다면, +1초 예외처리를 해줘야한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#rule-테스트">rule 테스트</a></li>
+<li class="toc-entry toc-h4"><a href="#calc-테스트">calc 테스트</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h2 id="연속된-구간이-아닌-범주별처리-or-범주묶음별-처리도-rule객체-소유">
+<a class="anchor" href="#%EC%97%B0%EC%86%8D%EB%90%9C-%EA%B5%AC%EA%B0%84%EC%9D%B4-%EC%95%84%EB%8B%8C-%EB%B2%94%EC%A3%BC%EB%B3%84%EC%B2%98%EB%A6%AC-or-%EB%B2%94%EC%A3%BC%EB%AC%B6%EC%9D%8C%EB%B3%84-%EC%B2%98%EB%A6%AC%EB%8F%84-rule%EA%B0%9D%EC%B2%B4-%EC%86%8C%EC%9C%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>연속된 구간이 아닌 범주별처리 or 범주묶음별 처리도 Rule객체 소유</h2>
+
+<h3 id="요일별-요금-계산dayofweekcal">
+<a class="anchor" href="#%EC%9A%94%EC%9D%BC%EB%B3%84-%EC%9A%94%EA%B8%88-%EA%B3%84%EC%82%B0dayofweekcal" aria-hidden="true"><span class="octicon octicon-link"></span></a>요일별 요금 계산(DayOfWeekCal)</h3>
+
+<ul>
+  <li>call -&gt; interval -&gt; 특정요일 -&gt; <strong>요일별로 따로 계산</strong>
+</li>
+  <li>call -&gt; interval -&gt; 특정 시간대구간 -&gt; <strong>미리 시간대구간별로 계산법을 쪼개놓은 prev데코객체를 for문을 돌면서 -&gt; 자기구간에 걸리면 처리하도록(연결되어있는 것이 마치 컬렉션)</strong>처럼
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">미리 요일별로 계산법을 쪼개놓은 class -&gt; 객체들(rows)</code>을 만들어놓고, 반복문을 돌면서, <code class="language-plaintext highlighter-rouge">자기 요일이면 계산해서 반환</code>하도록 한다.</strong></li>
+      <li><strong>이 때, <code class="language-plaintext highlighter-rouge">단일 필드 1개 요일</code> 하나하나 쪼개놔도 되지만, <code class="language-plaintext highlighter-rouge">Set&lt;요일&gt; = </code>을 통해, <code class="language-plaintext highlighter-rouge">미리 쪼개놓기을 주중/주말</code>로 짤라놔도 된다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="이미-정해져있는-범주별로-계산해줄-rule객체를-만들고-계산클래스는-rule컬렉션set-1개만-필드로-보유한다-rule들은-자신이-처리할-대상이-맞는지-확인해야한다">
+<a class="anchor" href="#%EC%9D%B4%EB%AF%B8-%EC%A0%95%ED%95%B4%EC%A0%B8%EC%9E%88%EB%8A%94-%EB%B2%94%EC%A3%BC%EB%B3%84%EB%A1%9C-%EA%B3%84%EC%82%B0%ED%95%B4%EC%A4%84-rule%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%A7%8C%EB%93%A4%EA%B3%A0-%EA%B3%84%EC%82%B0%ED%81%B4%EB%9E%98%EC%8A%A4%EB%8A%94-rule%EC%BB%AC%EB%A0%89%EC%85%98set-1%EA%B0%9C%EB%A7%8C-%ED%95%84%EB%93%9C%EB%A1%9C-%EB%B3%B4%EC%9C%A0%ED%95%9C%EB%8B%A4-rule%EB%93%A4%EC%9D%80-%EC%9E%90%EC%8B%A0%EC%9D%B4-%EC%B2%98%EB%A6%AC%ED%95%A0-%EB%8C%80%EC%83%81%EC%9D%B4-%EB%A7%9E%EB%8A%94%EC%A7%80-%ED%99%95%EC%9D%B8%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>이미 정해져있는 범주별로 계산해줄 Rule객체를 만들고, 계산클래스는 Rule컬렉션(Set) 1개만 필드로 보유한다. Rule들은 자신이 처리할 대상이 맞는지 확인해야한다.</h4>
+
+<ul>
+  <li>
+    <p>이미 정해져있는 구간 / 범주별 처리는 <strong>개별처리해줄 rule객체 컬렉션or prev데코객체</strong>를 두고, <strong><code class="language-plaintext highlighter-rouge">반복문</code>을 통해 돌리고, 해당하는 처리들이, 자기몫만 계산하고 반환하게 한다. 이 때, <code class="language-plaintext highlighter-rouge">해당하지 않는 놈들</code>도 있으니 <code class="language-plaintext highlighter-rouge">ZERO반환</code>하면서 <code class="language-plaintext highlighter-rouge">누적</code>되는 계산법이 필수다</strong></p>
+
+    <ul>
+      <li>필드로 연결되는 데코객체라면 -&gt; 단일 객체필드 1개만 소유한다.</li>
+      <li>범주별 개별 처리하는 객체라면 -&gt; <strong>모든 범주별처리 객체를 Set필드에 모아서 이것을 소유한다.</strong>
+        <ul>
+          <li>동적으로 변하는 것이 아니기 때문에 <strong>final필드 + 생성자 주입으로 Set필드를 초기화</strong>한다.</li>
+        </ul>
+      </li>
+      <li><strong>미리 모든 경우의수를 다 쪼개놨기 때문에, <code class="language-plaintext highlighter-rouge">반복문을 돌며, 각Rule자신은 자신의 처리대상이 맞는지 확인기능도 포함</code>되어야한다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p>Calc계산기와 이미 정해져있는 범주들을 처리해줄 모든 경우의수 rules 필드를 만든다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/f6a2b26c-a8ff-44e2-a4d9-9ca85a35b6a8.gif" alt="f6a2b26c-a8ff-44e2-a4d9-9ca85a35b6a8"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721012129583.png" alt="image-20220721012129583"></p>
+  </li>
+  <li>
+    <p>기존 Calculator를 구현해서, 계산기능을 넣는다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721012305914.png" alt="image-20220721012305914"></p>
+  </li>
+</ol>
+
+<h4 id="rule객체의-class는-자신의-처리구간요일--처리시-필요정보단위시간과-단위시간당-부과할-요금를-필드로-가진다">
+<a class="anchor" href="#rule%EA%B0%9D%EC%B2%B4%EC%9D%98-class%EB%8A%94-%EC%9E%90%EC%8B%A0%EC%9D%98-%EC%B2%98%EB%A6%AC%EA%B5%AC%EA%B0%84%EC%9A%94%EC%9D%BC--%EC%B2%98%EB%A6%AC%EC%8B%9C-%ED%95%84%EC%9A%94%EC%A0%95%EB%B3%B4%EB%8B%A8%EC%9C%84%EC%8B%9C%EA%B0%84%EA%B3%BC-%EB%8B%A8%EC%9C%84%EC%8B%9C%EA%B0%84%EB%8B%B9-%EB%B6%80%EA%B3%BC%ED%95%A0-%EC%9A%94%EA%B8%88%EB%A5%BC-%ED%95%84%EB%93%9C%EB%A1%9C-%EA%B0%80%EC%A7%84%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rule객체의 class는 자신의 처리구간(요일) + 처리시 필요정보(단위시간과, 단위시간당 부과할 요금)를 필드로 가진다</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/798b43a1-2484-4adc-846f-d55b405fe2f5.gif" alt="798b43a1-2484-4adc-846f-d55b405fe2f5"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721012714610.png" alt="image-20220721012714610"></p>
+
+<h4 id="rule객체는-처리할-대상이-범주1개가-아니라-범주묶음이라면-set컬렉션필드를-가지면-된다-자신이-처리할-대상이-1개의-범주라서-contains로-확인하면-된다">
+<a class="anchor" href="#rule%EA%B0%9D%EC%B2%B4%EB%8A%94-%EC%B2%98%EB%A6%AC%ED%95%A0-%EB%8C%80%EC%83%81%EC%9D%B4-%EB%B2%94%EC%A3%BC1%EA%B0%9C%EA%B0%80-%EC%95%84%EB%8B%88%EB%9D%BC-%EB%B2%94%EC%A3%BC%EB%AC%B6%EC%9D%8C%EC%9D%B4%EB%9D%BC%EB%A9%B4-set%EC%BB%AC%EB%A0%89%EC%85%98%ED%95%84%EB%93%9C%EB%A5%BC-%EA%B0%80%EC%A7%80%EB%A9%B4-%EB%90%9C%EB%8B%A4-%EC%9E%90%EC%8B%A0%EC%9D%B4-%EC%B2%98%EB%A6%AC%ED%95%A0-%EB%8C%80%EC%83%81%EC%9D%B4-1%EA%B0%9C%EC%9D%98-%EB%B2%94%EC%A3%BC%EB%9D%BC%EC%84%9C-contains%EB%A1%9C-%ED%99%95%EC%9D%B8%ED%95%98%EB%A9%B4-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rule객체는 처리할 대상이 범주1개가 아니라 범주묶음이라면, Set컬렉션필드를 가지면 된다. 자신이 처리할 대상이 1개의 범주라서 contains로 확인하면 된다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/aff90b0a-9b61-4fbb-92a9-8660bf0af7a5.gif" alt="aff90b0a-9b61-4fbb-92a9-8660bf0af7a5"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721014926126.png" alt="image-20220721014926126"></p>
+
+<h4 id="rule들을-소유한-calc는-처리대상을-만들어주고-rule를-반복문-돌리되-개별계산은-해당없을시-zero반환하여-바깥에서-누적계산이-되도록-한다">
+<a class="anchor" href="#rule%EB%93%A4%EC%9D%84-%EC%86%8C%EC%9C%A0%ED%95%9C-calc%EB%8A%94-%EC%B2%98%EB%A6%AC%EB%8C%80%EC%83%81%EC%9D%84-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A3%BC%EA%B3%A0-rule%EB%A5%BC-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%8F%8C%EB%A6%AC%EB%90%98-%EA%B0%9C%EB%B3%84%EA%B3%84%EC%82%B0%EC%9D%80-%ED%95%B4%EB%8B%B9%EC%97%86%EC%9D%84%EC%8B%9C-zero%EB%B0%98%ED%99%98%ED%95%98%EC%97%AC-%EB%B0%94%EA%B9%A5%EC%97%90%EC%84%9C-%EB%88%84%EC%A0%81%EA%B3%84%EC%82%B0%EC%9D%B4-%EB%90%98%EB%8F%84%EB%A1%9D-%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rule들을 소유한 Calc는 처리대상을 만들어주고, rule를 반복문 돌리되, 개별계산은 해당없을시 ZERO반환하여 바깥에서 누적계산이 되도록 한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721020647515.png" alt="image-20220721020647515"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721031303713.png" alt="image-20220721031303713"></p>
+
+<h4 id="주의-시간-구간처리시-23-59-59의-가능성이-있다면-1초-예외처리를-해줘야한다">
+<a class="anchor" href="#%EC%A3%BC%EC%9D%98-%EC%8B%9C%EA%B0%84-%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC%EC%8B%9C-23-59-59%EC%9D%98-%EA%B0%80%EB%8A%A5%EC%84%B1%EC%9D%B4-%EC%9E%88%EB%8B%A4%EB%A9%B4-1%EC%B4%88-%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC%EB%A5%BC-%ED%95%B4%EC%A4%98%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>주의) 시간 구간처리시, 23, 59, 59의 가능성이 있다면, +1초 예외처리를 해줘야한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721031239280.png" alt="image-20220721031239280"></p>
+
+<h4 id="rule-테스트">
+<a class="anchor" href="#rule-%ED%85%8C%EC%8A%A4%ED%8A%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>rule 테스트</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721023122666.png" alt="image-20220721023122666"></p>
+
+<h4 id="calc-테스트">
+<a class="anchor" href="#calc-%ED%85%8C%EC%8A%A4%ED%8A%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>calc 테스트</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721031324763.png" alt="image-20220721031324763"></p>
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/rule/dayofweek/2022/07/22/%EC%84%9C%EB%A1%9C%EB%8B%A4%EB%A5%B8-%EC%9A%94%EC%9D%BC%EB%B3%84-%EC%9A%94%EA%B8%88(DayPrice)-%EA%B3%84%EC%82%B0(DayOfWeekCal).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
