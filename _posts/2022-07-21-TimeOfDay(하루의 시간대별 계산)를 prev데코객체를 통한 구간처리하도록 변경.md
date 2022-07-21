@@ -8,7 +8,7 @@ categories: [java, 우테코, oop, object, decorator, prev, section, timeofday ]
 image: "images/posts/java.png"
 ---
 
-# TimeOfDayCalc를 암묵적 index로 묶인 컬렉션필드 -> prev데코객체로 처리하도록 변경하기
+### TimeOfDayCalc를 암묵적 index로 묶인 컬렉션필드 -> prev데코객체로 처리하도록 변경하기
 
 
 - [시작커밋](https://github.com/is2js/object2/tree/b940b38244e68e03bf68f7b6899962b5e1544f9a/src/main/java/goodComposition)
