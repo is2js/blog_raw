@@ -143,9 +143,10 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h4"><a href="#external-tool로-등록한-black의-단축키로-반영">External Tool로 등록한 Black의 단축키로 반영</a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h3"><a href="#단축키">단축키</a></li>
 </ul>
 </li>
+<li class="toc-entry toc-h2"><a href="#live-template-외">live template 외</a></li>
+<li class="toc-entry toc-h2"><a href="#단축키">단축키</a></li>
 </ul><h2 id="세팅">
 <a class="anchor" href="#%EC%84%B8%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>세팅</h2>
 
@@ -296,8 +297,19 @@ window.onload = wrap_img;
   </li>
 </ul>
 
-<h3 id="단축키">
-<a class="anchor" href="#%EB%8B%A8%EC%B6%95%ED%82%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>단축키</h3>
+<h2 id="live-template-외">
+<a class="anchor" href="#live-template-%EC%99%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>live template 외</h2>
+<ul>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">repr</code>(객체 print시 출력되는)를 항상 재정의</strong>해야하는데, return될 템플릿을 <code class="language-plaintext highlighter-rouge">repr</code>로 지정해놓는다.
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="s">f"</span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">__class__</span><span class="p">.</span><span class="n">__name__</span><span class="si">}</span><span class="s">(</span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="err">$</span><span class="n">FILED_NAME</span><span class="err">$!</span><span class="n">r</span><span class="si">}</span><span class="s">, $END$)"</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="단축키">
+<a class="anchor" href="#%EB%8B%A8%EC%B6%95%ED%82%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>단축키</h2>
 <ul>
   <li>
 <strong>move statement: 메서드 이동 단축키 지정</strong>
