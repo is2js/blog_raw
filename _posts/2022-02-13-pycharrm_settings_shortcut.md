@@ -95,10 +95,14 @@ image: "images/posts/python.png"
 
 
 
+## live template 외
+- **`repr`(객체 print시 출력되는)를 항상 재정의**해야하는데, return될 템플릿을 `repr`로 지정해놓는다.
+    ```python
+    f"{self.__class__.__name__}({self.$FILED_NAME$!r}, $END$)"
+    ```
 
 
-
-### 단축키
+## 단축키
 - **move statement: 메서드 이동 단축키 지정**
     ![20220706182502](https://raw.githubusercontent.com/is3js/screenshots/main/20220706182502.png)
     - Move staetment Down : **`alt + shift + PgUp`**
