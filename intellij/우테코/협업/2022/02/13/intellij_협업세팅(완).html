@@ -132,12 +132,12 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h3"><a href="#buildtype---assertj라이브러리">buildType &amp;  assertj라이브러리</a>
 <ul>
 <li class="toc-entry toc-h4"><a href="#build-type-gradle---intellij">build Type: gradle -&gt; intellij</a></li>
-<li class="toc-entry toc-h4"><a href="#buildgradle-라이브러리에-assertj-추가-및-refresh">build.gradle 라이브러리에 assertj 추가 및 refresh</a>
+<li class="toc-entry toc-h4"><a href="#buildgradle-라이브러리에-assertj-추가-및-refresh">build.gradle 라이브러리에 assertj 추가 및 refresh</a></li>
+<li class="toc-entry toc-h4"><a href="#gradle-정상-test">gradle 정상 test</a>
 <ul>
-<li class="toc-entry toc-h5"><a href="#assert문-live-template에-추가해놓기">assert문 live template에 추가해놓기</a></li>
+<li class="toc-entry toc-h5"><a href="#test-설정-live-template에-assert문-추가해놓기">[Test 설정] live template에 assert문 추가해놓기</a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h4"><a href="#gradle-정상-test">gradle 정상 test</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h3"><a href="#루틴-설정1회성으로-보임">루틴 설정(1회성으로 보임)</a>
@@ -168,7 +168,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h5"><a href="#method의-파라미터-앞에-final">method의 파라미터 앞에 final</a></li>
 <li class="toc-entry toc-h5"><a href="#변수-추출시-final-최초-1회">변수 추출시 final (최초 1회)</a></li>
 <li class="toc-entry toc-h5"><a href="#private-상수를-private로-추출최초-1회">(private) 상수를 private로 추출(최초 1회)</a></li>
-<li class="toc-entry toc-h5"><a href="#test-method-템플릿에-displayname-추가해주기">Test Method 템플릿에 @DisplayName(“”) 추가해주기</a></li>
+<li class="toc-entry toc-h5"><a href="#test-설정-test-method-template-수정하기">[TEST 설정] Test Method template 수정하기</a></li>
 <li class="toc-entry toc-h5"><a href="#파라미터-힌트-항상-보이게-하기">파라미터 힌트 항상 보이게 하기</a></li>
 <li class="toc-entry toc-h5"><a href="#keymap-추출하고-사용하기">keymap 추출하고 사용하기</a></li>
 <li class="toc-entry toc-h5"><a href="#font">Font</a></li>
@@ -233,48 +233,6 @@ window.onload = wrap_img;
   </li>
 </ul>
 
-<h5 id="assert문-live-template에-추가해놓기">
-<a class="anchor" href="#assert%EB%AC%B8-live-template%EC%97%90-%EC%B6%94%EA%B0%80%ED%95%B4%EB%86%93%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>assert문 live template에 추가해놓기</h5>
-<ul>
-  <li>
-<code class="language-plaintext highlighter-rouge">@Test</code> 대신 <code class="language-plaintext highlighter-rouge">@ParameterizedTest</code> for 여러case 를 쓰기 위해서 아래 의존성을 추가해야한다.
-    <div class="language-java highlighter-rouge">
-<div class="highlight"><pre class="highlight"><code>  <span class="c1">// Assertions</span>
-  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">:</span><span class="n">assertj</span><span class="o">-</span><span class="nl">core:</span><span class="mf">3.22</span><span class="o">.</span><span class="mi">0</span><span class="err">'</span>
-  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">jupiter</span><span class="o">:</span><span class="n">junit</span><span class="o">-</span><span class="n">jupiter</span><span class="o">-</span><span class="nl">params:</span><span class="mf">5.4</span><span class="o">.</span><span class="mi">2</span><span class="err">'</span> 
-</code></pre></div>    </div>
-  </li>
-  <li>
-<code class="language-plaintext highlighter-rouge">as+all</code>
-    <div class="language-java highlighter-rouge">
-<div class="highlight"><pre class="highlight"><code>  <span class="n">assertAll</span><span class="o">(</span>
-      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">),</span>
-      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">hasSize</span><span class="o">()</span>
-  <span class="o">);</span>
-</code></pre></div>    </div>
-  </li>
-  <li>
-<code class="language-plaintext highlighter-rouge">as+that</code>
-    <div class="language-java highlighter-rouge">
-<div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">(</span><span class="n">actaul</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">);</span>
-</code></pre></div>    </div>
-  </li>
-  <li>
-<code class="language-plaintext highlighter-rouge">as+notthr</code>
-    <div class="language-java highlighter-rouge">
-<div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertDoesNotThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">$WHEN</span><span class="err">$</span><span class="o">)</span>
-</code></pre></div>    </div>
-  </li>
-  <li>
-<code class="language-plaintext highlighter-rouge">as+thr</code>
-    <div class="language-java highlighter-rouge">
-<div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">$WHEN</span><span class="err">$</span><span class="o">)</span>
-      <span class="o">.</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="n">$EXCEPTION</span><span class="err">$</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-      <span class="o">.</span><span class="na">hasMessage</span><span class="o">(</span><span class="s">"$MESSAGE$"</span><span class="o">);</span>
-</code></pre></div>    </div>
-  </li>
-</ul>
-
 <h4 id="gradle-정상-test">
 <a class="anchor" href="#gradle-%EC%A0%95%EC%83%81-test" aria-hidden="true"><span class="octicon octicon-link"></span></a>gradle 정상 test</h4>
 
@@ -291,6 +249,59 @@ window.onload = wrap_img;
     </ol>
   </li>
 </ol>
+
+<h5 id="test-설정-live-template에-assert문-추가해놓기">
+<a class="anchor" href="#test-%EC%84%A4%EC%A0%95-live-template%EC%97%90-assert%EB%AC%B8-%EC%B6%94%EA%B0%80%ED%95%B4%EB%86%93%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>[Test 설정] live template에 assert문 추가해놓기</h5>
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">@Test</code> 대신 <code class="language-plaintext highlighter-rouge">@ParameterizedTest</code> for 여러case 를 쓰기 위해서 아래 의존성을 추가해야한다.
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">// Assertions</span>
+  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">:</span><span class="n">assertj</span><span class="o">-</span><span class="nl">core:</span><span class="mf">3.22</span><span class="o">.</span><span class="mi">0</span><span class="err">'</span>
+  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">jupiter</span><span class="o">:</span><span class="n">junit</span><span class="o">-</span><span class="n">jupiter</span><span class="o">-</span><span class="nl">params:</span><span class="mf">5.4</span><span class="o">.</span><span class="mi">2</span><span class="err">'</span> 
+</code></pre></div>    </div>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">as+all</code>
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">assertAll</span><span class="o">(</span>
+      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected$END</span><span class="err">$</span><span class="o">),</span>
+      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">hasSize</span><span class="o">()</span>
+  <span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">as+that</code>
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">(</span><span class="n">actaul</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected$END</span><span class="err">$</span><span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">as+notthr</code>
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertDoesNotThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">$WHEN</span><span class="err">$</span><span class="o">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">as+thr</code>
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">$WHEN</span><span class="err">$</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="n">$EXCEPTION</span><span class="err">$</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">hasMessage</span><span class="o">(</span><span class="s">"$MESSAGE$"</span><span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">given</code> : <strong>option에 있는 <code class="language-plaintext highlighter-rouge">reformat ~ style</code> 체크할 것</strong>
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">//given</span>
+
+  <span class="c1">//when</span>
+  <span class="n">$END</span><span class="err">$</span>
+
+  <span class="c1">//then</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
 
 <h3 id="루틴-설정1회성으로-보임">
 <a class="anchor" href="#%EB%A3%A8%ED%8B%B4-%EC%84%A4%EC%A0%951%ED%9A%8C%EC%84%B1%EC%9C%BC%EB%A1%9C-%EB%B3%B4%EC%9E%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>루틴 설정(1회성으로 보임)</h3>
@@ -581,16 +592,35 @@ window.onload = wrap_img;
   </li>
 </ul>
 
-<h5 id="test-method-템플릿에-displayname-추가해주기">
-<a class="anchor" href="#test-method-%ED%85%9C%ED%94%8C%EB%A6%BF%EC%97%90-displayname-%EC%B6%94%EA%B0%80%ED%95%B4%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>Test Method 템플릿에 @DisplayName(“”) 추가해주기</h5>
+<h5 id="test-설정-test-method-template-수정하기">
+<a class="anchor" href="#test-%EC%84%A4%EC%A0%95-test-method-template-%EC%88%98%EC%A0%95%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>[TEST 설정] Test Method template 수정하기</h5>
 
 <ol>
   <li>
-    <p>세팅 &gt; <code class="language-plaintext highlighter-rouge">file and code templates</code> 검색 &gt; <code class="language-plaintext highlighter-rouge">Code</code>탭 &gt; <strong>JUnit Test Method에 아래 코드 추가</strong></p>
+    <p><del>Editor &gt; <code class="language-plaintext highlighter-rouge">file and code templates</code> 검색 &gt; <code class="language-plaintext highlighter-rouge">Code</code>탭 &gt; <strong>JUnit Test Method에 아래 코드 추가</strong></del></p>
 
-    <p><code class="language-plaintext highlighter-rouge">@org.junit.jupiter.api.DisplayName("")</code></p>
+    <ul>
+      <li>
+<del><code class="language-plaintext highlighter-rouge">@org.junit.jupiter.api.DisplayName("")</code></del>
+        <ul>
+          <li>2번 한글메서드로 작성하기 위해 주석처리로 추가됨.</li>
+        </ul>
+      </li>
+    </ul>
 
     <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220324012209534.png" alt="image-20220324012209534"></p>
+  </li>
+  <li>
+    <p>Editor &gt; <code class="language-plaintext highlighter-rouge">file and code templates</code> 검색 &gt; <code class="language-plaintext highlighter-rouge">Code</code>탭 &gt; <strong>JUnit Test Class에서 class위에 아래 코드 추가</strong></p>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">@SuppressWarnings("NonAsciiCharacters")</code></li>
+      <li>
+<code class="language-plaintext highlighter-rouge">@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)</code>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/20220727164055.png" alt="20220727164055">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/019f554f-65d4-42db-bf2f-f64c77af33aa.gif" alt="019f554f-65d4-42db-bf2f-f64c77af33aa">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/20220727163803.png" alt="20220727163803">
+</li>
+    </ul>
   </li>
 </ol>
 
