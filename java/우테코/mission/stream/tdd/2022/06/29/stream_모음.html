@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>stream 스트림 사용예시 모음 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="stream 스트림 사용예시 모음" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="mission간 stream관련 사용예시 모음" />
+<meta property="og:description" content="mission간 stream관련 사용예시 모음" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/mission/stream/tdd/2022/06/29/stream_%EB%AA%A8%EC%9D%8C.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/mission/stream/tdd/2022/06/29/stream_%EB%AA%A8%EC%9D%8C.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-06-29T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-06-29T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/mission/stream/tdd/2022/06/29/stream_%EB%AA%A8%EC%9D%8C.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"stream 스트림 사용예시 모음","dateModified":"2022-06-29T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/mission/stream/tdd/2022/06/29/stream_%EB%AA%A8%EC%9D%8C.html"},"description":"mission간 stream관련 사용예시 모음","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">stream 스트림 사용예시 모음</h1><p class="page-description">mission간 stream관련 사용예시 모음</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-06-29T00:00:00-05:00" itemprop="datePublished">
+        Jun 29, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      16 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#mission">mission</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#stream">stream</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#TDD">TDD</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#stream--기본">Stream  기본</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#프리코스때-한-것">프리코스때 한 것</a></li>
+<li class="toc-entry toc-h4"><a href="#filter-신기한-것">.filter() 신기한 것</a></li>
+<li class="toc-entry toc-h4"><a href="#이중반복문">이중반복문</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#이중반복문--조건식----요소1vs요소2-필터링-by-filter--anymatch-">이중반복문 + 조건식  -&gt; 요소1vs요소2 필터링 by .filter(  .anyMatch() )</a></li>
+<li class="toc-entry toc-h5"><a href="#이중반복문--요소12를-재료로-새객체-생성-by-flatmap--map-">이중반복문 + 요소1,2를 재료로 새객체 생성 by .flatMap(  .map() )</a></li>
+<li class="toc-entry toc-h5"><a href="#내부에서-분신술로-생긴-stream컬렉션---streamof로-streamstream으로-만든-뒤---flatmap">내부에서 분신술로 생긴 Stream&lt;컬렉션&lt;&gt;&gt; -&gt; Stream.of()로 Stream&lt;Stream&lt;&gt;&gt;으로 만든 뒤 -&gt; flatMap</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#외부listof를-배려한-가변인자배열의-내부처리는-stream보다는-listof">외부List.of()를 배려한 가변인자(배열)의 내부처리는 stream보다는 List.of()</a></li>
+<li class="toc-entry toc-h4"><a href="#같은type에-대해-일괄처리-listof로-담아--stream일괄처리---streamof일괄처리">같은Type에 대해 일괄처리: List.of로 담아 + stream.일괄처리  —&gt; Stream.of().일괄처리</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#같은-도메인이라면-listof나-streamof로-묶어서-메세지보내-일괄처리-or-내부변수-map변환-단순집계가-가능하며-집계는-map--getter로-집계대상의-변수를-getter으로-변환하는-과정을-거쳐서-한다">같은 도메인이라면 List.of()나 Stream.of()로 묶어서 메세지보내 일괄처리 or 내부변수 map변환 단순집계가 가능하며, 집계는 map + .getter()로 집계대상의 변수를 getter으로 변환하는 과정을 거쳐서 한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#일괄처리가-2번이상-등장한다면-무조건-listof--로-묶어놓고-변수로-뽑아놓고---liststream으로-일괄처리-매번-적용한다">일괄처리가 2번이상 등장한다면, 무조건 List.of(, , )로 묶어놓고 변수로 뽑아놓고 -&gt; list.stream()으로 일괄처리 매번 적용한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#반복문iter와-foreach">반복문iter와 forEach</a></li>
+<li class="toc-entry toc-h4"><a href="#반복문fori-과-intstream">반복문fori 과 IntStream</a></li>
+<li class="toc-entry toc-h4"><a href="#집계max-숫자vocompareto-">집계max( 숫자VO::compareTo )</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#참고--제네릭메서드--reduce로-max-집계">참고)  제네릭메서드 + reduce로 max 집계</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#list필터링--filter----객체-tf반환메서드-사용-">list필터링- filter ( -&gt; 객체. t/f반환메서드 사용 )</a></li>
+<li class="toc-entry toc-h4"><a href="#특정-문자열속성-joinning---mapgetstring----joining">특정 문자열속성 joinning - (map+getString  -&gt; joining)</a></li>
+<li class="toc-entry toc-h4"><a href="#만족하는-총-갯수-카운팅forifadd---by-filter--다모아서-count">만족하는 총 갯수 카운팅(for+if+add -&gt;) by filter.() + (다모아서) count()</a></li>
+<li class="toc-entry toc-h4"><a href="#역순-list">역순 list</a></li>
+<li class="toc-entry toc-h4"><a href="#역순-stream-with-comparable-상속">역순 stream With comparable 상속</a></li>
+<li class="toc-entry toc-h4"><a href="#누적은-maptotype--집계-reduce초기값-해당type집계함수-더-깔끔">누적은 mapToType + .집계 » .reduce(초기값, 해당Type::집계함수) 더 깔끔</a></li>
+<li class="toc-entry toc-h4"><a href="#toset--tomap-등-다른-것으로도-가능">toSet() / toMap() 등… 다른 것으로도 가능</a></li>
+<li class="toc-entry toc-h4"><a href="#contains와-anymatch-or-nonematch--equals같은게--하나라도-있냐">contains와 anyMatch or noneMatch &amp; equals(같은게 &amp; 하나라도 있냐)</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#중복검사도-contains와-같다-같은게equals-하나라도-있냐anymatch">중복검사도 contains와 같다. 같은게(equals) 하나라도 있냐(anyMatch)</a></li>
+<li class="toc-entry toc-h5"><a href="#특정로직에-해당하는-것이-없느냐도-contains와-같다-해당하는-게comparemethod-하나도-없나nonematch">특정로직에 해당하는 것이 없느냐도 contains와 같다. 해당하는 게(compareMethod) 하나도 없나(noneMatch)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#해당포함하는게-있으면---찾아서---특정-로직-수행까지-진행된다면-anymatch--비교메서드가-아니라-filter--findany-찾아놓고---ifpresent---수행메서드-로-다르게-작성한다">해당(포함)하는게 있으면 -&gt; 찾아서 -&gt; 특정 로직 수행까지 진행된다면, anyMatch + 비교메서드가 아니라 filter + findAny 찾아놓고 -&gt; ifPresent( -&gt; 수행메서드() )로 다르게 작성한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#로또">로또</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#shuffle후---sublist---limit6으로-를-통한--랜덤추출-구현">shuffle후   subList -&gt; .limit(6)으로 를 통한  랜덤추출 구현</a></li>
+<li class="toc-entry toc-h4"><a href="#intstream--boxedinteger-for-map-제네릭-tomap-it---key-value으로-숫자-숫자vo매핑-map-만들기">IntStream + boxed(Integer for Map 제네릭) toMap( it -&gt; key, value)으로 &lt;숫자, 숫자VO&gt;매핑 Map 만들기</a></li>
+<li class="toc-entry toc-h4"><a href="#가변-변수-제거---아직-list가-아닌-stream상태로-모아서----map변환-못한-경우---모아서-list만들면서-map-collectandthen-tolist-변환메서드">가변 변수 제거 -&gt; 아직 list가 아닌 [stream상태로 모아서] -&gt;  map변환 못한 경우 -&gt; 모아서 list만들면서 map collectAndThen( toList(), 변환메서드)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#블랙잭">블랙잭</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#for-for-객체-생성---stream-map---stream-map---앞에-map을-flatmap---tocollection-모은-결과물stream---new-원하는-컬렉션-생성">for for 객체 생성 -&gt; stream map -&gt; stream map -&gt; 앞에 map을 flatmap -&gt; toCollection( 모은 결과물stream -&gt; new 원하는 컬렉션 생성)</a></li>
+<li class="toc-entry toc-h4"><a href="#count-map-생성">Count Map 생성</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#countmap01-enummap----결과list를--직접-0-초기화후-mapput카운팅">CountMap01 EnumMap  -&gt; 결과list를 [ 직접 0 초기화후 map.put카운팅]</a></li>
+<li class="toc-entry toc-h5"><a href="#추천-countmap02-enummap----결과list를--초기화없이-mapmerge">[추천] CountMap02 EnumMap  -&gt; 결과list를  [초기화없이 map.merge]</a></li>
+<li class="toc-entry toc-h5"><a href="#추천-countmap03---일급vs단일-key처리와-초기화없이-counting을-동시에--by-collectorsgroupingby">[추천] CountMap03 -&gt; 일급vs단일 [key처리와 초기화없이 counting을 동시에 ] by Collectors.groupingBy</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#map-돌아서-처리하기">map 돌아서 처리하기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#key만--1개만-필요한-경우--mapkeysetstreammap---mapgetkey">key만 == 1개만 필요한 경우 : map.keySet().stream().map() -&gt; map.get(key)</a></li>
+<li class="toc-entry toc-h5"><a href="#value만--1개만-필요한-경우--mapvaluesstreammap---mapgetkey">value만 == 1개만 필요한 경우 : map.values().stream().map() -&gt; map.get(key)</a></li>
+<li class="toc-entry toc-h5"><a href="#keyvalue가-둘다-필요한-경우-mapentrysetstreammap-----itgetkey--itgetvalue">key+value가 둘다 필요한 경우: map.entrySet().stream().map()  -&gt;  it.getKey + it.getValue</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#map을-돌며-누적하기">map을 돌며, 누적하기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#int-maptoint---sum-">int (mapToInt -&gt; sum() )</a></li>
+<li class="toc-entry toc-h5"><a href="#long-with-enum--map---reduce-0l---">long with Enum ( map -&gt; reduce( 0L , ) )</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#누적-계산-int-vs-long-">누적 계산( int vs Long )</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#추천-누적-연산이-미리-정해진-계산-maptotype-------sum">[추천] 누적 연산이 미리 정해진 계산: mapToType( -&gt; )  -&gt; .sum()</a></li>
+<li class="toc-entry toc-h5"><a href="#누적-연산을-커스텀으로-할-경우-map----reduce-default값--longsum---불편">누적 연산을 커스텀으로 할 경우, map( -&gt; ) .reduce( default값 , Long::sum) -&gt; 불편</a></li>
+<li class="toc-entry toc-h5"><a href="#비추-for-누적--매번-long-형변환하여-누적">[비추] for 누적 + 매번 long 형변환하여 +=누적</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#로또-1">로또</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#누적될-값을-반환하는-메서드를-받아-가변변수-누적을-stream--map--sum으로-누적하기">[누적될 값을 반환하는 메서드]를 받아 가변변수 누적을 stream + map + sum으로 누적하기</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#체스">체스</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#enum에서-filter해당문자열-확인--orelsethrow로-enumof-input--검증포함해서-찾기">enum에서 filter(해당문자열 확인) + orElseThrow로 enum.of( input ) 검증포함해서 찾기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#문자열로-확인시-정규식다-equals인데-하나만-startswith---정규식-비교로-통일-이-필요하면-그것으로-filter">문자열로 확인시 정규식(다 equals인데 하나만 startsWith -&gt; 정규식 비교로 통일) 이 필요하면 그것으로 filter</a></li>
+<li class="toc-entry toc-h5"><a href="#일반-오리">일반 오리</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#문자열-split된-것을-skip으로-처리">문자열 split된 것을 skip으로 처리</a></li>
+<li class="toc-entry toc-h4"><a href="#nonematch-allmatch---다모았는데-특정조건은-하나도-없어야한다---다모았는데-모두-만족해야한다-or-배반조건으로서-둘중에-한쪽만-특정조건만-존재해야한다">noneMatch/ allMatch -&gt; (다모았는데) 특정조건은 하나도 없어야한다 /  (다모았는데) 모두 만족해야한다. or [배반조건으로서 둘중에 한쪽만] 특정조건만 존재해야한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#지하철-경로">지하철 경로</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#groupingby로-일급컬렉션을-하위-객체-필드로-가지는-도메인의-findall-처리하기">groupingBy로 일급컬렉션을 하위 객체 필드로 가지는 도메인의 findAll() 처리하기</a></li>
+</ul>
+</li>
+</ul><h3 id="stream--기본">
+<a class="anchor" href="#stream--%EA%B8%B0%EB%B3%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>Stream  기본</h3>
+
+<h4 id="프리코스때-한-것">
+<a class="anchor" href="#%ED%94%84%EB%A6%AC%EC%BD%94%EC%8A%A4%EB%95%8C-%ED%95%9C-%EA%B2%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>프리코스때 한 것</h4>
+
+<ul>
+  <li>
+    <p>String 역 출력
+   -&gt; new StringBuilder( string ) .reverse().toString()
+   -&gt; split -&gt; stream -&gt; list -&gt; Collections.reverse( list )가 inplace 역순시킨다. -&gt; stream + reduce + get으로 문자열 모으기</p>
+  </li>
+  <li>
+    <p>arr 2개 합치기 
+   -&gt; Stream.of( arr1, arr2) .flatMap(Stream::of) .collect(Collectors.toList());</p>
+  </li>
+  <li>
+    <p>list 2개 합치기 ( stream없이 할려면, 빈리스트에 addAll + addAll )
+   -&gt; Stream.concat( list1.stream(), list2.stream())</p>
+  </li>
+  <li>
+    <p>list 중복제거 
+   -&gt; list.stream().distinct() + .collect(Collectors.toList())</p>
+  </li>
+  <li>
+    <p>list의 집계함수 만들기 by reduce().get() + Integer::sum 
+   -&gt; list.stream() .reduce(Integer::sum) .get();</p>
+  </li>
+  <li>
+    <p>음수검사: IntStream만들어서 custom boolean식 만들고 filter에 넣기
+   -&gt; Arrays.stream(mathexpression.split(“,|:”)) .mapToInt(Integer::parseInt) .filter(i -&gt; checkNegative(i)) // .sum();</p>
+  </li>
+  <li>
+    <p>숫자사이 연산자들의 연속입력 검사 :
+   -&gt; if (Arrays.stream(removedSpaceInput.split(“[0-9]”)).anyMatch(operator -&gt; operator.length() &gt; 1)) {</p>
+  </li>
+  <li>
+    <p>객체속 변수2개로 -&gt; map key, value만들기
+   -&gt; list.stream() 
+      	// .sorted(Comparator.comparingInt(Item::getId).reversed()) 
+      	.collect(Collectors.toMap( 
+      		Item::getId, Item::getValue, 
+      		(OldId, newId) -&gt; OldId, // (OldId, newId) -&gt; newId, 
+      		LinkedHashMap::new ));</p>
+  </li>
+</ul>
+
+<h4 id="filter-신기한-것">
+<a class="anchor" href="#filter-%EC%8B%A0%EA%B8%B0%ED%95%9C-%EA%B2%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>.filter() 신기한 것</h4>
+
+<ol>
+  <li>
+    <p>anyMatch 류는 해당하는 것들만 필터링 된다.</p>
+  </li>
+  <li>
+    <p>string을 돌고 있다면, str.indexOf(“특정문자”) == 2 등과 같이  특정문자열 1개의 위치로 필터링 가능하다</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">input</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">"#"</span><span class="o">))</span> <span class="c1">// 홍길동:100 , 이순신:90</span>
+     <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">str</span> <span class="o">-&gt;</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">str</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">":"</span><span class="o">)))</span> <span class="c1">// {홍길동, 100} , {이순신,90} -&gt; 홍길동,100,이순신,90</span>
+     <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">it</span> <span class="o">-&gt;</span> <span class="n">it</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="s">"신"</span><span class="o">)</span> <span class="o">==</span> <span class="mi">2</span><span class="o">)</span>
+     <span class="o">.</span><span class="na">findFirst</span><span class="o">()</span>
+     <span class="o">.</span><span class="na">ifPresent</span><span class="o">(</span><span class="n">s</span><span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">));</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>null아닌 것만 필터링 하려면</strong> Objects.notnull()을 필터에 넣어주면 된다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="nc">Collection</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">animals</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"Dog"</span><span class="o">,</span> <span class="s">"Cat"</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="s">"Moose"</span><span class="o">);</span>
+ <span class="nc">String</span> <span class="n">result</span> <span class="o">=</span> <span class="n">animals</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+     <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="nl">Objects:</span><span class="o">:</span><span class="n">nonNull</span><span class="o">)</span>
+     <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">joining</span><span class="o">(</span><span class="s">", "</span><span class="o">));</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="이중반복문">
+<a class="anchor" href="#%EC%9D%B4%EC%A4%91%EB%B0%98%EB%B3%B5%EB%AC%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>이중반복문</h4>
+
+<h5 id="이중반복문--조건식----요소1vs요소2-필터링-by-filter--anymatch-">
+<a class="anchor" href="#%EC%9D%B4%EC%A4%91%EB%B0%98%EB%B3%B5%EB%AC%B8--%EC%A1%B0%EA%B1%B4%EC%8B%9D----%EC%9A%94%EC%86%8C1vs%EC%9A%94%EC%86%8C2-%ED%95%84%ED%84%B0%EB%A7%81-by-filter--anymatch-" aria-hidden="true"><span class="octicon octicon-link"></span></a>이중반복문 + 조건식  -&gt; 요소1vs요소2 필터링 by .filter(  .anyMatch() )</h5>
+
+<ul>
+  <li>
+    <p>java8이전</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">abcde</span> <span class="o">=</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"a"</span><span class="o">,</span> <span class="s">"b"</span><span class="o">,</span> <span class="s">"c"</span><span class="o">,</span> <span class="s">"d"</span><span class="o">,</span> <span class="s">"e"</span><span class="o">);</span>
+  <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">abd</span> <span class="o">=</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"a"</span><span class="o">,</span> <span class="s">"b"</span><span class="o">,</span> <span class="s">"d"</span><span class="o">);</span>
+    
+  <span class="c1">// 8이전: 이중 for문 + 조건식 -&gt; 반복문내 조건만족값을 모을 결과값 가변변수에 add</span>
+  <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+    
+  <span class="k">for</span> <span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">str1</span> <span class="o">:</span> <span class="n">abcde</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">for</span> <span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">str2</span> <span class="o">:</span> <span class="n">abd</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">if</span> <span class="o">(</span><span class="n">str1</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">str2</span><span class="o">))</span> <span class="o">{</span>
+              <span class="n">result</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">str1</span><span class="o">);</span> <span class="c1">// 같으니까 둘중에 하나만 담기</span>
+          <span class="o">}</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+    
+  <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"result = "</span> <span class="o">+</span> <span class="n">result</span><span class="o">);</span>
+  <span class="c1">//result = [a, b, d]</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>java8 Stream</p>
+
+    <ul>
+      <li><strong>바깥Stream.filter() + 안쪽Stream.anyMatch()</strong></li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">//1. 첫번째 list를 돌 때, 2번째 list가 돌았다고 가정하고 둘이서 condition조건식을 비교하므로</span>
+  <span class="c1">// -&gt; .map()이나 .collect()가 아닌 .filter( 1stElement -&gt; )로 시작하는 것을 유의해야한다.</span>
+  <span class="c1">// -&gt; my) 돌면서 조건식 -&gt; stream().filter()</span>
+  <span class="c1">//.filter( str1 -&gt; str1)</span>
+  <span class="c1">//2. 람다식 -&gt; 우측에는 1번째 요소 이전에 2번째 list가 먼저 stream으로 풀어져야하므로, list2부터등장하는 것을 유의해야한다.</span>
+  <span class="c1">//.filter( str1 -&gt; abd.stream(). )</span>
+  <span class="c1">// -&gt; 2list.stream()이후   2번째 요소가 등장한다고 가정하면, 뭘 할 것인가 를 먼저 생각하고 .메서드()를 호출해야한다.</span>
+  <span class="c1">// -&gt; .stream(). ??? ( 2번재요소 -&gt; 1번째요소랑 .equals()등의 조건식을 다룰 것)이므로</span>
+  <span class="c1">// --&gt; 2번째 stream의 요소는  조건식인 anyMatch/allMatch/noneMatch( ) 내부에서 1번째 요소를 맞이한다.</span>
+  <span class="c1">// --&gt; 이후 filter( 내부에서 해당 조건식을 통과하는 것만 남겨진다.)</span>
+  <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">result2</span> <span class="o">=</span> <span class="n">abcde</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+      <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">str1</span> <span class="o">-&gt;</span> <span class="n">abd</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+              <span class="c1">//        .( str2 -&gt; str2.equals(str1))</span>
+              <span class="o">.</span><span class="na">anyMatch</span><span class="o">(</span><span class="n">str2</span> <span class="o">-&gt;</span> <span class="n">str2</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">str1</span><span class="o">)))</span>
+      <span class="c1">// str1 1개에 대해, list2 중에 어느하나라도 만족한다면, 통과?</span>
+      <span class="c1">// -&gt; filter( anyMatch( 조건식 )-&gt; 어느하나라도?(X) 만족하는 것만 필터링한다**</span>
+      <span class="c1">// --&gt; filter( noneMatch( 조건식 ) -&gt;모두불만족시 true?(X) 불일치하는 것만 필터링**</span>
+      <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+    
+  <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"result2 = "</span> <span class="o">+</span> <span class="n">result2</span><span class="o">);</span>
+  <span class="c1">//result2 = [a, b, d]</span>
+    
+  <span class="c1">//암기하자면 - list1 + list2 + 조건식이다?</span>
+  <span class="c1">//list1.stream().filter()로 시작하여 e1은 결국 e2와 조건식을 비교해서 if필터링해서 모아야한다.</span>
+  <span class="c1">//list2.stream().anyMatch( e2 -&gt; e1과조건식)으로 [조건을 만족하는 데이터만 true체크]한 뒤, filter로 넘어갈 수 있게 한다.</span>
+  <span class="c1">//모은다.</span>
+  <span class="n">result2</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">print</span><span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414080954508.png" alt="image-20220414080954508"></p>
+
+<ul>
+  <li>내부 Stream으로 바깥반복문Stream 입장에서 내부반복문or분신술에의한 Stream&lt;&gt;이 생겼다.
+    <ul>
+      <li>이 때, 바깥에서 flatMap()을 쳐주면, 내부 Stream을 바깥입장에서 동등하게 1개씩 보내줄 수 있다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="이중반복문--요소12를-재료로-새객체-생성-by-flatmap--map-">
+<a class="anchor" href="#%EC%9D%B4%EC%A4%91%EB%B0%98%EB%B3%B5%EB%AC%B8--%EC%9A%94%EC%86%8C12%EB%A5%BC-%EC%9E%AC%EB%A3%8C%EB%A1%9C-%EC%83%88%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1-by-flatmap--map-" aria-hidden="true"><span class="octicon octicon-link"></span></a>이중반복문 + 요소1,2를 재료로 새객체 생성 by .flatMap(  .map() )</h5>
+
+<ul>
+  <li>
+    <p>map( .map( -&gt; 새객체 )) 이후 바깥쪽을 <code class="language-plaintext highlighter-rouge">flatMap</code>으로 고쳐주면, <code class="language-plaintext highlighter-rouge">**Stream&lt;Stream&lt;&gt;&gt;</code> 에서 e1당 list2의 분신술들이 1개식 동등하게 넘어가도록 펴진다.**</p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414083001910.png" alt="image-20220414083001227"></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">//2중 for문 + 생성자 -&gt; e1, e2 1개씩 재료로 활용해서 새객체 모으기</span>
+  <span class="c1">// enum 2개가 반복문을 2번 돌 것임.</span>
+    
+  <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">values</span><span class="o">())</span>
+      <span class="c1">// 일단, e1이 결국엔 e2와 만나서 새로운 객체를 생성할 것이니 filter( e1-&gt;)이 아니라 map(e1-&gt;으로 시작한ㄷ)</span>
+      <span class="c1">//.map(e1-&gt; )</span>
+      <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">e1</span> <span class="o">-&gt;</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="nc">Denomination</span><span class="o">.</span><span class="na">values</span><span class="o">())</span>
+           <span class="c1">//e2도 결국엔 e1과 만나서 새로운 객체를 생성하니 map으로 시작한다.</span>
+           <span class="c1">//.map(e2 -&gt;)</span>
+           <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">e2</span> <span class="o">-&gt;</span> <span class="nc">PlayingCard</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">e1</span><span class="o">,</span> <span class="n">e2</span><span class="o">)))</span>
+      <span class="c1">// 안쪽 stream은 collect를 하지 않고 -&gt; anyMatch의 true체크된 Stream&lt;Boolean?결과물&gt; or map의 Stream&lt;PlayingCard결과물&gt;로서 Stream을 유지한다.</span>
+      <span class="c1">// 안쪽stream의 안모으고 중간연산만 했다면, Stream&lt; Stream&lt;&gt;&gt;일 것이다. -&gt;  바깥에서만 모은다면, 바깥만 list화되서 -&gt; List&lt;Stream&lt;PlayingCard&gt;&gt; Type이 된다.</span>
+      <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+    
+  <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">values</span><span class="o">())</span>
+      <span class="c1">//e1 vs list2들이 돌면서, Stream ( Stream&lt;map된객체&gt; ,   Stream&lt;map된객체&gt; , Stream&lt;map된객체&gt;  )형태로</span>
+      <span class="c1">// -&gt; 바깥 요소에 대해 Stream&lt; Stream&lt;객체&gt; &gt;가 된 상태이니,</span>
+      <span class="c1">// -&gt; 안쪽Stream()에 의한 분신술을 개별 Stream으로 인정해주는 flatmap을 바깥에서 적용한다.</span>
+      <span class="c1">// --&gt; Stream( &lt;map된객체1&gt;&lt;map된객체2&gt;&lt;map된객체3&gt; ,   &lt;map된객체4&gt;&lt;map된객체5&gt;&lt;map된객체6&gt; ,  &lt;map된객체7&gt;&lt;map된객체8&gt;&lt;map된객체9&gt;  ]</span>
+      <span class="c1">// 즉, flatmap은, [안쪽에서 분신술or반복되는 split이나 stream으로 쪼개진 것도 -&gt; 바깥Stream에 1개씩 전달되도록 이정해주는 것]</span>
+      <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">e1</span> <span class="o">-&gt;</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="nc">Denomination</span><span class="o">.</span><span class="na">values</span><span class="o">())</span>
+               <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">e2</span> <span class="o">-&gt;</span> <span class="nc">PlayingCard</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">e1</span><span class="o">,</span> <span class="n">e2</span><span class="o">)))</span>
+      <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</code></pre></div>    </div>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414083045141.png" alt="image-20220414083045141"></p>
+  </li>
+</ul>
+
+<h5 id="내부에서-분신술로-생긴-stream컬렉션---streamof로-streamstream으로-만든-뒤---flatmap">
+<a class="anchor" href="#%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%EB%B6%84%EC%8B%A0%EC%88%A0%EB%A1%9C-%EC%83%9D%EA%B8%B4-stream%EC%BB%AC%EB%A0%89%EC%85%98---streamof%EB%A1%9C-streamstream%EC%9C%BC%EB%A1%9C-%EB%A7%8C%EB%93%A0-%EB%92%A4---flatmap" aria-hidden="true"><span class="octicon octicon-link"></span></a>내부에서 분신술로 생긴 <code class="language-plaintext highlighter-rouge">Stream&lt;컬렉션&lt;&gt;&gt;</code> -&gt; Stream.of()로 <code class="language-plaintext highlighter-rouge">Stream&lt;Stream&lt;&gt;&gt;</code>으로 만든 뒤 -&gt; flatMap</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414011604604.png" alt="image-20220414011604604"></p>
+
+<ul>
+  <li>split으로 분신술로 갯수가 늘어난 단일요소는 <code class="language-plaintext highlighter-rouge">배열String[]</code>들이 stream으로 넘어간다.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414011708287.png" alt="image-20220414011708287"></p>
+
+<ul>
+  <li>늘어난 분신술(배열)을 <code class="language-plaintext highlighter-rouge">Stream.of()</code>로 감싸면, <code class="language-plaintext highlighter-rouge">Stream&lt;String&gt;</code>들이 stream으로 넘어간다.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414012127156.png" alt="image-20220414012127156"></p>
+
+<ul>
+  <li>
+    <p>Stream.of(분신술)들을 map 대신 flatMap으로 <code class="language-plaintext highlighter-rouge">변환후 뭉치면</code> 힌트가 사라진다.</p>
+
+    <ul>
+      <li>
+        <p>분신술들도 개별 1개씩이 순서대로 1개씩 넘어온다</p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414012257365.png" alt="image-20220414012257365"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>java8이전</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">// 8버전 이전</span>
+  <span class="c1">// 2번 split해서, 이순신인 경우 그 점수를 출력</span>
+  <span class="kd">final</span> <span class="nc">String</span> <span class="n">input</span> <span class="o">=</span> <span class="s">"홍길동:100#이순신:90"</span><span class="o">;</span>
+  <span class="kd">final</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">splitInput</span> <span class="o">=</span> <span class="n">input</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">"#"</span><span class="o">);</span>
+    
+  <span class="k">for</span> <span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">nameAndScore</span> <span class="o">:</span> <span class="n">splitInput</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">splitNameAndScore</span> <span class="o">=</span> <span class="n">nameAndScore</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">":"</span><span class="o">);</span>
+      <span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">splitNameAndScore</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+      <span class="kd">final</span> <span class="nc">String</span> <span class="n">score</span> <span class="o">=</span> <span class="n">splitNameAndScore</span><span class="o">[</span><span class="mi">1</span><span class="o">];</span>
+      <span class="k">if</span> <span class="o">(</span><span class="s">"이순신"</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+          <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">score</span><span class="o">);</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>stream</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">final</span> <span class="nc">String</span> <span class="n">input</span> <span class="o">=</span> <span class="s">"홍길동:100#이순신:90"</span><span class="o">;</span>
+    
+  <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">input</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">"#"</span><span class="o">))</span>
+      <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">str</span> <span class="o">-&gt;</span> <span class="n">str</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">":"</span><span class="o">))</span>
+      <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+    
+  <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">input</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">"#"</span><span class="o">))</span>
+      <span class="c1">// .map( -&gt; 내부반복문or분신술) 로 Stream&lt; String[] &gt; 형태로 Stream &lt;  배열/컬렉션 &gt; 이 생겼다면,</span>
+      <span class="c1">// -&gt; Stream.of()로 쏴서, Stream&lt; Stream&lt; &gt; &gt; 형태로 만들어줘야</span>
+      <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">str</span> <span class="o">-&gt;</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">str</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">":"</span><span class="o">)))</span>
+      <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+    
+  <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">input</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">"#"</span><span class="o">))</span>
+      <span class="c1">// flatMap()으로서, 내부 쪼개진 것들이 1개씩 보낼 수 있게 된다.</span>
+      <span class="c1">// -&gt; 즉, 안쪽에서 돌때 .stream()으로 도는게 아니라  split등 분신술을 썼다면, Stream.of()로 씌워줘야 바깥에서 flatMap을 맥일 수 있다.</span>
+      <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">str</span> <span class="o">-&gt;</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">str</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">":"</span><span class="o">)))</span>
+      <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+  <span class="c1">//홍길동</span>
+  <span class="c1">//100</span>
+  <span class="c1">//이순신</span>
+  <span class="c1">//90</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="외부listof를-배려한-가변인자배열의-내부처리는-stream보다는-listof">
+<a class="anchor" href="#%EC%99%B8%EB%B6%80listof%EB%A5%BC-%EB%B0%B0%EB%A0%A4%ED%95%9C-%EA%B0%80%EB%B3%80%EC%9D%B8%EC%9E%90%EB%B0%B0%EC%97%B4%EC%9D%98-%EB%82%B4%EB%B6%80%EC%B2%98%EB%A6%AC%EB%8A%94-stream%EB%B3%B4%EB%8B%A4%EB%8A%94-listof" aria-hidden="true"><span class="octicon octicon-link"></span></a>외부List.of()를 배려한 가변인자(배열)의 내부처리는 stream보다는 List.of()</h4>
+
+<ul>
+  <li>배열 -&gt; <code class="language-plaintext highlighter-rouge">.stream()</code>의 POSFIX completion -&gt; <code class="language-plaintext highlighter-rouge">.toList()</code>를 해도 되지만</li>
+  <li><strong>일괄처리 등 작업이 없다면 그냥 외부에서 쓰던 <code class="language-plaintext highlighter-rouge">List.of( 가변배열 )</code>을 그대로 쓰면 된다.</strong></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//배열 -&gt; stream -&gt; toList</span>
+<span class="kd">public</span> <span class="nf">Cards</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Card</span><span class="o">...</span> <span class="n">cards</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">cards</span><span class="o">)</span>
+         <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">()));</span>
+<span class="o">}</span>
+
+<span class="c1">//배열 -&gt; List.of(밖에서 쓰던 것 그대로 내부에서 쓰기)</span>
+
+</code></pre></div></div>
+
+<h4 id="같은type에-대해-일괄처리-listof로-담아--stream일괄처리---streamof일괄처리">
+<a class="anchor" href="#%EA%B0%99%EC%9D%80type%EC%97%90-%EB%8C%80%ED%95%B4-%EC%9D%BC%EA%B4%84%EC%B2%98%EB%A6%AC-listof%EB%A1%9C-%EB%8B%B4%EC%95%84--stream%EC%9D%BC%EA%B4%84%EC%B2%98%EB%A6%AC---streamof%EC%9D%BC%EA%B4%84%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>같은Type에 대해 일괄처리: List.of로 담아 + stream.일괄처리  —&gt; Stream.of().일괄처리</h4>
+
+<ul>
+  <li>
+    <p>개별 Card객체에 대해 일괄적으로 isAce인지 물어보고 싶다.</p>
+
+    <ul>
+      <li>개별Card들을 <strong><code class="language-plaintext highlighter-rouge">List.of()</code>의 컬렉션에 담</strong>고 -&gt; <strong><code class="language-plaintext highlighter-rouge">stream(). 일괄처리</code></strong>
+</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">hasAce</span> <span class="o">=</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">first</span><span class="o">,</span> <span class="n">second</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+      <span class="o">.</span><span class="na">anyMatch</span><span class="o">(</span><span class="n">it</span> <span class="o">-&gt;</span> <span class="n">it</span><span class="o">.</span><span class="na">isAce</span><span class="o">());</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>intellij추천 <strong><code class="language-plaintext highlighter-rouge">같은형</code>이면 `Stream.of( , , )에 담아서 한번에 일괄처리</strong>
+</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">hasAce</span> <span class="o">=</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">first</span><span class="o">,</span> <span class="n">second</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">anyMatch</span><span class="o">(</span><span class="nl">Card:</span><span class="o">:</span><span class="n">isAce</span><span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="같은-도메인이라면-listof나-streamof로-묶어서-메세지보내-일괄처리-or-내부변수-map변환-단순집계가-가능하며-집계는-map--getter로-집계대상의-변수를-getter으로-변환하는-과정을-거쳐서-한다">
+<a class="anchor" href="#%EA%B0%99%EC%9D%80-%EB%8F%84%EB%A9%94%EC%9D%B8%EC%9D%B4%EB%9D%BC%EB%A9%B4-listof%EB%82%98-streamof%EB%A1%9C-%EB%AC%B6%EC%96%B4%EC%84%9C-%EB%A9%94%EC%84%B8%EC%A7%80%EB%B3%B4%EB%82%B4-%EC%9D%BC%EA%B4%84%EC%B2%98%EB%A6%AC-or-%EB%82%B4%EB%B6%80%EB%B3%80%EC%88%98-map%EB%B3%80%ED%99%98-%EB%8B%A8%EC%88%9C%EC%A7%91%EA%B3%84%EA%B0%80-%EA%B0%80%EB%8A%A5%ED%95%98%EB%A9%B0-%EC%A7%91%EA%B3%84%EB%8A%94-map--getter%EB%A1%9C-%EC%A7%91%EA%B3%84%EB%8C%80%EC%83%81%EC%9D%98-%EB%B3%80%EC%88%98%EB%A5%BC-getter%EC%9C%BC%EB%A1%9C-%EB%B3%80%ED%99%98%ED%95%98%EB%8A%94-%EA%B3%BC%EC%A0%95%EC%9D%84-%EA%B1%B0%EC%B3%90%EC%84%9C-%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>같은 도메인이라면 <code class="language-plaintext highlighter-rouge">List.of()</code>나 <code class="language-plaintext highlighter-rouge">Stream.of()</code>로 묶어서 <code class="language-plaintext highlighter-rouge">메세지보내 일괄처리</code> or <code class="language-plaintext highlighter-rouge">내부변수 map변환 단순집계</code>가 가능하며, <code class="language-plaintext highlighter-rouge">집계는 map + .getter()</code>로 <code class="language-plaintext highlighter-rouge">집계대상의 변수를 getter으로 변환</code>하는 과정을 거쳐서 한다.</h5>
+
+<ul>
+  <li>
+    <p>개별로 getter를 써서 일일히 다 더하는 경우</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Object</span> <span class="nf">start</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Card</span> <span class="n">first</span><span class="o">,</span>
+                             <span class="kd">final</span> <span class="nc">Card</span> <span class="n">second</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kd">final</span> <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">first</span><span class="o">.</span><span class="na">point</span><span class="o">()</span> <span class="o">+</span> <span class="n">second</span><span class="o">.</span><span class="na">point</span><span class="o">();</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>같은형이라 <code class="language-plaintext highlighter-rouge">묶어서 -&gt; 일괄처리or단순집계</code>하는데, 내부 변수의 집계라면 getter로 변환해서 집계</strong></p>
+
+    <ul>
+      <li>같은형을 묶을 땐, <code class="language-plaintext highlighter-rouge">List.of( , , )</code>나 <code class="language-plaintext highlighter-rouge">Steram.of(, , , )</code>
+</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">first</span><span class="o">,</span> <span class="n">second</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">mapToInt</span><span class="o">(</span><span class="n">it</span> <span class="o">-&gt;</span> <span class="n">it</span><span class="o">.</span><span class="na">point</span><span class="o">())</span>
+      <span class="o">.</span><span class="na">sum</span><span class="o">();</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="일괄처리가-2번이상-등장한다면-무조건-listof--로-묶어놓고-변수로-뽑아놓고---liststream으로-일괄처리-매번-적용한다">
+<a class="anchor" href="#%EC%9D%BC%EA%B4%84%EC%B2%98%EB%A6%AC%EA%B0%80-2%EB%B2%88%EC%9D%B4%EC%83%81-%EB%93%B1%EC%9E%A5%ED%95%9C%EB%8B%A4%EB%A9%B4-%EB%AC%B4%EC%A1%B0%EA%B1%B4-listof--%EB%A1%9C-%EB%AC%B6%EC%96%B4%EB%86%93%EA%B3%A0-%EB%B3%80%EC%88%98%EB%A1%9C-%EB%BD%91%EC%95%84%EB%86%93%EA%B3%A0---liststream%EC%9C%BC%EB%A1%9C-%EC%9D%BC%EA%B4%84%EC%B2%98%EB%A6%AC-%EB%A7%A4%EB%B2%88-%EC%A0%81%EC%9A%A9%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>일괄처리가 2번이상 등장한다면, 무조건 <code class="language-plaintext highlighter-rouge">List.of(, , )로 묶어놓고 변수로 뽑아놓고</code> -&gt; list.stream()으로 일괄처리 매번 적용한다.</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Object</span> <span class="nf">start</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Card</span> <span class="n">first</span><span class="o">,</span>
+                           <span class="kd">final</span> <span class="nc">Card</span> <span class="n">second</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="c1">//1. 같은형의 [일괄처리/단순집계]가 2번이상 필요할 땐 -&gt; 무조건 List.of()로 일단 묶어 변수로 뺀다.</span>
+    <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Card</span><span class="o">&gt;</span> <span class="n">cards</span> <span class="o">=</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">first</span><span class="o">,</span> <span class="n">second</span><span class="o">);</span>
+
+    <span class="c1">//        final int sum = Stream.of(first, second)</span>
+    <span class="c1">// 일괄처리1: 내부변수 단순집계</span>
+    <span class="kd">final</span> <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">cards</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">mapToInt</span><span class="o">(</span><span class="n">it</span> <span class="o">-&gt;</span> <span class="n">it</span><span class="o">.</span><span class="na">point</span><span class="o">())</span>
+        <span class="o">.</span><span class="na">sum</span><span class="o">();</span>
+
+    <span class="c1">//        final boolean hasAce = Stream.of(first, second)</span>
+    <span class="c1">// 일괄처리2: 일괄처리로 메세지보내기</span>
+    <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">hasAce</span> <span class="o">=</span> <span class="n">cards</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">anyMatch</span><span class="o">(</span><span class="nl">Card:</span><span class="o">:</span><span class="n">isAce</span><span class="o">);</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">hasAce</span> <span class="o">&amp;&amp;</span> <span class="n">sum</span> <span class="o">==</span> <span class="mi">11</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Blackjack</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">Hit</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="반복문iter와-foreach">
+<a class="anchor" href="#%EB%B0%98%EB%B3%B5%EB%AC%B8iter%EC%99%80-foreach" aria-hidden="true"><span class="octicon octicon-link"></span></a>반복문iter와 forEach</h4>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">iter</code></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">for</span> <span class="o">(</span><span class="nc">CarDto</span> <span class="n">currentCar</span> <span class="o">:</span> <span class="n">currentCars</span><span class="o">)</span> <span class="o">{</span>
+      <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">currentCar</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">" : "</span> <span class="o">+</span> <span class="n">collectDash</span><span class="o">(</span><span class="n">currentCar</span><span class="o">.</span><span class="na">getPosition</span><span class="o">()));</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">forEach</code></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">currentCars</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">currentCar</span> <span class="o">-&gt;</span> <span class="o">{</span>
+      <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">currentCar</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">" : "</span> <span class="o">+</span> <span class="n">collectDash</span><span class="o">(</span><span class="n">currentCar</span><span class="o">.</span><span class="na">getPosition</span><span class="o">()));</span>
+  <span class="o">});</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="반복문fori-과-intstream">
+<a class="anchor" href="#%EB%B0%98%EB%B3%B5%EB%AC%B8fori-%EA%B3%BC-intstream" aria-hidden="true"><span class="octicon octicon-link"></span></a>반복문fori 과 IntStream</h4>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">fori</code></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">StringBuilder</span> <span class="n">track</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">position</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+      <span class="n">track</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"-"</span><span class="o">);</span>
+  <span class="o">}</span>
+  <span class="k">return</span> <span class="n">track</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">Intstream</code></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">IntStream</span><span class="o">.</span><span class="na">range</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">position</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">i</span> <span class="o">-&gt;</span> <span class="o">{</span>
+          <span class="n">track</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"-"</span><span class="o">);</span>
+      <span class="o">});</span>
+  <span class="k">return</span> <span class="n">track</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="집계max-숫자vocompareto-">
+<a class="anchor" href="#%EC%A7%91%EA%B3%84max-%EC%88%AB%EC%9E%90vocompareto-" aria-hidden="true"><span class="octicon octicon-link"></span></a>집계max( 숫자VO::compareTo )</h4>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">값으로 변환</code>한 뒤에 <code class="language-plaintext highlighter-rouge">.max()</code>는 인자없이 바로 사용가능</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="o">.</span><span class="na">cars</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">mapToInt</span><span class="o">(</span><span class="n">car</span> <span class="o">-&gt;</span> <span class="n">car</span><span class="o">.</span><span class="na">toInt</span><span class="o">())</span>
+    <span class="o">.</span><span class="na">max</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">orElseThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">NoSuchElementException</span><span class="o">(</span><span class="s">"최대값이 존재하지 않습니다."</span><span class="o">));</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+<strong>값 객체끼리 비교는 필요조건이있다.</strong>
+    <ol>
+      <li>숫자VO에서 Comparable 구현클래스&gt;</li>
+      <li>VO로서 기본 equals 가지기</li>
+      <li>compareTo 오버라이딩후 구현 -&gt; Integer.compare( , )</li>
+      <li>stream에서는 <code class="language-plaintext highlighter-rouge">.max( 클래스::compareTo)</code>로 <strong>비교하면서 집계</strong>
+</li>
+    </ol>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//1. Comparable&lt;&gt; impl하고</span>
+<span class="kd">implements</span> <span class="nc">Comparable</span><span class="o">&lt;</span><span class="n">$CLASS_NAME</span><span class="err">$</span><span class="o">&gt;</span>
+
+<span class="c1">//2. 오버라이딩 compareTo -&gt; Integer.compare( this.숫변.toInt() , o(인자).숫변.toInt() );</span>
+<span class="k">return</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">compare</span><span class="o">(</span> <span class="k">this</span><span class="o">.</span><span class="n">$INT_VALUE</span><span class="err">$</span><span class="o">.</span><span class="na">toInt</span><span class="o">()</span> <span class="o">,</span> <span class="n">o</span><span class="o">.</span><span class="n">$INT_VALUE</span><span class="err">$</span><span class="o">.</span><span class="na">toInt</span><span class="o">());</span>
+
+<span class="c1">//3. VO라면 값같으면 같은객체 보장용 -&gt; equals &amp;&amp; hashCode 오버라이딩</span>
+
+<span class="c1">//4. stream에서는 .max집계( 클래스::compareTo )</span>
+<span class="n">cars</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+<span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="nl">Car:</span><span class="o">:</span><span class="n">compareTo</span><span class="o">)</span>
+<span class="o">.</span><span class="na">orElseThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">IllegalArgumentException</span><span class="o">());</span>
+</code></pre></div></div>
+
+<h5 id="참고--제네릭메서드--reduce로-max-집계">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0--%EC%A0%9C%EB%84%A4%EB%A6%AD%EB%A9%94%EC%84%9C%EB%93%9C--reduce%EB%A1%9C-max-%EC%A7%91%EA%B3%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고)  제네릭메서드 + reduce로 max 집계</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="no">T</span> <span class="kd">extends</span> <span class="nc">Comparable</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;&gt;</span> <span class="no">T</span> <span class="nf">max</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">list</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">reduce</span><span class="o">((</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">a</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">b</span><span class="o">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">a</span> <span class="o">:</span> <span class="n">b</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">get</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="list필터링--filter----객체-tf반환메서드-사용-">
+<a class="anchor" href="#list%ED%95%84%ED%84%B0%EB%A7%81--filter----%EA%B0%9D%EC%B2%B4-tf%EB%B0%98%ED%99%98%EB%A9%94%EC%84%9C%EB%93%9C-%EC%82%AC%EC%9A%A9-" aria-hidden="true"><span class="octicon octicon-link"></span></a>list필터링- filter ( -&gt; 객체. t/f반환메서드 사용 )</h4>
+
+<ul>
+  <li>조건에 부합하는 것만 골라내야한면, <strong><code class="language-plaintext highlighter-rouge">filter</code> + <code class="language-plaintext highlighter-rouge">객체에게 시켜서 t/f반환</code>하도록 한다.</strong>
+</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="o">.</span><span class="na">cars</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">car</span> <span class="o">-&gt;</span> <span class="n">car</span><span class="o">.</span><span class="na">isSamePosition</span><span class="o">(</span><span class="n">maxPosition</span><span class="o">))</span> <span class="c1">// 필터로 조건메소드 참인 것만 골라내기</span>
+    <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</code></pre></div></div>
+
+<h4 id="특정-문자열속성-joinning---mapgetstring----joining">
+<a class="anchor" href="#%ED%8A%B9%EC%A0%95-%EB%AC%B8%EC%9E%90%EC%97%B4%EC%86%8D%EC%84%B1-joinning---mapgetstring----joining" aria-hidden="true"><span class="octicon octicon-link"></span></a>특정 문자열속성 joinning - (map+getString  -&gt; joining)</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cars</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">car</span><span class="o">-&gt;</span><span class="n">car</span><span class="o">.</span><span class="na">getName</span><span class="o">())</span>
+   <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">joining</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">lineSeparator</span><span class="o">()));</span>
+</code></pre></div></div>
+
+<h4 id="만족하는-총-갯수-카운팅forifadd---by-filter--다모아서-count">
+<a class="anchor" href="#%EB%A7%8C%EC%A1%B1%ED%95%98%EB%8A%94-%EC%B4%9D-%EA%B0%AF%EC%88%98-%EC%B9%B4%EC%9A%B4%ED%8C%85forifadd---by-filter--%EB%8B%A4%EB%AA%A8%EC%95%84%EC%84%9C-count" aria-hidden="true"><span class="octicon octicon-link"></span></a>만족하는 총 갯수 카운팅(for+if+add -&gt;) by filter.() + (다모아서) count()</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">int</span> <span class="nf">match</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">other</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">other</span><span class="o">.</span><span class="na">value</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">it</span> <span class="o">-&gt;</span> <span class="n">contains</span><span class="o">(</span><span class="n">it</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">count</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">contains</span><span class="o">(</span><span class="kd">final</span> <span class="nc">LottoNumber</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">number</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">int</span> <span class="nf">calculateAceCount</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">playingCards</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="nl">PlayingCard:</span><span class="o">:</span><span class="n">isAce</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">count</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="역순-list">
+<a class="anchor" href="#%EC%97%AD%EC%88%9C-list" aria-hidden="true"><span class="octicon octicon-link"></span></a>역순 list</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Rank</span><span class="o">&gt;</span> <span class="n">ranks</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">values</span><span class="o">());</span>
+<span class="nc">Collections</span><span class="o">.</span><span class="na">reverse</span><span class="o">(</span><span class="n">ranks</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h4 id="역순-stream-with-comparable-상속">
+<a class="anchor" href="#%EC%97%AD%EC%88%9C-stream-with-comparable-%EC%83%81%EC%86%8D" aria-hidden="true"><span class="octicon octicon-link"></span></a>역순 stream With comparable 상속</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+<span class="o">.</span><span class="na">sorted</span><span class="o">(</span><span class="nc">Comparator</span><span class="o">.</span><span class="na">reverseOrder</span><span class="o">())</span>
+</code></pre></div></div>
+
+<h4 id="누적은-maptotype--집계-reduce초기값-해당type집계함수-더-깔끔">
+<a class="anchor" href="#%EB%88%84%EC%A0%81%EC%9D%80-maptotype--%EC%A7%91%EA%B3%84-reduce%EC%B4%88%EA%B8%B0%EA%B0%92-%ED%95%B4%EB%8B%B9type%EC%A7%91%EA%B3%84%ED%95%A8%EC%88%98-%EB%8D%94-%EA%B9%94%EB%81%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>누적은 mapToType + .집계 » .reduce(초기값, 해당Type::집계함수) 더 깔끔</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//수정전</span>
+<span class="k">return</span> <span class="n">rankResults</span><span class="o">.</span><span class="na">entrySet</span><span class="o">().</span><span class="na">stream</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="nl">Entry:</span><span class="o">:</span><span class="n">getValue</span><span class="o">).</span><span class="na">reduce</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="nl">Integer:</span><span class="o">:</span><span class="n">sum</span><span class="o">)</span>
+    <span class="o">*</span> <span class="nc">Lotto</span><span class="o">.</span><span class="na">LOTTO_PURCHASE_MONEY</span><span class="o">;</span>
+
+<span class="c1">//수정후</span>
+<span class="k">return</span> <span class="n">rankResults</span><span class="o">.</span><span class="na">entrySet</span><span class="o">().</span><span class="na">stream</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">mapToInt</span><span class="o">(</span><span class="nl">Entry:</span><span class="o">:</span><span class="n">getValue</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">sum</span><span class="o">()</span> <span class="o">*</span> <span class="nc">Lotto</span><span class="o">.</span><span class="na">LOTTO_PURCHASE_MONEY</span><span class="o">;</span>
+</code></pre></div></div>
+
+<h4 id="toset--tomap-등-다른-것으로도-가능">
+<a class="anchor" href="#toset--tomap-%EB%93%B1-%EB%8B%A4%EB%A5%B8-%EA%B2%83%EC%9C%BC%EB%A1%9C%EB%8F%84-%EA%B0%80%EB%8A%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>toSet() / toMap() 등… 다른 것으로도 가능</h4>
+
+<ul>
+  <li>set</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">numbers</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span> <span class="c1">// 스트림을 열고</span>
+        <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">Number:</span><span class="o">:</span><span class="k">new</span><span class="o">)</span> <span class="c1">// 가공하여</span>
+        <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toSet</span><span class="o">());</span> <span class="c1">// 결과를 셋으로 만든다.</span>
+</code></pre></div></div>
+
+<ul>
+  <li>map</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">LOTTO_NUMBER_CACHE</span> <span class="o">=</span> <span class="nc">IntStream</span><span class="o">.</span><span class="na">rangeClosed</span><span class="o">(</span><span class="no">MIN_LOTTO_NUMBER</span><span class="o">,</span> <span class="no">MAX_LOTTO_NUMBER</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">boxed</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toMap</span><span class="o">(</span>
+        <span class="n">number</span> <span class="o">-&gt;</span> <span class="n">number</span><span class="o">,</span> <span class="c1">//Function.identity()</span>
+        <span class="nl">LottoNumber:</span><span class="o">:</span><span class="k">new</span>
+    <span class="o">));</span>
+</code></pre></div></div>
+
+<ul>
+  <li>map을 <code class="language-plaintext highlighter-rouge">자기자신을 key, 0을 상수 value</code>으로 <strong>초기화해서 생성</strong>
+    <ul>
+      <li>it -&gt; it : <code class="language-plaintext highlighter-rouge">Function.identity()</code>로 <strong>자기자신 그대로 반환</strong> 이용가능하나보다</li>
+      <li>it -&gt; 0 : 숫자는 1단어로 바로 안되나보다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Rank</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">emptyRankMap</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">values</span><span class="o">())</span>
+        <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">toMap</span><span class="o">(</span><span class="nc">Function</span><span class="o">.</span><span class="na">identity</span><span class="o">(),</span> <span class="n">r</span> <span class="o">-&gt;</span> <span class="mi">0</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>map을 <strong><code class="language-plaintext highlighter-rouge">자기자신을 key</code>  + <code class="language-plaintext highlighter-rouge">key별(그룹별)로 누적</code></strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">return</span> <span class="n">lottos</span><span class="o">.</span><span class="na">getLottos</span><span class="o">()</span>
+      <span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+      <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">winningLotto:</span><span class="o">:</span><span class="n">getRankByLotto</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">groupingBy</span><span class="o">(</span><span class="n">identity</span><span class="o">(),</span>
+                          <span class="o">()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">EnumMap</span><span class="o">&lt;&gt;(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">class</span><span class="o">),</span>
+                          <span class="n">summarizingLong</span><span class="o">(</span><span class="nl">Rank:</span><span class="o">:</span><span class="n">getPrize</span><span class="o">)));</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>toMap으로 다른type의 맵을 만드려면 <strong>3, 4번째 인자 동시에 추가해줘야한다.</strong></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Player</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">from2</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Players</span> <span class="n">players</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">players</span><span class="o">.</span><span class="na">getGamblers</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toMap</span><span class="o">(</span>
+              <span class="nc">Function</span><span class="o">.</span><span class="na">identity</span><span class="o">(),</span>
+              <span class="n">gambler</span> <span class="o">-&gt;</span> <span class="n">caculateProfit</span><span class="o">(</span><span class="n">players</span><span class="o">,</span> <span class="n">gambler</span><span class="o">),</span>
+              <span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">y</span><span class="o">,</span>  <span class="c1">// 3번재에는.. 올드,뉴 중에 뉴를 선택?? 머지?</span>
+              <span class="nl">LinkedHashMap:</span><span class="o">:</span><span class="k">new</span><span class="o">)</span> <span class="c1">// 4번째에.. 만들 타입</span>
+                  <span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="contains와-anymatch-or-nonematch--equals같은게--하나라도-있냐">
+<a class="anchor" href="#contains%EC%99%80-anymatch-or-nonematch--equals%EA%B0%99%EC%9D%80%EA%B2%8C--%ED%95%98%EB%82%98%EB%9D%BC%EB%8F%84-%EC%9E%88%EB%83%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>contains와 anyMatch or noneMatch &amp; equals(같은게 &amp; 하나라도 있냐)</h4>
+
+<ul>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">객체 속 특정필드</code>에 대한 <code class="language-plaintext highlighter-rouge">contains</code>(boolean) -&gt; stream + <code class="language-plaintext highlighter-rouge">map(필드)</code> + <code class="language-plaintext highlighter-rouge">anyMatch &amp; equals</code></strong></p>
+
+    <ul>
+      <li>
+        <p>객체 속 필드가 아니라 객체list contains 객체라면</p>
+
+        <ul>
+          <li><strong>stream + anyMatch &amp; equals(하나라도 같은게 있냐)</strong></li>
+        </ul>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">containsSection</span><span class="o">(</span><span class="nc">Section</span> <span class="n">section</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">sections</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">anyMatch</span><span class="o">(</span><span class="n">value</span> <span class="o">-&gt;</span> <span class="n">value</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">section</span><span class="o">));</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>stream을 안쓴다면</p>
+
+        <ul>
+          <li>빈list add getter로 <code class="language-plaintext highlighter-rouge">필드list</code> -&gt; <code class="language-plaintext highlighter-rouge">contains ( 객체.getter )</code>
+</li>
+        </ul>
+      </li>
+      <li>
+        <p>stream을 쓴다면</p>
+
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">map</code>으로 필드list로 변환  -&gt; <strong>같은게 하나라도 있나 <code class="language-plaintext highlighter-rouge">anyMatch + equals</code></strong>
+</li>
+        </ul>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">! contains</code>라면</strong></p>
+
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">map</code>으로 필드list로 변환 -&gt; <strong>하나라도 같은게 없어야 <code class="language-plaintext highlighter-rouge">noneMatch + equals</code></strong>
+</li>
+        </ul>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isFirstSection</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Section</span> <span class="n">section</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">Section:</span><span class="o">:</span><span class="n">getDownStationId</span><span class="o">)</span>
+          <span class="o">.</span><span class="na">noneMatch</span><span class="o">(</span><span class="n">downStationId</span> <span class="o">-&gt;</span> <span class="n">section</span><span class="o">.</span><span class="na">getUpStationId</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="n">downStationId</span><span class="o">));</span>
+      <span class="c1">//        return !getDownStationIds().contains(section.getUpStationId());</span>
+  <span class="o">}</span>
+        
+  <span class="cm">/*    private List&lt;Long&gt; getDownStationIds() {
+          return value.stream()
+              .map(Section::getDownStationId)
+              .collect(Collectors.toList());
+      }*/</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="중복검사도-contains와-같다-같은게equals-하나라도-있냐anymatch">
+<a class="anchor" href="#%EC%A4%91%EB%B3%B5%EA%B2%80%EC%82%AC%EB%8F%84-contains%EC%99%80-%EA%B0%99%EB%8B%A4-%EA%B0%99%EC%9D%80%EA%B2%8Cequals-%ED%95%98%EB%82%98%EB%9D%BC%EB%8F%84-%EC%9E%88%EB%83%90anymatch" aria-hidden="true"><span class="octicon octicon-link"></span></a>중복검사도 contains와 같다. 같은게(equals) 하나라도 있냐(anyMatch)</h5>
+
+<ul>
+  <li>
+    <p>같은게 있으면 예외를 던지는데, ifPresent()는 예외던지는 용이 아니니 조심하자</p>
+
+    <ul>
+      <li>
+        <p>잘못된 예</p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">validateDuplicateSection</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Section</span> <span class="n">section</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">values</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">value</span> <span class="o">-&gt;</span> <span class="n">value</span><span class="o">.</span><span class="na">isSameSection</span><span class="o">(</span><span class="n">section</span><span class="o">))</span>
+          <span class="o">.</span><span class="na">findAny</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">ifPresent</span><span class="o">(</span><span class="n">value</span> <span class="o">-&gt;</span> <span class="o">{</span>
+              <span class="k">throw</span> <span class="k">new</span> <span class="nf">SectionCreateException</span><span class="o">(</span><span class="no">SECTION_ALREADY_EXIST_MESSAGE</span><span class="o">);</span>
+          <span class="o">});</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>anyMatch를 boolean으로 받아서 if문에 걸어 처리</p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">validateDuplicateSection</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Section</span> <span class="n">section</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kt">boolean</span> <span class="n">exist</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">anyMatch</span><span class="o">(</span><span class="n">value</span> <span class="o">-&gt;</span> <span class="n">value</span><span class="o">.</span><span class="na">isSameSection</span><span class="o">(</span><span class="n">section</span><span class="o">));</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">exist</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">throw</span> <span class="k">new</span> <span class="nf">SectionCreateException</span><span class="o">(</span><span class="no">SECTION_NOT_CONNECT_MESSAGE</span><span class="o">);</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="특정로직에-해당하는-것이-없느냐도-contains와-같다-해당하는-게comparemethod-하나도-없나nonematch">
+<a class="anchor" href="#%ED%8A%B9%EC%A0%95%EB%A1%9C%EC%A7%81%EC%97%90-%ED%95%B4%EB%8B%B9%ED%95%98%EB%8A%94-%EA%B2%83%EC%9D%B4-%EC%97%86%EB%8A%90%EB%83%90%EB%8F%84-contains%EC%99%80-%EA%B0%99%EB%8B%A4-%ED%95%B4%EB%8B%B9%ED%95%98%EB%8A%94-%EA%B2%8Ccomparemethod-%ED%95%98%EB%82%98%EB%8F%84-%EC%97%86%EB%82%98nonematch" aria-hidden="true"><span class="octicon octicon-link"></span></a>특정로직에 해당하는 것이 없느냐도 contains와 같다. 해당하는 게(compareMethod) 하나도 없나(noneMatch)</h5>
+
+<ul>
+  <li><strong>비교메서드는 poisitive하게 작성하고 -&gt; 하나도 없느냐의 부정어를 noneMatch로 한다</strong></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">void</span> <span class="nf">validateSectionConnect</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Section</span> <span class="n">section</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">boolean</span> <span class="n">isNotConnected</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">noneMatch</span><span class="o">(</span><span class="n">value</span> <span class="o">-&gt;</span> <span class="n">value</span><span class="o">.</span><span class="na">haveStation</span><span class="o">(</span><span class="n">section</span><span class="o">));</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">isNotConnected</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">SectionCreateException</span><span class="o">(</span><span class="no">SECTION_NOT_CONNECT_MESSAGE</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<h4 id="해당포함하는게-있으면---찾아서---특정-로직-수행까지-진행된다면-anymatch--비교메서드가-아니라-filter--findany-찾아놓고---ifpresent---수행메서드-로-다르게-작성한다">
+<a class="anchor" href="#%ED%95%B4%EB%8B%B9%ED%8F%AC%ED%95%A8%ED%95%98%EB%8A%94%EA%B2%8C-%EC%9E%88%EC%9C%BC%EB%A9%B4---%EC%B0%BE%EC%95%84%EC%84%9C---%ED%8A%B9%EC%A0%95-%EB%A1%9C%EC%A7%81-%EC%88%98%ED%96%89%EA%B9%8C%EC%A7%80-%EC%A7%84%ED%96%89%EB%90%9C%EB%8B%A4%EB%A9%B4-anymatch--%EB%B9%84%EA%B5%90%EB%A9%94%EC%84%9C%EB%93%9C%EA%B0%80-%EC%95%84%EB%8B%88%EB%9D%BC-filter--findany-%EC%B0%BE%EC%95%84%EB%86%93%EA%B3%A0---ifpresent---%EC%88%98%ED%96%89%EB%A9%94%EC%84%9C%EB%93%9C-%EB%A1%9C-%EB%8B%A4%EB%A5%B4%EA%B2%8C-%EC%9E%91%EC%84%B1%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>해당(포함)하는게 있으면 -&gt; 찾아서 -&gt; 특정 로직 수행까지 진행된다면, <code class="language-plaintext highlighter-rouge">anyMatch + 비교메서드</code>가 아니라 <code class="language-plaintext highlighter-rouge">filter + findAny 찾아놓고 -&gt; ifPresent( -&gt; 수행메서드() )</code>로 다르게 작성한다.</h4>
+
+<ul>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">해당하는게 있느냐</code>만 물어보고 끝난다(예외 던지기, 조건문용)</strong>면</p>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">anyMatch/noneMatch</code> -&gt; <code class="language-plaintext highlighter-rouge">비교메서드/equals</code>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">해당하는게 있으면 -&gt; (찾아서) -&gt; 수행</code>해라</strong>면</p>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">filter &amp; 비교메서드/equals</code> + <code class="language-plaintext highlighter-rouge">findAny()</code> + <code class="language-plaintext highlighter-rouge">ifPresent( -&gt; 수행메서드())</code>
+</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">cutInSection</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Section</span> <span class="n">section</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">values</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">value</span> <span class="o">-&gt;</span> <span class="n">value</span><span class="o">.</span><span class="na">isSameUpStation</span><span class="o">(</span><span class="n">section</span><span class="o">.</span><span class="na">getUpStation</span><span class="o">())</span>
+                  <span class="o">||</span> <span class="n">value</span><span class="o">.</span><span class="na">isSameDownStation</span><span class="o">(</span><span class="n">section</span><span class="o">.</span><span class="na">getDownStation</span><span class="o">()))</span>
+          <span class="o">.</span><span class="na">findAny</span><span class="o">()</span>
+          <span class="o">.</span><span class="na">ifPresent</span><span class="o">(</span><span class="n">foundSection</span> <span class="o">-&gt;</span> <span class="n">updateCutInSection</span><span class="o">(</span><span class="n">section</span><span class="o">,</span> <span class="n">foundSection</span><span class="o">));</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="로또">
+<a class="anchor" href="#%EB%A1%9C%EB%98%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>로또</h3>
+
+<h4 id="shuffle후---sublist---limit6으로-를-통한--랜덤추출-구현">
+<a class="anchor" href="#shuffle%ED%9B%84---sublist---limit6%EC%9C%BC%EB%A1%9C-%EB%A5%BC-%ED%86%B5%ED%95%9C--%EB%9E%9C%EB%8D%A4%EC%B6%94%EC%B6%9C-%EA%B5%AC%ED%98%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>shuffle후   subList -&gt; .limit(6)으로 를 통한  랜덤추출 구현</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Lotto</span> <span class="nf">issueLotto</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">Collections</span><span class="o">.</span><span class="na">shuffle</span><span class="o">(</span><span class="no">LOTTO_NUMBERS</span><span class="o">);</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">Lotto</span><span class="o">(</span><span class="no">LOTTO_NUMBERS</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                     <span class="o">.</span><span class="na">limit</span><span class="o">(</span><span class="mi">6</span><span class="o">)</span>
+                     <span class="o">.</span><span class="na">sorted</span><span class="o">()</span>
+                     <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">()));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="intstream--boxedinteger-for-map-제네릭-tomap-it---key-value으로-숫자-숫자vo매핑-map-만들기">
+<a class="anchor" href="#intstream--boxedinteger-for-map-%EC%A0%9C%EB%84%A4%EB%A6%AD-tomap-it---key-value%EC%9C%BC%EB%A1%9C-%EC%88%AB%EC%9E%90-%EC%88%AB%EC%9E%90vo%EB%A7%A4%ED%95%91-map-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>IntStream + boxed(Integer for Map 제네릭) toMap( it -&gt; key, value)으로 &lt;숫자, 숫자VO&gt;매핑 Map 만들기</h4>
+
+<ul>
+  <li>
+    <p>.map() 없이</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">.boxed()</code> 수동 필수</p>
+  </li>
+  <li>
+    <p>toMap( -&gt; a, b)의 <strong>2번째 Value 자리에 생성자호출 -&gt; 메서드파라미터 필수!</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220308231647756.png" alt="image-20220308231647756">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220308231703337.png" alt="image-20220308231703337"></p>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">synchronized</span> <span class="kd">static</span> <span class="nc">LottoNumber</span> <span class="nf">valueOf</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">checkNumberRightRange</span><span class="o">(</span><span class="n">number</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="no">LOTTO_NUMBER_CACHE</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="no">LOTTO_NUMBER_CACHE</span> <span class="o">=</span> <span class="nc">IntStream</span><span class="o">.</span><span class="na">rangeClosed</span><span class="o">(</span><span class="no">MIN_LOTTO_NUMBER</span><span class="o">,</span> <span class="no">MAX_LOTTO_NUMBER</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">boxed</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toMap</span><span class="o">(</span><span class="n">lottoNumber</span> <span class="o">-&gt;</span> <span class="n">lottoNumber</span><span class="o">,</span> <span class="nl">LottoNumber:</span><span class="o">:</span><span class="k">new</span><span class="o">));</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="no">LOTTO_NUMBER_CACHE</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">number</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="가변-변수-제거---아직-list가-아닌-stream상태로-모아서----map변환-못한-경우---모아서-list만들면서-map-collectandthen-tolist-변환메서드">
+<a class="anchor" href="#%EA%B0%80%EB%B3%80-%EB%B3%80%EC%88%98-%EC%A0%9C%EA%B1%B0---%EC%95%84%EC%A7%81-list%EA%B0%80-%EC%95%84%EB%8B%8C-stream%EC%83%81%ED%83%9C%EB%A1%9C-%EB%AA%A8%EC%95%84%EC%84%9C----map%EB%B3%80%ED%99%98-%EB%AA%BB%ED%95%9C-%EA%B2%BD%EC%9A%B0---%EB%AA%A8%EC%95%84%EC%84%9C-list%EB%A7%8C%EB%93%A4%EB%A9%B4%EC%84%9C-map-collectandthen-tolist-%EB%B3%80%ED%99%98%EB%A9%94%EC%84%9C%EB%93%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>가변 변수 제거 -&gt; 아직 list가 아닌 [stream상태로 모아서] -&gt;  map변환 못한 경우 -&gt; 모아서 list만들면서 map collectAndThen( toList(), 변환메서드)</h4>
+
+<ul>
+  <li>stream + stream -&gt; concat 하여 map할 기회를 놓친 체 <code class="language-plaintext highlighter-rouge">.collect( toList())</code> 하여 이후 <strong>또 개별 stream + map</strong>해줘야한다? -&gt; 바로 할 수 있다.
+    <ul>
+      <li>
+<strong>2stream 을 1개 list로 변환해서 모으고</strong> -&gt; <strong>포장</strong>까지 할 수 있다.!!</li>
+      <li>기존list.stream() + 새list.stream()  -&gt; Stream.concat() -&gt; <strong>collect( <code class="language-plaintext highlighter-rouge">collectingAndThen( toList(), 포장생성자::new )</code></strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nc">Lottoes</span> <span class="nf">combine</span><span class="o">(</span><span class="nc">Lottoes</span> <span class="n">other</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Lotto</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+    <span class="n">result</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="n">lottoes</span><span class="o">);</span>
+    <span class="n">result</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="n">other</span><span class="o">.</span><span class="na">lottoes</span><span class="o">);</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">Lottoes</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// 변환후</span>
+<span class="kd">public</span> <span class="nc">Lottoes</span> <span class="nf">combine</span><span class="o">(</span><span class="nc">Lottoes</span> <span class="n">other</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">concat</span><span class="o">(</span><span class="n">lottoes</span><span class="o">.</span><span class="na">stream</span><span class="o">(),</span> <span class="n">other</span><span class="o">.</span><span class="na">lottoes</span><span class="o">.</span><span class="na">stream</span><span class="o">())</span>
+        <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">collectingAndThen</span><span class="o">(</span><span class="n">toList</span><span class="o">(),</span> <span class="nl">Lottoes:</span><span class="o">:</span><span class="k">new</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="블랙잭">
+<a class="anchor" href="#%EB%B8%94%EB%9E%99%EC%9E%AD" aria-hidden="true"><span class="octicon octicon-link"></span></a>블랙잭</h3>
+
+<h4 id="for-for-객체-생성---stream-map---stream-map---앞에-map을-flatmap---tocollection-모은-결과물stream---new-원하는-컬렉션-생성">
+<a class="anchor" href="#for-for-%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1---stream-map---stream-map---%EC%95%9E%EC%97%90-map%EC%9D%84-flatmap---tocollection-%EB%AA%A8%EC%9D%80-%EA%B2%B0%EA%B3%BC%EB%AC%BCstream---new-%EC%9B%90%ED%95%98%EB%8A%94-%EC%BB%AC%EB%A0%89%EC%85%98-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>for for 객체 생성 -&gt; stream map -&gt; stream map -&gt; 앞에 map을 flatmap -&gt; toCollection( 모은 결과물stream -&gt; new 원하는 컬렉션 생성)</h4>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">앞에 것 suit 1개당</code> -&gt; 여러 denomination.values()들이   <code class="language-plaintext highlighter-rouge">여러개의 결과물</code>을 만들 것이다.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">앞에 것들</code> suit_1 + suit_2 + …  -&gt; <code class="language-plaintext highlighter-rouge">각각에 해당하는 결과물들</code>을 <code class="language-plaintext highlighter-rouge">.flatmap()</code>으로 <code class="language-plaintext highlighter-rouge">다 모은다</code></strong></li>
+  <li><strong>모아진 stream을 <code class="language-plaintext highlighter-rouge">toCollection(  -&gt;  )</code>로 또 원하는 컬렉션(Stack)으로 변경생성</strong></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Stack</span><span class="o">&lt;</span><span class="nc">PlayingCard</span><span class="o">&gt;</span> <span class="n">playingCards</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="nc">Suit</span><span class="o">.</span><span class="na">values</span><span class="o">())</span>
+	<span class="c1">//.map(suit -&gt; Arrays.stream(Denomination.values())</span>
+	<span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">suit</span> <span class="o">-&gt;</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="nc">Denomination</span><span class="o">.</span><span class="na">values</span><span class="o">())</span>
+	<span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">denomination</span> <span class="o">-&gt;</span> <span class="nc">PlayingCard</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">suit</span><span class="o">,</span> <span class="n">denomination</span><span class="o">)))</span>
+	<span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toCollection</span><span class="o">(</span><span class="nl">Stack:</span><span class="o">:</span><span class="k">new</span><span class="o">));</span>
+
+<span class="nc">Collections</span><span class="o">.</span><span class="na">shuffle</span><span class="o">(</span><span class="n">playingCards</span><span class="o">);</span>
+<span class="k">this</span><span class="o">.</span><span class="na">playingCards</span> <span class="o">=</span> <span class="n">playingCards</span><span class="o">;</span>
+</code></pre></div></div>
+
+<h4 id="count-map-생성">
+<a class="anchor" href="#count-map-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Count Map 생성</h4>
+
+<h5 id="countmap01-enummap----결과list를--직접-0-초기화후-mapput카운팅">
+<a class="anchor" href="#countmap01-enummap----%EA%B2%B0%EA%B3%BClist%EB%A5%BC--%EC%A7%81%EC%A0%91-0-%EC%B4%88%EA%B8%B0%ED%99%94%ED%9B%84-mapput%EC%B9%B4%EC%9A%B4%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>CountMap01 EnumMap  -&gt; 결과list를 [ 직접 0 초기화후 map.put카운팅]</h5>
+
+<ul>
+  <li><strong>제한된 key값들을 도는 Enum.values().stream + forEach put( , 0) + 결과List돌면서 개별 +1</strong></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">final</span> <span class="nc">EnumMap</span><span class="o">&lt;</span><span class="nc">Rank</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">EnumMap</span><span class="o">&lt;&gt;(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+<span class="c1">// 카운트 0으로 초기화</span>
+<span class="o">{</span>
+    <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">values</span><span class="o">()).</span><span class="na">forEach</span><span class="o">(</span><span class="n">rank</span> <span class="o">-&gt;</span> <span class="n">result</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">rank</span><span class="o">,</span> <span class="mi">0</span><span class="o">));</span>
+<span class="o">}</span>
+
+
+<span class="c1">// 단일key를 돌면서</span>
+<span class="n">result</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">rankPrize</span><span class="o">,</span> <span class="n">result</span><span class="o">.</span><span class="na">getOrDefault</span><span class="o">(</span><span class="n">rankPrize</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h5 id="추천-countmap02-enummap----결과list를--초기화없이-mapmerge">
+<a class="anchor" href="#%EC%B6%94%EC%B2%9C-countmap02-enummap----%EA%B2%B0%EA%B3%BClist%EB%A5%BC--%EC%B4%88%EA%B8%B0%ED%99%94%EC%97%86%EC%9D%B4-mapmerge" aria-hidden="true"><span class="octicon octicon-link"></span></a>[추천] CountMap02 EnumMap  -&gt; 결과list를  [초기화없이 map.merge]</h5>
+
+<ul>
+  <li><strong>미리 0 초기화 없이 <code class="language-plaintext highlighter-rouge">알아서 직전value(없으면 0부터) 누적</code>해주는 -&gt;  <code class="language-plaintext highlighter-rouge">map.merge( 객체key, 누적해넣을값, Integer.sum()으로 기존value와 누적방법 Bifunction )</code></strong></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">result</span><span class="o">.</span><span class="na">merge</span><span class="o">(</span><span class="n">rank</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="o">(</span><span class="n">before</span><span class="o">,</span> <span class="n">after</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">sum</span><span class="o">(</span><span class="n">before</span><span class="o">,</span> <span class="n">after</span><span class="o">))</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Rank</span><span class="o">&gt;</span> <span class="n">results</span> <span class="o">=</span> <span class="n">lottos</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">lotto</span> <span class="o">-&gt;</span> <span class="n">match</span><span class="o">(</span><span class="n">lotto</span><span class="o">,</span> <span class="n">winningLotto</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+
+<span class="kd">final</span> <span class="nc">EnumMap</span><span class="o">&lt;</span><span class="nc">Rank</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">EnumMap</span><span class="o">&lt;&gt;(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+<span class="n">results</span>
+    <span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">rank</span> <span class="o">-&gt;</span> <span class="n">result</span><span class="o">.</span><span class="na">merge</span><span class="o">(</span><span class="n">rank</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="o">(</span><span class="n">before</span><span class="o">,</span> <span class="n">after</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">sum</span><span class="o">(</span><span class="n">before</span><span class="o">,</span> <span class="n">after</span><span class="o">)));</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="nf">Result</span><span class="o">(</span><span class="kd">final</span> <span class="nc">LottoGroup</span> <span class="n">lottos</span><span class="o">,</span> <span class="kd">final</span> <span class="nc">WinningLotto</span> <span class="n">winningLotto</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="nc">Lotto</span> <span class="n">lotto</span> <span class="o">:</span> <span class="n">lottos</span><span class="o">.</span><span class="na">get</span><span class="o">())</span> <span class="o">{</span>
+        <span class="nc">Rank</span> <span class="n">rank</span> <span class="o">=</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">lotto</span><span class="o">.</span><span class="na">countSameNum</span><span class="o">(</span><span class="n">winningLotto</span><span class="o">),</span> <span class="n">lotto</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">winningLotto</span><span class="o">.</span><span class="na">getBonusNumber</span><span class="o">()));</span>
+        <span class="n">value</span><span class="o">.</span><span class="na">merge</span><span class="o">(</span><span class="n">rank</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="nl">Integer:</span><span class="o">:</span><span class="n">sum</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="추천-countmap03---일급vs단일-key처리와-초기화없이-counting을-동시에--by-collectorsgroupingby">
+<a class="anchor" href="#%EC%B6%94%EC%B2%9C-countmap03---%EC%9D%BC%EA%B8%89vs%EB%8B%A8%EC%9D%BC-key%EC%B2%98%EB%A6%AC%EC%99%80-%EC%B4%88%EA%B8%B0%ED%99%94%EC%97%86%EC%9D%B4-counting%EC%9D%84-%EB%8F%99%EC%8B%9C%EC%97%90--by-collectorsgroupingby" aria-hidden="true"><span class="octicon octicon-link"></span></a>[추천] CountMap03 -&gt; 일급vs단일 [key처리와 초기화없이 counting을 동시에 ] by Collectors.groupingBy</h5>
+
+<ul>
+  <li>일급vs단일의 결과값list 바로 뽑은 뒤 처리하는 대신  <code class="language-plaintext highlighter-rouge">처리 + counting을 동시에 </code> -&gt;
+    <ul>
+      <li><strong>groupingBy(단일vs단일로 객체key로직, summingInt( count -&gt; 1))으로 한번에 로직처리 + Map만들기</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">lottos</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span> <span class="c1">// 일급vs단일 -&gt; 단일vs단일 -&gt; 결과 List </span>
+    <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">groupingBy</span><span class="o">(</span>
+        <span class="n">lotto</span> <span class="o">-&gt;</span> <span class="n">match</span><span class="o">(</span><span class="n">lotto</span><span class="o">,</span> <span class="n">winningLotto</span><span class="o">),</span> <span class="c1">// 단일vs단일로 결과객체 1개</span>
+        <span class="nc">Collectors</span><span class="o">.</span><span class="na">summingInt</span><span class="o">(</span><span class="n">count</span> <span class="o">-&gt;</span> <span class="mi">1</span><span class="o">)));</span> <span class="c1">// 없으면 0부터 1씩 count누적시킴</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">맵 타입 지정 가능</code></strong></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">final</span> <span class="nc">EnumMap</span><span class="o">&lt;</span><span class="nc">GameResult</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">dealerResult</span> <span class="o">=</span> <span class="n">gamblers</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">groupingBy</span><span class="o">(</span>
+        <span class="n">gambler</span> <span class="o">-&gt;</span> <span class="n">getResultPlayer</span><span class="o">(</span><span class="n">dealer</span><span class="o">,</span> <span class="n">gamblerResult</span><span class="o">,</span> <span class="n">gambler</span><span class="o">),</span>
+        <span class="o">()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">EnumMap</span><span class="o">&lt;&gt;(</span><span class="nc">GameResult</span><span class="o">.</span><span class="na">class</span><span class="o">),</span> <span class="c1">// Map타입 가운데서 지정</span>
+        <span class="nc">Collectors</span><span class="o">.</span><span class="na">summingInt</span><span class="o">(</span><span class="n">count</span> <span class="o">-&gt;</span> <span class="mi">1</span><span class="o">)</span>
+    <span class="o">));</span>
+</code></pre></div></div>
+
+<h4 id="map-돌아서-처리하기">
+<a class="anchor" href="#map-%EB%8F%8C%EC%95%84%EC%84%9C-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>map 돌아서 처리하기</h4>
+
+<h5 id="key만--1개만-필요한-경우--mapkeysetstreammap---mapgetkey">
+<a class="anchor" href="#key%EB%A7%8C--1%EA%B0%9C%EB%A7%8C-%ED%95%84%EC%9A%94%ED%95%9C-%EA%B2%BD%EC%9A%B0--mapkeysetstreammap---mapgetkey" aria-hidden="true"><span class="octicon octicon-link"></span></a>key만 == 1개만 필요한 경우 : <code class="language-plaintext highlighter-rouge">map.keySet()</code>.stream().map() -&gt; map.get(key)</h5>
+
+<ul>
+  <li>key객체만 돌기 때문에 -&gt; <strong>map(value)을 내부에서 따로 호출(map.get( <code class="language-plaintext highlighter-rouge">도는 key</code>)</strong>해야한다.
+    <ul>
+      <li>key가 getter를 소지한 객체인 경우, <code class="language-plaintext highlighter-rouge">객체key 자체의 값</code>과 map에 박혀있던 <code class="language-plaintext highlighter-rouge">key의 값</code>을 처리할 수 있다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">long</span> <span class="nf">getPrize</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kt">long</span> <span class="n">prize</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="nc">Rank</span> <span class="n">rank</span> <span class="o">:</span> <span class="n">value</span><span class="o">.</span><span class="na">keySet</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">prize</span> <span class="o">+=</span> <span class="o">(</span><span class="kt">long</span><span class="o">)</span> <span class="n">rank</span><span class="o">.</span><span class="na">getPrize</span><span class="o">()</span> <span class="o">*</span> <span class="n">value</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">rank</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">prize</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="value만--1개만-필요한-경우--mapvaluesstreammap---mapgetkey">
+<a class="anchor" href="#value%EB%A7%8C--1%EA%B0%9C%EB%A7%8C-%ED%95%84%EC%9A%94%ED%95%9C-%EA%B2%BD%EC%9A%B0--mapvaluesstreammap---mapgetkey" aria-hidden="true"><span class="octicon octicon-link"></span></a>value만 == 1개만 필요한 경우 : <code class="language-plaintext highlighter-rouge">map.values()</code>.stream().map() -&gt; map.get(key)</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">getTotalReturnByLottoResult</span><span class="o">(</span><span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Rank</span><span class="o">,</span> <span class="nc">LongSummaryStatistics</span><span class="o">&gt;</span> <span class="n">lottoResult</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">lottoResult</span><span class="o">.</span><span class="na">values</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">mapToLong</span><span class="o">(</span><span class="nl">LongSummaryStatistics:</span><span class="o">:</span><span class="n">getSum</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">sum</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="keyvalue가-둘다-필요한-경우-mapentrysetstreammap-----itgetkey--itgetvalue">
+<a class="anchor" href="#keyvalue%EA%B0%80-%EB%91%98%EB%8B%A4-%ED%95%84%EC%9A%94%ED%95%9C-%EA%B2%BD%EC%9A%B0-mapentrysetstreammap-----itgetkey--itgetvalue" aria-hidden="true"><span class="octicon octicon-link"></span></a>key+value가 둘다 필요한 경우: <code class="language-plaintext highlighter-rouge">map.entrySet()</code>.stream().map()  -&gt;  it.getKey + it.getValue</h5>
+
+<ul>
+  <li>stream상 1개 값이 key, value를 다 가지고 있으며, <code class="language-plaintext highlighter-rouge">map을 따로 호출할 필요 없이 뽑아서 쓰</code>면 된다.
+    <ul>
+      <li>cf) Long타입의 누적은 <code class="language-plaintext highlighter-rouge">.reduce( 0L</code> 로 시작하고, 집계함수자리에는 <code class="language-plaintext highlighter-rouge">Long::xxx)</code>를 넣어주면 된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="nc">Long</span> <span class="nf">calculateTotalReward</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">rankResults</span><span class="o">.</span><span class="na">entrySet</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">result</span> <span class="o">-&gt;</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">calculateMoney</span><span class="o">(</span><span class="n">result</span><span class="o">.</span><span class="na">getKey</span><span class="o">(),</span> <span class="n">result</span><span class="o">.</span><span class="na">getValue</span><span class="o">()))</span>
+        <span class="o">.</span><span class="na">reduce</span><span class="o">(</span><span class="mi">0L</span><span class="o">,</span> <span class="nl">Long:</span><span class="o">:</span><span class="n">sum</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">mapToType한 뒤, 정해진 .집계메서드()</code> 쓰는게 젤 편하다. 어느 방식이든 default값은 0으로 쳐준다.</strong></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//요렇게도 사용할 수 있을 것 같네요🙂</span>
+
+<span class="kd">public</span> <span class="kt">double</span> <span class="nf">getRateOfProfit</span><span class="o">(</span><span class="nc">Money</span> <span class="n">money</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">long</span> <span class="n">totalMoney</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="na">entrySet</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">mapToLong</span><span class="o">(</span><span class="n">entry</span> <span class="o">-&gt;</span> <span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">().</span><span class="na">multiply</span><span class="o">(</span><span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">()))</span>
+                <span class="o">.</span><span class="na">sum</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">money</span><span class="o">.</span><span class="na">getRateOfProfit</span><span class="o">(</span><span class="n">totalMoney</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="map을-돌며-누적하기">
+<a class="anchor" href="#map%EC%9D%84-%EB%8F%8C%EB%A9%B0-%EB%88%84%EC%A0%81%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>map을 돌며, 누적하기</h4>
+
+<h5 id="int-maptoint---sum-">
+<a class="anchor" href="#int-maptoint---sum-" aria-hidden="true"><span class="octicon octicon-link"></span></a>int (mapToInt -&gt; sum() )</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">value</span><span class="o">.</span><span class="na">entrySet</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">mapToInt</span><span class="o">(</span><span class="nl">Entry:</span><span class="o">:</span><span class="n">getValue</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">sum</span><span class="o">()</span> <span class="o">*</span> <span class="nc">Lotto</span><span class="o">.</span><span class="na">LOTTO_PURCHASE_MONEY</span><span class="o">;</span>
+</code></pre></div></div>
+
+<h5 id="long-with-enum--map---reduce-0l---">
+<a class="anchor" href="#long-with-enum--map---reduce-0l---" aria-hidden="true"><span class="octicon octicon-link"></span></a>long with Enum ( map -&gt; reduce( 0L , ) )</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rankResults</span><span class="o">.</span><span class="na">entrySet</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">result</span> <span class="o">-&gt;</span> <span class="nc">Rank</span><span class="o">.</span><span class="na">calculateMoney</span><span class="o">(</span><span class="n">result</span><span class="o">.</span><span class="na">getKey</span><span class="o">(),</span> <span class="n">result</span><span class="o">.</span><span class="na">getValue</span><span class="o">()))</span>            
+    <span class="o">.</span><span class="na">reduce</span><span class="o">(</span><span class="mi">0L</span><span class="o">,</span> <span class="nl">Long:</span><span class="o">:</span><span class="n">sum</span><span class="o">);</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Rank</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">calculateMoney</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Rank</span> <span class="n">currentRank</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">count</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">currentRank</span><span class="o">.</span><span class="na">reward</span> <span class="o">*</span> <span class="n">count</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="누적-계산-int-vs-long-">
+<a class="anchor" href="#%EB%88%84%EC%A0%81-%EA%B3%84%EC%82%B0-int-vs-long-" aria-hidden="true"><span class="octicon octicon-link"></span></a>누적 계산( int vs Long )</h4>
+
+<h5 id="추천-누적-연산이-미리-정해진-계산-maptotype-------sum">
+<a class="anchor" href="#%EC%B6%94%EC%B2%9C-%EB%88%84%EC%A0%81-%EC%97%B0%EC%82%B0%EC%9D%B4-%EB%AF%B8%EB%A6%AC-%EC%A0%95%ED%95%B4%EC%A7%84-%EA%B3%84%EC%82%B0-maptotype-------sum" aria-hidden="true"><span class="octicon octicon-link"></span></a>[추천] 누적 연산이 미리 정해진 계산: <code class="language-plaintext highlighter-rouge">mapToType( -&gt; )</code>  -&gt; <code class="language-plaintext highlighter-rouge">.sum()</code>
+</h5>
+
+<ol>
+  <li>
+    <p><strong>최종결과가 <code class="language-plaintext highlighter-rouge">21억이 넘냐 안넘냐</code>에</strong> 따라서 애초에 <strong>자료형</strong>을 <strong><code class="language-plaintext highlighter-rouge">long</code>으로 선언</strong>한다.</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">enum</span> <span class="nc">Rank</span> <span class="o">{</span>
+    
+     <span class="no">FIRST</span><span class="o">(</span><span class="mi">2_000_000_000</span><span class="o">,</span> <span class="mi">6</span><span class="o">),</span>
+     <span class="no">SECOND</span><span class="o">(</span><span class="mi">30_000_000</span><span class="o">,</span> <span class="mi">5</span><span class="o">),</span>
+     <span class="no">THIRD</span><span class="o">(</span><span class="mi">1_500_000</span><span class="o">,</span> <span class="mi">5</span><span class="o">),</span>
+     <span class="no">FOURTH</span><span class="o">(</span><span class="mi">50_000</span><span class="o">,</span> <span class="mi">4</span><span class="o">),</span>
+     <span class="no">FIFTH</span><span class="o">(</span><span class="mi">5_000</span><span class="o">,</span> <span class="mi">3</span><span class="o">),</span>
+     <span class="no">NOT_THING</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">),</span>
+     <span class="o">;</span>
+    
+     <span class="kd">private</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">reward</span><span class="o">;</span>
+     <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">hitCounts</span><span class="o">;</span>
+    
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p>나는 단일 값이 21억이 안넘어서 default int로 선언했지만, <strong>누적합에서 21억 넘을 수 있으니 미리 자료형을 <code class="language-plaintext highlighter-rouge">long</code>으로 해주자</strong></p>
+
+        <ul>
+          <li>
+            <p>내가 최종결과 간과 한 것</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220310174619640.png" alt="image-20220310174619640"></p>
+          </li>
+          <li>
+            <p>최종결과가 21억이 넘을 가능성 -&gt; <strong>미리 long타입으로 선언해준 경우</strong>
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220310174648430.png" alt="image-20220310174648430"></p>
+          </li>
+          <li>
+            <p>참고) long타입 표기를 위해 <code class="language-plaintext highlighter-rouge">L</code>붙일 경우 <code class="language-plaintext highlighter-rouge">_</code> 끊음 표시 못넣는다.
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220310174755764.png" alt="image-20220310174755764">
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220310174808334.png" alt="image-20220310174808334"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <ol>
+      <li>
+        <p>메서드 returntype도 long으로 자동으로 된다.</p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kt">long</span> <span class="nf">getPrize</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Integer</span> <span class="n">count</span><span class="o">)</span> <span class="o">{</span>
+     <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">prize</span> <span class="o">*</span> <span class="n">count</span><span class="o">;</span>
+ <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>계산도 default값 생각하지말고 누적계산을 정해진 <code class="language-plaintext highlighter-rouge">.sum()</code>로 시키면 된다.</p>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kt">long</span> <span class="nf">getPrize</span><span class="o">()</span> <span class="o">{</span>
+     <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="na">entrySet</span><span class="o">()</span>
+         <span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+         <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">result</span> <span class="o">-&gt;</span> <span class="o">!</span><span class="n">result</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="nc">Rank</span><span class="o">.</span><span class="na">OUT</span><span class="o">))</span>
+         <span class="o">.</span><span class="na">mapToLong</span><span class="o">(</span><span class="n">it</span> <span class="o">-&gt;</span> <span class="n">it</span><span class="o">.</span><span class="na">getKey</span><span class="o">().</span><span class="na">getPrize</span><span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">getValue</span><span class="o">()))</span>
+         <span class="o">.</span><span class="na">sum</span><span class="o">();</span>
+     <span class="c1">//.reduce(0, Integer::sum);</span>
+ <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<h5 id="누적-연산을-커스텀으로-할-경우-map----reduce-default값--longsum---불편">
+<a class="anchor" href="#%EB%88%84%EC%A0%81-%EC%97%B0%EC%82%B0%EC%9D%84-%EC%BB%A4%EC%8A%A4%ED%85%80%EC%9C%BC%EB%A1%9C-%ED%95%A0-%EA%B2%BD%EC%9A%B0-map----reduce-default%EA%B0%92--longsum---%EB%B6%88%ED%8E%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>누적 연산을 커스텀으로 할 경우, <code class="language-plaintext highlighter-rouge">map( -&gt; ) .reduce( default값 , Long::sum)</code> -&gt; 불편</h5>
+
+<ol>
+  <li>
+    <p>변환되는 타입이 표기는 안되지만, <strong>type이 맞지 않는 경우, 알아서 <code class="language-plaintext highlighter-rouge">누적연산 메서드 자리에서 에러</code></strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220310175244521.png" alt="image-20220310175244521">
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220310175258166.png" alt="image-20220310175258166"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220310175303609.png" alt="image-20220310175303609"></p>
+  </li>
+</ol>
+
+<h5 id="비추-for-누적--매번-long-형변환하여-누적">
+<a class="anchor" href="#%EB%B9%84%EC%B6%94-for-%EB%88%84%EC%A0%81--%EB%A7%A4%EB%B2%88-long-%ED%98%95%EB%B3%80%ED%99%98%ED%95%98%EC%97%AC-%EB%88%84%EC%A0%81" aria-hidden="true"><span class="octicon octicon-link"></span></a>[비추] for 누적 + 매번 long 형변환하여 +=누적</h5>
+
+<ul>
+  <li>그냥 자료형 자체를 1개를 long으로 선언했어도 됨.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">long</span> <span class="nf">getPrize</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kt">long</span> <span class="n">prize</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="nc">Rank</span> <span class="n">rank</span> <span class="o">:</span> <span class="n">value</span><span class="o">.</span><span class="na">keySet</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">prize</span> <span class="o">+=</span> <span class="o">(</span><span class="kt">long</span><span class="o">)</span> <span class="n">rank</span><span class="o">.</span><span class="na">getPrize</span><span class="o">()</span> <span class="o">*</span> <span class="n">value</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">rank</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">prize</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="로또-1">
+<a class="anchor" href="#%EB%A1%9C%EB%98%90-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>로또</h3>
+
+<h4 id="누적될-값을-반환하는-메서드를-받아-가변변수-누적을-stream--map--sum으로-누적하기">
+<a class="anchor" href="#%EB%88%84%EC%A0%81%EB%90%A0-%EA%B0%92%EC%9D%84-%EB%B0%98%ED%99%98%ED%95%98%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EB%B0%9B%EC%95%84-%EA%B0%80%EB%B3%80%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81%EC%9D%84-stream--map--sum%EC%9C%BC%EB%A1%9C-%EB%88%84%EC%A0%81%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>[누적될 값을 반환하는 메서드]를 받아 가변변수 누적을 stream + map + sum으로 누적하기</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729170553637.png" alt="image-20220729170553637"></p>
+
+<ol>
+  <li>
+    <p><strong>외적으로 가변변수의 누적은 스트림으로 대체할 수 있다.</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>일단 누적될 로직은 리팩토링해서 1개의 메서드로 모은다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/6e67ff05-fca2-4df0-8483-9b963b678a4a.gif" alt="6e67ff05-fca2-4df0-8483-9b963b678a4a"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729171257386.png" alt="image-20220729171257386"></p>
+      </li>
+      <li>
+        <p>stream으로 가변변수에 <strong>값을 누적</strong>한다면</p>
+
+        <ul>
+          <li>원시값 누적이면 .reduce(0 , 연산람다식 )</li>
+          <li><strong>변환된 값 누적이면, mapToXXX( ) -&gt; .sum()을 때리면 된다.</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/a5c8fd28-0e8f-4b27-9c45-50e45d6414ce.gif" alt="a5c8fd28-0e8f-4b27-9c45-50e45d6414ce"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729174041392.png" alt="image-20220729174041392"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="체스">
+<a class="anchor" href="#%EC%B2%B4%EC%8A%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>체스</h3>
+
+<h4 id="enum에서-filter해당문자열-확인--orelsethrow로-enumof-input--검증포함해서-찾기">
+<a class="anchor" href="#enum%EC%97%90%EC%84%9C-filter%ED%95%B4%EB%8B%B9%EB%AC%B8%EC%9E%90%EC%97%B4-%ED%99%95%EC%9D%B8--orelsethrow%EB%A1%9C-enumof-input--%EA%B2%80%EC%A6%9D%ED%8F%AC%ED%95%A8%ED%95%B4%EC%84%9C-%EC%B0%BE%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>enum에서 filter(해당문자열 확인) + orElseThrow로 enum.of( input ) 검증포함해서 찾기</h4>
+
+<h5 id="문자열로-확인시-정규식다-equals인데-하나만-startswith---정규식-비교로-통일-이-필요하면-그것으로-filter">
+<a class="anchor" href="#%EB%AC%B8%EC%9E%90%EC%97%B4%EB%A1%9C-%ED%99%95%EC%9D%B8%EC%8B%9C-%EC%A0%95%EA%B7%9C%EC%8B%9D%EB%8B%A4-equals%EC%9D%B8%EB%8D%B0-%ED%95%98%EB%82%98%EB%A7%8C-startswith---%EC%A0%95%EA%B7%9C%EC%8B%9D-%EB%B9%84%EA%B5%90%EB%A1%9C-%ED%86%B5%EC%9D%BC-%EC%9D%B4-%ED%95%84%EC%9A%94%ED%95%98%EB%A9%B4-%EA%B7%B8%EA%B2%83%EC%9C%BC%EB%A1%9C-filter" aria-hidden="true"><span class="octicon octicon-link"></span></a>문자열로 확인시 정규식(다 equals인데 하나만 startsWith -&gt; 정규식 비교로 통일) 이 필요하면 그것으로 filter</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220330111558955.png" alt="image-20220330111558955"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Command</span> <span class="nf">of</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">inputCommand</span><span class="o">,</span> <span class="nc">ChessGame</span> <span class="n">chessGame</span><span class="o">)</span> <span class="o">{</span>
+<span class="c1">// web등으로 갈 것 같으면, inputView대신 빈값 null검사를 여기로</span>
+    
+<span class="c1">//    if (inputCommand.startsWith(MOVE.value)) {</span>
+<span class="c1">//        return new Move(chessGame);</span>
+<span class="c1">//    }</span>
+    <span class="k">return</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="nc">ChessGameCommand</span><span class="o">.</span><span class="na">values</span><span class="o">())</span>
+<span class="c1">//        .filter(it -&gt; it.value.equals(inputCommand))</span>
+        <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">it</span> <span class="o">-&gt;</span> <span class="nc">Pattern</span><span class="o">.</span><span class="na">matches</span><span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">value</span><span class="o">,</span> <span class="n">inputCommand</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">command</span> <span class="o">-&gt;</span> <span class="n">command</span><span class="o">.</span><span class="na">function</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">chessGame</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">findFirst</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">orElseThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">IllegalArgumentException</span><span class="o">(</span><span class="no">WRONG_COMMAND_MESSAGE</span><span class="o">));</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<h5 id="일반-오리">
+<a class="anchor" href="#%EC%9D%BC%EB%B0%98-%EC%98%A4%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>일반 오리</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220330111748439.png" alt="image-20220330111748439"></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">Command</span> <span class="o">{</span>
+
+    <span class="no">START</span><span class="o">(</span><span class="nc">Pattern</span><span class="o">.</span><span class="na">compile</span><span class="o">(</span><span class="s">"start"</span><span class="o">)),</span>
+    <span class="no">MOVE</span><span class="o">(</span><span class="nc">Pattern</span><span class="o">.</span><span class="na">compile</span><span class="o">(</span><span class="s">"move [a-h][1-8] [a-h][1-8]"</span><span class="o">)),</span>
+    <span class="no">STATUS</span><span class="o">(</span><span class="nc">Pattern</span><span class="o">.</span><span class="na">compile</span><span class="o">(</span><span class="s">"status"</span><span class="o">)),</span>
+    <span class="no">END</span><span class="o">(</span><span class="nc">Pattern</span><span class="o">.</span><span class="na">compile</span><span class="o">(</span><span class="s">"end"</span><span class="o">)),</span>
+    <span class="o">;</span>
+
+    <span class="nc">Command</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Pattern</span> <span class="n">commandPattern</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">commandPattern</span> <span class="o">=</span> <span class="n">commandPattern</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Command</span> <span class="nf">toCommand</span><span class="o">(</span><span class="nc">String</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Objects</span><span class="o">.</span><span class="na">requireNonNull</span><span class="o">(</span><span class="n">input</span><span class="o">,</span> <span class="s">"command는 null이 들어올 수 없습니다."</span><span class="o">);</span>
+        <span class="k">return</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">values</span><span class="o">())</span>
+                <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">command</span> <span class="o">-&gt;</span> <span class="n">isMatchPattern</span><span class="o">(</span><span class="n">command</span><span class="o">,</span> <span class="n">input</span><span class="o">))</span>
+                <span class="o">.</span><span class="na">findAny</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">orElseThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">IllegalArgumentException</span><span class="o">(</span><span class="s">"올바른 명령어가 아닙니다."</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">isMatchPattern</span><span class="o">(</span><span class="nc">Command</span> <span class="n">command</span><span class="o">,</span> <span class="nc">String</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">command</span><span class="o">.</span><span class="na">commandPattern</span><span class="o">.</span><span class="na">matcher</span><span class="o">(</span><span class="n">input</span><span class="o">).</span><span class="na">find</span><span class="o">();</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="문자열-split된-것을-skip으로-처리">
+<a class="anchor" href="#%EB%AC%B8%EC%9E%90%EC%97%B4-split%EB%90%9C-%EA%B2%83%EC%9D%84-skip%EC%9C%BC%EB%A1%9C-%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>문자열 split된 것을 skip으로 처리</h4>
+
+<ul>
+  <li>
+    <p>없었다면, 개별 substring했어야함</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>      <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Positions</span> <span class="nf">from</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">command</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="k">new</span> <span class="nf">Positions</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">command</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="no">SPLIT_DELIMITER</span><span class="o">))</span>
+              <span class="o">.</span><span class="na">skip</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="c1">// [move a2 a4]에서 -&gt; [a2, a4]만 추출</span>
+              <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">Position:</span><span class="o">:</span><span class="n">from</span><span class="o">)</span>
+              <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">()));</span>
+      <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="nonematch-allmatch---다모았는데-특정조건은-하나도-없어야한다---다모았는데-모두-만족해야한다-or-배반조건으로서-둘중에-한쪽만-특정조건만-존재해야한다">
+<a class="anchor" href="#nonematch-allmatch---%EB%8B%A4%EB%AA%A8%EC%95%98%EB%8A%94%EB%8D%B0-%ED%8A%B9%EC%A0%95%EC%A1%B0%EA%B1%B4%EC%9D%80-%ED%95%98%EB%82%98%EB%8F%84-%EC%97%86%EC%96%B4%EC%95%BC%ED%95%9C%EB%8B%A4---%EB%8B%A4%EB%AA%A8%EC%95%98%EB%8A%94%EB%8D%B0-%EB%AA%A8%EB%91%90-%EB%A7%8C%EC%A1%B1%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4-or-%EB%B0%B0%EB%B0%98%EC%A1%B0%EA%B1%B4%EC%9C%BC%EB%A1%9C%EC%84%9C-%EB%91%98%EC%A4%91%EC%97%90-%ED%95%9C%EC%AA%BD%EB%A7%8C-%ED%8A%B9%EC%A0%95%EC%A1%B0%EA%B1%B4%EB%A7%8C-%EC%A1%B4%EC%9E%AC%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>noneMatch/ allMatch -&gt; (다모았는데) 특정조건은 하나도 없어야한다 /  (다모았는데) 모두 만족해야한다. or [배반조건으로서 둘중에 한쪽만] 특정조건만 존재해야한다.</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// king들을 다 모았는데, 특정조건 (black인놈은) 하나도 없어야한다</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasBlackKingCaptured</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nf">collectKing</span><span class="o">().</span><span class="na">stream</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">noneMatch</span><span class="o">(</span><span class="nl">Piece:</span><span class="o">:</span><span class="n">isBlack</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// king들을 다 모았는데, white는 없어야한다 -&gt; 둘중에 black만 존재해야한다</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasWhiteKingCaptured</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nf">collectKing</span><span class="o">().</span><span class="na">stream</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">allMatch</span><span class="o">(</span><span class="nl">Piece:</span><span class="o">:</span><span class="n">isBlack</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="지하철-경로">
+<a class="anchor" href="#%EC%A7%80%ED%95%98%EC%B2%A0-%EA%B2%BD%EB%A1%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>지하철 경로</h3>
+
+<h4 id="groupingby로-일급컬렉션을-하위-객체-필드로-가지는-도메인의-findall-처리하기">
+<a class="anchor" href="#groupingby%EB%A1%9C-%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98%EC%9D%84-%ED%95%98%EC%9C%84-%EA%B0%9D%EC%B2%B4-%ED%95%84%EB%93%9C%EB%A1%9C-%EA%B0%80%EC%A7%80%EB%8A%94-%EB%8F%84%EB%A9%94%EC%9D%B8%EC%9D%98-findall-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>groupingBy로 일급컬렉션을 하위 객체 필드로 가지는 도메인의 findAll() 처리하기</h4>
+
+<ul>
+  <li>
+    <p>상황</p>
+
+    <ul>
+      <li>
+        <p>Line 도메인에 response용 하위 도메인 Sections를 sql join으로 붙일 경우</p>
+      </li>
+      <li>
+        <p>단건 조회(findById)임에도, Line(pk) &lt;—left join— Section(fk)시 line에 대해서는 1xm개의 데이터가 생긴다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220530221725105.png" alt="image-20220530221725105"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>해결</p>
+
+    <ol>
+      <li>
+        <p>sql join으로 line의 단건 조회 <code class="language-plaintext highlighter-rouge">findById</code>의 select절에 section정보를 붙여넣는다.
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220530221924421.png" alt="image-20220530221924421"></p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">queryForList</code>를 통해 <strong>단건 조회임에도 여러개 생기는 rows들을 Map으로 반환</strong>받고 난 뒤</p>
+        <ol>
+          <li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/mission/stream/tdd/2022/06/29/stream_%EB%AA%A8%EC%9D%8C.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

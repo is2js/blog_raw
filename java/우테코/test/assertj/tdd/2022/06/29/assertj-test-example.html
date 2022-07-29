@@ -4,20 +4,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>TEST) Assertj 및 @annotation 모음 | 돌범텤놑</title>
+<title>Assertj 및 @annotation 모음 | 돌범텤놑</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="TEST) Assertj 및 @annotation 모음" />
+<meta property="og:title" content="Assertj 및 @annotation 모음" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="assertj시리즈와 @어노테이션들(Assertion)" />
 <meta property="og:description" content="assertj시리즈와 @어노테이션들(Assertion)" />
 <link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/test/assertj/tdd/2022/06/29/assertj-test-example.html" />
 <meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/test/assertj/tdd/2022/06/29/assertj-test-example.html" />
 <meta property="og:site_name" content="돌범텤놑" />
-<meta property="og:image" content="blog.chojaeseong.com/images/posts/wootech.png" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-06-29T00:00:00-05:00" />
 <script type="application/ld+json">
-{"datePublished":"2022-06-29T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/test/assertj/tdd/2022/06/29/assertj-test-example.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/wootech.png","headline":"TEST) Assertj 및 @annotation 모음","dateModified":"2022-06-29T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/test/assertj/tdd/2022/06/29/assertj-test-example.html"},"description":"assertj시리즈와 @어노테이션들(Assertion)","@context":"https://schema.org"}</script>
+{"datePublished":"2022-06-29T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/test/assertj/tdd/2022/06/29/assertj-test-example.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"Assertj 및 @annotation 모음","dateModified":"2022-06-29T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/test/assertj/tdd/2022/06/29/assertj-test-example.html"},"description":"assertj시리즈와 @어노테이션들(Assertion)","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <!-- 폰트추가를 위한 link태그 삽입 -->
   <!-- 폰트1:  기본 spoqa 웹폰트 -->
@@ -96,13 +96,13 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">TEST) Assertj 및 @annotation 모음</h1><p class="page-description">assertj시리즈와 @어노테이션들(Assertion)</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-06-29T00:00:00-05:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">Assertj 및 @annotation 모음</h1><p class="page-description">assertj시리즈와 @어노테이션들(Assertion)</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-06-29T00:00:00-05:00" itemprop="datePublished">
         Jun 29, 2022
       </time>
        • <span class="read-time" title="Estimated read time">
     
     
-      17 min read
+      18 min read
     
 </span></p>
 
@@ -289,37 +289,99 @@ window.onload = wrap_img;
 <a class="anchor" href="#live-template" aria-hidden="true"><span class="octicon octicon-link"></span></a>Live template</h2>
   </li>
   <li>
-    <p><code class="language-plaintext highlighter-rouge">asall</code></p>
-
+<code class="language-plaintext highlighter-rouge">@Test</code> 대신 <code class="language-plaintext highlighter-rouge">@ParameterizedTest</code> for 여러case 를 쓰기 위해서 아래 의존성을 추가해야한다.
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">// Assertions</span>
+  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">:</span><span class="n">assertj</span><span class="o">-</span><span class="nl">core:</span><span class="mf">3.22</span><span class="o">.</span><span class="mi">0</span><span class="err">'</span>
+  <span class="n">testImplementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">jupiter</span><span class="o">:</span><span class="n">junit</span><span class="o">-</span><span class="n">jupiter</span><span class="o">-</span><span class="nl">params:</span><span class="mf">5.4</span><span class="o">.</span><span class="mi">2</span><span class="err">'</span> 
+</code></pre></div>    </div>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">as+all</code>
     <div class="language-java highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>  <span class="n">assertAll</span><span class="o">(</span>
-      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">),</span>
-      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">().</span><span class="na">hasSize</span><span class="o">()</span>
+      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected$END</span><span class="err">$</span><span class="o">),</span>
+      <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">hasSize</span><span class="o">()</span>
   <span class="o">);</span>
 </code></pre></div>    </div>
   </li>
   <li>
-    <p><code class="language-plaintext highlighter-rouge">asnotthr</code></p>
-
+<code class="language-plaintext highlighter-rouge">as+that</code>
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">(</span><span class="n">actaul</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected$END</span><span class="err">$</span><span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">as+notthr</code>
     <div class="language-java highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertDoesNotThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">$WHEN</span><span class="err">$</span><span class="o">)</span>
 </code></pre></div>    </div>
   </li>
   <li>
-    <p><code class="language-plaintext highlighter-rouge">asthat</code></p>
-
-    <div class="language-java highlighter-rouge">
-<div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">);</span>
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p><code class="language-plaintext highlighter-rouge">asthr</code></p>
-
+<code class="language-plaintext highlighter-rouge">as+thr</code>
     <div class="language-java highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>  <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertThatThrownBy</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">$WHEN</span><span class="err">$</span><span class="o">)</span>
       <span class="o">.</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="n">$EXCEPTION</span><span class="err">$</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
       <span class="o">.</span><span class="na">hasMessage</span><span class="o">(</span><span class="s">"$MESSAGE$"</span><span class="o">);</span>
 </code></pre></div>    </div>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">given</code> : <strong>option에 있는 <code class="language-plaintext highlighter-rouge">reformat ~ style</code> 체크할 것</strong>
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">//given</span>
+
+  <span class="c1">//when</span>
+  <span class="n">$END</span><span class="err">$</span>
+
+  <span class="c1">//then</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">methodSource</code>: <strong>option에 있는 <code class="language-plaintext highlighter-rouge">reformat ~ style</code> 체크할 것</strong>
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">return</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+          <span class="nc">Arguments</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">$END</span><span class="err">$</span><span class="o">),</span>
+          <span class="nc">Arguments</span><span class="o">.</span><span class="na">of</span><span class="o">()</span>
+      <span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">dynamicTest</code>: <a href="https://blog.kingbbode.com/52?category=737337">예시 블로그</a>
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"큰테스트이름"</span><span class="o">)</span>
+  <span class="nd">@TestFactory</span>
+  <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">DynamicTest</span><span class="o">&gt;</span> <span class="nf">collectionsOfDynamicTest</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+              <span class="n">dynamicTest</span><span class="o">(</span><span class="s">"테스트케이스1"</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                  <span class="c1">// given</span>
+                    
+
+                  <span class="c1">// when</span>
+                  <span class="n">$END</span><span class="err">$</span>
+                    
+
+                  <span class="c1">// then</span>
+                  <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">);</span>
+              <span class="o">}),</span>
+
+              <span class="n">dynamicTest</span><span class="o">(</span><span class="s">"테스트케이스2"</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                  <span class="c1">// given</span>
+
+
+                  <span class="c1">// when</span>
+                    
+
+                  <span class="c1">// then</span>
+                  <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">);</span>
+              <span class="o">})</span>
+      <span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+    <ul>
+      <li>예시
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/20220728175610.png" alt="20220728175610">
+</li>
+    </ul>
   </li>
 </ul>
 

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>variant variable(가변 변수)와 loop 리팩토링 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="variant variable(가변 변수)와 loop 리팩토링" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="가변 변수를 누적하는 반복문 2case 리팩토링(미리 처리 + if)" />
+<meta property="og:description" content="가변 변수를 누적하는 반복문 2case 리팩토링(미리 처리 + if)" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/refactoring/variant/variable/loop/refactor/2022/07/29/%EA%B0%80%EB%B3%80-%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%82%B4%EB%B6%80-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/refactoring/variant/variable/loop/refactor/2022/07/29/%EA%B0%80%EB%B3%80-%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%82%B4%EB%B6%80-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-29T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-07-29T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/refactoring/variant/variable/loop/refactor/2022/07/29/%EA%B0%80%EB%B3%80-%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%82%B4%EB%B6%80-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"variant variable(가변 변수)와 loop 리팩토링","dateModified":"2022-07-29T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/refactoring/variant/variable/loop/refactor/2022/07/29/%EA%B0%80%EB%B3%80-%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%82%B4%EB%B6%80-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81.html"},"description":"가변 변수를 누적하는 반복문 2case 리팩토링(미리 처리 + if)","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">variant variable(가변 변수)와 loop 리팩토링</h1><p class="page-description">가변 변수를 누적하는 반복문 2case 리팩토링(미리 처리 + if)</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-29T00:00:00-05:00" itemprop="datePublished">
+        Jul 29, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#oop">oop</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#refactoring">refactoring</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#variant">variant</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#variable">variable</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#loop">loop</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#refactor">refactor</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#가변-변수-누적-반복문-미리처리--if문-리팩토링">가변 변수 누적 반복문 [미리처리 + if문] 리팩토링</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#01-가변변수-누적--반복문내-모든-요소가-매번-하는-일을-미리-처리">01 가변변수 누적 + 반복문내 모든 요소가 매번 하는 일을 미리 처리</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#가변변수-업데이트-이외에-반복문내-모든-요소에-적용할-게-있으면-미리-적용하고---밖에서-적용하게해서---반복문-및-메서드의-파라미터를-바꿔라">가변변수 업데이트 이외에 [반복문내 모든 요소에 적용]할 게 있으면, 미리 적용하고 -&gt; 밖에서 적용하게해서 -&gt; 반복문 및 메서드의 파라미터를 바꿔라</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#02-가변변수-누적--반복문--if의-처리">02 가변변수 누적 + 반복문 + if의 처리</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#for-문속-if는-추출해-depth-때문에-추출해야하는데-누적되는-값은-가변변수--업데이트-로직-포함된-로직이라면-가변변수를-return하니-추출로직에-가변변수-없이-순수-업데이트값만-return하도록변경하자">for 문속 if는 추출해 depth 때문에 추출해야하는데, 누적되는 값은 [가변변수 + 업데이트 로직] 포함된 로직이라면, 가변변수를 return하니, [추출로직에 가변변수 없이 순수 업데이트값만 return하도록]변경하자.</a></li>
+<li class="toc-entry toc-h4"><a href="#가변변수는-어차피-외부에서-업데이트되니-추출메서드내-가변변수는-밖으로-빼자">가변변수는 어차피 외부에서 업데이트되니, 추출메서드내 가변변수는 밖으로 빼자</a></li>
+<li class="toc-entry toc-h4"><a href="#가변변수-누적-업데이트시-추출된-메서드의-반환값이라면-maptoint-등으로-변환하여-sum때리면-된다">가변변수 누적 업데이트시 [추출된 메서드의 반환값]이라면, [mapToInt 등]으로 변환하여 .sum()때리면 된다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h2 id="가변-변수-누적-반복문-미리처리--if문-리팩토링">
+<a class="anchor" href="#%EA%B0%80%EB%B3%80-%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%AF%B8%EB%A6%AC%EC%B2%98%EB%A6%AC--if%EB%AC%B8-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81" aria-hidden="true"><span class="octicon octicon-link"></span></a>가변 변수 누적 반복문 [미리처리 + if문] 리팩토링</h2>
+
+<h3 id="01-가변변수-누적--반복문내-모든-요소가-매번-하는-일을-미리-처리">
+<a class="anchor" href="#01-%EA%B0%80%EB%B3%80%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81--%EB%B0%98%EB%B3%B5%EB%AC%B8%EB%82%B4-%EB%AA%A8%EB%93%A0-%EC%9A%94%EC%86%8C%EA%B0%80-%EB%A7%A4%EB%B2%88-%ED%95%98%EB%8A%94-%EC%9D%BC%EC%9D%84-%EB%AF%B8%EB%A6%AC-%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 가변변수 누적 + 반복문내 모든 요소가 매번 하는 일을 미리 처리</h3>
+
+<h4 id="가변변수-업데이트-이외에-반복문내-모든-요소에-적용할-게-있으면-미리-적용하고---밖에서-적용하게해서---반복문-및-메서드의-파라미터를-바꿔라">
+<a class="anchor" href="#%EA%B0%80%EB%B3%80%EB%B3%80%EC%88%98-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EC%9D%B4%EC%99%B8%EC%97%90-%EB%B0%98%EB%B3%B5%EB%AC%B8%EB%82%B4-%EB%AA%A8%EB%93%A0-%EC%9A%94%EC%86%8C%EC%97%90-%EC%A0%81%EC%9A%A9%ED%95%A0-%EA%B2%8C-%EC%9E%88%EC%9C%BC%EB%A9%B4-%EB%AF%B8%EB%A6%AC-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B3%A0---%EB%B0%96%EC%97%90%EC%84%9C-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B2%8C%ED%95%B4%EC%84%9C---%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%B0%8F-%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%98-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A5%BC-%EB%B0%94%EA%BF%94%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>가변변수 업데이트 이외에 [반복문내 모든 요소에 적용]할 게 있으면, 미리 적용하고 -&gt; 밖에서 적용하게해서 -&gt; 반복문 및 메서드의 파라미터를 바꿔라</h4>
+
+<ul>
+  <li>
+    <p><strong>누적 업데이트 하는 일과 vs 반환하는 일을 분리해야한다.</strong></p>
+  </li>
+  <li>
+    <p>기존
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729160356475.png" alt="image-20220729160356475"></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">convertAndSum</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">values</span><span class="o">){</span>
+        <span class="k">return</span> <span class="nf">sum</span><span class="o">(</span><span class="n">values</span><span class="o">);</span>
+    <span class="o">}</span>
+  
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">sum</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">values</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">value</span> <span class="o">:</span> <span class="n">values</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+        <span class="o">}</span>
+  
+        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>반복문내 모든 요소에 대해 <code class="language-plaintext highlighter-rouge">Integer.parseInt( )</code>를 해야한다면, <code class="language-plaintext highlighter-rouge">반복문 진입 전에 하고 -&gt;  반복문을 도는 파라미터를 미리적용한 결과값으로 변경</code>해야한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/e4b7fd30-c15b-40b8-aa4e-6f03713f97c3.gif" alt="e4b7fd30-c15b-40b8-aa4e-6f03713f97c3"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729160951043.png" alt="image-20220729160951043"></p>
+  </li>
+  <li>
+<strong>미리하는 작업은 <code class="language-plaintext highlighter-rouge">메서드 추출</code> -&gt; <code class="language-plaintext highlighter-rouge">파라미터 추출</code>하여, <code class="language-plaintext highlighter-rouge">밖에서 일을 마치고 오게 위임</code>한다</strong>
+    <ul>
+      <li>
+<strong>위쪽의 메서드의 결과물을 파라미터 추출하게 되면, 밖에서 일하게 하여 -&gt; 한번에 한 일만 하게 만들 수 있다.</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/ecceb4c5-2feb-4b30-bdb2-162100461600.gif" alt="ecceb4c5-2feb-4b30-bdb2-162100461600"><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729161124179.png" alt="image-20220729161124179">
+</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>가변컬렉션(method -&gt; add)의 convert나 가변변수의 누적(+=)은 stream으로 바꿀 수 있다.</strong></p>
+
+    <ul>
+      <li>
+        <p>가변 컬렉션을 convert후 add는 stream의 <strong>map -&gt; toCollect</strong>로 변경할 수 있음.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/a3c09a51-6354-4c0e-a478-86b7d93511be.gif" alt="a3c09a51-6354-4c0e-a478-86b7d93511be"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729161715568.png" alt="image-20220729161715568"></p>
+      </li>
+      <li>
+        <p>가변 변수의 누적계산은 <strong>.reduce( 기본값, 누적연산 메서드(람다식) )으로 대체할 수 있다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729162141416.png" alt="image-20220729162141416"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>최종</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729162222837.png" alt="image-20220729162222837"></p>
+  </li>
+</ol>
+
+<h3 id="02-가변변수-누적--반복문--if의-처리">
+<a class="anchor" href="#02-%EA%B0%80%EB%B3%80%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81--%EB%B0%98%EB%B3%B5%EB%AC%B8--if%EC%9D%98-%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 가변변수 누적 + 반복문 + if의 처리</h3>
+
+<h4 id="for-문속-if는-추출해-depth-때문에-추출해야하는데-누적되는-값은-가변변수--업데이트-로직-포함된-로직이라면-가변변수를-return하니-추출로직에-가변변수-없이-순수-업데이트값만-return하도록변경하자">
+<a class="anchor" href="#for-%EB%AC%B8%EC%86%8D-if%EB%8A%94-%EC%B6%94%EC%B6%9C%ED%95%B4-depth-%EB%95%8C%EB%AC%B8%EC%97%90-%EC%B6%94%EC%B6%9C%ED%95%B4%EC%95%BC%ED%95%98%EB%8A%94%EB%8D%B0-%EB%88%84%EC%A0%81%EB%90%98%EB%8A%94-%EA%B0%92%EC%9D%80-%EA%B0%80%EB%B3%80%EB%B3%80%EC%88%98--%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EB%A1%9C%EC%A7%81-%ED%8F%AC%ED%95%A8%EB%90%9C-%EB%A1%9C%EC%A7%81%EC%9D%B4%EB%9D%BC%EB%A9%B4-%EA%B0%80%EB%B3%80%EB%B3%80%EC%88%98%EB%A5%BC-return%ED%95%98%EB%8B%88-%EC%B6%94%EC%B6%9C%EB%A1%9C%EC%A7%81%EC%97%90-%EA%B0%80%EB%B3%80%EB%B3%80%EC%88%98-%EC%97%86%EC%9D%B4-%EC%88%9C%EC%88%98-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EA%B0%92%EB%A7%8C-return%ED%95%98%EB%8F%84%EB%A1%9D%EB%B3%80%EA%B2%BD%ED%95%98%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>for 문속 if는 추출해 depth 때문에 추출해야하는데, 누적되는 값은 [가변변수 + 업데이트 로직] 포함된 로직이라면, 가변변수를 return하니, [추출로직에 가변변수 없이 순수 업데이트값만 return하도록]변경하자.</h4>
+
+<h4 id="가변변수는-어차피-외부에서-업데이트되니-추출메서드내-가변변수는-밖으로-빼자">
+<a class="anchor" href="#%EA%B0%80%EB%B3%80%EB%B3%80%EC%88%98%EB%8A%94-%EC%96%B4%EC%B0%A8%ED%94%BC-%EC%99%B8%EB%B6%80%EC%97%90%EC%84%9C-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EB%90%98%EB%8B%88-%EC%B6%94%EC%B6%9C%EB%A9%94%EC%84%9C%EB%93%9C%EB%82%B4-%EA%B0%80%EB%B3%80%EB%B3%80%EC%88%98%EB%8A%94-%EB%B0%96%EC%9C%BC%EB%A1%9C-%EB%B9%BC%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>가변변수는 어차피 외부에서 업데이트되니, 추출메서드내 가변변수는 밖으로 빼자</h4>
+
+<ul>
+  <li>
+    <p>기존</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729163255763.png" alt="image-20220729163255763"></p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lotto</span> <span class="o">{</span>
+  
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">values</span><span class="o">;</span>
+  
+    <span class="kd">public</span> <span class="nf">Lotto</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span><span class="o">...</span> <span class="n">rawNumbers</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">(</span><span class="n">toLottoNumber</span><span class="o">(</span><span class="n">rawNumbers</span><span class="o">));</span>
+    <span class="o">}</span>
+  
+    <span class="kd">private</span> <span class="kd">static</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="nf">toLottoNumber</span><span class="o">(</span><span class="kd">final</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">rawNumbers</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">rawNumbers</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">mapToObj</span><span class="o">(</span><span class="nl">LottoNumber:</span><span class="o">:</span><span class="k">new</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+    <span class="o">}</span>
+  
+    <span class="kd">public</span> <span class="nf">Lotto</span><span class="o">(</span><span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">LottoNumber</span><span class="o">&gt;</span> <span class="n">values</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">values</span> <span class="o">=</span> <span class="n">values</span><span class="o">;</span>
+    <span class="o">}</span>
+  
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">calculateMatchCount</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Lotto</span> <span class="n">other</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">matchCount</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kd">final</span> <span class="nc">LottoNumber</span> <span class="n">lotto</span> <span class="o">:</span> <span class="n">values</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">other</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">lotto</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">matchCount</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">matchCount</span><span class="o">;</span>
+    <span class="o">}</span>
+  
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">contains</span><span class="o">(</span><span class="kd">final</span> <span class="nc">LottoNumber</span> <span class="n">lottoNumber</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">values</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">lottoNumber</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>반복문 내 if는 depth를 만드므로 <code class="language-plaintext highlighter-rouge">추출(타객체라면 위임)</code>해야한다.</strong></p>
+
+    <ul>
+      <li><strong>위임(추출)의 첫단추는 <code class="language-plaintext highlighter-rouge">메서드()호출부를 더 위쪽 지역변수로 빼서 1개의 외부 context(파라미터)</code>로 만들어야한다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/70b0aff7-70d5-4149-a287-5ec133e567cc.gif" alt="70b0aff7-70d5-4149-a287-5ec133e567cc"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729163619567.png" alt="image-20220729163619567"></p>
+  </li>
+  <li>
+    <p><strong>이 때, <code class="language-plaintext highlighter-rouge">return문 없는 로직인데 값을 반환</code>하도록 추출되었다면, <code class="language-plaintext highlighter-rouge">위쪽의 가변변수가 포함</code>된 것이다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729164106674.png" alt="image-20220729164106674"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729164124726.png" alt="image-20220729164124726"></p>
+  </li>
+  <li>
+    <p><strong>추출된 메서드에서 <code class="language-plaintext highlighter-rouge">가변변수를 받아 return업데이트된 가변변수</code>가 아니라 <code class="language-plaintext highlighter-rouge">업데이트는 외부에서하고, 내부에서는 업데이트에 필요한 값만 return</code>하도록 -&gt; <code class="language-plaintext highlighter-rouge">추출메서드 내부에서 가변변수를 삭제</code>해보자.</strong></p>
+
+    <ol>
+      <li>
+        <p><strong>if 만족시 업데이트이외에 <code class="language-plaintext highlighter-rouge">if 불만족시 기본값으로 업데이트하여 return을 생각</code>한다</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/6e293038-b7a2-4173-99ec-93b512a7f950.gif" alt="6e293038-b7a2-4173-99ec-93b512a7f950"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729170206588.png" alt="image-20220729170206588"></p>
+      </li>
+      <li>
+        <p><strong>추출한 가변변수를 <code class="language-plaintext highlighter-rouge">메서드 시그니쳐에서 삭제</code>하고 <code class="language-plaintext highlighter-rouge">업데이트된 가변변수 return</code>이 아닌 <code class="language-plaintext highlighter-rouge">업데이트할 값만 return</code>하도록 수정한다.</strong></p>
+
+        <ul>
+          <li><strong>외부에서 어차피 존재하는 가변변수를 <code class="language-plaintext highlighter-rouge">값만 받아 외부에서 가변변수 업데이트</code>하도록 변경한다</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/af3dd5e3-77ff-430e-8bab-d852dbcc3dbb.gif" alt="af3dd5e3-77ff-430e-8bab-d852dbcc3dbb"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729170519151.png" alt="image-20220729170519151"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729170553637.png" alt="image-20220729170553637"></p>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<h4 id="가변변수-누적-업데이트시-추출된-메서드의-반환값이라면-maptoint-등으로-변환하여-sum때리면-된다">
+<a class="anchor" href="#%EA%B0%80%EB%B3%80%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EC%8B%9C-%EC%B6%94%EC%B6%9C%EB%90%9C-%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%98-%EB%B0%98%ED%99%98%EA%B0%92%EC%9D%B4%EB%9D%BC%EB%A9%B4-maptoint-%EB%93%B1%EC%9C%BC%EB%A1%9C-%EB%B3%80%ED%99%98%ED%95%98%EC%97%AC-sum%EB%95%8C%EB%A6%AC%EB%A9%B4-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>가변변수 누적 업데이트시 [추출된 메서드의 반환값]이라면, [mapToInt 등]으로 변환하여 .sum()때리면 된다.</h4>
+
+<ol>
+  <li>
+    <p><strong>외적으로 가변변수의 누적은 스트림으로 대체할 수 있다.</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>일단 누적될 로직은 리팩토링해서 1개의 메서드로 모은다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/6e67ff05-fca2-4df0-8483-9b963b678a4a.gif" alt="6e67ff05-fca2-4df0-8483-9b963b678a4a"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729171257386.png" alt="image-20220729171257386"></p>
+      </li>
+      <li>
+        <p>stream으로 가변변수에 <strong>값을 누적</strong>한다면</p>
+
+        <ul>
+          <li>원시값 누적이면 .reduce(0 , 연산람다식 )</li>
+          <li><strong>변환된 값 누적이면, mapToXXX( ) -&gt; .sum()을 때리면 된다.</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/a5c8fd28-0e8f-4b27-9c45-50e45d6414ce.gif" alt="a5c8fd28-0e8f-4b27-9c45-50e45d6414ce"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729174041392.png" alt="image-20220729174041392"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/refactoring/variant/variable/loop/refactor/2022/07/29/%EA%B0%80%EB%B3%80-%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%82%B4%EB%B6%80-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

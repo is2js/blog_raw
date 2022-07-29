@@ -301,10 +301,51 @@ window.onload = wrap_img;
   <span class="c1">//then</span>
 </code></pre></div>    </div>
   </li>
-</ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">methodSource</code>: <strong>option에 있는 <code class="language-plaintext highlighter-rouge">reformat ~ style</code> 체크할 것</strong>
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">return</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+          <span class="nc">Arguments</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">$END</span><span class="err">$</span><span class="o">),</span>
+          <span class="nc">Arguments</span><span class="o">.</span><span class="na">of</span><span class="o">()</span>
+      <span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">dynamicTest</code>:
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"큰테스트이름"</span><span class="o">)</span>
+  <span class="nd">@TestFactory</span>
+  <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">DynamicTest</span><span class="o">&gt;</span> <span class="nf">collectionsOfDynamicTest</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+              <span class="n">dynamicTest</span><span class="o">(</span><span class="s">"테스트케이스1"</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                  <span class="c1">// given</span>
+                    
 
-<h3 id="루틴-설정1회성으로-보임">
+                  <span class="c1">// when</span>
+                  <span class="n">$END</span><span class="err">$</span>
+                    
+
+                  <span class="c1">// then</span>
+                  <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">);</span>
+              <span class="o">}),</span>
+
+              <span class="n">dynamicTest</span><span class="o">(</span><span class="s">"테스트케이스2"</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                  <span class="c1">// given</span>
+
+
+                  <span class="c1">// when</span>
+                    
+
+                  <span class="c1">// then</span>
+                  <span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">);</span>
+              <span class="o">})</span>
+      <span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+    <h3 id="루틴-설정1회성으로-보임">
 <a class="anchor" href="#%EB%A3%A8%ED%8B%B4-%EC%84%A4%EC%A0%951%ED%9A%8C%EC%84%B1%EC%9C%BC%EB%A1%9C-%EB%B3%B4%EC%9E%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>루틴 설정(1회성으로 보임)</h3>
+  </li>
+</ul>
 
 <h4 id="ends-with-a-line-break">
 <a class="anchor" href="#ends-with-a-line-break" aria-hidden="true"><span class="octicon octicon-link"></span></a>ends with a line break</h4>
