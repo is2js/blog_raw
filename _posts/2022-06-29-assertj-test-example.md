@@ -1,10 +1,10 @@
 ---
 toc: true
 layout: post
-title: TEST) Assertj 및 @annotation 모음
+title: Assertj 및 @annotation 모음
 description: assertj시리즈와 @어노테이션들(Assertion)
 categories: [java, 우테코, test, assertj, TDD]
-image: "images/posts/wootech.png"
+image: "images/posts/java.png"
 ---
 
 
@@ -27,37 +27,85 @@ image: "images/posts/wootech.png"
     ```
 ## Live template
 
-- `asall`
-
+- `@Test` 대신 `@ParameterizedTest` for 여러case 를 쓰기 위해서 아래 의존성을 추가해야한다.
     ```java
-    assertAll(
-        () -> assertThat(actual).isEqualTo(expected),
-        () -> assertThat().hasSize()
-    );
+    // Assertions
+    testImplementation 'org.assertj:assertj-core:3.22.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.4.2' 
     ```
 
-- `asnotthr`
-
+- `as+all`
+    ```java
+    assertAll(
+        () -> assertThat(actual).isEqualTo(expected$END$),
+        () -> assertThat(actual).hasSize()
+    );
+    ```
+- `as+that`
+    ```java
+    Assertions.assertThat(actaul).isEqualTo(expected$END$);
+    ```
+- `as+notthr`
     ```java
     Assertions.assertDoesNotThrow(() -> $WHEN$)
     ```
-
-- `asthat`
-
-    ```java
-    Assertions.assertThat(actual).isEqualTo(expected);
-    ```
-
-- `asthr`
-
+- `as+thr`
     ```java
     Assertions.assertThatThrownBy(() -> $WHEN$)
         .isInstanceOf($EXCEPTION$.class)
         .hasMessage("$MESSAGE$");
     ```
+- `given` : **option에 있는 `reformat ~ style` 체크할 것**
+    ```java
+    //given
 
-    
+    //when
+    $END$
 
+    //then
+    ```
+
+- `methodSource`: **option에 있는 `reformat ~ style` 체크할 것**
+    ```java
+    return Stream.of(
+            Arguments.of($END$),
+            Arguments.of()
+        );
+    ```
+
+- `dynamicTest`: [예시 블로그](https://blog.kingbbode.com/52?category=737337)
+    ```java
+    @DisplayName("큰테스트이름")
+    @TestFactory
+    Stream<DynamicTest> collectionsOfDynamicTest() {
+        return Stream.of(
+                dynamicTest("테스트케이스1", () -> {
+                    // given
+                    
+
+                    // when
+                    $END$
+                    
+
+                    // then
+                    assertThat(actual).isEqualTo(expected);
+                }),
+
+                dynamicTest("테스트케이스2", () -> {
+                    // given
+
+
+                    // when
+                    
+
+                    // then
+                    assertThat(actual).isEqualTo(expected);
+                })
+        );
+    }
+    ```
+    - 예시
+        ![20220728175610](https://raw.githubusercontent.com/is3js/screenshots/main/20220728175610.png)
 
 
 
