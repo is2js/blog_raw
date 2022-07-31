@@ -1157,6 +1157,17 @@ void Random_숫자범위_검사() {
 
 ### 로또
 
+#### .isSameAs : 캐싱된 객체는 식별자 감별 메서드로 확인한다.
+
+```java
+@Test
+void of_정적팩토리메서리를_캐싱된_객체를_생성한다() {
+    final LottoNumber actual = LottoNumber.of(5);
+    final LottoNumber expected = LottoNumber.of(5);
+
+    Assertions.assertThat(actual).isSameAs(expected);
+}
+```
 
 
 #### @MethodSource: 인자 list or 객체 or string으로 표현할 수 없는 인자 + expected 가변
