@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>CACHE 정해진 갯수의 인스턴스 캐싱 적용 정리 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="CACHE 정해진 갯수의 인스턴스 캐싱 적용 정리" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="로또를 통해 캐싱을 적용하는 방법 정리" />
+<meta property="og:description" content="로또를 통해 캐싱을 적용하는 방법 정리" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/lotto/cache/%EC%A0%95%EB%A6%AC/2022/07/31/%EC%BA%90%EC%8B%B1-%EC%A0%81%EC%9A%A9-%EB%B0%A9%EB%B2%95-%EC%A0%95%EB%A6%AC.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/lotto/cache/%EC%A0%95%EB%A6%AC/2022/07/31/%EC%BA%90%EC%8B%B1-%EC%A0%81%EC%9A%A9-%EB%B0%A9%EB%B2%95-%EC%A0%95%EB%A6%AC.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-31T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-07-31T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/lotto/cache/%EC%A0%95%EB%A6%AC/2022/07/31/%EC%BA%90%EC%8B%B1-%EC%A0%81%EC%9A%A9-%EB%B0%A9%EB%B2%95-%EC%A0%95%EB%A6%AC.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"CACHE 정해진 갯수의 인스턴스 캐싱 적용 정리","dateModified":"2022-07-31T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/lotto/cache/%EC%A0%95%EB%A6%AC/2022/07/31/%EC%BA%90%EC%8B%B1-%EC%A0%81%EC%9A%A9-%EB%B0%A9%EB%B2%95-%EC%A0%95%EB%A6%AC.html"},"description":"로또를 통해 캐싱을 적용하는 방법 정리","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">CACHE 정해진 갯수의 인스턴스 캐싱 적용 정리</h1><p class="page-description">로또를 통해 캐싱을 적용하는 방법 정리</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-31T00:00:00-05:00" itemprop="datePublished">
+        Jul 31, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      1 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#oop">oop</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#lotto">lotto</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#cache">cache</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#정리">정리</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#캐싱-방법-정리">캐싱 방법 정리</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#정팩매로-1개-input에-대한-캐싱객체-생성방법">정팩매로 1개 input에 대한 캐싱객체 생성방법</a></li>
+</ul>
+</li>
+</ul><h2 id="캐싱-방법-정리">
+<a class="anchor" href="#%EC%BA%90%EC%8B%B1-%EB%B0%A9%EB%B2%95-%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>캐싱 방법 정리</h2>
+
+<p>캐싱 도입 방법</p>
+
+<ul>
+  <li>정팩메가 필요하다</li>
+  <li>static컬렉션(hashMap) CACHE (기존 생성자파라미터를 key, 객체를value로 하는 Type)를 필드초기화하고</li>
+  <li>static정팩메에서 <code class="language-plaintext highlighter-rouge">if 없으면 생성해서 넣어주고 , 있으면 get</code>을 요청한다
+    <ul>
+      <li>computeIfAbsent(key, 가상인자람다식으로 value생성(객체생성))</li>
+    </ul>
+  </li>
+  <li><strong>미리 static블럭에서 static변수들(캐싱변수도)을 초기화해서 캐싱할 객체들을 미리 생성할 수 있음.</strong></li>
+  <li><strong>여러쓰레드에서 입력할 가능성이 있다면, ConcurrentHashMap으로 캐싱static 변수를 초기화한다.</strong></li>
+</ul>
+
+<h3 id="정팩매로-1개-input에-대한-캐싱객체-생성방법">
+<a class="anchor" href="#%EC%A0%95%ED%8C%A9%EB%A7%A4%EB%A1%9C-1%EA%B0%9C-input%EC%97%90-%EB%8C%80%ED%95%9C-%EC%BA%90%EC%8B%B1%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>정팩매로 1개 input에 대한 캐싱객체 생성방법</h3>
+
+<ol>
+  <li>
+    <p><strong>정적팩토리메서드로 class를 <code class="language-plaintext highlighter-rouge">객체찍는템플릿</code>에서 <code class="language-plaintext highlighter-rouge">능동적인 객체관리자</code>로 승격시킨다.</strong></p>
+
+    <ul>
+      <li>new 생성자 : <strong>100% 객체를 생성해야함(캐싱못함)</strong>
+</li>
+      <li>정펙매
+        <ul>
+          <li>캐싱(재사용) 가능해짐.ㅁ</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>인자의 갯수에 따라 .of or from으로 public static 메서드를 생성한다.</p>
+  </li>
+  <li>
+    <p><strong>기존 생성자와 동일한 형으로 key / 재사용할 객체형을 value로 해서 HashMap을 만든다. / 캐싱할 인스턴스 객체수를 알고 있다면 capacity를 저적어준다.</strong></p>
+
+    <ul>
+      <li>변수는 static변수로서 <strong>상수의 map으로서 jvm돌때 미리 생성된다.</strong>
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/fdf430f0-78d6-456b-8886-a66b363b0560.gif" alt="fdf430f0-78d6-456b-8886-a66b363b0560"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731113819787.png" alt="image-20220731113819787"></p>
+  </li>
+  <li>
+    <p><strong>캐싱의 핵심은, <code class="language-plaintext highlighter-rouge">존재하면 map에서 get</code>으로 꺼내고, <code class="language-plaintext highlighter-rouge">없으면 생성</code>이다</strong></p>
+
+    <ul>
+      <li><strong>map의 초기화도 미리 이루어진다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/96c640ce-9600-4c59-ba85-20f1efb9ea44.gif" alt="96c640ce-9600-4c59-ba85-20f1efb9ea44"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731114201232.png" alt="image-20220731114201232"></p>
+  </li>
+  <li>
+    <p><strong>없으면 key-value 넣어주기, 있으면 꺼내기는 <code class="language-plaintext highlighter-rouge">map.computeIfAbsent( key, 람다식으로 value생성식)</code>을 넣어주면 된다.</strong></p>
+
+    <ul>
+      <li>람다식은 가상인자로 작성해야해서, key값을 그대로 넣어주면 에러남.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/e487c03a-c2da-4ec3-953c-e059eca42fb2.gif" alt="e487c03a-c2da-4ec3-953c-e059eca42fb2"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731114834750.png" alt="image-20220731114834750"></p>
+  </li>
+  <li>
+    <p><strong>정적팩토리메서드가 완성되었으면, <code class="language-plaintext highlighter-rouge">기본생성자는 private으로 막아</code>두고 <code class="language-plaintext highlighter-rouge">각종 검증방법은 정팩메로 이동</code>시킨다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/c5e8e02d-0fa3-4695-a519-216388391380.gif" alt="c5e8e02d-0fa3-4695-a519-216388391380"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731115302033.png" alt="image-20220731115302033"></p>
+  </li>
+  <li>
+    <p><strong>기존 new때려서 생성한 객체들을 of로 다 수정해준다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731115746576.png" alt="image-20220731115746576"></p>
+  </li>
+  <li>
+    <p><strong>캐싱의 테스트는 식별자 일치를 확인하는 <code class="language-plaintext highlighter-rouge">.isSameAs</code>를 사용해서 테스트한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/a33cf917-9f91-4f90-9e2b-68e797d53184.gif" alt="a33cf917-9f91-4f90-9e2b-68e797d53184"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731115026661.png" alt="image-20220731115026661"></p>
+  </li>
+  <li>
+    <p><strong>여러 쓰레드에서 접근한다면, <code class="language-plaintext highlighter-rouge">미리 모두 static생성 + ConcurrentHashMap</code>으로 변경하고 getter만 하게 한다.</strong></p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">static 컬렉션 변수</code>의 요소들은 <code class="language-plaintext highlighter-rouge">staitc블록으로 요소들 미리 생성</code>하게 할 수있다.</strong></li>
+      <li>static블럭이 늘어나면, 해석하는데 힘이쓰여 좋지 않ㄴ다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/1acaf790-305c-4d20-a617-d25f7cc2352b.gif" alt="1acaf790-305c-4d20-a617-d25f7cc2352b"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731120759176.png" alt="image-20220731120759176"></p>
+  </li>
+</ol>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/lotto/cache/%EC%A0%95%EB%A6%AC/2022/07/31/%EC%BA%90%EC%8B%B1-%EC%A0%81%EC%9A%A9-%EB%B0%A9%EB%B2%95-%EC%A0%95%EB%A6%AC.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

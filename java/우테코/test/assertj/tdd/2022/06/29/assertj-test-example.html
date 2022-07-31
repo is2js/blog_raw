@@ -243,6 +243,7 @@ window.onload = wrap_img;
 </li>
 <li class="toc-entry toc-h3"><a href="#로또">로또</a>
 <ul>
+<li class="toc-entry toc-h4"><a href="#issameas--캐싱된-객체는-식별자-감별-메서드로-확인한다">.isSameAs : 캐싱된 객체는 식별자 감별 메서드로 확인한다.</a></li>
 <li class="toc-entry toc-h4"><a href="#methodsource-인자-list-or-객체-or-string으로-표현할-수-없는-인자--expected-가변">@MethodSource: 인자 list or 객체 or string으로 표현할 수 없는 인자 + expected 가변</a></li>
 </ul>
 </li>
@@ -1477,6 +1478,18 @@ window.onload = wrap_img;
 
 <h3 id="로또">
 <a class="anchor" href="#%EB%A1%9C%EB%98%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>로또</h3>
+
+<h4 id="issameas--캐싱된-객체는-식별자-감별-메서드로-확인한다">
+<a class="anchor" href="#issameas--%EC%BA%90%EC%8B%B1%EB%90%9C-%EA%B0%9D%EC%B2%B4%EB%8A%94-%EC%8B%9D%EB%B3%84%EC%9E%90-%EA%B0%90%EB%B3%84-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%ED%99%95%EC%9D%B8%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>.isSameAs : 캐싱된 객체는 식별자 감별 메서드로 확인한다.</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="n">of_정적팩토리메서리를_캐싱된_객체를_생성한다</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="nc">LottoNumber</span> <span class="n">actual</span> <span class="o">=</span> <span class="nc">LottoNumber</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
+    <span class="kd">final</span> <span class="nc">LottoNumber</span> <span class="n">expected</span> <span class="o">=</span> <span class="nc">LottoNumber</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
+
+    <span class="nc">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isSameAs</span><span class="o">(</span><span class="n">expected</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
 
 <h4 id="methodsource-인자-list-or-객체-or-string으로-표현할-수-없는-인자--expected-가변">
 <a class="anchor" href="#methodsource-%EC%9D%B8%EC%9E%90-list-or-%EA%B0%9D%EC%B2%B4-or-string%EC%9C%BC%EB%A1%9C-%ED%91%9C%ED%98%84%ED%95%A0-%EC%88%98-%EC%97%86%EB%8A%94-%EC%9D%B8%EC%9E%90--expected-%EA%B0%80%EB%B3%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>@MethodSource: 인자 list or 객체 or string으로 표현할 수 없는 인자 + expected 가변</h4>

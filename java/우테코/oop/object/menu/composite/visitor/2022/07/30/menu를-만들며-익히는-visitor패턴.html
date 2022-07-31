@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>menu를 만들며 익히는 composite, visitor패턴 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="menu를 만들며 익히는 composite, visitor패턴" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="menu를 composite객체로 만들고 동적트리순회, 출력은 visitor패턴" />
+<meta property="og:description" content="menu를 composite객체로 만들고 동적트리순회, 출력은 visitor패턴" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/menu/composite/visitor/2022/07/30/menu%EB%A5%BC-%EB%A7%8C%EB%93%A4%EB%A9%B0-%EC%9D%B5%ED%9E%88%EB%8A%94-visitor%ED%8C%A8%ED%84%B4.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/menu/composite/visitor/2022/07/30/menu%EB%A5%BC-%EB%A7%8C%EB%93%A4%EB%A9%B0-%EC%9D%B5%ED%9E%88%EB%8A%94-visitor%ED%8C%A8%ED%84%B4.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-30T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-07-30T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/menu/composite/visitor/2022/07/30/menu%EB%A5%BC-%EB%A7%8C%EB%93%A4%EB%A9%B0-%EC%9D%B5%ED%9E%88%EB%8A%94-visitor%ED%8C%A8%ED%84%B4.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"menu를 만들며 익히는 composite, visitor패턴","dateModified":"2022-07-30T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/menu/composite/visitor/2022/07/30/menu%EB%A5%BC-%EB%A7%8C%EB%93%A4%EB%A9%B0-%EC%9D%B5%ED%9E%88%EB%8A%94-visitor%ED%8C%A8%ED%84%B4.html"},"description":"menu를 composite객체로 만들고 동적트리순회, 출력은 visitor패턴","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">menu를 만들며 익히는 composite, visitor패턴</h1><p class="page-description">menu를 composite객체로 만들고 동적트리순회, 출력은 visitor패턴</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-30T00:00:00-05:00" itemprop="datePublished">
+        Jul 30, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      16 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#oop">oop</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#menu">menu</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#composite">composite</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#visitor">visitor</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#menu를-만들며-익히는-composite-visitor패턴">menu를 만들며 익히는 composite, visitor패턴</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#composite패턴을-적용한-메뉴폴더--compositemenu">Composite패턴을 적용한 메뉴+폴더 = CompositeMenu</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#01-단일-menu파일부터-만든다">01 단일 menu(파일)부터 만든다</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#필드초기화-필드-생성자초기화지만-상태가-변하는-not-final--setter필드">필드초기화 필드, 생성자초기화지만 상태가 변하는 not final + setter필드</a></li>
+<li class="toc-entry toc-h4"><a href="#boolean필드는-setter가-아닌-toggle로-상태변화한다">boolean필드는 setter가 아닌 toggle로 상태변화한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#생성자초기화--not-finalsetter조합은-반드시-setter메서드를-통해-생성자-할당코드를-대체한다">생성자초기화 + not final/setter조합은 반드시 setter메서드를 통해 생성자 할당코드를 대체한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#02-menu를-담을-menus폴더를-만든다">02 Menu를 담을 Menus(폴더)를 만든다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#폴더menus는-set으로-파일들을-관리하는일급컬렉션인데-이름-필드를-가진다">폴더menus는 Set으로 파일들을 관리하는일급컬렉션인데, 이름 필드를 가진다</a></li>
+<li class="toc-entry toc-h4"><a href="#폴더객체는-기본적으로-getchild-add--remove-기능을-가져야한다">폴더객체는 기본적으로 getChild+ add + remove 기능을 가져야한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#컬렉션필드의-setteraddremove는-crud에-포함되므로-boolean으로-반환해야한다">컬렉션필드의 setter(add)/remove는 CRUD에 포함되므로 boolean으로 반환해야한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#일급컬렉션폴더-add를-통해-관리되는-컬렉션-관리-단일객체-추가시--외부public생성한-것-받아add-vs-외부정보-받아-일급컬렉션폴더내부-생성해서add-할지-결정해야한다-컬렉션관리-단일객체의-public외부생성은-당연한-것이-아니다-외부new때리는-것은-최소화">일급컬렉션(폴더) add를 통해 관리되는 컬렉션 관리 단일객체 추가시  외부public생성한 것 받아add vs 외부정보 받아 일급컬렉션(폴더)내부 생성해서add 할지 결정해야한다. [컬렉션관리 단일객체의 public외부생성은 당연한 것이 아니다. 외부new때리는 것은 최소화]</a></li>
+<li class="toc-entry toc-h4"><a href="#일급컬렉션-remove는-add와-달리-이미-생성된-객체를-인자로-받아야한다-생성코드만-내부에-있지-객체자체는-public메서드를-가진-public클래스라서-외부에-공개조작가능한-객체이다">일급컬렉션 remove는 add와 달리, 이미 생성된 객체를 인자로 받아야한다. [생성코드만 내부에 있지, 객체자체는 public메서드를 가진 public클래스라서 외부에 공개/조작가능한 객체이다.]</a></li>
+<li class="toc-entry toc-h4"><a href="#폴더객체는-addremove외에-get컬렉션을-통해-외부에-공개하는-getter를-가지며-set컬렉션을-정렬가능한-list를-변환-공개해야한다-주의-컬렉션-자체는-무조건-사본으로-반환해야한다-생성자를-통한-얕은복사단일객체-조작가능는-사본생성-및-변환도-동시에-가능하다">폴더객체는 add/remove외에 get컬렉션()을 통해 외부에 공개하는 getter를 가지며, Set컬렉션을 정렬가능한 List를 변환 공개해야한다. 주의) 컬렉션 자체는 무조건 사본으로 반환해야한다. [생성자를 통한 얕은복사(단일객체 조작가능)]는 사본생성 및 변환도 동시에 가능하다.</a></li>
+<li class="toc-entry toc-h4"><a href="#제공기능에-제공방식정렬방식-지정를-원할-경우-파라미터로-정의해서-외부에서-선택하게-한다">제공기능에 제공방식(정렬방식 지정)를 원할 경우, 파라미터로 정의해서 외부에서 선택하게 한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#comparator같은-함수형인터페이스3가지-패턴-자체를-파라미터로-빼지-않는다-파라미터는-메세지로서-객체만-허용하므로-1-new-인터페이스를-통한-전략메서드-실시간-구현-익명클래스-인자---2-객체에-전략메서드-구현-후-가상인자와-람다식-인자로---3-추상체-정의후-구상체로-가상인자와-람다식으로-인자-정렬방식-지정은-상수개념의-값객체가-필요하니-enum을-도입하고-enum을-추상체로-본다">Comparator같은 함수형인터페이스(3가지 패턴) 자체를 파라미터로 빼지 않는다. 파라미터는 메세지로서 객체만 허용하므로 1) new 인터페이스()를 통한 전략메서드 실시간 구현 익명클래스 인자 -&gt; 2) 객체에 전략메서드 구현 후 가상인자와 람다식 인자로 -&gt; 3) 추상체 정의후 구상체로 가상인자와 람다식으로 인자. 정렬방식 지정은 상수개념의 값객체가 필요하니 enum을 도입하고, enum을 추상체로 본다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#블로그1-함수형인터페이스-정리">블로그1 함수형인터페이스 정리</a></li>
+<li class="toc-entry toc-h5"><a href="#함수형-인터페이스-파라미터---지연실행을-위해-전략객체가-아니더라도-전략메서드-내용구현한-객체메서드로-대체할-수-있다">함수형 인터페이스 파라미터 -&gt; 지연실행을 위해 전략객체가 아니더라도, 전략메서드 내용구현한 객체.메서드()로 대체할 수 있다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#enum은-enum필드를-확정된-인스턴스-그--아래로는-추상클래스로-보고-추상메서드로-정의하면-인스턴스enum필드들은-추상메서드를-익명클래스로서-구현할-수-있다">Enum은 enum필드를 확정된 인스턴스, 그  아래로는 추상클래스로 보고, 추상메서드로 정의하면, 인스턴스(enum필드)들은 추상메서드를 익명클래스로서 구현할 수 있다.</a></li>
+<li class="toc-entry toc-h4"><a href="#list의-정렬방식은-요소들의-필드들에-대해-x-2오름차순asc-내림차순desc-로-enum필드을-만든다">List의 정렬방식은 요소들의 필드들에 대해 X 2(오름차순ASC, 내림차순DESC) 로 enum필드을 만든다.</a></li>
+<li class="toc-entry toc-h4"><a href="#enum필드의-소괄호는-값메서드를-인스턴스내-필드로-매핑하여-생성자를-추가해야하지만-맨끝의-를-달아주는-순간-익명클래스로-인식되어-enum내부-추상클래스를-구현하도록-유도된다">enum필드의 소괄호()는 값/메서드를 인스턴스내 필드로 매핑하여 생성자를 추가해야하지만, 맨끝의 {}를 달아주는 순간 익명클래스로 인식되어, enum내부 추상클래스를 구현하도록 유도된다.</a></li>
+<li class="toc-entry toc-h4"><a href="#enum필드인스턴스마다-자신의-필드getter로-꺼내서-compareto시켜-정렬방식을-구현한다">enum필드(인스턴스)마다 자신의 필드getter로 꺼내서 compareTo시켜 정렬방식을 구현한다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#row--인스턴스-종류가-확정일-땐-enum으로-객체를-구현하자-n개이상-끝을-모르는-객체에-대해서만-class를-만들어야한다">row == 인스턴스 종류가 확정일 땐 enum으로 객체를 구현하자. n개이상 끝을 모르는 객체에 대해서만 class를 만들어야한다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#03-컴포지트패턴은-파일폴더를-합친-set컬렉션-데코객체라고-요약할-수-있다">03 컴포지트패턴은 파일+폴더를 합친, Set컬렉션 데코객체라고 요약할 수 있다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#컴포지트-패턴의-4가지-구성요소-파일operation--폴더addremovegetchild를-합쳐서-compositemenu에-한번에-구현한다">컴포지트 패턴의 4가지 구성요소 파일(operation) + 폴더(add/remove/getChild)를 합쳐서 CompositeMenu에 한번에 구현한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#menu정렬-enum과-새로운-compositemenu정렬-enum은-다른-것이다-compareab의-대상이-달라짐-새로-구현해야한다-enum은-제네릭이-안되므로-형이-달라져도-새롭게-구현해야한다">Menu정렬 enum과 새로운 CompositeMenu정렬 enum은 다른 것이다. compare(a,b)의 대상이 달라짐. 새로 구현해야한다. enum은 제네릭이 안되므로 형이 달라져도 새롭게 구현해야한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#컴포지트-객체는-자신자식들의-정보를-같이-반환해야하므로-출력사본-컴포지트객체report형이-새롭게-필요하다">컴포지트 객체는 자신+자식들의 정보를 같이 반환해야하므로 출력사본 컴포지트객체(Report)형이 새롭게 필요하다.</a></li>
+<li class="toc-entry toc-h4"><a href="#composite객체는-자식들을-add시-내부생성을-고민할-필요가-없다-폴더역할을-하는-이상-외부에서-root폴더는-무조건-생성되므로-composite객체는-외부생성이-풀린-객체이므로-add시-정보가-아닌-객체를-받는다">composite객체는 자식들을 add시 내부생성을 고민할 필요가 없다. 폴더역할을 하는 이상 외부에서 root폴더는 무조건 생성되므로 composite객체는 외부생성이 풀린 객체이므로 add시 정보가 아닌 객체를 받는다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#04-컴포지트-객체의-사용은-getter에-for자식들도-getter재귀호출로-동적트리순회하는-것이다-자식없으면-순회x---재귀호출x---종착역">04 컴포지트 객체의 사용은 getter에 for+자식들도 getter재귀호출로 동적트리순회하는 것이다. (자식없으면 순회x -&gt; 재귀호출x -&gt; 종착역)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#composite객체는-더이상-getchildgetlist가-아니라-getreport로-변경해야한다composite가-된-이상-자식들만-반환할-일은-없다">composite객체는 더이상 getChild(getList)가 아니라 getReport로 변경해야한다.(composite가 된 이상 자식들만 반환할 일은 없다)</a></li>
+<li class="toc-entry toc-h4"><a href="#원본-컴포지트객체compoisitemenu의-operation은-getter에서-1자신의-정보-이용--2-for문과-getter재귀호출로-동적트리순회하여-자식들-이용-것인데-여기선-getter내에서-출력사본을-만들-때-작동된다">원본 컴포지트객체(CompoisiteMenu)의 operation()은 getter에서 (1)자신의 정보 이용 + (2) for문과 getter재귀호출로 동적트리순회하여 자식들 이용 것인데, 여기선 getter내에서 출력사본을 만들 때 작동된다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#주의점-for내부에서-자식menu를--report로-변환-생성하여-addreport해줘야하는데--composite객체라면-자신이용this의-report생성이-이미-for내부-자식-재귀호출-전-로직에-명시되어있을-것이며-자식이-getter를-재귀호출하면-자식-자신에서-재귀호출전-로직이-자신에게도-적용될-것을-생각해서-자식들도-재귀호출해야한다">주의점) for내부에서 자식menu를  report로 변환 생성하여 addReport해줘야하는데,  composite객체라면 자신이용(this)의 report생성이 이미 for내부 자식 재귀호출 전 로직에 명시되어있을 것이며, 자식이 getter를 재귀호출하면, 자식 자신에서 재귀호출전 로직이 자신에게도 적용될 것을 생각해서 자식들도 재귀호출해야한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#역으로-for반복문-속에서-재귀호출되고-있다면-아-동적트리순회해서-자식들을-돌면서-자식입장에서도-재귀호출전의-로직이-똑같이-적용-되고-있구나-자식없으면-순회x---재귀x---종착역이구나">역으로 for반복문 속에서 재귀호출되고 있다면? “아~ 동적트리순회해서 자식들을 돌면서 자식입장에서도 재귀호출전의 로직이 똑같이 적용 되고 있구나~! 자식없으면 순회x -&gt; 재귀x -&gt; 종착역이구나.”</a></li>
+<li class="toc-entry toc-h5"><a href="#my-동적트리순회하는-for속-자식들을-변수1개로-생각할-때-1-자식들은--무조건-자식들-동적트리순회-로직을-가지는-operatin을-재귀호출해야만하며-2-재귀호출전까지의-로직이-자식에게도-반영될-것-생각-3-재귀호출-결과-자체를----종착역자식이-없어서-for걸리지-않고-결과값이-반환의-상황으로-가정하자">my) 동적트리순회하는 for속 자식들을 변수1개로 생각할 때, (1) 자식들은  무조건 자식들 동적트리순회 로직을 가지는 operatin()을 재귀호출해야만하며, (2) 재귀호출전까지의 로직이 자식에게도 반영될 것 생각 (3) 재귀호출() 결과 자체를  ==  종착역(자식이 없어서 for걸리지 않고, 결과값이 반환)의 상황으로 가정하자.파일이자&gt;</a></li>
+<li class="toc-entry toc-h5"><a href="#my-컴포짓객체는-자식들---for재귀로-동적순회---자신은-결과물-return---자식들-동적순회-재귀호출시-결과물-return하므로-자식들의-재귀호출도-자식자신의-결과물이-있으며-재귀호출전-자신로직이-반복된다">my) 컴포짓객체는 자식들 -&gt; for재귀로 동적순회 -&gt; 자신은 결과물 return -&gt; 자식들 동적순회 재귀호출시 결과물 return하므로, 자식들의 재귀호출도 자식자신의 결과물이 있으며, 재귀호출전 자신로직이 반복된다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#05-main-composite객체는-root부터-생성하여-첫번째-자식들은-add생성정보로-넣어주지만-자식의-자식은-getter정렬문제가-아니라-꺼내려면-set-list사본-반환로-자식들만-꺼낸-다음-처리해야하는-불편함을-가진다">05 [Main] Composite객체는 root부터 생성하여 첫번째 자식들은 add(생성정보)로 넣어주지만, 자식의 자식은… getter(정렬문제가 아니라 꺼내려면, set-&gt;list사본 반환)로 자식들만 꺼낸 다음, 처리해야하는 불편함을 가진다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#composite객체의-add시-내부생성---외부에서-생성후-조작된자식add된-객체를-받도록-메서드-오버로딩-메서드-추가후-중복코드-제거">composite객체의 add시 내부생성 -&gt; 외부에서 생성후 조작된(자식add된) 객체를 받도록 메서드 오버로딩 메서드 추가후 중복코드 제거</a></li>
+<li class="toc-entry toc-h4"><a href="#root의-자식들에-자식들이-추가될-것이라면-조작가능한-객체로-생성하되-가장-아래층부터-만들어-자식들-add해서-마지막에-root에-add하기">root의 자식들에 자식들이 추가될 것이라면, 조작가능한 객체로 생성하되 가장 아래층부터 만들어 자식들 add해서, 마지막에 root에 add하기</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#06-composite를-출력-하기-전-root만-출력사본-report를-만들어주면-된다-동적트리순회로-자식들을-다-report로-변환해서-넣어준다">06 Composite를 출력 하기 전, root만 출력사본 report를 만들어주면 된다. 동적트리순회로 자식들을 다 report로 변환해서 넣어준다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#createreport메서드는-자식들을-재귀로-알아서-변환하여-넣어주기-때문에-root만-호출하면-report가-완성된다">createReport메서드는 자식들을 재귀로 알아서 변환하여 넣어주기 때문에, root만 호출하면 report가 완성된다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#07-menurenderer-report를-출력할-방법이-없다--출력-역시-report를-자신출력---자식들-for재귀호출을-통한-출력-의-메서드를-동적트리순회를-돌아야-report하나하나-출력이-가능하다">07 [MenuRenderer] Report를 출력할 방법이 없다.  출력 역시 report를 [자신출력 -&gt; 자식들 for+재귀호출을 통한 출력] 의 메서드를 동적트리순회를 돌아야 (report하나하나) 출력이 가능하다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#출력을-담당하는-객체-menurender를-만들되-renderreport-호출시-composite---report-와-마찬가지로-report---renderer로-동적트리순회를-돌아야한다">출력을 담당하는 객체 MenuRender를 만들되, render(report) 호출시 Composite -&gt; report 와 마찬가지로, report -&gt; renderer로 동적트리순회를 돌아야한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#composite객체컬렉션필드-데코객체의-동적트리순회는-재귀함수를-정의하고-그-내부에서-1-자신이-할일-2-set이라면-정렬사본report는-생략-3--자신의-할일-끝난-상태에서-for-자식순회---내부에서-재귀호출로-자식들이-자신의-일-4-종결처리결과물을-반환한다면-return-자신이-할일-결과물">composite객체(컬렉션필드 데코객체)의 동적트리순회는 재귀함수를 정의하고, 그 내부에서 (1) 자신이 할일 (2) Set이라면 정렬+사본(report는 생략) (3)  자신의 할일 끝난 상태에서 for 자식순회 -&gt; 내부에서 재귀호출로 자식들이 자신의 일 (4) 종결처리(결과물을 반환한다면 return 자신이 할일 결과물)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#visitor패턴으로-구현하는-renderer메서드에-제어구조-소유">Visitor패턴으로 구현하는 Renderer(메서드에 제어구조 소유)</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#08-동적트리순회의-제어구조를-가진-메서드를-가진-class는-라이프싸이클을-타는-visitor객체를-소유하여-제어를-역전한다">08 [동적트리순회의 제어구조를 가진 메서드를 가진 class]는 라이프싸이클을 타는 visitor객체를 소유하여, 제어를 역전한다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#기본적으로-visitablerenderer은-visitor객체를-생성자-주입받아-필드로-가진-상태에서-제어구조-속-라이프싸이클-메서드들을-배정받는다-visitor는-생성자주입하되-interface로-정의한다">기본적으로, visitable(renderer)은 visitor객체를 생성자 주입받아 필드로 가진 상태에서, 제어구조 속 라이프싸이클 메서드들을 배정받는다. Visitor는 생성자주입하되, interface로 정의한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#visitor인터페이스가-제어역전visitorable내에서-제어구조에-맞게-컬렉션-데코객체-composite객체가-하는-일을-위임받는다-1-자신-할-일-2-자식-순회-3-종착역시-종결처리">Visitor인터페이스가 제어역전Visitorable내에서 제어구조에 맞게 [컬렉션 데코객체, Composite객체]가 하는 일을 위임받는다. (1) 자신 할 일 (2) 자식 순회 (3) 종착역시 종결처리</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#09-composite객체는-타-클래스-메서드의-인자로-들어가서-사용될-때-자식들-역시-인자로-재귀호출-된다">09 Composite객체는 타 클래스 메서드의 인자로 들어가서 사용될 때, 자식들 역시 인자로 재귀호출 된다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#composite-report의-composite객체-내부-자신메서드-동적트리순회---자식도-자신-메서드에서-재귀호출가-아니라-report---print-타-구상클래스rendererrender-메서드의-인자로-들어가서-동적트리순회를-돈다면-자식들도-타-클래스-구상메서드의-인자로-들어가면서-재귀호출이다">Composite-&gt;Report의 [Composite객체 내부 자신메서드 동적트리순회 -&gt; 자식도 자신 메서드에서 재귀호출]가 아니라, Report -&gt; print [타 구상클래스(Renderer#render) 메서드의 인자로 들어가서 동적트리순회]를 돈다면, [자식들도 타 클래스 구상메서드의 인자로 들어가면서 재귀호출이다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#10-composite객체의-동적트리-순회시-depth마다-누적변하는-값이-필요하다면--파라미터에-추가되어-사용되고-최초호출root시-초기값을-인자로-넣어줘야한다-이-때-메서드-추출부터해서-오버로딩이-필요하다">10 Composite객체의 동적트리 순회시, depth마다 누적/변하는 값이 필요하다면,  파라미터에 추가되어 사용되고, 최초호출(root)시 초기값을 인자로 넣어줘야한다. 이 때, 메서드 추출부터해서 오버로딩이 필요하다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#일반-재귀를-일만-하던-데코객체-동적트리순회자기일--자식순회-자식일에서-depth마다-변하는-값을-반영하고-싶다면-1-그-순간-누적결과값을-달고-다니는-꼬리재귀가-될-것이므로-재귀부분-전체를-메서드추출오버로딩-후-2-들고-다닐-값을-인자에-root-초기값-넣어주기--3-들고-다닐-값을-파라미터로-추가--4-트리-속-자식들-순회시-depth진입시-업데이트-될-인자로-업데이트">일반 재귀를 일만 하던 데코객체 동적트리순회(자기일 + 자식순회 자식일)에서 depth마다 변하는 값을 반영하고 싶다면 (1) 그 순간 누적결과값을 달고 다니는 꼬리재귀가 될 것이므로 재귀부분 전체를 메서드추출(오버로딩) 후 (2) 들고 다닐 값을 인자에 root 초기값 넣어주기  (3) 들고 다닐 값을 파라미터로 추가  (4) 트리 속 자식들 순회시 depth진입시 업데이트 될 인자로 업데이트</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#11-외부-생성자-주입되는-협력객체-visitor의-사용-메서드에서--사용-전-동시성-문제-생각하기---생성vs재활용context">11 [외부 생성자 주입되는 협력객체] Visitor의 사용 메서드에서  [사용 전 동시성 문제] 생각하기 -&gt; 생성vs재활용context</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#my-협력객체가-상태값을-가진-체-재활용-될-것이-아니라면-전략객체라면-생성context로-보고-객체형이-아닌-지연실행-생성자로직을-함수형-인터페이스-파라미터로-받자">my) 협력객체가 상태값을 가진 체 재활용 될 것이 아니라면, (전략객체라면) 생성context로 보고, 객체형이 아닌 [지연실행 생성자로직]을 [함수형 인터페이스 파라미터]로 받자.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#블로그2-생성자로직을-지연실행하기">블로그2 생성자로직을 지연실행하기</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#추상체인터페이스의-협력관계에서-형-파라미터로는-지연-생성은-전략패턴-포함-불가능하며-의존성으로서-내부-생성도-추상체라-안된다">추상체(인터페이스)의 협력관계에서 [형 파라미터]로는 [지연 생성]은 전략패턴 포함 불가능하며, [의존성으로서 내부 생성]도 추상체라 안된다.</a></li>
+<li class="toc-entry toc-h4"><a href="#추상체-협력관계에서-생성context--객체의-지연-생성의-유일한-방법은-객체-생성에-맞는-시그니쳐를-가진-이미-짜여진-함수형인터페이스--자신만의-전략메서드를-이용해--지연실행을-정의해놓고-외부에서-가상인자의-람다식으로-생성자호출-로직을-전략메서드내용으로-전달하는-것이다">추상체 협력관계에서, [생성context == 객체의 지연 생성]의 유일한 방법은 객체 생성에 맞는 시그니쳐를 가진 [이미 짜여진 함수형인터페이스 + 자신만의 전략메서드()]를 이용해  지연실행을 정의해놓고, 외부에서 가상인자의 람다식으로 생성자호출 로직을 전략메서드내용으로 전달하는 것이다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#12-composite사본객체-report는-getter로-자신--자식들-꺼내서-써야한다">12 composite사본객체 Report는 getter로 자신 + 자식들 꺼내서 써야한다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#report는-전달객체일-뿐-사용하는-곳에서는-자신-getter--자식들-getter로-각각-꺼내서-써야한다">Report는 전달객체일 뿐, 사용하는 곳에서는 자신 getter + 자식들 getter로 각각 꺼내서 써야한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#composite객체-출력-종결처리는-재료는-필요없지만-depth는-필요하다-자식들-순회에서는-재귀로-자식-자신들을-그리니-따로-처리할-일이-없다">composite객체 출력 종결처리는, 재료는 필요없지만, depth는 필요하다. 자식들 순회에서는 재귀로 자식 자신들을 그리니 따로 처리할 일이 없다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#13-visitor는-인터페이스로서-라이프싸이클-함수들을-가진다">13 visitor는 인터페이스로서, 라이프싸이클 함수들을 가진다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#visitor구상체들을-라이프싸이클함수를-구현하여-재료인-report---menu를-depth만큼-padding-넣어서-그리면-된다">visitor구상체들을 라이프싸이클함수를 구현하여, 재료인 report -&gt; menu를 depth만큼 padding 넣어서 그리면 된다.</a></li>
+<li class="toc-entry toc-h4"><a href="#자신들의-할일은-자신--자식들의-자신-직전-까지-depth만큼-padding--자신의-필드-정보를-get하여-그리는-것이다-불린flag가-있다면-삼항연산자를-통해-그려준다">자신들의 할일은 [자신 ~ 자식들의 자신 직전] 까지 [depth만큼 padding + 자신의 필드 정보를 get하여] 그리는 것이다. 불린flag가 있다면 삼항연산자를 통해 그려준다.</a></li>
+<li class="toc-entry toc-h4"><a href="#종결처리는-자식없어-순회없이-끝나는-마지막-node를-생각해보면-빠르고-실제-적용은-매-node마다-적용된다-시작시-무엇을-열어줬는지에-대해-닫아줘야할-것이-있는지-등을-생각한다">종결처리는 [자식없어 순회없이 끝나는 마지막 node]를 생각해보면 빠르고, 실제 적용은 매 node마다 적용된다. [시작시 무엇을 열어줬는지에 대해, 닫아줘야할 것이 있는지] 등을 생각한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#14-main에서-라이프싸이클을-채운-구상visitor를-지연생성용-factory에-넣어주고-어떻게-출력되는지-확인해보자">14 Main에서 라이프싸이클을 채운 구상Visitor를 지연생성용 factory에 넣어주고, 어떻게 출력되는지 확인해보자.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#composite객체자신--자식들의-종결처리는-바로-아래-자식들의-종결처리-이후-마지막-직후자식의-종결처리후-1번만-종결처리된다">Composite객체(자신 + 자식들)의 종결처리는 [바로 아래 자식들의 종결처리 이후 마지막 직후자식의 종결처리후 1번만 종결처리된다.]</a></li>
+<li class="toc-entry toc-h4"><a href="#줄바꿈으로-종결처리-하지말자-자신의-시작시-여는-처리가-있을-때만-닫는-처리를-종결처리에-추가하자-종결처리는-생략해도-된다">줄바꿈으로 종결처리 하지말자. 자신의 시작시 [여는 처리]가 있을 때만 [닫는 처리]를 종결처리에 추가하자. (종결처리는 생략해도 된다)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#15-composite객체는-호출하는-메서드가-depth를-함께-가지므로-depth와-함께-자신자식종결처리를-할-수-있어서-json을-만들-수-있다">15 Composite객체는 호출하는 메서드가 depth를 함께 가지므로 depth와 함께 자신+자식+종결처리를 할 수 있어서 json을 만들 수 있다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#json의-문자열을-모으지말고-일단-출력하는-형식을-만든다-padding은--대신-공백으로-바뀐다">json의 문자열을 모으지말고 일단 출력하는 형식을 만든다. padding은 -대신 공백으로 바뀐다.</a></li>
+<li class="toc-entry toc-h4"><a href="#json의-구성은-padding--여는중괄호--padding--중괄호-대체공백--필드--큰따옴표-속-필드정보--콤마--자식들의-시작-직전인-sub----여는-대괄호까지를-자신처리를-한다---매번-padding이-들어가니-매-줄을-일단-sout으로-생성한다">json의 구성은 padding + 여는중괄호 / padding + 중괄호 대체공백 + 필드 + 큰따옴표 속 필드정보 + 콤마 / 자식들의 시작 직전인 sub :  [ 여는 대괄호까지를 자신처리를 한다. -&gt; 매번 padding이 들어가니, 매 줄을 일단 sout으로 생성한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#json은-자신의-처리시-여는-중괄호-존재--모든-자식들-끝날-때-1번-처리해야할-부분닫는-중괄호--콤마이-있기-때문에-종결처리를-채워줘야한다-이-때-detp를-padding을-바꾸는-로직이-재활용되니-내수용-메서드로-추출해야한다">json은 자신의 처리시 여는 중괄호 존재 + 모든 자식들 끝날 때 1번 처리해야할 부분(닫는 중괄호 + 콤마)이 있기 때문에 종결처리를 채워줘야한다. 이 때, detp를 padding을 바꾸는 로직이 재활용되니 내수용 메서드로 추출해야한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#종결처리의-확인은-자식없는-마지막-node에서-자신의-종결처리--나의부모의-마지막node뒤-종결처리를-확인하면-된다---내-시작뿐만-아니라-자식들-진입직전에-열어주는-것도-종결처리-해주자">종결처리의 확인은, 자식없는 마지막 node에서 [자신의 종결처리] + [나의부모의 마지막node뒤 종결처리]를 확인하면 된다. -&gt; [내 시작뿐만 아니라, 자식들 진입직전에 열어주는 것도 종결처리 해주자!]</a></li>
+<li class="toc-entry toc-h4"><a href="#자식들-시작시-열어주는-처리는-콤마없이-종결처리-해주면-된다-먼저-처리하고-내-시작시-열어주는-처리를-뒤에-종결처리한다">자식들 시작시 열어주는 처리는 콤마없이 종결처리 해주면 된다. 먼저 처리하고, 내 시작시 열어주는 처리를 뒤에 종결처리한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#내-시작시-열어주고-내-종결시-닫는-처리의-콤마는-트레일링-콤마라고-한다">내 시작시 열어주고, 내 종결시 닫는 처리의 콤마는 트레일링 콤마라고 한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#16-json자체를-만드려면-출력관련report-visitor-renderer가-필요없이-composite객체-원본이자-자식들을-다-담고-있는-root-객체만-gson라이브러리에-넣어주면-된다">16 Json자체를 만드려면, 출력관련(report, visitor, renderer)가 필요없이 Composite객체 원본이자 자식들을 다 담고 있는 root 객체만 Gson라이브러리에 넣어주면 된다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h1 id="menu를-만들며-익히는-composite-visitor패턴">
+<a class="anchor" href="#menu%EB%A5%BC-%EB%A7%8C%EB%93%A4%EB%A9%B0-%EC%9D%B5%ED%9E%88%EB%8A%94-composite-visitor%ED%8C%A8%ED%84%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>menu를 만들며 익히는 composite, visitor패턴</h1>
+
+<ul>
+  <li>나중에 menu에 적용할 코드들
+    <ul>
+      <li><a href="https://github.com/ye-geeee/headfirst-designpattern-practice/tree/master/iterator-pattern/src">깃헙</a></li>
+      <li><a href="https://thefif19wlsvy.tistory.com/45">블로그정리</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="composite패턴을-적용한-메뉴폴더--compositemenu">
+<a class="anchor" href="#composite%ED%8C%A8%ED%84%B4%EC%9D%84-%EC%A0%81%EC%9A%A9%ED%95%9C-%EB%A9%94%EB%89%B4%ED%8F%B4%EB%8D%94--compositemenu" aria-hidden="true"><span class="octicon octicon-link"></span></a>Composite패턴을 적용한 메뉴+폴더 = CompositeMenu</h2>
+
+<h3 id="01-단일-menu파일부터-만든다">
+<a class="anchor" href="#01-%EB%8B%A8%EC%9D%BC-menu%ED%8C%8C%EC%9D%BC%EB%B6%80%ED%84%B0-%EB%A7%8C%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 단일 menu(파일)부터 만든다</h3>
+
+<h4 id="필드초기화-필드-생성자초기화지만-상태가-변하는-not-final--setter필드">
+<a class="anchor" href="#%ED%95%84%EB%93%9C%EC%B4%88%EA%B8%B0%ED%99%94-%ED%95%84%EB%93%9C-%EC%83%9D%EC%84%B1%EC%9E%90%EC%B4%88%EA%B8%B0%ED%99%94%EC%A7%80%EB%A7%8C-%EC%83%81%ED%83%9C%EA%B0%80-%EB%B3%80%ED%95%98%EB%8A%94-not-final--setter%ED%95%84%EB%93%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>필드초기화 필드, 생성자초기화지만 상태가 변하는 not final + setter필드</h4>
+
+<ul>
+  <li>
+<strong>초기값이 이미 주어지는 필드</strong>는 생성자에서 받으면 안된다. -&gt; 필드초기화
+    <ul>
+      <li>available = true;</li>
+      <li>외부에서 받는 생성자초기와 구분된다. 생성자 파라미터에서 빠진다.</li>
+    </ul>
+  </li>
+  <li><strong>외부에서 받아 시작되지만, 바뀌는 필드 -&gt; 생성자 + not final + setter</strong></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/713ed4d4-7f8d-4301-80ac-b62700bdadce.gif" alt="713ed4d4-7f8d-4301-80ac-b62700bdadce"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725005647139.png" alt="image-20220725005647139"></p>
+
+<h4 id="boolean필드는-setter가-아닌-toggle로-상태변화한다">
+<a class="anchor" href="#boolean%ED%95%84%EB%93%9C%EB%8A%94-setter%EA%B0%80-%EC%95%84%EB%8B%8C-toggle%EB%A1%9C-%EC%83%81%ED%83%9C%EB%B3%80%ED%99%94%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>boolean필드는 setter가 아닌 toggle로 상태변화한다.</h4>
+
+<ul>
+  <li>외부에서 값을 받아 상태를 변화하는 setter가 아니다.
+    <ul>
+      <li>this.flag = <code class="language-plaintext highlighter-rouge">!</code> this.flag형태로 외부값없이 t/f만 토글된다.</li>
+    </ul>
+  </li>
+  <li>true/false왔다갔다만 한다면, setter대신 toggle로 따로 정의해줘야한다.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725005946664.png" alt="image-20220725005946664"></p>
+
+<h4 id="생성자초기화--not-finalsetter조합은-반드시-setter메서드를-통해-생성자-할당코드를-대체한다">
+<a class="anchor" href="#%EC%83%9D%EC%84%B1%EC%9E%90%EC%B4%88%EA%B8%B0%ED%99%94--not-finalsetter%EC%A1%B0%ED%95%A9%EC%9D%80-%EB%B0%98%EB%93%9C%EC%8B%9C-setter%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%ED%86%B5%ED%95%B4-%EC%83%9D%EC%84%B1%EC%9E%90-%ED%95%A0%EB%8B%B9%EC%BD%94%EB%93%9C%EB%A5%BC-%EB%8C%80%EC%B2%B4%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>생성자초기화 + not final/setter조합은 반드시 setter메서드를 통해 생성자 할당코드를 대체한다.</h4>
+
+<ul>
+  <li>중복코드를 제거함과 동시에 <strong>외부정보에 대한 특별한 처리를 setter에 정의하고, 생성자는 setter를 이용해 처리로직도 같이 적용되도록 한다.</strong>
+    <ul>
+      <li>setter시 처리와, 생성자 초기화시 처리가 <strong>다르면 문제가 생긴다.</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/26d84998-d6a9-46f8-a199-5380dcf82855.gif" alt="26d84998-d6a9-46f8-a199-5380dcf82855"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725010442742.png" alt="image-20220725010442742"></p>
+
+<ul>
+  <li>
+    <p>필드 -&gt; setter (-&gt; getter)가 정의되면  <strong>객체 구분을 위한 eq/hC + toString도 정의해주자.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725010829507.png" alt="image-20220725010829507"></p>
+  </li>
+</ul>
+
+<h3 id="02-menu를-담을-menus폴더를-만든다">
+<a class="anchor" href="#02-menu%EB%A5%BC-%EB%8B%B4%EC%9D%84-menus%ED%8F%B4%EB%8D%94%EB%A5%BC-%EB%A7%8C%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 Menu를 담을 Menus(폴더)를 만든다.</h3>
+
+<h4 id="폴더menus는-set으로-파일들을-관리하는일급컬렉션인데-이름-필드를-가진다">
+<a class="anchor" href="#%ED%8F%B4%EB%8D%94menus%EB%8A%94-set%EC%9C%BC%EB%A1%9C-%ED%8C%8C%EC%9D%BC%EB%93%A4%EC%9D%84-%EA%B4%80%EB%A6%AC%ED%95%98%EB%8A%94%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98%EC%9D%B8%EB%8D%B0-%EC%9D%B4%EB%A6%84-%ED%95%84%EB%93%9C%EB%A5%BC-%EA%B0%80%EC%A7%84%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>폴더menus는 Set으로 파일들을 관리하는일급컬렉션인데, 이름 필드를 가진다</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725011001479.png" alt="image-20220725011001479"></p>
+
+<h4 id="폴더객체는-기본적으로-getchild-add--remove-기능을-가져야한다">
+<a class="anchor" href="#%ED%8F%B4%EB%8D%94%EA%B0%9D%EC%B2%B4%EB%8A%94-%EA%B8%B0%EB%B3%B8%EC%A0%81%EC%9C%BC%EB%A1%9C-getchild-add--remove-%EA%B8%B0%EB%8A%A5%EC%9D%84-%EA%B0%80%EC%A0%B8%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>폴더객체는 기본적으로 getChild+ add + remove 기능을 가져야한다.</h4>
+
+<ul>
+  <li>add/remove/getChild3개는 폴더가</li>
+  <li>draw(operation)은 파일의 기능으로 정의되어있다.</li>
+</ul>
+
+<h4 id="컬렉션필드의-setteraddremove는-crud에-포함되므로-boolean으로-반환해야한다">
+<a class="anchor" href="#%EC%BB%AC%EB%A0%89%EC%85%98%ED%95%84%EB%93%9C%EC%9D%98-setteraddremove%EB%8A%94-crud%EC%97%90-%ED%8F%AC%ED%95%A8%EB%90%98%EB%AF%80%EB%A1%9C-boolean%EC%9C%BC%EB%A1%9C-%EB%B0%98%ED%99%98%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>컬렉션필드의 setter(add)/remove는 CRUD에 포함되므로 boolean으로 반환해야한다.</h4>
+
+<ul>
+  <li>컬렉션필드는 void setter개념으로 void add를 만들어도 되지만</li>
+  <li><strong>컬렉션의 상태변화는 실패가능성을 가진 CRUD이므로, 사용하지 않더라도, boolean으로 결과를 알려줘야한다.</strong></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/2e577924-d4b2-4668-aff4-bcbceeeac5f9.gif" alt="2e577924-d4b2-4668-aff4-bcbceeeac5f9"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725012253450.png" alt="image-20220725012253450"></p>
+
+<h4 id="일급컬렉션폴더-add를-통해-관리되는-컬렉션-관리-단일객체-추가시--외부public생성한-것-받아add-vs-외부정보-받아-일급컬렉션폴더내부-생성해서add-할지-결정해야한다-컬렉션관리-단일객체의-public외부생성은-당연한-것이-아니다-외부new때리는-것은-최소화">
+<a class="anchor" href="#%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98%ED%8F%B4%EB%8D%94-add%EB%A5%BC-%ED%86%B5%ED%95%B4-%EA%B4%80%EB%A6%AC%EB%90%98%EB%8A%94-%EC%BB%AC%EB%A0%89%EC%85%98-%EA%B4%80%EB%A6%AC-%EB%8B%A8%EC%9D%BC%EA%B0%9D%EC%B2%B4-%EC%B6%94%EA%B0%80%EC%8B%9C--%EC%99%B8%EB%B6%80public%EC%83%9D%EC%84%B1%ED%95%9C-%EA%B2%83-%EB%B0%9B%EC%95%84add-vs-%EC%99%B8%EB%B6%80%EC%A0%95%EB%B3%B4-%EB%B0%9B%EC%95%84-%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98%ED%8F%B4%EB%8D%94%EB%82%B4%EB%B6%80-%EC%83%9D%EC%84%B1%ED%95%B4%EC%84%9Cadd-%ED%95%A0%EC%A7%80-%EA%B2%B0%EC%A0%95%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4-%EC%BB%AC%EB%A0%89%EC%85%98%EA%B4%80%EB%A6%AC-%EB%8B%A8%EC%9D%BC%EA%B0%9D%EC%B2%B4%EC%9D%98-public%EC%99%B8%EB%B6%80%EC%83%9D%EC%84%B1%EC%9D%80-%EB%8B%B9%EC%97%B0%ED%95%9C-%EA%B2%83%EC%9D%B4-%EC%95%84%EB%8B%88%EB%8B%A4-%EC%99%B8%EB%B6%80new%EB%95%8C%EB%A6%AC%EB%8A%94-%EA%B2%83%EC%9D%80-%EC%B5%9C%EC%86%8C%ED%99%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급컬렉션(폴더) add를 통해 관리되는 컬렉션 관리 단일객체 추가시  외부public생성한 것 받아add vs 외부정보 받아 일급컬렉션(폴더)내부 생성해서add 할지 결정해야한다. [컬렉션관리 단일객체의 public외부생성은 당연한 것이 아니다. 외부new때리는 것은 최소화]</h4>
+
+<ul>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">컬렉션으로 관리할 객체</code>를  <code class="language-plaintext highlighter-rouge">public메서드(add)의 파라미터</code>로 받는다는 말은</strong>
+    <ul>
+      <li>
+<strong>단일객체의 생성자가 public</strong>이며</li>
+      <li>
+<strong>외부에서 객체가 생성</strong>되고 들어와 add한다.</li>
+      <li><strong>만약, 단일객체의 생성자가 수정되면 -&gt; <code class="language-plaintext highlighter-rouge">외부의 생성자 사용코드들도 모두 수정</code>해야한다.</strong></li>
+    </ul>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">컬렉션 관리객체</code>를 <code class="language-plaintext highlighter-rouge">public메서드(add)의 파라미터에서는 생성정보만 받고</code> + <code class="language-plaintext highlighter-rouge">add메서드 내부에서 내부발행</code>하게 한다는 말은</strong>
+    <ul>
+      <li><strong>단일객체의 <code class="language-plaintext highlighter-rouge">생성자를 internal</code>로 수정한다</strong></li>
+      <li><strong>내부에서만 생성되므로, <code class="language-plaintext highlighter-rouge">생성자 사용코드들은 여기에만 존재한다</code></strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">단일객체가 필요에 의해 외부공개(public 생성자)</code>되기 전까지, <code class="language-plaintext highlighter-rouge">일급컬렉션 내부발행으로 잠궈</code>놓아 <code class="language-plaintext highlighter-rouge">수정시 드는 비용을 줄인다</code></strong></li>
+    </ul>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">[컬렉션으로 관리될] 단일객체가 public외부에서 객체 생성되는 것이  당연한 것이 아니다</code>라고 생각해야한다.</strong>
+    <ul>
+      <li><strong>동시에 <code class="language-plaintext highlighter-rouge">바깥에서 new키워드 때리는 객체는 최소화</code>해야한다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+<strong>컬렉션으로 관리되는 단일객체를 내부생성</strong>할 수 있게 <code class="language-plaintext highlighter-rouge">add메서드의 파라미터를 생성된 객체 -&gt; 생성정보</code>로 바꾸고, <strong>add메서드내부에서 new때린다고 생각한다.</strong>
+</li>
+  <li><strong>객체의 생성자를 internal로 수정한다.</strong></li>
+  <li>
+<strong>객체의 생성자 파라미터를 복사</strong>해와서 add메서드의 인자로 바꿔준다.</li>
+  <li>
+<strong>내부에서는 단일객체를 생성</strong>후 add까지 해준다.</li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/468bbdf2-809c-42ce-980f-28adc8b9d2a3.gif" alt="468bbdf2-809c-42ce-980f-28adc8b9d2a3"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725123307980.png" alt="image-20220725123307980"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725123325197.png" alt="image-20220725123325197"></p>
+
+<h4 id="일급컬렉션-remove는-add와-달리-이미-생성된-객체를-인자로-받아야한다-생성코드만-내부에-있지-객체자체는-public메서드를-가진-public클래스라서-외부에-공개조작가능한-객체이다">
+<a class="anchor" href="#%EC%9D%BC%EA%B8%89%EC%BB%AC%EB%A0%89%EC%85%98-remove%EB%8A%94-add%EC%99%80-%EB%8B%AC%EB%A6%AC-%EC%9D%B4%EB%AF%B8-%EC%83%9D%EC%84%B1%EB%90%9C-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%B0%9B%EC%95%84%EC%95%BC%ED%95%9C%EB%8B%A4-%EC%83%9D%EC%84%B1%EC%BD%94%EB%93%9C%EB%A7%8C-%EB%82%B4%EB%B6%80%EC%97%90-%EC%9E%88%EC%A7%80-%EA%B0%9D%EC%B2%B4%EC%9E%90%EC%B2%B4%EB%8A%94-public%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EA%B0%80%EC%A7%84-public%ED%81%B4%EB%9E%98%EC%8A%A4%EB%9D%BC%EC%84%9C-%EC%99%B8%EB%B6%80%EC%97%90-%EA%B3%B5%EA%B0%9C%EC%A1%B0%EC%9E%91%EA%B0%80%EB%8A%A5%ED%95%9C-%EA%B0%9D%EC%B2%B4%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>일급컬렉션 remove는 add와 달리, 이미 생성된 객체를 인자로 받아야한다. [생성코드만 내부에 있지, 객체자체는 public메서드를 가진 public클래스라서 외부에 공개/조작가능한 객체이다.]</h4>
+
+<ul>
+  <li>
+<strong>생성코드를 외부공개 안하는 것과 객체 자체를 외부공개 안하는 것은 다르다.</strong>
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">생성 자체는 컬렉션관리객체가 내부</code>에서 하고, <code class="language-plaintext highlighter-rouge">외부에 반환 +  조작가능</code>은 거의 다 public메서드를 통해 가능하다.</strong></li>
+      <li><strong>내부생성 -&gt; 컬렉션add -&gt; 외부 컬렉션반환 -&gt; 외부 단일객체 추출 -&gt; 단일객체 조작가능 -&gt; remove는 외부에 존재하는 단일객체를 식별해서 remove</strong></li>
+    </ul>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">이미 존재하고 있는 &amp;&amp; public메서드를 통해 외부 공객객체</code>를 삭제하는 것이기 때문에, <code class="language-plaintext highlighter-rouge">remove의 인자는 객체를 받는다</code></strong>
+    <ul>
+      <li>add에서만 생성을 외부vs내부를 판단한다.</li>
+    </ul>
+  </li>
+  <li><strong>객체의 식별은 값이 아닌 객체 자체로 되기 때문에, <code class="language-plaintext highlighter-rouge">반드시 객체인자를 받아 지우자.</code> 대신 <code class="language-plaintext highlighter-rouge">생성만 인자를 선택해서 생성장소를 선택한다</code></strong></li>
+</ul>
+
+<h4 id="폴더객체는-addremove외에-get컬렉션을-통해-외부에-공개하는-getter를-가지며-set컬렉션을-정렬가능한-list를-변환-공개해야한다-주의-컬렉션-자체는-무조건-사본으로-반환해야한다-생성자를-통한-얕은복사단일객체-조작가능는-사본생성-및-변환도-동시에-가능하다">
+<a class="anchor" href="#%ED%8F%B4%EB%8D%94%EA%B0%9D%EC%B2%B4%EB%8A%94-addremove%EC%99%B8%EC%97%90-get%EC%BB%AC%EB%A0%89%EC%85%98%EC%9D%84-%ED%86%B5%ED%95%B4-%EC%99%B8%EB%B6%80%EC%97%90-%EA%B3%B5%EA%B0%9C%ED%95%98%EB%8A%94-getter%EB%A5%BC-%EA%B0%80%EC%A7%80%EB%A9%B0-set%EC%BB%AC%EB%A0%89%EC%85%98%EC%9D%84-%EC%A0%95%EB%A0%AC%EA%B0%80%EB%8A%A5%ED%95%9C-list%EB%A5%BC-%EB%B3%80%ED%99%98-%EA%B3%B5%EA%B0%9C%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4-%EC%A3%BC%EC%9D%98-%EC%BB%AC%EB%A0%89%EC%85%98-%EC%9E%90%EC%B2%B4%EB%8A%94-%EB%AC%B4%EC%A1%B0%EA%B1%B4-%EC%82%AC%EB%B3%B8%EC%9C%BC%EB%A1%9C-%EB%B0%98%ED%99%98%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4-%EC%83%9D%EC%84%B1%EC%9E%90%EB%A5%BC-%ED%86%B5%ED%95%9C-%EC%96%95%EC%9D%80%EB%B3%B5%EC%82%AC%EB%8B%A8%EC%9D%BC%EA%B0%9D%EC%B2%B4-%EC%A1%B0%EC%9E%91%EA%B0%80%EB%8A%A5%EB%8A%94-%EC%82%AC%EB%B3%B8%EC%83%9D%EC%84%B1-%EB%B0%8F-%EB%B3%80%ED%99%98%EB%8F%84-%EB%8F%99%EC%8B%9C%EC%97%90-%EA%B0%80%EB%8A%A5%ED%95%98%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>폴더객체는 add/remove외에 get컬렉션()을 통해 외부에 공개하는 getter를 가지며, Set컬렉션을 정렬가능한 List를 변환 공개해야한다. 주의) 컬렉션 자체는 무조건 사본으로 반환해야한다. [생성자를 통한 얕은복사(단일객체 조작가능)]는 사본생성 및 변환도 동시에 가능하다.</h4>
+
+<ul>
+  <li><strong>외부에 컬렉션을 반환할 때는, <code class="language-plaintext highlighter-rouge">객체반환후 조작과는 달리, 내 컬렉션필드가 영향을 받으므로 사본반환</code>한다.</strong></li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">생성자를 통한 얕은 복사</code>는</strong>
+    <ol>
+      <li><strong>Set -&gt; List로 변환이 가능하다</strong></li>
+      <li>
+<strong>얕은 복사이므로 개별요소(단일객체)의 조작이 가능하다.</strong>
+        <ul>
+          <li><strong>깊은 복사 vs 얕은 복사는 <code class="language-plaintext highlighter-rouge">개별요소의 메서드가 public(외부조작가능)인지 아닌지</code>를 보고 판단하면 된다.</strong></li>
+          <li><strong><code class="language-plaintext highlighter-rouge">출력용이 아니라면 거의 다 얕은복사</code></strong></li>
+          <li><strong><code class="language-plaintext highlighter-rouge">출력용은 객체조작하면 안되니 깊은복사</code></strong></li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/511749b4-8770-4f15-9f27-d72e2496595d.gif" alt="511749b4-8770-4f15-9f27-d72e2496595d"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725125203316.png" alt="image-20220725125203316"></p>
+
+<h4 id="제공기능에-제공방식정렬방식-지정를-원할-경우-파라미터로-정의해서-외부에서-선택하게-한다">
+<a class="anchor" href="#%EC%A0%9C%EA%B3%B5%EA%B8%B0%EB%8A%A5%EC%97%90-%EC%A0%9C%EA%B3%B5%EB%B0%A9%EC%8B%9D%EC%A0%95%EB%A0%AC%EB%B0%A9%EC%8B%9D-%EC%A7%80%EC%A0%95%EB%A5%BC-%EC%9B%90%ED%95%A0-%EA%B2%BD%EC%9A%B0-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A1%9C-%EC%A0%95%EC%9D%98%ED%95%B4%EC%84%9C-%EC%99%B8%EB%B6%80%EC%97%90%EC%84%9C-%EC%84%A0%ED%83%9D%ED%95%98%EA%B2%8C-%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>제공기능에 제공방식(정렬방식 지정)를 원할 경우, 파라미터로 정의해서 외부에서 선택하게 한다.</h4>
+
+<ul>
+  <li>외부에서는 <code class="language-plaintext highlighter-rouge">정렬된 컬렉션인 List의 반환을 원하</code>며, <strong><code class="language-plaintext highlighter-rouge">제공방식 또한 외부에서 원하는대로 받고 싶어한다</code></strong>
+    <ul>
+      <li>getter를 가지는 것은 명백한데, <strong>외부가 따로 정렬을 원하는 경우, 외부가 원하는 것을 인자로 받아서 처리해 줘야한다.</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/185067ec-85d4-40d7-9a9f-cb20cc9c405b.gif" alt="185067ec-85d4-40d7-9a9f-cb20cc9c405b"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725132127374.png" alt="image-20220725132127374"></p>
+
+<h4 id="comparator같은-함수형인터페이스3가지-패턴-자체를-파라미터로-빼지-않는다-파라미터는-메세지로서-객체만-허용하므로-1-new-인터페이스를-통한-전략메서드-실시간-구현-익명클래스-인자---2-객체에-전략메서드-구현-후-가상인자와-람다식-인자로---3-추상체-정의후-구상체로-가상인자와-람다식으로-인자-정렬방식-지정은-상수개념의-값객체가-필요하니-enum을-도입하고-enum을-추상체로-본다">
+<a class="anchor" href="#comparator%EA%B0%99%EC%9D%80-%ED%95%A8%EC%88%98%ED%98%95%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A43%EA%B0%80%EC%A7%80-%ED%8C%A8%ED%84%B4-%EC%9E%90%EC%B2%B4%EB%A5%BC-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A1%9C-%EB%B9%BC%EC%A7%80-%EC%95%8A%EB%8A%94%EB%8B%A4-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%8A%94-%EB%A9%94%EC%84%B8%EC%A7%80%EB%A1%9C%EC%84%9C-%EA%B0%9D%EC%B2%B4%EB%A7%8C-%ED%97%88%EC%9A%A9%ED%95%98%EB%AF%80%EB%A1%9C-1-new-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%A5%BC-%ED%86%B5%ED%95%9C-%EC%A0%84%EB%9E%B5%EB%A9%94%EC%84%9C%EB%93%9C-%EC%8B%A4%EC%8B%9C%EA%B0%84-%EA%B5%AC%ED%98%84-%EC%9D%B5%EB%AA%85%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%9D%B8%EC%9E%90---2-%EA%B0%9D%EC%B2%B4%EC%97%90-%EC%A0%84%EB%9E%B5%EB%A9%94%EC%84%9C%EB%93%9C-%EA%B5%AC%ED%98%84-%ED%9B%84-%EA%B0%80%EC%83%81%EC%9D%B8%EC%9E%90%EC%99%80-%EB%9E%8C%EB%8B%A4%EC%8B%9D-%EC%9D%B8%EC%9E%90%EB%A1%9C---3-%EC%B6%94%EC%83%81%EC%B2%B4-%EC%A0%95%EC%9D%98%ED%9B%84-%EA%B5%AC%EC%83%81%EC%B2%B4%EB%A1%9C-%EA%B0%80%EC%83%81%EC%9D%B8%EC%9E%90%EC%99%80-%EB%9E%8C%EB%8B%A4%EC%8B%9D%EC%9C%BC%EB%A1%9C-%EC%9D%B8%EC%9E%90-%EC%A0%95%EB%A0%AC%EB%B0%A9%EC%8B%9D-%EC%A7%80%EC%A0%95%EC%9D%80-%EC%83%81%EC%88%98%EA%B0%9C%EB%85%90%EC%9D%98-%EA%B0%92%EA%B0%9D%EC%B2%B4%EA%B0%80-%ED%95%84%EC%9A%94%ED%95%98%EB%8B%88-enum%EC%9D%84-%EB%8F%84%EC%9E%85%ED%95%98%EA%B3%A0-enum%EC%9D%84-%EC%B6%94%EC%83%81%EC%B2%B4%EB%A1%9C-%EB%B3%B8%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Comparator같은 함수형인터페이스(3가지 패턴) 자체를 파라미터로 빼지 않는다. 파라미터는 메세지로서 객체만 허용하므로 1) new 인터페이스()를 통한 전략메서드 실시간 구현 익명클래스 인자 -&gt; 2) 객체에 전략메서드 구현 후 가상인자와 람다식 인자로 -&gt; 3) 추상체 정의후 구상체로 가상인자와 람다식으로 인자. 정렬방식 지정은 상수개념의 값객체가 필요하니 enum을 도입하고, enum을 추상체로 본다.</h4>
+
+<ul>
+  <li>만약, 정렬방식을 <strong>어떤 값</strong>으로 준다면, switch분기가 필요하지만, <strong>값객체 enum으로 주면, 값객체도 객체로서 분기없이 각자의 일을 정의해놓고 위임할 수 있게 된다.</strong>
+</li>
+  <li>외부에서 정렬방식을 지정할 땐 <strong>상수개념의 값객체가 필요하다</strong>
+    <ul>
+      <li><strong>java에서는<code class="language-plaintext highlighter-rouge">제한된 수의 값객체</code>에 ` enum을 활용`한다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>함수형 인터페이스는 <code class="language-plaintext highlighter-rouge">instanceof를 대신하는 분기추출용 전략인터페이스</code>일 수도 있고, <code class="language-plaintext highlighter-rouge">로직을 추출한 함수형인터페이스</code>일 수 있다.</strong></p>
+
+    <ul>
+      <li>
+        <p>**<code class="language-plaintext highlighter-rouge">함수형인터페이스 인자</code>는 <code class="language-plaintext highlighter-rouge">내부에서 [인터페이스 추상체변수].전략메서드()로 사용하여 정의</code>되어있다는 뜻이다. **</p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">우리는 전략인터페이스를 구현한 전략객체</code>를 만들어 인자로 넣어주면, 전략메서드는 이미 구현된 상태이므로 추상체변수대신 구상체가 들어가 그대로 시작된다.</strong></p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">전략객체의 구상체를 만들지 않고, new인터페이스(){익명클래스로 실시간 구현한 객체}</code>를 넣어줘도 된다.</strong></p>
+
+        <ul>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">impl한 전략객체를 만들기 싫다면, new 인터페이스(){ 익명클래스로 전략메서드 실시간 구현} 인자</code>를 만들어서 넣어줄 수 있다.</strong></p>
+
+            <ul>
+              <li>
+                <p>인자 부분에 new 인터페이스() 를 하면 익명클래스가 만들어지는데, <strong>여기서 <code class="language-plaintext highlighter-rouge">전략메서드 시그니쳐를 확인</code>할 수 있다.</strong></p>
+              </li>
+              <li>
+                <p>또한, 각각의 익명클래스를 변수로 빼서 Naming하여 적용되게 할 수 있다.</p>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725140710451.png" alt="image-20220725140710451"></p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>중요한 것은 전략메서드내용을 객체로 구현만 하면 되므로, <code class="language-plaintext highlighter-rouge">가상인자의 람다식</code>을 통해 <code class="language-plaintext highlighter-rouge">전략메서드 시그니쳐 유지한 체, 내부에서 지연실행될 로직을 객체의.메서드() 등을 통해 람다식에서 호출</code>한 것을 대입해도 된다. <code class="language-plaintext highlighter-rouge">중요한 것은 지연 실행될 전략메서드 로직을 시그니쳐대로 구현한 로직</code>이 필요한 것이다.</strong></p>
+
+        <ul>
+          <li>
+            <p>예를 들어, <strong>객체 생성을 내부에서 하고싶은데, <code class="language-plaintext highlighter-rouge">여러종류의 객체 생성이라 추상체로 두고, 구상체 new때리는 로직은 외부</code>에서 전달하고 싶다면?</strong></p>
+
+            <ul>
+              <li>
+                <p><strong>생성로직에 맞는 시그니쳐를 가진 함수형인터페이스를 사용하고, <code class="language-plaintext highlighter-rouge">지연실행 될 내부로직에서는 함형인페.전략메서드()</code>형태를 가진다.</strong></p>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725143503108.png" alt="image-20220725143503108"></p>
+              </li>
+              <li>
+                <p><strong>외부에서는 <code class="language-plaintext highlighter-rouge">가상인자의 람다식으로, 지연실행될  로직을 객체.메서드(여기선 생성자호출)로 작성</code>만해서 <code class="language-plaintext highlighter-rouge">인자</code>로 넣어둔다</strong></p>
+
+                <ul>
+                  <li>
+<strong>내부에서 알아서, <code class="language-plaintext highlighter-rouge">건네 준 로직의 람다식을 -&gt; 추상체.전략메서드()로 지연실행</code>한다</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725143649882.png" alt="image-20220725143649882">
+</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p>들어가면 전략메서드_<strong>실행메서드</strong>() -&gt; <strong>구현내용을 가진 부분인, 전략객체.전략메서드()를 실행</strong></p>
+
+            <ul>
+              <li>get(supplier), accept(predicate?), apply(functional) 등</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="블로그1-함수형인터페이스-정리">
+<a class="anchor" href="#%EB%B8%94%EB%A1%9C%EA%B7%B81-%ED%95%A8%EC%88%98%ED%98%95%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4-%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>블로그1 함수형인터페이스 정리</h5>
+
+<h5 id="함수형-인터페이스-파라미터---지연실행을-위해-전략객체가-아니더라도-전략메서드-내용구현한-객체메서드로-대체할-수-있다">
+<a class="anchor" href="#%ED%95%A8%EC%88%98%ED%98%95-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0---%EC%A7%80%EC%97%B0%EC%8B%A4%ED%96%89%EC%9D%84-%EC%9C%84%ED%95%B4-%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EA%B0%80-%EC%95%84%EB%8B%88%EB%8D%94%EB%9D%BC%EB%8F%84-%EC%A0%84%EB%9E%B5%EB%A9%94%EC%84%9C%EB%93%9C-%EB%82%B4%EC%9A%A9%EA%B5%AC%ED%98%84%ED%95%9C-%EA%B0%9D%EC%B2%B4%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EB%8C%80%EC%B2%B4%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>함수형 인터페이스 파라미터 -&gt; 지연실행을 위해 전략객체가 아니더라도, 전략메서드 내용구현한 객체.메서드()로 대체할 수 있다.</h5>
+
+<ol>
+  <li>
+    <p>파라미터에 함수형인터페이스가 있다는 것은 <code class="language-plaintext highlighter-rouge">전략객체</code> or <code class="language-plaintext highlighter-rouge">익명클래스 전략메서드 실시간구현</code> or <strong><code class="language-plaintext highlighter-rouge">전략메서드 구현객체의 람다식 호출</code>등 복잡하므로 <code class="language-plaintext highlighter-rouge">객체</code>로만 메세지를 전달하게 한다.</strong></p>
+
+    <ul>
+      <li><strong>대신 <code class="language-plaintext highlighter-rouge">전략메서드가 무엇인지 확인</code>하기 위해 인자 자리에<code class="language-plaintext highlighter-rouge">new 인터페이스(){}</code>익클을 한번 구현해서 <code class="language-plaintext highlighter-rouge">전략메서드 시그니쳐를 확인</code>한다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/80229311-d180-4a65-a66a-b157d4f5c1d4.gif" alt="80229311-d180-4a65-a66a-b157d4f5c1d4"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725162809076.png" alt="image-20220725162809076"></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">인터페이스를 구현한 전략객체</code>로 <code class="language-plaintext highlighter-rouge">분기를 대체</code>할 것은 아니므로 <code class="language-plaintext highlighter-rouge">전략메서드 시그니쳐대로 로직을 구현한 객체.메서드()</code>를 만들 준비를 한고 <code class="language-plaintext highlighter-rouge">인자 자리</code>에는  <code class="language-plaintext highlighter-rouge">전략 시그니쳐에 맞는 가상인자 -&gt; 람다식</code>를 이용해서, 객체가 구현할 준비를 한다.</strong></p>
+
+    <ul>
+      <li>인자 2개를 받고, int를 반환하는 compare이름의 메서드</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/c488f4f1-96f3-4904-8c86-f039be679bbf.gif" alt="c488f4f1-96f3-4904-8c86-f039be679bbf"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725163051683.png" alt="image-20220725163051683"></p>
+  </li>
+  <li>
+    <p><strong>sortType은 제한된 종류의 값<code class="language-plaintext highlighter-rouge">객체</code>이며, 종류를 가지므로 enum에 정의한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/b3bb37b6-3d7c-4c4e-a09f-46fe966f7cb8.gif" alt="b3bb37b6-3d7c-4c4e-a09f-46fe966f7cb8"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725163318826.png" alt="image-20220725163318826"></p>
+  </li>
+</ol>
+
+<h4 id="enum은-enum필드를-확정된-인스턴스-그--아래로는-추상클래스로-보고-추상메서드로-정의하면-인스턴스enum필드들은-추상메서드를-익명클래스로서-구현할-수-있다">
+<a class="anchor" href="#enum%EC%9D%80-enum%ED%95%84%EB%93%9C%EB%A5%BC-%ED%99%95%EC%A0%95%EB%90%9C-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EA%B7%B8--%EC%95%84%EB%9E%98%EB%A1%9C%EB%8A%94-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A1%9C-%EB%B3%B4%EA%B3%A0-%EC%B6%94%EC%83%81%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EC%A0%95%EC%9D%98%ED%95%98%EB%A9%B4-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4enum%ED%95%84%EB%93%9C%EB%93%A4%EC%9D%80-%EC%B6%94%EC%83%81%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EC%9D%B5%EB%AA%85%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A1%9C%EC%84%9C-%EA%B5%AC%ED%98%84%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Enum은 enum필드를 확정된 인스턴스, 그  아래로는 추상클래스로 보고, 추상메서드로 정의하면, 인스턴스(enum필드)들은 추상메서드를 익명클래스로서 구현할 수 있다.</h4>
+
+<ul>
+  <li>
+    <p>enum는 static초기화보다 더 빨리 jvm이 먼저 확정짓는  인스턴스를 만든다.</p>
+
+    <ul>
+      <li>os가 보장하는 thread안전 인스턴스다.</li>
+      <li>싱글톤의 syncrhronized안걸어도 안전해진다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>enum은 이미 만들어진 필드들의 추상클래스 역할도 하기 때문에 abstract를 정의할 수 있다.</strong></p>
+
+    <ul>
+      <li>enum은 추상메서드를 정의해놓고 -&gt; enum필드들이 익명클래스로 실시간 구현을 전개해놓을 수 있다.
+        <ul>
+          <li>enum필드들의 구상체를 만들진 않기 때문에, <strong>익클을 통한 구현 밖에 안된다.</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>string이나 date는 내장 compareTo를 이용해서, 2개를 비교해서 int를 반환한다.</p>
+
+    <ul>
+      <li>이 값을 compare의 int반환에 return해주면 된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">일반메서드로 정의된 compare</code>를 시그니쳐만 가진 <code class="language-plaintext highlighter-rouge">추상메서드</code>로 바꾸고, enum필드들을 선언 하여 <code class="language-plaintext highlighter-rouge">구상체 인스턴스</code>로 생각한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/8d42427e-01f8-411f-aeef-4154827441fa.gif" alt="8d42427e-01f8-411f-aeef-4154827441fa"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725164441274.png" alt="image-20220725164441274"></p>
+  </li>
+</ol>
+
+<h4 id="list의-정렬방식은-요소들의-필드들에-대해-x-2오름차순asc-내림차순desc-로-enum필드을-만든다">
+<a class="anchor" href="#list%EC%9D%98-%EC%A0%95%EB%A0%AC%EB%B0%A9%EC%8B%9D%EC%9D%80-%EC%9A%94%EC%86%8C%EB%93%A4%EC%9D%98-%ED%95%84%EB%93%9C%EB%93%A4%EC%97%90-%EB%8C%80%ED%95%B4-x-2%EC%98%A4%EB%A6%84%EC%B0%A8%EC%88%9Casc-%EB%82%B4%EB%A6%BC%EC%B0%A8%EC%88%9Cdesc-%EB%A1%9C-enum%ED%95%84%EB%93%9C%EC%9D%84-%EB%A7%8C%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>List의 정렬방식은 요소들의 필드들에 대해 X 2(오름차순ASC, 내림차순DESC) 로 enum필드을 만든다.</h4>
+
+<ol>
+  <li>
+    <p><strong>enum필드는 <code class="language-plaintext highlighter-rouge">Menu들의 정렬방식</code>이 와야하는데  <code class="language-plaintext highlighter-rouge">Menu의 필드들</code>을 기준으로 오름차순/내림차순으로 만든다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/5d6e586a-8000-480e-9b0e-09bed74e884d.gif" alt="5d6e586a-8000-480e-9b0e-09bed74e884d"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725164800743.png" alt="image-20220725164800743"></p>
+  </li>
+</ol>
+
+<h4 id="enum필드의-소괄호는-값메서드를-인스턴스내-필드로-매핑하여-생성자를-추가해야하지만-맨끝의-를-달아주는-순간-익명클래스로-인식되어-enum내부-추상클래스를-구현하도록-유도된다">
+<a class="anchor" href="#enum%ED%95%84%EB%93%9C%EC%9D%98-%EC%86%8C%EA%B4%84%ED%98%B8%EB%8A%94-%EA%B0%92%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4%EB%82%B4-%ED%95%84%EB%93%9C%EB%A1%9C-%EB%A7%A4%ED%95%91%ED%95%98%EC%97%AC-%EC%83%9D%EC%84%B1%EC%9E%90%EB%A5%BC-%EC%B6%94%EA%B0%80%ED%95%B4%EC%95%BC%ED%95%98%EC%A7%80%EB%A7%8C-%EB%A7%A8%EB%81%9D%EC%9D%98-%EB%A5%BC-%EB%8B%AC%EC%95%84%EC%A3%BC%EB%8A%94-%EC%88%9C%EA%B0%84-%EC%9D%B5%EB%AA%85%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A1%9C-%EC%9D%B8%EC%8B%9D%EB%90%98%EC%96%B4-enum%EB%82%B4%EB%B6%80-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A5%BC-%EA%B5%AC%ED%98%84%ED%95%98%EB%8F%84%EB%A1%9D-%EC%9C%A0%EB%8F%84%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>enum필드의 소괄호()는 값/메서드를 인스턴스내 필드로 매핑하여 생성자를 추가해야하지만, 맨끝의 {}를 달아주는 순간 익명클래스로 인식되어, enum내부 추상클래스를 구현하도록 유도된다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/d8c49109-e4fa-49ad-82cc-f43789b73ce6.gif" alt="d8c49109-e4fa-49ad-82cc-f43789b73ce6"></p>
+
+<h4 id="enum필드인스턴스마다-자신의-필드getter로-꺼내서-compareto시켜-정렬방식을-구현한다">
+<a class="anchor" href="#enum%ED%95%84%EB%93%9C%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4%EB%A7%88%EB%8B%A4-%EC%9E%90%EC%8B%A0%EC%9D%98-%ED%95%84%EB%93%9Cgetter%EB%A1%9C-%EA%BA%BC%EB%82%B4%EC%84%9C-compareto%EC%8B%9C%EC%BC%9C-%EC%A0%95%EB%A0%AC%EB%B0%A9%EC%8B%9D%EC%9D%84-%EA%B5%AC%ED%98%84%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>enum필드(인스턴스)마다 자신의 필드getter로 꺼내서 compareTo시켜 정렬방식을 구현한다.</h4>
+
+<ul>
+  <li>내림차순은 String, LocalDateTime의 compareTo() 인자의 순서를 바꿔주면 된다.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/2c9827a7-1df9-4983-93ce-0182e2b8faa7.gif" alt="2c9827a7-1df9-4983-93ce-0182e2b8faa7"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725165623034.png" alt="image-20220725165623034"></p>
+
+<h5 id="row--인스턴스-종류가-확정일-땐-enum으로-객체를-구현하자-n개이상-끝을-모르는-객체에-대해서만-class를-만들어야한다">
+<a class="anchor" href="#row--%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%A2%85%EB%A5%98%EA%B0%80-%ED%99%95%EC%A0%95%EC%9D%BC-%EB%95%90-enum%EC%9C%BC%EB%A1%9C-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EA%B5%AC%ED%98%84%ED%95%98%EC%9E%90-n%EA%B0%9C%EC%9D%B4%EC%83%81-%EB%81%9D%EC%9D%84-%EB%AA%A8%EB%A5%B4%EB%8A%94-%EA%B0%9D%EC%B2%B4%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C%EB%A7%8C-class%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>row == 인스턴스 종류가 확정일 땐 enum으로 객체를 구현하자. n개이상 끝을 모르는 객체에 대해서만 class를 만들어야한다.</h5>
+
+<ul>
+  <li><strong>만약, enum으로 구현안하면, <code class="language-plaintext highlighter-rouge">확정적인 종류 이상의 객체를 누군가 만들어낼 것이며, 그것 자체가 오류</code>이기 때문이다.</strong></li>
+  <li>
+    <p>enum을 쓰면, 객체 수량오류(상수) 및 객체종류 오류가 안생긴다. class를 만들기 전에, enum으로 만들어보는 것도 방법이다.</p>
+  </li>
+  <li>
+    <p>이로서 폴더가 구현해야하는 getList with 제공방식(정렬)까지 구현했다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725170020984.png" alt="image-20220725170020984"></p>
+  </li>
+</ul>
+
+<h3 id="03-컴포지트패턴은-파일폴더를-합친-set컬렉션-데코객체라고-요약할-수-있다">
+<a class="anchor" href="#03-%EC%BB%B4%ED%8F%AC%EC%A7%80%ED%8A%B8%ED%8C%A8%ED%84%B4%EC%9D%80-%ED%8C%8C%EC%9D%BC%ED%8F%B4%EB%8D%94%EB%A5%BC-%ED%95%A9%EC%B9%9C-set%EC%BB%AC%EB%A0%89%EC%85%98-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%9D%BC%EA%B3%A0-%EC%9A%94%EC%95%BD%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 컴포지트패턴은 파일+폴더를 합친, Set컬렉션 데코객체라고 요약할 수 있다.</h3>
+
+<h4 id="컴포지트-패턴의-4가지-구성요소-파일operation--폴더addremovegetchild를-합쳐서-compositemenu에-한번에-구현한다">
+<a class="anchor" href="#%EC%BB%B4%ED%8F%AC%EC%A7%80%ED%8A%B8-%ED%8C%A8%ED%84%B4%EC%9D%98-4%EA%B0%80%EC%A7%80-%EA%B5%AC%EC%84%B1%EC%9A%94%EC%86%8C-%ED%8C%8C%EC%9D%BCoperation--%ED%8F%B4%EB%8D%94addremovegetchild%EB%A5%BC-%ED%95%A9%EC%B3%90%EC%84%9C-compositemenu%EC%97%90-%ED%95%9C%EB%B2%88%EC%97%90-%EA%B5%AC%ED%98%84%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>컴포지트 패턴의 4가지 구성요소 파일(operation) + 폴더(add/remove/getChild)를 합쳐서 CompositeMenu에 한번에 구현한다.</h4>
+
+<ol>
+  <li>
+    <p><strong>Menu를 복사</strong>해서 <strong>CompositeMenu</strong>를 만들고, 생성자 등을 수정한다.</p>
+
+    <ul>
+      <li><strong>폴더&lt;-&gt;파일 따로 있을 때, <code class="language-plaintext highlighter-rouge">파일인 Menu</code>를 폴더내에서만 생성(외부생성X)으로 수정비용 최소화 했던 것을, 이제는 <code class="language-plaintext highlighter-rouge">CompositeMenu라는 폴더겸 파일은 폴더로서 외부에서 root폴더 최초 생성</code>해야하기 때문에 <code class="language-plaintext highlighter-rouge">생성자를 public으로 복구</code>한다.</strong></li>
+      <li><strong>필드 수정외에도 변화가 일어나면, eq/hC + toString은 <code class="language-plaintext highlighter-rouge">다 옮겨진 때 재정의</code>한다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/52c54fd0-4dc8-44ed-b336-a3c4ea2ae830.gif" alt="52c54fd0-4dc8-44ed-b336-a3c4ea2ae830"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725172817643.png" alt="image-20220725172817643"></p>
+  </li>
+  <li>
+    <p><strong>이제 폴더역할을 하던 Menus의 내용을 가져온다.</strong></p>
+
+    <ul>
+      <li><strong>중복되는 필드 및 getter/setter는 제외하고 가져온다.</strong></li>
+      <li>재정의할 것들을 재정의한다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/6cd8132b-1974-49c2-a89a-edde41ea55e1.gif" alt="6cd8132b-1974-49c2-a89a-edde41ea55e1"></p>
+  </li>
+  <li>
+    <p><strong>Set컬렉션 데코객체로서, <code class="language-plaintext highlighter-rouge">자신형의 Set컬렉션을 관리하도록 변경</code>한다.</strong></p>
+
+    <ul>
+      <li>
+        <p>참고</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722175813148.png" alt="image-20220722175813148"></p>
+      </li>
+      <li>현재는 폴더(Menus)가 파일(Menu)를 관리했지만</li>
+      <li>
+<strong>현재는 폴더 겸 파일인 CompositeMenu가 CompositeMenu를 관리하도록 변경한다</strong>
+        <ul>
+          <li>수동변경해야한다. Menu형 -&gt; Composite형</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/2524e7e6-5bfe-4a32-9b14-54daef047003.gif" alt="2524e7e6-5bfe-4a32-9b14-54daef047003"></p>
+  </li>
+</ol>
+
+<h4 id="menu정렬-enum과-새로운-compositemenu정렬-enum은-다른-것이다-compareab의-대상이-달라짐-새로-구현해야한다-enum은-제네릭이-안되므로-형이-달라져도-새롭게-구현해야한다">
+<a class="anchor" href="#menu%EC%A0%95%EB%A0%AC-enum%EA%B3%BC-%EC%83%88%EB%A1%9C%EC%9A%B4-compositemenu%EC%A0%95%EB%A0%AC-enum%EC%9D%80-%EB%8B%A4%EB%A5%B8-%EA%B2%83%EC%9D%B4%EB%8B%A4-compareab%EC%9D%98-%EB%8C%80%EC%83%81%EC%9D%B4-%EB%8B%AC%EB%9D%BC%EC%A7%90-%EC%83%88%EB%A1%9C-%EA%B5%AC%ED%98%84%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4-enum%EC%9D%80-%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9D%B4-%EC%95%88%EB%90%98%EB%AF%80%EB%A1%9C-%ED%98%95%EC%9D%B4-%EB%8B%AC%EB%9D%BC%EC%A0%B8%EB%8F%84-%EC%83%88%EB%A1%AD%EA%B2%8C-%EA%B5%AC%ED%98%84%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Menu정렬 enum과 새로운 CompositeMenu정렬 enum은 다른 것이다. compare(a,b)의 대상이 달라짐. 새로 구현해야한다. enum은 제네릭이 안되므로 형이 달라져도 새롭게 구현해야한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725174005842.png" alt="image-20220725174005842"></p>
+
+<h4 id="컴포지트-객체는-자신자식들의-정보를-같이-반환해야하므로-출력사본-컴포지트객체report형이-새롭게-필요하다">
+<a class="anchor" href="#%EC%BB%B4%ED%8F%AC%EC%A7%80%ED%8A%B8-%EA%B0%9D%EC%B2%B4%EB%8A%94-%EC%9E%90%EC%8B%A0%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%98-%EC%A0%95%EB%B3%B4%EB%A5%BC-%EA%B0%99%EC%9D%B4-%EB%B0%98%ED%99%98%ED%95%B4%EC%95%BC%ED%95%98%EB%AF%80%EB%A1%9C-%EC%B6%9C%EB%A0%A5%EC%82%AC%EB%B3%B8-%EC%BB%B4%ED%8F%AC%EC%A7%80%ED%8A%B8%EA%B0%9D%EC%B2%B4report%ED%98%95%EC%9D%B4-%EC%83%88%EB%A1%AD%EA%B2%8C-%ED%95%84%EC%9A%94%ED%95%98%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>컴포지트 객체는 자신+자식들의 정보를 같이 반환해야하므로 출력사본 컴포지트객체(Report)형이 새롭게 필요하다.</h4>
+
+<ul>
+  <li>
+    <p>getMenus()에서</p>
+
+    <ul>
+      <li>기존에는 자식들만 list에 넣어서 반환했지만,</li>
+      <li><strong>지금은 자신의 정보 + 자식들 정보 같이 return해야하는데, 여러정보를 1번에 return하려면, <code class="language-plaintext highlighter-rouge">출력사본 컴포지트 객체</code>가 필요하다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p>출력사본 컴포지트형이 만들어지면</p>
+
+    <ul>
+      <li>자신 이외에 자식들은 add로 넣어서 <strong>Composite객체와 동일하게 자신 생성후  + add 자식들까지<code class="language-plaintext highlighter-rouge">차례대로 컴포지트 객체를 새롭게 만들어서 반환</code>해야한다.</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>현재 CompositeMenu</strong></p>
+
+    <ul>
+      <li>title</li>
+      <li>date</li>
+      <li>available</li>
+      <li>Set CompositeMenu</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">출력사본 MenuReport</code></strong></p>
+
+    <ul>
+      <li>
+<strong>CompositeMenu</strong> : 파일1개를 묶은 것 (CompositeMenu를 묶은 것)</li>
+      <li>
+<strong>List MenuReport</strong> : <strong><code class="language-plaintext highlighter-rouge">출력사본</code> 파일들</strong>을 묶은 것
+        <ul>
+          <li><del>List CompositeMenu</del></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>참고</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722191622525.png" alt="image-20220722191622525"></p>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>일단 <code class="language-plaintext highlighter-rouge">출력사본 Report</code>는 <code class="language-plaintext highlighter-rouge">1개의 Composite객체로부터 최초 사본</code>이 만들어진다.</strong></p>
+
+    <ul>
+      <li>
+        <p>이후 <strong>Composite객체처럼, <code class="language-plaintext highlighter-rouge">add를 통해 자신형(Report)을 모으는 컬렉션필드</code>를 가지고, <code class="language-plaintext highlighter-rouge">add를 통해 자식들을 추가</code>한다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/9b1bf636-a8b5-4d14-8061-47b5be7f818d.gif" alt="9b1bf636-a8b5-4d14-8061-47b5be7f818d"></p>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725214641931.png" alt="image-20220725214641931"></p>
+  </li>
+</ol>
+
+<h4 id="composite객체는-자식들을-add시-내부생성을-고민할-필요가-없다-폴더역할을-하는-이상-외부에서-root폴더는-무조건-생성되므로-composite객체는-외부생성이-풀린-객체이므로-add시-정보가-아닌-객체를-받는다">
+<a class="anchor" href="#composite%EA%B0%9D%EC%B2%B4%EB%8A%94-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%84-add%EC%8B%9C-%EB%82%B4%EB%B6%80%EC%83%9D%EC%84%B1%EC%9D%84-%EA%B3%A0%EB%AF%BC%ED%95%A0-%ED%95%84%EC%9A%94%EA%B0%80-%EC%97%86%EB%8B%A4-%ED%8F%B4%EB%8D%94%EC%97%AD%ED%95%A0%EC%9D%84-%ED%95%98%EB%8A%94-%EC%9D%B4%EC%83%81-%EC%99%B8%EB%B6%80%EC%97%90%EC%84%9C-root%ED%8F%B4%EB%8D%94%EB%8A%94-%EB%AC%B4%EC%A1%B0%EA%B1%B4-%EC%83%9D%EC%84%B1%EB%90%98%EB%AF%80%EB%A1%9C-composite%EA%B0%9D%EC%B2%B4%EB%8A%94-%EC%99%B8%EB%B6%80%EC%83%9D%EC%84%B1%EC%9D%B4-%ED%92%80%EB%A6%B0-%EA%B0%9D%EC%B2%B4%EC%9D%B4%EB%AF%80%EB%A1%9C-add%EC%8B%9C-%EC%A0%95%EB%B3%B4%EA%B0%80-%EC%95%84%EB%8B%8C-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%B0%9B%EB%8A%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>composite객체는 자식들을 add시 내부생성을 고민할 필요가 없다. 폴더역할을 하는 이상 외부에서 root폴더는 무조건 생성되므로 composite객체는 외부생성이 풀린 객체이므로 add시 정보가 아닌 객체를 받는다.</h4>
+
+<ul>
+  <li>출력사본은 <strong>원본의 getter내부에서 사용될 것들을 정의한다.</strong>
+    <ul>
+      <li>먼저 원본의 파일을 -&gt; 출력사본 report를 만들고</li>
+      <li>원본의 자식들을 순회하면서 -&gt; report들의 자식으로 add한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p>compositeMenu는 변할일이 없고(final + setter  X), 이미 외부에서 생성된 것을 받아 생성(생성자에서 객체를 인자로 유지)되지만, <strong>자식들은 add로 추가해야 composite패턴을 따르는 출력사본이 된다.</strong></p>
+
+    <ul>
+      <li>컬렉션 필드는 빈컬렉션 + add조합이 많다.</li>
+      <li><strong>report들을 자식으로 받아야한다. CRUD는 boolean으로 반환하도록 void가 아닌 boolean응답형으로 작성해주자.</strong></li>
+      <li><strong>add시 내부관리하는 객체를 <code class="language-plaintext highlighter-rouge">add내부에서 객체 생성</code>하도록 <code class="language-plaintext highlighter-rouge">외부에서는 생성정보</code>만 받는 경우도 있었지만, <code class="language-plaintext highlighter-rouge">report는 컴포지트 객체라서 폴더+파일의 역할을 동시에 수행하므로 외부에서 이미 생성하는 작업</code>이 이루어졌기 때문에 고민 안해도 된다. 객체를 받는다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/702b06d5-76c2-40d3-b6b2-c9dc7e7dccc4.gif" alt="702b06d5-76c2-40d3-b6b2-c9dc7e7dccc4"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725215756099.png" alt="image-20220725215756099"></p>
+  </li>
+  <li>
+    <p><strong>출력사본 composite객체</strong> report는 파일+폴더(자식들)의 <strong>getter로제공하는 것이 주목적 -&gt; 무조건 getter를 정의</strong>해준다.</p>
+  </li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725220543267.png" alt="image-20220725220543267"></p>
+
+<h3 id="04-컴포지트-객체의-사용은-getter에-for자식들도-getter재귀호출로-동적트리순회하는-것이다-자식없으면-순회x---재귀호출x---종착역">
+<a class="anchor" href="#04-%EC%BB%B4%ED%8F%AC%EC%A7%80%ED%8A%B8-%EA%B0%9D%EC%B2%B4%EC%9D%98-%EC%82%AC%EC%9A%A9%EC%9D%80-getter%EC%97%90-for%EC%9E%90%EC%8B%9D%EB%93%A4%EB%8F%84-getter%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%EB%A1%9C-%EB%8F%99%EC%A0%81%ED%8A%B8%EB%A6%AC%EC%88%9C%ED%9A%8C%ED%95%98%EB%8A%94-%EA%B2%83%EC%9D%B4%EB%8B%A4-%EC%9E%90%EC%8B%9D%EC%97%86%EC%9C%BC%EB%A9%B4-%EC%88%9C%ED%9A%8Cx---%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9Cx---%EC%A2%85%EC%B0%A9%EC%97%AD" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 컴포지트 객체의 사용은 getter에 for+자식들도 getter재귀호출로 동적트리순회하는 것이다. (자식없으면 순회x -&gt; 재귀호출x -&gt; 종착역)</h3>
+
+<h4 id="composite객체는-더이상-getchildgetlist가-아니라-getreport로-변경해야한다composite가-된-이상-자식들만-반환할-일은-없다">
+<a class="anchor" href="#composite%EA%B0%9D%EC%B2%B4%EB%8A%94-%EB%8D%94%EC%9D%B4%EC%83%81-getchildgetlist%EA%B0%80-%EC%95%84%EB%8B%88%EB%9D%BC-getreport%EB%A1%9C-%EB%B3%80%EA%B2%BD%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4composite%EA%B0%80-%EB%90%9C-%EC%9D%B4%EC%83%81-%EC%9E%90%EC%8B%9D%EB%93%A4%EB%A7%8C-%EB%B0%98%ED%99%98%ED%95%A0-%EC%9D%BC%EC%9D%80-%EC%97%86%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>composite객체는 더이상 getChild(getList)가 아니라 getReport로 변경해야한다.(composite가 된 이상 자식들만 반환할 일은 없다)</h4>
+
+<ul>
+  <li>getList로 반환되면, 재귀호출시 문제가 생길 수 있다.</li>
+  <li>
+<strong>출력사본 객체(파일+폴더 다 반환)를 만들어서 report객체 1개를 반환하도록 수정해야한다.</strong>
+    <ul>
+      <li>
+<strong>자식들을 Set -&gt; List 사본 만들어, 정렬하는 로직은 그대로 둔다.</strong>
+        <ul>
+          <li>자식들을 이미 정렬해서, report자식들도 정렬된체 add되게 한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/c2d41bfc-ca34-4825-8016-ff0ebf63e87a.gif" alt="c2d41bfc-ca34-4825-8016-ff0ebf63e87a"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725230419942.png" alt="image-20220725230419942"></p>
+
+<h4 id="원본-컴포지트객체compoisitemenu의-operation은-getter에서-1자신의-정보-이용--2-for문과-getter재귀호출로-동적트리순회하여-자식들-이용-것인데-여기선-getter내에서-출력사본을-만들-때-작동된다">
+<a class="anchor" href="#%EC%9B%90%EB%B3%B8-%EC%BB%B4%ED%8F%AC%EC%A7%80%ED%8A%B8%EA%B0%9D%EC%B2%B4compoisitemenu%EC%9D%98-operation%EC%9D%80-getter%EC%97%90%EC%84%9C-1%EC%9E%90%EC%8B%A0%EC%9D%98-%EC%A0%95%EB%B3%B4-%EC%9D%B4%EC%9A%A9--2-for%EB%AC%B8%EA%B3%BC-getter%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%EB%A1%9C-%EB%8F%99%EC%A0%81%ED%8A%B8%EB%A6%AC%EC%88%9C%ED%9A%8C%ED%95%98%EC%97%AC-%EC%9E%90%EC%8B%9D%EB%93%A4-%EC%9D%B4%EC%9A%A9-%EA%B2%83%EC%9D%B8%EB%8D%B0-%EC%97%AC%EA%B8%B0%EC%84%A0-getter%EB%82%B4%EC%97%90%EC%84%9C-%EC%B6%9C%EB%A0%A5%EC%82%AC%EB%B3%B8%EC%9D%84-%EB%A7%8C%EB%93%A4-%EB%95%8C-%EC%9E%91%EB%8F%99%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>원본 컴포지트객체(CompoisiteMenu)의 operation()은 getter에서 (1)자신의 정보 이용 + (2) for문과 getter재귀호출로 동적트리순회하여 자식들 이용 것인데, 여기선 getter내에서 출력사본을 만들 때 작동된다.</h4>
+
+<ul>
+  <li>
+<strong>자신 + 자신형의 컬렉션필드</strong>를 가진 <strong>컬렉션필드 데코객체</strong>는 <strong>자신필드orthis이용 + getter 속 for문과 재귀호출을 통한 자식사용이 <code class="language-plaintext highlighter-rouge">operation</code>이다.</strong>
+</li>
+  <li>원본 -&gt; this로 <strong>출력사본 report</strong>를 만든다.</li>
+  <li>원본의 자식들 (CompositeMenu) menus -&gt; <strong>List사본 + 정렬</strong>된 상태 -&gt; 내 자신의 <strong>사본에 자식사본으로 add</strong>해줘야한다.</li>
+</ul>
+
+<h5 id="주의점-for내부에서-자식menu를--report로-변환-생성하여-addreport해줘야하는데--composite객체라면-자신이용this의-report생성이-이미-for내부-자식-재귀호출-전-로직에-명시되어있을-것이며-자식이-getter를-재귀호출하면-자식-자신에서-재귀호출전-로직이-자신에게도-적용될-것을-생각해서-자식들도-재귀호출해야한다">
+<a class="anchor" href="#%EC%A3%BC%EC%9D%98%EC%A0%90-for%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%EC%9E%90%EC%8B%9Dmenu%EB%A5%BC--report%EB%A1%9C-%EB%B3%80%ED%99%98-%EC%83%9D%EC%84%B1%ED%95%98%EC%97%AC-addreport%ED%95%B4%EC%A4%98%EC%95%BC%ED%95%98%EB%8A%94%EB%8D%B0--composite%EA%B0%9D%EC%B2%B4%EB%9D%BC%EB%A9%B4-%EC%9E%90%EC%8B%A0%EC%9D%B4%EC%9A%A9this%EC%9D%98-report%EC%83%9D%EC%84%B1%EC%9D%B4-%EC%9D%B4%EB%AF%B8-for%EB%82%B4%EB%B6%80-%EC%9E%90%EC%8B%9D-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C-%EC%A0%84-%EB%A1%9C%EC%A7%81%EC%97%90-%EB%AA%85%EC%8B%9C%EB%90%98%EC%96%B4%EC%9E%88%EC%9D%84-%EA%B2%83%EC%9D%B4%EB%A9%B0-%EC%9E%90%EC%8B%9D%EC%9D%B4-getter%EB%A5%BC-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%ED%95%98%EB%A9%B4-%EC%9E%90%EC%8B%9D-%EC%9E%90%EC%8B%A0%EC%97%90%EC%84%9C-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%EC%A0%84-%EB%A1%9C%EC%A7%81%EC%9D%B4-%EC%9E%90%EC%8B%A0%EC%97%90%EA%B2%8C%EB%8F%84-%EC%A0%81%EC%9A%A9%EB%90%A0-%EA%B2%83%EC%9D%84-%EC%83%9D%EA%B0%81%ED%95%B4%EC%84%9C-%EC%9E%90%EC%8B%9D%EB%93%A4%EB%8F%84-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>주의점) for내부에서 자식menu를  report로 변환 생성하여 addReport해줘야하는데,  composite객체라면 <code class="language-plaintext highlighter-rouge">자신이용(this)의 report생성</code>이 이미 <code class="language-plaintext highlighter-rouge">for내부 자식 재귀호출 전 로직</code>에 명시되어있을 것이며, <code class="language-plaintext highlighter-rouge">자식이 getter를 재귀호출하면, 자식 자신에서 재귀호출전 로직이 자신에게도 적용될 것</code>을 생각해서 <code class="language-plaintext highlighter-rouge">자식들도 재귀호출</code>해야한다.</h5>
+
+<ul>
+  <li>자신 -&gt; this를 이용해서 사본 report를 만든다.</li>
+  <li>자식들 -&gt; for문에서 순회하여 하나의 composite지만, **this로 이용해서 report를 만들면 안된다. **
+    <ul>
+      <li><strong>자식들도 하나의 composite객체로서, 자신의 자식들을 순회하여 반영되도록 <code class="language-plaintext highlighter-rouge">동적트리순회를 위해, 자식들도 현재 정의 중인 getter를 재귀 호출</code>하여 변환되도록 한다.</strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">재귀호출전까지의 로직이 현재 자식에게도 이루어진다 -&gt; this로 report만드는 로직이 그대로 적용된다.</code></strong></li>
+      <li><strong>재귀의 종착역은, 자식들 자신의 컬렉션필드가 비어서 for문을 안타 -&gt; 재귀호출이 없어지는 순간이다. 즉, 자식들이 없는 자식은, 재귀호출안하고 끝난다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/0ecf1239-1652-4ce3-a9fd-2be4273a9946.gif" alt="0ecf1239-1652-4ce3-a9fd-2be4273a9946"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725231054493.png" alt="image-20220725231054493"></p>
+
+<h5 id="역으로-for반복문-속에서-재귀호출되고-있다면-아-동적트리순회해서-자식들을-돌면서-자식입장에서도-재귀호출전의-로직이-똑같이-적용-되고-있구나-자식없으면-순회x---재귀x---종착역이구나">
+<a class="anchor" href="#%EC%97%AD%EC%9C%BC%EB%A1%9C-for%EB%B0%98%EB%B3%B5%EB%AC%B8-%EC%86%8D%EC%97%90%EC%84%9C-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%EB%90%98%EA%B3%A0-%EC%9E%88%EB%8B%A4%EB%A9%B4-%EC%95%84-%EB%8F%99%EC%A0%81%ED%8A%B8%EB%A6%AC%EC%88%9C%ED%9A%8C%ED%95%B4%EC%84%9C-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%84-%EB%8F%8C%EB%A9%B4%EC%84%9C-%EC%9E%90%EC%8B%9D%EC%9E%85%EC%9E%A5%EC%97%90%EC%84%9C%EB%8F%84-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%EC%A0%84%EC%9D%98-%EB%A1%9C%EC%A7%81%EC%9D%B4-%EB%98%91%EA%B0%99%EC%9D%B4-%EC%A0%81%EC%9A%A9-%EB%90%98%EA%B3%A0-%EC%9E%88%EA%B5%AC%EB%82%98-%EC%9E%90%EC%8B%9D%EC%97%86%EC%9C%BC%EB%A9%B4-%EC%88%9C%ED%9A%8Cx---%EC%9E%AC%EA%B7%80x---%EC%A2%85%EC%B0%A9%EC%97%AD%EC%9D%B4%EA%B5%AC%EB%82%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>역으로 for반복문 속에서 재귀호출되고 있다면? “아~ 동적트리순회해서 자식들을 돌면서 자식입장에서도 재귀호출전의 로직이 똑같이 적용 되고 있구나~! 자식없으면 순회x -&gt; 재귀x -&gt; 종착역이구나.”</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725233612204.png" alt="image-20220725233612204"></p>
+
+<h5 id="my-동적트리순회하는-for속-자식들을-변수1개로-생각할-때-1-자식들은--무조건-자식들-동적트리순회-로직을-가지는-operatin을-재귀호출해야만하며-2-재귀호출전까지의-로직이-자식에게도-반영될-것-생각-3-재귀호출-결과-자체를----종착역자식이-없어서-for걸리지-않고-결과값이-반환의-상황으로-가정하자">
+<a class="anchor" href="#my-%EB%8F%99%EC%A0%81%ED%8A%B8%EB%A6%AC%EC%88%9C%ED%9A%8C%ED%95%98%EB%8A%94-for%EC%86%8D-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%84-%EB%B3%80%EC%88%981%EA%B0%9C%EB%A1%9C-%EC%83%9D%EA%B0%81%ED%95%A0-%EB%95%8C-1-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%80--%EB%AC%B4%EC%A1%B0%EA%B1%B4-%EC%9E%90%EC%8B%9D%EB%93%A4-%EB%8F%99%EC%A0%81%ED%8A%B8%EB%A6%AC%EC%88%9C%ED%9A%8C-%EB%A1%9C%EC%A7%81%EC%9D%84-%EA%B0%80%EC%A7%80%EB%8A%94-operatin%EC%9D%84-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%ED%95%B4%EC%95%BC%EB%A7%8C%ED%95%98%EB%A9%B0-2-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%EC%A0%84%EA%B9%8C%EC%A7%80%EC%9D%98-%EB%A1%9C%EC%A7%81%EC%9D%B4-%EC%9E%90%EC%8B%9D%EC%97%90%EA%B2%8C%EB%8F%84-%EB%B0%98%EC%98%81%EB%90%A0-%EA%B2%83-%EC%83%9D%EA%B0%81-3-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C-%EA%B2%B0%EA%B3%BC-%EC%9E%90%EC%B2%B4%EB%A5%BC----%EC%A2%85%EC%B0%A9%EC%97%AD%EC%9E%90%EC%8B%9D%EC%9D%B4-%EC%97%86%EC%96%B4%EC%84%9C-for%EA%B1%B8%EB%A6%AC%EC%A7%80-%EC%95%8A%EA%B3%A0-%EA%B2%B0%EA%B3%BC%EA%B0%92%EC%9D%B4-%EB%B0%98%ED%99%98%EC%9D%98-%EC%83%81%ED%99%A9%EC%9C%BC%EB%A1%9C-%EA%B0%80%EC%A0%95%ED%95%98%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) 동적트리순회하는 for속 자식들을 변수1개로 생각할 때, (1) 자식들은  무조건 자식들 동적트리순회 로직을 가지는 operatin()을 재귀호출해야만하며, (2) 재귀호출전까지의 로직이 자식에게도 반영될 것 생각 (3) 재귀호출() 결과 자체를  ==  종착역(자식이 없어서 for걸리지 않고, 결과값이 반환)의 상황으로 가정하자.파일이자&gt;</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725234952271.png" alt="image-20220725234952271"></p>
+
+<ul>
+  <li>이렇게 생각하면, for문 속에서 자식을 new MenuReport(자식)으로 report를 생성하지 않을 것이다.
+    <ul>
+      <li><strong>composite객체의 자식들(파일들)은 폴더로서 operaiton을 재귀호출 할 의무를 가진다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="my-컴포짓객체는-자식들---for재귀로-동적순회---자신은-결과물-return---자식들-동적순회-재귀호출시-결과물-return하므로-자식들의-재귀호출도-자식자신의-결과물이-있으며-재귀호출전-자신로직이-반복된다">
+<a class="anchor" href="#my-%EC%BB%B4%ED%8F%AC%EC%A7%93%EA%B0%9D%EC%B2%B4%EB%8A%94-%EC%9E%90%EC%8B%9D%EB%93%A4---for%EC%9E%AC%EA%B7%80%EB%A1%9C-%EB%8F%99%EC%A0%81%EC%88%9C%ED%9A%8C---%EC%9E%90%EC%8B%A0%EC%9D%80-%EA%B2%B0%EA%B3%BC%EB%AC%BC-return---%EC%9E%90%EC%8B%9D%EB%93%A4-%EB%8F%99%EC%A0%81%EC%88%9C%ED%9A%8C-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%EC%8B%9C-%EA%B2%B0%EA%B3%BC%EB%AC%BC-return%ED%95%98%EB%AF%80%EB%A1%9C-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%98-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%EB%8F%84-%EC%9E%90%EC%8B%9D%EC%9E%90%EC%8B%A0%EC%9D%98-%EA%B2%B0%EA%B3%BC%EB%AC%BC%EC%9D%B4-%EC%9E%88%EC%9C%BC%EB%A9%B0-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%EC%A0%84-%EC%9E%90%EC%8B%A0%EB%A1%9C%EC%A7%81%EC%9D%B4-%EB%B0%98%EB%B3%B5%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) 컴포짓객체는 자식들 -&gt; for재귀로 동적순회 -&gt; 자신은 결과물 return -&gt; 자식들 동적순회 재귀호출시 결과물 return하므로, 자식들의 재귀호출도 자식자신의 결과물이 있으며, 재귀호출전 자신로직이 반복된다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726002623357.png" alt="image-20220726002623357"></p>
+
+<h3 id="05-main-composite객체는-root부터-생성하여-첫번째-자식들은-add생성정보로-넣어주지만-자식의-자식은-getter정렬문제가-아니라-꺼내려면-set-list사본-반환로-자식들만-꺼낸-다음-처리해야하는-불편함을-가진다">
+<a class="anchor" href="#05-main-composite%EA%B0%9D%EC%B2%B4%EB%8A%94-root%EB%B6%80%ED%84%B0-%EC%83%9D%EC%84%B1%ED%95%98%EC%97%AC-%EC%B2%AB%EB%B2%88%EC%A7%B8-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%80-add%EC%83%9D%EC%84%B1%EC%A0%95%EB%B3%B4%EB%A1%9C-%EB%84%A3%EC%96%B4%EC%A3%BC%EC%A7%80%EB%A7%8C-%EC%9E%90%EC%8B%9D%EC%9D%98-%EC%9E%90%EC%8B%9D%EC%9D%80-getter%EC%A0%95%EB%A0%AC%EB%AC%B8%EC%A0%9C%EA%B0%80-%EC%95%84%EB%8B%88%EB%9D%BC-%EA%BA%BC%EB%82%B4%EB%A0%A4%EB%A9%B4-set-list%EC%82%AC%EB%B3%B8-%EB%B0%98%ED%99%98%EB%A1%9C-%EC%9E%90%EC%8B%9D%EB%93%A4%EB%A7%8C-%EA%BA%BC%EB%82%B8-%EB%8B%A4%EC%9D%8C-%EC%B2%98%EB%A6%AC%ED%95%B4%EC%95%BC%ED%95%98%EB%8A%94-%EB%B6%88%ED%8E%B8%ED%95%A8%EC%9D%84-%EA%B0%80%EC%A7%84%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 [Main] Composite객체는 root부터 생성하여 첫번째 자식들은 add(생성정보)로 넣어주지만, 자식의 자식은… getter(정렬문제가 아니라 꺼내려면, set-&gt;list사본 반환)로 자식들만 꺼낸 다음, 처리해야하는 불편함을 가진다.</h3>
+
+<ul>
+  <li>자식의 자식부터는 add해주기가 너무 불편해진다.
+    <ul>
+      <li>자식을 list로 받아와 -&gt; 객체로 받아서 -&gt; add</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726004609075.png" alt="image-20220726004609075"></p>
+
+<h4 id="composite객체의-add시-내부생성---외부에서-생성후-조작된자식add된-객체를-받도록-메서드-오버로딩-메서드-추가후-중복코드-제거">
+<a class="anchor" href="#composite%EA%B0%9D%EC%B2%B4%EC%9D%98-add%EC%8B%9C-%EB%82%B4%EB%B6%80%EC%83%9D%EC%84%B1---%EC%99%B8%EB%B6%80%EC%97%90%EC%84%9C-%EC%83%9D%EC%84%B1%ED%9B%84-%EC%A1%B0%EC%9E%91%EB%90%9C%EC%9E%90%EC%8B%9Dadd%EB%90%9C-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%B0%9B%EB%8F%84%EB%A1%9D-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%98%A4%EB%B2%84%EB%A1%9C%EB%94%A9-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%B6%94%EA%B0%80%ED%9B%84-%EC%A4%91%EB%B3%B5%EC%BD%94%EB%93%9C-%EC%A0%9C%EA%B1%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>composite객체의 add시 내부생성 -&gt; 외부에서 생성후 조작된(자식add된) 객체를 받도록 메서드 오버로딩 메서드 추가후 중복코드 제거</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/dd2291bd-d03e-40cd-8b43-f0e83928bbe9.gif" alt="dd2291bd-d03e-40cd-8b43-f0e83928bbe9"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726004524544.png" alt="image-20220726004524544"></p>
+
+<h4 id="root의-자식들에-자식들이-추가될-것이라면-조작가능한-객체로-생성하되-가장-아래층부터-만들어-자식들-add해서-마지막에-root에-add하기">
+<a class="anchor" href="#root%EC%9D%98-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%97%90-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%B4-%EC%B6%94%EA%B0%80%EB%90%A0-%EA%B2%83%EC%9D%B4%EB%9D%BC%EB%A9%B4-%EC%A1%B0%EC%9E%91%EA%B0%80%EB%8A%A5%ED%95%9C-%EA%B0%9D%EC%B2%B4%EB%A1%9C-%EC%83%9D%EC%84%B1%ED%95%98%EB%90%98-%EA%B0%80%EC%9E%A5-%EC%95%84%EB%9E%98%EC%B8%B5%EB%B6%80%ED%84%B0-%EB%A7%8C%EB%93%A4%EC%96%B4-%EC%9E%90%EC%8B%9D%EB%93%A4-add%ED%95%B4%EC%84%9C-%EB%A7%88%EC%A7%80%EB%A7%89%EC%97%90-root%EC%97%90-add%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>root의 자식들에 자식들이 추가될 것이라면, 조작가능한 객체로 생성하되 가장 아래층부터 만들어 자식들 add해서, 마지막에 root에 add하기</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726005053721.png" alt="image-20220726005053721"></p>
+
+<h3 id="06-composite를-출력-하기-전-root만-출력사본-report를-만들어주면-된다-동적트리순회로-자식들을-다-report로-변환해서-넣어준다">
+<a class="anchor" href="#06-composite%EB%A5%BC-%EC%B6%9C%EB%A0%A5-%ED%95%98%EA%B8%B0-%EC%A0%84-root%EB%A7%8C-%EC%B6%9C%EB%A0%A5%EC%82%AC%EB%B3%B8-report%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A3%BC%EB%A9%B4-%EB%90%9C%EB%8B%A4-%EB%8F%99%EC%A0%81%ED%8A%B8%EB%A6%AC%EC%88%9C%ED%9A%8C%EB%A1%9C-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%84-%EB%8B%A4-report%EB%A1%9C-%EB%B3%80%ED%99%98%ED%95%B4%EC%84%9C-%EB%84%A3%EC%96%B4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>06 Composite를 출력 하기 전, root만 출력사본 report를 만들어주면 된다. 동적트리순회로 자식들을 다 report로 변환해서 넣어준다.</h3>
+
+<h4 id="createreport메서드는-자식들을-재귀로-알아서-변환하여-넣어주기-때문에-root만-호출하면-report가-완성된다">
+<a class="anchor" href="#createreport%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%84-%EC%9E%AC%EA%B7%80%EB%A1%9C-%EC%95%8C%EC%95%84%EC%84%9C-%EB%B3%80%ED%99%98%ED%95%98%EC%97%AC-%EB%84%A3%EC%96%B4%EC%A3%BC%EA%B8%B0-%EB%95%8C%EB%AC%B8%EC%97%90-root%EB%A7%8C-%ED%98%B8%EC%B6%9C%ED%95%98%EB%A9%B4-report%EA%B0%80-%EC%99%84%EC%84%B1%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>createReport메서드는 자식들을 재귀로 알아서 변환하여 넣어주기 때문에, root만 호출하면 report가 완성된다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726005301237.png" alt="image-20220726005301237"></p>
+
+<h3 id="07-menurenderer-report를-출력할-방법이-없다--출력-역시-report를-자신출력---자식들-for재귀호출을-통한-출력-의-메서드를-동적트리순회를-돌아야-report하나하나-출력이-가능하다">
+<a class="anchor" href="#07-menurenderer-report%EB%A5%BC-%EC%B6%9C%EB%A0%A5%ED%95%A0-%EB%B0%A9%EB%B2%95%EC%9D%B4-%EC%97%86%EB%8B%A4--%EC%B6%9C%EB%A0%A5-%EC%97%AD%EC%8B%9C-report%EB%A5%BC-%EC%9E%90%EC%8B%A0%EC%B6%9C%EB%A0%A5---%EC%9E%90%EC%8B%9D%EB%93%A4-for%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%EC%9D%84-%ED%86%B5%ED%95%9C-%EC%B6%9C%EB%A0%A5-%EC%9D%98-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EB%8F%99%EC%A0%81%ED%8A%B8%EB%A6%AC%EC%88%9C%ED%9A%8C%EB%A5%BC-%EB%8F%8C%EC%95%84%EC%95%BC-report%ED%95%98%EB%82%98%ED%95%98%EB%82%98-%EC%B6%9C%EB%A0%A5%EC%9D%B4-%EA%B0%80%EB%8A%A5%ED%95%98%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>07 [MenuRenderer] Report를 출력할 방법이 없다.  출력 역시 report를 [자신출력 -&gt; 자식들 for+재귀호출을 통한 출력] 의 메서드를 동적트리순회를 돌아야 (report하나하나) 출력이 가능하다.</h3>
+
+<h4 id="출력을-담당하는-객체-menurender를-만들되-renderreport-호출시-composite---report-와-마찬가지로-report---renderer로-동적트리순회를-돌아야한다">
+<a class="anchor" href="#%EC%B6%9C%EB%A0%A5%EC%9D%84-%EB%8B%B4%EB%8B%B9%ED%95%98%EB%8A%94-%EA%B0%9D%EC%B2%B4-menurender%EB%A5%BC-%EB%A7%8C%EB%93%A4%EB%90%98-renderreport-%ED%98%B8%EC%B6%9C%EC%8B%9C-composite---report-%EC%99%80-%EB%A7%88%EC%B0%AC%EA%B0%80%EC%A7%80%EB%A1%9C-report---renderer%EB%A1%9C-%EB%8F%99%EC%A0%81%ED%8A%B8%EB%A6%AC%EC%88%9C%ED%9A%8C%EB%A5%BC-%EB%8F%8C%EC%95%84%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>출력을 담당하는 객체 MenuRender를 만들되, render(report) 호출시 Composite -&gt; report 와 마찬가지로, report -&gt; renderer로 동적트리순회를 돌아야한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/1611480e-c19b-425a-b284-6f57a7e2acdd.gif" alt="1611480e-c19b-425a-b284-6f57a7e2acdd"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726010022490.png" alt="image-20220726010022490"></p>
+
+<h4 id="composite객체컬렉션필드-데코객체의-동적트리순회는-재귀함수를-정의하고-그-내부에서-1-자신이-할일-2-set이라면-정렬사본report는-생략-3--자신의-할일-끝난-상태에서-for-자식순회---내부에서-재귀호출로-자식들이-자신의-일-4-종결처리결과물을-반환한다면-return-자신이-할일-결과물">
+<a class="anchor" href="#composite%EA%B0%9D%EC%B2%B4%EC%BB%AC%EB%A0%89%EC%85%98%ED%95%84%EB%93%9C-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EC%9D%98-%EB%8F%99%EC%A0%81%ED%8A%B8%EB%A6%AC%EC%88%9C%ED%9A%8C%EB%8A%94-%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98%EB%A5%BC-%EC%A0%95%EC%9D%98%ED%95%98%EA%B3%A0-%EA%B7%B8-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-1-%EC%9E%90%EC%8B%A0%EC%9D%B4-%ED%95%A0%EC%9D%BC-2-set%EC%9D%B4%EB%9D%BC%EB%A9%B4-%EC%A0%95%EB%A0%AC%EC%82%AC%EB%B3%B8report%EB%8A%94-%EC%83%9D%EB%9E%B5-3--%EC%9E%90%EC%8B%A0%EC%9D%98-%ED%95%A0%EC%9D%BC-%EB%81%9D%EB%82%9C-%EC%83%81%ED%83%9C%EC%97%90%EC%84%9C-for-%EC%9E%90%EC%8B%9D%EC%88%9C%ED%9A%8C---%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%EB%A1%9C-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%B4-%EC%9E%90%EC%8B%A0%EC%9D%98-%EC%9D%BC-4-%EC%A2%85%EA%B2%B0%EC%B2%98%EB%A6%AC%EA%B2%B0%EA%B3%BC%EB%AC%BC%EC%9D%84-%EB%B0%98%ED%99%98%ED%95%9C%EB%8B%A4%EB%A9%B4-return-%EC%9E%90%EC%8B%A0%EC%9D%B4-%ED%95%A0%EC%9D%BC-%EA%B2%B0%EA%B3%BC%EB%AC%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>composite객체(컬렉션필드 데코객체)의 동적트리순회는 재귀함수를 정의하고, 그 내부에서 (1) 자신이 할일 (2) Set이라면 정렬+사본(report는 생략) (3)  자신의 할일 끝난 상태에서 for 자식순회 -&gt; 내부에서 재귀호출로 자식들이 자신의 일 (4) 종결처리(결과물을 반환한다면 return 자신이 할일 결과물)</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726012658546.png" alt="image-20220726012658546"></p>
+
+<h2 id="visitor패턴으로-구현하는-renderer메서드에-제어구조-소유">
+<a class="anchor" href="#visitor%ED%8C%A8%ED%84%B4%EC%9C%BC%EB%A1%9C-%EA%B5%AC%ED%98%84%ED%95%98%EB%8A%94-renderer%EB%A9%94%EC%84%9C%EB%93%9C%EC%97%90-%EC%A0%9C%EC%96%B4%EA%B5%AC%EC%A1%B0-%EC%86%8C%EC%9C%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>Visitor패턴으로 구현하는 Renderer(메서드에 제어구조 소유)</h2>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220723230451093.png" alt="image-20220723230451093"></p>
+
+<h3 id="08-동적트리순회의-제어구조를-가진-메서드를-가진-class는-라이프싸이클을-타는-visitor객체를-소유하여-제어를-역전한다">
+<a class="anchor" href="#08-%EB%8F%99%EC%A0%81%ED%8A%B8%EB%A6%AC%EC%88%9C%ED%9A%8C%EC%9D%98-%EC%A0%9C%EC%96%B4%EA%B5%AC%EC%A1%B0%EB%A5%BC-%EA%B0%80%EC%A7%84-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EA%B0%80%EC%A7%84-class%EB%8A%94-%EB%9D%BC%EC%9D%B4%ED%94%84%EC%8B%B8%EC%9D%B4%ED%81%B4%EC%9D%84-%ED%83%80%EB%8A%94-visitor%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%86%8C%EC%9C%A0%ED%95%98%EC%97%AC-%EC%A0%9C%EC%96%B4%EB%A5%BC-%EC%97%AD%EC%A0%84%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>08 [동적트리순회의 제어구조를 가진 메서드를 가진 class]는 라이프싸이클을 타는 visitor객체를 소유하여, 제어를 역전한다.</h3>
+
+<h4 id="기본적으로-visitablerenderer은-visitor객체를-생성자-주입받아-필드로-가진-상태에서-제어구조-속-라이프싸이클-메서드들을-배정받는다-visitor는-생성자주입하되-interface로-정의한다">
+<a class="anchor" href="#%EA%B8%B0%EB%B3%B8%EC%A0%81%EC%9C%BC%EB%A1%9C-visitablerenderer%EC%9D%80-visitor%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%83%9D%EC%84%B1%EC%9E%90-%EC%A3%BC%EC%9E%85%EB%B0%9B%EC%95%84-%ED%95%84%EB%93%9C%EB%A1%9C-%EA%B0%80%EC%A7%84-%EC%83%81%ED%83%9C%EC%97%90%EC%84%9C-%EC%A0%9C%EC%96%B4%EA%B5%AC%EC%A1%B0-%EC%86%8D-%EB%9D%BC%EC%9D%B4%ED%94%84%EC%8B%B8%EC%9D%B4%ED%81%B4-%EB%A9%94%EC%84%9C%EB%93%9C%EB%93%A4%EC%9D%84-%EB%B0%B0%EC%A0%95%EB%B0%9B%EB%8A%94%EB%8B%A4-visitor%EB%8A%94-%EC%83%9D%EC%84%B1%EC%9E%90%EC%A3%BC%EC%9E%85%ED%95%98%EB%90%98-interface%EB%A1%9C-%EC%A0%95%EC%9D%98%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>기본적으로, visitable(renderer)은 visitor객체를 생성자 주입받아 필드로 가진 상태에서, 제어구조 속 라이프싸이클 메서드들을 배정받는다. Visitor는 생성자주입하되, interface로 정의한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/7da52948-d740-47fb-bbdc-71636804409a.gif" alt="7da52948-d740-47fb-bbdc-71636804409a"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726122634562.png" alt="image-20220726122634562"></p>
+
+<h4 id="visitor인터페이스가-제어역전visitorable내에서-제어구조에-맞게-컬렉션-데코객체-composite객체가-하는-일을-위임받는다-1-자신-할-일-2-자식-순회-3-종착역시-종결처리">
+<a class="anchor" href="#visitor%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EA%B0%80-%EC%A0%9C%EC%96%B4%EC%97%AD%EC%A0%84visitorable%EB%82%B4%EC%97%90%EC%84%9C-%EC%A0%9C%EC%96%B4%EA%B5%AC%EC%A1%B0%EC%97%90-%EB%A7%9E%EA%B2%8C-%EC%BB%AC%EB%A0%89%EC%85%98-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-composite%EA%B0%9D%EC%B2%B4%EA%B0%80-%ED%95%98%EB%8A%94-%EC%9D%BC%EC%9D%84-%EC%9C%84%EC%9E%84%EB%B0%9B%EB%8A%94%EB%8B%A4-1-%EC%9E%90%EC%8B%A0-%ED%95%A0-%EC%9D%BC-2-%EC%9E%90%EC%8B%9D-%EC%88%9C%ED%9A%8C-3-%EC%A2%85%EC%B0%A9%EC%97%AD%EC%8B%9C-%EC%A2%85%EA%B2%B0%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>Visitor인터페이스가 제어역전Visitorable내에서 제어구조에 맞게 [컬렉션 데코객체, Composite객체]가 하는 일을 위임받는다. (1) 자신 할 일 (2) 자식 순회 (3) 종착역시 종결처리</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/ba0b3034-bb42-4c61-b4c8-431aec765f67.gif" alt="ba0b3034-bb42-4c61-b4c8-431aec765f67"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726123424718.png" alt="image-20220726123424718"></p>
+
+<h3 id="09-composite객체는-타-클래스-메서드의-인자로-들어가서-사용될-때-자식들-역시-인자로-재귀호출-된다">
+<a class="anchor" href="#09-composite%EA%B0%9D%EC%B2%B4%EB%8A%94-%ED%83%80-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%98-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%93%A4%EC%96%B4%EA%B0%80%EC%84%9C-%EC%82%AC%EC%9A%A9%EB%90%A0-%EB%95%8C-%EC%9E%90%EC%8B%9D%EB%93%A4-%EC%97%AD%EC%8B%9C-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>09 Composite객체는 타 클래스 메서드의 인자로 들어가서 사용될 때, 자식들 역시 인자로 재귀호출 된다.</h3>
+
+<h4 id="composite-report의-composite객체-내부-자신메서드-동적트리순회---자식도-자신-메서드에서-재귀호출가-아니라-report---print-타-구상클래스rendererrender-메서드의-인자로-들어가서-동적트리순회를-돈다면-자식들도-타-클래스-구상메서드의-인자로-들어가면서-재귀호출이다">
+<a class="anchor" href="#composite-report%EC%9D%98-composite%EA%B0%9D%EC%B2%B4-%EB%82%B4%EB%B6%80-%EC%9E%90%EC%8B%A0%EB%A9%94%EC%84%9C%EB%93%9C-%EB%8F%99%EC%A0%81%ED%8A%B8%EB%A6%AC%EC%88%9C%ED%9A%8C---%EC%9E%90%EC%8B%9D%EB%8F%84-%EC%9E%90%EC%8B%A0-%EB%A9%94%EC%84%9C%EB%93%9C%EC%97%90%EC%84%9C-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%EA%B0%80-%EC%95%84%EB%8B%88%EB%9D%BC-report---print-%ED%83%80-%EA%B5%AC%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4rendererrender-%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%98-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%93%A4%EC%96%B4%EA%B0%80%EC%84%9C-%EB%8F%99%EC%A0%81%ED%8A%B8%EB%A6%AC%EC%88%9C%ED%9A%8C%EB%A5%BC-%EB%8F%88%EB%8B%A4%EB%A9%B4-%EC%9E%90%EC%8B%9D%EB%93%A4%EB%8F%84-%ED%83%80-%ED%81%B4%EB%9E%98%EC%8A%A4-%EA%B5%AC%EC%83%81%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%98-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%93%A4%EC%96%B4%EA%B0%80%EB%A9%B4%EC%84%9C-%EC%9E%AC%EA%B7%80%ED%98%B8%EC%B6%9C%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Composite-&gt;Report의 [Composite객체 내부 자신메서드 동적트리순회 -&gt; 자식도 자신 메서드에서 재귀호출]가 아니라, Report -&gt; print [타 구상클래스(Renderer#render) 메서드의 인자로 들어가서 동적트리순회]를 돈다면, [자식들도 타 클래스 구상메서드의 인자로 들어가면서 재귀호출이다.</h4>
+
+<ul>
+  <li>
+    <p>CompositeMenu <strong>내부에서 자신의 메서드</strong>에서 <strong>자식들도 호출 주체 객체가 되어</strong> 동적트리 순회</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726123850886.png" alt="image-20220726123850886"></p>
+  </li>
+  <li>
+    <p>현재 <strong>Renderer 메서드의 인자</strong>로 들어가서 동적트리 순회된다면, <strong>자식들 또한 메서드의 인자로 동적트리 순회</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726123945809.png" alt="image-20220726123945809"></p>
+  </li>
+</ul>
+
+<h3 id="10-composite객체의-동적트리-순회시-depth마다-누적변하는-값이-필요하다면--파라미터에-추가되어-사용되고-최초호출root시-초기값을-인자로-넣어줘야한다-이-때-메서드-추출부터해서-오버로딩이-필요하다">
+<a class="anchor" href="#10-composite%EA%B0%9D%EC%B2%B4%EC%9D%98-%EB%8F%99%EC%A0%81%ED%8A%B8%EB%A6%AC-%EC%88%9C%ED%9A%8C%EC%8B%9C-depth%EB%A7%88%EB%8B%A4-%EB%88%84%EC%A0%81%EB%B3%80%ED%95%98%EB%8A%94-%EA%B0%92%EC%9D%B4-%ED%95%84%EC%9A%94%ED%95%98%EB%8B%A4%EB%A9%B4--%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EC%97%90-%EC%B6%94%EA%B0%80%EB%90%98%EC%96%B4-%EC%82%AC%EC%9A%A9%EB%90%98%EA%B3%A0-%EC%B5%9C%EC%B4%88%ED%98%B8%EC%B6%9Croot%EC%8B%9C-%EC%B4%88%EA%B8%B0%EA%B0%92%EC%9D%84-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%84%A3%EC%96%B4%EC%A4%98%EC%95%BC%ED%95%9C%EB%8B%A4-%EC%9D%B4-%EB%95%8C-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%B6%94%EC%B6%9C%EB%B6%80%ED%84%B0%ED%95%B4%EC%84%9C-%EC%98%A4%EB%B2%84%EB%A1%9C%EB%94%A9%EC%9D%B4-%ED%95%84%EC%9A%94%ED%95%98%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>10 Composite객체의 동적트리 순회시, depth마다 누적/변하는 값이 필요하다면,  파라미터에 추가되어 사용되고, 최초호출(root)시 초기값을 인자로 넣어줘야한다. 이 때, 메서드 추출부터해서 오버로딩이 필요하다.</h3>
+
+<ul>
+  <li>자식으로 진입할때마다 <code class="language-plaintext highlighter-rouge">+1씩 증가하는 depth</code>의 값을 알아야하며, 그 depth로 <code class="language-plaintext highlighter-rouge">padding</code>을 만들어서 <code class="language-plaintext highlighter-rouge">출력에 반영</code>되어야한다.</li>
+</ul>
+
+<h4 id="일반-재귀를-일만-하던-데코객체-동적트리순회자기일--자식순회-자식일에서-depth마다-변하는-값을-반영하고-싶다면-1-그-순간-누적결과값을-달고-다니는-꼬리재귀가-될-것이므로-재귀부분-전체를-메서드추출오버로딩-후-2-들고-다닐-값을-인자에-root-초기값-넣어주기--3-들고-다닐-값을-파라미터로-추가--4-트리-속-자식들-순회시-depth진입시-업데이트-될-인자로-업데이트">
+<a class="anchor" href="#%EC%9D%BC%EB%B0%98-%EC%9E%AC%EA%B7%80%EB%A5%BC-%EC%9D%BC%EB%A7%8C-%ED%95%98%EB%8D%98-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4-%EB%8F%99%EC%A0%81%ED%8A%B8%EB%A6%AC%EC%88%9C%ED%9A%8C%EC%9E%90%EA%B8%B0%EC%9D%BC--%EC%9E%90%EC%8B%9D%EC%88%9C%ED%9A%8C-%EC%9E%90%EC%8B%9D%EC%9D%BC%EC%97%90%EC%84%9C-depth%EB%A7%88%EB%8B%A4-%EB%B3%80%ED%95%98%EB%8A%94-%EA%B0%92%EC%9D%84-%EB%B0%98%EC%98%81%ED%95%98%EA%B3%A0-%EC%8B%B6%EB%8B%A4%EB%A9%B4-1-%EA%B7%B8-%EC%88%9C%EA%B0%84-%EB%88%84%EC%A0%81%EA%B2%B0%EA%B3%BC%EA%B0%92%EC%9D%84-%EB%8B%AC%EA%B3%A0-%EB%8B%A4%EB%8B%88%EB%8A%94-%EA%BC%AC%EB%A6%AC%EC%9E%AC%EA%B7%80%EA%B0%80-%EB%90%A0-%EA%B2%83%EC%9D%B4%EB%AF%80%EB%A1%9C-%EC%9E%AC%EA%B7%80%EB%B6%80%EB%B6%84-%EC%A0%84%EC%B2%B4%EB%A5%BC-%EB%A9%94%EC%84%9C%EB%93%9C%EC%B6%94%EC%B6%9C%EC%98%A4%EB%B2%84%EB%A1%9C%EB%94%A9-%ED%9B%84-2-%EB%93%A4%EA%B3%A0-%EB%8B%A4%EB%8B%90-%EA%B0%92%EC%9D%84-%EC%9D%B8%EC%9E%90%EC%97%90-root-%EC%B4%88%EA%B8%B0%EA%B0%92-%EB%84%A3%EC%96%B4%EC%A3%BC%EA%B8%B0--3-%EB%93%A4%EA%B3%A0-%EB%8B%A4%EB%8B%90-%EA%B0%92%EC%9D%84-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A1%9C-%EC%B6%94%EA%B0%80--4-%ED%8A%B8%EB%A6%AC-%EC%86%8D-%EC%9E%90%EC%8B%9D%EB%93%A4-%EC%88%9C%ED%9A%8C%EC%8B%9C-depth%EC%A7%84%EC%9E%85%EC%8B%9C-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EB%90%A0-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>일반 재귀를 일만 하던 데코객체 동적트리순회(자기일 + 자식순회 자식일)에서 depth마다 변하는 값을 반영하고 싶다면 (1) 그 순간 누적결과값을 달고 다니는 꼬리재귀가 될 것이므로 재귀부분 전체를 메서드추출(오버로딩) 후 (2) 들고 다닐 값을 인자에 root 초기값 넣어주기  (3) 들고 다닐 값을 파라미터로 추가  (4) 트리 속 자식들 순회시 depth진입시 업데이트 될 인자로 업데이트</h4>
+
+<ul>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">Extract Method</code>로 파라미터 추가전에 먼저 추출한다면, <code class="language-plaintext highlighter-rouge">signature같아서 추출안될 수 도 있으니 일단 아무이름으로 추출해놓는다.</code></strong></p>
+
+    <ul>
+      <li>python은 오버로딩이 안되서 helper로 추출해서 쓴다.</li>
+    </ul>
+  </li>
+  <li>
+<strong>외부에서 public재귀되는 메서드의 시작을 호출</strong>하는 것 &lt;-&gt; <strong>private꼬리재귀가 시작되는 것</strong>은 서로 다르다.
+    <ul>
+      <li><strong>꼬리재귀는 <code class="language-plaintext highlighter-rouge">개발자가 넣어줘야하는 누적결과값의 초기값 입력</code>을 필요로하는데</strong></li>
+      <li><strong>이것을 외부에서 입력하게 둘 수 없으니 <code class="language-plaintext highlighter-rouge">오버로딩한 private메서드를 내부에서 호출</code>하는 방법을 선택한다.</strong></li>
+    </ul>
+  </li>
+  <li>내부에 <strong>depth라는 누적하여 변하는 인자가 필요할 땐, 꼬리재귀로서  전체 로직을 메서드 추출부터</strong> 한다.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/40be10ea-40e1-4790-b02e-da74004546ba.gif" alt="40be10ea-40e1-4790-b02e-da74004546ba"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726131054937.png" alt="image-20220726131054937"></p>
+
+<h3 id="11-외부-생성자-주입되는-협력객체-visitor의-사용-메서드에서--사용-전-동시성-문제-생각하기---생성vs재활용context">
+<a class="anchor" href="#11-%EC%99%B8%EB%B6%80-%EC%83%9D%EC%84%B1%EC%9E%90-%EC%A3%BC%EC%9E%85%EB%90%98%EB%8A%94-%ED%98%91%EB%A0%A5%EA%B0%9D%EC%B2%B4-visitor%EC%9D%98-%EC%82%AC%EC%9A%A9-%EB%A9%94%EC%84%9C%EB%93%9C%EC%97%90%EC%84%9C--%EC%82%AC%EC%9A%A9-%EC%A0%84-%EB%8F%99%EC%8B%9C%EC%84%B1-%EB%AC%B8%EC%A0%9C-%EC%83%9D%EA%B0%81%ED%95%98%EA%B8%B0---%EC%83%9D%EC%84%B1vs%EC%9E%AC%ED%99%9C%EC%9A%A9context" aria-hidden="true"><span class="octicon octicon-link"></span></a>11 [외부 생성자 주입되는 협력객체] Visitor의 사용 메서드에서  [사용 전 동시성 문제] 생각하기 -&gt; 생성vs재활용context</h3>
+
+<ul>
+  <li>
+<strong>라이프싸이클을 타면서</strong> <strong><code class="language-plaintext highlighter-rouge">출력하는 일</code>을 위임</strong>받는 <strong>외부주입 협력객체</strong> Visitor가
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">다른데도 쓸 수 있는 것을 배제</code>하기 위해, 매번 사용될때마다 초기화된 객체여야하냐</strong> -&gt; <strong><code class="language-plaintext highlighter-rouge">생성context</code></strong>
+</li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">다른데서도 써야하며, 재활용</code>되기 위해, 외부에서 이미 생성된 것을 받아야하냐</strong> -&gt; <strong><code class="language-plaintext highlighter-rouge">재활용context</code></strong>
+</li>
+    </ul>
+  </li>
+  <li><strong>제일 안전한 것은 <code class="language-plaintext highlighter-rouge">언제나 협력객체는 생성context</code>로 보고 <code class="language-plaintext highlighter-rouge">생성자 파라미터를 [협력 객체형]가 아닌 [지연실행될 협력객체의 생성자 자체]</code>를 받는 것이다.</strong></li>
+</ul>
+
+<h4 id="my-협력객체가-상태값을-가진-체-재활용-될-것이-아니라면-전략객체라면-생성context로-보고-객체형이-아닌-지연실행-생성자로직을-함수형-인터페이스-파라미터로-받자">
+<a class="anchor" href="#my-%ED%98%91%EB%A0%A5%EA%B0%9D%EC%B2%B4%EA%B0%80-%EC%83%81%ED%83%9C%EA%B0%92%EC%9D%84-%EA%B0%80%EC%A7%84-%EC%B2%B4-%EC%9E%AC%ED%99%9C%EC%9A%A9-%EB%90%A0-%EA%B2%83%EC%9D%B4-%EC%95%84%EB%8B%88%EB%9D%BC%EB%A9%B4-%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%9D%BC%EB%A9%B4-%EC%83%9D%EC%84%B1context%EB%A1%9C-%EB%B3%B4%EA%B3%A0-%EA%B0%9D%EC%B2%B4%ED%98%95%EC%9D%B4-%EC%95%84%EB%8B%8C-%EC%A7%80%EC%97%B0%EC%8B%A4%ED%96%89-%EC%83%9D%EC%84%B1%EC%9E%90%EB%A1%9C%EC%A7%81%EC%9D%84-%ED%95%A8%EC%88%98%ED%98%95-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A1%9C-%EB%B0%9B%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) 협력객체가 상태값을 가진 체 재활용 될 것이 아니라면, (전략객체라면) 생성context로 보고, 객체형이 아닌 [지연실행 생성자로직]을 [함수형 인터페이스 파라미터]로 받자.</h4>
+
+<ul>
+  <li>
+    <p>라이프싸이클을 타고, 실행만 시켜주는 인터페이스 visitor는 <strong>인터페이스로 정의될 것이며, 여러종류의 visitor전략객체가 주입되며, 전략객체는 상태값을 가져 재활용 될 확률이 거의 없다.</strong></p>
+  </li>
+  <li>
+    <p><strong>함수형 인터페이스는, 1개의 메서드를 인터페이스로 정의해놓고</strong></p>
+    <ul>
+      <li>
+<strong>내부에서는 전략객체(추상체). 전략메서드()</strong>형태로 정의해놓고</li>
+      <li>
+<strong>외부에서는</strong>
+        <ul>
+          <li>
+<strong>전략메서드를 구현한 전략객체</strong> 자체를 주입하거나</li>
+          <li>
+<strong>new 전략인터페이스(){} 전략메서드의 실시간구현 익명클래스</strong>를 주입하거나</li>
+          <li><strong>가상인자+람다식을 이용한 [전략메서드 구현 메서드를 호출]하는 방법이 있다.</strong></li>
+        </ul>
+      </li>
+      <li><strong>전략객체를 안 만들것이라면, 사실상 <code class="language-plaintext highlighter-rouge">3번</code>이 제일 많이 쓰인다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="블로그2-생성자로직을-지연실행하기">
+<a class="anchor" href="#%EB%B8%94%EB%A1%9C%EA%B7%B82-%EC%83%9D%EC%84%B1%EC%9E%90%EB%A1%9C%EC%A7%81%EC%9D%84-%EC%A7%80%EC%97%B0%EC%8B%A4%ED%96%89%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>블로그2 생성자로직을 지연실행하기</h5>
+
+<h4 id="추상체인터페이스의-협력관계에서-형-파라미터로는-지연-생성은-전략패턴-포함-불가능하며-의존성으로서-내부-생성도-추상체라-안된다">
+<a class="anchor" href="#%EC%B6%94%EC%83%81%EC%B2%B4%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EC%9D%98-%ED%98%91%EB%A0%A5%EA%B4%80%EA%B3%84%EC%97%90%EC%84%9C-%ED%98%95-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A1%9C%EB%8A%94-%EC%A7%80%EC%97%B0-%EC%83%9D%EC%84%B1%EC%9D%80-%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4-%ED%8F%AC%ED%95%A8-%EB%B6%88%EA%B0%80%EB%8A%A5%ED%95%98%EB%A9%B0-%EC%9D%98%EC%A1%B4%EC%84%B1%EC%9C%BC%EB%A1%9C%EC%84%9C-%EB%82%B4%EB%B6%80-%EC%83%9D%EC%84%B1%EB%8F%84-%EC%B6%94%EC%83%81%EC%B2%B4%EB%9D%BC-%EC%95%88%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>추상체(인터페이스)의 협력관계에서 [형 파라미터]로는 [지연 생성]은 전략패턴 포함 불가능하며, [의존성으로서 내부 생성]도 추상체라 안된다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726135458218.png" alt="image-20220726135458218"></p>
+
+<h4 id="추상체-협력관계에서-생성context--객체의-지연-생성의-유일한-방법은-객체-생성에-맞는-시그니쳐를-가진-이미-짜여진-함수형인터페이스--자신만의-전략메서드를-이용해--지연실행을-정의해놓고-외부에서-가상인자의-람다식으로-생성자호출-로직을-전략메서드내용으로-전달하는-것이다">
+<a class="anchor" href="#%EC%B6%94%EC%83%81%EC%B2%B4-%ED%98%91%EB%A0%A5%EA%B4%80%EA%B3%84%EC%97%90%EC%84%9C-%EC%83%9D%EC%84%B1context--%EA%B0%9D%EC%B2%B4%EC%9D%98-%EC%A7%80%EC%97%B0-%EC%83%9D%EC%84%B1%EC%9D%98-%EC%9C%A0%EC%9D%BC%ED%95%9C-%EB%B0%A9%EB%B2%95%EC%9D%80-%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1%EC%97%90-%EB%A7%9E%EB%8A%94-%EC%8B%9C%EA%B7%B8%EB%8B%88%EC%B3%90%EB%A5%BC-%EA%B0%80%EC%A7%84-%EC%9D%B4%EB%AF%B8-%EC%A7%9C%EC%97%AC%EC%A7%84-%ED%95%A8%EC%88%98%ED%98%95%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4--%EC%9E%90%EC%8B%A0%EB%A7%8C%EC%9D%98-%EC%A0%84%EB%9E%B5%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%B4--%EC%A7%80%EC%97%B0%EC%8B%A4%ED%96%89%EC%9D%84-%EC%A0%95%EC%9D%98%ED%95%B4%EB%86%93%EA%B3%A0-%EC%99%B8%EB%B6%80%EC%97%90%EC%84%9C-%EA%B0%80%EC%83%81%EC%9D%B8%EC%9E%90%EC%9D%98-%EB%9E%8C%EB%8B%A4%EC%8B%9D%EC%9C%BC%EB%A1%9C-%EC%83%9D%EC%84%B1%EC%9E%90%ED%98%B8%EC%B6%9C-%EB%A1%9C%EC%A7%81%EC%9D%84-%EC%A0%84%EB%9E%B5%EB%A9%94%EC%84%9C%EB%93%9C%EB%82%B4%EC%9A%A9%EC%9C%BC%EB%A1%9C-%EC%A0%84%EB%8B%AC%ED%95%98%EB%8A%94-%EA%B2%83%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>추상체 협력관계에서, [생성context == 객체의 지연 생성]의 유일한 방법은 객체 생성에 맞는 시그니쳐를 가진 [이미 짜여진 함수형인터페이스 + 자신만의 전략메서드()]를 이용해  지연실행을 정의해놓고, 외부에서 가상인자의 람다식으로 생성자호출 로직을 전략메서드내용으로 전달하는 것이다.</h4>
+
+<ul>
+  <li>
+    <p>기존: <strong>협력객체 visitor를 외부에서 생성된 것(재활용된 것일지도 모름) 그대로 받아 사용</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726140414317.png" alt="image-20220726140414317"></p>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>지연 생성으로 바뀔 협력객체(visitor)는 <code class="language-plaintext highlighter-rouge">보라색 내부context</code>으로 표기되어 사용되고 있는데, <code class="language-plaintext highlighter-rouge">내부context가 아닌 것으로 간주하고 메서드 내부라면 파라미터로 추출</code>한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/fe8738db-0ac2-418c-8ec5-e2b93607159d.gif" alt="fe8738db-0ac2-418c-8ec5-e2b93607159d"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726140214010.png" alt="image-20220726140214010"></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">협력객체의 생성자 시그니쳐를 확인</code>한 뒤, <code class="language-plaintext highlighter-rouge">외부 주입 생성자 파라미터</code>자리에 시그니쳐에 맞는 <code class="language-plaintext highlighter-rouge">함수형인터페이스&lt;협력객체형&gt;</code>으로 받는다.</strong></p>
+
+    <ul>
+      <li><strong>받는 필드 또한 <code class="language-plaintext highlighter-rouge">함수형인터페이스&lt;협력객체형&gt;</code>이 되며, <code class="language-plaintext highlighter-rouge">생성자 지연로직 함형을factory</code>로 이름짓는다.</strong></li>
+      <li><strong>이제 <code class="language-plaintext highlighter-rouge">협력객체가 사용되는 메서드</code>에서 <code class="language-plaintext highlighter-rouge">사용 직전에 함형.자신전략메서드()</code>로 생성자를 지연실행시켜 변수로 받는다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/b2ba374b-acb5-47b1-9980-860d16fbce6d.gif" alt="b2ba374b-acb5-47b1-9980-860d16fbce6d"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726141102554.png" alt="image-20220726141102554"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726141112799.png" alt="image-20220726141112799"></p>
+  </li>
+  <li>
+    <p><strong>내부 생성된 협력객체는, 꼬리재귀에선 초기값으로 줘서, 재활용된다.</strong></p>
+
+    <ul>
+      <li>
+        <p>참고</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724122901932.png" alt="image-20220724122901932"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>외부에서 협력객체를 주입할 땐, <code class="language-plaintext highlighter-rouge">가상인자 람다식을 통한 전략메서드 구현</code>부에 <code class="language-plaintext highlighter-rouge">해당 객체 생성자 호출로직</code>을 넣어주면, <code class="language-plaintext highlighter-rouge">생성자호출을 통한 객체 생성</code>이  class내에서 지연실행되어 매번 생성된다.</strong></p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">구상체까지 구현하고 넣어줘야한다</code></strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/61fb1bf6-3edb-400c-96dd-efbe0ef8d7b2.gif" alt="61fb1bf6-3edb-400c-96dd-efbe0ef8d7b2"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726141234985.png" alt="image-20220726141234985"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726141313764.png" alt="image-20220726141313764"></p>
+  </li>
+</ol>
+
+<h3 id="12-composite사본객체-report는-getter로-자신--자식들-꺼내서-써야한다">
+<a class="anchor" href="#12-composite%EC%82%AC%EB%B3%B8%EA%B0%9D%EC%B2%B4-report%EB%8A%94-getter%EB%A1%9C-%EC%9E%90%EC%8B%A0--%EC%9E%90%EC%8B%9D%EB%93%A4-%EA%BA%BC%EB%82%B4%EC%84%9C-%EC%8D%A8%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>12 composite사본객체 Report는 getter로 자신 + 자식들 꺼내서 써야한다.</h3>
+
+<h4 id="report는-전달객체일-뿐-사용하는-곳에서는-자신-getter--자식들-getter로-각각-꺼내서-써야한다">
+<a class="anchor" href="#report%EB%8A%94-%EC%A0%84%EB%8B%AC%EA%B0%9D%EC%B2%B4%EC%9D%BC-%EB%BF%90-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EA%B3%B3%EC%97%90%EC%84%9C%EB%8A%94-%EC%9E%90%EC%8B%A0-getter--%EC%9E%90%EC%8B%9D%EB%93%A4-getter%EB%A1%9C-%EA%B0%81%EA%B0%81-%EA%BA%BC%EB%82%B4%EC%84%9C-%EC%8D%A8%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Report는 전달객체일 뿐, 사용하는 곳에서는 자신 getter + 자식들 getter로 각각 꺼내서 써야한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/8416666d-5ae5-4677-aace-1742eca9197e.gif" alt="8416666d-5ae5-4677-aace-1742eca9197e"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726160353916.png" alt="image-20220726160353916"></p>
+
+<h4 id="composite객체-출력-종결처리는-재료는-필요없지만-depth는-필요하다-자식들-순회에서는-재귀로-자식-자신들을-그리니-따로-처리할-일이-없다">
+<a class="anchor" href="#composite%EA%B0%9D%EC%B2%B4-%EC%B6%9C%EB%A0%A5-%EC%A2%85%EA%B2%B0%EC%B2%98%EB%A6%AC%EB%8A%94-%EC%9E%AC%EB%A3%8C%EB%8A%94-%ED%95%84%EC%9A%94%EC%97%86%EC%A7%80%EB%A7%8C-depth%EB%8A%94-%ED%95%84%EC%9A%94%ED%95%98%EB%8B%A4-%EC%9E%90%EC%8B%9D%EB%93%A4-%EC%88%9C%ED%9A%8C%EC%97%90%EC%84%9C%EB%8A%94-%EC%9E%AC%EA%B7%80%EB%A1%9C-%EC%9E%90%EC%8B%9D-%EC%9E%90%EC%8B%A0%EB%93%A4%EC%9D%84-%EA%B7%B8%EB%A6%AC%EB%8B%88-%EB%94%B0%EB%A1%9C-%EC%B2%98%EB%A6%AC%ED%95%A0-%EC%9D%BC%EC%9D%B4-%EC%97%86%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>composite객체 출력 종결처리는, 재료는 필요없지만, depth는 필요하다. 자식들 순회에서는 재귀로 자식 자신들을 그리니 따로 처리할 일이 없다.</h4>
+
+<ul>
+  <li><strong>depth만큼 padding을 만든 뒤 -&gt; <code class="language-plaintext highlighter-rouge">닫아주는 출력</code>을 해줘야한다.</strong></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726160629590.png" alt="image-20220726160629590"></p>
+
+<h3 id="13-visitor는-인터페이스로서-라이프싸이클-함수들을-가진다">
+<a class="anchor" href="#13-visitor%EB%8A%94-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%A1%9C%EC%84%9C-%EB%9D%BC%EC%9D%B4%ED%94%84%EC%8B%B8%EC%9D%B4%ED%81%B4-%ED%95%A8%EC%88%98%EB%93%A4%EC%9D%84-%EA%B0%80%EC%A7%84%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>13 visitor는 인터페이스로서, 라이프싸이클 함수들을 가진다.</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726160804304.png" alt="image-20220726160804304"></p>
+
+<h4 id="visitor구상체들을-라이프싸이클함수를-구현하여-재료인-report---menu를-depth만큼-padding-넣어서-그리면-된다">
+<a class="anchor" href="#visitor%EA%B5%AC%EC%83%81%EC%B2%B4%EB%93%A4%EC%9D%84-%EB%9D%BC%EC%9D%B4%ED%94%84%EC%8B%B8%EC%9D%B4%ED%81%B4%ED%95%A8%EC%88%98%EB%A5%BC-%EA%B5%AC%ED%98%84%ED%95%98%EC%97%AC-%EC%9E%AC%EB%A3%8C%EC%9D%B8-report---menu%EB%A5%BC-depth%EB%A7%8C%ED%81%BC-padding-%EB%84%A3%EC%96%B4%EC%84%9C-%EA%B7%B8%EB%A6%AC%EB%A9%B4-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>visitor구상체들을 라이프싸이클함수를 구현하여, 재료인 report -&gt; menu를 depth만큼 padding 넣어서 그리면 된다.</h4>
+
+<ol>
+  <li>
+    <p>일단 구상체를 구현한다. <strong>그리되 콘솔에 그리는 놈을 Console을 붙여서 구현한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726161017974.png" alt="image-20220726161017974"></p>
+  </li>
+  <li>
+    <p><strong>depth에 따라서 padding을 만들고, 그만큼 띄어서 출력해야한다.</strong></p>
+
+    <ul>
+      <li><strong>0부터 시작하며, 그만큼 반복문 돌면서 padding을 <code class="language-plaintext highlighter-rouge">빈 문자열</code>에 누적으로 쌓아야한다</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/54e94842-03a7-4489-a182-97b23b201bcf.gif" alt="54e94842-03a7-4489-a182-97b23b201bcf"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726161355364.png" alt="image-20220726161355364"></p>
+  </li>
+</ol>
+
+<h4 id="자신들의-할일은-자신--자식들의-자신-직전-까지-depth만큼-padding--자신의-필드-정보를-get하여-그리는-것이다-불린flag가-있다면-삼항연산자를-통해-그려준다">
+<a class="anchor" href="#%EC%9E%90%EC%8B%A0%EB%93%A4%EC%9D%98-%ED%95%A0%EC%9D%BC%EC%9D%80-%EC%9E%90%EC%8B%A0--%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%98-%EC%9E%90%EC%8B%A0-%EC%A7%81%EC%A0%84-%EA%B9%8C%EC%A7%80-depth%EB%A7%8C%ED%81%BC-padding--%EC%9E%90%EC%8B%A0%EC%9D%98-%ED%95%84%EB%93%9C-%EC%A0%95%EB%B3%B4%EB%A5%BC-get%ED%95%98%EC%97%AC-%EA%B7%B8%EB%A6%AC%EB%8A%94-%EA%B2%83%EC%9D%B4%EB%8B%A4-%EB%B6%88%EB%A6%B0flag%EA%B0%80-%EC%9E%88%EB%8B%A4%EB%A9%B4-%EC%82%BC%ED%95%AD%EC%97%B0%EC%82%B0%EC%9E%90%EB%A5%BC-%ED%86%B5%ED%95%B4-%EA%B7%B8%EB%A0%A4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>자신들의 할일은 [자신 ~ 자식들의 자신 직전] 까지 [depth만큼 padding + 자신의 필드 정보를 get하여] 그리는 것이다. 불린flag가 있다면 삼항연산자를 통해 그려준다.</h4>
+
+<ul>
+  <li><strong>todo의 complete처럼, <code class="language-plaintext highlighter-rouge">menu도 toggle이 반영된 available</code>부터 <code class="language-plaintext highlighter-rouge">삼항연산자로 그려준다</code></strong></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726161825555.png" alt="image-20220726161825555"></p>
+
+<ul>
+  <li>그외 일반 필드정보는 편하게 getter뽑아서 찍어준다.
+    <ul>
+      <li>괄호필요하면 따로 끊어주기</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="종결처리는-자식없어-순회없이-끝나는-마지막-node를-생각해보면-빠르고-실제-적용은-매-node마다-적용된다-시작시-무엇을-열어줬는지에-대해-닫아줘야할-것이-있는지-등을-생각한다">
+<a class="anchor" href="#%EC%A2%85%EA%B2%B0%EC%B2%98%EB%A6%AC%EB%8A%94-%EC%9E%90%EC%8B%9D%EC%97%86%EC%96%B4-%EC%88%9C%ED%9A%8C%EC%97%86%EC%9D%B4-%EB%81%9D%EB%82%98%EB%8A%94-%EB%A7%88%EC%A7%80%EB%A7%89-node%EB%A5%BC-%EC%83%9D%EA%B0%81%ED%95%B4%EB%B3%B4%EB%A9%B4-%EB%B9%A0%EB%A5%B4%EA%B3%A0-%EC%8B%A4%EC%A0%9C-%EC%A0%81%EC%9A%A9%EC%9D%80-%EB%A7%A4-node%EB%A7%88%EB%8B%A4-%EC%A0%81%EC%9A%A9%EB%90%9C%EB%8B%A4-%EC%8B%9C%EC%9E%91%EC%8B%9C-%EB%AC%B4%EC%97%87%EC%9D%84-%EC%97%B4%EC%96%B4%EC%A4%AC%EB%8A%94%EC%A7%80%EC%97%90-%EB%8C%80%ED%95%B4-%EB%8B%AB%EC%95%84%EC%A4%98%EC%95%BC%ED%95%A0-%EA%B2%83%EC%9D%B4-%EC%9E%88%EB%8A%94%EC%A7%80-%EB%93%B1%EC%9D%84-%EC%83%9D%EA%B0%81%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>종결처리는 [자식없어 순회없이 끝나는 마지막 node]를 생각해보면 빠르고, 실제 적용은 매 node마다 적용된다. [시작시 무엇을 열어줬는지에 대해, 닫아줘야할 것이 있는지] 등을 생각한다.</h4>
+
+<ul>
+  <li>console은 <code class="language-plaintext highlighter-rouge">자신~자식호출직전까지</code> <strong>시작시 특별하게 열어주는 것이 없으므로 종결처리가 필요 없지만</strong>
+</li>
+  <li><strong>자신 ~ 자식들 다끝나고, 마지막 node의 끝에 <code class="language-plaintext highlighter-rouge">한줄씩 띄워주는 것</code>으로 넣어보자.</strong></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726162420491.png" alt="image-20220726162420491"></p>
+
+<h3 id="14-main에서-라이프싸이클을-채운-구상visitor를-지연생성용-factory에-넣어주고-어떻게-출력되는지-확인해보자">
+<a class="anchor" href="#14-main%EC%97%90%EC%84%9C-%EB%9D%BC%EC%9D%B4%ED%94%84%EC%8B%B8%EC%9D%B4%ED%81%B4%EC%9D%84-%EC%B1%84%EC%9A%B4-%EA%B5%AC%EC%83%81visitor%EB%A5%BC-%EC%A7%80%EC%97%B0%EC%83%9D%EC%84%B1%EC%9A%A9-factory%EC%97%90-%EB%84%A3%EC%96%B4%EC%A3%BC%EA%B3%A0-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%B6%9C%EB%A0%A5%EB%90%98%EB%8A%94%EC%A7%80-%ED%99%95%EC%9D%B8%ED%95%B4%EB%B3%B4%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>14 Main에서 라이프싸이클을 채운 구상Visitor를 지연생성용 factory에 넣어주고, 어떻게 출력되는지 확인해보자.</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/fab526df-674e-4b1e-8e25-c28703da0ce1.gif" alt="fab526df-674e-4b1e-8e25-c28703da0ce1"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726162602228.png" alt="image-20220726162602228"></p>
+
+<h4 id="composite객체자신--자식들의-종결처리는-바로-아래-자식들의-종결처리-이후-마지막-직후자식의-종결처리후-1번만-종결처리된다">
+<a class="anchor" href="#composite%EA%B0%9D%EC%B2%B4%EC%9E%90%EC%8B%A0--%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%98-%EC%A2%85%EA%B2%B0%EC%B2%98%EB%A6%AC%EB%8A%94-%EB%B0%94%EB%A1%9C-%EC%95%84%EB%9E%98-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%98-%EC%A2%85%EA%B2%B0%EC%B2%98%EB%A6%AC-%EC%9D%B4%ED%9B%84-%EB%A7%88%EC%A7%80%EB%A7%89-%EC%A7%81%ED%9B%84%EC%9E%90%EC%8B%9D%EC%9D%98-%EC%A2%85%EA%B2%B0%EC%B2%98%EB%A6%AC%ED%9B%84-1%EB%B2%88%EB%A7%8C-%EC%A2%85%EA%B2%B0%EC%B2%98%EB%A6%AC%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Composite객체(자신 + 자식들)의 종결처리는 [바로 아래 자식들의 종결처리 이후 마지막 직후자식의 종결처리후 1번만 종결처리된다.]</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726163519249.png" alt="image-20220726163519249"></p>
+
+<h4 id="줄바꿈으로-종결처리-하지말자-자신의-시작시-여는-처리가-있을-때만-닫는-처리를-종결처리에-추가하자-종결처리는-생략해도-된다">
+<a class="anchor" href="#%EC%A4%84%EB%B0%94%EA%BF%88%EC%9C%BC%EB%A1%9C-%EC%A2%85%EA%B2%B0%EC%B2%98%EB%A6%AC-%ED%95%98%EC%A7%80%EB%A7%90%EC%9E%90-%EC%9E%90%EC%8B%A0%EC%9D%98-%EC%8B%9C%EC%9E%91%EC%8B%9C-%EC%97%AC%EB%8A%94-%EC%B2%98%EB%A6%AC%EA%B0%80-%EC%9E%88%EC%9D%84-%EB%95%8C%EB%A7%8C-%EB%8B%AB%EB%8A%94-%EC%B2%98%EB%A6%AC%EB%A5%BC-%EC%A2%85%EA%B2%B0%EC%B2%98%EB%A6%AC%EC%97%90-%EC%B6%94%EA%B0%80%ED%95%98%EC%9E%90-%EC%A2%85%EA%B2%B0%EC%B2%98%EB%A6%AC%EB%8A%94-%EC%83%9D%EB%9E%B5%ED%95%B4%EB%8F%84-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>줄바꿈으로 종결처리 하지말자. 자신의 시작시 [여는 처리]가 있을 때만 [닫는 처리]를 종결처리에 추가하자. (종결처리는 생략해도 된다)</h4>
+
+<ul>
+  <li>
+    <p>줄바꿈 종결처리를 지운다.</p>
+  </li>
+  <li>
+    <p><strong>따로 여는 처리가 없기 때문에 종결처리를 생략</strong>하자</p>
+  </li>
+  <li>
+    <p>추가로,  available 출력은 지워도 될 것 같다.</p>
+  </li>
+  <li>
+    <p>추가로, <strong>LocalDateTime중에 date만 표시해도 될 것</strong> 같다.</p>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726163940602.png" alt="image-20220726163940602"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726163952535.png" alt="image-20220726163952535"></p>
+
+<h3 id="15-composite객체는-호출하는-메서드가-depth를-함께-가지므로-depth와-함께-자신자식종결처리를-할-수-있어서-json을-만들-수-있다">
+<a class="anchor" href="#15-composite%EA%B0%9D%EC%B2%B4%EB%8A%94-%ED%98%B8%EC%B6%9C%ED%95%98%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C%EA%B0%80-depth%EB%A5%BC-%ED%95%A8%EA%BB%98-%EA%B0%80%EC%A7%80%EB%AF%80%EB%A1%9C-depth%EC%99%80-%ED%95%A8%EA%BB%98-%EC%9E%90%EC%8B%A0%EC%9E%90%EC%8B%9D%EC%A2%85%EA%B2%B0%EC%B2%98%EB%A6%AC%EB%A5%BC-%ED%95%A0-%EC%88%98-%EC%9E%88%EC%96%B4%EC%84%9C-json%EC%9D%84-%EB%A7%8C%EB%93%A4-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>15 Composite객체는 호출하는 메서드가 depth를 함께 가지므로 depth와 함께 자신+자식+종결처리를 할 수 있어서 json을 만들 수 있다.</h3>
+
+<ul>
+  <li>consoleMenuVisitor를 복사해서 만든다.</li>
+  <li><strong>종결처리를 할 수 있다면, json의 시작괄호를 닫아줄 수 있어서, 생성 가능하다.</strong></li>
+</ul>
+
+<h4 id="json의-문자열을-모으지말고-일단-출력하는-형식을-만든다-padding은--대신-공백으로-바뀐다">
+<a class="anchor" href="#json%EC%9D%98-%EB%AC%B8%EC%9E%90%EC%97%B4%EC%9D%84-%EB%AA%A8%EC%9C%BC%EC%A7%80%EB%A7%90%EA%B3%A0-%EC%9D%BC%EB%8B%A8-%EC%B6%9C%EB%A0%A5%ED%95%98%EB%8A%94-%ED%98%95%EC%8B%9D%EC%9D%84-%EB%A7%8C%EB%93%A0%EB%8B%A4-padding%EC%9D%80--%EB%8C%80%EC%8B%A0-%EA%B3%B5%EB%B0%B1%EC%9C%BC%EB%A1%9C-%EB%B0%94%EB%80%90%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>json의 문자열을 모으지말고 일단 출력하는 형식을 만든다. padding은 -대신 공백으로 바뀐다.</h4>
+
+<ol>
+  <li>
+    <p>ConsoleMenuVisitor를 복사해서 <strong>JsonMenuVisitor</strong>를 만든다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726171244593.png" alt="image-20220726171244593"></p>
+  </li>
+  <li>
+    <p><strong>패딩을 <code class="language-plaintext highlighter-rouge">-</code>에서 <code class="language-plaintext highlighter-rouge">공백</code>으로 바꾼다.</strong></p>
+
+    <ul>
+      <li><strong>공백의 갯수는 상관없으니 <code class="language-plaintext highlighter-rouge">공백 2개</code>를 기본으로 바꿔보자.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726171745191.png" alt="image-20220726171745191"></p>
+  </li>
+</ol>
+
+<h4 id="json의-구성은-padding--여는중괄호--padding--중괄호-대체공백--필드--큰따옴표-속-필드정보--콤마--자식들의-시작-직전인-sub----여는-대괄호까지를-자신처리를-한다---매번-padding이-들어가니-매-줄을-일단-sout으로-생성한다">
+<a class="anchor" href="#json%EC%9D%98-%EA%B5%AC%EC%84%B1%EC%9D%80-padding--%EC%97%AC%EB%8A%94%EC%A4%91%EA%B4%84%ED%98%B8--padding--%EC%A4%91%EA%B4%84%ED%98%B8-%EB%8C%80%EC%B2%B4%EA%B3%B5%EB%B0%B1--%ED%95%84%EB%93%9C--%ED%81%B0%EB%94%B0%EC%98%B4%ED%91%9C-%EC%86%8D-%ED%95%84%EB%93%9C%EC%A0%95%EB%B3%B4--%EC%BD%A4%EB%A7%88--%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%98-%EC%8B%9C%EC%9E%91-%EC%A7%81%EC%A0%84%EC%9D%B8-sub----%EC%97%AC%EB%8A%94-%EB%8C%80%EA%B4%84%ED%98%B8%EA%B9%8C%EC%A7%80%EB%A5%BC-%EC%9E%90%EC%8B%A0%EC%B2%98%EB%A6%AC%EB%A5%BC-%ED%95%9C%EB%8B%A4---%EB%A7%A4%EB%B2%88-padding%EC%9D%B4-%EB%93%A4%EC%96%B4%EA%B0%80%EB%8B%88-%EB%A7%A4-%EC%A4%84%EC%9D%84-%EC%9D%BC%EB%8B%A8-sout%EC%9C%BC%EB%A1%9C-%EC%83%9D%EC%84%B1%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>json의 구성은 padding + 여는중괄호 / padding + 중괄호 대체공백 + 필드 + 큰따옴표 속 필드정보 + 콤마 / 자식들의 시작 직전인 sub :  [ 여는 대괄호까지를 자신처리를 한다. -&gt; 매번 padding이 들어가니, 매 줄을 일단 sout으로 생성한다.</h4>
+
+<ol>
+  <li>
+    <p><strong>json의 출력은 <code class="language-plaintext highlighter-rouge">필드마다 매번 공백 padding</code>을 사용하므로, <code class="language-plaintext highlighter-rouge">매 라인을 sout</code>으로 편하게 작성하자.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726172057180.png" alt="image-20220726172057180"></p>
+  </li>
+  <li>
+    <p>이대로 한번 Main에서 출력해보자.</p>
+
+    <ul>
+      <li>
+        <p><strong>아직 <code class="language-plaintext highlighter-rouge">매 자신의 닫는 중괄호} + 콤마,</code>의 종결처리가 안되어있다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726172239040.png" alt="image-20220726172239040"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="json은-자신의-처리시-여는-중괄호-존재--모든-자식들-끝날-때-1번-처리해야할-부분닫는-중괄호--콤마이-있기-때문에-종결처리를-채워줘야한다-이-때-detp를-padding을-바꾸는-로직이-재활용되니-내수용-메서드로-추출해야한다">
+<a class="anchor" href="#json%EC%9D%80-%EC%9E%90%EC%8B%A0%EC%9D%98-%EC%B2%98%EB%A6%AC%EC%8B%9C-%EC%97%AC%EB%8A%94-%EC%A4%91%EA%B4%84%ED%98%B8-%EC%A1%B4%EC%9E%AC--%EB%AA%A8%EB%93%A0-%EC%9E%90%EC%8B%9D%EB%93%A4-%EB%81%9D%EB%82%A0-%EB%95%8C-1%EB%B2%88-%EC%B2%98%EB%A6%AC%ED%95%B4%EC%95%BC%ED%95%A0-%EB%B6%80%EB%B6%84%EB%8B%AB%EB%8A%94-%EC%A4%91%EA%B4%84%ED%98%B8--%EC%BD%A4%EB%A7%88%EC%9D%B4-%EC%9E%88%EA%B8%B0-%EB%95%8C%EB%AC%B8%EC%97%90-%EC%A2%85%EA%B2%B0%EC%B2%98%EB%A6%AC%EB%A5%BC-%EC%B1%84%EC%9B%8C%EC%A4%98%EC%95%BC%ED%95%9C%EB%8B%A4-%EC%9D%B4-%EB%95%8C-detp%EB%A5%BC-padding%EC%9D%84-%EB%B0%94%EA%BE%B8%EB%8A%94-%EB%A1%9C%EC%A7%81%EC%9D%B4-%EC%9E%AC%ED%99%9C%EC%9A%A9%EB%90%98%EB%8B%88-%EB%82%B4%EC%88%98%EC%9A%A9-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EC%B6%94%EC%B6%9C%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>json은 자신의 처리시 여는 중괄호 존재 + 모든 자식들 끝날 때 1번 처리해야할 부분(닫는 중괄호 + 콤마)이 있기 때문에 종결처리를 채워줘야한다. 이 때, detp를 padding을 바꾸는 로직이 재활용되니 내수용 메서드로 추출해야한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/255f71f0-eed8-4463-8b2a-4bf179f5fd6c.gif" alt="255f71f0-eed8-4463-8b2a-4bf179f5fd6c"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726172758391.png" alt="image-20220726172758391"></p>
+
+<p>​</p>
+
+<h4 id="종결처리의-확인은-자식없는-마지막-node에서-자신의-종결처리--나의부모의-마지막node뒤-종결처리를-확인하면-된다---내-시작뿐만-아니라-자식들-진입직전에-열어주는-것도-종결처리-해주자">
+<a class="anchor" href="#%EC%A2%85%EA%B2%B0%EC%B2%98%EB%A6%AC%EC%9D%98-%ED%99%95%EC%9D%B8%EC%9D%80-%EC%9E%90%EC%8B%9D%EC%97%86%EB%8A%94-%EB%A7%88%EC%A7%80%EB%A7%89-node%EC%97%90%EC%84%9C-%EC%9E%90%EC%8B%A0%EC%9D%98-%EC%A2%85%EA%B2%B0%EC%B2%98%EB%A6%AC--%EB%82%98%EC%9D%98%EB%B6%80%EB%AA%A8%EC%9D%98-%EB%A7%88%EC%A7%80%EB%A7%89node%EB%92%A4-%EC%A2%85%EA%B2%B0%EC%B2%98%EB%A6%AC%EB%A5%BC-%ED%99%95%EC%9D%B8%ED%95%98%EB%A9%B4-%EB%90%9C%EB%8B%A4---%EB%82%B4-%EC%8B%9C%EC%9E%91%EB%BF%90%EB%A7%8C-%EC%95%84%EB%8B%88%EB%9D%BC-%EC%9E%90%EC%8B%9D%EB%93%A4-%EC%A7%84%EC%9E%85%EC%A7%81%EC%A0%84%EC%97%90-%EC%97%B4%EC%96%B4%EC%A3%BC%EB%8A%94-%EA%B2%83%EB%8F%84-%EC%A2%85%EA%B2%B0%EC%B2%98%EB%A6%AC-%ED%95%B4%EC%A3%BC%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>종결처리의 확인은, 자식없는 마지막 node에서 [자신의 종결처리] + [나의부모의 마지막node뒤 종결처리]를 확인하면 된다. -&gt; [내 시작뿐만 아니라, 자식들 진입직전에 열어주는 것도 종결처리 해주자!]</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726173000555.png" alt="image-20220726173000555"></p>
+
+<ul>
+  <li><strong>sub의 자식들이 끝나고 <code class="language-plaintext highlighter-rouge">자식들 진입직전에 열어주는 대괄호</code>는  닫는 종결처리가 아직 안되어있다.</strong></li>
+  <li><strong>자식들끝에 1번 등장하는 <code class="language-plaintext highlighter-rouge">내 시작시 열어주는 중괄호</code>는 닫는 종결처리는 잘되어있다.</strong></li>
+</ul>
+
+<h4 id="자식들-시작시-열어주는-처리는-콤마없이-종결처리-해주면-된다-먼저-처리하고-내-시작시-열어주는-처리를-뒤에-종결처리한다">
+<a class="anchor" href="#%EC%9E%90%EC%8B%9D%EB%93%A4-%EC%8B%9C%EC%9E%91%EC%8B%9C-%EC%97%B4%EC%96%B4%EC%A3%BC%EB%8A%94-%EC%B2%98%EB%A6%AC%EB%8A%94-%EC%BD%A4%EB%A7%88%EC%97%86%EC%9D%B4-%EC%A2%85%EA%B2%B0%EC%B2%98%EB%A6%AC-%ED%95%B4%EC%A3%BC%EB%A9%B4-%EB%90%9C%EB%8B%A4-%EB%A8%BC%EC%A0%80-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B3%A0-%EB%82%B4-%EC%8B%9C%EC%9E%91%EC%8B%9C-%EC%97%B4%EC%96%B4%EC%A3%BC%EB%8A%94-%EC%B2%98%EB%A6%AC%EB%A5%BC-%EB%92%A4%EC%97%90-%EC%A2%85%EA%B2%B0%EC%B2%98%EB%A6%AC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>자식들 시작시 열어주는 처리는 콤마없이 종결처리 해주면 된다. 먼저 처리하고, 내 시작시 열어주는 처리를 뒤에 종결처리한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/102a00be-fe23-4a2c-bbbb-c5d08e158bb0.gif" alt="102a00be-fe23-4a2c-bbbb-c5d08e158bb0"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726173343897.png" alt="image-20220726173343897"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726173357547.png" alt="image-20220726173357547"></p>
+
+<h4 id="내-시작시-열어주고-내-종결시-닫는-처리의-콤마는-트레일링-콤마라고-한다">
+<a class="anchor" href="#%EB%82%B4-%EC%8B%9C%EC%9E%91%EC%8B%9C-%EC%97%B4%EC%96%B4%EC%A3%BC%EA%B3%A0-%EB%82%B4-%EC%A2%85%EA%B2%B0%EC%8B%9C-%EB%8B%AB%EB%8A%94-%EC%B2%98%EB%A6%AC%EC%9D%98-%EC%BD%A4%EB%A7%88%EB%8A%94-%ED%8A%B8%EB%A0%88%EC%9D%BC%EB%A7%81-%EC%BD%A4%EB%A7%88%EB%9D%BC%EA%B3%A0-%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>내 시작시 열어주고, 내 종결시 닫는 처리의 콤마는 트레일링 콤마라고 한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726173451611.png" alt="image-20220726173451611"></p>
+
+<ul>
+  <li>프레임웤을 만들어본 사람이라면, depth를 통한 분기처리를 통해 없애주지말고 사용하자고 하는 사람들이 많다고 한다.</li>
+</ul>
+
+<h3 id="16-json자체를-만드려면-출력관련report-visitor-renderer가-필요없이-composite객체-원본이자-자식들을-다-담고-있는-root-객체만-gson라이브러리에-넣어주면-된다">
+<a class="anchor" href="#16-json%EC%9E%90%EC%B2%B4%EB%A5%BC-%EB%A7%8C%EB%93%9C%EB%A0%A4%EB%A9%B4-%EC%B6%9C%EB%A0%A5%EA%B4%80%EB%A0%A8report-visitor-renderer%EA%B0%80-%ED%95%84%EC%9A%94%EC%97%86%EC%9D%B4-composite%EA%B0%9D%EC%B2%B4-%EC%9B%90%EB%B3%B8%EC%9D%B4%EC%9E%90-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%84-%EB%8B%A4-%EB%8B%B4%EA%B3%A0-%EC%9E%88%EB%8A%94-root-%EA%B0%9D%EC%B2%B4%EB%A7%8C-gson%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC%EC%97%90-%EB%84%A3%EC%96%B4%EC%A3%BC%EB%A9%B4-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>16 Json자체를 만드려면, 출력관련(report, visitor, renderer)가 필요없이 Composite객체 원본이자 자식들을 다 담고 있는 root 객체만 Gson라이브러리에 넣어주면 된다.</h3>
+
+<ul>
+  <li><a href="https://hianna.tistory.com/629#gson11">참고 블로그</a></li>
+</ul>
+
+<ol>
+  <li>
+    <p>implementation</p>
+
+    <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">dependencies</span> <span class="o">{</span>
+    <span class="c1">//gson</span>
+    <span class="n">implementation</span> <span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">google</span><span class="o">.</span><span class="na">code</span><span class="o">.</span><span class="na">gson</span><span class="o">:</span><span class="nl">gson:</span><span class="mf">2.8</span><span class="o">.</span><span class="mi">7</span><span class="err">'</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>composite root객체를 gson#toJson()에 넣어주면</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726180518040.png" alt="image-20220726180518040"></p>
+  </li>
+  <li>
+    <p><strong>자식들을 포함하여 다 json으로 만들어준다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726180556973.png" alt="image-20220726180556973"></p>
+  </li>
+  <li>
+    <p><strong>필드명을 변경하고 싶다면, composite객체 필드에 <code class="language-plaintext highlighter-rouge">@SerializedName("바뀔필드명")</code>을 달아주면 된다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220726180648460.png" alt="image-20220726180648460"></p>
+  </li>
+</ol>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/menu/composite/visitor/2022/07/30/menu%EB%A5%BC-%EB%A7%8C%EB%93%A4%EB%A9%B0-%EC%9D%B5%ED%9E%88%EB%8A%94-visitor%ED%8C%A8%ED%84%B4.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
