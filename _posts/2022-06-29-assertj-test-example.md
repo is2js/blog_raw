@@ -1295,6 +1295,22 @@ void compare_lotto_by_lotto(final List<String> otherLottoInput, final int matche
 
 ### 블랙잭
 
+#### .isInstanceof(특정.class)
+- **상황에 따라 `여러종류의 객체`가 응답될 수 있을 땐, `Object형 변수`로 받은 뒤, `.isInstanceOf()`를 통해 특정 클래스의 객체를 확인한다**
+
+![image-20220803172709657](https://raw.githubusercontent.com/is3js/screenshots/main/image-20220803172709657.png)
+    ```java
+    @Test
+    void start_hit____2와5를_입력하면_hit상태를_응답한다() {
+        // 카드 2 + 5 -> hit상태의 객체
+        final Object actual = Game.start(
+            Card.from(Suit.SPADES, Denomination.TWO),
+            Card.from(Suit.SPADES, Denomination.FIVE)
+        );
+
+        assertThat(actual).isInstanceOf(Hit.class);
+    }
+    ```
 #### @Nested
 
 1. **setUp할 예시가 달라지는 경우 `서로 다른 @BeforeEach`를 가지게 할려고 `기존 @beforeEach - setUp`를 `Nest`클래스에 넣어주려고 사용한다.**

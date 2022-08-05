@@ -1,13 +1,20 @@
 ---
 toc: true
 layout: post
-title: intellij, pycharm Run in WindowsTerminal
-description: idea .과 pycharm .으로 IDE 실행하도록 세팅하기
-categories: [configuration, intellij, pycharm, cmd, terminal]
+title: jetbrain(intellij, pycharm) bin register in variable
+description: idea .과 pycharm .으로 IDE 실행하도록 bin폴더를 환경변수에 넣어주기
+categories: [configuration, intellij, pycharm, cmd, terminal, bin, 환경변수]
 
 image: "images/posts/config.png"
 
 ---
+
+### toolbox로 설치한 제품 위치
+- pycharm : `C:\Users\is2js\AppData\Local\JetBrains\Toolbox\apps\PyCharm-P\ch-0\`
+- intellij : `C:\Users\is2js\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0`
+	- **버전 업데이트마다 `bin\`폴더까지를 환경변수에 넣어준다.**
+		- intellij: `idea`
+		- pycharm: `pycharm`
 
 ### intellij bin 폴더를 Path에 등록하여 `idea .`으로 실행
 1. 탐색기 > `내컴퓨터`우클릭 > `속성` 선택

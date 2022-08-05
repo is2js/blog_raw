@@ -16,6 +16,15 @@ image: "images/posts/python.png"
 - settings >  appearance & behavior > `system settings` > [ ] **reopen projects on startup 체크해제**
 ![20220616111941](https://raw.githubusercontent.com/is2js/screenshots/main/20220616111941.png)
 
+### powershell 권한 문제 해결
+1. settings > tool > terminal에 가서 `기본 powershel`(=window powershell)을 **직접 설치한 7버전이상의 `powershell`로 변경한다**
+    ![20220804174059](https://raw.githubusercontent.com/is3js/screenshots/main/20220804174059.png)
+2. 아래 참고블로그를 바탕으로 remote에 실행정책에서 권한확인을 삭제한다.
+    - [코딩도장](https://dojang.io/mod/page/view.php?id=2470)
+    - [벨로그](https://velog.io/@mhnormal/Window-%ED%99%98%EA%B2%BD%EC%97%90%EC%84%9C-ExecutionPolicy-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0-%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EC%8B%A4%ED%96%89%EC%8B%9C-%EA%B6%8C%ED%95%9C%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0)
+    ```shell
+    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+    ```
 ## 플러그인
 
 

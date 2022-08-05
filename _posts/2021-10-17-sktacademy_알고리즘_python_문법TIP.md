@@ -2,7 +2,7 @@
 toc: true
 layout: post
 description: python으로 알고리즘을 푸는 요령과 문법 TIP 모음
-categories: [algorithm]
+categories: [python, algorithm]
 title: SKTacademy 코테 TIP과 자료구조
 
 image: "images/posts/algo.png"

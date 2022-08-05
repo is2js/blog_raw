@@ -30,6 +30,12 @@ image: "images/posts/config.png"
 
 - 링크 : https://docs.microsoft.com/ko-kr/powershell/scripting/install/installing-powershell-core-on-windows?view=powershell-7.1
 
+### powershell 권한 처리 for IDE(파이참에서 터미널 권한 안생기게)
+#### Set-ExecutionPolicy 
+```shell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+```
+
 ## 기본 명령어
 
 ### man, clear
