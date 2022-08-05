@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      4 min read
+      5 min read
     
 </span></p>
 
@@ -139,6 +139,11 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h2"><a href="#개요">개요</a>
 <ul>
 <li class="toc-entry toc-h3"><a href="#powershell-최신버전-설치">powershell 최신버전 설치</a></li>
+<li class="toc-entry toc-h3"><a href="#powershell-권한-처리-for-ide파이참에서-터미널-권한-안생기게">powershell 권한 처리 for IDE(파이참에서 터미널 권한 안생기게)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#set-executionpolicy">Set-ExecutionPolicy</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-entry toc-h2"><a href="#기본-명령어">기본 명령어</a>
@@ -275,6 +280,13 @@ window.onload = wrap_img;
 <ul>
   <li>링크 : https://docs.microsoft.com/ko-kr/powershell/scripting/install/installing-powershell-core-on-windows?view=powershell-7.1</li>
 </ul>
+
+<h3 id="powershell-권한-처리-for-ide파이참에서-터미널-권한-안생기게">
+<a class="anchor" href="#powershell-%EA%B6%8C%ED%95%9C-%EC%B2%98%EB%A6%AC-for-ide%ED%8C%8C%EC%9D%B4%EC%B0%B8%EC%97%90%EC%84%9C-%ED%84%B0%EB%AF%B8%EB%84%90-%EA%B6%8C%ED%95%9C-%EC%95%88%EC%83%9D%EA%B8%B0%EA%B2%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>powershell 권한 처리 for IDE(파이참에서 터미널 권한 안생기게)</h3>
+<h4 id="set-executionpolicy">
+<a class="anchor" href="#set-executionpolicy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Set-ExecutionPolicy</h4>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Set-ExecutionPolicy <span class="nt">-ExecutionPolicy</span> RemoteSigned <span class="nt">-Scope</span> LocalMachine
+</code></pre></div></div>
 
 <h2 id="기본-명령어">
 <a class="anchor" href="#%EA%B8%B0%EB%B3%B8-%EB%AA%85%EB%A0%B9%EC%96%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>기본 명령어</h2>

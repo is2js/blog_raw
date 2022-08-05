@@ -249,7 +249,7 @@ window.onload = wrap_img;
 </li>
 <li class="toc-entry toc-h3"><a href="#블랙잭">블랙잭</a>
 <ul>
-<li class="toc-entry toc-h4"><a href="#nested">@Nested</a></li>
+<li class="toc-entry toc-h4"><a href="#isinstanceof특정class">.isInstanceof(특정.class)</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h3"><a href="#그외-assertj-메소드-모음">그외 Assertj 메소드 모음</a>
@@ -1619,8 +1619,26 @@ window.onload = wrap_img;
 <h3 id="블랙잭">
 <a class="anchor" href="#%EB%B8%94%EB%9E%99%EC%9E%AD" aria-hidden="true"><span class="octicon octicon-link"></span></a>블랙잭</h3>
 
-<h4 id="nested">
-<a class="anchor" href="#nested" aria-hidden="true"><span class="octicon octicon-link"></span></a>@Nested</h4>
+<h4 id="isinstanceof특정class">
+<a class="anchor" href="#isinstanceof%ED%8A%B9%EC%A0%95class" aria-hidden="true"><span class="octicon octicon-link"></span></a>.isInstanceof(특정.class)</h4>
+<ul>
+  <li><strong>상황에 따라 <code class="language-plaintext highlighter-rouge">여러종류의 객체</code>가 응답될 수 있을 땐, <code class="language-plaintext highlighter-rouge">Object형 변수</code>로 받은 뒤, <code class="language-plaintext highlighter-rouge">.isInstanceOf()</code>를 통해 특정 클래스의 객체를 확인한다</strong></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220803172709657.png" alt="image-20220803172709657">
+    ```java
+    @Test
+    void start_hit____2와5를_입력하면_hit상태를_응답한다() {
+        // 카드 2 + 5 -&gt; hit상태의 객체
+        final Object actual = Game.start(
+            Card.from(Suit.SPADES, Denomination.TWO),
+            Card.from(Suit.SPADES, Denomination.FIVE)
+        );</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    assertThat(actual).isInstanceOf(Hit.class);
+}
+``` #### @Nested
+</code></pre></div></div>
 
 <ol>
   <li>

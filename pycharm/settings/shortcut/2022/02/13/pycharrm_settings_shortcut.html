@@ -130,6 +130,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h2"><a href="#세팅">세팅</a>
 <ul>
 <li class="toc-entry toc-h3"><a href="#시작시-최근-프로젝트-reopen-해제">시작시 최근 프로젝트 reopen 해제</a></li>
+<li class="toc-entry toc-h3"><a href="#powershell-권한-문제-해결">powershell 권한 문제 해결</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h2"><a href="#플러그인">플러그인</a>
@@ -162,8 +163,26 @@ window.onload = wrap_img;
 </li>
 </ul>
 
-<h2 id="플러그인">
+<h3 id="powershell-권한-문제-해결">
+<a class="anchor" href="#powershell-%EA%B6%8C%ED%95%9C-%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>powershell 권한 문제 해결</h3>
+<ol>
+  <li>settings &gt; tool &gt; terminal에 가서 <code class="language-plaintext highlighter-rouge">기본 powershel</code>(=window powershell)을 <strong>직접 설치한 7버전이상의 <code class="language-plaintext highlighter-rouge">powershell</code>로 변경한다</strong>
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/20220804174059.png" alt="20220804174059">
+</li>
+  <li>아래 참고블로그를 바탕으로 remote에 실행정책에서 권한확인을 삭제한다.
+    <ul>
+      <li><a href="https://dojang.io/mod/page/view.php?id=2470">코딩도장</a></li>
+      <li>
+<a href="https://velog.io/@mhnormal/Window-%ED%99%98%EA%B2%BD%EC%97%90%EC%84%9C-ExecutionPolicy-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0-%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EC%8B%A4%ED%96%89%EC%8B%9C-%EA%B6%8C%ED%95%9C%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0">벨로그</a>
+        <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> Set-ExecutionPolicy <span class="nt">-ExecutionPolicy</span> RemoteSigned <span class="nt">-Scope</span> LocalMachine
+</code></pre></div>        </div>
+        <h2 id="플러그인">
 <a class="anchor" href="#%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>플러그인</h2>
+      </li>
+    </ul>
+  </li>
+</ol>
 
 <h3 id="vscode-keymap-설치-및-intellij-설정-가져오기">
 <a class="anchor" href="#vscode-keymap-%EC%84%A4%EC%B9%98-%EB%B0%8F-intellij-%EC%84%A4%EC%A0%95-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>Vscode Keymap 설치 및 intellij 설정 가져오기</h3>

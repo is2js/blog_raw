@@ -138,7 +138,8 @@ window.onload = wrap_img;
     <ul class="section-nav">
 <li class="toc-entry toc-h2"><a href="#캐싱-방법-정리">캐싱 방법 정리</a>
 <ul>
-<li class="toc-entry toc-h3"><a href="#정팩매로-1개-input에-대한-캐싱객체-생성방법">정팩매로 1개 input에 대한 캐싱객체 생성방법</a></li>
+<li class="toc-entry toc-h3"><a href="#정팩메로-1개-input에-대한-캐싱객체-생성방법">정팩메로 1개 input에 대한 캐싱객체 생성방법</a></li>
+<li class="toc-entry toc-h3"><a href="#정팩메로-2개-이상-input에-대한-캐싱객체-생성방법">정팩메로 2개 이상 input에 대한 캐싱객체 생성방법</a></li>
 </ul>
 </li>
 </ul><h2 id="캐싱-방법-정리">
@@ -148,18 +149,25 @@ window.onload = wrap_img;
 
 <ul>
   <li>정팩메가 필요하다</li>
-  <li>static컬렉션(hashMap) CACHE (기존 생성자파라미터를 key, 객체를value로 하는 Type)를 필드초기화하고</li>
+  <li>static컬렉션(hashMap) CACHE (기존 생성자파라미터를 key, 객체를value로 하는 Type)를 필드초기화하고
+    <ul>
+      <li>갯수가 정해져있으니 capacity를 기입해서 빈컬렉션 초기화</li>
+      <li>
+<strong>만약, 기본생성자로 들어더온 데이터가 2개이상이면, 1개의 key로 만들기 위해 innter KeyClass도입 or string으로 연결</strong>한다.</li>
+    </ul>
+  </li>
   <li>static정팩메에서 <code class="language-plaintext highlighter-rouge">if 없으면 생성해서 넣어주고 , 있으면 get</code>을 요청한다
     <ul>
       <li>computeIfAbsent(key, 가상인자람다식으로 value생성(객체생성))</li>
+      <li>java라면 computeIfAbsent를 활용하되 Funtional이 기본이므로 객체생성자 호출시 ignored -&gt; 를 활용한다</li>
     </ul>
   </li>
   <li><strong>미리 static블럭에서 static변수들(캐싱변수도)을 초기화해서 캐싱할 객체들을 미리 생성할 수 있음.</strong></li>
   <li><strong>여러쓰레드에서 입력할 가능성이 있다면, ConcurrentHashMap으로 캐싱static 변수를 초기화한다.</strong></li>
 </ul>
 
-<h3 id="정팩매로-1개-input에-대한-캐싱객체-생성방법">
-<a class="anchor" href="#%EC%A0%95%ED%8C%A9%EB%A7%A4%EB%A1%9C-1%EA%B0%9C-input%EC%97%90-%EB%8C%80%ED%95%9C-%EC%BA%90%EC%8B%B1%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>정팩매로 1개 input에 대한 캐싱객체 생성방법</h3>
+<h3 id="정팩메로-1개-input에-대한-캐싱객체-생성방법">
+<a class="anchor" href="#%EC%A0%95%ED%8C%A9%EB%A9%94%EB%A1%9C-1%EA%B0%9C-input%EC%97%90-%EB%8C%80%ED%95%9C-%EC%BA%90%EC%8B%B1%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>정팩메로 1개 input에 대한 캐싱객체 생성방법</h3>
 
 <ol>
   <li>
@@ -245,6 +253,64 @@ window.onload = wrap_img;
   </li>
 </ol>
 
+<h3 id="정팩메로-2개-이상-input에-대한-캐싱객체-생성방법">
+<a class="anchor" href="#%EC%A0%95%ED%8C%A9%EB%A9%94%EB%A1%9C-2%EA%B0%9C-%EC%9D%B4%EC%83%81-input%EC%97%90-%EB%8C%80%ED%95%9C-%EC%BA%90%EC%8B%B1%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>정팩메로 2개 이상 input에 대한 캐싱객체 생성방법</h3>
+<ol>
+  <li>
+    <p>컴퓨터내부에서 로직의 시작인 card 2개가 주어진다면, <strong>정제된input이라 생각하고 카드부터 만든다.</strong></p>
+
+    <ul>
+      <li><strong>제한된 종류의 값 = 상수묶음은 enum으로 만들어서 카드를 만든다.</strong></li>
+      <li>테스트메서드명은 인자 -&gt; 1case 가 결정한다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220803141223263.png" alt="image-20220803141223263"></p>
+  </li>
+  <li>
+    <p><strong>4 x 13 종류의 객체는 캐싱이 가능하다.</strong></p>
+
+    <ul>
+      <li>캐싱을 적용하려면 일단 <strong>생성자 인자 그대로 <code class="language-plaintext highlighter-rouge">정팩메</code>로 만들고, 기본생성자는 private해준다</strong>
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/eb9d9669-3c47-4bc2-a036-e045e7bae549.gif" alt="eb9d9669-3c47-4bc2-a036-e045e7bae549"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220803141533284.png" alt="image-20220803141533284"></p>
+  </li>
+  <li>
+    <p><strong>원래는 <code class="language-plaintext highlighter-rouge">기본생성자의 1개 인자</code>에 대해 hashMap<code class="language-plaintext highlighter-rouge">&lt;생성자인자, 객체&gt;</code>형으로 static CACHE map을 만들어야하지만, <code class="language-plaintext highlighter-rouge">파라미터가 2개일경우, 1개로 합친 Key</code>를 만들어야한다.</strong></p>
+
+    <ul>
+      <li>2개이상의 정보를 묶은 class를 만들어도 되지만, <strong>string을 이용해서 합쳐 1개의 key로 만들어 <code class="language-plaintext highlighter-rouge">&lt;String, 객체&gt;</code>형을 많이 사용한다.</strong>
+</li>
+      <li><strong>캐쉬의 기본공식은 꺼내서 없으면 put해주고, return get을 반환이다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/303bdea4-3f7f-401f-8ced-e537eb227a77.gif" alt="303bdea4-3f7f-401f-8ced-e537eb227a77"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220803142249589.png" alt="image-20220803142249589"></p>
+  </li>
+  <li>
+    <p><strong>테스트메서드명도 함수를 from or of의 정펙메로 바꿔주고, isSameAs로 테스트한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220803142749590.png" alt="image-20220803142749590"></p>
+  </li>
+  <li>
+    <p><strong>java의 기능으로서 없으면 key에 대한 value를 생성해주고 있으면 반환하는 <code class="language-plaintext highlighter-rouge">computeIfAbsent</code>를 사용해서 리팩토링한다.</strong></p>
+
+    <ul>
+      <li>또한 캐싱될 객체의 수를 알고 있으면 미리 넣어줘도 된다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/e488a62d-24bf-4ab9-8f50-1dc5ed300d1a.gif" alt="e488a62d-24bf-4ab9-8f50-1dc5ed300d1a"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220803143606805.png" alt="image-20220803143606805"></p>
+  </li>
+  <li>
+    <p>CACHE대상객체는, 거의 값객체기 때문에,  <strong>값으로 비교하기 위해 eq/hC오버라이딩도 해준다.</strong></p>
+  </li>
+</ol>
 
   </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/lotto/cache/%EC%A0%95%EB%A6%AC/2022/07/31/%EC%BA%90%EC%8B%B1-%EC%A0%81%EC%9A%A9-%EB%B0%A9%EB%B2%95-%EC%A0%95%EB%A6%AC.html" hidden></a>
 </article>
