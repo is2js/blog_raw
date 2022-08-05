@@ -973,10 +973,8 @@ window.onload = wrap_img;
 <p>​  <br>
     <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220321151633317.png" alt="image-20220321151633317"></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```java
-public final class Bust extends Finished {
-}
-```
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Bust</span> <span class="kd">extends</span> <span class="nc">Finished</span> <span class="o">{</span>
+<span class="o">}</span>
 </code></pre></div></div>
 
 <p>​</p>
@@ -1031,36 +1029,35 @@ public final class Bust extends Finished {
 
             <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220321212004729.png" alt="image-20220321212004729"></p>
           </li>
+          <li>
+            <p><strong>추클은 부모로서 자식들이 중복코드 받아간다 -&gt; <code class="language-plaintext highlighter-rouge">추메/전메impl 직후 -&gt;자식을 가진 부모라면 내부 final or abstract부터 정해주기</code></strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220321212127531.png" alt="image-20220321212127531"></p>
+          </li>
+          <li>
+            <p>추클의 2가지 작업(모든impl 구현 + final or abstract 달아주기)가 <strong>구현체(자식될 놈)들 중 1개에서 중복코드를 복붙해와서 메소드 구현해준다.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220321212255907.png" alt="image-20220321212255907"></p>
+          </li>
         </ul>
+
+        <div class="language-java highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Finished</span> <span class="kd">implements</span> <span class="nc">State</span> <span class="o">{</span>
+      <span class="nd">@Override</span>
+      <span class="kd">public</span> <span class="kd">final</span> <span class="nc">State</span> <span class="nf">draw</span><span class="o">(</span><span class="kd">final</span> <span class="nc">Card</span> <span class="n">card</span><span class="o">)</span> <span class="o">{</span>
+          <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">();</span> <span class="c1">// 구현체 블랙잭한테 복사해온 중복코드</span>
+      <span class="o">}</span>
+        
+      <span class="nd">@Override</span>
+      <span class="kd">public</span> <span class="kd">final</span> <span class="nc">State</span> <span class="nf">stay</span><span class="o">()</span> <span class="o">{</span>
+          <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">();</span> <span class="c1">// 구현체 블랙잭한테 복사해온 중복코드</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
       </li>
     </ul>
   </li>
 </ol>
-
-<p>​</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    - **추클은 부모로서 자식들이 중복코드 받아간다 -&gt; `추메/전메impl 직후 -&gt;자식을 가진 부모라면 내부 final or abstract부터 정해주기`**
-
-        ![image-20220321212127531](https://raw.githubusercontent.com/is2js/screenshots/main/image-20220321212127531.png)
-
-    - 추클의 2가지 작업(모든impl 구현 + final or abstract 달아주기)가 **구현체(자식될 놈)들 중 1개에서 중복코드를 복붙해와서 메소드 구현해준다.**
-
-        ![image-20220321212255907](https://raw.githubusercontent.com/is2js/screenshots/main/image-20220321212255907.png)
-
-    ```java
-    public abstract class Finished implements State {
-        @Override
-        public final State draw(final Card card) {
-            throw new IllegalStateException(); // 구현체 블랙잭한테 복사해온 중복코드
-        }
-    
-        @Override
-        public final State stay() {
-            throw new IllegalStateException(); // 구현체 블랙잭한테 복사해온 중복코드
-        }
-    }
-    ```
-</code></pre></div></div>
 
 <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220321212908191.png" alt="image-20220321212908113"></p>
 
