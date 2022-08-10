@@ -171,8 +171,9 @@ image: "images/posts/java.png"
 
 - 만약, 정렬방식을 **어떤 값**으로 준다면, switch분기가 필요하지만, **값객체 enum으로 주면, 값객체도 객체로서 분기없이 각자의 일을 정의해놓고 위임할 수 있게 된다.**
 - 외부에서 정렬방식을 지정할 땐 **상수개념의 값객체가 필요하다**
-  - **java에서는`제한된 수의 값객체`에 ` enum을 활용`한다.**
-
+  
+- **java에서는`제한된 수의 값객체`에 ` enum을 활용`한다.**
+  
 - **함수형 인터페이스는 `instanceof를 대신하는 분기추출용 전략인터페이스`일 수도 있고, `로직을 추출한 함수형인터페이스`일 수 있다.**
 
   - **`함수형인터페이스 인자`는 `내부에서 [인터페이스 추상체변수].전략메서드()로 사용하여 정의`되어있다는 뜻이다. **
@@ -343,10 +344,11 @@ image: "images/posts/java.png"
 
    - 현재는 폴더(Menus)가 파일(Menu)를 관리했지만
    - **현재는 폴더 겸 파일인 CompositeMenu가 CompositeMenu를 관리하도록 변경한다**
-     - 수동변경해야한다. Menu형 -> Composite형
-
-   ![2524e7e6-5bfe-4a32-9b14-54daef047003](https://raw.githubusercontent.com/is3js/screenshots/main/2524e7e6-5bfe-4a32-9b14-54daef047003.gif)
-
+     
+  - 수동변경해야한다. Menu형 -> Composite형
+   
+![2524e7e6-5bfe-4a32-9b14-54daef047003](https://raw.githubusercontent.com/is3js/screenshots/main/2524e7e6-5bfe-4a32-9b14-54daef047003.gif)
+   
    
 
 
@@ -929,3 +931,97 @@ image: "images/posts/java.png"
 
 
 
+### 17  JsonVisitor가 끝처리로서 내어주는 트레이링콤마를 회수해야 serializing이 가능해진다.
+
+#### 다시 한번 구조분석(Rendere-Visitor-Composite)
+
+1. `Renderer`는 composite객체인 MenuReport를 받아, 재귀를 돌면서 뿌려주는 놈이다.
+
+   1. 재료인 Composite객체를 바로 돌지 않고,`Visitor`(Supplier-Factory-지연생성-돌기직전에생성)를 주입받고, `Visitor와 Composite`객체를 같이 재귀태운다
+      ![image-20220810120832476](https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810120832476.png)
+
+2. Visitor는, Composite객체가 재귀를 타면서 할 일`자신의처리` + 자식들호출+ `끝처리` 가운데
+
+   1. **Composite객체가 스스로 해야할 일을, Visitor에게 위임하며, Visitor메서드의 인자로 넘어간다**
+
+      ![image-20220810121049396](https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810121049396.png)
+
+   2. **visitor는 인터페이스로서, 구상Visitor들이 `종류별로 알아서 composite객체를 재료삼아, 자신의 처리 + 끝처리`를 하게 해준다.**
+
+      ![image-20220810121316727](https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810121316727.png)
+
+      ![image-20220810121215562](https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810121215562.png)
+
+3. Composite객체는 어떤 제어문의 재료로서 **재료를 사용하는 책임 위임을 해준 놈으로서, 위임자Visitor의 파라미터로 들어가, Visitor의 책임들에서 사용된다.**
+
+
+
+
+
+#### JsonVisitor의 composite객체 끝처리(endMenu)마다, [외부 동적트리순회-반복문의 끝(같은레벨선상 마지막자식) 호출 일때]마다 [재귀함수 isEnd플래그 파라미터]에  true를 넣어주세요~!를 부탁하면서 재귀함수에 파라미터를 추가 -> 끝처리함수에선 이용하기 위해 파라미터를 추가 한다
+
+1. **끝처리 함수에 있는 트레일링콤마 출력이, `if 레벨선상마지막일 땐, 콤마없이 출력`하도록 `필요한 정보가 끝처리메서드 파라미터`로 들어오도록 해야한다.**
+
+   ![ba726bc5-bec0-46a7-a3e2-3bf5d55202f6](https://raw.githubusercontent.com/is3js/screenshots/main/ba726bc5-bec0-46a7-a3e2-3bf5d55202f6.gif)
+
+   ![image-20220810122917736](https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810122917736.png)
+
+2. **끝처리에 쓰일 정보 `isEnd`는 `동적트리순회 메서드 내에서 사용`되므로 `재귀의 파라미터로 업데이트 되어야한다`**
+
+   ![image-20220810123008556](https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810123008556.png)
+
+
+
+#### 재귀메서드는 depth마다 업데이트 변수 뿐만 아니라 동적트리순회마다 반복문을 통과하면서 바뀌는 변수도 파라미터로 올린다. -> 반복문내에서 특정요소에서 바뀔 것이다.
+
+- 기존까진 재귀메서드 -> 자식호출후 depth(stack)이 변했을 때, 변수들에 depth+1도 업데이트시켜셔, 현재depth마다 padding이 계산되게 하였다.
+  - 이 때, **자식들 트리 순회하는 `반복문내에서의 재귀호출`마다, `다른정보가 발생한다면, 전체 재귀메서드의 파라미터로 올려` 반영하게 할 수 있다.**
+
+
+
+1. 일단 isEnd는 재귀메서드의 파라미터로 올려야한다. **새로운 변수를 재귀메서드 파라미터로 올리면, `재귀 최초인자 호출 for root`에서 시작값을 입력해줘야한다.**
+
+   - **root는 레벨선상 마지막이 맞으므로 true를 넣어준다.**
+
+   ![eed36eda-33f7-4f33-8ad3-883e2b39a650](https://raw.githubusercontent.com/is3js/screenshots/main/eed36eda-33f7-4f33-8ad3-883e2b39a650.gif)
+
+   ![image-20220810124228350](https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810124228350.png)
+
+
+
+#### 반복문 속 컬렉션(set)이라면, invariant(불가능한 상태 방지) 불변식인 .size()로 초기화한 변수를 반복문내에서 업데이트하며 사용한다(레벨선상 마지막 요소 찾기)
+
+- 만약 i = 0부터 시작해서 i++로 업데이트해나가며 찾는다면, if i == size() - 1메서드를 매번 호출해야한다.
+- **`컬렉션에 대한 불변식`인 i = size()를 변수로 빼놓고, 반복문내에서 `--i`로 업데이트해나가면**
+  - 메서드를 1번만 호출해도되고
+  - **어차피 i--를 업데이트해야니, 1개 큰 것에서 시작하여 미리 까고 나서 그 변수로 확인한다**
+- **자바에서는 `반복무내 .size()로 시작하는 인덱스가, 먼저까고 검사 인자`에 넣으면, `단항연산자를 통해 뒤에 업데이트식이 없어진다.`**
+
+
+
+#### 자바에서는 `반복문내 등차업데이트 변수`라면, 1개 큰데에서 시작하여 `--i, ++i`등의 `단항연산자를 통해 업데이트가 완료된 변수`를 바로 사용하여, 업데이트 문이 없앨 수 있다.
+
+
+
+1. **size()-1( 마지막인덱스 )부터 시작**한다고 치면, **`시작부터 해당사항이 있어서 [검사후 업데이트`해야한다**
+   ![image-20220810130000028](https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810130000028.png)
+
+2. **인자로 true/false가 들어간다면, `조건식 자체를 메서드 인자에 넣자`**
+
+   ![image-20220810130019247](https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810130019247.png)
+
+3. **만약, `.size()`의 +1 큰곳에서 시작하여 `단항연산자로 먼저깐 변수`를 사용한다면, `업데이트문이 없어진다`**
+
+   ![a0263657-de45-4d54-8666-d516616a1e4d](https://raw.githubusercontent.com/is3js/screenshots/main/a0263657-de45-4d54-8666-d516616a1e4d.gif)
+
+   ![image-20220810130322350](https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810130322350.png)
+
+
+
+4. **조건문에서 `자식동적트리에서 레벨선상 마지막요소가 호출시 True`가 들어가게 되었다**
+
+   - Main에서 이제 찍어봐야한다.
+
+   ![image-20220810133100793](https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810133100793.png)
+
+5. **이렇게 마지막엔 트레일링콤마가 안붙게 되면, json으로 직렬화가 가능하다**
