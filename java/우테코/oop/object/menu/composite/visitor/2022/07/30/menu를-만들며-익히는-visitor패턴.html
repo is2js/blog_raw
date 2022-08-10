@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      16 min read
+      18 min read
     
 </span></p>
 
@@ -274,6 +274,15 @@ window.onload = wrap_img;
 </ul>
 </li>
 <li class="toc-entry toc-h3"><a href="#16-json자체를-만드려면-출력관련report-visitor-renderer가-필요없이-composite객체-원본이자-자식들을-다-담고-있는-root-객체만-gson라이브러리에-넣어주면-된다">16 Json자체를 만드려면, 출력관련(report, visitor, renderer)가 필요없이 Composite객체 원본이자 자식들을 다 담고 있는 root 객체만 Gson라이브러리에 넣어주면 된다.</a></li>
+<li class="toc-entry toc-h3"><a href="#17--jsonvisitor가-끝처리로서-내어주는-트레이링콤마를-회수해야-serializing이-가능해진다">17  JsonVisitor가 끝처리로서 내어주는 트레이링콤마를 회수해야 serializing이 가능해진다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#다시-한번-구조분석rendere-visitor-composite">다시 한번 구조분석(Rendere-Visitor-Composite)</a></li>
+<li class="toc-entry toc-h4"><a href="#jsonvisitor의-composite객체-끝처리endmenu마다-외부-동적트리순회-반복문의-끝같은레벨선상-마지막자식-호출-일때마다-재귀함수-isend플래그-파라미터에--true를-넣어주세요를-부탁하면서-재귀함수에-파라미터를-추가---끝처리함수에선-이용하기-위해-파라미터를-추가-한다">JsonVisitor의 composite객체 끝처리(endMenu)마다, [외부 동적트리순회-반복문의 끝(같은레벨선상 마지막자식) 호출 일때]마다 [재귀함수 isEnd플래그 파라미터]에  true를 넣어주세요~!를 부탁하면서 재귀함수에 파라미터를 추가 -&gt; 끝처리함수에선 이용하기 위해 파라미터를 추가 한다</a></li>
+<li class="toc-entry toc-h4"><a href="#재귀메서드는-depth마다-업데이트-변수-뿐만-아니라-동적트리순회마다-반복문을-통과하면서-바뀌는-변수도-파라미터로-올린다---반복문내에서-특정요소에서-바뀔-것이다">재귀메서드는 depth마다 업데이트 변수 뿐만 아니라 동적트리순회마다 반복문을 통과하면서 바뀌는 변수도 파라미터로 올린다. -&gt; 반복문내에서 특정요소에서 바뀔 것이다.</a></li>
+<li class="toc-entry toc-h4"><a href="#반복문-속-컬렉션set이라면-invariant불가능한-상태-방지-불변식인-size로-초기화한-변수를-반복문내에서-업데이트하며-사용한다레벨선상-마지막-요소-찾기">반복문 속 컬렉션(set)이라면, invariant(불가능한 상태 방지) 불변식인 .size()로 초기화한 변수를 반복문내에서 업데이트하며 사용한다(레벨선상 마지막 요소 찾기)</a></li>
+<li class="toc-entry toc-h4"><a href="#자바에서는-반복문내-등차업데이트-변수라면-1개-큰데에서-시작하여---i-i등의-단항연산자를-통해-업데이트가-완료된-변수를-바로-사용하여-업데이트-문이-없앨-수-있다">자바에서는 반복문내 등차업데이트 변수라면, 1개 큰데에서 시작하여 --i, ++i등의 단항연산자를 통해 업데이트가 완료된 변수를 바로 사용하여, 업데이트 문이 없앨 수 있다.</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -494,10 +503,11 @@ window.onload = wrap_img;
 <ul>
   <li>만약, 정렬방식을 <strong>어떤 값</strong>으로 준다면, switch분기가 필요하지만, <strong>값객체 enum으로 주면, 값객체도 객체로서 분기없이 각자의 일을 정의해놓고 위임할 수 있게 된다.</strong>
 </li>
-  <li>외부에서 정렬방식을 지정할 땐 <strong>상수개념의 값객체가 필요하다</strong>
-    <ul>
-      <li><strong>java에서는<code class="language-plaintext highlighter-rouge">제한된 수의 값객체</code>에 ` enum을 활용`한다.</strong></li>
-    </ul>
+  <li>
+    <p>외부에서 정렬방식을 지정할 땐 <strong>상수개념의 값객체가 필요하다</strong></p>
+  </li>
+  <li>
+    <p><strong>java에서는<code class="language-plaintext highlighter-rouge">제한된 수의 값객체</code>에 ` enum을 활용`한다.</strong></p>
   </li>
   <li>
     <p><strong>함수형 인터페이스는 <code class="language-plaintext highlighter-rouge">instanceof를 대신하는 분기추출용 전략인터페이스</code>일 수도 있고, <code class="language-plaintext highlighter-rouge">로직을 추출한 함수형인터페이스</code>일 수 있다.</strong></p>
@@ -731,17 +741,16 @@ window.onload = wrap_img;
         <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722175813148.png" alt="image-20220722175813148"></p>
       </li>
       <li>현재는 폴더(Menus)가 파일(Menu)를 관리했지만</li>
-      <li>
-<strong>현재는 폴더 겸 파일인 CompositeMenu가 CompositeMenu를 관리하도록 변경한다</strong>
-        <ul>
-          <li>수동변경해야한다. Menu형 -&gt; Composite형</li>
-        </ul>
-      </li>
+      <li><strong>현재는 폴더 겸 파일인 CompositeMenu가 CompositeMenu를 관리하도록 변경한다</strong></li>
     </ul>
-
-    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/2524e7e6-5bfe-4a32-9b14-54daef047003.gif" alt="2524e7e6-5bfe-4a32-9b14-54daef047003"></p>
   </li>
 </ol>
+
+<ul>
+  <li>수동변경해야한다. Menu형 -&gt; Composite형</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/2524e7e6-5bfe-4a32-9b14-54daef047003.gif" alt="2524e7e6-5bfe-4a32-9b14-54daef047003"></p>
 
 <h4 id="menu정렬-enum과-새로운-compositemenu정렬-enum은-다른-것이다-compareab의-대상이-달라짐-새로-구현해야한다-enum은-제네릭이-안되므로-형이-달라져도-새롭게-구현해야한다">
 <a class="anchor" href="#menu%EC%A0%95%EB%A0%AC-enum%EA%B3%BC-%EC%83%88%EB%A1%9C%EC%9A%B4-compositemenu%EC%A0%95%EB%A0%AC-enum%EC%9D%80-%EB%8B%A4%EB%A5%B8-%EA%B2%83%EC%9D%B4%EB%8B%A4-compareab%EC%9D%98-%EB%8C%80%EC%83%81%EC%9D%B4-%EB%8B%AC%EB%9D%BC%EC%A7%90-%EC%83%88%EB%A1%9C-%EA%B5%AC%ED%98%84%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4-enum%EC%9D%80-%EC%A0%9C%EB%84%A4%EB%A6%AD%EC%9D%B4-%EC%95%88%EB%90%98%EB%AF%80%EB%A1%9C-%ED%98%95%EC%9D%B4-%EB%8B%AC%EB%9D%BC%EC%A0%B8%EB%8F%84-%EC%83%88%EB%A1%AD%EA%B2%8C-%EA%B5%AC%ED%98%84%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Menu정렬 enum과 새로운 CompositeMenu정렬 enum은 다른 것이다. compare(a,b)의 대상이 달라짐. 새로 구현해야한다. enum은 제네릭이 안되므로 형이 달라져도 새롭게 구현해야한다.</h4>
@@ -1387,6 +1396,137 @@ window.onload = wrap_img;
   </li>
 </ol>
 
+<h3 id="17--jsonvisitor가-끝처리로서-내어주는-트레이링콤마를-회수해야-serializing이-가능해진다">
+<a class="anchor" href="#17--jsonvisitor%EA%B0%80-%EB%81%9D%EC%B2%98%EB%A6%AC%EB%A1%9C%EC%84%9C-%EB%82%B4%EC%96%B4%EC%A3%BC%EB%8A%94-%ED%8A%B8%EB%A0%88%EC%9D%B4%EB%A7%81%EC%BD%A4%EB%A7%88%EB%A5%BC-%ED%9A%8C%EC%88%98%ED%95%B4%EC%95%BC-serializing%EC%9D%B4-%EA%B0%80%EB%8A%A5%ED%95%B4%EC%A7%84%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>17  JsonVisitor가 끝처리로서 내어주는 트레이링콤마를 회수해야 serializing이 가능해진다.</h3>
+
+<h4 id="다시-한번-구조분석rendere-visitor-composite">
+<a class="anchor" href="#%EB%8B%A4%EC%8B%9C-%ED%95%9C%EB%B2%88-%EA%B5%AC%EC%A1%B0%EB%B6%84%EC%84%9Drendere-visitor-composite" aria-hidden="true"><span class="octicon octicon-link"></span></a>다시 한번 구조분석(Rendere-Visitor-Composite)</h4>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">Renderer</code>는 composite객체인 MenuReport를 받아, 재귀를 돌면서 뿌려주는 놈이다.</p>
+
+    <ol>
+      <li>재료인 Composite객체를 바로 돌지 않고,<code class="language-plaintext highlighter-rouge">Visitor</code>(Supplier-Factory-지연생성-돌기직전에생성)를 주입받고, <code class="language-plaintext highlighter-rouge">Visitor와 Composite</code>객체를 같이 재귀태운다
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810120832476.png" alt="image-20220810120832476">
+</li>
+    </ol>
+  </li>
+  <li>
+    <p>Visitor는, Composite객체가 재귀를 타면서 할 일<code class="language-plaintext highlighter-rouge">자신의처리</code> + 자식들호출+ <code class="language-plaintext highlighter-rouge">끝처리</code> 가운데</p>
+
+    <ol>
+      <li>
+        <p><strong>Composite객체가 스스로 해야할 일을, Visitor에게 위임하며, Visitor메서드의 인자로 넘어간다</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810121049396.png" alt="image-20220810121049396"></p>
+      </li>
+      <li>
+        <p><strong>visitor는 인터페이스로서, 구상Visitor들이 <code class="language-plaintext highlighter-rouge">종류별로 알아서 composite객체를 재료삼아, 자신의 처리 + 끝처리</code>를 하게 해준다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810121316727.png" alt="image-20220810121316727"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810121215562.png" alt="image-20220810121215562"></p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>Composite객체는 어떤 제어문의 재료로서 <strong>재료를 사용하는 책임 위임을 해준 놈으로서, 위임자Visitor의 파라미터로 들어가, Visitor의 책임들에서 사용된다.</strong></p>
+  </li>
+</ol>
+
+<h4 id="jsonvisitor의-composite객체-끝처리endmenu마다-외부-동적트리순회-반복문의-끝같은레벨선상-마지막자식-호출-일때마다-재귀함수-isend플래그-파라미터에--true를-넣어주세요를-부탁하면서-재귀함수에-파라미터를-추가---끝처리함수에선-이용하기-위해-파라미터를-추가-한다">
+<a class="anchor" href="#jsonvisitor%EC%9D%98-composite%EA%B0%9D%EC%B2%B4-%EB%81%9D%EC%B2%98%EB%A6%ACendmenu%EB%A7%88%EB%8B%A4-%EC%99%B8%EB%B6%80-%EB%8F%99%EC%A0%81%ED%8A%B8%EB%A6%AC%EC%88%9C%ED%9A%8C-%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%98-%EB%81%9D%EA%B0%99%EC%9D%80%EB%A0%88%EB%B2%A8%EC%84%A0%EC%83%81-%EB%A7%88%EC%A7%80%EB%A7%89%EC%9E%90%EC%8B%9D-%ED%98%B8%EC%B6%9C-%EC%9D%BC%EB%95%8C%EB%A7%88%EB%8B%A4-%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98-isend%ED%94%8C%EB%9E%98%EA%B7%B8-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EC%97%90--true%EB%A5%BC-%EB%84%A3%EC%96%B4%EC%A3%BC%EC%84%B8%EC%9A%94%EB%A5%BC-%EB%B6%80%ED%83%81%ED%95%98%EB%A9%B4%EC%84%9C-%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98%EC%97%90-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A5%BC-%EC%B6%94%EA%B0%80---%EB%81%9D%EC%B2%98%EB%A6%AC%ED%95%A8%EC%88%98%EC%97%90%EC%84%A0-%EC%9D%B4%EC%9A%A9%ED%95%98%EA%B8%B0-%EC%9C%84%ED%95%B4-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A5%BC-%EC%B6%94%EA%B0%80-%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>JsonVisitor의 composite객체 끝처리(endMenu)마다, [외부 동적트리순회-반복문의 끝(같은레벨선상 마지막자식) 호출 일때]마다 [재귀함수 isEnd플래그 파라미터]에  true를 넣어주세요~!를 부탁하면서 재귀함수에 파라미터를 추가 -&gt; 끝처리함수에선 이용하기 위해 파라미터를 추가 한다</h4>
+
+<ol>
+  <li>
+    <p><strong>끝처리 함수에 있는 트레일링콤마 출력이, <code class="language-plaintext highlighter-rouge">if 레벨선상마지막일 땐, 콤마없이 출력</code>하도록 <code class="language-plaintext highlighter-rouge">필요한 정보가 끝처리메서드 파라미터</code>로 들어오도록 해야한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/ba726bc5-bec0-46a7-a3e2-3bf5d55202f6.gif" alt="ba726bc5-bec0-46a7-a3e2-3bf5d55202f6"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810122917736.png" alt="image-20220810122917736"></p>
+  </li>
+  <li>
+    <p><strong>끝처리에 쓰일 정보 <code class="language-plaintext highlighter-rouge">isEnd</code>는 <code class="language-plaintext highlighter-rouge">동적트리순회 메서드 내에서 사용</code>되므로 <code class="language-plaintext highlighter-rouge">재귀의 파라미터로 업데이트 되어야한다</code></strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810123008556.png" alt="image-20220810123008556"></p>
+  </li>
+</ol>
+
+<h4 id="재귀메서드는-depth마다-업데이트-변수-뿐만-아니라-동적트리순회마다-반복문을-통과하면서-바뀌는-변수도-파라미터로-올린다---반복문내에서-특정요소에서-바뀔-것이다">
+<a class="anchor" href="#%EC%9E%AC%EA%B7%80%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-depth%EB%A7%88%EB%8B%A4-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EB%B3%80%EC%88%98-%EB%BF%90%EB%A7%8C-%EC%95%84%EB%8B%88%EB%9D%BC-%EB%8F%99%EC%A0%81%ED%8A%B8%EB%A6%AC%EC%88%9C%ED%9A%8C%EB%A7%88%EB%8B%A4-%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%84-%ED%86%B5%EA%B3%BC%ED%95%98%EB%A9%B4%EC%84%9C-%EB%B0%94%EB%80%8C%EB%8A%94-%EB%B3%80%EC%88%98%EB%8F%84-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A1%9C-%EC%98%AC%EB%A6%B0%EB%8B%A4---%EB%B0%98%EB%B3%B5%EB%AC%B8%EB%82%B4%EC%97%90%EC%84%9C-%ED%8A%B9%EC%A0%95%EC%9A%94%EC%86%8C%EC%97%90%EC%84%9C-%EB%B0%94%EB%80%94-%EA%B2%83%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>재귀메서드는 depth마다 업데이트 변수 뿐만 아니라 동적트리순회마다 반복문을 통과하면서 바뀌는 변수도 파라미터로 올린다. -&gt; 반복문내에서 특정요소에서 바뀔 것이다.</h4>
+
+<ul>
+  <li>기존까진 재귀메서드 -&gt; 자식호출후 depth(stack)이 변했을 때, 변수들에 depth+1도 업데이트시켜셔, 현재depth마다 padding이 계산되게 하였다.
+    <ul>
+      <li>이 때, <strong>자식들 트리 순회하는 <code class="language-plaintext highlighter-rouge">반복문내에서의 재귀호출</code>마다, <code class="language-plaintext highlighter-rouge">다른정보가 발생한다면, 전체 재귀메서드의 파라미터로 올려</code> 반영하게 할 수 있다.</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p>일단 isEnd는 재귀메서드의 파라미터로 올려야한다. <strong>새로운 변수를 재귀메서드 파라미터로 올리면, <code class="language-plaintext highlighter-rouge">재귀 최초인자 호출 for root</code>에서 시작값을 입력해줘야한다.</strong></p>
+
+    <ul>
+      <li><strong>root는 레벨선상 마지막이 맞으므로 true를 넣어준다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/eed36eda-33f7-4f33-8ad3-883e2b39a650.gif" alt="eed36eda-33f7-4f33-8ad3-883e2b39a650"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810124228350.png" alt="image-20220810124228350"></p>
+  </li>
+</ol>
+
+<h4 id="반복문-속-컬렉션set이라면-invariant불가능한-상태-방지-불변식인-size로-초기화한-변수를-반복문내에서-업데이트하며-사용한다레벨선상-마지막-요소-찾기">
+<a class="anchor" href="#%EB%B0%98%EB%B3%B5%EB%AC%B8-%EC%86%8D-%EC%BB%AC%EB%A0%89%EC%85%98set%EC%9D%B4%EB%9D%BC%EB%A9%B4-invariant%EB%B6%88%EA%B0%80%EB%8A%A5%ED%95%9C-%EC%83%81%ED%83%9C-%EB%B0%A9%EC%A7%80-%EB%B6%88%EB%B3%80%EC%8B%9D%EC%9D%B8-size%EB%A1%9C-%EC%B4%88%EA%B8%B0%ED%99%94%ED%95%9C-%EB%B3%80%EC%88%98%EB%A5%BC-%EB%B0%98%EB%B3%B5%EB%AC%B8%EB%82%B4%EC%97%90%EC%84%9C-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%ED%95%98%EB%A9%B0-%EC%82%AC%EC%9A%A9%ED%95%9C%EB%8B%A4%EB%A0%88%EB%B2%A8%EC%84%A0%EC%83%81-%EB%A7%88%EC%A7%80%EB%A7%89-%EC%9A%94%EC%86%8C-%EC%B0%BE%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>반복문 속 컬렉션(set)이라면, invariant(불가능한 상태 방지) 불변식인 .size()로 초기화한 변수를 반복문내에서 업데이트하며 사용한다(레벨선상 마지막 요소 찾기)</h4>
+
+<ul>
+  <li>만약 i = 0부터 시작해서 i++로 업데이트해나가며 찾는다면, if i == size() - 1메서드를 매번 호출해야한다.</li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">컬렉션에 대한 불변식</code>인 i = size()를 변수로 빼놓고, 반복문내에서 <code class="language-plaintext highlighter-rouge">--i</code>로 업데이트해나가면</strong>
+    <ul>
+      <li>메서드를 1번만 호출해도되고</li>
+      <li><strong>어차피 i–를 업데이트해야니, 1개 큰 것에서 시작하여 미리 까고 나서 그 변수로 확인한다</strong></li>
+    </ul>
+  </li>
+  <li><strong>자바에서는 <code class="language-plaintext highlighter-rouge">반복무내 .size()로 시작하는 인덱스가, 먼저까고 검사 인자</code>에 넣으면, <code class="language-plaintext highlighter-rouge">단항연산자를 통해 뒤에 업데이트식이 없어진다.</code></strong></li>
+</ul>
+
+<h4 id="자바에서는-반복문내-등차업데이트-변수라면-1개-큰데에서-시작하여---i-i등의-단항연산자를-통해-업데이트가-완료된-변수를-바로-사용하여-업데이트-문이-없앨-수-있다">
+<a class="anchor" href="#%EC%9E%90%EB%B0%94%EC%97%90%EC%84%9C%EB%8A%94-%EB%B0%98%EB%B3%B5%EB%AC%B8%EB%82%B4-%EB%93%B1%EC%B0%A8%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EB%B3%80%EC%88%98%EB%9D%BC%EB%A9%B4-1%EA%B0%9C-%ED%81%B0%EB%8D%B0%EC%97%90%EC%84%9C-%EC%8B%9C%EC%9E%91%ED%95%98%EC%97%AC---i-i%EB%93%B1%EC%9D%98-%EB%8B%A8%ED%95%AD%EC%97%B0%EC%82%B0%EC%9E%90%EB%A5%BC-%ED%86%B5%ED%95%B4-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EA%B0%80-%EC%99%84%EB%A3%8C%EB%90%9C-%EB%B3%80%EC%88%98%EB%A5%BC-%EB%B0%94%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EB%AC%B8%EC%9D%B4-%EC%97%86%EC%95%A8-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>자바에서는 <code class="language-plaintext highlighter-rouge">반복문내 등차업데이트 변수</code>라면, 1개 큰데에서 시작하여 <code class="language-plaintext highlighter-rouge">--i, ++i</code>등의 <code class="language-plaintext highlighter-rouge">단항연산자를 통해 업데이트가 완료된 변수</code>를 바로 사용하여, 업데이트 문이 없앨 수 있다.</h4>
+
+<ol>
+  <li>
+    <p><strong>size()-1( 마지막인덱스 )부터 시작</strong>한다고 치면, <strong><code class="language-plaintext highlighter-rouge">시작부터 해당사항이 있어서 [검사후 업데이트</code>해야한다</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810130000028.png" alt="image-20220810130000028"></p>
+  </li>
+  <li>
+    <p><strong>인자로 true/false가 들어간다면, <code class="language-plaintext highlighter-rouge">조건식 자체를 메서드 인자에 넣자</code></strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810130019247.png" alt="image-20220810130019247"></p>
+  </li>
+  <li>
+    <p><strong>만약, <code class="language-plaintext highlighter-rouge">.size()</code>의 +1 큰곳에서 시작하여 <code class="language-plaintext highlighter-rouge">단항연산자로 먼저깐 변수</code>를 사용한다면, <code class="language-plaintext highlighter-rouge">업데이트문이 없어진다</code></strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/a0263657-de45-4d54-8666-d516616a1e4d.gif" alt="a0263657-de45-4d54-8666-d516616a1e4d"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810130322350.png" alt="image-20220810130322350"></p>
+  </li>
+  <li>
+    <p><strong>조건문에서 <code class="language-plaintext highlighter-rouge">자식동적트리에서 레벨선상 마지막요소가 호출시 True</code>가 들어가게 되었다</strong></p>
+
+    <ul>
+      <li>Main에서 이제 찍어봐야한다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220810133100793.png" alt="image-20220810133100793"></p>
+  </li>
+  <li>
+    <p><strong>이렇게 마지막엔 트레일링콤마가 안붙게 되면, json으로 직렬화가 가능하다</strong></p>
+  </li>
+</ol>
 
   </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/menu/composite/visitor/2022/07/30/menu%EB%A5%BC-%EB%A7%8C%EB%93%A4%EB%A9%B0-%EC%9D%B5%ED%9E%88%EB%8A%94-visitor%ED%8C%A8%ED%84%B4.html" hidden></a>
 </article>
