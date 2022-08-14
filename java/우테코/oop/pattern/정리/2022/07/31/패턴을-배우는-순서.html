@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      1 min read
+      2 min read
     
 </span></p>
 
@@ -140,32 +140,149 @@ window.onload = wrap_img;
 <ul>
   <li>패턴을 배우는 순서
     <ul>
-      <li>좋은 상속의 템플릿메소드패턴</li>
-      <li>좋은상속이라도 조합폭발방지 -&gt; 전략패턴
+      <li>
+        <p>좋은 상속의 <strong>Templatemethod 패턴</strong></p>
+      </li>
+      <li>
+        <p>좋은상속이라도 조합폭발방지 -&gt; <strong>strategy패턴</strong></p>
+
         <ul>
-          <li><strong>전략패턴의 전략패턴 -&gt; 어댑터 패턴</strong></li>
+          <li><strong>전략패턴의 전략패턴 -&gt; adapter 패턴</strong></li>
         </ul>
       </li>
-      <li>전략객체가 많이 나오다보면, <strong>단일요소 객체</strong> vs <strong>컬렉션 객체</strong>를 포괄하는 -&gt; <strong>컴포짓패턴</strong>
+      <li>전략객체가 많이 나오다보면, <strong>단일요소 객체</strong> vs <strong>컬렉션 객체</strong>를 포괄하는<strong>Composite패턴</strong>
         <ul>
           <li>element vs collection -&gt; 컴포짓 패턴</li>
+        </ul>
+      </li>
+      <li>
+        <p>Composite객체의 <strong>출력을 위한 구상class 속 loop등의 제어문들을 타는 객체를 따로 외부에 위임</strong> -&gt; <strong>Visitor패턴</strong></p>
+
+        <ul>
           <li>
-<strong>컴포짓 패턴의 출력을 위해 loop등의 제어문들을 외부에 위임 -&gt; visitor패턴</strong>
+            <p><strong>제어문을 타야</strong> 자신의 데이터를 다 뿌릴 수 있는 객체(<strong>Composite객체)</strong>가 있다고 치자</p>
+
             <ul>
-              <li>실제 컴포짓객체의 데이터를 반환해주는 것은 visitor가</li>
-              <li>그외 제어문장은 renderer가 가져간다.</li>
+              <li>
+                <p>제어문을 가진 체 출력하는 Renderer클래스가 있다</p>
+              </li>
+              <li>
+                <p>제어문의 안에 내용만 바뀐다면 [종류별 XXXXRenderer클래스들]을 여러개 만드는 대신 <strong>제어문을 역전하여 유지만 하고, <code class="language-plaintext highlighter-rouge">제어문 안의 내용은 Visitor를 주입해서 끼워넣은 다음, 전략패턴으로서 종류별 XXXXVisitor를 만들어서 끼워넣자</code></strong></p>
+
+                <ul>
+                  <li>
+                    <p><strong>제어문은 전략패턴으로 못만든다. <code class="language-plaintext highlighter-rouge">제어문 속에서 라이프싸이클별 작동하는 로직을 전략패턴</code>으로 뺀 다음 Visitor로 이름 붙인다.</strong></p>
+
+                    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220811165813062.png" alt="image-20220811165813062"></p>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <p><strong>이제 제어문 속 라이프싸이클을 타는 visitor별로 <code class="language-plaintext highlighter-rouge">실제 제어대상 객체(Composite객체)</code>를  제어역전된 클래스(Renderer의 메서드 인자 -&gt; Visitor의 메서드인자(역할위임)을 통해 Visitor에게 전달한다</strong></p>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220811170028065.png" alt="image-20220811170028065"></p>
+              </li>
             </ul>
           </li>
-          <li><strong>element간에 연결 by linkedlist -&gt; 데코레이터 패턴</strong></li>
+          <li>
+            <p><strong>visitor를 주입받는 구상클래스(Renderer) 자체가 제어의역전 클래스임. Visitor객체 는 제어역전된 속에서 제어문만 탄다</strong></p>
+          </li>
+          <li>
+            <p>실제 컴포짓객체 속 <strong>데이터를 반환해주는 것은, Visitor의 역할책임</strong>으로 위임</p>
+
+            <ul>
+              <li>데이터자체는 Composite객체가 VIsitor의 역할/책임 메서드의 파라미터로 들어가서 사용됨</li>
+            </ul>
+          </li>
         </ul>
       </li>
-      <li><strong>중간에 멈출 수 없는 한번에 쭉 가는 for문을 써야한다는 문제점 -&gt; 책임사슬 패턴</strong></li>
+      <li>
+        <p>element간에 연결 by linkedlist -&gt; <strong>데코레이터 패턴</strong></p>
+      </li>
+      <li>
+        <p><strong>중간에 멈출 수 없는 한번에 쭉 가는 for문을 써야한다는 문제점 -&gt; 책임사슬 패턴</strong></p>
+      </li>
       <li>나머지들 -&gt; <strong>끝판왕 커맨드 패턴</strong>
         <ul>
-          <li>지연실행에 대한 일이라 어렵다</li>
-          <li><strong>해야하는 일을 함수에 담아서 -&gt;  객체로 만들고 -&gt; 모았다가 -&gt; 실행or역카운터실행</strong></li>
+          <li><strong>Visitor주입으로 인한 <code class="language-plaintext highlighter-rouge">제어의역전</code> 이후에 <code class="language-plaintext highlighter-rouge">행위도 캡슐화한 뒤 역전</code>하는 Command패턴</strong></li>
+          <li>
+<strong>이미 존재하는 composite <code class="language-plaintext highlighter-rouge">객체를 소유한 Command홀더 객체</code>내에서 만들어간다</strong>
+            <ul>
+              <li>지연실행에 대한 일이라 어렵다</li>
+              <li><strong>해야하는 일을 함수에 담아서 -&gt;  객체로 만들고 -&gt; 모았다가 -&gt; 실행or역카운터실행</strong></li>
+            </ul>
+          </li>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">제어에 참여하는 객체(Visitor가 파라미터로 위임받은 객체)를 소유한 커맨드홀더객체</code>를 만들고 <code class="language-plaintext highlighter-rouge">1개의 메서드(with 서비스메서드들) + 여러 구상커맨드객체들</code>로 런타임에서 행위를 조작할 수 있는 <code class="language-plaintext highlighter-rouge">범용객체</code>가 된다.</strong>
+            <ul>
+              <li><strong>Visitor에 위임하는 객체를, 커맨드홀더가 소유함으로써 <code class="language-plaintext highlighter-rouge">커맨드객체를 통한 행위조작으로 의존성없는 안전한 범용객체</code>가 Visitor에게 역할 위임하게 되어 <code class="language-plaintext highlighter-rouge">Visitor도 안전</code>해진다.</strong></li>
+              <li><strong>행위를 추가하려면, 커맨드객체 추가해서 처리하면 되니까??</strong></li>
+            </ul>
+          </li>
+          <li>
+<strong>커맨드홀더객체는, 범용객체로서, runtime에 <code class="language-plaintext highlighter-rouge">행위위임 커맨드객체</code>를 교체해서 갈아낄 수 있게 된다.</strong>
+            <ul>
+              <li>xml에는 <strong>string으로 -&gt; 주입돌 커맨드들을 설정</strong>하는 것이고, 스프링빈즈가 runtime에 조립한다.</li>
+              <li>@autowired애노테이션 -&gt; 범용객체 생성 후, @달린 것들을 끼워넣어서 돌아가게 한다.</li>
+              <li>커맨드홀더객체 == 커맨드invoker == 범용객체 == composite라면 root객체를 소유한 객체?!</li>
+            </ul>
+          </li>
         </ul>
       </li>
+      <li>
+        <p>저장하고 로드하려면 -&gt; <strong>메멘토 패턴</strong></p>
+
+        <ul>
+          <li>
+            <p><strong>메멘토패턴은 visitor패턴을 통해 쉽게 구현할 수 있다.</strong></p>
+
+            <ul>
+              <li>
+                <p>구상 visitor 중 1개(JsonVisitor)가 라이프싸이클을 타면서 처리된 내용을 매번 객체context인 필드에 저장해놓는다.</p>
+
+                <ul>
+                  <li>이 때, 이미 외부에서 생성된 Visitor를 주입해야한다</li>
+                  <li>다른 Visitor는 내부 지연생성도 할 수 있도록 <strong>주입대상인 Renderer는 factory 함수형인터페이스를 생성자로 받는다.</strong>
+</li>
+                </ul>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220812163436350.png" alt="image-20220812163436350"></p>
+              </li>
+              <li>
+                <p>save를 구현하는 곳에서는 상태값에 데이터정보를 저장한 상태이므로 getter로 제공받아 저장한다.</p>
+              </li>
+            </ul>
+          </li>
+          <li>메멘토패턴은 Visitor패턴계열이다.
+            <ul>
+              <li>일단 Composite패턴 -&gt; 출력을 위한 Visitor패턴을 구현할 줄 알아야 구현된다.</li>
+            </ul>
+          </li>
+          <li>참고로 Command패턴은 다른 동네이다
+            <ul>
+              <li>bridge, adapter, command패턴이 한 동네이다.</li>
+              <li>행위를 포장하는 것이 더 큰 동네이고 힘들다</li>
+            </ul>
+          </li>
+          <li>
+<strong>@Transactional</strong>을 하려면, <strong>메멘토패턴으로</strong> 상태를 저장해야한다.
+            <ul>
+              <li>
+<strong>undo</strong>/redo를 할 수 있다. <strong>트랜잭션으로서 롤백</strong>을 할 수 있다.</li>
+              <li>내가 만든 메소드도 롤백할 수 있게 된다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>동네 구분</strong>
+        <ul>
+          <li>Visitor계열: strategy -&gt; composite + visitor -&gt; 전체의 40%</li>
+          <li>command계열: bridge, adapter 등 -&gt; 나머지 전부</li>
+        </ul>
+      </li>
+      <li>
+<strong>composite + visitor가 자유로우면 중급개발자</strong>이다.</li>
     </ul>
   </li>
   <li>1패턴 -&gt; 1객체가 아니라 1객체가 여러가지 패턴을 소유할 수 있음.

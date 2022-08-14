@@ -4,20 +4,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>variant variable(가변 변수)와 loop 리팩토링 | 돌범텤놑</title>
+<title>variant variable(가변 변수)와 loop 리팩토링 정리 | 돌범텤놑</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="variant variable(가변 변수)와 loop 리팩토링" />
+<meta property="og:title" content="variant variable(가변 변수)와 loop 리팩토링 정리" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="가변 변수를 누적하는 반복문 2case 리팩토링(미리 처리 + if)" />
 <meta property="og:description" content="가변 변수를 누적하는 반복문 2case 리팩토링(미리 처리 + if)" />
-<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/refactoring/variant/variable/loop/refactor/2022/07/29/%EA%B0%80%EB%B3%80-%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%82%B4%EB%B6%80-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81.html" />
-<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/refactoring/variant/variable/loop/refactor/2022/07/29/%EA%B0%80%EB%B3%80-%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%82%B4%EB%B6%80-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81.html" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/refactoring/variant/variable/loop/refactor/%EC%A0%95%EB%A6%AC/2022/07/29/%EA%B0%80%EB%B3%80-%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%82%B4%EB%B6%80-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/refactoring/variant/variable/loop/refactor/%EC%A0%95%EB%A6%AC/2022/07/29/%EA%B0%80%EB%B3%80-%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%82%B4%EB%B6%80-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81.html" />
 <meta property="og:site_name" content="돌범텤놑" />
 <meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-07-29T00:00:00-05:00" />
 <script type="application/ld+json">
-{"datePublished":"2022-07-29T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/refactoring/variant/variable/loop/refactor/2022/07/29/%EA%B0%80%EB%B3%80-%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%82%B4%EB%B6%80-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"variant variable(가변 변수)와 loop 리팩토링","dateModified":"2022-07-29T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/refactoring/variant/variable/loop/refactor/2022/07/29/%EA%B0%80%EB%B3%80-%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%82%B4%EB%B6%80-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81.html"},"description":"가변 변수를 누적하는 반복문 2case 리팩토링(미리 처리 + if)","@context":"https://schema.org"}</script>
+{"datePublished":"2022-07-29T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/refactoring/variant/variable/loop/refactor/%EC%A0%95%EB%A6%AC/2022/07/29/%EA%B0%80%EB%B3%80-%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%82%B4%EB%B6%80-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"variant variable(가변 변수)와 loop 리팩토링 정리","dateModified":"2022-07-29T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/refactoring/variant/variable/loop/refactor/%EC%A0%95%EB%A6%AC/2022/07/29/%EA%B0%80%EB%B3%80-%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%82%B4%EB%B6%80-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81.html"},"description":"가변 변수를 누적하는 반복문 2case 리팩토링(미리 처리 + if)","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <!-- 폰트추가를 위한 link태그 삽입 -->
   <!-- 폰트1:  기본 spoqa 웹폰트 -->
@@ -96,7 +96,7 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">variant variable(가변 변수)와 loop 리팩토링</h1><p class="page-description">가변 변수를 누적하는 반복문 2case 리팩토링(미리 처리 + if)</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-29T00:00:00-05:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">variant variable(가변 변수)와 loop 리팩토링 정리</h1><p class="page-description">가변 변수를 누적하는 반복문 2case 리팩토링(미리 처리 + if)</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-29T00:00:00-05:00" itemprop="datePublished">
         Jul 29, 2022
       </time>
        • <span class="read-time" title="Estimated read time">
@@ -134,6 +134,9 @@ window.onload = wrap_img;
         &nbsp;
       
         <a class="category-tags-link" href="/categories/#refactor">refactor</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#정리">정리</a>
         
       
       </p>
@@ -367,7 +370,7 @@ window.onload = wrap_img;
 </ol>
 
 
-  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/refactoring/variant/variable/loop/refactor/2022/07/29/%EA%B0%80%EB%B3%80-%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%82%B4%EB%B6%80-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81.html" hidden></a>
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/refactoring/variant/variable/loop/refactor/%EC%A0%95%EB%A6%AC/2022/07/29/%EA%B0%80%EB%B3%80-%EB%B3%80%EC%88%98-%EB%88%84%EC%A0%81-%EB%B0%98%EB%B3%B5%EB%AC%B8-%EB%82%B4%EB%B6%80-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81.html" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
