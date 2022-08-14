@@ -4,7 +4,7 @@ layout: post
 title: menu를 만들며 익히는 composite, visitor패턴
 description: menu를 composite객체로 만들고 동적트리순회, 출력은 visitor패턴
 
-categories: [java, 우테코, oop, object, menu, composite, visitor ]
+categories: [java, 우테코, oop, object, menu, composite, visitor, side ]
 image: "images/posts/java.png"
 ---
 
@@ -346,9 +346,9 @@ image: "images/posts/java.png"
    - **현재는 폴더 겸 파일인 CompositeMenu가 CompositeMenu를 관리하도록 변경한다**
      
   - 수동변경해야한다. Menu형 -> Composite형
-   
+
 ![2524e7e6-5bfe-4a32-9b14-54daef047003](https://raw.githubusercontent.com/is3js/screenshots/main/2524e7e6-5bfe-4a32-9b14-54daef047003.gif)
-   
+
    
 
 
