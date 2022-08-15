@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-title: menu를 만들며 익히는 command, memento 패턴
+title: menu2를 만들며 익히는 command, memento 패턴
 description: compositeMenu객체를 commandMenu객체로 memento를 통한 저장,로드
 
 categories: [java, 우테코, oop, object, menu, command, memento, side ]

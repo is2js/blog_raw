@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-title: menu를 만들며 익히는 composite, visitor패턴
+title: menu1를 만들며 익히는 composite, visitor패턴
 description: menu를 composite객체로 만들고 동적트리순회, 출력은 visitor패턴
 
 categories: [java, 우테코, oop, object, menu, composite, visitor, side ]
