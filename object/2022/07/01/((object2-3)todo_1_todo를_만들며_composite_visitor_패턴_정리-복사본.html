@@ -1,0 +1,1898 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>OBJECT 19 TODO1 작성을 통한 compoiste, visitor패턴 학습 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="OBJECT 19 TODO1 작성을 통한 compoiste, visitor패턴 학습" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<meta property="og:description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<link rel="canonical" href="blog.chojaeseong.com/object/2022/07/01/((object2-3)todo_1_todo%EB%A5%BC_%EB%A7%8C%EB%93%A4%EB%A9%B0_composite_visitor_%ED%8C%A8%ED%84%B4_%EC%A0%95%EB%A6%AC-%EB%B3%B5%EC%82%AC%EB%B3%B8.html" />
+<meta property="og:url" content="blog.chojaeseong.com/object/2022/07/01/((object2-3)todo_1_todo%EB%A5%BC_%EB%A7%8C%EB%93%A4%EB%A9%B0_composite_visitor_%ED%8C%A8%ED%84%B4_%EC%A0%95%EB%A6%AC-%EB%B3%B5%EC%82%AC%EB%B3%B8.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-01T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-07-01T00:00:00-05:00","url":"blog.chojaeseong.com/object/2022/07/01/((object2-3)todo_1_todo%EB%A5%BC_%EB%A7%8C%EB%93%A4%EB%A9%B0_composite_visitor_%ED%8C%A8%ED%84%B4_%EC%A0%95%EB%A6%AC-%EB%B3%B5%EC%82%AC%EB%B3%B8.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"OBJECT 19 TODO1 작성을 통한 compoiste, visitor패턴 학습","dateModified":"2022-07-01T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/object/2022/07/01/((object2-3)todo_1_todo%EB%A5%BC_%EB%A7%8C%EB%93%A4%EB%A9%B0_composite_visitor_%ED%8C%A8%ED%84%B4_%EC%A0%95%EB%A6%AC-%EB%B3%B5%EC%82%AC%EB%B3%B8.html"},"description":"object 책을 강의한 코드스핏츠 유튜브 요약","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OBJECT 19 TODO1 작성을 통한 compoiste, visitor패턴 학습</h1><p class="page-description">object 책을 강의한 코드스핏츠 유튜브 요약</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-01T00:00:00-05:00" itemprop="datePublished">
+        Jul 1, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      24 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#디자인패턴-심화---컴포짓--비지터-패턴">디자인패턴 심화 - 컴포짓 + 비지터 패턴</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#프레임웤과-제어-역전">프레임웤과 제어 역전</a></li>
+<li class="toc-entry toc-h3"><a href="#컴포짓패턴-파일탐색기에서-파일이름으로-검색">컴포짓패턴: 파일탐색기에서 파일이름으로 검색</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#패턴을-배우는-순서">패턴을 배우는 순서</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#todo-실습컴포짓패턴">TODO 실습(컴포짓패턴)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#task와-tasks파일---폴더안에-파일들-구성">task와 tasks(파일 -&gt; 폴더안에 파일들 구성)</a></li>
+<li class="toc-entry toc-h4"><a href="#파일과-폴더를-합친-composite객체compositetask-와-파일폴더정보를-묶어서-출력할-사본composite객체taskreport만들기">파일과 폴더를 합친 composite객체(CompositeTask) 와 파일+폴더정보를 묶어서 출력할 사본Composite객체(TaskReport)만들기</a></li>
+<li class="toc-entry toc-h4"><a href="#main에서-composite객체-및-출력사본-compositereport객체-사용하기">Main에서 Composite객체 및 출력사본 CompositeReport객체 사용하기</a></li>
+<li class="toc-entry toc-h4"><a href="#renderer-순회의-제어구조---visitor패턴으로-프레임웤-만들기">Renderer: 순회의 제어구조 -&gt; Visitor패턴으로 프레임웤 만들기</a></li>
+<li class="toc-entry toc-h4"><a href="#consolevisitor-제어구조에-끼워넣을-제어실행visitor-구상체1">ConsoleVisitor: 제어구조에 끼워넣을 제어실행visitor 구상체1</a></li>
+<li class="toc-entry toc-h4"><a href="#main에서-render--consolevisitor로--visitortaskdraw-출력-확인하기">Main에서 render + consolevisitor로  visitor.taskDraw() 출력 확인하기</a></li>
+<li class="toc-entry toc-h4"><a href="#task---내부에서-taskreport만들때부터-정렬방식이-전해져야한다">task -&gt; 내부에서 TaskReport만들때부터 정렬방식이 전해져야한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#jsonvisitor--depth를-가진-출력은-json형태라서-만들-수-있다">JsonVisitor:  depth를 가진 출력은 json형태라서 만들 수 있다</a></li>
+<li class="toc-entry toc-h4"><a href="#main에서-사용">Main에서 사용</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#프레임웤은-visitor패턴과-템플릿메소드패턴으로-구성된다">프레임웤은 visitor패턴과 템플릿메소드패턴으로 구성된다.</a></li>
+</ul>
+</li>
+</ul><ul>
+  <li>참고 유튜브 : https://www.youtube.com/watch?v=navJTjZlUGk</li>
+  <li>정리본: https://github.com/LenKIM/object-book</li>
+  <li>코드: https://github.com/eternity-oop/object</li>
+  <li>책(목차) : https://wikibook.co.kr/object/</li>
+</ul>
+
+<h2 id="디자인패턴-심화---컴포짓--비지터-패턴">
+<a class="anchor" href="#%EB%94%94%EC%9E%90%EC%9D%B8%ED%8C%A8%ED%84%B4-%EC%8B%AC%ED%99%94---%EC%BB%B4%ED%8F%AC%EC%A7%93--%EB%B9%84%EC%A7%80%ED%84%B0-%ED%8C%A8%ED%84%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>디자인패턴 심화 - 컴포짓 + 비지터 패턴</h2>
+
+<h3 id="프레임웤과-제어-역전">
+<a class="anchor" href="#%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%A4%EA%B3%BC-%EC%A0%9C%EC%96%B4-%EC%97%AD%EC%A0%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>프레임웤과 제어 역전</h3>
+
+<ul>
+  <li>책 15장에 관한 내용을 정리한다.</li>
+  <li>이 책의 비밀은 디자인 패턴 중에 <code class="language-plaintext highlighter-rouge">전략패턴, 템플릿메소드패턴, 데코레이터패턴</code>을 써서 적용하는 것이었다.
+    <ul>
+      <li>데코레이터 패턴 -&gt; 핸드폰 요금 계산</li>
+      <li>전략&lt;-&gt;템플릿 -&gt; 무비씨어터</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">우리는 프레임웤에다가</code> 제어의역전으로 인해 <code class="language-plaintext highlighter-rouge">기능만 공급</code></strong>해주고, <strong><code class="language-plaintext highlighter-rouge">언제 실행</code>될지는 <code class="language-plaintext highlighter-rouge">라이프사이클이 가지고 있는 프레임웤이 결정</code>한다.</strong></p>
+  </li>
+  <li>프레임웤과 라이브러리의 차이는?
+    <ul>
+      <li>프레임웤 : 제어의 역전이 되어있는 것
+        <ul>
+          <li>우리의 코드가 프로세스 제어구문을 가지고 있냐 안가지고 있냐
+            <ul>
+              <li><strong>우리 코드에 제어구문이 없다면? -&gt; 바깥에 있는 것. 나는 visitor로서 라이프싸이클 메서드를 흐름대로 구현하는 중.</strong></li>
+              <li><strong>우리는 제어구문이 소비할 함수와 객체만 만드는 것</strong></li>
+            </ul>
+          </li>
+          <li>예를 들면, for문은 바깥에서 주어짐 -&gt; 우리는 for문에 쓸 함수만 만듦
+            <ul>
+              <li>그렇다면, 우리는 프레임웤을 쓴다면, 함수를 건네주는 것 밖에 할 수 없다.</li>
+            </ul>
+          </li>
+          <li>for라는 프레임웤을 만들었다고 가정하자. <strong>우리는 객체만 만들어서 넣어준다.</strong>
+            <ul>
+              <li>이 객체는 initialze, loop, end, <strong>3개의 메서드를 만들라고 프레임웤으로 부터 강제</strong> 받는다.</li>
+              <li>
+<strong>프레임웤은 제어를 하는데</strong>
+                <ol>
+                  <li>프레임웤이 받은 객체의 initialize메서드를 호출</li>
+                  <li>프레임웤이 for반복문을 돌리되, 받은 객체의 loop메서드를 호출</li>
+                  <li>프레임웤이 객체의 end메서드를 호출</li>
+                </ol>
+              </li>
+              <li>
+<strong>우리의 코드에는 <code class="language-plaintext highlighter-rouge">for반복문</code>이 없어졌고, <code class="language-plaintext highlighter-rouge">라이프사이클에 맞춘 행동(순서대로 호출)</code>도 없어졌다.</strong>
+                <ul>
+                  <li>우리는, <strong>프레임웤이 제어구문을 미리 짜놓고, 거기에 맞춘 객체(메서드)만 전달해준다.</strong>
+</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+<strong>제어의 역전은,  하나의 역할(인터페이스)만 역전시키지 않고, 보통 <code class="language-plaintext highlighter-rouge">제어의 흐름대로 역전</code>을 시키기 때문에, <code class="language-plaintext highlighter-rouge">프레임웤은 내부에 라이프사이클</code>을 가지고 있게 된다.</strong>
+            <ul>
+              <li>스프링을 예를 들면, 우리는 컨트롤러를 만들지만, 스프링 프레임웤은 내부에 라이프사이클인 interceptor를 만들면 before-controller-after를 라이프사이클 순서대로 가지고 있다.</li>
+              <li><strong>my) 처음부터 코드를 짠다면, 라이프사이클 코드는 그대로 작성해두고, 바뀌는 기능부분만 제어역전시켜 밖으로 빼준다?!</strong></li>
+            </ul>
+          </li>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">우리는 프레임웤에다가</code> 제어의역전으로 인해 <code class="language-plaintext highlighter-rouge">기능만 공급</code></strong>해주고, <strong><code class="language-plaintext highlighter-rouge">언제 실행</code>될지는 <code class="language-plaintext highlighter-rouge">라이프사이클이 가지고 있는 프레임웤이 결정</code>한다.</strong>
+            <ul>
+              <li><strong>my) <code class="language-plaintext highlighter-rouge">프레임웤의 제어의역전</code>: 제어는 프레임웤이 미리 라이프사이클 순서대로 짜놓아서 우리가 못짜는 역전 현상이 발생하고, 우리는 흐름대로의 역할(기능, 메서드 by객체)만 공급해주니, 우리가 공급한 기능의 호출, 실행 타이밍은 프레임웤에 결정되어있다.</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>라이브러리: 제어의역전이 아니므로, 기능을 우리가 언제든 호출할 수 있다.</strong>
+        <ul>
+          <li>프레임웤은 기능을 공급만하고, 호출은 프레임웤이 제어해놓은 순서대로 결정해서 호출하게한다</li>
+          <li><strong>함수로서 오직 값의 획득만 위임할 수 있다. 조작해서 뭔가를 하는 프로세스는 위임할 수 없다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>우리의 코드도 프레임웤화 되어있어야한다.</strong>
+    <ul>
+      <li>제일 어려운 부분은 알고리즘이다. 우리는 엑셀의 피벗테이블을 바로 짤 수 없다.
+        <ul>
+          <li>2단 for인 것은 알고 있으나, 복잡한 상태와 제어가 관여되고, 분기가 심하다
+            <ul>
+              <li><strong>우리는 1개의 분기를 제거할때마다 전략패턴을 썼었다</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>제어가 없는 알고리즘은 없으니 필수적인데, 제어는 1개만 만들고, 나머지는 제어의 혜택을 받게 만들자.</strong></li>
+      <li>우리는 라이브러리를 만들어서는, 제어를 위임할 수 없다.
+        <ul>
+          <li><strong>함수로서 오직 값의 획득만 위임할 수 있다. 조작해서 뭔가를 하는 프로세스는 위임할 수 없다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>제어에 대해서 익숙해질려면 코드 연습을 통해서 할 수 밖에 없다.</li>
+</ul>
+
+<h3 id="컴포짓패턴-파일탐색기에서-파일이름으로-검색">
+<a class="anchor" href="#%EC%BB%B4%ED%8F%AC%EC%A7%93%ED%8C%A8%ED%84%B4-%ED%8C%8C%EC%9D%BC%ED%83%90%EC%83%89%EA%B8%B0%EC%97%90%EC%84%9C-%ED%8C%8C%EC%9D%BC%EC%9D%B4%EB%A6%84%EC%9C%BC%EB%A1%9C-%EA%B2%80%EC%83%89" aria-hidden="true"><span class="octicon octicon-link"></span></a>컴포짓패턴: 파일탐색기에서 파일이름으로 검색</h3>
+
+<ul>
+  <li>
+    <p><strong>전략패턴과 데코레이터패턴을 짬뽕한 <code class="language-plaintext highlighter-rouge">컴포지트 패턴</code>이 책에 소개된다.</strong></p>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">영화</code>라는 검색키워드를 <strong>아래 트리형태의 구조에 어떻게 다 던질까</strong>
+        <ul>
+          <li>폴더1
+            <ul>
+              <li>파일1</li>
+              <li>파일2</li>
+              <li>폴더2</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>파일도, 폴더도 검색기능을 제공해야하니 <code class="language-plaintext highlighter-rouge">파일과 폴더 모두 searchText()라는 메소드를 공통으로 가지고 있어야한다</code></strong>
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">파일</code>이라면 돌면서, <code class="language-plaintext highlighter-rouge">빈 배열에 자기가 해당하면 자신을 담아</code>준다.</strong></li>
+          <li>
+<strong>하지만 <code class="language-plaintext highlighter-rouge">폴더</code>라면, 자기자신이외에 <code class="language-plaintext highlighter-rouge">자식들까지 순회하면서 해당하면 다 담아줘야한다</code></strong>
+            <ul>
+              <li>폴더자신도 재귀적으로 돈다</li>
+              <li>폴더의 폴더도 재귀로 돈다</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>여기서 핵심은, 폴더든 파일이든 모두 <code class="language-plaintext highlighter-rouge">searchText()메소드를 공통으로 구현</code>했다는것이다</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">NoDiscountpolicy</code>를 만들 때, 빈값리턴하는 특이한 클래스를 만들지말고, 아예 discountpolicy를 <code class="language-plaintext highlighter-rouge">top에서부터 상속받지만, discount가 안되는 클래스</code>를 만들어보자 할 때, <code class="language-plaintext highlighter-rouge">다른 policy들은 discountpolicy를 상속하는 전략객체</code>이나 <code class="language-plaintext highlighter-rouge">policy전체를 커버하는 애로 바껴서 leaf계열 tree계열로 바뀌게 된다.</code></strong></p>
+
+    <ul>
+      <li>혹시… 할인 전략객체들 vs 노할인 단일객체를 포괄하는 정책으로 바꾼다는 소리인가?</li>
+      <li>일단 <a href="https://github.com/testrace/book-objects/blob/main/chapter08/src/main/java/movie/ReservationAgency.java">참고 깃허브</a>
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721182248739.png" alt="image-20220721182248739">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220725004910802.png" alt="image-20220725004910802"></p>
+  </li>
+</ul>
+
+<h4 id="패턴을-배우는-순서">
+<a class="anchor" href="#%ED%8C%A8%ED%84%B4%EC%9D%84-%EB%B0%B0%EC%9A%B0%EB%8A%94-%EC%88%9C%EC%84%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>패턴을 배우는 순서</h4>
+
+<ul>
+  <li>패턴을 배우는 순서
+    <ul>
+      <li>상속 -&gt; 좋은 상속의 템플릿메소드패턴</li>
+      <li>조합폭발방지 -&gt; 전략패턴
+        <ul>
+          <li><strong>전략패턴의 전략패턴 -&gt; 어댑터 패턴</strong></li>
+        </ul>
+      </li>
+      <li>전략객체가 많이 나오다보면, <strong>단일요소 객체</strong> vs <strong>컬렉션 객체</strong>를 포괄하는 -&gt; <strong>컴포짓패턴</strong>
+        <ul>
+          <li>element vs collection -&gt; 컴포짓 패턴</li>
+          <li><strong>컴포짓 패턴의 loop를 외부에 위임 -&gt; visitor패턴</strong></li>
+          <li>element간에 연결 by linkedlist -&gt; 데코레이터 패턴</li>
+        </ul>
+      </li>
+      <li><strong>중간에 멈출 수 없는 한번에 쭉 가는 for문을 써야한다는 문제점 -&gt; 책임사슬 패턴</strong></li>
+      <li>나머지들 -&gt; <strong>끝판왕 커맨드 패턴</strong>
+        <ul>
+          <li>지연실행에 대한 일이라 어렵다</li>
+          <li><strong>해야하는 일을 함수에 담아서 -&gt;  객체로 만들고 -&gt; 모았다가 -&gt; 실행or역카운터실행</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>1패턴 -&gt; 1객체가 아니라 1객체가 여러가지 패턴을 소유할 수 있음.
+    <ul>
+      <li>분산되어있는 컴포짓패턴 -&gt; 다음장에 바로 <strong>컴포짓패턴의 3가지 역할</strong>을  다 수행하는 컴포짓패턴을 소개함.</li>
+      <li>디자인패턴의 다이어그램은, 객체의 역할이지 객체가 아니다.
+        <ul>
+          <li><strong>다이어그램 갯수만큼 객체가 나오지 않는다.</strong></li>
+        </ul>
+      </li>
+      <li>역할별로 1개의 객체로 연습</li>
+      <li>이후 <strong>모든 역할을 1개의 객체에 몰빵하는 연습</strong>
+        <ul>
+          <li>전략객체이자 실행객체</li>
+          <li>전략객체이자 상태객체</li>
+          <li>전략객체 소유하는 객체를 상태객체로 만들기</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="todo-실습컴포짓패턴">
+<a class="anchor" href="#todo-%EC%8B%A4%EC%8A%B5%EC%BB%B4%ED%8F%AC%EC%A7%93%ED%8C%A8%ED%84%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>TODO 실습(컴포짓패턴)</h3>
+
+<h4 id="task와-tasks파일---폴더안에-파일들-구성">
+<a class="anchor" href="#task%EC%99%80-tasks%ED%8C%8C%EC%9D%BC---%ED%8F%B4%EB%8D%94%EC%95%88%EC%97%90-%ED%8C%8C%EC%9D%BC%EB%93%A4-%EA%B5%AC%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>task와 tasks(파일 -&gt; 폴더안에 파일들 구성)</h4>
+
+<ol>
+  <li>
+    <p>taks(할일) 클래스를 만든다.</p>
+
+    <ol>
+      <li>기본적으로 title / date (localdatetime) / isComplete(boolean)를 가져야한다.
+        <ul>
+          <li>
+<strong>새로만들어지면 항상 false상태</strong>여야하므로, <strong>false로 필드 초기화</strong>해서 만든다.</li>
+          <li><strong>나머지(title, date)만 생성자에서 받는다.</strong></li>
+        </ul>
+      </li>
+      <li>
+<strong>코드를 짤 때, <code class="language-plaintext highlighter-rouge">기본값이 있는 것들은 생성자에서 받으면 안된다</code>. 그렇단 얘기는, <code class="language-plaintext highlighter-rouge">기본값 -&gt; 외부에서 받는 정책과는 구분</code>된다.</strong>
+        <ul>
+          <li>코드의 의도를 잘 읽어내야한다.</li>
+        </ul>
+      </li>
+      <li><strong>title과 date는 생성자에서 외부로 받는 정책인데, 왜 final을 안쓸까? <code class="language-plaintext highlighter-rouge">중간에 바뀌는 필드라는 의도</code></strong></li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721190913603.png" alt="image-20220721190913603"></p>
+  </li>
+  <li>
+    <p>taks라는 어떤 모델을 만들 때, <strong><code class="language-plaintext highlighter-rouge">상태 변화하는 필드(not final)에 대한 메서드(setter, 그외)를 만들어 행위를 제약</code>하고, 필드는 <code class="language-plaintext highlighter-rouge">내부에서 알아서 처리되도록 캡슐화</code></strong>를 해야한다.</p>
+
+    <ol>
+      <li>대표적으로 todo앱에서는 <strong>check를 켰다껐다 밖에 안되므로 <code class="language-plaintext highlighter-rouge">isComplete</code>에는 setter를 주면 안된다.</strong>
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">외부에서 임의의 값</code>을 받아 상태를 업데이트(저장 복원 등)<code class="language-plaintext highlighter-rouge">setter를 주면 안된다.</code></strong></li>
+        </ul>
+      </li>
+      <li>
+<strong>my) <code class="language-plaintext highlighter-rouge">boolean으로 제약이 걸린 필드의 받아업데이트</code>는 <code class="language-plaintext highlighter-rouge">void setter(값)가 아니라 파라미터 없는 void toggle</code>이다.</strong>
+        <ul>
+          <li>void setter(파라미터) 대신 <code class="language-plaintext highlighter-rouge">제약걸린 받아 저장은 void(받기용!) toggle() 인자가 없이 제약걸린 뒤집기만 함</code>
+</li>
+        </ul>
+      </li>
+      <li>객체는 자신의 상태를 자기가 관리한다는 개념 <strong>state management의 책임</strong>
+</li>
+      <li>그외의 <strong>변하는 필드(not final)</strong>에는  setter를 만든다.</li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721191834284.png" alt="image-20220721191834284"></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">Task는 1개의 데이터객체일 뿐이며, Task를 담을 그릇이 필요</code>하다</strong></p>
+
+    <ol>
+      <li>
+        <p>일급컬렉션 느낌으로 <code class="language-plaintext highlighter-rouge">Tasks</code>를 만든다.</p>
+      </li>
+      <li>
+        <p><strong>하지만, 폴더의 개념으로서 폴더도 이름도 필요하다</strong></p>
+
+        <ul>
+          <li>
+            <p>tasks폴더도 title을 가지게 된다.</p>
+
+            <ul>
+              <li><strong>기본값x -&gt; 필드초기화x -&gt; 생성자에서 외부에서 받지만, 변경가능한 not final -&gt; setter가 생긴다 -&gt; <code class="language-plaintext highlighter-rouge">외부(생성자)에서 받고, 변하기도 하는(setter) 필드</code>는 <code class="language-plaintext highlighter-rouge">생성자에서 재할당 코드를 setter로 덮어 코드중복을 없앤다</code></strong></li>
+            </ul>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/a38252b6-a0e8-4803-a609-8c9934b33f12.gif" alt="a38252b6-a0e8-4803-a609-8c9934b33f12"></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721193231452.png" alt="image-20220721193231452"></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721193336501.png" alt="image-20220721193336501"></p>
+          </li>
+          <li>
+            <p><strong>setter로 title이 들어올 때, 내부에서 데코레이터 글자색정하기+태그달기 등을 할 수 있다.</strong></p>
+
+            <ul>
+              <li><strong>그 과정을 생성자에서 받을 때도 반영하기 위해서는 setter로 코드중복을 제거한다.</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>최초 생성자에서 받고 + 그 다음에 변경되는 필드값은 <code class="language-plaintext highlighter-rouge">setter와 생성자에서의 코드 중복을 제거</code>해야한다. 많은 회사에서 이것때문에 문제가 발행한다.</strong></p>
+
+        <ol>
+          <li><strong>setter할때랑, 최초 생성할때랑 로직이 달라져서</strong></li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>task들을 가지기 위해 Set컬렉션 필드</strong>를 가진다. 이  필드 역시 <strong><code class="language-plaintext highlighter-rouge">상태 변화 필드에 대한 메서드로 제약 + 캡슐화</code>인 <code class="language-plaintext highlighter-rouge">setter(받아 업데이트 기능)</code>을 만들어줘야한다.</strong></p>
+
+    <ol>
+      <li><strong>컬렉션필드는 변경가능성 없는 것으로보고 즉시 final을 걸어놓자.</strong></li>
+      <li>
+<strong>컬렉션은 void setter대신 <code class="language-plaintext highlighter-rouge">boolean addXXX()</code>로 만들어야한다.</strong>
+        <ol>
+          <li>지금은 귀찮으니 void add로 만든다.</li>
+        </ol>
+      </li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721194130656.png" alt="image-20220721194130656"></p>
+  </li>
+  <li>
+    <p>**이 때, <code class="language-plaintext highlighter-rouge">setter/add의 인자 결정으로 2가지 판단</code>할 수 있다. **
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721215747341.png" alt="image-20220721215747341"></p>
+
+    <ul>
+      <li>
+        <p>데이터객체task를 받는 메서드가 public인데, <strong>외부에서 <code class="language-plaintext highlighter-rouge">바깥에서 생성된 task</code> = <code class="language-plaintext highlighter-rouge">외부에 task의 생성자를 공개(내부발행X)</code> = <code class="language-plaintext highlighter-rouge">바깥에서 마음대로 task를 만들 수 있어</code>를 받을 것인지를..</strong></p>
+      </li>
+      <li>
+        <p><strong>우리는 바깥에서 task를 만들어야할지 말아야할지는 잘 모르겠으나, <code class="language-plaintext highlighter-rouge">task를 바깥에서 만들 수 있게 푸는 순간(public 받기 메서드에서 인자로 들어오는 순간) -&gt; task의 생성자를 함부로 못 고치게 된다.</code></strong></p>
+
+        <ul>
+          <li><strong>받기 메서드의 인자로 데이터객체를 받는다 = 외부에서 생성된다 = task생성자를 수정할 때, 외부의 모든코드도 수정해야한다 = 상당한 비용을 치루고 task를 수정할 수 있다.</strong></li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>프로젝트 초창기부터 <code class="language-plaintext highlighter-rouge">수정에 대한 비용이 많이 드는 것을 방지</code>하려면 <code class="language-plaintext highlighter-rouge">어쩔수 없이 외부에 task를 공개하는 시점직전까진 외부의 task를 인자로 받는 것을 미뤄두고</code> -&gt; <code class="language-plaintext highlighter-rouge">task생성 필수정보만 받아서 내부발행(생성)</code>하도록 한다.</strong></p>
+
+        <ul>
+          <li>
+            <p><strong>일단 setter의 인자를 객체가 아닌 객체생성에 필요한 정보를 받도록 수정</strong>한다.</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/e0615a1d-f136-4d86-b08d-5d3071c938f6.gif" alt="e0615a1d-f136-4d86-b08d-5d3071c938f6"></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721220336318.png" alt="image-20220721220336318"></p>
+          </li>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">Taks의 생성자를 public -&gt; 폴더인 Tasks와 같은 패키지에위치할 것이므로 internal로 수정</code>한다.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/38f67fd6-1de8-423c-9fe8-77531d07f200.gif" alt="38f67fd6-1de8-423c-9fe8-77531d07f200"></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721220529124.png" alt="image-20220721220529124"></p>
+          </li>
+          <li>
+            <p><strong>필요에 의해 외부에  task가 생성되어야하면, 그때 공개</strong>한다.</p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">Task객체의 생성</code>을 관리폴더 Tasks내부에서 하게되면 <code class="language-plaintext highlighter-rouge">수정의 여파가, 내부발행처인 Tasks에만 미친다</code>.</strong></p>
+      </li>
+      <li>
+<strong>public class의 <code class="language-plaintext highlighter-rouge">public객체</code>지만, <code class="language-plaintext highlighter-rouge">생성자는 public이 아닌 것은 당연한 것</code>이라고 생각해야한다.</strong>
+        <ul>
+          <li>왠만하면 아니여야 정상이다.</li>
+          <li><strong><code class="language-plaintext highlighter-rouge">바깥쪽에서 new키워드쓰는 객체는 최소화하는 것이 최고</code>다</strong></li>
+        </ul>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">remove</code>는 add(setter)와 다르다.</strong></p>
+
+        <ul>
+          <li>
+            <p><strong>받을 때는, <code class="language-plaintext highlighter-rouge">없는 객체에 대해 외부 생성을 최대한 피하고, [같은 package에 존재하며, 그 객체의 추가를 관리하는 폴더]가 필요정보만 받고, 내부발행하여 -&gt; 수정 비용을 줄이</code>는 것이 반영되지만,</strong></p>
+          </li>
+          <li>
+            <p><strong>삭제는 <code class="language-plaintext highlighter-rouge">이미 기존에 생성되어 존재하는 객체</code>며,  <code class="language-plaintext highlighter-rouge">public class의 public 객체</code>로서 <code class="language-plaintext highlighter-rouge">외부에 이미 존재</code>하게 된다.</strong></p>
+          </li>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">이미 존재해야지만 -&gt; 메서드 인자로 들어와 -&gt; 지워진다.</code></strong></p>
+
+            <ul>
+              <li>
+<strong>삭제시 존재유무 검사</strong>를 <strong>안해도 된다.</strong>
+</li>
+            </ul>
+          </li>
+          <li>
+            <p>원시형으로 지우는 것이 더 웃기게 된다.</p>
+          </li>
+          <li>
+            <p><strong>Set -&gt; 객체는 메모리주소 = 값x = 객체  = id로 식별로 식별되며, 삭제시에는 <code class="language-plaintext highlighter-rouge">이미 존재하는 public객체이므로, 인자로 받아도 된다</code></strong></p>
+          </li>
+          <li>
+            <p><strong>add는 <code class="language-plaintext highlighter-rouge">생성자를 외부에 감추기 위해 원시형으로 받았지만</code>, remove는 <code class="language-plaintext highlighter-rouge">지울때는 반듯이 객체를 통해 지워야한다. 값으로는 객체 식별이 안되기 때문이다.</code></strong></p>
+
+            <ul>
+              <li><strong>값이 주어지면, 같은 title을 가지는 다른 객체가 지워질 수도 있다(unique보장이 안된 필드이므로)</strong></li>
+            </ul>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/0fe3de5e-9359-4ea5-9ad9-cba0cfcb1738.gif" alt="0fe3de5e-9359-4ea5-9ad9-cba0cfcb1738"></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721222252230.png" alt="image-20220721222252230"></p>
+          </li>
+        </ul>
+      </li>
+      <li><strong><code class="language-plaintext highlighter-rouge">지우는 것은 이미 바깥에서 존재하는 객체를 지우는 것</code>이다. 내부 정보를 가지고 발행하는 정보전문가의 상황이 아니더라도, <code class="language-plaintext highlighter-rouge">컬렉션으로 관리하는 데이터객체</code>를 <code class="language-plaintext highlighter-rouge">받는 메서드</code>를 정의할  때, <code class="language-plaintext highlighter-rouge">일단은 필요정보만 인자로 받고,  내부발행으로 시작</code>하여, <code class="language-plaintext highlighter-rouge">외부에서생성로직의 수정시 드는 비용을 절감</code>하기 위해 내부발행으로 시작한다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p>tasks만 가지고 있는 task set을 <strong>외부에 getter로 공개해야지만, 렌더링이 될 수 있을 것이다.</strong></p>
+
+    <ul>
+      <li><strong>이 때, 컬렉션을 외부에 제공할 때는, <code class="language-plaintext highlighter-rouge">우리가 짜는 코드는 메모리 걱정을 안해도 되니, 사본정책을 쓴다</code></strong></li>
+      <li>
+<strong>컬렉션은 외부에 주면 <code class="language-plaintext highlighter-rouge">외부 조작가능성</code>이 있다.</strong>
+        <ul>
+          <li>누군가 반드시 한다고 생각한다.</li>
+        </ul>
+      </li>
+      <li>
+<strong>원시값이 아닌 이상 <code class="language-plaintext highlighter-rouge">컬렉션 뿐만 아니라 객체필드 역시 사본</code>으로 제공해줘야한다.</strong>
+        <ul>
+          <li><strong>객체를 주면, <code class="language-plaintext highlighter-rouge">외부에서 객체메서드를 통해, 객체의 상태를 조작</code>할 가능성이 있다.</strong></li>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">컬렉션</code>을 주면, <code class="language-plaintext highlighter-rouge">컬렉션의 메서드로 통해 순서나 요소들을 조작</code>할 수 있다</strong>
+            <ul>
+              <li><strong>Set의 add/remove를 막을 수 있는 방법은 없다</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>이 때도 2가지 판단을 할 수 있다.</strong></p>
+      </li>
+      <li>
+        <p><strong>사본 중에도<code class="language-plaintext highlighter-rouge">깊은 복사/얕은 복사</code> 둘중에 뭐를 해줄지 어떻게 판단할까?</strong></p>
+
+        <ul>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">반환되는 객체/컬렉션에 대해 [원래 객체의 메서드들이 public으로 외부에 공개되어있던 놈이라면] -&gt; 얕은 복사를 해준다.</code></strong></p>
+
+            <ul>
+              <li><strong>원래 task객체는, <code class="language-plaintext highlighter-rouge">외부에서 조작할 수 있는 public을 가지는 놈</code>이라서 얕은복사를 해준다.</strong></li>
+            </ul>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721223453859.png" alt="image-20220721223453859"></p>
+
+            <ul>
+              <li>public은 원래 외부에서 조작하는 것이 허가된 메서드</li>
+            </ul>
+          </li>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">만약, task객체가 외부에서 조작불가능한 메서드를 가지고 있었다면 -&gt; [외부에서 조작하는 것이 겁나므로] -&gt; [깊은 복사]</code></strong>를 해주면 된다.</p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>따라서, <code class="language-plaintext highlighter-rouge">컬렉션이라도 내부 객체 task는 원래 외부조작 가능</code>하니 <code class="language-plaintext highlighter-rouge">컬렉션을 깊은 복사할 필요없다. 얕은 복사만</code> 해주면 된다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721224502412.png" alt="image-20220721224502412"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721224746784.png" alt="image-20220721224746784"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721225108795.png" alt="image-20220721225108795"></p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">Tasks의 상태인 컬렉션 필드는 건들이면 안되니 무조건 사본</code>을  줘야하는데</strong></p>
+
+        <ul>
+          <li>
+<strong>외부에서 컬렉션사본을 받았지만, 그 사본과 내부컬렉션 필드 속 <code class="language-plaintext highlighter-rouge">요소는 여전히 연결될 수 있다</code></strong>
+            <ul>
+              <li><strong><code class="language-plaintext highlighter-rouge">내부 상태와 연결된 요소들은 외부에서 조작해도 상관없다</code>면, <code class="language-plaintext highlighter-rouge">얕은복사</code></strong></li>
+              <li><strong><code class="language-plaintext highlighter-rouge">연결된 내부 요소들을 조작해선 안된다면, 깊은 복사</code>를 내어준다.</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>task의 제공은 <code class="language-plaintext highlighter-rouge">순서를 가진 set이 아닌 list</code>로 반환해줘야한다.</strong></p>
+
+    <ul>
+      <li>
+        <p>task는 <strong>date순서대로 오름/내림차순 되어야하므로 <code class="language-plaintext highlighter-rouge">Set으로 식별한 객체들이지만, 외부에 제공은 List로</code>해준다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721231901782.png" alt="image-20220721231901782"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">내부관리 Set대신 순서적용이 가능한 list를 반환</code>한다면, <code class="language-plaintext highlighter-rouge">미리 sort도 해주고 반환</code>한다.</strong></p>
+
+    <ul>
+      <li>보통은 정렬까지해서 반환한다.</li>
+      <li>
+<strong>이 때, 정렬을 바로 오름차순으로 하지말고, <code class="language-plaintext highlighter-rouge">public외부 제공getter해줄 때, [정렬방법]과 같은 [제공방식을 인자]로 외부에서 받아서 제공해준다</code></strong>
+        <ul>
+          <li>객체지향에서 <strong>메세지는 객체로 받으므로 <code class="language-plaintext highlighter-rouge">정렬type도 객체 파라미터</code>로 받는다.</strong>
+</li>
+          <li>객체지향에서 <strong>처리는 <code class="language-plaintext highlighter-rouge">값type의 객체</code>이므로 <code class="language-plaintext highlighter-rouge">정렬type객체</code>는 <code class="language-plaintext highlighter-rouge">제한된 종류의 값type을 정의하는 enum</code>일 것이며, <code class="language-plaintext highlighter-rouge">값으로 췩브해서 처리</code>될 것이다.</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721232839728.png" alt="image-20220721232839728"></p>
+  </li>
+  <li>
+    <p><strong>제한된 종류의 값type은 enum(애넘)으로 만든다.</strong></p>
+
+    <ul>
+      <li><strong>객체를 정렬할 때, 그 기준은 <code class="language-plaintext highlighter-rouge">해당 객체가 가진 필드</code>를 기준으로 <code class="language-plaintext highlighter-rouge">오름차순/내림차순</code>이 있을 것이다.</strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">필드의 종류마다 _ASC, _DESC</code>형식으로 enum필드를 만들어준다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721233318412.png" alt="image-20220721233318412"></p>
+  </li>
+  <li>
+    <p><strong>객체지향에서는 직접일을 하지않고, <code class="language-plaintext highlighter-rouge">enum필드라도 객체에게 일을 위임</code>한다.</strong></p>
+
+    <ul>
+      <li>
+        <p>값type이라고 <strong>인자를 <code class="language-plaintext highlighter-rouge">위임해줄 객체</code>가 아니라 <code class="language-plaintext highlighter-rouge">값</code>으로 본다면? swtich문이 들어가게 된다.</strong></p>
+      </li>
+      <li>
+        <p>swtich문 == if문이 싫으면 <strong>전략객체로 바꿔주면 된다.</strong></p>
+      </li>
+      <li>
+        <p><strong>enum은 싱글톤처럼 인스턴스를 미리 확정지어서 만들어주는 것이다.</strong></p>
+
+        <ul>
+          <li>
+<strong>인스턴스를 static초기화 전에, jvm이 만들어주는 인스턴스</strong>이므로
+            <ul>
+              <li>os가 보장하는 인스턴스, thread시작전에 만들어진다.</li>
+              <li>thread에 안전한 인스턴스를 만들 땐, 1개는 싱글톤객체, n개의 인스턴스만들라면 enum으로 만들어야한다</li>
+              <li>싱글톤객체를 만들 땐, syncronized를 걸어야하는데, enum은 안걸어도 된다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>SortType을 클래스로 보고, enum필드들을 <code class="language-plaintext highlighter-rouge">이미 만들어진 인스턴스</code>들이라고 보자.</strong></p>
+
+        <ul>
+          <li>
+<strong>enum은 내부적으로 <code class="language-plaintext highlighter-rouge">enum필드로 만들어진 인스턴스들</code>의 <code class="language-plaintext highlighter-rouge">추SortType추상클래스</code>가 되며, <code class="language-plaintext highlighter-rouge">;</code>이후에 정의된다.</strong>
+            <ul>
+              <li>공통로직을 정의한 클래스</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>enum은 ;뒤로는 추상클래스로서 <code class="language-plaintext highlighter-rouge">abstrac 메서드를 정의</code>할 수 있다.</strong></p>
+
+        <ul>
+          <li>이 때, <strong><code class="language-plaintext highlighter-rouge">정렬을 하려면 Task a와 Task b를 compare</code>해야한다.</strong>
+</li>
+          <li><strong>이렇게 추상메서드를 정의해놓으면, <code class="language-plaintext highlighter-rouge">인스턴스 4개는 추상메서드를 구현해야만 한다</code></strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721234333898.png" alt="image-20220721234333898"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220721234526956.png" alt="image-20220721234526956"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>enum을 ;아래 추상클래스의 추상메서드를 <code class="language-plaintext highlighter-rouge">구상class없이 익명class로 구현하는 분신술</code>로 보고 <code class="language-plaintext highlighter-rouge">공통로직 추상메서드</code>를 구현하도록 한다</strong></p>
+
+    <ul>
+      <li><strong>익명클래스를 구현해서 인스턴스를 생성하는 과정과 똑같은 과정인데, <code class="language-plaintext highlighter-rouge">단지, thread문제가 생기기도 전에, jvm에서 만들어주는 것이 다르다</code></strong></li>
+    </ul>
+
+    <p>​	<img src="https://raw.githubusercontent.com/is3js/screenshots/main/e94496ce-f610-442a-90dc-46343cb045db.gif" alt="e94496ce-f610-442a-90dc-46343cb045db"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722000401513.png" alt="image-20220722000401513"></p>
+  </li>
+  <li>
+    <p><strong>이렇게 enum객체에 <code class="language-plaintext highlighter-rouge">sort()에 들어갈 인터페이스Comparator(compare 구현 인터페이스)을 위임</code>한 <code class="language-plaintext highlighter-rouge">전략객체 4개 enum으로 만든 것</code>이다.</strong></p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">전략객체의 전략메서드로 대신했다면, [메서드 1개의 함수형 인터페이스Comparator]가 들어갈 자리에 람다식[ (인자) -&gt; 전략객체.전략메서드(a,b) ]</code>처럼 ` (인자) -&gt; 추상체Enum의 객체.Enum속(공통)추상메서드()`</strong>를 넣어주면 된다.</p>
+      </li>
+      <li>
+        <p><strong><a href="https://blog.chojaeseong.com/java/lambda/%ED%95%A8%EC%88%98%ED%98%95%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4/comparator/predicate/consumer/%EC%9A%B0%ED%85%8C%EC%BD%94/2022/03/27/%EB%9E%8C%EB%8B%A4%EB%A1%9C-%EB%A7%8C%EB%93%A0-%ED%95%A8%ED%98%95(%EB%A1%9C%EC%A7%81-%EB%84%98%EA%B8%B0%EA%B8%B0,-%EC%9C%A0%EC%9A%A9%ED%8C%A8%ED%84%B4).html">전략패턴과 함수형인터페이스 참고</a></strong></p>
+      </li>
+      <li>
+        <p><strong>Comparator는 함수형 인터페이스로서 Consumer의 .accept()나 runnable의 .run()처럼 <code class="language-plaintext highlighter-rouge">내부에서는 함수형인터페이스 추상체.compare(실제인자a,실제인자b); 호출 == 전략객체.전략메서드(); 내부정의</code>와 <code class="language-plaintext highlighter-rouge">파라미터에선 함수형인터페이스 추상체 파라미터(전략인페-추상체) +  외부 입력인자는 전략메서드구현 구상 전략객체</code>나 <code class="language-plaintext highlighter-rouge">(가상인자) -&gt; 가상인자로 전략메서드 실시간 구현의 람다식</code>이 필요하다</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722135143898.png" alt="image-20220722135143898"></p>
+
+        <ul>
+          <li>내부정의는 <code class="language-plaintext highlighter-rouge">.sort( Comparator파라미터 )</code>의 내부에서 <strong>실제인자로 전략객체.전략메서드 호출(실제인자); 이 정의되어있다</strong>
+</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722133730450.png" alt="image-20220722133730450">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722133913700.png" alt="image-20220722133913700"></p>
+
+        <ul>
+          <li>외부에서는 <strong>가상인자를 통한 전략메서드 실시간 구현 람다식을 전략인터페이스 인자 자리에 넣어줘야한다.</strong>
+</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722001508041.png" alt="image-20220722001508041"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722001653215.png" alt="image-20220722001653215"></p>
+
+        <ul>
+          <li><strong>이 때, 람다식+가상인자를 통한 전략메서드compare 실시간 구현에 필요한 것이 외부에서 보내준 정렬방식 값객체이자 compare구현을 위임받은 SortType객체이므로, 해당객체에서 정의된 compare로 전략메서드compare를 구현하게 한다.</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722001719038.png" alt="image-20220722001719038"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722001541250.png" alt="image-20220722001541250"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722001600364.png" alt="image-20220722001600364"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/9e821029-0c1a-445d-9c5c-d709320c300e.gif" alt="9e821029-0c1a-445d-9c5c-d709320c300e"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>enum의 필드들의 익명클래스 compare들을 구현해준다.</p>
+
+    <ul>
+      <li><strong>String의비교는 compareTo()로서 <code class="language-plaintext highlighter-rouge">&gt;=&lt; 0없이 비교만</code>해주면 된다.</strong></li>
+      <li>역순이라면 compareTo에 들어가는 인자만 바꾸면 된다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/f57607c4-97fd-46e7-ac8c-7d11366c526a.gif" alt="f57607c4-97fd-46e7-ac8c-7d11366c526a"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722002631617.png" alt="image-20220722002631617"></p>
+  </li>
+  <li>
+    <p><strong>우리는 처리를 위한 값type인 SortType을 enum을 선택하고, enum을 추상클래스로보고 내부 익명클래스로 구현하여, 각 enum객체들이 정렬에 관한 인터페이스를 구현하도록 전략패턴으로 위임했다.</strong></p>
+
+    <ul>
+      <li><strong>우리가 class를 만드는 것은 <code class="language-plaintext highlighter-rouge">인스턴스가 n개 이상이야</code> 끝을 모를 때만 만든다.</strong></li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">우리가 인스턴스 갯수가 확정일 땐 class로 만들면 안된다.</code></strong>
+        <ul>
+          <li>왜냐면, <strong>다른놈이 해당 class의 인스턴스를 더 만들어낼 것이니까.. 안잠겨있으니까!</strong>
+            <ul>
+              <li>무조건 발생한다 생각한다. 그 <strong>상태가 오류라고 생각한다.</strong>
+</li>
+              <li>인스턴스가 1개만 있어야하면 된다면, 싱글톤패턴으로 만든다.</li>
+              <li>인스턴스가 n개만 있어야한다면, enum으로 만든다.</li>
+            </ul>
+          </li>
+          <li><strong>클래스를 만들기 전에 enum을 통해서 객체의 수량을 한정지어야되는지 결정부터 하고 class를 만드는 것이 java에서 맞는 방법이다.</strong></li>
+        </ul>
+      </li>
+      <li>enum을 쓰면 <strong>수량오류가 안생긴다.</strong>
+</li>
+    </ul>
+  </li>
+  <li>밖에서는 tasks사본을 받게 된다. 그것을 작업을 하든 뭘하든 하면 된다.</li>
+  <li><strong>지금까지 컴포짓패턴을 쓰려고 <code class="language-plaintext highlighter-rouge">파일</code>과 <code class="language-plaintext highlighter-rouge">폴더</code>를 만든 것이다.</strong></li>
+</ol>
+
+<h4 id="파일과-폴더를-합친-composite객체compositetask-와-파일폴더정보를-묶어서-출력할-사본composite객체taskreport만들기">
+<a class="anchor" href="#%ED%8C%8C%EC%9D%BC%EA%B3%BC-%ED%8F%B4%EB%8D%94%EB%A5%BC-%ED%95%A9%EC%B9%9C-composite%EA%B0%9D%EC%B2%B4compositetask-%EC%99%80-%ED%8C%8C%EC%9D%BC%ED%8F%B4%EB%8D%94%EC%A0%95%EB%B3%B4%EB%A5%BC-%EB%AC%B6%EC%96%B4%EC%84%9C-%EC%B6%9C%EB%A0%A5%ED%95%A0-%EC%82%AC%EB%B3%B8composite%EA%B0%9D%EC%B2%B4taskreport%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>파일과 폴더를 합친 composite객체(CompositeTask) 와 파일+폴더정보를 묶어서 출력할 사본Composite객체(TaskReport)만들기</h4>
+
+<ul>
+  <li>todo안에 또 todo들을 만들고, 그안에 또 todo들을 가질 수 있다.</li>
+  <li>업로드시스템도 왼쪽메뉴가 끝없는 tree depth를 가질 수 있다.</li>
+  <li>
+    <p><strong>나는 파일(task)이면서, 그안에 자식들을 가지는 폴더(tasks)가 되게 된다.</strong></p>
+  </li>
+  <li><strong>컴포지트 패턴은 4가지 구성요소가 있는데, 1class에 4가지를 한꺼번에 구현할 것이다.</strong></li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>CompositeTask 클래스를 새로 만들고 , task과 tasks의 내장을 다 가져올 예정이다.</strong></p>
+  </li>
+  <li>
+    <p>CompositeTaks는 기본적으로 Task이므로, <strong>Task의 코드를 다 가져온다.</strong></p>
+
+    <ul>
+      <li>이 때, <strong>폴더에서 파일 추가시 <code class="language-plaintext highlighter-rouge">수정비용 최소화를 위해, 폴더객체내부에서 생성을 위해, 생성자를 default</code>로 걸어놨던 것을 <code class="language-plaintext highlighter-rouge">public</code>으로다시 바꿔준다.</strong>
+        <ul>
+          <li><strong>왜냐하면, Composite는 더이상 <code class="language-plaintext highlighter-rouge">폴더객체 내부에서 생성되는 파일객체</code>가 아니라 <code class="language-plaintext highlighter-rouge">파일+폴더역할의 객체</code>기 때문에</strong></li>
+          <li>내장을 긁어올 때, 생성자의 이름은 생성한 class로 다시 바꿔줘야한다.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722172119598.png" alt="image-20220722172119598"></p>
+  </li>
+  <li>
+    <p>또한,CompositeTaks는 기본적으로 Tasks(폴더) 역할도 하니, <strong>내장을 다 긁어오되, <code class="language-plaintext highlighter-rouge">task랑 겹치는 필드와 생성자는 빼고</code> 가져온다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/2958b17d-c07f-4458-8ad7-bc2ca303e35f.gif" alt="2958b17d-c07f-4458-8ad7-bc2ca303e35f"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722172557497.png" alt="image-20220722172557497"></p>
+  </li>
+  <li>
+    <p><strong>간과하기 쉬운 것 -&gt; <code class="language-plaintext highlighter-rouge">생성할때 받고(생성자) + 변하기도(setter) 하는 필드</code>는 <code class="language-plaintext highlighter-rouge">받을 때 가공처리를 setter에 배정후, setter를 생성자에서 사용</code>한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722173110906.png" alt="image-20220722173110906"></p>
+  </li>
+  <li>
+    <p>현재 CompositeTask는 <strong>task이자, sub_task들을 붙일 수 있게 되었다.</strong></p>
+
+    <ul>
+      <li>
+        <p>**이제 Tasks(폴더)와 Task는 안쓰게 되었다. **</p>
+      </li>
+      <li>
+        <p><strong>CompositeTask에 붙인 <code class="language-plaintext highlighter-rouge">Tasks의 내장</code>속에 사용된 <code class="language-plaintext highlighter-rouge">Task들을 모두 CompoisteTask로 변경</code>한다.</strong></p>
+
+        <ul>
+          <li>함수형인터페이스의 <code class="language-plaintext highlighter-rouge">가상인자 람다식</code>도, 그 주체가 바뀌면 자동으로 변환 추천해준다.</li>
+          <li>
+<strong>바꿀 때는 <code class="language-plaintext highlighter-rouge">ctrl + d</code>의 <code class="language-plaintext highlighter-rouge">Select next occurrence</code>를 이용해서 <code class="language-plaintext highlighter-rouge">하이라이팅만 해서 바꾸자</code></strong>
+            <ul>
+              <li>변수가 아니라 여기저기서 쓰이는 형이므로 <code class="language-plaintext highlighter-rouge">ctrl + h</code>로 한번에 다 바꿀수 없다.</li>
+            </ul>
+          </li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722175010249.png" alt="image-20220722175010249"></p>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/2d0dcb66-dfbe-4977-b6ba-4e8c6c186d52.gif" alt="2d0dcb66-dfbe-4977-b6ba-4e8c6c186d52"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722175108760.png" alt="image-20220722175108760"></p>
+  </li>
+  <li>
+    <p>task관련 메서드들은 task관련 메서드보다 내려서 정렬해주자.</p>
+  </li>
+  <li>
+    <p>현재 CompositeTask를 보면 <strong>Set(컬렉션)데코객체가 되었다.</strong></p>
+
+    <ul>
+      <li>
+        <p>기존에는 구간처리시 prev데코객체, 순차적 기능추가시 구상 next데코객체를 사용해서 linkedlist로 연속된 처리를 for문이나, 꼬리재귀를 통해서 해줄 수 있었다.</p>
+      </li>
+      <li>
+        <p><strong>데코객체가 같은형의 컬렉션필드(Set)필드를 가지는 순간 <code class="language-plaintext highlighter-rouge">무한뎁스가 가능</code>해진다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722175813148.png" alt="image-20220722175813148"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>폴더인 tasks의 <code class="language-plaintext highlighter-rouge">자식 반환 기능</code>인 <code class="language-plaintext highlighter-rouge">정렬방식을 받아 list제공기능</code>이 바뀌어야한다</strong></p>
+
+    <ul>
+      <li>
+        <p>현재</p>
+
+        <ul>
+          <li>컬렉션의 사본 반환 -&gt; 생성자 복사를 통한 얕은복사 사본이 바로 가능하다.</li>
+          <li>컬렉션 1개만 반환 -&gt; 여러 필드의 반환이 아니므로 객체 만들필요없이 바로 반환가능하다.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722181619431.png" alt="image-20220722181619431"></p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">나 자신(task1) + 자식들(set -&gt; list)</code> 모두 반환되어야한다.</strong></p>
+
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">set을 list로 변경해서 반환</code> -&gt; <code class="language-plaintext highlighter-rouge">반환메서드는 내가 하지말고 내부에서 변환을 다른객체에 위임</code>해서 처리할 수 있다. 여기서는 직접 얕은복사로 사본을 만들었다.</strong></li>
+          <li><strong><code class="language-plaintext highlighter-rouge">서로 다른 필드 2개를 묶어서 반환해야한다.</code> - &gt;<code class="language-plaintext highlighter-rouge">묶어주는 처리</code>는 반환메서드 내부에서 <code class="language-plaintext highlighter-rouge">다른 객체에게 객체생성으로 위임</code>해야한다.</strong></li>
+          <li><strong>값의 반환이 아니라, <code class="language-plaintext highlighter-rouge">컬렉션반환부터는 사본으로 반환</code>해야하는데 <code class="language-plaintext highlighter-rouge">컬렉션이 포함된 객체(컬렉션 + 다른필드)의 자신this를 반환하고 싶다면, 나의 사본class를 만들어서 반환</code>한다.</strong></li>
+        </ul>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">객체의 사본</code>은 <code class="language-plaintext highlighter-rouge">-Report</code>객체를 만들어서 반환한다.</strong></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>컬렉션을 포함한 객체의 반환 = 사본 객체 <code class="language-plaintext highlighter-rouge">TaskReport</code>클래스를 만든다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722183156117.png" alt="image-20220722183156117"></p>
+
+    <ul>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">출력될 사본 속 반환후보1. 나 자신</code>인 CompositeTask필드</strong>를 만든다.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722184717679.png" alt="image-20220722184717679">
+</li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">출력될 사본 속 반환후보2. 컬렉션 자신필드</code>인 내 자식들 컬렉션을 Set대신 List로 변환된 것을 보유</strong>해야한다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>컴포짓객체의 사본인 TaskReport는 반환후보2인 <code class="language-plaintext highlighter-rouge">List&lt;CompositeTask&gt;를 필드로 가져야하나?</code></strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722184447909.png" alt="image-20220722184447909"></p>
+
+    <ul>
+      <li><strong>내 자식들 컬렉션을 Set대신 List필드로 변환되어 가지고 있되 <code class="language-plaintext highlighter-rouge">List&lt;CompositeTask&gt;가 아니라,,, List&lt;TaskReport&gt;</code>를 가진다.</strong></li>
+      <li>
+<strong>무한뎁스를 자랑하던 CompositeTaks처럼  <code class="language-plaintext highlighter-rouge">TaskReport도 무한뎁스를 가진체 출력</code>되어야한다.</strong>
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">(동일형)Set컬렉션(을 들고 있는) 데코객체</code>로서 <code class="language-plaintext highlighter-rouge">자신형의 컬렉션 필드</code>에다가 자식들을 달고 있어야 <code class="language-plaintext highlighter-rouge">무한뎁스</code>가 가능하다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>TaskReport가 CompositeTask의 <code class="language-plaintext highlighter-rouge">출력될 사본</code>을 담당한다면, <code class="language-plaintext highlighter-rouge">자식들도 다 출력될 사본인 TaskReport를 가지고 있어야</code>하므로 <code class="language-plaintext highlighter-rouge">TaskReport</code>가 List의 타입으로 와야한다</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722191637376.png" alt="image-20220722191637376"></p>
+
+    <ul>
+      <li>
+<strong>왜 그렇다면 사본 속 나 자신은 CompositeTask로 필드를 만들었을까?</strong>
+        <ul>
+          <li><strong>tree구조와 상관없는 <code class="language-plaintext highlighter-rouge">나 자신의 정보 필드</code>는 <code class="language-plaintext highlighter-rouge">아무형이나 갖다써도 된다</code></strong></li>
+          <li><strong><code class="language-plaintext highlighter-rouge">중요한 것은, 나 자신의 자식들을 컬렉션+나와 같은형</code>으로 들고 있는 것이 중요하다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722191622525.png" alt="image-20220722191622525"></p>
+  </li>
+  <li>
+    <p><strong>나 자신의 사본인 CompostieTaks</strong> 는 <strong>이미 생성되어있고 <code class="language-plaintext highlighter-rouge">변하지 않아, 생성자에서 최초 주입 -&gt; final로 확정하여 setter는 안만든다</code></strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722191912684.png" alt="image-20220722191912684"></p>
+  </li>
+  <li>
+    <p><strong>나의 <code class="language-plaintext highlighter-rouge">출력사본 자식들</code>은 바깥에서 <code class="language-plaintext highlighter-rouge">추가를 해줘야하는 변수 -&gt; 필드초 빈컬렉션 초기화 -&gt; add(Setter) 추가</code>해줘야한다.</strong></p>
+
+    <ul>
+      <li><strong>출력사본객체를 만들 때, <code class="language-plaintext highlighter-rouge">원본에 더해진 자식들을 반복문으로 돌면서  출력사본의 자식으로 그대로 add</code>하는 과정이 발생할 것이다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/33ef6e7e-2412-40eb-974b-f1ae398ef4a4.gif" alt="33ef6e7e-2412-40eb-974b-f1ae398ef4a4"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722192235032.png" alt="image-20220722192235032"></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">출력하기 위해  묶은</code> 출력사본 객체라도 <code class="language-plaintext highlighter-rouge">출력을 하는 곳에서는 각각의 필드 정보(나 자신+자식들)을 제공</code>해줘야하므로, <code class="language-plaintext highlighter-rouge">각 필드에 대한 getter는 필요</code>하다</strong></p>
+
+    <ul>
+      <li>report의 실체
+        <ul>
+          <li><strong>task -&gt; 자식이 없는 사본task인 report -&gt; <code class="language-plaintext highlighter-rouge">바깥에다가 report를 만들어주면</code></strong></li>
+          <li>
+<strong>출력책임이 있는 놈은, <code class="language-plaintext highlighter-rouge">report의 getTask or getList</code>를 통해, 자기자신 + 자식들을 받아가 출력하려고 할 것이다.</strong>
+            <ul>
+              <li>자식들을 받았으면 반복문을 돌면서, 각 개별 자식들도 하나의 task가 되어, getTask + getList자식들을 요청할 것이다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722192452837.png" alt="image-20220722192452837"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722192503420.png" alt="image-20220722192503420"></p>
+  </li>
+  <li>
+    <p>이제 4가지 기능 중에 3가지는 나왔고, <strong>사용하는 쪽과 그에게 제공할 operation()기능만 남았다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722193003767.png" alt="image-20220722193003767"></p>
+
+    <ul>
+      <li><strong>이제 <code class="language-plaintext highlighter-rouge">원본인 CompositeTask가</code>  출력을 위해 <code class="language-plaintext highlighter-rouge">List를 만들어 제공</code>할 때, <code class="language-plaintext highlighter-rouge">출력 사본인TaskReport를 만들고 사용</code>한다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">원본 컴포짓객체인 CompositeTask</code>가, 외부에 출력용으로 자신+자식들을 반환할 때 <code class="language-plaintext highlighter-rouge">출력사본용 컴포짓객체 TaskReport</code>를 쓴다.</strong></p>
+
+    <ul>
+      <li>
+        <p>현재</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722214204719.png" alt="image-20220722214204719"></p>
+      </li>
+    </ul>
+
+    <ol>
+      <li>
+        <p><strong>이제 외부에 제공을 <code class="language-plaintext highlighter-rouge">폴더가 자식들만 반환</code>하는 <code class="language-plaintext highlighter-rouge">getList메서드 + List&lt;자신task&gt;</code>형태가 아니라 <code class="language-plaintext highlighter-rouge">getReport메서드 + 자신&amp;자식들묶은 사본객체</code>로 <code class="language-plaintext highlighter-rouge">시그니쳐를 변경</code>한다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722214442728.png" alt="image-20220722214442728"></p>
+      </li>
+      <li>
+        <p><strong>내부에서는 new TaskReport</strong>를 만든다.</p>
+
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">객체 자신의 사본을 내부에서 생성</code>할 땐, <code class="language-plaintext highlighter-rouge">this</code>로 객체 자체가 들어간다.</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722214611911.png" alt="image-20220722214611911"></p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">출력사본 객체도 컴포짓객체</code>이므로 <code class="language-plaintext highlighter-rouge">자식들을 만들고 add 끼워넣어야한다</code>. 그러려면 <code class="language-plaintext highlighter-rouge">원본객체 내부(현재context)에서 자식들을 for로 돌면서 -&gt; 자식들 또한 report로 변환하여 add해준다</code></strong></p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">Report도 컴포짓객체</code>라 <strong><code class="language-plaintext highlighter-rouge">컬렉션 필드에 자신과 동일형으로 자식들을 받는다.</code></strong></p>
+      </li>
+      <li>
+        <p><strong>자식들task를 돌면서, 자식들을 report로 변경하는 방법은?</strong></p>
+
+        <ul>
+          <li>
+            <p><code class="language-plaintext highlighter-rouge">본인 내부</code>에서의 변환은 <code class="language-plaintext highlighter-rouge">new TaskReport(this)</code>였지만,</p>
+          </li>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">외부 task객체 상태</code>에서의 변환은 <code class="language-plaintext highlighter-rouge">현재 정의하고 있는 getReport(SortType type)</code>호출해야한다.</strong></p>
+
+            <ul>
+              <li>
+                <p><strong>즉, 재귀형식으로 부른다.</strong></p>
+              </li>
+              <li><strong>재귀호출은 <code class="language-plaintext highlighter-rouge">마지막 스택에서 호출없이 끝나는 종착역</code>을 가져야하는데, <code class="language-plaintext highlighter-rouge">-&gt; 다음 자식 -&gt; 자식메서드</code>의 재귀로 안가려면  <code class="language-plaintext highlighter-rouge">for문에 걸리는 자식이 없을 때</code>이므로, 자식없으면 알아서 재귀호출이 종료된다.</strong></li>
+              <li>prev,next데코객체는 <strong>종착역이 데코객체필드 null을 지정</strong>
+</li>
+              <li>컬렉션데코객체(컴포짓객체)는 <strong>종착역이 자식컬렉션필드가 빈 컬렉션 -&gt; 자식이 add안된 task라면, 이미 종착역</strong>
+</li>
+            </ul>
+          </li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/d869af61-cab8-44f3-99dc-61b8cdc6f69b.gif" alt="d869af61-cab8-44f3-99dc-61b8cdc6f69b"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722215629488.png" alt="image-20220722215629488"></p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">컬렉션데코객체의 컴포짓패턴</code>은, <code class="language-plaintext highlighter-rouge">자신 내부출력사본 객체를 만드는 곳에서 재귀호출</code>이 발생하며, <code class="language-plaintext highlighter-rouge">출력사본 객체 반환메서드를 작성도중</code>에 <code class="language-plaintext highlighter-rouge">not꼬리재귀로서, return이 아니라 for문 내부에서 자식들의 출력사본객체 만들 때</code> 발생하며, <code class="language-plaintext highlighter-rouge">종착역은, 해당 재귀호출이 없게 되는 for문을 안거치는, 빈컬렉션으로 자식들이 없는 객체에 도달했을 때</code>이다.</strong></p>
+
+        <ul>
+          <li>prev, next데코객체는 <strong>자신내부 계산처리 부분에서 prev필드나 next필드의 메서드를 호출해서 재귀를 호출하며 null을 가진 객체의 차례에서 종착역 터미네이팅했었다.</strong>
+</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722220113223.png" alt="image-20220722220113223"></p>
+      </li>
+      <li>
+        <p>위에 두줄은 필요없으니 삭제한다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722220156582.png" alt="image-20220722220156582"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>composite패턴에서 composite객체를 실제 사용하는 것은 <strong>원본내부에서 외부에 제공할 출력사본을 만드는데, 출력사본 composite객체를 생성하는 과정에서 재귀를 사용한다.</strong></p>
+
+    <ul>
+      <li>역할4개가 다 사용되었다.
+        <ul>
+          <li>
+<a href="https://velog.io/@ye-geeee/Composite-Pattern">참고 벨로그</a>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722223041879.png" alt="image-20220722223041879">
+</li>
+          <li>add + remove + getChild(getList)</li>
+          <li><strong>getReport( getList + operation)</strong></li>
+        </ul>
+      </li>
+      <li>파일+폴더를 합친 컴포지트객체는 if로 파일 or 폴더를 구분할 필요가 없다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>이제 report생성시 정렬인자가 Task를 정렬하는 SortType이 아니라 <strong>CompositeTask를 정렬하는 CompositeSortType을 생성해야한다.</strong></p>
+
+    <ul>
+      <li>
+        <p>기존 Task를 정렬하던 SortType은 그대로 두고 복사해서 생성한다.</p>
+      </li>
+      <li>
+        <p>기존 getReport</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722231219299.png" alt="image-20220722231219299"></p>
+      </li>
+      <li>
+        <p><strong>인자를 변경하여 CompositeSortType을 새로 만들 건데,  SortType내용을 복사해서 수정한다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/e5077b16-91f4-4085-830a-504cbcc2cef1.gif" alt="e5077b16-91f4-4085-830a-504cbcc2cef1"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220722231454385.png" alt="image-20220722231454385"></p>
+      </li>
+      <li>
+        <p><strong>이 때, <code class="language-plaintext highlighter-rouge">사용하는 파라미터 형만 변경</code>된다면 Task -&gt; CompositeTask <code class="language-plaintext highlighter-rouge">제네릭 적용을 생각</code>해본다.</strong></p>
+
+        <ul>
+          <li>
+            <p><strong>만약 enum에 제네릭이 적용될 수 있다면, <code class="language-plaintext highlighter-rouge">기존 파라미터의 형을 SortType -&gt; SortType&lt;Task&gt;  + SortType&lt;CompositeTask&gt;</code>로 사용할 수있을 것이나, <code class="language-plaintext highlighter-rouge">enum에서는 제네릭이 사용안된다.</code></strong></p>
+
+            <ul>
+              <li>enum은 내부적으로 class로 취급해주지 않는다는 말이다.</li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>enum이 제네릭이 적용안되는 순간부터 <code class="language-plaintext highlighter-rouge">enum을 추상클래스&lt;T&gt;제네릭조합으로 변경 + enum필드==인스턴스들(익클분신술) 4개의 훅구상체class로 변경</code>해야하는 타이밍이기도 하다.</strong></p>
+          </li>
+          <li>
+            <p><strong>하지만, enum의 thread안전성을 이용한다.  추클+T조합으로 바꾼다면, 인스턴스 생성과 동시성(싱글톤)문제를 내가 처리해야한다. <code class="language-plaintext highlighter-rouge">일반적으로 기업코드는 동시성문제가 훨씬더 무섭다 -&gt; 코드중복을 허용해서라도 동시성 문제를 해결한다.</code></strong></p>
+
+            <ul>
+              <li>반대로 안드로이드플랫폼에서 enum을쓰면 엄청느려지기 때문에 안쓰기도 한다.</li>
+            </ul>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/78e7589e-0379-49d9-947f-36b6010d2d39.gif" alt="78e7589e-0379-49d9-947f-36b6010d2d39"></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>CompostieSortType의 인자를 Task -&gt; CompositeTask로 변경해준다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/fcd2634a-dcf0-42df-b0b7-bbdc00d4eb89.gif" alt="fcd2634a-dcf0-42df-b0b7-bbdc00d4eb89"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>더이상, CompositeTask는 <code class="language-plaintext highlighter-rouge">정렬된체로 외부에 제공</code>하는 <code class="language-plaintext highlighter-rouge">getList( sort )</code>의 역할이 사라졌다.</strong></p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">외부에 정렬된 상태</code>로 자식들List를 반환하는 것은 <code class="language-plaintext highlighter-rouge">TaskReport의 getList(   )</code>이므로 <code class="language-plaintext highlighter-rouge">정렬방식 파라미터를 여기로 옮긴다.</code></strong></li>
+      <li>CompositeTaks의 getReport는 사본객체만 만들어내는 역할. <strong>파일+폴더정보를 묶어서 가지고 있는 사본객체가 외부에 list를 제공해준다.</strong>
+</li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">외부 컬렉션 제공부터는 사본을 만들어서 반환한다</code></strong>
+        <ul>
+          <li>
+<strong>각 요소가 외부에서 public메서드를 가져 조작가능한 객체라면, 요소들은 그대로 있고, 컬렉션 주소만 바뀌도록 얕은복사를 해준다.</strong>
+            <ul>
+              <li><strong>컬렉션은 건들지말되, 요소들을 변경하고 싶으면 뽑아서 해라!</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/f6bcb7a6-af9c-4b3a-916e-aa4f59d01c5a.gif" alt="f6bcb7a6-af9c-4b3a-916e-aa4f59d01c5a"></p>
+
+    <ul>
+      <li>
+        <p>CompositeTask#getReport</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220723000312832.png" alt="image-20220723000312832"></p>
+      </li>
+      <li>
+        <p>TaskReport#getList</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220723000359075.png" alt="image-20220723000359075"></p>
+      </li>
+      <li>
+        <p><del>CompositeSortType</del> -&gt; TaksReportSortType</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220723000440146.png" alt="image-20220723000440146"></p>
+
+        <ul>
+          <li>
+            <p><strong>래핑된 객체의 필드로 정렬되므로, <code class="language-plaintext highlighter-rouge">getter 추가 및 내부객체-&gt;필드까지</code></strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220723000649328.png" alt="image-20220723000649328"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>파일 + 폴더 반환기능을 위임받는 출력사본 report객체는 <code class="language-plaintext highlighter-rouge">파일반환</code>도 해줘야한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220723005336697.png" alt="image-20220723005336697"></p>
+  </li>
+</ol>
+
+<h4 id="main에서-composite객체-및-출력사본-compositereport객체-사용하기">
+<a class="anchor" href="#main%EC%97%90%EC%84%9C-composite%EA%B0%9D%EC%B2%B4-%EB%B0%8F-%EC%B6%9C%EB%A0%A5%EC%82%AC%EB%B3%B8-compositereport%EA%B0%9D%EC%B2%B4-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>Main에서 Composite객체 및 출력사본 CompositeReport객체 사용하기</h4>
+
+<ol>
+  <li>
+    <p>root를 만들고 자식들을 추가한다. <strong>1개의 컴포지트 객체를 공짜로 받아와 add하는 순간은 지금 뿐이다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220723004119020.png" alt="image-20220723004119020"></p>
+  </li>
+  <li>
+    <p><strong>sub1(자식)아래에 자식들을 넣으려면 <code class="language-plaintext highlighter-rouge">list를 통해 반환받는 수 밖에 없으며</code>, composite객체는 list제공기능이 없고, <code class="language-plaintext highlighter-rouge">출력사본으로서 자식list를 제공해주며, 얕은 복사를 통한 제공으로, 요소들을 꺼내서 조작가능</code>하게 하는 것은 <code class="language-plaintext highlighter-rouge">TaskReport를 통해 받아보는 수 밖에 없다</code></strong></p>
+
+    <ul>
+      <li>sub들을 얻을 수 있는 유일한 방법: 현재객체의 출력사본 report생성 -&gt; list를 반환 -&gt; 꺼내서 씀
+        <ul>
+          <li>
+            <p><strong>CRUD처럼, <code class="language-plaintext highlighter-rouge">if addTask가 [실시간 외부조작 가능한 객체]를 추가한 것을 그대로 반환</code>해주면, <code class="language-plaintext highlighter-rouge">추가된 객체를 list에서 받지 않고, 그대로 객체 조작</code>할 수도 있을 것이다.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220723004634412.png" alt="image-20220723004634412"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220723011639423.png" alt="image-20220723011639423"></p>
+  </li>
+  <li>
+    <p><strong>컴포지트객체는 <code class="language-plaintext highlighter-rouge">폴더-파일구조를 바로 확인할 수없다</code>.</strong></p>
+    <ul>
+      <li>
+<strong>오여주는 애인 Renderer를 정의</strong>해서 봐야한다.</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="renderer-순회의-제어구조---visitor패턴으로-프레임웤-만들기">
+<a class="anchor" href="#renderer-%EC%88%9C%ED%9A%8C%EC%9D%98-%EC%A0%9C%EC%96%B4%EA%B5%AC%EC%A1%B0---visitor%ED%8C%A8%ED%84%B4%EC%9C%BC%EB%A1%9C-%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%A4-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>Renderer: 순회의 제어구조 -&gt; Visitor패턴으로 프레임웤 만들기</h4>
+
+<ul>
+  <li>컴포지트 패턴은 결과물자체도 컴포지트하게 생겼다.
+    <ul>
+      <li>
+<strong>컴포지트 객체를 이용해 만든 Report도 컴포지트하게 생겼다. = 컴포지트를 순회해서 만들었다.</strong>
+        <ul>
+          <li>안에 모아놓을 수 있다.</li>
+        </ul>
+      </li>
+      <li><strong>또한, Report를 소비하기 위해서는 또 컴포지트 패턴을 순회해야한다.</strong></li>
+    </ul>
+  </li>
+  <li>컴포지트 패턴을 보려면, <strong>컴포지트 패턴을 다시 순회할 수 있는 순회자</strong>를 만들어야한다.
+    <ul>
+      <li><strong>하지만, Report와 달리 <code class="language-plaintext highlighter-rouge">순회자는 제어구조</code>다.</strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">순회의 제어구조는 라이프사이클을 정해두되, 해야할 일은 바깥쪽에서 위임하여 라이프사이클을 탈 수 있다.</code></strong></li>
+      <li><strong>즉, <code class="language-plaintext highlighter-rouge">순회자=제어구조가 해야할일을 거꾸로 정의할 수 있다라면, 프레임웤</code>이 된다. <code class="language-plaintext highlighter-rouge">Visitor패턴은 처음 배우는 프레임웤</code>이다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>출력을 담당하는 class(Renderer)가 제어구조를 가져야한다면, <code class="language-plaintext highlighter-rouge">제어구조에서 제어의 역전을 위해 Visitor를 입력받는다.</code></strong></p>
+
+    <ul>
+      <li>
+<strong>Renderer는 다양한종류의 할일을 하는 visitor(다양한 기능의 전략패턴)을 받아들이는 <code class="language-plaintext highlighter-rouge">Visitable</code>이지만, 여기서 renderer는 <code class="language-plaintext highlighter-rouge">순회의 제어구조를 가지고 있는 프레임웤</code>으로서 여러종류를 가지는 것이 아니기 때문에 <code class="language-plaintext highlighter-rouge">전략패턴으로 생성</code>하진 않는다.</strong>
+        <ul>
+          <li>visitable이 인터페이스가 아니므로, <strong>필드를 가지는 구상클래스로서 visitor을 생성자 주입</strong> 받는다.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220723230451093.png" alt="image-20220723230451093">
+</li>
+        </ul>
+      </li>
+      <li><strong>제어의 역전으로 <code class="language-plaintext highlighter-rouge">라이프사이클을 타면서 일을하는 Visitor 종류만만 달라</code>지므로 <code class="language-plaintext highlighter-rouge">생성해서 그때그때 사용한 생성context</code>로 간주하여 일반 클래스로 만든다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220723230130329.png" alt="image-20220723230130329"></p>
+  </li>
+  <li>
+    <p><strong>Visitor는 원래 인터페이스</strong>로 들어온다. <strong>여러 종류의 할일(라이프사이클마다 그에 맞는 데이터가져다주는 기능)을 가진다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220723230733096.png" alt="image-20220723230733096"></p>
+  </li>
+  <li>
+    <p><strong>Renderer의 역할은 <code class="language-plaintext highlighter-rouge">TaskReport</code>를 받아서, <code class="language-plaintext highlighter-rouge">결과물을 바깥에 주는게 아니라(public Item)  출력render(public void)</code>만 해준다</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220723231035013.png" alt="image-20220723231035013"></p>
+  </li>
+  <li>
+    <p><strong>render내부에서는 <code class="language-plaintext highlighter-rouge">컴포지트 객체를 만드는 방향과 동일한 방향으로 순회</code>할 것이다. 문제는 <code class="language-plaintext highlighter-rouge">순회하며 그릴 때 depth가 생겨난다는 것</code>이 다르다.</strong></p>
+
+    <ul>
+      <li>**보이진 않지만, <code class="language-plaintext highlighter-rouge">인자가 더 필요</code>하다. `누적되는 depth의 초기값을 밖에서 주는 꼬리재귀구조로서, **
+        <ul>
+          <li>
+<strong>계층적, 재귀적인 구조</strong>는 <strong>구조객체 이외에 depth정보도 인자로 달고 있어야한다.</strong>
+</li>
+        </ul>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">컴포지트 구조도 순회하려면 정해진for가 아니다</code></strong>
+        <ul>
+          <li><strong>더 깊이 들어가는 애도 있는 <code class="language-plaintext highlighter-rouge">동적트리 순회 구조</code>이다.</strong></li>
+          <li>
+<strong>실무</strong>에서는 정해진 트리구조만 <strong>다 도는 것이 아니다</strong>. <strong>리프가 다양한 구조로 있는 여러구조체를 돈다.</strong>
+</li>
+        </ul>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">동적트리 순회</code>시에는 <code class="language-plaintext highlighter-rouge">최소한의 depth정보를 누적결과값으로 물고다녀야한다</code></strong>
+        <ul>
+          <li>**<code class="language-plaintext highlighter-rouge">계층적, (꼬리재귀)적, 동적트리 구조의 순회</code>는 <code class="language-plaintext highlighter-rouge">누적결과값파라미터를 물고, 최초호출시 인자에서 주어진다</code>, **</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220723232312262.png" alt="image-20220723232312262"></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">최초 depth는 0으로 주어져야</code>한다. 하지만, <code class="language-plaintext highlighter-rouge">사용자가 0으로 준다는 보장이 없다</code> -&gt; 이 때 <code class="language-plaintext highlighter-rouge">꼬리재귀를 위한 private메서드 추출</code>이자 <code class="language-plaintext highlighter-rouge">최초(누적결과값변수의) 인자를 내부에서 상수로 주는 오버로딩</code>을 드디어 사용한다.</strong></p>
+
+    <ul>
+      <li>**사용자(public)는  depth가 없는 render(TaksReport report)만 호출할 수 있게 한다 **</li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">누적결과값 파라미터의 최초인자 0을 줘야하는 depth를 파라미터가 추가된 꼬리재귀 메서드</code></strong>는 <strong><code class="language-plaintext highlighter-rouge">직접 0을 주고 내수용으로 오버로딩</code>해서 <code class="language-plaintext highlighter-rouge">private(사용자 사용금지)으로 으로 생성-정의</code>한다</strong>
+        <ul>
+          <li>**좋은 함수는 인자0~1개인 함수다. <code class="language-plaintext highlighter-rouge">더러운 것 = 인자 2개이상 &amp;&amp; 직접 초기값을 줘야하는 함수</code>는 -&gt; <code class="language-plaintext highlighter-rouge">전부 private으로 내부에서 하는 오버로딩으로 정의</code> 하면 된다. **</li>
+          <li><strong>더러운 것은 안에서 하고, <code class="language-plaintext highlighter-rouge">바깥에는public 좋은 함수를 줘라</code></strong></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/ba147b71-2dff-41da-95f0-a7a04836d541.gif" alt="ba147b71-2dff-41da-95f0-a7a04836d541"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220723233638840.png" alt="image-20220723233638840"></p>
+  </li>
+  <li>
+    <p><strong>Visitor패턴에서 visitor를 받는 visitable(Renderer)는 <code class="language-plaintext highlighter-rouge">1개의 메서드 안에 라이프사이클에 맞는 제어구조</code>를 작성해야한다.</strong></p>
+
+    <ul>
+      <li>render메서드 안에서 다 작성해주자.</li>
+    </ul>
+
+    <ol>
+      <li>
+        <p><strong>task부터 그려야한다. -&gt; <code class="language-plaintext highlighter-rouge">visitor에게 task객체를 줘서 그리는 책임을 위임한다.</code></strong></p>
+
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">내가 안한다. 라이프싸이클을 타고 있는 visitor에게 시킨다.</code></strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220723235121225.png" alt="image-20220723235121225"></p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>근데, 객체지향에서 생각해야할 것이 있다. <code class="language-plaintext highlighter-rouge">협력인스턴스가 생성하는 context(동시성 문제가 발생할 수 있어서, 매번 새로 생성할지)</code>인지 <code class="language-plaintext highlighter-rouge">협력인스턴스를 소모하고 재활용하는 context</code>인지 생각해야한다.</strong></p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">협력인스턴스를 내부에서, 메서드호출마다 매번 생성</code>하면 <code class="language-plaintext highlighter-rouge">동시성 문제가 하나도 없어진다</code></strong></p>
+      </li>
+      <li>
+<code class="language-plaintext highlighter-rouge">전략패턴의 visitor를 단일객체</code>을 외부에서 생성된 것을 받아서 <strong><code class="language-plaintext highlighter-rouge">new때리지 않고 있다.</code></strong>
+</li>
+      <li><strong>그러나 제일 안전한 것은 <code class="language-plaintext highlighter-rouge">언제나 협력 인스턴스를 생성</code>하는 것이다. 그러려면 <code class="language-plaintext highlighter-rouge">외부에서 생성된 협력 객체가 아니라, 외부에서 생성자를 받아야</code>한다.</strong></li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">생성자를 받는다</code>는 것은, <code class="language-plaintext highlighter-rouge">인스턴스를 return해줄 수 있는 (인자있)Functional or (인자없)Supplier를 받는 것</code>이다.</strong>
+        <ul>
+          <li><strong>그래야 범용적인 Visitor를 매번 <code class="language-plaintext highlighter-rouge">상태가 초기화된 협력인스턴스</code>를 가질 수 있다.</strong></li>
+          <li>my) 내부정보로 내부발행객체를 생성하는 것처럼, <strong>협력 인스턴스가 추상체일 때 내부 발행하려면</strong>
+            <ol>
+              <li>외부에서 받아야하는 추상체변수로 new때리질 못한다. <strong>외부에서 생성자 호출직전까지의 로직으로 받아야한다.</strong>
+</li>
+              <li><strong>생성자  로직을 받을 때, 생성자 로직이라면 return이 필요하므로 Supplier나 Functional을 받고,  제네릭에는 받는 협력인스턴스 형을 T로 준다.</strong></li>
+              <li>내부에서는 받은 로직을 실행하기 위해 .get() 나 .apply()를 통해 <strong>lazy evaluate의 연산지연실행 메서드를 사용한다</strong>
+</li>
+              <li><strong>외부에서는 <code class="language-plaintext highlighter-rouge">가상의 인자로 람다식을 통해 [생성자 로직]</code>을 <code class="language-plaintext highlighter-rouge">인자</code>로 전달해 <code class="language-plaintext highlighter-rouge">아~ 호출시마다 매번 해당로직이 지연실행</code>되는 구나. <code class="language-plaintext highlighter-rouge">생성자호출이라면, 객체생성이, 매번 되는 구나</code>라고 생각한다.</strong></li>
+            </ol>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">협력인스턴스의 추상체 visitor</code></strong>를 이미 생성된 객체가 아니라, <strong><code class="language-plaintext highlighter-rouge">render()</code>호출시마다 <code class="language-plaintext highlighter-rouge">내부에서 언제나 새로 생성</code>해서 사용하기 위해 <code class="language-plaintext highlighter-rouge">Visitor주입 -&gt; Supplier&lt;Visitor&gt; 주입</code>으로 변경한다.</strong></p>
+
+    <ul>
+      <li>변수명은 factory로 받는다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/4e8f5357-ead4-4370-9141-18040b6dade7.gif" alt="4e8f5357-ead4-4370-9141-18040b6dade7"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724122340349.png" alt="image-20220724122340349"></p>
+  </li>
+  <li>
+    <p><strong>visitor의 생성은, 꼬리재귀 호출전에 생성되어 인자로 줘야한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724122901932.png" alt="image-20220724122901932"></p>
+
+    <ul>
+      <li>꼬리재귀에서 <strong>재활용하기 전에, 재활용될 visitor를 생성</strong>한 뒤, <strong>오버로딩 된 꼬리재귀 메서드에만 인자로 추가한다.</strong>
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/d0f40455-d0cf-4224-805e-b1b5a90ac01e.gif" alt="d0f40455-d0cf-4224-805e-b1b5a90ac01e"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724123102130.png" alt="image-20220724123102130"></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">java헛소리</code>로서 <code class="language-plaintext highlighter-rouge">즉시 인자로 반영될 값이라면, 지역변수로 빼놔야 가독성에 좋지 않나요? </code>라고 한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724123346314.png" alt="image-20220724123346314"></p>
+
+    <ul>
+      <li><strong>하지만, <code class="language-plaintext highlighter-rouge">인자에 넘어갈 변수 &lt;-&gt; 메서드 사이</code>에 <code class="language-plaintext highlighter-rouge">지역변수를 통해 트랜잭션(검증, visitor.타메서드() 호출 등)을 안할 거면, 그리고 어려운코드가 아니라면, inline으로 쓰는게 맞다</code></strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">지역변수가 있다. == 해당 변수로 추가적인 일을 시키고 나서 인자로 넘기겠다.</code></strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">지역변수가 없다. == 만든 변수를 건들지않고 인자로 바로 넘기겠다.</code></strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/0200fa44-082b-459c-8b28-9961f02793f9.gif" alt="0200fa44-082b-459c-8b28-9961f02793f9"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724123653366.png" alt="image-20220724123653366"></p>
+  </li>
+  <li>
+    <p><strong>꼬리재귀 정의부에서는 <code class="language-plaintext highlighter-rouge">최초호출시 인자가 넘어와서, 누적/재활용되기 전 제일 처음 변수</code>로 어떤 조작이 될 것이다.</strong></p>
+
+    <ul>
+      <li>생성되고 제일 처음visitor로 task를 그린다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724123835889.png" alt="image-20220724123835889"></p>
+
+    <ul>
+      <li>
+        <p><strong>Visitor가 상태를 가지는 인스턴슨지 뭔지는 모르겠지만, <code class="language-plaintext highlighter-rouge">호출시마다 매번 생성되는 상태니 동시성 문제가 하나도 없으며, 찌꺼기 상태값을 고려안해도 된다.</code></strong></p>
+      </li>
+      <li>
+        <p><strong>우리는 gc를 믿고 개기는 것이다. <code class="language-plaintext highlighter-rouge">객체를 재활용할 생각 자체를 버리자 무조건 만들자. 객체지향은 new도는 것</code></strong></p>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724124152271.png" alt="image-20220724124152271"></p>
+  </li>
+  <li>
+    <p>파일(task)는 그렸으니, <strong>자식들subtask들을 돌리 위해서는 반복문</strong>을 써야한다.</p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">자식들도 하나의 task</code>로서, 반복문내에서 <code class="language-plaintext highlighter-rouge">꼬리재귀render</code>를 해야한다.</strong></p>
+
+        <ul>
+          <li>render해야 자신의 task를 그리고, 자식들마다 for문돌면서 task들을 다시 그린다.</li>
+        </ul>
+      </li>
+      <li>
+        <p>**<code class="language-plaintext highlighter-rouge">꼬리재귀 내부에서 자식들의 (return or 마지막문장의) 종착역설정은 render를 안타게 되는 == for문을 안타는 ==빈List를 가진 자식</code>일 것이다. **</p>
+      </li>
+      <li>
+        <p><strong>데코객체가 아니므로 연결된 next/prev데코객체.꼬리재귀형태가 아니라<code class="language-plaintext highlighter-rouge">메서드 수준에서의 꼬리재귀</code>는 <code class="language-plaintext highlighter-rouge">재귀재료에 [현재 주체]까지 모두 인자로 표현하여 다들고 다니므로, 호출인자만 업데이트된 인자로 [내수용 꼬리재귀 메서드 호출]</code>로 재귀를 호출한다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220716135212111.png" alt=""></p>
+      </li>
+      <li>
+        <p><strong>주체자가 report -&gt; subReport로 바뀌었다.</strong></p>
+        <ul>
+          <li>
+<strong>visitor는 그대로 재활용</strong>된다.</li>
+          <li><strong>depth는 1개 증가한 것으로 줘야한다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/e27539df-37e6-4f66-87d2-22c3e420e5b9.gif" alt="e27539df-37e6-4f66-87d2-22c3e420e5b9"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724130810425.png" alt="image-20220724130810425"></p>
+  </li>
+  <li>
+    <p><strong>그렇다면, <code class="language-plaintext highlighter-rouge">자기자신을 그릴 때, 현재의 depth정보(자식은 +1)도 필요</code>할 것이다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/e6b8beea-7d77-488d-aac3-24bf6088786f.gif" alt="e6b8beea-7d77-488d-aac3-24bf6088786f"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724131132410.png" alt="image-20220724131132410"></p>
+  </li>
+  <li>
+    <p><strong>라이프 싸이클에 따라, <code class="language-plaintext highlighter-rouge">visitor에게는 end(depth)를 호출</code>해서 <code class="language-plaintext highlighter-rouge">task + 자식taks를 다 그린 [종결처리]</code>를 해줘야한다.</strong></p>
+
+    <ul>
+      <li>
+<strong>왜 꼬리재귀에서 따로 종결처리를 해줘야하지?</strong>
+        <ul>
+          <li><strong>결과값을 누적하는꼬리재귀가 아니라 <code class="language-plaintext highlighter-rouge">depth를 업데이트하며 출력만 하는 꼬리재귀</code>이며, <code class="language-plaintext highlighter-rouge">마지막 node일 때 출력이 달라지므로?</code></strong></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/cfa201b7-7f89-4b09-b2ae-f688e1b05e5e.gif" alt="cfa201b7-7f89-4b09-b2ae-f688e1b05e5e"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724131448706.png" alt="image-20220724131448706"></p>
+  </li>
+  <li>
+    <p><strong>라이프싸이클에 따른 composite제어구조는 Visitable에 해당하는 Renderer가 다 가져갔다. <code class="language-plaintext highlighter-rouge">visitor</code>는 라이프싸이클에 따른 <code class="language-plaintext highlighter-rouge">생명주기 함수들만 정복하고, composite제어에 대한 정보가 없다.</code></strong></p>
+
+    <ul>
+      <li>제어와 실행을 분리하는 것이 visitor패턴이다.</li>
+      <li>앞으로 3년간… 어려운 <strong><code class="language-plaintext highlighter-rouge">제어를 실행하는 놈</code> vs <code class="language-plaintext highlighter-rouge">제어를 통제하는 구조</code></strong>를 분리하는 연습해야한다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724131700527.png" alt="image-20220724131700527"></p>
+  </li>
+  <li>
+    <p><strong>이제 인터페이스 Visitor에 <code class="language-plaintext highlighter-rouge">제어를 실행하는 [라이프싸이클 함수] 2가지를 추가</code>해준다.</strong></p>
+
+    <ul>
+      <li><strong>라이프싸이클 함수가 생기는 이유 -&gt; <code class="language-plaintext highlighter-rouge">해당 인터페이스는 제어의 흐름에 들어가있는 visitor객체다</code></strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/20d40a63-bc22-4ee8-a2b9-80259ca91f12.gif" alt="20d40a63-bc22-4ee8-a2b9-80259ca91f12"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724132241769.png" alt="image-20220724132241769"></p>
+  </li>
+</ol>
+
+<h4 id="consolevisitor-제어구조에-끼워넣을-제어실행visitor-구상체1">
+<a class="anchor" href="#consolevisitor-%EC%A0%9C%EC%96%B4%EA%B5%AC%EC%A1%B0%EC%97%90-%EB%81%BC%EC%9B%8C%EB%84%A3%EC%9D%84-%EC%A0%9C%EC%96%B4%EC%8B%A4%ED%96%89visitor-%EA%B5%AC%EC%83%81%EC%B2%B41" aria-hidden="true"><span class="octicon octicon-link"></span></a>ConsoleVisitor: 제어구조에 끼워넣을 제어실행visitor 구상체1</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724132756011.png" alt="image-20220724132756011"></p>
+
+<ol>
+  <li>
+    <p>task1개를 표현하면, depth만큼 <code class="language-plaintext highlighter-rouge">빈 padding문자열</code>을 <strong>실제 padding으로 들어갈 문자열을 정해서 depth수만큼 누적합</strong>되어야한다.</p>
+
+    <ul>
+      <li>depth만큼 반복문을 돌면서 정해진 padding문자열을 누적합한다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/154ebfe2-818a-434b-8a55-23e46c27634f.gif" alt="154ebfe2-818a-434b-8a55-23e46c27634f"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724133221173.png" alt="image-20220724133221173"></p>
+  </li>
+  <li>
+    <p><strong>padding이후 가장 먼저 표시해야할 것은 토글여부이다. <code class="language-plaintext highlighter-rouge">isComplete 필드의 getter를 만든다.</code></strong></p>
+
+    <ul>
+      <li>
+        <p><strong>보통 isXXX boolean필드의 getter는 get을 뺀다고 한다.</strong></p>
+
+        <ul>
+          <li><strong>불린flag자체가.. return boolean변수이므로… 물어보는 것과 동일하다</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/30103f84-d760-49f8-8b3b-a43dd683bd08.gif" alt="30103f84-d760-49f8-8b3b-a43dd683bd08"></p>
+      </li>
+      <li>
+        <p><strong>isComplete()여부에 따라 <code class="language-plaintext highlighter-rouge">[v] </code>나 <code class="language-plaintext highlighter-rouge">[ ] </code>를 표시하도록 삼항연산자를 활용해준다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/1486c91b-946f-4e96-9aad-3495ebbe638c.gif" alt="1486c91b-946f-4e96-9aad-3495ebbe638c"></p>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724133946833.png" alt="image-20220724133946833"></p>
+  </li>
+</ol>
+
+<h4 id="main에서-render--consolevisitor로--visitortaskdraw-출력-확인하기">
+<a class="anchor" href="#main%EC%97%90%EC%84%9C-render--consolevisitor%EB%A1%9C--visitortaskdraw-%EC%B6%9C%EB%A0%A5-%ED%99%95%EC%9D%B8%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>Main에서 render + consolevisitor로  visitor.taskDraw() 출력 확인하기</h4>
+
+<ol>
+  <li>
+    <p>Render를 만들되 <strong>생성자에서는 내부에서 <code class="language-plaintext highlighter-rouge">라이프싸이클을 타는 visitor객체가 제어메서드 호출시마다 새로객체를 생성</code>하도록 <code class="language-plaintext highlighter-rouge">람다식으로 supplier제공해주기</code></strong></p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">라이프싸이클타는 객체</code>를 생성해서 넣어주지 않고, <code class="language-plaintext highlighter-rouge">라이프싸이클을 가진 제어메서드호출시마다 생성</code>하도록 하기 위해 <code class="language-plaintext highlighter-rouge">supplier or functional</code>을 통한 <code class="language-plaintext highlighter-rouge">factory를 넣어줘서 생성</code>한다고 표현한다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p>render.render( )시, 위에서 만들어둔 root를 report로 만들어서 넣어주기</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/ae22440a-f72b-4aee-a58e-86cc6a2b32c4.gif" alt="ae22440a-f72b-4aee-a58e-86cc6a2b32c4"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724134814286.png" alt="image-20220724134814286"></p>
+  </li>
+  <li>
+    <p>출력해보기</p>
+
+    <ul>
+      <li>depth마다 <code class="language-plaintext highlighter-rouge">-</code>가 붙은 체로 출력된다.</li>
+      <li>종결처리를 해주면 각 task마다 뭔가 표시를 해줄 것이다?</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/bb208850-846a-4750-825a-4a03a82573be.gif" alt="bb208850-846a-4750-825a-4a03a82573be"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724135057928.png" alt="image-20220724135057928"></p>
+  </li>
+  <li>
+    <p><strong>정렬방식 고민하기</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>현재 문제는, 정렬방식을 내부에서 정하고 있다. <code class="language-plaintext highlighter-rouge">원래는 root task를 통해 report를 만드는 getReport()시 정렬방식을 인자로 줘야한다.</code></strong></p>
+
+        <ul>
+          <li>
+            <p>내 코드(report의 자식들을 꺼낼 때만 정렬방식 적용해서 제공)</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724135307603.png" alt="image-20220724135307603"></p>
+          </li>
+          <li>
+            <p><strong>되어야할 코드</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724135327957.png" alt="image-20220724135327957"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="task---내부에서-taskreport만들때부터-정렬방식이-전해져야한다">
+<a class="anchor" href="#task---%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-taskreport%EB%A7%8C%EB%93%A4%EB%95%8C%EB%B6%80%ED%84%B0-%EC%A0%95%EB%A0%AC%EB%B0%A9%EC%8B%9D%EC%9D%B4-%EC%A0%84%ED%95%B4%EC%A0%B8%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>task -&gt; 내부에서 TaskReport만들때부터 정렬방식이 전해져야한다.</h4>
+
+<ol>
+  <li>
+    <p><strong>정렬방식 받는 것을 추적해서, task#getReport에서 정렬방식 인자를 주입하도록 하기</strong></p>
+
+    <ul>
+      <li>
+        <p>현재는 report에서 꺼낼때만, 정렬방식을 인자로 주입받고 있다.</p>
+
+        <ul>
+          <li>
+            <p>Main에서 Report의 자식들을 꺼낼때, 정렬된체로 꺼내기</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724135730289.png" alt="image-20220724135730289"></p>
+          </li>
+          <li>
+            <p>render시 내부에서 report들의 자식들을 꼬리재귀로 출력하려고 꺼낼때, 인자로 받는 중</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724135820067.png" alt="image-20220724135820067"></p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>하지만, report를 만들때(<code class="language-plaintext highlighter-rouge">task#getReport()</code>부터 <code class="language-plaintext highlighter-rouge">이미 인자로 주어져서 정렬된 체로 report를 생성</code>하도록 변경해야, <code class="language-plaintext highlighter-rouge">render시, task -&gt; 정렬된 report를 만들어 report만 넘기기</code>를 할 수 있다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724140741542.png" alt="image-20220724140741542"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724140808337.png" alt="image-20220724140808337"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724140830194.png" alt="image-20220724140830194"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724140919885.png" alt="image-20220724140919885"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="jsonvisitor--depth를-가진-출력은-json형태라서-만들-수-있다">
+<a class="anchor" href="#jsonvisitor--depth%EB%A5%BC-%EA%B0%80%EC%A7%84-%EC%B6%9C%EB%A0%A5%EC%9D%80-json%ED%98%95%ED%83%9C%EB%9D%BC%EC%84%9C-%EB%A7%8C%EB%93%A4-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>JsonVisitor:  depth를 가진 출력은 json형태라서 만들 수 있다</h4>
+
+<ul>
+  <li>원래 json은 쌓아가야하는 drawTask시, string들을 쌓아가야하는 입장이다.
+    <ul>
+      <li>sout이면 안쌓아도되고, 문자열을 원하면 쌓아야한다.</li>
+      <li>여기서는 sout로 간다.</li>
+    </ul>
+  </li>
+  <li>json은 taks정보 + sub task들정보 + <strong>다끝나면 중괄호</strong>가 닫힌다.
+    <ul>
+      <li><strong>end에서 할일이 있다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>ConsoleVisitor의 내용을 가져오되, <code class="language-plaintext highlighter-rouge">처음 작성할때 drawTask의 padding만큼 밀리고, end에서도 padding만큼 밀리니</code> -&gt; <code class="language-plaintext highlighter-rouge">depth만큼 쌓이는 padding로직을 내수용(drawTask + end 공통으로 사용) 메서드 추출</code>을 통해 <code class="language-plaintext highlighter-rouge">class 내부로 빼낸다</code></strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/43942d63-22d9-4cf8-b135-ff92136ae4e5.gif" alt="43942d63-22d9-4cf8-b135-ff92136ae4e5"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724182854246.png" alt="image-20220724182854246"></p>
+
+    <ul>
+      <li>이 때, <strong>padding은 ` -  -&gt; “ “ 빈 문자열`로 바꾼다.</strong>
+</li>
+    </ul>
+  </li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724183006438.png" alt="image-20220724183006438"></p>
+
+<ol>
+  <li>
+    <p><strong>첫번째 줄은 padding + 중괄호{다</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724183115813.png" alt="image-20220724183115813"></p>
+  </li>
+  <li>
+    <p><strong>필드는 padding + ` 중괄호대신 공백<code class="language-plaintext highlighter-rouge"> + </code>필드명:<code class="language-plaintext highlighter-rouge"> + 문자열이므로 </code>“내용”<code class="language-plaintext highlighter-rouge">으로 양쪽 큰따옴표가 나가야하므로 java내에선 </code>"<code class="language-plaintext highlighter-rouge">를 사용하며 + 끝날때는 콤마까지 가지고 가야한다. </code>",`</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724183608061.png" alt="image-20220724183608061"></p>
+
+    <ul>
+      <li>복사해서 date도 해결한다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>boolean은 내용에 큰따옴표가 필요없다.</strong></p>
+
+    <ul>
+      <li>true, false는 자동으로 문자열로 true, false로 바뀐다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724183747535.png" alt="image-20220724183747535"></p>
+  </li>
+  <li>
+    <p><strong>문제는 sub들이다.</strong></p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">sub: [ </code>  내용으로 대괄호 + 공백인 상태로 주면,</strong></li>
+      <li><strong>그담 task가, 자신의 패딩+ 중괄호로 열고 시작하게 된다.</strong></li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">대신, end의 닫기역할만 잘해주면 된다. 자신은 자기닫기만 잘챙겨주면, 된다.</code></strong>
+        <ul>
+          <li>**자식들을 가져, 1개의 누적결과값반환이 아닌, 반복문의 재귀에는 **
+            <ul>
+              <li><strong>자신은 시작만 해놓고, 자식들을 호출하며</strong></li>
+              <li><strong>자신과 자식들모두 각자의 end의 종결처리가 필요하다.</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/b59fd5f3-a439-431d-9af5-b088c7a1519d.gif" alt="b59fd5f3-a439-431d-9af5-b088c7a1519d"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724184531977.png" alt="image-20220724184531977"></p>
+
+    <ul>
+      <li>종결처리</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/42e1845f-458d-4db2-bb7f-073ec758418a.gif" alt="42e1845f-458d-4db2-bb7f-073ec758418a"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724185311240.png" alt="image-20220724185311240"></p>
+  </li>
+  <li>
+    <p><strong>json의 괄호들은 내턴을 닫을 때,  <code class="language-plaintext highlighter-rouge">중괄호뒤에는 }, 콤마</code>를 <code class="language-plaintext highlighter-rouge">반드시</code>찍어준다.</strong></p>
+
+    <ul>
+      <li>자식들끼리 콤마로 연결되어야하므로.. 안찍어주면 에러다</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724190151768.png" alt="image-20220724190151768"></p>
+
+    <ul>
+      <li>
+        <p><strong>root의 중괄호도 마지막이 콤마가 찍힌다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724190350188.png" alt="image-20220724190350188"></p>
+      </li>
+      <li>
+        <p>js에서 object에 <strong>트레일링콤마를 허용하자</strong>라는 말이 나온다.</p>
+
+        <ul>
+          <li>
+            <p><strong>트레일링 콤마</strong>(Trailing comma)는 여러 요소들을 쉼표(콤마)를 사용하여 나열할 때, 가장 마지막 요소 다음에 오는 쉼표를 말한다.</p>
+
+            <ul>
+              <li>
+                <p>위 트레일링 콤마는 생략하여도 아무런 변화를 만들지 않으며 단지 수정을 편하게 하기 위한 도구이다.</p>
+              </li>
+              <li>
+                <p>한편 <a href="https://femiwiki.com/index.php?title=Go(%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D_%EC%96%B8%EC%96%B4)&amp;action=view&amp;redlink=1">Go</a>의 경우 배열을 여러 줄에 나눠 입력할 때 트<strong>레일링 콤마가 강제 사항</strong>이며 이를 생략하면 다음과 같은 에러를 발생시킨다.</p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>프레임웤을 visitor패턴으로 만들 때, 트레일링콤마를 허용안한다면, <code class="language-plaintext highlighter-rouge">end종결처리 메서드와 꼬리재귀의 파라미터에 isEnd를 추가해줘야하고</code> + <code class="language-plaintext highlighter-rouge">end에서 분기를 걸어줘야한다.</code></strong></p>
+
+        <ul>
+          <li>프레임웤을 만드러보면, 트레일링 콤마를 쓰자고 한다.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724190940711.png" alt="image-20220724190940711"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724191019051.png" alt="image-20220724191019051"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="main에서-사용">
+<a class="anchor" href="#main%EC%97%90%EC%84%9C-%EC%82%AC%EC%9A%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>Main에서 사용</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220724185910322.png" alt="image-20220724185910322"></p>
+
+<h3 id="프레임웤은-visitor패턴과-템플릿메소드패턴으로-구성된다">
+<a class="anchor" href="#%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%A4%EC%9D%80-visitor%ED%8C%A8%ED%84%B4%EA%B3%BC-%ED%85%9C%ED%94%8C%EB%A6%BF%EB%A9%94%EC%86%8C%EB%93%9C%ED%8C%A8%ED%84%B4%EC%9C%BC%EB%A1%9C-%EA%B5%AC%EC%84%B1%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>프레임웤은 visitor패턴과 템플릿메소드패턴으로 구성된다.</h3>
+
+<ul>
+  <li>몸통 : visitor패턴을 상속한 visitor객체들이 구현한다</li>
+  <li>
+    <p><strong>가장 큰 프로세스(제어): templatemethod의 훅으로 통제</strong>한다.</p>
+  </li>
+  <li>스프링의 예
+    <ul>
+      <li>컨트롤러를 pojo로 만들면, 어노테이션(router)에 의해 <strong>visitor로서 작동한다.</strong>
+</li>
+      <li>그에 비해 <strong>스프링 interceptor는 템플릿메소드</strong>를 만들어서, 구상은 before/after intercept를 만들어서 훅을 구현한다.</li>
+    </ul>
+  </li>
+  <li>
+<strong>큰 흐름은 템플릿메소드패턴으로 강제시키고, 안에 몸통의 유연성 + 다양한 라이프사이클은 visitor패턴으로 처리한다.</strong>
+    <ul>
+      <li>안드로이드 개발시 activity상속받으면 전부 라이프사이클함수 구현이다.
+        <ul>
+          <li><strong>라이프싸이클을 타는 거대한 visitor객체였다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>프레임웤에서 구현해야하는 것들은 모두 visitor다. 제어구조를 역전시키려고</li>
+  <li>
+<strong>우리는 rendner1개에다가, visitor를 전략객체로서 공급했다.</strong>
+    <ul>
+      <li>큰범위는 다 전략패턴이다. 전략패턴은 추상체로 소유하면 다 전략패턴이다. 더 큰 범위</li>
+      <li>그 중에 visitor패턴은, <strong>제어역전으로 제어능력을 잃어버린 전략객체(라이프싸이클 함수만 구현)하는 것들만 visitor패턴이라 부른다.</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+<strong>의존성 역전(DI) : 구상체를 알아야하는 애가 추상체를 알도록 바꾸는 것</strong>
+    <ul>
+      <li>전략패턴</li>
+    </ul>
+  </li>
+  <li>
+<strong>제어 역전(IoC) :  제어구조는 미리 짜놓고, 라이프싸이클을 타는 애가 라이프싸이클함수만 구현</strong>
+    <ul>
+      <li>visitor패턴</li>
+    </ul>
+  </li>
+  <li>다음시간에는 컴포넌트 패턴
+    <ul>
+      <li>패턴을 조합해서 새로운 패턴을 만드는 것</li>
+      <li>대표적으로 MVC패턴 -&gt; 옵져버 + @를 조합했는데 새로운 파워의 패턴이 나온 것</li>
+    </ul>
+  </li>
+</ul>
+
+  </div><a class="u-url" href="/object/2022/07/01/((object2-3)todo_1_todo%EB%A5%BC_%EB%A7%8C%EB%93%A4%EB%A9%B0_composite_visitor_%ED%8C%A8%ED%84%B4_%EC%A0%95%EB%A6%AC-%EB%B3%B5%EC%82%AC%EB%B3%B8.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

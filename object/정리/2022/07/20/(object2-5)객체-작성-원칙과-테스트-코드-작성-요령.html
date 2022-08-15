@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>OBJECT 21 객체 작성 원칙 및 테스트 작성 요령 정리(마지막) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="OBJECT 21 객체 작성 원칙 및 테스트 작성 요령 정리(마지막)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<meta property="og:description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<link rel="canonical" href="blog.chojaeseong.com/object/%EC%A0%95%EB%A6%AC/2022/07/20/(object2-5)%EA%B0%9D%EC%B2%B4-%EC%9E%91%EC%84%B1-%EC%9B%90%EC%B9%99%EA%B3%BC-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1-%EC%9A%94%EB%A0%B9.html" />
+<meta property="og:url" content="blog.chojaeseong.com/object/%EC%A0%95%EB%A6%AC/2022/07/20/(object2-5)%EA%B0%9D%EC%B2%B4-%EC%9E%91%EC%84%B1-%EC%9B%90%EC%B9%99%EA%B3%BC-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1-%EC%9A%94%EB%A0%B9.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-20T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-07-20T00:00:00-05:00","url":"blog.chojaeseong.com/object/%EC%A0%95%EB%A6%AC/2022/07/20/(object2-5)%EA%B0%9D%EC%B2%B4-%EC%9E%91%EC%84%B1-%EC%9B%90%EC%B9%99%EA%B3%BC-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1-%EC%9A%94%EB%A0%B9.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"OBJECT 21 객체 작성 원칙 및 테스트 작성 요령 정리(마지막)","dateModified":"2022-07-20T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/object/%EC%A0%95%EB%A6%AC/2022/07/20/(object2-5)%EA%B0%9D%EC%B2%B4-%EC%9E%91%EC%84%B1-%EC%9B%90%EC%B9%99%EA%B3%BC-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1-%EC%9A%94%EB%A0%B9.html"},"description":"object 책을 강의한 코드스핏츠 유튜브 요약","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OBJECT 21 객체 작성 원칙 및 테스트 작성 요령 정리(마지막)</h1><p class="page-description">object 책을 강의한 코드스핏츠 유튜브 요약</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-20T00:00:00-05:00" itemprop="datePublished">
+        Jul 20, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#정리">정리</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#객체-작성-원칙">객체 작성 원칙</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#메세지-전송-이유-3가지-관계">메세지 전송 이유: 3가지 관계</a></li>
+<li class="toc-entry toc-h3"><a href="#테스트와-객체설계-및-발견">테스트와 객체설계 및 발견</a></li>
+<li class="toc-entry toc-h3"><a href="#목객체-테스트-요령">목객체 테스트 요령</a></li>
+<li class="toc-entry toc-h3"><a href="#어댑터-계층-구현하기">어댑터 계층 구현하기</a></li>
+</ul>
+</li>
+</ul><ul>
+  <li>참고 유튜브 : https://www.youtube.com/watch?v=navJTjZlUGk</li>
+  <li>정리본: https://github.com/LenKIM/object-book</li>
+  <li>코드: https://github.com/eternity-oop/object</li>
+  <li>책(목차) : https://wikibook.co.kr/object/</li>
+</ul>
+
+<h2 id="객체-작성-원칙">
+<a class="anchor" href="#%EA%B0%9D%EC%B2%B4-%EC%9E%91%EC%84%B1-%EC%9B%90%EC%B9%99" aria-hidden="true"><span class="octicon octicon-link"></span></a>객체 작성 원칙</h2>
+
+<h3 id="메세지-전송-이유-3가지-관계">
+<a class="anchor" href="#%EB%A9%94%EC%84%B8%EC%A7%80-%EC%A0%84%EC%86%A1-%EC%9D%B4%EC%9C%A0-3%EA%B0%80%EC%A7%80-%EA%B4%80%EA%B3%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>메세지 전송 이유: 3가지 관계</h3>
+
+<ul>
+  <li>
+    <p>객체망으로 해결한다: 객체로 메세지를 보내어서 해결한다</p>
+  </li>
+  <li>
+    <p><strong>객체 -&gt; 객체로 메세지를 보내는 <code class="language-plaintext highlighter-rouge">3가지 기준 관계</code></strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220808132850818.png" alt="image-20220808132850818"></p>
+
+    <ol>
+      <li><strong>의존성으로서 전송하는 것인지</strong></li>
+      <li><strong>알림을 주기 위해 전송하는 것인지</strong></li>
+      <li><strong>조정을 하기 위해 전송하는 것인지</strong></li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>대부분의 has-a관계(소유모델)은 <code class="language-plaintext highlighter-rouge">delegate</code>(위임)관계 때문이다.</strong></p>
+
+    <ul>
+      <li>templatemethod -&gt; strategy를 써서 delegate(위임)한다</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="테스트와-객체설계-및-발견">
+<a class="anchor" href="#%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%99%80-%EA%B0%9D%EC%B2%B4%EC%84%A4%EA%B3%84-%EB%B0%8F-%EB%B0%9C%EA%B2%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>테스트와 객체설계 및 발견</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220808133349257.png" alt="image-20220808133349257"></p>
+
+<ol>
+  <li>
+    <p><strong>무조건 메인함수 or 테스트 코드부터 짠다.</strong></p>
+
+    <ul>
+      <li>그래야 지구평화를 안지키고, 필요한 것만 짤 수 있다.</li>
+      <li>class를 사용하는 코드(인스턴스)부터 짠다.</li>
+      <li>input -&gt; output되는 객체부터 짠다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>테스트를 작게 짠다.</p>
+
+    <ul>
+      <li><strong>테스트 규모가 크다 == 값으로 짰다 or 단일책임원칙 실현안했다. or 의존성이 너무 심하다</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>처음부터 의존성 주입을 고려한다.</strong></p>
+
+    <ul>
+      <li><strong>생성자주입 or setter주입 2종류가 있다.</strong></li>
+      <li><strong>주입할 수 있는 코드를 분리하여서 짜서 넣어본다.</strong></li>
+      <li>이것을 해보면, 밖에서 주입시의 제약조건을 확인할 수 있다.
+        <ul>
+          <li>
+<strong>인자로 인터페이스</strong>를 받아들이면, <strong>해당 구상클래스들이 다 들어올 수 있게된다. 구상을 받으면, 1개 밖에 못넣는다.</strong>
+</li>
+        </ul>
+      </li>
+      <li>
+<strong>자바의 메서드의 인자는 <code class="language-plaintext highlighter-rouge">반공변</code>이다. <code class="language-plaintext highlighter-rouge">선언된 형의 자식들 밖</code>에 못들어온다</strong>
+        <ul>
+          <li>가장 위쪽으로 파라미터를 선언해야한다.</li>
+          <li>typescript는 공변이라서… 더 위를.. 집어넣을 수도 있다.</li>
+        </ul>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">메서드 시그니쳐 짤 때 가장 중요한 것</code>은, <code class="language-plaintext highlighter-rouge">이 함수가 외부세계에서, 얼마나 포괄적인 데이터를 받을 것인가</code>를 결정하는 것이다.</strong>
+        <ul>
+          <li>Object를 넣으면.. 다 받을 수 있다.</li>
+          <li>integer, boolean을 가장 밑에 기본형을 쓰면, 거기 밑에는 아무것도 없어서 값밖에 못받는다.</li>
+        </ul>
+      </li>
+      <li>
+<strong>객체지향에서 객체를 인자로 쓴다? -&gt; <code class="language-plaintext highlighter-rouge">값x -&gt; 좁은형을 안쓰겠다. 객체는 확장도 되니, 역할과 책임을 나타내기 위핸 객체로 나타낸다.</code></strong>
+        <ul>
+          <li>
+<strong>객체의 특징은 메서드</strong>에 있으며, <strong>그 인자와 응답형에 의해 원하는 형을 넣어줘서 역할과 책임을 나타낸다.</strong>
+</li>
+          <li>인자는 들어올 수 있는 상한을 정해주고, return은 하한을 정해준다.  그 위로만 받겠다. 최소한 하한형까지는 보장해준다.</li>
+        </ul>
+      </li>
+      <li><strong><code class="language-plaintext highlighter-rouge">처음부터 의존성주입을 할 수 있는 메서드 인자</code>로 만들어놓아서, <code class="language-plaintext highlighter-rouge">이것 저것 넣어보면서 확인하며 상한/하한을 정해나간다</code></strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>목 객체 테스트</strong>를 해야한다.</p>
+
+    <ul>
+      <li><strong>그래야 <code class="language-plaintext highlighter-rouge">객체의 통신테스트</code>를 할 수 있다.</strong></li>
+      <li>context독립성 == 객체의 격리를 확인한다.</li>
+      <li>
+<strong>아예 처음부터, 목객체를 왕창 만들어놓고, 얘는 a한테 뭘 받아서  b를 주는게 역할이야. 이런식으로 짠다.</strong>
+        <ul>
+          <li>office한테 영화를 받아와서 customer에게 줄거야</li>
+          <li><strong>office와 customer의 목객체들을 만들어놓고 테스트하면서 만들어나간다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="목객체-테스트-요령">
+<a class="anchor" href="#%EB%AA%A9%EA%B0%9D%EC%B2%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%9A%94%EB%A0%B9" aria-hidden="true"><span class="octicon octicon-link"></span></a>목객체 테스트 요령</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220808140621347.png" alt="image-20220808140621347"></p>
+
+<ol>
+  <li>처음에 객체들을 만들어서 <strong>중복을 제거</strong>한다.
+    <ul>
+      <li><strong>중복되는 부분들은 템플릿메소드패턴 -&gt; 전략패턴으로 빼서 다른 부분만 구현하고 <code class="language-plaintext highlighter-rouge">본체만 남기도록</code> 하게 한다</strong></li>
+      <li>
+<strong>Renderer의 경우, 단위 (구상)클래스 1개만 나오고, Visitor가 여러개 나오게 했다.</strong>
+        <ul>
+          <li>만약,전략패턴 같은 VIsitor로 빼지 않았더라면, ConsoleRenderer, JsonRenderer와 같은 제어문 속에 중복이 발생하게 된다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>단일 책임 원칙을 구현하다보면, 부수적인 로직들은 도우미 메서드로 빠지게 된다.
+    <ul>
+      <li><strong>도우미 메서드들은 Util클래스를 만들어서 static 메서드들로 때려박는다.</strong></li>
+    </ul>
+  </li>
+  <li>도우미 메서드의 조직화 과정에서 종단점 도우미를 발견한다 (책 읽어야 할 수 있음)</li>
+  <li>
+<strong>최종목표는 구현계층 vs 선언계층 나눠져있는 것을 모두 선언계층으로 옮기는 것이다.</strong>
+    <ul>
+      <li>보다 선언적으로 바뀌었다는 말</li>
+      <li>Visitor객체는 보다 <strong>선언계층</strong>으로 옮겨간 것이다.
+        <ul>
+          <li>제어의 역전으로 <strong>제어구문을 뺏겨 인터페이스대로 메서드를 만들 수 밖에 없다</strong>
+</li>
+          <li>자유롭게 구현 vs <strong>인터페이스 아래 선언된 메서드로 오버라이딩</strong>만</li>
+          <li>달라진 값밖에 줄 수 밖에 없다.</li>
+        </ul>
+      </li>
+      <li><strong>선언적으로 바뀌게 되면, 팩토리가 되거나, 조립층에 DI가 들어가게 된다</strong></li>
+      <li>
+<strong>디자인패턴들은 선언적으로 바뀌는 핵심적은 블록들</strong>이다.
+        <ul>
+          <li><strong>다 의존성역전, 제어의역전을 만들어 선언으로 빼야한다.</strong></li>
+          <li><strong>커맨드패턴 -&gt; 커맨드객체를 받아들이는 커맨드홀더객체(invoker객체)가 됨으로서 모든 메서드들은 필요없게 된다.</strong></li>
+          <li><strong>Visitor패턴 -&gt; 제어문을 완전히 한 쪽에다가 위임(Renderer)하고 나는 제어구조에 참여하는 메서드로 만든 다음, visitor가 된다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="어댑터-계층-구현하기">
+<a class="anchor" href="#%EC%96%B4%EB%8C%91%ED%84%B0-%EA%B3%84%EC%B8%B5-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>어댑터 계층 구현하기</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220808140945129.png" alt="image-20220808140945129"></p>
+
+<ol>
+  <li>절대로 라이브러리 코드를 바로 쓰지말고 <strong>무조건 감싸서 써라</strong>
+    <ul>
+      <li>ex&gt; useEffect -&gt; useXXXEffect(어댑터)를 통해서 써라</li>
+      <li><strong><code class="language-plaintext highlighter-rouge">외부충격을 흡수하는 어댑터</code>를 <code class="language-plaintext highlighter-rouge">만들 때부터 끼워서 써라</code></strong></li>
+      <li>아무것도 안하는 path함수라도 만들어서 써라
+        <ul>
+          <li>jquery -&gt; jQ라고 함수로 감싸서 써라
+            <ul>
+              <li>jquery기능들을 바로 쓰지말고, 함수로 따로 만들어서 써라</li>
+              <li>$함수 감싸기, attribute함수 감싸기, css함수 감싸기</li>
+            </ul>
+          </li>
+          <li><strong>jquery가 <code class="language-plaintext highlighter-rouge">시그니쳐를 바꿔도 충격흡수를 함수/클래스</code>에서 해준다.</strong></li>
+          <li>jdbc보다는 springjdbc가 더 낫다. 한번이라도 더 감싸진 것이 낫다</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>어댑터의 종류 3가지
+    <ol>
+      <li>
+<code class="language-plaintext highlighter-rouge">1:1매핑</code>해서 쓰는 <code class="language-plaintext highlighter-rouge">단순한 어댑터</code>
+        <ul>
+          <li>한번 감싸써 서드파티의 시그니쳐가 바뀌더라도 충격을 흡수하지만, 변경시마다 수정해줘서야해서 서드파티변경에 취약하다는 단점</li>
+        </ul>
+      </li>
+      <li>
+<code class="language-plaintext highlighter-rouge">델리게이터 어댑터</code> : <strong>위임(델리게이터)를 추가한 것</strong>
+        <ul>
+          <li>이벤트를 받는다던지, 직접적인 관계들을 다 뺀 것
+            <ul>
+              <li>jquery를 아무리 감싸도 event를 걸면 직접적으로 연결된다.</li>
+              <li>jquery가 요구하는대로의 리스너를 만들 수 밖에 없다</li>
+              <li>하지만 델리게이터가 있다면, jquery이벤트 -&gt; 델리게이터의 이벤트 -&gt; <strong>우리는 델리게이터가 요구하는 리스너를 주면된다.</strong>
+                <ul>
+                  <li>델리게이터는 jquery가 원하는 리스너를 전달해주겠지만</li>
+                  <li>그 안에는 우리가 준 리스너를 호출하는 코드가 들어가있고 안변한다.
+                    <ul>
+                      <li>jquery를 리스너를 넘기면, jquery event를 인자로 받는 리스너인데,</li>
+                      <li>델리게이터 리스너 인자에 도우미객체 + native객체 2개를 받도록 만들어, 델리게이터는 jquery에게 jquery리스너를 주겠지만, 그 내부에는 내 리스너를 jquery리스너 형태에 맞게끔 변형해서 건네준다.</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><strong>도우미객체 + 원래 객체를 같이 jquery에게 건네주는 델리게이터?</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<code class="language-plaintext highlighter-rouge">어댑터 레이어</code>: 어려운 것.. 레이어 수준.. 시스템을 감싸서..</li>
+    </ol>
+  </li>
+</ol>
+
+
+  </div><a class="u-url" href="/object/%EC%A0%95%EB%A6%AC/2022/07/20/(object2-5)%EA%B0%9D%EC%B2%B4-%EC%9E%91%EC%84%B1-%EC%9B%90%EC%B9%99%EA%B3%BC-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1-%EC%9A%94%EB%A0%B9.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

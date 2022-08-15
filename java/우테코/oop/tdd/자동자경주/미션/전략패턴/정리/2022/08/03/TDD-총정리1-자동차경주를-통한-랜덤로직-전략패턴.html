@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>TDD 총정리1-자동차경주를 통한 랜덤로직 전략패턴 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="TDD 총정리1-자동차경주를 통한 랜덤로직 전략패턴" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="TDD학습 내용 압축 정리" />
+<meta property="og:description" content="TDD학습 내용 압축 정리" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/tdd/%EC%9E%90%EB%8F%99%EC%9E%90%EA%B2%BD%EC%A3%BC/%EB%AF%B8%EC%85%98/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4/%EC%A0%95%EB%A6%AC/2022/08/03/TDD-%EC%B4%9D%EC%A0%95%EB%A6%AC1-%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC%EB%A5%BC-%ED%86%B5%ED%95%9C-%EB%9E%9C%EB%8D%A4%EB%A1%9C%EC%A7%81-%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/tdd/%EC%9E%90%EB%8F%99%EC%9E%90%EA%B2%BD%EC%A3%BC/%EB%AF%B8%EC%85%98/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4/%EC%A0%95%EB%A6%AC/2022/08/03/TDD-%EC%B4%9D%EC%A0%95%EB%A6%AC1-%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC%EB%A5%BC-%ED%86%B5%ED%95%9C-%EB%9E%9C%EB%8D%A4%EB%A1%9C%EC%A7%81-%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-08-03T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-08-03T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/tdd/%EC%9E%90%EB%8F%99%EC%9E%90%EA%B2%BD%EC%A3%BC/%EB%AF%B8%EC%85%98/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4/%EC%A0%95%EB%A6%AC/2022/08/03/TDD-%EC%B4%9D%EC%A0%95%EB%A6%AC1-%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC%EB%A5%BC-%ED%86%B5%ED%95%9C-%EB%9E%9C%EB%8D%A4%EB%A1%9C%EC%A7%81-%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"TDD 총정리1-자동차경주를 통한 랜덤로직 전략패턴","dateModified":"2022-08-03T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/tdd/%EC%9E%90%EB%8F%99%EC%9E%90%EA%B2%BD%EC%A3%BC/%EB%AF%B8%EC%85%98/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4/%EC%A0%95%EB%A6%AC/2022/08/03/TDD-%EC%B4%9D%EC%A0%95%EB%A6%AC1-%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC%EB%A5%BC-%ED%86%B5%ED%95%9C-%EB%9E%9C%EB%8D%A4%EB%A1%9C%EC%A7%81-%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4.html"},"description":"TDD학습 내용 압축 정리","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">TDD 총정리1-자동차경주를 통한 랜덤로직 전략패턴</h1><p class="page-description">TDD학습 내용 압축 정리</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-08-03T00:00:00-05:00" itemprop="datePublished">
+        Aug 3, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#oop">oop</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#TDD">TDD</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#자동자경주">자동자경주</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#미션">미션</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#전략패턴">전략패턴</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#정리">정리</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#메서드내-랜덤로직이-있어서-테스트가-곤란한-경우">메서드내 랜덤로직이 있어서 테스트가 곤란한 경우</a></li>
+<li class="toc-entry toc-h3"><a href="#자동차-경주-구현">자동차 경주 구현</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#참고-스샷">참고 스샷</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#자동차경주-테스트에서-서비스주입">자동차경주-테스트에서 서비스주입</a></li>
+<li class="toc-entry toc-h5"><a href="#자동차경주-service로부터-raw결과list를-반환시-반환형-resultview">자동차경주-service로부터 raw결과(list)를 반환시 반환형 ResultView</a></li>
+<li class="toc-entry toc-h5"><a href="#정리-md맷">정리 md(맷)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#정리">정리</a></li>
+</ul>
+</li>
+</ul><ul>
+  <li>내부의 테스트 제어가 안되는 코드(랜덤, 날짜)는 [해당로직을 포함한 메서드]로 추출하고 전략객체.전략메서드()에 위임하고 외부에서 로직을 전달할 수 있게 하여, [테스트에 용이한 다른 전략]으로서 [랜덤 대신 확정값을 가상인자+람다식으로 구현]하여 전략메서드를 구현한다.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728015130242.png" alt="image-20220728015130242"></p>
+
+<h3 id="메서드내-랜덤로직이-있어서-테스트가-곤란한-경우">
+<a class="anchor" href="#%EB%A9%94%EC%84%9C%EB%93%9C%EB%82%B4-%EB%9E%9C%EB%8D%A4%EB%A1%9C%EC%A7%81%EC%9D%B4-%EC%9E%88%EC%96%B4%EC%84%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EA%B0%80-%EA%B3%A4%EB%9E%80%ED%95%9C-%EA%B2%BD%EC%9A%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>메서드내 랜덤로직이 있어서 테스트가 곤란한 경우</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728005109597.png" alt="image-20220728005109597"></p>
+
+<h3 id="자동차-경주-구현">
+<a class="anchor" href="#%EC%9E%90%EB%8F%99%EC%B0%A8-%EA%B2%BD%EC%A3%BC-%EA%B5%AC%ED%98%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>자동차 경주 구현</h3>
+
+<ol>
+  <li>
+    <p>전략객체에 위임할 로직을 <strong>(예비 전략)private메서드로 추출</strong>한다.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/3e511260-b29a-4cc7-bc03-100d147b2577.gif" alt="3e511260-b29a-4cc7-bc03-100d147b2577"></p>
+  </li>
+  <li>
+    <p>**<code class="language-plaintext highlighter-rouge">추출한(위임할) 로직</code>은 <code class="language-plaintext highlighter-rouge">전략메서드 구현</code>이므로 <code class="language-plaintext highlighter-rouge">구상 전략객체</code>로 넘겨야한다. **</p>
+
+    <ol>
+      <li><strong><code class="language-plaintext highlighter-rouge">인터페이스 생성 -&gt; </code></strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">구상체 생성 -&gt; 위임 메서드 복붙 -&gt; </code></strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">전략 인터페이스로 pull up</code>해서 올려보자.</strong></li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/2de82b7b-aaf2-4ee8-b24f-495de845fca6.gif" alt="2de82b7b-aaf2-4ee8-b24f-495de845fca6"></p>
+  </li>
+  <li>
+    <p><strong>전략객체는 협력객체로서 메서드인자가 아닌 <code class="language-plaintext highlighter-rouge">생성자 주입되는 소유모델</code>이 되어야한다.</strong></p>
+
+    <ul>
+      <li><strong>파라미터에서 전략객체를 받지말고, 생성자에서 받자.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/d57d101a-f9d5-4d9d-84c5-c581532c329a.gif" alt="d57d101a-f9d5-4d9d-84c5-c581532c329a"></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">인자로 들어가는 [협력객체]가 [Product용 기본값]이 있는 경우</code>, <code class="language-plaintext highlighter-rouge">오버로딩을 이용해서 내부에서 협력객체 기본값</code>을 강제시킬 수 있다.</strong></p>
+
+    <p>​	<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728012032366.png" alt="image-20220728012032366"></p>
+  </li>
+  <li>
+    <p><strong>이제 테스트코드에서는 랜덤전략 대신 <code class="language-plaintext highlighter-rouge">실시간 확정 전략</code>을 주입하자.</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>전략객체.전략메서드()는 1개의 오퍼레이터만 가지는 함수형인터페이스로서 <code class="language-plaintext highlighter-rouge">전략메서드를 구상전략객체 없이, (내부 추상체.전략메서드()부분을) 가상인자와 람다식을 통한 실시간 구현</code>이 가능하다</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/837ab787-ffd7-4e42-a896-2decc31bec86.gif" alt="837ab787-ffd7-4e42-a896-2decc31bec86"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728011520268.png" alt="image-20220728011520268"></p>
+      </li>
+      <li>
+        <p>필요하다면, <strong>전략메서드에 확정전략을 구현하는 구상전략객체를 추가해서 대입해줘도 된다.</strong></p>
+
+        <ul>
+          <li>실시간 구현이 어렵거나, 테스트용 람다식이 아닌 구상체를 선택해야할 경우</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>상태를 변화시키는 메서드가, <code class="language-plaintext highlighter-rouge">테스트를 위해 상수 응답</code>하는 <code class="language-plaintext highlighter-rouge">getter의 역할</code>까지 하고 있으므로 2메서드를 만들고, return상수응답 로직을 제거  뒤, <code class="language-plaintext highlighter-rouge">테스트에서 객체의 변화된 상태로 비교</code>할 수 있게 수정해본다.</strong></p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">eq/hC재정의 후 객체 비교</code> vs <code class="language-plaintext highlighter-rouge">getter구현하여 해당 상태값만 비교</code>할 수 있다.</strong></p>
+
+        <ul>
+          <li><strong>현재는 전략객체 또한 필드로 들고 있으므로 <code class="language-plaintext highlighter-rouge">getter를 따로 생성하여 상태 비교</code>를 하자</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/15b8da34-a0c8-47d9-92fa-82bc36933635.gif" alt="15b8da34-a0c8-47d9-92fa-82bc36933635"></p>
+      </li>
+      <li>
+        <p>비교가 잘되면, <strong>기존 테스드들 <code class="language-plaintext highlighter-rouge">원본메서드 -&gt; 2메서드로 수정</code> + <code class="language-plaintext highlighter-rouge">응답값비교 -&gt; 객체상태값비교</code>로 모두 수정하고 <code class="language-plaintext highlighter-rouge">원본 삭제후 2메서드를 원본으로 네이밍</code>한다.</strong></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>상태변화 메서드인 .move()는 <code class="language-plaintext highlighter-rouge">setter의 상태변화 대신, 상태변화된 객체를 반환하는 메서드</code>로 변경한다.</strong></p>
+
+    <ol>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">객체 자체를 수정</code>하는 것이므로 <code class="language-plaintext highlighter-rouge">2객체</code>를 만들어서 테스트해야한다.</strong></p>
+      </li>
+      <li>
+        <p>move2를 만들고 <strong>position++처럼 상태를 변화하는 부분에서 <code class="language-plaintext highlighter-rouge">상태변화된 필드로 새 객체를 만들어 반환</code>하도록 수정한다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728024413514.png" alt="image-20220728024413514"></p>
+      </li>
+      <li>
+        <p><strong>상태변화하는 필드는 기본값을 주고 생성자에서 안받았기 때문에, <code class="language-plaintext highlighter-rouge">생성자를 추가</code>해주고 <code class="language-plaintext highlighter-rouge">필드에는 final을 붙여준다.</code></strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/8c73c079-8872-4d88-8284-f7385973688f.gif" alt="8c73c079-8872-4d88-8284-f7385973688f"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728024834800.png" alt="image-20220728024834800"></p>
+      </li>
+      <li>
+        <p><strong>테스트에서는 <code class="language-plaintext highlighter-rouge">자신형 반환 메서드는 체이닝</code>이 가능하므로 체이닝으로 작성해주면 된다.</strong></p>
+
+        <ul>
+          <li>현재 객체는 협력객체를 포함하고 있어서, <strong>객체끼리 비교가 불가하므로 어쩔 수 없이 getter로 필드를 확인한다.</strong>
+</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728025404493.png" alt="image-20220728025404493"></p>
+      </li>
+      <li>
+        <p><strong>기존의 테스트들(동일 객체 상태비교)을 새 객체반환을 변수로 받아서 상태를 확인하도록 변경한다.</strong></p>
+
+        <ul>
+          <li>이후, Car의 기존이름을 바꾸고, Car2 -&gt; Car로 변경한다.</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>상태변경 메서드(새 객체반환)의 테스트가 끝났으면, <code class="language-plaintext highlighter-rouge">해당 상태로 만들어주는 생성자 추가</code>를고려해서, 다른 테스트에 용이하게 한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728122259735.png" alt="image-20220728122259735"></p>
+
+    <ul>
+      <li>
+        <p>position 3과 5에 <strong>상태로 바로 도달하게끔 생성자를 추가해서, 이미 확정된 객체를 만든다.</strong></p>
+
+        <ul>
+          <li><strong>이렇게 하면,빈컬렉션+add로직이  컬렉션.of(특정상태,객체들)로 변경된다.</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728122524465.png" alt="image-20220728122524465"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728122511234.png" alt="image-20220728122511234"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728122624569.png" alt="image-20220728122624569"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="참고-스샷">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0-%EC%8A%A4%EC%83%B7" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고 스샷</h4>
+
+<h5 id="자동차경주-테스트에서-서비스주입">
+<a class="anchor" href="#%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%97%90%EC%84%9C-%EC%84%9C%EB%B9%84%EC%8A%A4%EC%A3%BC%EC%9E%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>자동차경주-테스트에서 서비스주입</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728030339975.png" alt="image-20220728030339975"></p>
+
+<h5 id="자동차경주-service로부터-raw결과list를-반환시-반환형-resultview">
+<a class="anchor" href="#%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC-service%EB%A1%9C%EB%B6%80%ED%84%B0-raw%EA%B2%B0%EA%B3%BClist%EB%A5%BC-%EB%B0%98%ED%99%98%EC%8B%9C-%EB%B0%98%ED%99%98%ED%98%95-resultview" aria-hidden="true"><span class="octicon octicon-link"></span></a>자동차경주-service로부터 raw결과(list)를 반환시 반환형 ResultView</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728030702845.png" alt="image-20220728030702845"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728030832105.png" alt="image-20220728030832105"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728031822882.png" alt="image-20220728031822882"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728031757141.png" alt="image-20220728031757141"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728031850384.png" alt="image-20220728031850384"></p>
+
+<h5 id="정리-md맷">
+<a class="anchor" href="#%EC%A0%95%EB%A6%AC-md%EB%A7%B7" aria-hidden="true"><span class="octicon octicon-link"></span></a>정리 md(맷)</h5>
+
+<ul>
+  <li><a href="https://github.com/Hyunta/WoowaCourse/blob/0e31e930cd227ce6faef8a3d1db55d0c18345455/docs/lv1/%EC%9E%90%EB%8F%99%EC%B0%A8%20%EA%B2%BD%EC%A3%BC%20%EB%AF%B8%EC%85%98/%EC%9E%90%EB%8F%99%EC%B0%A8%20%EA%B2%BD%EC%A3%BC%20%ED%94%BC%EB%93%9C%EB%B0%B1.md">마크다운</a></li>
+</ul>
+
+<h4 id="정리">
+<a class="anchor" href="#%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>정리</h4>
+
+<ul>
+  <li>service는 inputview를 알아도 되고, resultview를 반환해도 된다.</li>
+  <li>resultview는 출력을 하기 위해 도메인객체를 input으로 받고, 출력관련 책임만 가진다.
+    <ul>
+      <li>실제 print는 outputview가 하고, resultview는 출력될 요소를 만드는 역할이다.</li>
+      <li>resultview는 유틸메서드로서 string을 반환해준다.</li>
+      <li>racingGame -&gt; resultview에 전달할때는, car list를 반환해주고, <strong>실제 list에서 문자열을 뽑아주는 기능을 사용하는 <code class="language-plaintext highlighter-rouge">resultview내부에서 일급컬렉션을 의존사용</code>하고 <code class="language-plaintext highlighter-rouge">외부에서 일급컬렉션 생성가능한 파라미터로는 객체가 아닌 재료만</code>받는다.</strong>
+        <ul>
+          <li>객체로 메세지를 전달하지만,  1개 객체의 add(create)에서는 재료만받을 수도 있다(객체 조작을 외부에서 꺼내서못하게 할때)</li>
+          <li><strong>객체list도 객체라서 굳이 일급컬렉션을 외부에서 사용안할때 생성할필요는 없다?</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/tdd/%EC%9E%90%EB%8F%99%EC%9E%90%EA%B2%BD%EC%A3%BC/%EB%AF%B8%EC%85%98/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4/%EC%A0%95%EB%A6%AC/2022/08/03/TDD-%EC%B4%9D%EC%A0%95%EB%A6%AC1-%EC%9E%90%EB%8F%99%EC%B0%A8%EA%B2%BD%EC%A3%BC%EB%A5%BC-%ED%86%B5%ED%95%9C-%EB%9E%9C%EB%8D%A4%EB%A1%9C%EC%A7%81-%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

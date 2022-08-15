@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>TDD 총정리0-요구사항 정리와 테스트 코드 작성 정리 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="TDD 총정리0-요구사항 정리와 테스트 코드 작성 정리" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="TDD학습 내용 압축 정리" />
+<meta property="og:description" content="TDD학습 내용 압축 정리" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/tdd/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD/%EC%A0%95%EB%A6%AC/2022/08/02/TDD-%EC%B4%9D%EC%A0%95%EB%A6%AC0-%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EC%A0%95%EB%A6%AC%EC%99%80-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1-%EC%A0%95%EB%A6%AC.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/tdd/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD/%EC%A0%95%EB%A6%AC/2022/08/02/TDD-%EC%B4%9D%EC%A0%95%EB%A6%AC0-%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EC%A0%95%EB%A6%AC%EC%99%80-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1-%EC%A0%95%EB%A6%AC.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-08-02T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-08-02T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/tdd/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD/%EC%A0%95%EB%A6%AC/2022/08/02/TDD-%EC%B4%9D%EC%A0%95%EB%A6%AC0-%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EC%A0%95%EB%A6%AC%EC%99%80-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1-%EC%A0%95%EB%A6%AC.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"TDD 총정리0-요구사항 정리와 테스트 코드 작성 정리","dateModified":"2022-08-02T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/tdd/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD/%EC%A0%95%EB%A6%AC/2022/08/02/TDD-%EC%B4%9D%EC%A0%95%EB%A6%AC0-%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EC%A0%95%EB%A6%AC%EC%99%80-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1-%EC%A0%95%EB%A6%AC.html"},"description":"TDD학습 내용 압축 정리","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">TDD 총정리0-요구사항 정리와 테스트 코드 작성 정리</h1><p class="page-description">TDD학습 내용 압축 정리</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-08-02T00:00:00-05:00" itemprop="datePublished">
+        Aug 2, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      17 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#oop">oop</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#TDD">TDD</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#요구사항">요구사항</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#정리">정리</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#요구사항-정리">요구사항 정리</a></li>
+<li class="toc-entry toc-h2"><a href="#테스트">테스트</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#테스트-작성요령">테스트 작성요령</a></li>
+<li class="toc-entry toc-h3"><a href="#테스트-코드-작성시-팁">테스트 코드 작성시 팁</a></li>
+</ul>
+</li>
+</ul><p>TDD 작성</p>
+
+<ul>
+  <li><a href="https://blog.kingbbode.com/52?category=737337">참고블로그</a></li>
+</ul>
+
+<h2 id="요구사항-정리">
+<a class="anchor" href="#%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>요구사항 정리</h2>
+
+<ol>
+  <li>제목(##)과 <code class="language-plaintext highlighter-rouge">- [ ]</code> 박스를 만든다.</li>
+  <li>키워드를 추출한다</li>
+  <li>객체 vs 메서드 vs UI vs 세부요구사항으로 나눈다.</li>
+  <li>관리 vs 객체 시작점을 고른다.</li>
+</ol>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gu">## 요구사항</span>
+<span class="p">-</span> [ ] 각 자동차에 이름을 부여할 수 있다.
+<span class="p">-</span> [ ] 전진하는 자동차를 출력할 때 자동차 이름을 같이 출력한다.
+<span class="p">-</span> [ ] 자동차 이름은 쉼표(,)를 기준으로 구분한다.
+<span class="p">-</span> [ ] 자동차 경주 게임을 완료한 후 누가 우승했는지를 알려준다. 우승자는 한명 이상일 수 있다.
+
+<span class="gu">## 키워드 -&gt; 분류 -&gt; 객체 vs 메서드 vs 세부요구사항 vs ui 나누기 -&gt; 시작점 고르기</span>
+<span class="p">
+-</span> 자동차
+<span class="p">    -</span> 이름 : object
+<span class="p">        -</span> , 기준으로 구분 : 세부요구사항 - ui 맨 나중에
+<span class="p">    -</span> 전진 : method
+<span class="p">-</span> 자동차 경주 게임
+<span class="p">    -</span> 완료한 후 누가 우승했는지를 알려준다. : 메서드 
+<span class="p">-</span> 우승자 
+<span class="p">    -</span> 한명 이상 : 세부요구사항
+</code></pre></div></div>
+
+<h2 id="테스트">
+<a class="anchor" href="#%ED%85%8C%EC%8A%A4%ED%8A%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>테스트</h2>
+
+<h3 id="테스트-작성요령">
+<a class="anchor" href="#%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%9E%91%EC%84%B1%EC%9A%94%EB%A0%B9" aria-hidden="true"><span class="octicon octicon-link"></span></a>테스트 작성요령</h3>
+
+<ol>
+  <li>
+    <p>**시작점을 고를 때, **</p>
+
+    <ol>
+      <li>
+        <p>**<code class="language-plaintext highlighter-rouge">기능(메서드)을 가진 데이터객체</code>이외에 **</p>
+      </li>
+      <li>
+        <p><strong>controller에서 <code class="language-plaintext highlighter-rouge">정제된 input이 들어오고, controller로 output응답도 해야하는 Service</code>부터 시작할 수 있다.</strong></p>
+
+        <ul>
+          <li>
+<strong>정제된 input부터 -&gt; 메인 흐름을 다 나열 -&gt; 출력될 ouput객체까지 반환해주는 것이 service의 역할이다.</strong>
+            <ul>
+              <li>처음부터 객체도출은 어려울 수 있다.</li>
+            </ul>
+          </li>
+          <li>서비스의 메서드부터 짠다면, <strong>input 부터 output까지 메인 흐름을 생각하고 정리</strong>해야한다</li>
+          <li>서비스 start~end까지 로직이 짜여졌으면 <code class="language-plaintext highlighter-rouge">해당 로직에 맞는 메서드명</code>으로 변경한다</li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>service에 대한 input</strong>이 <strong><code class="language-plaintext highlighter-rouge">내부 로직에 의해 데이터객체</code>로 주어진다면</strong>, <strong><code class="language-plaintext highlighter-rouge">컴퓨터가 줄 데이터객체로부터 만들</code>어놓고, <code class="language-plaintext highlighter-rouge">그것을 이용한 input으로 한 -&gt; output을 내는 핵심로직</code>부터 시작한다.</strong></p>
+
+        <ul>
+          <li>예를 들어, 블랙잭게임을 하면, 카드덱으로부터 카드2장이 주어진다.
+            <ul>
+              <li><strong>이미 <code class="language-plaintext highlighter-rouge">카드 2장이 주어졌다고 가정</code>하고 <code class="language-plaintext highlighter-rouge">데이터객체 카드</code>부터 만들고 <code class="language-plaintext highlighter-rouge">핵심 로직으로서 시작</code>하자.</strong></li>
+            </ul>
+          </li>
+          <li><strong>service가 핵심로직이 아닐 수 있다. <code class="language-plaintext highlighter-rouge">서비스내 Game등이 핵심로직</code>일 수 있다.</strong></li>
+          <li>
+<strong>input -&gt; output이 나오는 핵심로직부터 시작한다. <code class="language-plaintext highlighter-rouge">Game</code>.<code class="language-plaintext highlighter-rouge">start()</code></strong>로 시작하자.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220803171440490.png" alt="image-20220803171440490"></p>
+      </li>
+      <li>
+        <p><strong>핵심로직 자체도 service가 아니라 (상태패턴이라면) 상태를 가지는 객체로 바뀔 수 있다.</strong></p>
+
+        <ul>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">서비스 메서드 == 스태틱 메서드 like 유틸메서드</code>에서 -&gt; <code class="language-plaintext highlighter-rouge">객체</code>가 되었다면</strong></p>
+
+            <ul>
+              <li><strong>상태값을 가지며, 상태값을 만드는 정보input들은 다 생성자로 들어와야한다.</strong></li>
+              <li><strong>메서드로 상태값 정보가 들어온다면, setter다.</strong></li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>서비스의 <code class="language-plaintext highlighter-rouge">유틸메서드 input</code> -&gt; <code class="language-plaintext highlighter-rouge">생성자로 주입</code> 된다</strong></p>
+          </li>
+          <li>
+            <p><strong>서비스의  <code class="language-plaintext highlighter-rouge">유틸메서드내 로직을 거친 뒤 1개의 output응답값(상태객체)</code> -&gt; <code class="language-plaintext highlighter-rouge">필드</code>로 가진다.</strong></p>
+
+            <ul>
+              <li>
+                <p><strong>상태객체는, 정보만 가져야하므로 <code class="language-plaintext highlighter-rouge">상태객체가 아닌 상태객체를 사용하는 객체</code>일뿐이다.</strong></p>
+              </li>
+              <li>
+                <p><strong>상태객체로 다시 변환하려면 <code class="language-plaintext highlighter-rouge">다른 상태객체들과 상태값(필드) 와 메서드를 동일</code>하게 사용하도록 수정해야한다.</strong></p>
+
+                <ul>
+                  <li>
+                    <p>Ready도 <strong>다른 상태객체들과 <code class="language-plaintext highlighter-rouge">동일 상태값 필드</code>(Cards)</strong>를 가지며 <strong><code class="language-plaintext highlighter-rouge">생성자로는 아무것도 주입 안된 빈카드로 초기화</code>하는 <code class="language-plaintext highlighter-rouge">기본 생성자</code>로 만들어져야한다.</strong></p>
+                  </li>
+                  <li>
+                    <p>Ready도 .start()로 다른 객체로 넘어가는 것이 아닌 <strong>다른 상태객체들의 메서드처럼 <code class="language-plaintext highlighter-rouge">Trigger메서드(draw())</code>로부터 setter정보를 받아 <code class="language-plaintext highlighter-rouge">상태값업데이트 이후 상태값을 가지고 판단하여 다른 상태로 넘어가</code>도록 수정한다.</strong></p>
+                    <ul>
+                      <li><strong>Ready는 카드를 2장을 받는다. -&gt; 다른상태객체처럼 draw로 1장씩 받도록 정의하고 <code class="language-plaintext highlighter-rouge">외부에서 2번을 호출</code>하던지 <code class="language-plaintext highlighter-rouge">다른 파라미터로서 받도록 오버로딩메서드</code>로 정의해준다.</strong></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>서비스 or 핵심로직  통합테스트가 Ready라는 1개 상태객체 테스트로 바꼈다.</strong></p>
+
+            <ul>
+              <li><strong>개별 상태객체로 테스트코드들을 나누어서 옮긴다.</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>정제된 input(원시값)을 통해 service개발을 완료하고 나면</strong></p>
+
+    <ol>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">가장작은 단위의 input</code>에 대한 <code class="language-plaintext highlighter-rouge">서비스에서 예외발생</code>테스트를 먼저 만들고 -&gt; <code class="language-plaintext highlighter-rouge">필요에 의해 도메인 객체에서 예외발생 되도록 도메인을 생성한다</code></strong>
+        <ol>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">원시값input을 도메인객체로 만들면서 사전검증</code>이 이루어지도록 해야한다.</strong>
+            <ol>
+              <li><strong>검증이 필요한 원시값에 new도메인()을 때려서 시작한다</strong></li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+    </ol>
+
+    <ul>
+      <li><strong>그 다음에 <code class="language-plaintext highlighter-rouge">컬렉션을 일급컬렉션으로 만들면서 중복 검증 등</code>의 검증이 이루어져야한다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>가장 빠르게 실패는 thr IllegalStateException을 활용하고. 가장 빠르게 성공은 로직 없이 응답값만 return</strong>하도록 만든다.</p>
+
+    <ul>
+      <li>실패 -&gt; <strong>성공 -&gt; 리팩토링</strong> 을 반복한다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>생성자로 시작 이외에 <code class="language-plaintext highlighter-rouge">나중엔 (상태필드 변경후 상태로 확인) 바뀌더라도 상수 응답 메서드</code>로 먼저 테스트를 작성한다.</strong></p>
+
+    <ul>
+      <li>car.move()는 setter같은 메서드인데, <strong>처음 메서드 작성시 1칸 전진마다 상수1을 응답값으로 주도록 만든다</strong>
+</li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">응답도 getter로서 조회의 일</code>이다. <code class="language-plaintext highlighter-rouge">조회용 메서드가 아니라면, 로직 테스트 완료후 응답 대신 상태로 확인</code>하도록 변경해야한다.</strong>
+        <ol>
+          <li>조회용 메서드가 맞는지 확인한다.</li>
+          <li>조회용 메서가 아니라면 <strong>getter같은 return응답을 제거한다.</strong>
+</li>
+          <li><strong>기존에 메서드결과로 응답값을 조회했던 부분을 <code class="language-plaintext highlighter-rouge">값 비교 -&gt; 객체 비교</code>를 하도록 <code class="language-plaintext highlighter-rouge">eq/hC 재정의 및 테스트 assert문 수정</code>을 해줘야한다.</strong></li>
+        </ol>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">상태가 변하는 메서드는 setter</code>이므로 <code class="language-plaintext highlighter-rouge">불변객체를 유지하기 위해, 상태값 변화 대신, 상태값이 변화한 객체 응답메서드</code>로 바꾸자.</strong>
+        <ul>
+          <li>다시 한번 <strong>응답메서드가 되지만, 상수 응답이 아닌 <code class="language-plaintext highlighter-rouge">새 객체를 만들어 반환</code>이다.</strong>
+</li>
+          <li><strong>객체의 상태값 및 생성자 등이 바뀌므로 <code class="language-plaintext highlighter-rouge">2메서드가 아니라 2객체를 생성해서 테스트</code>한 뒤 반영한다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>테스트할 메서드는 <code class="language-plaintext highlighter-rouge">무조건 응답하도록 먼저 작성</code>하며 이 때, <code class="language-plaintext highlighter-rouge">응답값은 [넣어준 인자에 대한 case값을 응답]</code>을 해줘야한다</strong></p>
+
+    <ul>
+      <li>만약, 로또번호 vs 당첨번호 <strong>인자 입력을 1등 번호로  예시case로 넣어줬다면</strong>, 그 <strong>인자 case에 맞는 1등이 응답값으로 반환해야한다(아무거나 반환X)</strong>
+        <ul>
+          <li>2번째부터는일반화하는 경우가 많으니, <strong><code class="language-plaintext highlighter-rouge">첫 메서드 생성하는, 1번째 첫 인자를 입력할 때, case에 맞는 반환도 생각하고 입력</code>하자</strong>
+</li>
+        </ul>
+      </li>
+      <li><strong><code class="language-plaintext highlighter-rouge">TDD메서드의 응답값은 테스트메서드의 테스트CASE에 의해 작성순서가 결정</code>된다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p>case별로 테스트 메서드를 만든다. <code class="language-plaintext highlighter-rouge">메서드명_CASE____세부내용</code>형태를 빌린다.</p>
+
+    <ul>
+      <li>
+<strong>2번째case부터는 일반화</strong>해도 좋다</li>
+      <li><strong>case == 메서드의 인자가 결정</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p>**테스트케이스 추가에 따른 <code class="language-plaintext highlighter-rouge">기능추가</code>, <code class="language-plaintext highlighter-rouge">사전 검증과 같이 전체메서드가 걸린 기능추가</code>는 **</p>
+
+    <ol>
+      <li><strong>메서드를 전체를 2메서드로 복사해놓고 테스트</strong></li>
+      <li>
+<strong>기존 테스트들을 2메서드로 호출하도록 변경 후 전체 테스트</strong>
+        <ul>
+          <li>이 때 <code class="language-plaintext highlighter-rouge">기존테스트()</code>의 소괄호까지를 <code class="language-plaintext highlighter-rouge">ctrl + h</code>로 찾아서 변경하면 쉽게 변경된다.</li>
+        </ul>
+      </li>
+      <li><strong>기존테스트들 다 통과시 <code class="language-plaintext highlighter-rouge">회색으로 안쓰게 된 원본메서드 안전삭제(alt+del)</code></strong></li>
+      <li><strong>2메서드를 -&gt; 원본메서드로 변경</strong></li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>기능 추가 -&gt; 2case부터 일반화로직 추가시, 1case를 보존하기 위해,  <code class="language-plaintext highlighter-rouge">2메서드 복붙후 테스트에서 1case 인자를 그대로 사용</code> + 내부로직의 결과값에 if를 사용하더로 먼저 통과시키게 해야한다.</strong></p>
+  </li>
+  <li>
+    <p><strong>특정로직(private메서드)에 대한 기능 추가는 <code class="language-plaintext highlighter-rouge">private메서드만 복사해서 테스트</code>해놓고 끝나면 반영하고 삭제한다.</strong></p>
+  </li>
+  <li>
+    <p><strong>요구사항이 복잡해질 땐,  그 부분만 아래에서 학습테스트를 진행해도 된다.</strong></p>
+  </li>
+  <li>
+    <p><strong>상태변경 메서드의 테스트가 끝나고 다른 기능 테스트를 할 때, <code class="language-plaintext highlighter-rouge">특정 상태를 만들기 위해 상태변경메서드 반복 호출</code>을 하지말고, <code class="language-plaintext highlighter-rouge">직접 해당 상태로 만드는 생성자를 추가</code>해서 현재하는 테스트에 집중하게 한다</strong></p>
+
+    <ul>
+      <li>특정상태의 객체를 불변객체로 바로 만들면, 빈컬렉션+add가 사라진다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>기존파라미터(원시 컬렉)를 살려두고 이어서갈 땐 <code class="language-plaintext highlighter-rouge">새 인자(도메인 컬렉)로 메서드 작성후 오버로딩</code></strong></p>
+
+    <ul>
+      <li><strong>기존 파라미터(도메인 컬렉)를 변환된 파라미터(일급컬렉션)로 대체하고 싶다면 <code class="language-plaintext highlighter-rouge">내부변환후 파라미터 추출</code></strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728230052251.png" alt="image-20220728230052251"></p>
+  </li>
+  <li>
+    <p><strong>서비스내 <code class="language-plaintext highlighter-rouge">getter</code>가 보이면, <code class="language-plaintext highlighter-rouge">도메인 내부 로직</code>으로서 <code class="language-plaintext highlighter-rouge">캡슐화로 감춰야하는 로직</code>임을 100% 생각한다.</strong></p>
+
+    <ul>
+      <li>출력을 제외하고 getter는 없다고 보자.</li>
+      <li><strong>getter이후가 같은형의 비교면 -&gt; <code class="language-plaintext highlighter-rouge">해당형으로 책임을 위임해 옮긴다</code></strong></li>
+      <li><strong>getter이후가 다른형의 비교면 -&gt; <code class="language-plaintext highlighter-rouge">제3형을 만들어 책임을 위임한다.</code></strong></li>
+      <li>static메서드였으면, <code class="language-plaintext highlighter-rouge">static을 삭제하고 -&gt; 메서드 이동 -&gt; 파라미터 중 위임할 객체가 2개가 같은형이면, 하나의 변수를 택1</code>한다</li>
+    </ul>
+  </li>
+  <li>
+    <p>같은형의 일급vs일급은  -&gt; 일급vs단일(contains) 메서드를 사용할 확률이 높다. 확인해서 처리한다.</p>
+  </li>
+  <li>
+    <p><strong>정해진 갯수의 인스턴스는 <code class="language-plaintext highlighter-rouge">정팩메를 통한 캐싱</code>을 도입하자</strong></p>
+  </li>
+  <li>
+    <p><strong>정팩메든 생성자든 파라미터를 추가하면 견고한 클래스가 된다.</strong></p>
+
+    <ul>
+      <li><strong>자바(부생성자개념)이외 언어들은 <code class="language-plaintext highlighter-rouge">주생성자로만 생성</code>하고 <code class="language-plaintext highlighter-rouge">다양한 타입의 파라미터로 생성하려면 정팩매</code>를 이용해야한다.</strong></li>
+      <li><strong>나도 앞으로 <code class="language-plaintext highlighter-rouge">파라미터 추가를 위해서 정팩매 도입</code>을 고려해봐야겠다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731152352680.png" alt="image-20220731152352680"></p>
+  </li>
+  <li>
+    <p><strong>일급컬렉션도 <code class="language-plaintext highlighter-rouge">빈컬렉션으로 시작하여 add시 새객체반환</code>하는 일급컬렉션으로 만든다.</strong></p>
+
+    <ul>
+      <li><strong>new 빈컬렉션을 인자로 받는 <code class="language-plaintext highlighter-rouge">부생성자</code>를 만들어주면 된다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>기존에 생성자 없이 사용하던 객체에, <code class="language-plaintext highlighter-rouge">상태값이 추가되어 생성자가 추가될 경우</code>, <code class="language-plaintext highlighter-rouge">부생성자로 빈값할당</code>으로 초기화해주는 <code class="language-plaintext highlighter-rouge">기본생성자</code>를 추가해서 <code class="language-plaintext highlighter-rouge">기존코드가 망가지게 않게 한다</code></strong></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">여러종류의 클래스객체 응답이 가능한 메서드</code>에 대해 특정 클래스의 객체를 응답하는 테스트를 작성하려면, Object actual -&gt; isIntanceof(특정클래스.class)로 테스트코드를 작성한다.</strong></p>
+  </li>
+  <li>
+    <p><strong>여러 종류의 객체return는 <code class="language-plaintext highlighter-rouge">추상체 응답의 상태패턴</code>을 고려한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220804113722642.png" alt="image-20220804113722642"></p>
+
+    <ul>
+      <li><strong>상태패턴을 도입했으면, <code class="language-plaintext highlighter-rouge">응답값으로 나온 현재 상태</code>를 바탕으로 <code class="language-plaintext highlighter-rouge">추상체에 있는 [다음상태로 갈 수 있는 인자]를 받아 [다음상태로가는 메서드]</code>를 정의해줘야한다. <code class="language-plaintext highlighter-rouge">에러호출로 종료되는 제일 쉬운 현재상태(blackjack)부터 [다음 상태로 넘어가는 메서드]를 만들자</code></strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>추상체를 만드는 순간부터 <code class="language-plaintext highlighter-rouge">패키지를 분리하여, 패키지폴더 대상 다이어그램으로 의존성을 확인</code>하자.</strong></p>
+
+    <ul>
+      <li><strong>이후, <code class="language-plaintext highlighter-rouge">구상체만의 메서드 개발후 올리기전 다이어그램 + CompareFile하자</code></strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">상태변화가 없는 객체</code>는 <code class="language-plaintext highlighter-rouge">캐싱객체</code> or<code class="language-plaintext highlighter-rouge"> VO로, eq/hC를 재정의하여 값이 같으면 같은 객체가 되는 값객체</code>라서 <code class="language-plaintext highlighter-rouge">testutil패키지 &gt; Fixtures클래스</code>안에 <code class="language-plaintext highlighter-rouge">상수객체</code>로 만들어 써도 된다.</strong></p>
+
+    <ul>
+      <li>test루트에서 <strong><code class="language-plaintext highlighter-rouge">testutil</code> 패키지를 만들고 내부 <code class="language-plaintext highlighter-rouge">Fixtures</code>를</strong> 만들자</li>
+      <li>
+<strong>Fixtures에 쓸려면 <code class="language-plaintext highlighter-rouge">어디서든 불러도 같은 객체가 생성되도록 캐싱==싱글톤이 보장</code>되어야한다.</strong>
+        <ul>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">캐싱객체</code>는 test코드에서 <code class="language-plaintext highlighter-rouge">isSameAs</code></strong>로 <strong>확인</strong>해야한다.</li>
+          <li><strong><code class="language-plaintext highlighter-rouge">eq/hC의 VO값객체</code>는 test코드에서 <code class="language-plaintext highlighter-rouge">eq/hC 재정의 후 isEqualTo</code>로 확인해야한다</strong></li>
+        </ul>
+      </li>
+      <li><strong>상수객체 Fixture는 <code class="language-plaintext highlighter-rouge">한글로 알아보기 쉽게 네이밍</code>해도 된다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>상태패턴의 상태객체반환 with trigger되는 <code class="language-plaintext highlighter-rouge">결국엔 다른 객체의 상태값으로 포장</code>될 <code class="language-plaintext highlighter-rouge">객체</code>들은 <code class="language-plaintext highlighter-rouge">view에 넘기기 위해 getter를 무조건 가진다</code></strong></p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">trigger 등 set계열 메서드들 개발이 완료되면 getter도 개발</code>해야한다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>좋은 부모를 만들기 위한 전략(템플릿메소드) 중 <code class="language-plaintext highlighter-rouge">중복 필드 처리</code></strong></p>
+
+    <ol>
+      <li>
+<a href="https://blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/strategy/templatemethod/plan/connectobject/2022/07/12/Object_strategy_to_template_for_duplicate.html#next%ED%95%84%EB%93%9C%EB%A1%9C-%EC%97%B0%EA%B2%B0%EB%90%98%EB%8A%94-%ED%95%A9%EC%84%B1%EA%B0%9D%EC%B2%B4%EC%9A%A9-%EC%83%9D%EC%84%B1%EC%9E%90-%EC%A3%BC%EC%9E%85-%EB%8C%80%EC%8B%A0-void-setter%EB%A5%BC-%EA%B0%80%EC%A7%84-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EC%97%90-%EA%B5%AC%EC%83%81%EC%B8%B5-%EA%B0%9D%EC%B2%B4%EB%B3%84-%EC%B2%B4%EC%9D%B4%EB%8B%9D-%EB%B0%9B%EA%B8%B0%EA%B8%B0%EB%8A%A5%EC%9C%BC%EB%A1%9C-%EB%8C%80%EC%B2%B4%ED%95%98%EA%B8%B0">Object)중복로직제거 Strategy to Templatemethod(Plan3)</a>
+        <ol>
+          <li>
+<strong>추상클래스는 좋은 상속의 부모로서 <code class="language-plaintext highlighter-rouge">변수는 private</code>, <code class="language-plaintext highlighter-rouge">메서드는 final or protected abstract</code>, <code class="language-plaintext highlighter-rouge">생성자없이 setter로</code></strong>확인하여 달아준다.</li>
+        </ol>
+      </li>
+      <li><strong><code class="language-plaintext highlighter-rouge">구상체별 중복되는 필드</code>를 올릴 땐, 구상클래스 <code class="language-plaintext highlighter-rouge">생성자 주입</code> -&gt; <code class="language-plaintext highlighter-rouge">setter메서드 -&gt; private필드</code>로 올린다.</strong></li>
+      <li>
+<strong>부모의  private필드는 부모내에서 처리하게 하고, <code class="language-plaintext highlighter-rouge">자식은 부모private필드자체는 못쓰고, final 물려주는 템플릿메소드들만 쓴다.</code></strong>
+        <ul>
+          <li>자식들이 훅메서드 구현시 필요한 정보들은, 자기가 생성자 주입받아서 쓰면 된다.</li>
+          <li><strong>자식이 부모의 private필드값을 써야한다면, <code class="language-plaintext highlighter-rouge">부모에게 구현된 getter를 물려받아 쓰면</code>된다.</strong></li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>암기getter</strong></p>
+
+    <ol>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">getter정의시 return 불변객체</code>라면, <code class="language-plaintext highlighter-rouge">public열어두기 가능 + dto없어도 됨</code></strong>
+        <ul>
+          <li><strong>불변의 일급컬렉션 객체 반환 -&gt; dto없는 public getter로 제공</strong></li>
+          <li><strong>불변 객체 아니라면, <code class="language-plaintext highlighter-rouge">Dto로 만들어서 반환</code></strong></li>
+        </ul>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">getter정의시 return 컬렉션필드라면, view로 보낼 땐, 깊은 복사로 못건들게 해서 반환</code></strong>
+        <ul>
+          <li>
+<strong>불변의 일급컬렉션 <code class="language-plaintext highlighter-rouge">자신 내부의 컬렉션 필드 반환</code></strong>
+            <ul>
+              <li>server사이드 반환이라면, 얕은복사 반환후, 내부에서 객체들 조작</li>
+              <li><strong>view반환이라면,  <code class="language-plaintext highlighter-rouge">깊은 복사 반환 or DTO로 반환</code>후, 내부 객체들 조작안되게</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">중복제거 등 추상화/상속 관련작업</code>이 끝날 때마다, diagram을 보자</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>복잡하다면, <code class="language-plaintext highlighter-rouge">자물쇠의 show dependencis만 끄면</code> 상속관계가 잘 보인다.</strong></p>
+      </li>
+      <li>
+        <p><strong>추상화 레벨을 보고 싶다면, <code class="language-plaintext highlighter-rouge">바로 위의 추상클래스에 데고 usage(shift+F12)</code>를 통해 <code class="language-plaintext highlighter-rouge">어떤 놈들이 나를 직접 extends했는지</code>확인하면 된다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220806231001237.png" alt="image-20220806231001237"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>랜덤이 껴있는 로직은, 테스트를 고려해서 1개 메서드(함수형인터페이스)로 추출하고, 무조건 전략패턴으로 만들어야한다</strong></p>
+
+    <ul>
+      <li>추출할 메서드는 [전략객체-or]에 대해 -동사()를 쓴다 ex&gt; Generator -&gt; generate() / Applier -&gt; apply()</li>
+      <li>구상 전략객체에 해당 내수용메서드를 위임하기 위해선 [인자에 구상체 생성 -&gt; class생성 -&gt; 파라미터에 추가]해야지 F6으로 위임된다.</li>
+      <li>내수용메서드들이 포함되어있다면, 모두 해당객체를 인자추가 -&gt; 파라미터로 추가해놓자.</li>
+      <li>내부 this를 사용했다면(위임전 객체의 context) -&gt; 위임받을객체로 일단 바꿔주자.</li>
+      <li>내부 context(상태값 등)이 사용되었다면 -&gt; 추출 전 지역변수로 받아 추출하던지 or 추출후 파라미터추출해서, 파라미터에 포함되게 한다.</li>
+      <li>다 만들어놨으면, 위임은 내부 &amp;&amp; 먼저 호출되는 순으로 위임해야지, 기존context가 안잡힌다.</li>
+      <li>위임과정에서는 내수용private -&gt; public으로 된다. 위임후 수정해주자.</li>
+      <li>구상 전략객체에서 @Override만 붙이면 extract interface가 가능하다.</li>
+      <li>전략패턴이 되었으면 인터페이스에 @FunctionalInterface를 달아준다.</li>
+      <li>테스트에선 람다식으로 만들되, 바로 못만들면, 시그니쳐 반환형에 맞춘 객체를 수동으로 만들어, 람다식에 넣어주는 식으로 한다.
+        <ul>
+          <li>꼭 또다른 전략객체를 안만들어도 된다. test용 class라면 만들필요가 없다.</li>
+          <li>만드는 과정에 바뀌는 변수들을 파라미터 추출하고 메서드로 정의한다.</li>
+          <li>전략주입 객체까지를 하나의 Fixture로 볼 수 있다. [ 테스트용 수동전략 생성 + 전략적용객체 생성 ]까지를 1개의 fixture로 보고
+            <ul>
+              <li>여러 테스트에서도 사용할 수 있다면, testutil패키지의 FixtureGenerator클래스에 유틸메서드(public static)로서 빼주면 된다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="테스트-코드-작성시-팁">
+<a class="anchor" href="#%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1%EC%8B%9C-%ED%8C%81" aria-hidden="true"><span class="octicon octicon-link"></span></a>테스트 코드 작성시 팁</h3>
+
+<ol>
+  <li>
+    <p>split등으로 actual될 값이 2개이상이면, assertAll을 활용해서 0번인덱스부터 단계별로 확인하자</p>
+  </li>
+  <li>
+    <p>상수 리팩토링은 result_index , result_prefix 등으로 case_result + 명칭을 그대로 붙여서 지어도 된다.</p>
+  </li>
+  <li>
+    <p>메서드 안에서 또다른 일을 하는 경우,  <strong>파라미터 -&gt; 또다른 일 -&gt; 반환 과정을 메서드추출하고, <code class="language-plaintext highlighter-rouge">파라미터로 올리면, 추출메서드가 현재메서드의 인자로 올라가서 일하고 있게된다.</code></strong></p>
+  </li>
+  <li>
+    <p>케이스 추가 -&gt; 테스트메서드 추가 -&gt; <strong>메서드2 작성시 <code class="language-plaintext highlighter-rouge">개별 메서드 호출마다 저장소가 필요하다면, 메서드주체인 객체의 상태필드를 이용</code>해야한다. 필드를 만들어서 쓰자.</strong></p>
+  </li>
+  <li>
+    <p>메소드에 존재하는 테스트 힘든 코드는 확정값을 만들 수 있는 전략객체로 위임하되 전략객체는 협력객체로서 메서드 인자가 아닌 생성자 인자로 받아야한다</p>
+
+    <ul>
+      <li>프로덕션용 기본 전략값이 정해져있다면 <strong>생성자 오버로딩을 이용</strong>하자</li>
+    </ul>
+  </li>
+  <li>
+    <p>getter에서 get을 뺀 뒤 필드처럼 지어서, 내부의 필드명이 없는 것처럼 감출 수 있다.</p>
+  </li>
+  <li>
+    <p>.setter처럼 상태변화 메서드가 만들어졌다면, <strong>상태변화한 객체를 새로생성해서 반환하는 메서드로 변경한다.</strong></p>
+
+    <ul>
+      <li><strong>필요시 생성자를 추가한다.</strong></li>
+      <li>
+<strong>자신형 객체반환 메서드는 체이닝이 가능하니 테스트에서 체이닝으로 작성</strong>해도 된다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">특정 상태를 만들기 위해 상태변경메서드 반복 호출</code>을 하지말고, <code class="language-plaintext highlighter-rouge">직접 해당 상태로 만드는 생성자를 추가</code>해서 현재하는 테스트에 집중하게 한다</strong></p>
+
+    <ul>
+      <li>특정상태의 객체를 불변객체로 바로 만들면, 빈컬렉션+add가 사라진다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>컬렉션 인자 작성사 <code class="language-plaintext highlighter-rouge">List.of</code>는 <strong>컬렉조작불가능한 얕은복사</strong>을 사용하자.</p>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">Arrays.asList</code>는 <strong>조작가능한 생성자 복사(얕은 복사) 사본</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>인자가 3개이상이면, 엔터쳐서  줄바꿈해준다.</p>
+  </li>
+  <li>
+    <p>컬렉션 vs 컬렉션 -&gt; 반복문 + 요소 vs 컬렉션  + <strong>저장/업데이트용 지역변수</strong>가 생긴다</p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">원시값 인자 포장</code>시, 검증대상에 new때려서 만들기 시작하며, 검증로직 작성 후, <code class="language-plaintext highlighter-rouge">전체 원시값인자들을 도메인 인자로 변경</code>하여 -&gt; <code class="language-plaintext highlighter-rouge">도메인 파마리터 메서드</code>를 생성한 뒤, <code class="language-plaintext highlighter-rouge">원시값 파라미터 메서드 내부에서 도메인 전환후 오버로딩 호출</code>할 수있도록 로직을 변경한다.</strong></p>
+
+    <ul>
+      <li>테스트코드에서 도메인 인자들이 다 사라지고 원시값으로 다시 복구되었다면, <strong>오버로딩의 도메인 파라미터 메서드는 private화 시켜서, 외부에서 객체 생성을 막는다.?!</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">도메인 컬렉션 인자 포장</code>시 [이미 원시값 인자 존재 + 1개의 오버로딩 존재 + 도메인컬렉션 파라미터는 필요없을 때]</strong></p>
+
+    <ul>
+      <li><strong>내부에서 <code class="language-plaintext highlighter-rouge">p1 -&gt; 일급컬렉션 변환과정</code>까지 작성하고 새롭게 <code class="language-plaintext highlighter-rouge">파라미터 추출</code>해서 <code class="language-plaintext highlighter-rouge">파라미터 자체를 변경</code>한다.</strong></li>
+      <li>원시값 포장시에는 <strong>도메인입력 &lt; 원시값입력이므로 <code class="language-plaintext highlighter-rouge">기존 파라미터 메서드를 살리는 방향으로 오버로딩 적용</code>을 했었지만, <code class="language-plaintext highlighter-rouge">도메인 컬렉션 -&gt; 일급컬렉션</code>에서는 도메인컬렉션 입력을 죽인다.</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>일급컬렉션의 검증은 <strong>도메인객체들의 <code class="language-plaintext highlighter-rouge">갯수, 중복여부</code>등이다.</strong></p>
+  </li>
+  <li>
+    <p><strong>같은형의 비교시 -&gt; 내부 메서드로 돌아갈 때, <code class="language-plaintext highlighter-rouge">하나는 other라는 파라미터</code>명으로 잡아서 처리해준다.</strong></p>
+  </li>
+  <li>
+    <p><strong>getter를 포함한 로직을 위임</strong>할 땐,</p>
+
+    <ol>
+      <li>메서드 추출 -&gt; 위임받을 객체가 파라미터로 뽑혀야함</li>
+      <li><strong>그외 보라색 내부context는 <code class="language-plaintext highlighter-rouge">위임객체 포함 모두 외부context -&gt; 파라미터가 되도록 추출</code>해야함</strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">static이 붙어있으면 반드시 삭제</code>(빨간줄감수)하고 이동해야함</strong></li>
+      <li>같은형이 2개가 파라미터에 있다면 알아서 선택하는 창이 뜸</li>
+      <li>private을 객체에 위임한다면, <strong>옮길 때, public으로 선택할 수 있음(안하면 default로 감)</strong>
+</li>
+      <li><strong>옮긴 후 (this.)getter()호출을 삭제하고 내부 필드context로 바꿈</strong></li>
+    </ol>
+  </li>
+  <li>
+    <p>**enum은 **</p>
+
+    <ol>
+      <li>
+        <p>**<code class="language-plaintext highlighter-rouge">{}</code> : <code class="language-plaintext highlighter-rouge">값객체가 외부에서 파라미터로 입력</code>되면 <code class="language-plaintext highlighter-rouge">추상클래스로서 추상메서드를 이용해 [가상인자+람다식]에의해 수행되도록 전략객체로서 행위를 구현</code>해놓을 수 있지만, **</p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">()</code>: <code class="language-plaintext highlighter-rouge">분기별 값객체 반환</code>시  <code class="language-plaintext highlighter-rouge">분기문 자체를 값객체에 매핑</code>해놓고, <code class="language-plaintext highlighter-rouge">values()를 통해 매핑된 정보를 바탕으로 해당 값객체를 반환</code>해주는 <code class="language-plaintext highlighter-rouge">정적팩토리메서드</code>가 될 수 있다.</strong></p>
+
+        <ul>
+          <li>
+            <p>지연실행될 로직은 <strong><code class="language-plaintext highlighter-rouge">함수형 인터페이스(or전략인페.전메())으로 지연호출부 정의 -&gt; 가상인자 람다식에서 외부구현(or전략객체로 생성)</code>의 방법이 있다</strong></p>
+          </li>
+          <li>
+            <p>위임의 첫단추는 <strong><code class="language-plaintext highlighter-rouge">내부context로 사용하는 값은 위임객체에선 외부context</code>가 되도록 <code class="language-plaintext highlighter-rouge">위임객체context외에 모든 context값들을 변수로 만들어서 추출</code></strong>해야한다.</p>
+          </li>
+          <li>
+            <p><strong>특히 파라미터가 제일 많은 부분을 확인해야하며, <code class="language-plaintext highlighter-rouge">조건식 내에서 메서드호출된 것도 값이다!!</code></strong></p>
+          </li>
+          <li>
+            <p><strong>boolean문안에서 <code class="language-plaintext highlighter-rouge">여러객체를 이용한 메서드호출() -&gt; 1개의 응답값</code>을 가지는 <code class="language-plaintext highlighter-rouge">값(파라미터) 1개</code>로서 -&gt; <code class="language-plaintext highlighter-rouge">1개의 외부context로 위임</code>될 수 있도록 <code class="language-plaintext highlighter-rouge">추출될 로직보다 더 위쪽에 미리 1개의 지역변수로 빼놔야한다.</code></strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729143012230.png" alt="image-20220729143012230"></p>
+          </li>
+          <li>
+            <p><strong>badCase: <code class="language-plaintext highlighter-rouge">로직 위임전 [내부 여러객체.메서드호출()]부를 지역변수로 안빼놨을 때</code></strong></p>
+
+            <ul>
+              <li>여러객체를 사용한 메서드호출은 어차피 1개의 값으로 사용되는데, 연관된 객체가 모두 변수로 뽑힌다.</li>
+            </ul>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/a5704e03-7a3a-430e-bc57-6de5e94fd817.gif" alt="a5704e03-7a3a-430e-bc57-6de5e94fd817">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729143737025.png" alt="image-20220729143737025"></p>
+          </li>
+          <li>
+            <p><strong>GoodCase: <code class="language-plaintext highlighter-rouge">로직 위임전 [내부 여러객체.메서드호출()]부를 위임로직 더 위쪽에 지역변수 1개로 응답값을 받았을 때</code></strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/710eccce-c554-4ce1-8a24-ab02c97ae2ff.gif" alt="710eccce-c554-4ce1-8a24-ab02c97ae2ff"></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729143915942.png" alt="image-20220729143915942"></p>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>캐싱 도입 방법</p>
+
+    <ul>
+      <li>정팩메가 필요하다</li>
+      <li>static컬렉션(hashMap) CACHE (기존 생성자파라미터를 key, 객체를value로 하는 Type)를 필드초기화하고</li>
+      <li>static정팩메에서 <code class="language-plaintext highlighter-rouge">if 없으면 생성해서 넣어주고 , 있으면 get</code>을 요청한다
+        <ul>
+          <li>computeIfAbsent(key, 가상인자람다식으로 value생성(객체생성))</li>
+        </ul>
+      </li>
+      <li><strong>미리 static블럭에서 static변수들(캐싱변수도)을 초기화해서 캐싱할 객체들을 미리 생성할 수 있음.</strong></li>
+      <li><strong>여러쓰레드에서 입력할 가능성이 있다면, ConcurrentHashMap으로 캐싱static 변수를 초기화한다.</strong></li>
+      <li><strong>캐싱대상 객체는, 상수나 다름없기 때문에, 값으로 비교하기 위해 eq/hC 오버라이딩 한다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>일급컬렉션도 <code class="language-plaintext highlighter-rouge">빈컬렉션으로 시작하여 add시 새객체반환</code>하는 일급컬렉션으로 만든다.</strong></p>
+
+    <ul>
+      <li><strong>new 빈컬렉션을 인자로 받는 <code class="language-plaintext highlighter-rouge">부생성자</code>를 만들어주면 된다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p>enum의 생성은 Enum.상수의 빨간줄로 만든다.</p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">메소드 인자나 조건식에서 연산</code>을 하고 있다면 -&gt; 메서드 추출로 리팩토링한다.</strong></p>
+  </li>
+  <li>
+    <p>functional자리에 supplier의 객체생성자 호출이면, 가상인자를 <code class="language-plaintext highlighter-rouge">ignored -&gt; </code>로 만들고 안쓰면 된다.</p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">여러종류의 객체를 응답받는 메서드의 응답값</code>중에 특정 class가 응답되어야하는 메서드의 테스트 코드 작성시</strong></p>
+
+    <ul>
+      <li>return null으로 작성하고</li>
+      <li>
+<strong>Object형으로 변수</strong>로 받고</li>
+      <li>assert문에서 <strong>isInstanceOf</strong>( 특정클래스.class )로 확인한다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220803172709657.png" alt="image-20220803172709657"></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">enum에 값이 매핑되는 순간부터 바로 getter를 작성</code>해주면 된다.</p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">일급컬렉션으로 포장안된 상태</code>라면, <code class="language-plaintext highlighter-rouge">동일형 객체 일괄처리</code>는 List.of()나 Stream.of()를 사용해서 묶어서 처리한다.</strong></p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">동일형 객체끼리의 단순연산</code>도 List.of()로 묶은뒤 stream으로 연산이 가능하다.</strong></li>
+      <li><strong>단일형은 <code class="language-plaintext highlighter-rouge">단순연산도 일단 묶어서 처리</code>하자.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>동일형을 묶어서 <code class="language-plaintext highlighter-rouge">일괄처리 or 단순연산</code>한다면, <code class="language-plaintext highlighter-rouge">묶는 부분(List.of)에서 일급컬렉션을 도입</code>하고, <code class="language-plaintext highlighter-rouge">일괄처리 + 단순연산되는 로직을 위임</code>하자.</strong></p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">단순연산도 -&gt; 묶어서 일괄처리</code>해놓으면 -&gt; <code class="language-plaintext highlighter-rouge">add로 갯수가 늘거나 줄어도 메서드가 유지</code>된다</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">있는지 없는지 유무</code>만<code class="language-plaintext highlighter-rouge">(몇개 있는지)filter + count</code>가 아니라<code class="language-plaintext highlighter-rouge">anyMatch( -&gt; 개별요소판단 )</code>로 판단한다.</strong></p>
+  </li>
+  <li>
+    <p><strong>책임위임을 위임하려면, 일단 <code class="language-plaintext highlighter-rouge">현재context상의 메서드의 파라미터</code>에 걸려있어야 하며, <code class="language-plaintext highlighter-rouge">static메서드라면, static키워드를 삭제하고 위임</code>해야한다.</strong></p>
+
+    <ul>
+      <li>파라미터로 걸면서 getter를 사용했다면, 위임후에도 내수용getter를 쓰고 있으니 필드로 바꿔줘야한다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>또다른 리팩토링으로서 <code class="language-plaintext highlighter-rouge">조건식에 하나의 도메인에 대한 메서드호출이 나열되어있다면, 메서드 추출시 파라미터에 1개만 도메인만 걸리며, 이 또한 묶어서 책임을 위임</code>할 수 있다.</strong></p>
+
+    <ul>
+      <li>
+        <p>역시 static안이라면, static을 지우고 위임한다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220803234519904.png" alt="image-20220803234519904"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220803234556959.png" alt="image-20220803234556959"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>여러 종류의 객체return는 <code class="language-plaintext highlighter-rouge">추상체 응답의 상태패턴</code>을 고려한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220804113722642.png" alt="image-20220804113722642"></p>
+
+    <ul>
+      <li><strong>상태패턴을 도입했으면, <code class="language-plaintext highlighter-rouge">응답값으로 나온 현재 상태</code>를 바탕으로 <code class="language-plaintext highlighter-rouge">추상체에 있는 [다음상태로 갈 수 있는 인자]를 받아 [다음상태로가는 메서드]</code>를 정의해줘야한다. <code class="language-plaintext highlighter-rouge">에러호출로 종료되는 제일 쉬운 현재상태(blackjack)부터 다음 상태로 넘어가는[trigger메서드]를 만들자</code></strong></li>
+      <li>
+        <p><strong>특정 쉬운 구현체부터 시작한다면, <code class="language-plaintext highlighter-rouge">테스트에서 다운캐스팅해서 구현체만의 메서드로 생성하여 테스트하고 공통이면 올린다</code></strong></p>
+      </li>
+      <li>
+<strong>특정구현체의 메서드이며, <code class="language-plaintext highlighter-rouge">thr 던질 메서드</code>라도 <code class="language-plaintext highlighter-rouge">미래에 공통으로 사용될 예비오퍼레이터라면, 응답형을 지정</code>한뒤 던진다.</strong>
+        <ul>
+          <li>게임종료는 thr로 한다.</li>
+        </ul>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">다운캐스팅된 구상체만의 메서드 개발이 완료</code>되면, <code class="language-plaintext highlighter-rouge">다이어그램을 확인해서, 올려도 되는지 판단</code>한다.</strong>
+        <ul>
+          <li>
+<strong>다이어그램 + CompareFile을 펼쳐 모든 구상체가 호출해도 되는 메서드인지 확인</strong>한다.
+            <ul>
+              <li>다이어그램 단축키 : ctrl + alt + shift + U</li>
+              <li>compareFile : 구상체들만 선택후 ctrl + D</li>
+            </ul>
+          </li>
+          <li>올릴 거면, 다운캐스팅했떤 로직을 삭제하고, 다른 구상체들도 구현한다.</li>
+        </ul>
+      </li>
+      <li><strong>trigger + 정보를 판단하려면, <code class="language-plaintext highlighter-rouge">상태객체는 생성시부터 이미 정보를 상태값으로 가지고 있도록</code>해야한다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>일급컬렉션에서 add할 때, 내부에서 새로운 일급컬렉션 상태를 만들기 위해, <code class="language-plaintext highlighter-rouge">업데이트된 컬렉션 필드 상태</code>를 만들어야하는데,  <code class="language-plaintext highlighter-rouge">기존상태값(컬렉션 필드)를 얕은복사해서 연관성을 [떼어낸 상태에서 업데이트]야한다</code></strong></p>
+
+    <ul>
+      <li>
+<strong>기존 컬렉션 필드는 add하기 전에 얕은복사한 뒤, <code class="language-plaintext highlighter-rouge">생성자복사된 새 컬렉션에 add</code></strong>하고, 그것을 새로운 상태로 삼는다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>상태필드가 <code class="language-plaintext highlighter-rouge">객체이상, 일급컬렉션</code>인 경우, <code class="language-plaintext highlighter-rouge">현재 구체적인 값의 상태를 물어볼땐  getter대신 메세지</code>를 보낸다</strong></p>
+  </li>
+  <li>
+    <p><strong>setNext, add와 같이 <code class="language-plaintext highlighter-rouge">같은형 객체</code>를 반환하는 메서드들뿐만 아니라 <code class="language-plaintext highlighter-rouge">같은카테고리인 추상체</code>를 반환하는 메서드들도 <code class="language-plaintext highlighter-rouge">체이닝 메서드</code>이다.</strong></p>
+  </li>
+  <li>
+    <p>작은 코드라도 수정한다면, 복사해서 수정하고 지운다.</p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">인자입력시 List.of() -&gt; 가변배열</code>로 입력하도록 변경한다.</strong></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">상태변화가 없는 객체</code>는 <code class="language-plaintext highlighter-rouge">캐싱객체</code> or<code class="language-plaintext highlighter-rouge"> VO로, eq/hC를 재정의하여 값이 같으면 같은 객체가 되는 값객체</code>라서 <code class="language-plaintext highlighter-rouge">testutil패키지 &gt; Fixtures클래스</code>안에 <code class="language-plaintext highlighter-rouge">상수객체</code>로 만들어 써도 된다.</strong></p>
+
+    <ul>
+      <li>test루트에서 <strong><code class="language-plaintext highlighter-rouge">testutil</code> 패키지를 만들고 내부 <code class="language-plaintext highlighter-rouge">Fixtures</code>를</strong> 만들자</li>
+      <li>
+<strong>Fixtures에 쓸려면 <code class="language-plaintext highlighter-rouge">어디서든 불러도 같은 객체가 생성되도록 캐싱==싱글톤이 보장</code>되어야한다.</strong>
+        <ul>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">캐싱객체</code>는 test코드에서 <code class="language-plaintext highlighter-rouge">isSameAs</code></strong>로 <strong>확인</strong>해야한다.</li>
+          <li><strong><code class="language-plaintext highlighter-rouge">eq/hC의 VO값객체</code>는 test코드에서 <code class="language-plaintext highlighter-rouge">eq/hC 재정의 후 isEqualTo</code>로 확인해야한다</strong></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220805123413269.png" alt="image-20220805123413269"></p>
+
+    <ul>
+      <li>
+        <p><strong>상수객체 Fixture는 <code class="language-plaintext highlighter-rouge">한글로 알아보기 쉽게 네이밍</code>해도 된다.</strong></p>
+      </li>
+      <li>
+        <p>상수 추출후, <strong><code class="language-plaintext highlighter-rouge">Fixture로 옮기기전</code>에 미리 다 상수로 바꿔놓으면 더 쉽다(<code class="language-plaintext highlighter-rouge">ctrl + H</code>)</strong></p>
+
+        <ul>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">Fixture로 옮긴 후 프로젝트 전역으로 확인하고 싶다</code>면, <code class="language-plaintext highlighter-rouge">상수값(우항)을 Ctrl + shift + F</code>로 찾으면 된다.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220805130338811.png" alt="image-20220805130338811"></p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">시작객체</code>가 있다면, <code class="language-plaintext highlighter-rouge">같은 패키지로 몰아서 시작객체public을 제외한 나머지들은 default가시성</code>을 가지도록 해서, 외부에서 생성안되도록 한다면, <code class="language-plaintext highlighter-rouge">사전검증을 안해도 된다.</code></strong></p>
+
+    <ul>
+      <li>
+<strong>만약, 생성자가 기본생성자라서 정의를 안해줬다면, <code class="language-plaintext highlighter-rouge">재정의 후 가시성변경</code>해줘야한다.</strong>
+        <ul>
+          <li><strong>대표적인 예가 <code class="language-plaintext highlighter-rouge">유틸클래스(상태값없이 input-&gt;output static메서드만 가지는)는 생성자를 private가시성으로 변경</code>해주는 것이다.</strong></li>
+          <li><strong>생성자가 없는 클래스 -&gt; <code class="language-plaintext highlighter-rouge">public으로 열여있으며, 재료를 바탕으로 상태값을 만들지 않는 클래스</code></strong></li>
+        </ul>
+      </li>
+      <li>client가 잘못입력할 수도 있기 때문에 <strong><code class="language-plaintext highlighter-rouge">중간에 생성되는 상태객체들</code>은 <code class="language-plaintext highlighter-rouge">외부에서 생성못하도록 가시성으로 막아주기</code></strong>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">특정 구상체에만 사용되는 메서드</code>가 등장했다.</strong></p>
+
+    <ul>
+      <li>상속관계면, 조합관계로 바꾼다.</li>
+      <li>
+<strong>이미 인터페이스를 구현하는 조합관계의 구상체였다면</strong>
+        <ol>
+          <li><strong>일단 인터페이스에 올리고, 특정구상체만 자기메서드를 로직을 구현한다.</strong></li>
+          <li><strong>마저 테스트를 진행해야하니 <code class="language-plaintext highlighter-rouge">나머지 구상체들은 로직 없이 구현만 해준다</code></strong></li>
+          <li>
+<strong>이후 <code class="language-plaintext highlighter-rouge">해당메서드 테스트가 끝</code>나면, <code class="language-plaintext highlighter-rouge">특정구상체 외 사용하지 않는 구상체들에게 내리기 전</code>에 <code class="language-plaintext highlighter-rouge">중간에서 막아주는 추상클래스로 만들어지는 중간추상층</code>을 만들어준다.</strong>
+            <ul>
+              <li><strong><code class="language-plaintext highlighter-rouge">억지로 구현한 코드가 중복</code>이라서 중간추상층을 두고 중복코드를 제거한다는 개념으로 간다.</strong></li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+      <li>
+<strong>추상클래스 도입시 <code class="language-plaintext highlighter-rouge">중간에 먹어줘서 공짜로 물려주는 것들은 (템플릿메소드) final을 달아서 자식이 수정 못하게 막아야한다</code></strong>
+        <ul>
+          <li><strong>추상클래스의 public 템플릿메서드라면 <code class="language-plaintext highlighter-rouge">눈꽃모양으로 final</code>을 확인하자.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>좋은 부모를 만들기 위한 전략(템플릿메소드) 중 <code class="language-plaintext highlighter-rouge">중복 필드 처리</code></strong></p>
+
+    <ol>
+      <li>
+<a href="https://blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/object/strategy/templatemethod/plan/connectobject/2022/07/12/Object_strategy_to_template_for_duplicate.html#next%ED%95%84%EB%93%9C%EB%A1%9C-%EC%97%B0%EA%B2%B0%EB%90%98%EB%8A%94-%ED%95%A9%EC%84%B1%EA%B0%9D%EC%B2%B4%EC%9A%A9-%EC%83%9D%EC%84%B1%EC%9E%90-%EC%A3%BC%EC%9E%85-%EB%8C%80%EC%8B%A0-void-setter%EB%A5%BC-%EA%B0%80%EC%A7%84-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EC%97%90-%EA%B5%AC%EC%83%81%EC%B8%B5-%EA%B0%9D%EC%B2%B4%EB%B3%84-%EC%B2%B4%EC%9D%B4%EB%8B%9D-%EB%B0%9B%EA%B8%B0%EA%B8%B0%EB%8A%A5%EC%9C%BC%EB%A1%9C-%EB%8C%80%EC%B2%B4%ED%95%98%EA%B8%B0">Object)중복로직제거 Strategy to Templatemethod(Plan3)</a>
+        <ol>
+          <li>
+<strong>추상클래스는 좋은 상속의 부모로서 <code class="language-plaintext highlighter-rouge">변수는 private</code>, <code class="language-plaintext highlighter-rouge">메서드는 final or protected abstract</code>, <code class="language-plaintext highlighter-rouge">생성자없이 setter로</code></strong>확인하여 달아준다.</li>
+        </ol>
+      </li>
+      <li><strong><code class="language-plaintext highlighter-rouge">구상체별 중복되는 필드</code>를 올릴 땐, 구상클래스 <code class="language-plaintext highlighter-rouge">생성자 주입</code> -&gt; <code class="language-plaintext highlighter-rouge">setter메서드 -&gt; private필드</code>로 올린다.</strong></li>
+      <li>
+<strong>부모의  private필드는 부모내에서 처리하게 하고, <code class="language-plaintext highlighter-rouge">자식은 부모private필드자체는 못쓰고, final 물려주는 템플릿메소드들만 쓴다.</code></strong>
+        <ul>
+          <li>자식들이 훅메서드 구현시 필요한 정보들은, 자기가 생성자 주입받아서 쓰면 된다.</li>
+          <li><strong>자식이 부모의 private필드값을 써야한다면, <code class="language-plaintext highlighter-rouge">부모에게 구현된 getter를 물려받아 쓰면</code>된다.</strong></li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>암기getter</strong></p>
+
+    <ol>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">getter정의시 return 불변객체</code>라면, <code class="language-plaintext highlighter-rouge">public열어두기 가능 + dto없어도 됨</code></strong>
+        <ul>
+          <li><strong>불변의 일급컬렉션 객체 반환 -&gt; dto없는 public getter로 제공</strong></li>
+          <li><strong>불변 객체 아니라면, <code class="language-plaintext highlighter-rouge">Dto로 만들어서 반환</code></strong></li>
+        </ul>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">getter정의시 return 컬렉션필드라면, view로 보낼 땐, 깊은 복사로 못건들게 해서 반환</code></strong>
+        <ul>
+          <li>
+<strong>불변의 일급컬렉션 <code class="language-plaintext highlighter-rouge">자신 내부의 컬렉션 필드 반환</code></strong>
+            <ul>
+              <li>server사이드 반환이라면, 얕은복사 반환후, 내부에서 객체들 조작</li>
+              <li><strong>view반환이라면,  <code class="language-plaintext highlighter-rouge">깊은 복사 반환 or DTO로 반환</code>후, 내부 객체들 조작안되게</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">getter 추가 -&gt; 중복필드로서 같이 움직이는 해당 상태값</code>이 추가된 상황에서</strong></p>
+
+    <ol>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">최상위 인터페이스에서부터 추가</code>되었으며</strong></p>
+      </li>
+      <li>
+        <p><strong>구현시, <code class="language-plaintext highlighter-rouge">어느 구상체들도 thr로 예외없이 다 100% 다 구현</code>된 상태라면</strong></p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">구상체 100%구현 메서드 + 필드</code>로서 <code class="language-plaintext highlighter-rouge">중복제거를 위한 중간추상층</code>이 추가된다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220806171853571.png" alt="image-20220806171853571"></p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>상태객체의 인터페이스 <code class="language-plaintext highlighter-rouge">오퍼레이터는 최소 4개 + @가 필요</code>하다</strong></p>
+
+    <ol>
+      <li>
+        <p>trigger 메서드: draw()</p>
+      </li>
+      <li>
+        <p>중단 메서드:  stay()</p>
+      </li>
+      <li>
+        <p>현재상태값 반환메서드: getter cards()</p>
+      </li>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">is끝난상태[중간추상층]인지</code> 확인 메서드: boolean isXXXX()</strong></p>
+
+        <ul>
+          <li>
+            <p><strong>상태객체 소유 객체(Player)는 <code class="language-plaintext highlighter-rouge">상태가 isFinished될때까지 반복작업할 것</code>이다.</strong></p>
+          </li>
+          <li>
+            <p><strong>여기서는 stay개발시 불가하여 묶여진 <code class="language-plaintext highlighter-rouge">Finished 형용사 중간추상층</code>이 이미 있으니 <code class="language-plaintext highlighter-rouge">끝난 상태냐</code>라고 물어볼 수 있다.</strong></p>
+
+            <ul>
+              <li><strong><code class="language-plaintext highlighter-rouge">특정 구상체인지는 물어보지 않는다. 그놈빼고 다 false를 대답하기 때문에</code> -&gt; <code class="language-plaintext highlighter-rouge">특정 구상체인지는 물어보지말고 메세지를 던진다.</code></strong></li>
+            </ul>
+          </li>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">다형성 인터페이스에 존재하는 boolean 메서드는 -&gt; 구상체들이 구현만 해주면 알아서 개별 답변되는 메서드</code>다</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220806180149358.png" alt="image-20220806180149358"></p>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>추상체변수의 <code class="language-plaintext highlighter-rouge">구상체별 기능 구현</code>은 <code class="language-plaintext highlighter-rouge">전략패턴처럼 구현만 하면 알아서 적용</code>된다.</strong></p>
+
+    <ul>
+      <li>
+<strong>이미 외부생성(전략패턴) or trigger메서드(상태패턴)에 의해</strong>  State state안에는 Blackjack이나 Bust나 Stay가 담겨있는 상태다
+        <ul>
+          <li><strong>개별로 구현만 해주면, 알아서 작동한다.</strong></li>
+          <li><strong>대신, 알아서 계산안되어야할 놈들은 thr나 예외처리 해놔야한다.</strong></li>
+        </ul>
+      </li>
+      <li><strong>추상체 변수의 <code class="language-plaintext highlighter-rouge">상태이용 개별구현 메서드</code>는 구상체를 물어보지말고 구현만 해놓으면 알아서 적용된다.</strong></li>
+      <li><strong>상태값이 일반 객체였으면… 물어보고 판단했을 것인데… 추상체변수인 순간 알아서 구현됨을 생각하자.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>중간추상층이 좋은 부모가 되려면, <code class="language-plaintext highlighter-rouge">공통점이 아예 없는 개별구현로직 조차, 개별구현훅메서드를 래핑하고 있는 public final 템플릿메소드</code>로 가지고 있고, <code class="language-plaintext highlighter-rouge">서로 다른 로직은 protected abstract 훅메서드만 내보내줘야한다.</code></strong></p>
+
+    <ol>
+      <li>CompareFile(ctrl+D)로 <strong>구상체 메서드들의 공통점과 차이점</strong>을 살펴보고, <strong><code class="language-plaintext highlighter-rouge">어느부분까지를 훅메서드로 뺄 것인지 생각</code>한다.</strong>
+        <ul>
+          <li><strong>상수만 서로 달라도, 해당부분을 훅 메서드로 뺄 수 있다.</strong></li>
+        </ul>
+      </li>
+      <li><strong>구상체들 중 <code class="language-plaintext highlighter-rouge">서로 다른 훅 부분에  가장 파라미터가 많이 사용되는 로직</code>을 가진 구상체 1개를 선택하고 <code class="language-plaintext highlighter-rouge">해당 메서드를 중간추상층으로 잘라내서 올린다</code></strong></li>
+      <li>
+<strong>올린 public 템플릿메서드 내부에서 <code class="language-plaintext highlighter-rouge">다른 부분만 내수용 메서드 추출(구상체private -&gt; 추상체protected abstract)의 훅메서드로 만든다</code></strong>
+        <ul>
+          <li><strong>올리고 나서 훅을 만든다면, <code class="language-plaintext highlighter-rouge">메서드 추출후 가시성을 private -&gt; protected abstract로 직접 변경</code>해줘야한다.</strong></li>
+          <li><strong>올린 템플릿메서드는 final로…</strong></li>
+        </ul>
+      </li>
+      <li><strong>나머지 구상체들은, <code class="language-plaintext highlighter-rouge">훅메서드를 구현</code>하면서, 기존 구현메서드의 다른 부분만 훅에 입력한 뒤, 기존 메서드는 삭제해준다.</strong></li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>다 구현된 상속구조에서 <code class="language-plaintext highlighter-rouge">추상화레벨을 맞추기 위한 중간추상층 도입</code>을 한다.</strong></p>
+  </li>
+  <li>
+    <p><strong>제한된 종류의 상태값을 가진다면 <code class="language-plaintext highlighter-rouge">not final 시작상태 필드초기화</code> + <code class="language-plaintext highlighter-rouge">setter대신 -&gt;  public void toggle</code>로 정의해준다.</strong></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">if 상태확인 -&gt; 상태업뎃</code>을 매번 확인하면서 반복하는 것이 <code class="language-plaintext highlighter-rouge">while 상태확인 -&gt; 상태업뎃</code>이다.</strong></p>
+  </li>
+  <li>
+    <p>좋은 부모를 위해 생성자없는 [not final + set계열 메서드]를 정의했다면, set전에 null나올 수 있으니, 빈값 필드초기화 해야한다</p>
+  </li>
+</ol>
+
+<ul>
+  <li>
+    <p>이미 정해진 종류의 setter는 state = state변화의 toggle에 가깝다</p>
+  </li>
+  <li>
+    <p>매번 상태확인후 시행하는 if condition -&gt; action를 반복하는 것이 while condition 반복문이다.</p>
+
+    <ul>
+      <li>이 때, 반복되는 동안 메서드 인자인 재료는 iterator처럼 1개씩 주어질 수 있어야한다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>도메인 객체를 함부러 public메서드의 파라미터 == 외부생성으로 주지말자.</p>
+  </li>
+  <li>
+    <p>내부생성 or 내부에서 1개씩 제공해주는 iter느낌의 객체를 받을 수 있다.</p>
+  </li>
+  <li>
+    <p>deque의 재료는 미리 list로 만들어놔야한다. 제공할 때 생성자복사시 형변환을 같이해서 줄 수 있다.</p>
+
+    <ul>
+      <li>deque로 변환해서 가지고 있으면, pop()으로 iterator객체가 될 수 있다.</li>
+      <li>형변환되어 제공될 재료 컬렉션은, 미리 만들어놓아도 된다면, static필드 + static블럭으로 초기화해놓는다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>가변 변수 콜렉션에 add는 stream으로 해결할 수 있다.</p>
+  </li>
+  <li>
+    <p>2중 for문은 stream을  stream-&gt;map-&gt;stream-&gt;map -&gt; 첫번째 map을 flatmap으로 만들면 사용할 수 있다.</p>
+  </li>
+  <li>
+    <p>생성자내에서 [내부context인 상태값(가변변수) 재할당]을 포함한 메서드추출은 파라미터없이 그대로 재할당을 들고들어가 only내수용이 된다.(위임불가)</p>
+
+    <ul>
+      <li>재할당되는 line에 지역변수를 만들고, 그 지역변수를 재할당시키게 한 뒤, 내부context재할당을 제외한 로직을 추출하여, [재할당되는 값return]이 추출되게 한다.</li>
+      <li>만약, 내부context도 같이가야한다면, 내부에 포함시키고, 파라미터 추출을 해준다.</li>
+    </ul>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/tdd/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD/%EC%A0%95%EB%A6%AC/2022/08/02/TDD-%EC%B4%9D%EC%A0%95%EB%A6%AC0-%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EC%A0%95%EB%A6%AC%EC%99%80-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1-%EC%A0%95%EB%A6%AC.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

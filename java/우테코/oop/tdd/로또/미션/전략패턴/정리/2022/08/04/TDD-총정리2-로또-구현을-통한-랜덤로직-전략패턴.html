@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>TDD 총정리2-로또 구현을 통한 랜덤로직 전략패턴 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="TDD 총정리2-로또 구현을 통한 랜덤로직 전략패턴" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="TDD학습 내용 압축 정리" />
+<meta property="og:description" content="TDD학습 내용 압축 정리" />
+<link rel="canonical" href="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/tdd/%EB%A1%9C%EB%98%90/%EB%AF%B8%EC%85%98/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4/%EC%A0%95%EB%A6%AC/2022/08/04/TDD-%EC%B4%9D%EC%A0%95%EB%A6%AC2-%EB%A1%9C%EB%98%90-%EA%B5%AC%ED%98%84%EC%9D%84-%ED%86%B5%ED%95%9C-%EB%9E%9C%EB%8D%A4%EB%A1%9C%EC%A7%81-%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4.html" />
+<meta property="og:url" content="blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/tdd/%EB%A1%9C%EB%98%90/%EB%AF%B8%EC%85%98/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4/%EC%A0%95%EB%A6%AC/2022/08/04/TDD-%EC%B4%9D%EC%A0%95%EB%A6%AC2-%EB%A1%9C%EB%98%90-%EA%B5%AC%ED%98%84%EC%9D%84-%ED%86%B5%ED%95%9C-%EB%9E%9C%EB%8D%A4%EB%A1%9C%EC%A7%81-%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-08-04T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-08-04T00:00:00-05:00","url":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/tdd/%EB%A1%9C%EB%98%90/%EB%AF%B8%EC%85%98/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4/%EC%A0%95%EB%A6%AC/2022/08/04/TDD-%EC%B4%9D%EC%A0%95%EB%A6%AC2-%EB%A1%9C%EB%98%90-%EA%B5%AC%ED%98%84%EC%9D%84-%ED%86%B5%ED%95%9C-%EB%9E%9C%EB%8D%A4%EB%A1%9C%EC%A7%81-%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"TDD 총정리2-로또 구현을 통한 랜덤로직 전략패턴","dateModified":"2022-08-04T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/tdd/%EB%A1%9C%EB%98%90/%EB%AF%B8%EC%85%98/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4/%EC%A0%95%EB%A6%AC/2022/08/04/TDD-%EC%B4%9D%EC%A0%95%EB%A6%AC2-%EB%A1%9C%EB%98%90-%EA%B5%AC%ED%98%84%EC%9D%84-%ED%86%B5%ED%95%9C-%EB%9E%9C%EB%8D%A4%EB%A1%9C%EC%A7%81-%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4.html"},"description":"TDD학습 내용 압축 정리","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">TDD 총정리2-로또 구현을 통한 랜덤로직 전략패턴</h1><p class="page-description">TDD학습 내용 압축 정리</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-08-04T00:00:00-05:00" itemprop="datePublished">
+        Aug 4, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      8 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#java">java</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#우테코">우테코</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#oop">oop</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#TDD">TDD</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#로또">로또</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#미션">미션</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#전략패턴">전략패턴</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#정리">정리</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#로또-구현">로또 구현</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#참고스샷">참고스샷</a></li>
+</ul>
+</li>
+</ul><ul>
+  <li>분기문 자체를 enum에 [찾을 때 지연실행될 로직]으로서 매핑할 수 있으며, 이미 시그니쳐가 정해진 함수형인터페이스를 이용해 돌면서(values().stream.filter내부) 지연 수행(.test)될 분기문을 [가상인자+람다식으로 실시간 외부 구현]으로 매핑해야한다</li>
+</ul>
+
+<h3 id="로또-구현">
+<a class="anchor" href="#%EB%A1%9C%EB%98%90-%EA%B5%AC%ED%98%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>로또 구현</h3>
+
+<ol>
+  <li>
+    <p>도메인 및 객체 산출이 어렵다면 controller부터 정제된 input을 받고, output도 받환해야하는 <strong>service부터 출발</strong>한다.</p>
+
+    <ul>
+      <li>로또부터? 로또번호부터? 로또 게임부터? 로또 서비스부터?
+        <ul>
+          <li>정제된 입력을 받아 구현할 수 있다면 서비스부터</li>
+        </ul>
+      </li>
+      <li>블랙잭 카드부터?  블랙잭 게임부터?  블랙잭 서비스부터?
+        <ul>
+          <li>정제된 입력은 이름 밖이고 카드를 사람당  랜덤 2장 뽑아야해서..  그걸 지서
+            <ul>
+              <li>2장 받는 카드부터</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">서비스부터 짠다면, input -&gt; output까지 메인 흐름을 생각</code>해야한다.</strong></p>
+
+    <ul>
+      <li>입력1: 사용자의 로또번호 + 보너스번호 입력</li>
+      <li>입력2: 당첨번호 입력</li>
+      <li>출력: 당첨등수 응답</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728162510238.png" alt="image-20220728162510238"></p>
+  </li>
+  <li>
+    <p><strong>정제된 input -&gt; string을 <code class="language-plaintext highlighter-rouge">split등 전처리를 다 끝낸 원시형</code> + <code class="language-plaintext highlighter-rouge">컬렉션(List.of() - 어차피 불변객체 넣어줄테니까, 조작불가능 얕은복사 사본)</code>을 사용해서 만들어준다.</strong></p>
+
+    <ul>
+      <li>
+        <p>아직 도메인 객체 추출을 못했으니, <code class="language-plaintext highlighter-rouge">원시형 + 컬렉션으로 작성</code>한다</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728163518798.png" alt="image-20220728163518798"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>테스트할 메서드는 <code class="language-plaintext highlighter-rouge">무조건 응답하도록 먼저 작성</code>하며 이 때, <code class="language-plaintext highlighter-rouge">응답값은 [넣어준 인자에 대한 case값을 응답]</code>을 해줘야한다</strong></p>
+
+    <ul>
+      <li>만약, 로또번호 vs 당첨번호 <strong>인자 입력을 1등 번호로  예시case로 넣어줬다면</strong>, 그 <strong>인자 case에 맞는 1등이 응답값으로 반환해야한다(아무거나 반환X)</strong>
+</li>
+      <li><strong>인자가 3개이상이면, 엔터쳐서  줄바꿈해준다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728164141495.png" alt="image-20220728164141495"></p>
+  </li>
+  <li>
+    <p>테스트 성공시 refactor -&gt; 다음case (2번째부턴 일반화함)를 준비한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728164441770.png" alt="image-20220728164441770"></p>
+  </li>
+  <li>
+    <p><strong>2번째 case를 넣기 전에, <code class="language-plaintext highlighter-rouge">1case 인자를 그대로 사용한 체 2메서드를 복붙 생성</code>하고 이 상태로 로직을 짜면서 <code class="language-plaintext highlighter-rouge">if등을 활용해 1case 통과</code>하도록 짜도 된다.  <code class="language-plaintext highlighter-rouge">1case통과 시</code>하면 <code class="language-plaintext highlighter-rouge">2case에 맞는 인자로 변경</code>하여서 본격적으로 짜도 된다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728170621819.png" alt="image-20220728170621819"></p>
+  </li>
+  <li>
+    <p>새로운 case(2번째라서 일반화)를 추가하되, <strong><code class="language-plaintext highlighter-rouge">2번째 case추가</code> == only 1case -&gt; 일반화로서 <code class="language-plaintext highlighter-rouge">일반화 로직 추가</code> -&gt; <code class="language-plaintext highlighter-rouge">2메서드로 작성</code></strong>한다</p>
+
+    <ol>
+      <li><strong>서비스는 상태값이 없으므로 지역변수에 결과값이 나올 것인데, <code class="language-plaintext highlighter-rouge">1case가 통과하도록 if를 걸어주며 짠다</code>.</strong></li>
+      <li>컬렉션 vs 컬렉션 비교는 <strong>반복문 + 요소vs컬렉션 비교 + 업데이트 지역변수</strong>가 사용된다.</li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728170431531.png" alt="image-20220728170431531"></p>
+  </li>
+  <li>
+    <p>1case가 통과되도록 짠 뒤 -&gt; 2case(일반화 케이스)로 짠다</p>
+
+    <ul>
+      <li>이 때, ValueSource(고정 값 1개)나</li>
+      <li>CSVsource(고정 값 2개이상)나</li>
+      <li>MethodSource(객체 이상)을 활용해서 <strong>경계값 케이스 위주로 확인한다.</strong>
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728175850278.png" alt="image-20220728175850278"></p>
+
+    <ul>
+      <li>통과되면 2메서드로 기존테스트 돌린 뒤 대체</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>매칭5개가 2등이 아니라, 매칭 5개 + 보너스볼이 2등이고, 5개는 3등이다.</strong></p>
+
+    <ul>
+      <li>만약, 6-5-4 순으로 내려온다면 (7-매칭갯수)만 return하고 분기는 없어질텐데
+        <ul>
+          <li><strong>예외적인 상황이 발생하므로 if분기를 가지고 가야한다.</strong></li>
+        </ul>
+      </li>
+      <li>중간에 예외를 처리하기 위해 if분기로 보너스볼 매칭까지 확인해야한다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728180710783.png" alt="image-20220728180710783"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728181122812.png" alt="image-20220728181122812"></p>
+  </li>
+  <li>
+    <p><strong>service 메서드를 통해 <code class="language-plaintext highlighter-rouge">정제된input</code>에 도메인 지식이 쌓였으면, <code class="language-plaintext highlighter-rouge">SERVICE에서 input중 가장작은 단위의 input부터 예외발생해야하는 case</code>를 작성하고 -&gt; <code class="language-plaintext highlighter-rouge">도메인에서 검증로직</code>을 작성한다. <code class="language-plaintext highlighter-rouge">이후 그다음 input단위인 컬렉션에서 예외발생 case</code>를 작성하고 -&gt; <code class="language-plaintext highlighter-rouge">도메인에서 검증로직</code>을 작성한다.</strong></p>
+
+    <ol>
+      <li>
+        <p><strong>service에서 <code class="language-plaintext highlighter-rouge">가장작은단위 input에 대한 예외 case</code>를 작성한다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728183332991.png" alt="image-20220728183332991"></p>
+      </li>
+      <li>
+        <p>원시값에 대한 검증을 위해 <strong><code class="language-plaintext highlighter-rouge">검증이 필요한 원시값</code>을 <code class="language-plaintext highlighter-rouge">new 때려서 도메인객체로 포장</code>한다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/1c4cb04e-9b9e-4cc7-b508-8104852a4357.gif" alt="1c4cb04e-9b9e-4cc7-b508-8104852a4357"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728190348563.png" alt="image-20220728190348563"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728190403725.png" alt="image-20220728190403725"></p>
+      </li>
+      <li>
+        <p>현재 1개인자만 포장해줬기 때문에 컴파일에러가 뜬 상황임. 먼저 수정해준다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728191113904.png" alt="image-20220728191113904"></p>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<p>​</p>
+
+<ol>
+  <li>
+    <p><strong>인자를 1개만 포장했다면 -&gt; <code class="language-plaintext highlighter-rouge">전체 인자 다 포장</code>한 뒤, <code class="language-plaintext highlighter-rouge">메서드의 파라미터도 변경</code>해줘야한다.</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728191545604.png" alt="image-20220728191545604"></p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">이 때 쓰는 것이 오버로딩</code>이다.</strong></p>
+
+        <ul>
+          <li>메서드의 파라미터 타입이나 시그니쳐가 달라졌을 때</li>
+          <li>기본값을 입력해야할 때 ex&gt; 꼬리재귀 재귀함수 최초호출 기본값 인자</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/d64320e3-eb1c-4789-b252-3953a0357cf5.gif" alt="d64320e3-eb1c-4789-b252-3953a0357cf5"></p>
+      </li>
+      <li>
+        <p><strong>기존의 원시값컬렉션인자 -&gt; 객체 컬렉션인자로 가려면, <code class="language-plaintext highlighter-rouge">기존 메서드 내부에서 포장처리</code>를 한번 해줘야 한다.</strong></p>
+
+        <ol>
+          <li>
+            <p>원시값컬렉션 파라미터 메서드 내부에서 -&gt;  도메인 컬렉션으로 변경하여, 도메인컬렉션 파라미터 메서드를 호출하도록 한다.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728192253411.png" alt="image-20220728192253411"></p>
+          </li>
+          <li>
+            <p><strong>원시값 로직은 <code class="language-plaintext highlighter-rouge">아직 일급컬렉션을 도입안했다면, 로직을 그대로 도메인컬렉션 메서드 내부로 옮길 수 있다</code></strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728192341780.png" alt="image-20220728192341780"></p>
+          </li>
+          <li>
+            <p><strong>다만, 다만 <code class="language-plaintext highlighter-rouge">도메인 컬렉션(List)가 contains( 단일도메인 )처럼 원시값처럼 도메인을 사용하려면, eq/hC재정의</code>를 해줘야한다.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728192450626.png" alt="image-20220728192450626"></p>
+          </li>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">다시 원시값으로 인자 입력이 가능</code>해진 상태이므로 <code class="language-plaintext highlighter-rouge">서비스 호출시 에러가 나도록, 원시값 인자 입력으로 바꿔준다</code></strong></p>
+
+            <ul>
+              <li>만약, 도메인 인자를 입력하면 <strong>service메서드 진입전 도메인 자체에서 에러가 난다.</strong>
+</li>
+            </ul>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728192822612.png" alt="image-20220728192822612"></p>
+          </li>
+          <li>
+            <p>테스트가 통과되었으면 리팩토링해준다.</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/83866bec-7892-4f6d-8117-b906cbc6f3ae.gif" alt="83866bec-7892-4f6d-8117-b906cbc6f3ae"></p>
+          </li>
+          <li>
+            <p><strong>테스트에 도메인인자가 모두 사라졌다면, <code class="language-plaintext highlighter-rouge">오버로딩으로 내부 호출되는 도메인 파라미터 메서드는 private</code>화 해준다.</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728193339887.png" alt="image-20220728193339887"></p>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <p>서비스에서 원시값의 도메인 포장 로직이 반영되었다면, <strong>도메인 자체의 검증Test도 시행해준다.</strong></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>이후 <code class="language-plaintext highlighter-rouge">도메인 컬렉션 인자 포장</code>시 [이미 원시값 인자 존재 + 1개의 오버로딩 존재 + 도메인컬렉션 파라미터는 필요없을 때]</strong></p>
+
+    <ol>
+      <li>
+<strong>public 원시값 컬렉션 파라미터 메서드</strong>가 있는 상태에서</li>
+      <li>원시값 -&gt;  도메인변환 -&gt; <strong>오버로딩 private도메인컬렉션 파라미터 메서드</strong>
+</li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">오버로딩 private도메인 파라미터메서드만</code>수정대상으로 삼아 <code class="language-plaintext highlighter-rouge">2메서드</code>를 만들고</strong>
+        <ul>
+          <li><strong>도메인 컬렉션 파라미터 -&gt; 내부에서 <code class="language-plaintext highlighter-rouge">일급컬렉션 변환</code>후</strong></li>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">오버로딩 private일급컬렉션 파라미터 메서드</code> 대신, 내부에서 만든 <code class="language-plaintext highlighter-rouge">p-&gt;변환메서드-&gt;p2(일급컬렉션)</code> 자체를 <code class="language-plaintext highlighter-rouge">파라미터 추출</code>로 올려</strong>
+            <ul>
+              <li><strong>도메인컬렉션 -&gt; 일급으로 변환을 <code class="language-plaintext highlighter-rouge">오버로딩 내수용 메서드의 인자에서 호출</code>  + <code class="language-plaintext highlighter-rouge">내부는 변환로직의 return값인 p2(일급컬렉션)이 파라미터</code>가 되게 한다.</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>적용해보기</p>
+
+    <ol>
+      <li>
+        <p>수정대상 메서드는 <code class="language-plaintext highlighter-rouge">private내수용 오버로딩 [도메인 컬렉션 파라미터] 메서드</code>이다.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728222835121.png" alt="image-20220728222835121"></p>
+      </li>
+      <li>
+        <p>수정 대상을 2메서드로 복사한 뒤, <strong>내수용 오버로딩 메서드라서 여기서 테스트는 못한다. <code class="language-plaintext highlighter-rouge">public 메서드로 테스트할껏이므로 상위메서드는 2메서드를 사용하도록 일단 바꾼다.</code></strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/36bae828-6526-4c07-ab14-0fa31695e773.gif" alt="36bae828-6526-4c07-ab14-0fa31695e773"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728223012491.png" alt="image-20220728223012491"></p>
+      </li>
+      <li>
+        <p><strong>2메서드의 파라미터를 변환하여 <code class="language-plaintext highlighter-rouge">파라미터가 되길 원하는 값을 return</code>하는 변환메서드(or 생성자호출)를 작성한다.</strong></p>
+
+        <ul>
+          <li>
+            <p>p1 -&gt; 변환메서드(p1) 추출 -&gt; 예비 p2 상태에서</p>
+          </li>
+          <li>
+            <p>변환메서드를 파라미터 추출하면</p>
+
+            <ul>
+              <li>외부메서드호출부( 변환메서드(p1) )  -&gt; 내부는 (p2)가 파라미터가 된다.</li>
+              <li><strong>파라미터 변환 적용하기 작전이다.</strong></li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>변수명은 똑같이 추출해서, 잠시는 에러나더라도 <code class="language-plaintext highlighter-rouge">같은이름으로 변경하여, 내부로직에서 변경사항 파악이 쉽게 빨간줄</code>들어오게 해놔야한다.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/b5faea6a-1923-4e92-9dd9-eff70abd30e6.gif" alt="b5faea6a-1923-4e92-9dd9-eff70abd30e6"></p>
+          </li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728223805702.png" alt="image-20220728223805702"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728223820394.png" alt="image-20220728223820394"></p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>파라미터 변환(도메인 컬렉션 -&gt; 일급컬렉션) 변경에 따라 <code class="language-plaintext highlighter-rouge">컬렉션 에서 물어보던 것들을, 일급컬렉션 내부러 던져</code>야한다.</strong></p>
+
+    <ol>
+      <li>일단은 빨간줄을 없애도록 작성한다.</li>
+      <li><strong>파라미터 변경메서드로 기존테스트가 잘돌아가는지 확인한다.</strong></li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/936f41b6-5089-4147-8b5c-079a63aadd39.gif" alt="936f41b6-5089-4147-8b5c-079a63aadd39"></p>
+  </li>
+  <li>
+    <p><strong>일급컬렉션에 원하는 검증로직(중복검사 by distinct.count vs size, 갯수)를 확인한다. -&gt; 예외발생 테스트 통과시 2메서드를 반영한다</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728225112598.png" alt="image-20220728225112598"></p>
+  </li>
+  <li>
+    <p><strong>이제, 도메인 객체(Lotto, 일급컬렉션)의 경계값 테스트도 작성해야햔다.</strong></p>
+
+    <ol>
+      <li>
+        <p><strong>현재는 도메인 컬렉션 생성자만 있다. <code class="language-plaintext highlighter-rouge">원시값 컬렉션 파라미터 생성자</code>를 추가하고 싶다.</strong></p>
+
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">파라미터 추가</code>는 <code class="language-plaintext highlighter-rouge">인자 그대로 작성후 -&gt; 변환 -&gt; 오버로딩</code>의 과정으로 추가한다고 했다.</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/537c2489-1865-4ba3-9f56-77bae17e7db9.gif" alt="537c2489-1865-4ba3-9f56-77bae17e7db9"></p>
+
+        <ul>
+          <li>만약, 원시값 배열로 입력하면 <strong>가변인자(배열)로 받는다.</strong>
+</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728233822464.png" alt="image-20220728233822464"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728233846657.png" alt="image-20220728233846657"></p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>서비스 start~end까지 로직이 짜여졌으면 <code class="language-plaintext highlighter-rouge">해당 로직에 맞는 메서드명</code>으로 변경한다.</strong></p>
+
+    <ul>
+      <li>start() -&gt; match()</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729121535788.png" alt="image-20220729121535788"></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">서비스</code>내 <code class="language-plaintext highlighter-rouge">getter</code>가 보이면, <code class="language-plaintext highlighter-rouge">도메인 내부 로직</code>으로서 <code class="language-plaintext highlighter-rouge">캡슐화로 감춰야하는 로직</code>임을 100% 생각한다.</strong></p>
+
+    <ul>
+      <li>출력을 제외하고 getter는 없다고 보자.</li>
+      <li><strong>getter이후가 같은형의 비교면 -&gt; <code class="language-plaintext highlighter-rouge">해당형으로 책임을 위임해 옮긴다</code></strong></li>
+      <li><strong>getter이후가 다른형의 비교면 -&gt; <code class="language-plaintext highlighter-rouge">제3형을 만들어 책임을 위임한다.</code></strong></li>
+      <li><strong>같은형의 비교시 -&gt; 내부 메서드로 돌아갈 때, <code class="language-plaintext highlighter-rouge">하나는 other라는 파라미터</code>명으로 잡아서 처리해준다.</strong></li>
+      <li>일급컬렉션엔 <strong>일반 컬렉션이 못했던 책임위임을 할 수있다.</strong>
+        <ul>
+          <li>내부에서 알아서 하도록 / 출력할때 빼곤, 객체에 getter를 쓰지 않고 위임한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>같은 형 2개의 비교로직 위임이면, <code class="language-plaintext highlighter-rouge">getter를 쓰는 하나만 타겟팅해서 위임받을 context</code>로 잡아야한다.</strong></p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">위임받지 않는 녀석만 파라미터에 포함</code>되도록 하려면</strong></p>
+
+        <ol>
+          <li>
+            <p>static에서 <strong>static으로추출된 상태로 옮기면 위임받는 객체가 this등으로 리팩토링 안되게 된다</strong>.</p>
+          </li>
+          <li>
+            <p><strong>객체에 위임하는 로직은 <code class="language-plaintext highlighter-rouge">메서드 추출후, static있다면 삭제</code>해야한다. <code class="language-plaintext highlighter-rouge">static내부 nonstatic메서드로 빨간줄이 떠도 참아야함</code></strong></p>
+
+            <ul>
+              <li>static은 공용, 상태없는 유틸메서드이므로.. 파라미터 input -&gt; output형태라서 this등 리팩토링 안됨</li>
+            </ul>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/f4ac0669-9119-45b5-a82c-e1d1b2127774.gif" alt="f4ac0669-9119-45b5-a82c-e1d1b2127774"></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729123957410.png" alt="image-20220729123957410"></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729124009064.png" alt="image-20220729124009064"></p>
+          </li>
+          <li>
+            <p><strong><code class="language-plaintext highlighter-rouge">같은형의 객체 2개가 파라미터</code>에 있으면, <code class="language-plaintext highlighter-rouge">타겟팅할 변수를 선택</code>하라고 인텔리제이가 알려준다.</strong></p>
+
+            <ul>
+              <li><strong>private변수를 객체에 위임할 땐, <code class="language-plaintext highlighter-rouge">Escalate -&gt; Public</code>으로 바꿔서 이동시켜준다.</strong></li>
+            </ul>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/c158be1a-3e35-458c-9673-8d7055af69e6.gif" alt="c158be1a-3e35-458c-9673-8d7055af69e6"></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729124055503.png" alt="image-20220729124055503"></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729124113547.png" alt="image-20220729124113547"></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729124212538.png" alt="image-20220729124212538"></p>
+          </li>
+          <li>
+            <p><strong>같은형의 비교에서 <code class="language-plaintext highlighter-rouge">파라미터에 있는 같은형은 other로 네이밍</code>해주자.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729124604547.png" alt="image-20220729124604547"></p>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <p><strong>메서드 추출로 위임되었으면 <code class="language-plaintext highlighter-rouge">getter()호출부를 삭제</code>한다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/3ae22d96-e1e6-46fd-b833-325f96165f2d.gif" alt="3ae22d96-e1e6-46fd-b833-325f96165f2d"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>제한된 종류의 상수가 보이면 <code class="language-plaintext highlighter-rouge">enum</code> 값객체로 대신할 수있다.</strong></p>
+
+    <ul>
+      <li>
+<strong>이 때, 네이밍은 <code class="language-plaintext highlighter-rouge">의미_원래값</code>형태로 해주면 된다.</strong>
+        <ul>
+          <li>1 -&gt; RANK_1</li>
+          <li>0 -&gt; RANK_NONE</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729130130395.png" alt="image-20220729130130395"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/76f2edae-da52-492e-b13a-b344878608da.gif" alt="76f2edae-da52-492e-b13a-b344878608da"></p>
+
+    <ul>
+      <li>
+        <p>제한된 종류의 상수를 작성한 뒤 원래값을 매핑해둔다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/de54771b-9bef-4ac2-b3ae-ddd9a5c8e7b0.gif" alt="de54771b-9bef-4ac2-b3ae-ddd9a5c8e7b0"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729130728692.png" alt="image-20220729130728692"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729130739063.png" alt="image-20220729130739063"></p>
+      </li>
+      <li>
+        <p>응답값이 상수에서 -&gt; 값객체enum으로 변경되었으니 테스트도 다 수정해준다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729131056477.png" alt="image-20220729131056477"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>**enum은 **</p>
+
+    <ol>
+      <li>**<code class="language-plaintext highlighter-rouge">{}</code> : <code class="language-plaintext highlighter-rouge">값객체가 외부에서 파라미터로 입력</code>되면 <code class="language-plaintext highlighter-rouge">추상클래스로서 추상메서드를 이용해 [가상인자+람다식]에의해 수행되도록 전략객체로서 행위를 구현</code>해놓을 수 있지만, **</li>
+      <li><strong><code class="language-plaintext highlighter-rouge">()</code>: <code class="language-plaintext highlighter-rouge">분기별 값객체 반환</code>시  <code class="language-plaintext highlighter-rouge">분기문 자체를 값객체에 매핑</code>해놓고, <code class="language-plaintext highlighter-rouge">values()를 통해 매핑된 정보를 바탕으로 해당 값객체를 반환</code>해주는 <code class="language-plaintext highlighter-rouge">정적팩토리메서드</code>가 될 수 있다.</strong></li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>현재 분기별로 생성된다. -&gt; <code class="language-plaintext highlighter-rouge">정적 팩토리 메서드로서 [분기를 함수형인터페이스로 매핑하여 돌면서 지연실행될] 생성메서드를 만들고 위임</code>해야한다.</strong></p>
+
+    <ul>
+      <li>
+<strong>기존 : 분기별 생성을 정적팩토리메서드에 위임하기 전 확인사항이 있다.</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729135615639.png" alt="image-20220729135615639">
+</li>
+    </ul>
+
+    <ol>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">전체 값객체(enum)생성 분기문을 위임</code>해야한다. 그전에 해야할 것이 있다.</strong></p>
+
+        <ol>
+          <li>
+            <p>위임의 첫단추는 <strong><code class="language-plaintext highlighter-rouge">내부context로 사용하는 값은 위임객체에선 외부context</code>가 되도록 <code class="language-plaintext highlighter-rouge">위임객체context외에 모든 context값들을 변수로 만들어서 추출</code></strong>해야한다.</p>
+          </li>
+          <li>
+            <p><strong>특히 파라미터가 제일 많은 부분을 확인해야하며, <code class="language-plaintext highlighter-rouge">조건식 내에서 메서드호출된 것도 값이다!!</code></strong></p>
+
+            <ul>
+              <li>
+                <p><strong>boolean문안에서 <code class="language-plaintext highlighter-rouge">여러객체를 이용한 메서드호출() -&gt; 1개의 응답값</code>을 가지는 <code class="language-plaintext highlighter-rouge">값(파라미터) 1개</code>로서 -&gt; <code class="language-plaintext highlighter-rouge">1개의 외부context로 위임</code>될 수 있도록 <code class="language-plaintext highlighter-rouge">추출될 로직보다 더 위쪽에 미리 1개의 지역변수로 빼놔야한다.</code></strong></p>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729143012230.png" alt="image-20220729143012230"></p>
+              </li>
+              <li>
+                <p><strong>badCase: <code class="language-plaintext highlighter-rouge">로직 위임전 [내부 여러객체.메서드호출()]부를 지역변수로 안빼놨을 때</code></strong></p>
+
+                <ul>
+                  <li>여러객체를 사용한 메서드호출은 어차피 1개의 값으로 사용되는데, 연관된 객체가 모두 변수로 뽑힌다.</li>
+                </ul>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/a5704e03-7a3a-430e-bc57-6de5e94fd817.gif" alt="a5704e03-7a3a-430e-bc57-6de5e94fd817">
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729143737025.png" alt="image-20220729143737025"></p>
+              </li>
+              <li>
+                <p><strong>GoodCase: <code class="language-plaintext highlighter-rouge">로직 위임전 [내부 여러객체.메서드호출()]부를 위임로직 더 위쪽에 지역변수 1개로 응답값을 받았을 때</code></strong></p>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/710eccce-c554-4ce1-8a24-ab02c97ae2ff.gif" alt="710eccce-c554-4ce1-8a24-ab02c97ae2ff"></p>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729143915942.png" alt="image-20220729143915942"></p>
+              </li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>위임할 로직 전체보다 <strong>더 위쪽에서, 위임 로직 내부 <code class="language-plaintext highlighter-rouge">객체.메서드호출()</code>부를 지역변수 1개로 빼놓고 메서드추출한다.</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>정팩메 위임의 메서드명은 <code class="language-plaintext highlighter-rouge">of</code>라고 지으면 된다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/8f0ec9a8-4ed4-426d-a87b-9906f425e56d.gif" alt="8f0ec9a8-4ed4-426d-a87b-9906f425e56d"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729144338718.png" alt="image-20220729144338718"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>위임할 정팩메of를 enum에 위임한다.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/66394583-63e1-49ee-8775-e3d6b1f256dd.gif" alt="66394583-63e1-49ee-8775-e3d6b1f256dd"></p>
+  </li>
+  <li>
+    <p><strong>enum은 <code class="language-plaintext highlighter-rouge">내부 분기문</code>들을 <code class="language-plaintext highlighter-rouge">인스턴스에 ()매핑후 돌면서 찾기로 제거</code>가 가능하다.</strong></p>
+
+    <ol>
+      <li>
+<strong>각 분기문들을 values() -&gt; filter에 걸릴 수 있게 <code class="language-plaintext highlighter-rouge">각 인스턴스에 지연될 실행될 로직으로서 매핑</code>해야한다.</strong>
+        <ol>
+          <li>지연실행될 로직은 <strong><code class="language-plaintext highlighter-rouge">함수형 인터페이스(or전략인페.전메())으로 지연호출부 정의 -&gt; 가상인자 람다식에서 외부구현(or전략객체로 생성)</code>의 방법이 있다</strong>
+</li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>지연실행될 로직은 전략패턴이 아니라면 <code class="language-plaintext highlighter-rouge">미리 시그니쳐가 정의된 boolean을 반환하는 Predicate함수형인터페이스</code>를 사용하여 정의한다.</strong></p>
+
+    <ol>
+      <li>
+        <p><strong>매핑될 boolean반환형 함수형인터페이스의 변수명</strong>은 condition으로 편하게 지어주자.</p>
+      </li>
+      <li>
+        <p>enum에 매핑되어있는 condition을 찾아서 .test()로 지연실행할 것이다.</p>
+      </li>
+      <li>
+        <p><strong>이 때, <code class="language-plaintext highlighter-rouge">람다식의 가상인자로 구성되는 분기식에 쓰이는 실제 인자들</code>을 <code class="language-plaintext highlighter-rouge">지연실행 메서드</code>에 넣어줘야한다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/61772918-118d-4dd2-827f-5c5d5ca82cb5.gif" alt="61772918-118d-4dd2-827f-5c5d5ca82cb5"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729145725742.png" alt="image-20220729145725742"></p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>매핑할 함수형인터페이스는, enum의 필드로 선언해줘야한다.</strong></p>
+
+    <ul>
+      <li>빨간줄 생성하면 <strong>filter속 .test()로 사용될</strong>것을 인식하여 <strong>BiPredicate</strong>변수로 만들어준다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/fef3f129-0039-4a72-b3a9-f65123c7801b.gif" alt="fef3f129-0039-4a72-b3a9-f65123c7801b"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729150010288.png" alt="image-20220729150010288"></p>
+  </li>
+  <li>
+    <p>값매핑 필드 삭제, <strong><code class="language-plaintext highlighter-rouge">함형 필드는 생성자에서 추가</code>한 뒤 각 분기문들을 <code class="language-plaintext highlighter-rouge">가상인자 람다식으로 구현</code>해야한다.</strong></p>
+
+    <ul>
+      <li><strong>이 때, 분기문이 없는 enum필드도 매핑되어야하므로 분기문을 만들어주고 매핑한다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729152531939.png" alt="image-20220729152531939"></p>
+
+    <ul>
+      <li>
+        <p><strong>Bi로 정의했기 때문에, 1개의 파라미터만 쓰더라도, 파라미터가 많은 것을 따라야한다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/b9714d6d-c5b4-4d6c-93a0-f49c5dac3019.gif" alt="b9714d6d-c5b4-4d6c-93a0-f49c5dac3019"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729153240181.png" alt="image-20220729153240181"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729153257506.png" alt="image-20220729153257506"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>enum도 메서드 생성시 도메인 테스트를 해줘야한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729213638417.png" alt="image-20220729213638417"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220729213656362.png" alt="image-20220729213656362"></p>
+  </li>
+  <li>
+    <p><strong>정적팩토리메서드로 class를 <code class="language-plaintext highlighter-rouge">객체찍는템플릿</code>에서 <code class="language-plaintext highlighter-rouge">능동적인 객체관리자</code>로 승격시킨다.</strong></p>
+
+    <ul>
+      <li>new 생성자 : <strong>100% 객체를 생성해야함(캐싱못함)</strong>
+</li>
+      <li>정펙매
+        <ul>
+          <li>캐싱(재사용) 가능해짐.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <ol>
+      <li>
+        <p>인자의 갯수에 따라 .of or from으로 public static 메서드를 생성한다.</p>
+      </li>
+      <li>
+        <p><strong>기존 생성자와 동일한 형으로 key / 재사용할 객체형을 value로 해서 HashMap을 만든다. / 캐싱할 인스턴스 객체수를 알고 있다면 capacity를 저적어준다.</strong></p>
+
+        <ul>
+          <li>변수는 static변수로서 <strong>상수의 map으로서 jvm돌때 미리 생성된다.</strong>
+</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/fdf430f0-78d6-456b-8886-a66b363b0560.gif" alt="fdf430f0-78d6-456b-8886-a66b363b0560"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731113819787.png" alt="image-20220731113819787"></p>
+      </li>
+      <li>
+        <p><strong>캐싱의 핵심은, <code class="language-plaintext highlighter-rouge">존재하면 map에서 get</code>으로 꺼내고, <code class="language-plaintext highlighter-rouge">없으면 생성</code>이다</strong></p>
+
+        <ul>
+          <li><strong>map의 초기화도 미리 이루어진다.</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/96c640ce-9600-4c59-ba85-20f1efb9ea44.gif" alt="96c640ce-9600-4c59-ba85-20f1efb9ea44"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731114201232.png" alt="image-20220731114201232"></p>
+      </li>
+      <li>
+        <p><strong>없으면 key-value 넣어주기, 있으면 꺼내기는 <code class="language-plaintext highlighter-rouge">map.computeIfAbsent( key, 람다식으로 value생성식)</code>을 넣어주면 된다.</strong></p>
+
+        <ul>
+          <li>람다식은 가상인자로 작성해야해서, key값을 그대로 넣어주면 에러남.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/e487c03a-c2da-4ec3-953c-e059eca42fb2.gif" alt="e487c03a-c2da-4ec3-953c-e059eca42fb2"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731114834750.png" alt="image-20220731114834750"></p>
+      </li>
+      <li>
+        <p><strong>정적팩토리메서드가 완성되었으면, <code class="language-plaintext highlighter-rouge">기본생성자는 private으로 막아</code>두고 <code class="language-plaintext highlighter-rouge">각종 검증방법은 정팩메로 이동</code>시킨다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/c5e8e02d-0fa3-4695-a519-216388391380.gif" alt="c5e8e02d-0fa3-4695-a519-216388391380"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731115302033.png" alt="image-20220731115302033"></p>
+      </li>
+      <li>
+        <p><strong>기존 new때려서 생성한 객체들을 of로 다 수정해준다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731115746576.png" alt="image-20220731115746576"></p>
+      </li>
+      <li>
+        <p><strong>캐싱의 테스트는 식별자 일치를 확인하는 <code class="language-plaintext highlighter-rouge">.isSameAs</code>를 사용해서 테스트한다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/a33cf917-9f91-4f90-9e2b-68e797d53184.gif" alt="a33cf917-9f91-4f90-9e2b-68e797d53184"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731115026661.png" alt="image-20220731115026661"></p>
+      </li>
+      <li>
+        <p><strong>여러 쓰레드에서 접근한다면, <code class="language-plaintext highlighter-rouge">미리 모두 static생성 + ConcurrentHashMap</code>으로 변경하고 getter만 하게 한다.</strong></p>
+
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">static 컬렉션 변수</code>의 요소들은 <code class="language-plaintext highlighter-rouge">staitc블록으로 요소들 미리 생성</code>하게 할 수있다.</strong></li>
+          <li>static블럭이 늘어나면, 해석하는데 힘이쓰여 좋지 않ㄴ다.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/1acaf790-305c-4d20-a617-d25f7cc2352b.gif" alt="1acaf790-305c-4d20-a617-d25f7cc2352b"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731120759176.png" alt="image-20220731120759176"></p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>생성할 수 있는 파라미터를 추가해 <code class="language-plaintext highlighter-rouge">생성자가 많아 견고한 클래스</code>를 만들 수 있다.</strong></p>
+
+    <ul>
+      <li><strong>일반 생성자든 정펙매(캐싱 등) 생성자든 <code class="language-plaintext highlighter-rouge">정팩메or생성자에 또다른 파라미터를 추가</code>할 수 있다.</strong></li>
+      <li>상위 파라미터(더 원시) 추가는 <strong>변환 후 오버로딩</strong>을 하면 된다고 했다.
+        <ul>
+          <li>참고) 더 하위 파라미터를 추가해도 마찬가지지만, <strong><code class="language-plaintext highlighter-rouge">더 하위 파라미터(기존 파라미터 변환해서 만들어지는)로 변환</code>은 변환후 -&gt; 메서드추출 -&gt; 파라미터로 추출로 바깥에서 일하게 만들어서 파라미터를 바꾼다고 했음.</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/f63afa79-9d49-4db8-af83-ca4c73c4e9a9.gif" alt="f63afa79-9d49-4db8-af83-ca4c73c4e9a9"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731152229083.png" alt="image-20220731152229083"></p>
+  </li>
+  <li>
+    <p><strong>불변 일급컬렉션을 만드는 과정</strong></p>
+
+    <ul>
+      <li><strong>멋도 모르고 <code class="language-plaintext highlighter-rouge">컬렉션&lt;단일객체&gt;을 생성자에 통채로 집어넣어 만든 일급컬렉션은 </code>사실 <code class="language-plaintext highlighter-rouge">상태 변화(setter/add 등) -&gt; [변화된 상태의 새 객체]를 생성해서 반환</code>하기 위해 생겨난 생성자임을 생각해야한다.</strong></li>
+    </ul>
+
+    <ol>
+      <li>
+        <p><strong>단일객체에 대한 복수형으로 <code class="language-plaintext highlighter-rouge">final  불변의 일급컬렉션 클래스</code>를 생성하고, <code class="language-plaintext highlighter-rouge">Set으로 단일객체를 보유할 빈 컬렉션을 조합</code>한 필드를 가지고 있는다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/be034d02-8ef8-430e-a79b-aa6981b12351.gif" alt="be034d02-8ef8-430e-a79b-aa6981b12351"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731155154252.png" alt="image-20220731155154252"></p>
+      </li>
+      <li>
+        <p><strong>필드에 대해서 setter(상태변화) / getter를 고민해야한다.</strong></p>
+
+        <ul>
+          <li><strong>단일객체가 <code class="language-plaintext highlighter-rouge">외부에서 변수로 받아져 조작되는 객체</code>라면, 객체 자체를 파라미터로 받는 setter로 만든다.</strong></li>
+          <li><strong><code class="language-plaintext highlighter-rouge">컬렉션에 대한 setter는 add/remve등</code>이다. <code class="language-plaintext highlighter-rouge">add로 단일객체 파라미터</code>를 받되</strong></li>
+          <li><strong>상태변화의 setter(add)는 <code class="language-plaintext highlighter-rouge">상태변화된 새 객체를 반환</code>하여 불변성을 유지한다.</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/f8c3e381-7d52-40d3-ab9f-1de7c9415775.gif" alt="f8c3e381-7d52-40d3-ab9f-1de7c9415775"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731155645815.png" alt="image-20220731155645815"></p>
+
+        <ol>
+          <li><strong>2번에서 <code class="language-plaintext highlighter-rouge">상태변화된 컬렉션으로 새 객체 생성해서 반환</code>을 하기 위해<code class="language-plaintext highlighter-rouge">컬렉션을 통째로 받아 생성하는 생성자</code>가 필요했음을 생각한다.</strong></li>
+          <li><strong>즉, 필요에 의해 객체컬렉션을 받는 생성자가 생겼음을 인지한다.</strong></li>
+        </ol>
+      </li>
+      <li>
+        <p><strong>컬렉션 필드의 상태변화는 <code class="language-plaintext highlighter-rouge">기존 컬렉션필드가 변하지 않도록 사본으로 복사한 다음 상태변화</code>시킨 후 <code class="language-plaintext highlighter-rouge">새객체 생성</code>을 해줘야한다.</strong></p>
+
+        <ul>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">컬렉션필드를 수정할 땐, 항상 사본복사후 연산</code>하자.</strong>
+            <ul>
+              <li><strong>생성자를 통한 복사는 <code class="language-plaintext highlighter-rouge">객체요소는 같은 주소를 바라봐서 요소변화가 가능한</code>상태로 복사이다.</strong></li>
+            </ul>
+          </li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/62548315-caf2-4b2b-826b-6cb4a66b516b.gif" alt="62548315-caf2-4b2b-826b-6cb4a66b516b"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731162206685.png" alt="image-20220731162206685"></p>
+      </li>
+      <li>
+        <p><strong>기본생성자외 <code class="language-plaintext highlighter-rouge">컬렉션 필드의 생성자가 생성되는 순간, 빈컬렉션의 필드초기화</code>는 의미가 없어진다. <code class="language-plaintext highlighter-rouge">최초의 시작은 빈컬렉션으로 될 수 있도록 부생성자로서 추가</code>해줘야한다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/70742dde-326d-48ef-9798-c10674e600c2.gif" alt="70742dde-326d-48ef-9798-c10674e600c2"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731161528409.png" alt="image-20220731161528409"></p>
+      </li>
+      <li>
+        <p><strong>파라미터가 없는 생성자는 <code class="language-plaintext highlighter-rouge">부생성자</code>이므로 <code class="language-plaintext highlighter-rouge">파라미터가 있는 주생성자를 this로 사용</code>해줘야한다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/7d75e887-f5ac-44ee-b68a-2ea0f0745aaf.gif" alt="7d75e887-f5ac-44ee-b68a-2ea0f0745aaf"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731161701801.png" alt="image-20220731161701801"></p>
+      </li>
+      <li>
+        <p><strong>불변의 일급컬렉션에 요소를 add하는 과정은 매번 재할당해줘야한다.</strong></p>
+
+        <ul>
+          <li>
+            <p><strong>불변 객체를 받는 <code class="language-plaintext highlighter-rouge">변수</code></strong>는 재할당이 운명이다.</p>
+          </li>
+          <li>
+            <p><strong>일급컬렉션은 getter().size()가 아니라 <code class="language-plaintext highlighter-rouge">.size()</code>메서드를 정의해서 쓴다.</strong></p>
+          </li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220731163156321.png" alt="image-20220731163156321"></p>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<p>​</p>
+
+<h4 id="참고스샷">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0%EC%8A%A4%EC%83%B7" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고스샷</h4>
+
+<ul>
+  <li><a href="https://blog.kingbbode.com/52?category=737337">최범균 블로그? 배민 팀장 블로그</a></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220728172531672.png" alt="image-20220728172531672"></p>
+
+
+  </div><a class="u-url" href="/java/%EC%9A%B0%ED%85%8C%EC%BD%94/oop/tdd/%EB%A1%9C%EB%98%90/%EB%AF%B8%EC%85%98/%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4/%EC%A0%95%EB%A6%AC/2022/08/04/TDD-%EC%B4%9D%EC%A0%95%EB%A6%AC2-%EB%A1%9C%EB%98%90-%EA%B5%AC%ED%98%84%EC%9D%84-%ED%86%B5%ED%95%9C-%EB%9E%9C%EB%8D%A4%EB%A1%9C%EC%A7%81-%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

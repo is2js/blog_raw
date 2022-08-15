@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>OBJECT 16-2 여러 전략객체를 위한 상속과 다시 합성으로변경 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="OBJECT 16-2 여러 전략객체를 위한 상속과 다시 합성으로변경" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<meta property="og:description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<link rel="canonical" href="blog.chojaeseong.com/object/2022/06/03/((object1-16-2)%EC%97%AC%EB%9F%AC_%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%A5%BC_%EC%93%B0%EA%B8%B0%EC%9C%84%ED%95%9C_%EC%83%81%EC%86%8D%EA%B3%BC_%EB%8B%A4%EC%8B%9C%ED%95%A9%EC%84%B1.html" />
+<meta property="og:url" content="blog.chojaeseong.com/object/2022/06/03/((object1-16-2)%EC%97%AC%EB%9F%AC_%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%A5%BC_%EC%93%B0%EA%B8%B0%EC%9C%84%ED%95%9C_%EC%83%81%EC%86%8D%EA%B3%BC_%EB%8B%A4%EC%8B%9C%ED%95%A9%EC%84%B1.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-06-03T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-06-03T00:00:00-05:00","url":"blog.chojaeseong.com/object/2022/06/03/((object1-16-2)%EC%97%AC%EB%9F%AC_%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%A5%BC_%EC%93%B0%EA%B8%B0%EC%9C%84%ED%95%9C_%EC%83%81%EC%86%8D%EA%B3%BC_%EB%8B%A4%EC%8B%9C%ED%95%A9%EC%84%B1.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"OBJECT 16-2 여러 전략객체를 위한 상속과 다시 합성으로변경","dateModified":"2022-06-03T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/object/2022/06/03/((object1-16-2)%EC%97%AC%EB%9F%AC_%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%A5%BC_%EC%93%B0%EA%B8%B0%EC%9C%84%ED%95%9C_%EC%83%81%EC%86%8D%EA%B3%BC_%EB%8B%A4%EC%8B%9C%ED%95%A9%EC%84%B1.html"},"description":"object 책을 강의한 코드스핏츠 유튜브 요약","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OBJECT 16-2 여러 전략객체를 위한 상속과 다시 합성으로변경</h1><p class="page-description">object 책을 강의한 코드스핏츠 유튜브 요약</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-06-03T00:00:00-05:00" itemprop="datePublished">
+        Jun 3, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#구상체들이-다음-타자를-가지는-방법next-외부체이닝-받기----내부체이닝-메서드-호출">구상체들이 다음 타자를 가지는 방법(next 외부체이닝 받기 -&gt;  내부체이닝 메서드 호출)</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#달라진-부분-2가지-확인하기">달라진 부분 2가지 확인하기</a></li>
+<li class="toc-entry toc-h3"><a href="#전략객체가-동일형-다음-타자를-받고-꼬리호출로-다음타자의-전략메서드를-호출할-수-있다">전략객체가 동일형 다음 타자를 받고 꼬리호출로 다음타자의 전략메서드를 호출할 수 있다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#pricepertime">PricePerTime</a></li>
+<li class="toc-entry toc-h4"><a href="#nightdiscount">NightDiscount</a></li>
+<li class="toc-entry toc-h4"><a href="#tex-마찬가지">Tex (마찬가지)</a></li>
+<li class="toc-entry toc-h4"><a href="#amountdiscount-책-latediscountpolicy">AmountDiscount (책: LateDiscountPolicy)</a></li>
+<li class="toc-entry toc-h4"><a href="#main">Main</a></li>
+<li class="toc-entry toc-h4"><a href="#데코레이터-패턴은-이상한-모양">데코레이터 패턴은 이상한 모양</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#중복제거-및-고도화">중복제거 및 고도화</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#abstract-calculator">abstract Calculator</a></li>
+<li class="toc-entry toc-h4"><a href="#좋은-부모인지-확인">좋은 부모인지 확인</a></li>
+<li class="toc-entry toc-h4"><a href="#plan전략-적용객체는-코드가-바뀐게-없음">Plan(전략 적용객체)는 코드가 바뀐게 없음.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#중복제거된-구상체들-확인">중복제거된 구상체들 확인</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#pricepertime-1">PricePerTime</a></li>
+<li class="toc-entry toc-h4"><a href="#좋은-자식인지-확인">좋은 자식인지 확인</a></li>
+<li class="toc-entry toc-h4"><a href="#nightdiscount-1">NightDiscount</a></li>
+<li class="toc-entry toc-h4"><a href="#tex-amountdiscount">Tex, AmountDiscount</a></li>
+<li class="toc-entry toc-h4"><a href="#main-사용법이-바뀜">Main 사용법이 바뀜</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#상속을-다시-합성으로">상속을 다시 합성으로</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#합성전략으로-변경되는-calculator">합성(전략)으로 변경되는 Calculator</a></li>
+<li class="toc-entry toc-h4"><a href="#훅메서드-대신-태어난-calc전략인터페이스">훅메서드 대신 태어난 Calc전략인터페이스</a></li>
+<li class="toc-entry toc-h4"><a href="#또-달라진-main-사용법">또 달라진 Main 사용법</a></li>
+<li class="toc-entry toc-h4"><a href="#합성구상클래스--전략객체들했을-때의-유혹">합성(구상클래스 + 전략객체들)했을 때의 유혹</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#성급한-최적화전략객체를-받아주는-구상클래스를-내부로-통합">성급한 최적화(전략객체를 받아주는 구상클래스를 내부로 통합)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><ul>
+  <li>참고 유튜브 : https://www.youtube.com/watch?v=navJTjZlUGk</li>
+  <li>정리본: https://github.com/LenKIM/object-book</li>
+  <li>코드: https://github.com/eternity-oop/object</li>
+  <li>책(목차) : https://wikibook.co.kr/object/</li>
+</ul>
+
+<h2 id="구상체들이-다음-타자를-가지는-방법next-외부체이닝-받기----내부체이닝-메서드-호출">
+<a class="anchor" href="#%EA%B5%AC%EC%83%81%EC%B2%B4%EB%93%A4%EC%9D%B4-%EB%8B%A4%EC%9D%8C-%ED%83%80%EC%9E%90%EB%A5%BC-%EA%B0%80%EC%A7%80%EB%8A%94-%EB%B0%A9%EB%B2%95next-%EC%99%B8%EB%B6%80%EC%B2%B4%EC%9D%B4%EB%8B%9D-%EB%B0%9B%EA%B8%B0----%EB%82%B4%EB%B6%80%EC%B2%B4%EC%9D%B4%EB%8B%9D-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%98%B8%EC%B6%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>구상체들이 다음 타자를 가지는 방법(next 외부체이닝 받기 -&gt;  내부체이닝 메서드 호출)</h2>
+
+<h3 id="달라진-부분-2가지-확인하기">
+<a class="anchor" href="#%EB%8B%AC%EB%9D%BC%EC%A7%84-%EB%B6%80%EB%B6%84-2%EA%B0%80%EC%A7%80-%ED%99%95%EC%9D%B8%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>달라진 부분 2가지 확인하기</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707171010562.png" alt="image-20220707171010562"></p>
+
+<ul>
+  <li>result라는 재료를 받았지만, 전략객체는 여러개의 call을 돌면서 result에 누적하여 <strong><code class="language-plaintext highlighter-rouge">파라미터 result</code>는 값이 아닌 상태 변화하여 다음 caclulator한테 가고 반환되는, 부수효과가 있는 <code class="language-plaintext highlighter-rouge">context객체</code>라는 증거</strong>를 확보하여 <strong>연결되는 합성객체</strong>임을 확인할 수 있다.
+    <ul>
+      <li>인자가 똑같은 값이 아니라 <strong>변하는 인자는 delegate(위임) = 부수효과가 있는 context가 공유되는 것</strong>
+</li>
+    </ul>
+  </li>
+  <li>context인 result는 <strong>현재 전략객체에서 <code class="language-plaintext highlighter-rouge">다음 전략객체 next</code>에게 넘아갈 수도 있다.</strong>
+    <ul>
+      <li>다음 할인이 있다면, 생성자에 다음전략객체가</li>
+      <li>다음 할인이 없다면, 생성자에<code class="language-plaintext highlighter-rouge">null</code>이 올 수 있다고 생각한다.</li>
+      <li><strong>현재 전략객체의 calls돌면서 전략 적용후 <code class="language-plaintext highlighter-rouge">next == null? result(리턴)</code> 아니라면 <code class="language-plaintext highlighter-rouge">: 다음 전략객체.전략메서드( calls, result)</code>로 바통 넘겨주기</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="전략객체가-동일형-다음-타자를-받고-꼬리호출로-다음타자의-전략메서드를-호출할-수-있다">
+<a class="anchor" href="#%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EA%B0%80-%EB%8F%99%EC%9D%BC%ED%98%95-%EB%8B%A4%EC%9D%8C-%ED%83%80%EC%9E%90%EB%A5%BC-%EB%B0%9B%EA%B3%A0-%EA%BC%AC%EB%A6%AC%ED%98%B8%EC%B6%9C%EB%A1%9C-%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90%EC%9D%98-%EC%A0%84%EB%9E%B5%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%ED%98%B8%EC%B6%9C%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>전략객체가 동일형 다음 타자를 받고 꼬리호출로 다음타자의 전략메서드를 호출할 수 있다.</h3>
+
+<h4 id="pricepertime">
+<a class="anchor" href="#pricepertime" aria-hidden="true"><span class="octicon octicon-link"></span></a>PricePerTime</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707171845735.png" alt="image-20220707171845735"></p>
+
+<ul>
+  <li>재귀함수처럼,  <strong>마지막에</strong> 다음 n에서 <strong>내일 을 이어받을 함수를 호출</strong>한다.  <strong>같은 전략메서드 = <code class="language-plaintext highlighter-rouge">주체가 같은형</code>.<code class="language-plaintext highlighter-rouge">반환이 같은 전략메서드()</code>의 <code class="language-plaintext highlighter-rouge">꼬리 호출인 마지막 return에서 종착역(null터미네이팅) &amp;&amp; 반환값이 같은 전략메서드()로 내부 체이닝하는 것</code>이다.</strong>
+    <ul>
+      <li><strong>외부에서 체이닝할라면, VO처럼 반환값과 다음 주체가 같은형이어야함</strong></li>
+      <li><strong>내부 체이닝은, return문에 재귀함수처럼 종착역(null터미네이팅) + 같은 반환값의 메서드를 호출해야한다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="nightdiscount">
+<a class="anchor" href="#nightdiscount" aria-hidden="true"><span class="octicon octicon-link"></span></a>NightDiscount</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707172027460.png" alt="image-20220707172027460"></p>
+
+<ul>
+  <li>
+    <p>마찬가지로, 다음 타자를 가지고 있으면 전략메서드로 넘겨주고, 아니면 결과값을 return</p>
+  </li>
+  <li>
+    <p>Plan은 1개의 Calculator만 알고 있지만, 발동만 시키면, <strong>시작 Calculator(전략객체)가  옆 친구전략객체를 알고있는 것 유무에 따라 더 전진될지 안될지가 결정된다.</strong></p>
+    <ul>
+      <li><strong>동적으로 연결된다고 한다.</strong></li>
+      <li>객체지향은 linked List밖에 없다.
+        <ul>
+          <li>next node가있으면 가고 없으면 스탑이다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="tex-마찬가지">
+<a class="anchor" href="#tex-%EB%A7%88%EC%B0%AC%EA%B0%80%EC%A7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tex (마찬가지)</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707172256605.png" alt="image-20220707172256605"></p>
+
+<ul>
+  <li>calls 전체에 영향을 안받아서, result context만 갱신시킨다.</li>
+</ul>
+
+<h4 id="amountdiscount-책-latediscountpolicy">
+<a class="anchor" href="#amountdiscount-%EC%B1%85-latediscountpolicy" aria-hidden="true"><span class="octicon octicon-link"></span></a>AmountDiscount (책: LateDiscountPolicy)</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707172346485.png" alt="image-20220707172346485"></p>
+
+<h4 id="main">
+<a class="anchor" href="#main" aria-hidden="true"><span class="octicon octicon-link"></span></a>Main</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707172440201.png" alt="image-20220707172440201"></p>
+
+<ul>
+  <li>plan에 맨 처음 적용될 전략객체는 <code class="language-plaintext highlighter-rouge">PricePerTime</code>이고 나머지들이 <strong>이어진 다음 전략객체들이 생성자 next자리로 들어온다.</strong>
+    <ul>
+      <li><strong>재귀의 마지막 부분을 터미네이팅시키는 <code class="language-plaintext highlighter-rouge">null</code>을 생성자에 넣어줘야 끝난다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="데코레이터-패턴은-이상한-모양">
+<a class="anchor" href="#%EB%8D%B0%EC%BD%94%EB%A0%88%EC%9D%B4%ED%84%B0-%ED%8C%A8%ED%84%B4%EC%9D%80-%EC%9D%B4%EC%83%81%ED%95%9C-%EB%AA%A8%EC%96%91" aria-hidden="true"><span class="octicon octicon-link"></span></a>데코레이터 패턴은 이상한 모양</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707173025499.png" alt="image-20220707173025499"></p>
+
+<ul>
+  <li>생성자에서 다음 타자를 받는 이상은 장풍모양이 된다.</li>
+</ul>
+
+<h3 id="중복제거-및-고도화">
+<a class="anchor" href="#%EC%A4%91%EB%B3%B5%EC%A0%9C%EA%B1%B0-%EB%B0%8F-%EA%B3%A0%EB%8F%84%ED%99%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>중복제거 및 고도화</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707173430634.png" alt="image-20220707173430634"></p>
+
+<ul>
+  <li>모든 전략객체들이 <strong>next를 받아서 저장하고, 관리하는 코드가 똑같다.</strong>
+    <ul>
+      <li><strong>부모로 묶어야한다.</strong></li>
+    </ul>
+  </li>
+  <li><strong>부모로 묶을 때 조심해야할 부분: <code class="language-plaintext highlighter-rouge">공통 상태</code>(next)를 가지고 있으면 얄쨜없이 <code class="language-plaintext highlighter-rouge">abstract로 묶어야</code> 한다.</strong></li>
+</ul>
+
+<h4 id="abstract-calculator">
+<a class="anchor" href="#abstract-calculator" aria-hidden="true"><span class="octicon octicon-link"></span></a>abstract Calculator</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707174221254.png" alt="image-20220707174221254"></p>
+
+<ul>
+  <li>부모 -&gt; <strong>전략 인터페이스에서 -&gt; 추상클래스로 추출해야한다</strong>.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707174311364.png" alt="image-20220707174311364"></p>
+
+<ul>
+  <li>
+    <p><strong>구상체(전략객체)들은 <code class="language-plaintext highlighter-rouge">다음타자를 생성자</code>로 받았으나 <code class="language-plaintext highlighter-rouge">좋은 부모는 생성자로 받질 않는다 -&gt; 초기화없는 필드에 setter받기기능</code>으로 받아야한다.</strong></p>
+  </li>
+  <li>
+    <p>null터미네이팅이 존재하는 필드기 때문에, 다음 타자가 없으면 안넣어주고 그대로 null을 유지하면 된다.</p>
+  </li>
+  <li>
+    <p><strong>또한, <code class="language-plaintext highlighter-rouge">외부 체이닝을 통한 여러개 받기기능</code>을 위해 <code class="language-plaintext highlighter-rouge">받기기능 주체자와 동일형의 context인 this를 반환</code></strong>하여 외부에서 받기기능을 체이닝 할 수 있다.</p>
+
+    <ul>
+      <li>내부 체이닝: 재귀함수 -&gt; return에 반환형이 똑같은 메서드로 호출
+        <ul>
+          <li>**(구상체)매번 다음 타자를 받거나, (추상체)외부체이닝을 통해 여러개를 받은 다음타자들을 -&gt; null터미네이팅과 함께 return꼬리호출부에 다음타자들을 호출시킴. **</li>
+        </ul>
+      </li>
+      <li>외부 체이닝: 메서드내 상태 변화 후 메서드를 호출한 주체와 동일한 형(아직 안생긴 객체면 new 생성자() , 이미 존재하는 객체면this)을 반환
+        <ul>
+          <li><strong>내부체이닝을 위해, 외부재료를 외부체이닝(return this)하면서 여러개 받기기능</strong></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707175619380.png" alt="image-20220707175619380"></p>
+  </li>
+  <li>
+    <p><strong>my) 추상체에서 this는 <code class="language-plaintext highlighter-rouge">구상체가 사용하며 구상체 자기자신</code>이다.</strong></p>
+
+    <ul>
+      <li>next구상체를 받는 메서드 내부라서 헤깔릴 수 있지만, 추상체는 구상체가 쓸 내용만 제공하므로, <code class="language-plaintext highlighter-rouge">추상체 속 this는 호출하는 순간은 구상체 자신</code>이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707180315501.png" alt="image-20220707180315501"></p>
+
+<ul>
+  <li>
+<strong>전략메서드 구현의 다른부분</strong>은 다시 훅으로 뿌려주고, <strong>전략 메서드 및 내부 공통 부분</strong>을 템플릿 메서드로서 담는다.</li>
+</ul>
+
+<h4 id="좋은-부모인지-확인">
+<a class="anchor" href="#%EC%A2%8B%EC%9D%80-%EB%B6%80%EB%AA%A8%EC%9D%B8%EC%A7%80-%ED%99%95%EC%9D%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>좋은 부모인지 확인</h4>
+
+<ol>
+  <li><strong>자식들을 위해 생성자가 없다</strong></li>
+  <li>public, final 아니면 abstract proteced 메서드만 있다.</li>
+</ol>
+
+<h4 id="plan전략-적용객체는-코드가-바뀐게-없음">
+<a class="anchor" href="#plan%EC%A0%84%EB%9E%B5-%EC%A0%81%EC%9A%A9%EA%B0%9D%EC%B2%B4%EB%8A%94-%EC%BD%94%EB%93%9C%EA%B0%80-%EB%B0%94%EB%80%90%EA%B2%8C-%EC%97%86%EC%9D%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>Plan(전략 적용객체)는 코드가 바뀐게 없음.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707180549838.png" alt="image-20220707180549838"></p>
+
+<ul>
+  <li>전략객체 받기 -&gt; 템플릿 구상체들 받기</li>
+</ul>
+
+<h3 id="중복제거된-구상체들-확인">
+<a class="anchor" href="#%EC%A4%91%EB%B3%B5%EC%A0%9C%EA%B1%B0%EB%90%9C-%EA%B5%AC%EC%83%81%EC%B2%B4%EB%93%A4-%ED%99%95%EC%9D%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>중복제거된 구상체들 확인</h3>
+
+<h4 id="pricepertime-1">
+<a class="anchor" href="#pricepertime-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>PricePerTime</h4>
+
+<ul>
+  <li>기존</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707171845735.png" alt="image-20220707171845735"></p>
+
+<ul>
+  <li>중복제거 by 추상클래스</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707180731239.png" alt="image-20220707180731239"></p>
+
+<ul>
+  <li><strong>다음 타자받는 로직이 부모로 넘어간 덕분에, calls + result 계산기능 외에는 본인의 책임만 가진다.</strong></li>
+</ul>
+
+<h4 id="좋은-자식인지-확인">
+<a class="anchor" href="#%EC%A2%8B%EC%9D%80-%EC%9E%90%EC%8B%9D%EC%9D%B8%EC%A7%80-%ED%99%95%EC%9D%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>좋은 자식인지 확인</h4>
+
+<ol>
+  <li>상태들 모두 자기것 (부모 것X) -&gt; 부모변화와 무관</li>
+  <li>훅메서드구현으로 부모에게 정보 제공만 함. (부모를 몰름) -&gt; 부모 변화와 무관
+    <ul>
+      <li>result만 갱신해서 넘겨주는 service 제공</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="nightdiscount-1">
+<a class="anchor" href="#nightdiscount-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>NightDiscount</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707181029894.png" alt="image-20220707181029894"></p>
+
+<h4 id="tex-amountdiscount">
+<a class="anchor" href="#tex-amountdiscount" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tex, AmountDiscount</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707181045438.png" alt="image-20220707181045438"></p>
+
+<h4 id="main-사용법이-바뀜">
+<a class="anchor" href="#main-%EC%82%AC%EC%9A%A9%EB%B2%95%EC%9D%B4-%EB%B0%94%EB%80%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>Main 사용법이 바뀜</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707181127081.png" alt="image-20220707181127081"></p>
+
+<ul>
+  <li>Plan은 확장(상속) 가능성 있는 class로서 받기기능으로 <strong>첫번째 템플릿구상체(구 전략객체)를 받기기능으로 받아들이게 된다.</strong>
+</li>
+  <li>첫번째 들어가는 <strong>Calculator템플릿구상체</strong>는 <strong><code class="language-plaintext highlighter-rouge">외부 체이닝 받기기능 in 추상클래스 받기기능에서 return this(메서드 주체를 반환)</code>을 통해 체이닝으로 2번째 Calculator구상체를 받을 수 있다.</strong>
+    <ul>
+      <li>this가 반환되면 또 Calculator이며, <strong>Calculator는 원래 setNext(체이닝 받기기능)이 존재한다.</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="상속을-다시-합성으로">
+<a class="anchor" href="#%EC%83%81%EC%86%8D%EC%9D%84-%EB%8B%A4%EC%8B%9C-%ED%95%A9%EC%84%B1%EC%9C%BC%EB%A1%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>상속을 다시 합성으로</h3>
+
+<ul>
+  <li>상속이 나오면 무조건 합성으로 다시 바꾸기</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707184431755.png" alt="image-20220707184431755"></p>
+
+<ul>
+  <li>
+    <p>좋은 상속은 기계적으로 합성으로 바꿀 수 있다.</p>
+  </li>
+  <li>
+    <p>Calculator자체가 구상클래스화 -&gt; 훅메서드 부분의 전략객체화</p>
+  </li>
+</ul>
+
+<h4 id="합성전략으로-변경되는-calculator">
+<a class="anchor" href="#%ED%95%A9%EC%84%B1%EC%A0%84%EB%9E%B5%EC%9C%BC%EB%A1%9C-%EB%B3%80%EA%B2%BD%EB%90%98%EB%8A%94-calculator" aria-hidden="true"><span class="octicon octicon-link"></span></a>합성(전략)으로 변경되는 Calculator</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707184603502.png" alt="image-20220707184603502"></p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">추상클래스의 this반환을 활용</code>해서 다음 타자를 외부체이닝으로 <code class="language-plaintext highlighter-rouge">구상체별 다음타자 받기</code>를 구현했지만, <code class="language-plaintext highlighter-rouge">합성으로 변환하는 순간 추상클래스 -&gt; 구상클래스</code>가 되므로 <code class="language-plaintext highlighter-rouge">추상체this를 이용한 구상체별 외부체이닝으로 다음타자 받기</code>가 불가능해진다.</strong></li>
+  <li>
+<strong>추상클래스에서 다음타자next를 소유하는 방법 정리</strong>
+    <ol>
+      <li>자식이 물려받아서 쓸 next 필드는 초기화없이 null상태로 선언</li>
+      <li>받기기능으로 받되 없으면 null그대로. 있든 없든 추상체this를 return해서 사용 구상체 자기자신 반환</li>
+      <li>사용처에서는 null터미네이팅이 적용된 내부체이닝으로 연쇄호출
+        <ul>
+          <li><strong>개별 다음타자 소유 -&gt; 재귀함수 호출</strong></li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>next로 소유하는 방법을 버림 -&gt; 위 3가지 다 버림</strong></p>
+
+    <ul>
+      <li><strong>다음타자의 전략메서드 호출을 <code class="language-plaintext highlighter-rouge">내부 체이닝 - 재귀함수처럼 호출</code>했지만, <code class="language-plaintext highlighter-rouge">재귀함수는 forloop로</code> 바꿀 수 있다.</strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">개별로 다음타자 소유 -&gt; 재귀함수처럼 호출이 무의미</code>하다</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">상속-재귀로 다음타자 호출</code> -&gt; <code class="language-plaintext highlighter-rouge">합성-forloop로 모든 타자 컬렉션을 호출</code></strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707185806033.png" alt="image-20220707185806033"></p>
+
+    <ul>
+      <li>
+<strong>개별로 다음타자를 가짐 -&gt; <code class="language-plaintext highlighter-rouge">구상클래스가 모든 타자를 컬렉션으로 가짐</code>으로 변경</strong>
+        <ul>
+          <li>cf) HashSet은 순서가 보장된다.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707185813234.png" alt="image-20220707185813234"></p>
+
+    <ul>
+      <li>
+<strong>여러개 받기기능이라도, 구상클래스이므로 <code class="language-plaintext highlighter-rouge">필수 1개를 받도록 생성자 주입후 add</code></strong>
+        <ul>
+          <li>하나는 필수이며, 나머지는 list로 받아들이는 경우가 많기 때문에, 이렇게 sample로서 구현</li>
+        </ul>
+      </li>
+      <li><strong>이후 여러개 받기기능처럼 setter받기기능으로 add하되, <code class="language-plaintext highlighter-rouge">return 구상체this</code>는 <code class="language-plaintext highlighter-rouge">개별 외부체이닝이 아닌 자신 상태를 외부체이닝</code></strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707185828887.png" alt="image-20220707185828887"></p>
+
+    <ul>
+      <li>개별 다음타자 재귀호출이 아니라
+        <ul>
+          <li>복잡한 객체간 통신</li>
+        </ul>
+      </li>
+      <li><strong>모든 타자 forloop돌면서, result상태 업데이트</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="훅메서드-대신-태어난-calc전략인터페이스">
+<a class="anchor" href="#%ED%9B%85%EB%A9%94%EC%84%9C%EB%93%9C-%EB%8C%80%EC%8B%A0-%ED%83%9C%EC%96%B4%EB%82%9C-calc%EC%A0%84%EB%9E%B5%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>훅메서드 대신 태어난 Calc전략인터페이스</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707185958809.png" alt="image-20220707185958809"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707190030505.png" alt="image-20220707190030505"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707190109659.png" alt="image-20220707190109659"></p>
+
+<h4 id="또-달라진-main-사용법">
+<a class="anchor" href="#%EB%98%90-%EB%8B%AC%EB%9D%BC%EC%A7%84-main-%EC%82%AC%EC%9A%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>또 달라진 Main 사용법</h4>
+
+<ul>
+  <li>
+    <p>상속 -&gt; 개별로 다음타자 가지기 -&gt; 재귀호출</p>
+
+    <ul>
+      <li><strong>첫번째 구상체객체부터 시작하여, 개별로 다음타자 체이닝해서 받기</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707181127081.png" alt="image-20220707181127081"></p>
+  </li>
+  <li>
+    <p><strong>합성 -&gt; 모든 타자 받기(체이닝 유지) -&gt; forloop호출</strong></p>
+
+    <ul>
+      <li><strong>구상class 1곳에서, 모든 다음타자 체이닝해서 받기</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707190216766.png" alt="image-20220707190216766"></p>
+  </li>
+  <li>상속 모델의 호스팅 -&gt; 구상클래스가 전략객체들을 소유모델로 소유</li>
+  <li>원래 Plan도 Calculator들을 전략객체들을 소유모델이었음.
+    <ul>
+      <li>하지만 전략객체들이 중복코드로 상속모델이 됨
+        <ul>
+          <li>다시 한번 상속모델을 구상클래스 + 전략객체들 소유모델로 변경</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>기존: Plan &lt;- 전략Calculator들 소유
+    <ul>
+      <li>변경1: Plan &lt;- Calculator부모 &lt;- 자식들
+        <ul>
+          <li><strong>변경2: Plan &lt;- Calculator &lt;- 전략Calc들</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>그럼 Plan도 단일객체고, Calculator도 단일객체니 2개를 합치면 안되나?</strong></p>
+
+    <ul>
+      <li>합성과 상속을 반복해보면, 처음 설계한 역할이 명확하지 않다는 것을 알게 된다.</li>
+      <li><strong>DB상 1:1상태 -&gt; 합치면 되는 비정규화 상태</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707191248293.png" alt="image-20220707191248293"></p>
+  </li>
+  <li>의사결정
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707192915623.png" alt="image-20220707192915623">
+    <ul>
+      <li>Plan이 또다른 계산방식 추가(멤버등급별 요금계산)이 없이, 오로지 Calculator에 의해서만 요금계산이 끝나면, 합쳐도 된다.
+        <ul>
+          <li>Calculator는 정확하게는 CallsBasedCalculator
+            <ul>
+              <li>
+<strong>전략객체로 개별 계산해주되, 큰 로직은 계산의 재료를 calls만 받아서 처리</strong>하기 때문이다.</li>
+            </ul>
+          </li>
+          <li>**개별계산방법이 오로지 <code class="language-plaintext highlighter-rouge">전략객체의 전략메서드 특성상 1개의 로직 재료 calls에 대해서만 개별 처리</code>해주는 것이기 때문에 **</li>
+        </ul>
+      </li>
+      <li>하지만, <strong>calls이외에 다른 로직에 의해 요금계산</strong>도 추가된다면?
+        <ul>
+          <li>
+<strong>Plan과 Calculator(calls로 요금계산)을 1:1이라고 합치는 순간</strong> Call에 기반한 요금계산만 Plan에서 이루어지게 된다.
+            <ul>
+              <li>전략객체들을 직접적으로 Plan에 주입하면, 카테고리 1개의 개별처리밖에 못한다.</li>
+            </ul>
+          </li>
+          <li>Plan는 calls이외에 <strong>회원등급기반 요금계산도 전략을 통한 개별처리로 처리되어야한다</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>개별처리를 위한 <code class="language-plaintext highlighter-rouge">적용대상(Plan)</code> + <code class="language-plaintext highlighter-rouge">구상클래스 + 전략객체들</code>형태를 유지하면 <code class="language-plaintext highlighter-rouge">다른 카테고리의 개별처리도 적용대상에게 구상클래스로 주입</code>할 수 있다.</strong>
+    <ul>
+      <li>
+<strong>다른 카테고리의 개별요금처리를 위해서라도, 적용대상 &lt;-&gt; 전략구상클래스를 합치지말자.</strong>
+        <ul>
+          <li>요금계산에는 멤버쉽, 국가유공자, 나이별,  VIP(충성고객) 여러 카테고리가 남아있다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>의사결정하는 가운데, 실제이름도 알게 된다. Calculator는 포괄적인 이름이다. 전략패턴이 담당하는 카테고리가 있다. <code class="language-plaintext highlighter-rouge">~Based</code> <strong>전략메서드가 처리담당하는 메서드 인자로 판단하여 <code class="language-plaintext highlighter-rouge">~기반의 개별처리</code>밖에 안된다.</strong>
+    <ul>
+      <li>Plan과 Calculator가 단일class라고 해서 동급의 레벨이 아니였다.
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">Plan</code>
+            <ul>
+              <li>한참 아래의 <strong>Call기반의</strong> <strong><code class="language-plaintext highlighter-rouge">Calculator</code></strong>: **Plan이 골라야하는 메뉴중 1개 **
+                <ul>
+                  <li>
+<code class="language-plaintext highlighter-rouge">calc</code>들</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707221311884.png" alt="image-20220707221311884"></p>
+
+<ul>
+  <li>다시 메인을 보면
+    <ul>
+      <li>plan에 들어가는 Calculator는 일반명사처럼 생겼지만, <code class="language-plaintext highlighter-rouge">콜 기반의 요금 계산</code>만 해주는 <code class="language-plaintext highlighter-rouge">콜 카테고리 계산기</code>로서 1개의 계산기일 뿐이다.</li>
+      <li>Calculator는 plan입장에서는 여러가지 요금계산 계획중에 1개의 요금계산을 위임한 녀석이다.
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">CalculatorBasedOnCalls</code>
+            <ul>
+              <li>call에 따른 3가지 전략(개별처리)들을 처리해주고 있다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>new Calculator(콜기반요금계산) 외에</li>
+      <li>Plan은 <strong>new CalculateBasedMemebr()</strong>와도 결합할 수 있을 것이다.</li>
+    </ul>
+  </li>
+  <li>Plan - Calculator - 전략Calculator의 3단이 맞냐?
+    <ul>
+      <li>
+<strong>이름에 현혹되지마라. 3단이 맞다.</strong>
+        <ul>
+          <li>Plan + <code class="language-plaintext highlighter-rouge">Call기반 구상클래스 + 주입되는 전략객체들</code>
+</li>
+        </ul>
+      </li>
+      <li><strong>Calculator라는 추상화된 좋은 이름을 가질 수있냐 의심해봐야한다. 계산하되 call기반으로만 계산하고 있으며 <code class="language-plaintext highlighter-rouge">다른 카테고리의 CalculateFee도 할 수 있다.</code></strong></li>
+      <li>
+<strong>일반명사로 만들었다면, 의심해라 나는 자격이 없다.</strong>
+        <ul>
+          <li><strong>Calculator정도의 이름은 팀장아니면 실장만 달 수 있다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="합성구상클래스--전략객체들했을-때의-유혹">
+<a class="anchor" href="#%ED%95%A9%EC%84%B1%EA%B5%AC%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4--%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%93%A4%ED%96%88%EC%9D%84-%EB%95%8C%EC%9D%98-%EC%9C%A0%ED%98%B9" aria-hidden="true"><span class="octicon octicon-link"></span></a>합성(구상클래스 + 전략객체들)했을 때의 유혹</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707222106743.png" alt="image-20220707222106743"></p>
+
+<ul>
+  <li>Plan이 Calculator와 직접적은 결합은 하지 않지만, <strong><code class="language-plaintext highlighter-rouge">내부결합의 유혹</code>을 많이 받는다.</strong>
+    <ul>
+      <li><strong>왜냐면, <code class="language-plaintext highlighter-rouge">다른 카테고리의 Calculator가 나오기 전</code>까지 <code class="language-plaintext highlighter-rouge">plan만들 때마다 new Calculator()</code>가 반복된다.</strong></li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">어차피 plan만들면, setCalculator( new Calcuator())를 할 것이니 내부에 감추고 싶다.</code> + <code class="language-plaintext highlighter-rouge">나머지 추가 전략객체들을 받는 것도 뻔하게 나머지 전략객체들을 setNext하겠지</code>의 유혹</strong>
+        <ul>
+          <li>성급한 최적화다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="성급한-최적화전략객체를-받아주는-구상클래스를-내부로-통합">
+<a class="anchor" href="#%EC%84%B1%EA%B8%89%ED%95%9C-%EC%B5%9C%EC%A0%81%ED%99%94%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%B0%9B%EC%95%84%EC%A3%BC%EB%8A%94-%EA%B5%AC%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A5%BC-%EB%82%B4%EB%B6%80%EB%A1%9C-%ED%86%B5%ED%95%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>성급한 최적화(전략객체를 받아주는 구상클래스를 내부로 통합)</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707222852050.png" alt="image-20220707222852050"></p>
+
+<ul>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">일반명사를 가지며, 바뀌지 않을 것 같고 반복되는</code> -&gt; <code class="language-plaintext highlighter-rouge">전략주입용 구상클래스</code> Calculator를 변하지 않는 것으로 간주하며, 반복된다고 생각하여  Plan내부로 넣는 성급한 최적화를 하고 싶은 유혹에 빠져든다.</strong>
+    <ul>
+      <li><strong>하지만, Calculator는 사실 Calculator<code class="language-plaintext highlighter-rouge">BasedCalls</code>이며, <code class="language-plaintext highlighter-rouge">전략주입 구상클래스는 다른 전략으로 바뀔 수 있는 클래스</code>임을 망각한 것이다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>setCalculator가 아니라, <strong>전략객체들을 가변배열로 받는</strong> setCalculators()로 주입한다.
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707223518297.png" alt="image-20220707223518297">
+    <ul>
+      <li>new Calculator()부분을 client에서 제거함.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>전략객체들을 for문으로 돌되, <code class="language-plaintext highlighter-rouge">첫번째 요소를 지나면 flag를 false로 놓고 작동안하게 하는 isFirst플래그</code>를 만들어놓고 for문을 돌면서</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220707224050633.png" alt="image-20220707224050633"></p>
+
+    <ul>
+      <li>첫번째 전략객체만 -&gt; 전략주입 구상클래스의 필수 1개 생성자로 주입되고</li>
+      <li>2번째부터는 구상클래스.setNext( 다음 전략 ) 외부체이닝으로 받아준다.</li>
+    </ul>
+  </li>
+</ol>
+
+<ul>
+  <li>
+<strong>그러나 전략패턴이 <code class="language-plaintext highlighter-rouge">구상클래스 + 주입전략객체들 + 전략인페</code>의 구성이 이루어졌다면</strong>
+    <ul>
+      <li>보통 같으면 구상클래스 없이 전략인페 + 주입전략 객체들이지만</li>
+      <li>
+<strong>구상클래스를 둠으로서 <code class="language-plaintext highlighter-rouge">여러 전략객체들을 여러개 적용</code>할 수 있는 구조를 마련했다면</strong>
+        <ul>
+          <li><strong>그 구상클래스도 전략의 일부분일 뿐이며, 일반명사로 쓰고 있다고 해서 바뀌지 않는 부분이 아니다. 전략적용 객체에 주입될 때, 언제든지 <code class="language-plaintext highlighter-rouge">다른 카테고리의 전략주입 구상클래스</code>로 대체될 수 있음을 생각하자.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+  </div><a class="u-url" href="/object/2022/06/03/((object1-16-2)%EC%97%AC%EB%9F%AC_%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%A5%BC_%EC%93%B0%EA%B8%B0%EC%9C%84%ED%95%9C_%EC%83%81%EC%86%8D%EA%B3%BC_%EB%8B%A4%EC%8B%9C%ED%95%A9%EC%84%B1.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

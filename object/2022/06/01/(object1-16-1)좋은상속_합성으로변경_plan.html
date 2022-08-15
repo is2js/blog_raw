@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>OBJECT 16-1 좋은 상속을 합성으로 변경(코드스핏츠) | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="OBJECT 16-1 좋은 상속을 합성으로 변경(코드스핏츠)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<meta property="og:description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<link rel="canonical" href="blog.chojaeseong.com/object/2022/06/01/(object1-16-1)%EC%A2%8B%EC%9D%80%EC%83%81%EC%86%8D_%ED%95%A9%EC%84%B1%EC%9C%BC%EB%A1%9C%EB%B3%80%EA%B2%BD_plan.html" />
+<meta property="og:url" content="blog.chojaeseong.com/object/2022/06/01/(object1-16-1)%EC%A2%8B%EC%9D%80%EC%83%81%EC%86%8D_%ED%95%A9%EC%84%B1%EC%9C%BC%EB%A1%9C%EB%B3%80%EA%B2%BD_plan.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-06-01T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-06-01T00:00:00-05:00","url":"blog.chojaeseong.com/object/2022/06/01/(object1-16-1)%EC%A2%8B%EC%9D%80%EC%83%81%EC%86%8D_%ED%95%A9%EC%84%B1%EC%9C%BC%EB%A1%9C%EB%B3%80%EA%B2%BD_plan.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"OBJECT 16-1 좋은 상속을 합성으로 변경(코드스핏츠)","dateModified":"2022-06-01T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/object/2022/06/01/(object1-16-1)%EC%A2%8B%EC%9D%80%EC%83%81%EC%86%8D_%ED%95%A9%EC%84%B1%EC%9C%BC%EB%A1%9C%EB%B3%80%EA%B2%BD_plan.html"},"description":"object 책을 강의한 코드스핏츠 유튜브 요약","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OBJECT 16-1 좋은 상속을 합성으로 변경(코드스핏츠)</h1><p class="page-description">object 책을 강의한 코드스핏츠 유튜브 요약</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-06-01T00:00:00-05:00" itemprop="datePublished">
+        Jun 1, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      13 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#상속과-확장11장">상속과 확장(11장)</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#point-of-point">point of point</a></li>
+<li class="toc-entry toc-h3"><a href="#상속inherit">상속(inherit)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#증여bestowal">증여(bestowal)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#확장extend">확장(extend)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#유산을-물려받지-말-것">유산을 물려받지 말 것</a></li>
+<li class="toc-entry toc-h4"><a href="#대리역할을-하지-말-것">대리역할을 하지 말 것</a></li>
+<li class="toc-entry toc-h4"><a href="#오히려-확장하는-쪽이-부분-책임만-질-것---가장-이상적인-extends관계---점진적이면서-부수적인-주인공이-아닌-놈이-되어야함">오히려 확장하는 쪽이 부분 책임만 질 것 -&gt; 가장 이상적인 extends관계 -&gt; 점진적이면서 부수적인 주인공이 아닌 놈이 되어야함</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#2가지-나쁜확장">2가지 나쁜확장</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#나쁜-확장-1-생성자-기능super는-나쁘다">나쁜 확장 1: (생성자, 기능)super는 나쁘다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#약간만-보태면-될-것-같아서">약간만 보태면 될 것 같아서…</a></li>
+<li class="toc-entry toc-h5"><a href="#super를-쓰면-반드시-망가진다-기존-문제는-불변이-아니다---확장을-부분집합형으로-해결하는-방법은-다-망가지게-되어있다-약간만-보태서-확장하면-해결될-것-같은-사고방식은-망가진다---점진적원래-역할외-부수적인-역할만-해야한다">super를 쓰면 반드시 망가진다. 기존 문제는 불변이 아니다. -&gt; 확장을 부분집합형으로 해결하는 방법은 다 망가지게 되어있다. (약간만 보태서 확장하면 해결될 것 같은 사고방식은 망가진다) -&gt; 점진적+원래 역할외 부수적인 역할만 해야한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#나쁜-확장-2-기능-메서드override는-나쁘다">나쁜 확장 2: (기능, 메서드)override는 나쁘다</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#바보가-아니므로-부모응답type을-맞춰줄-순-있지만-내부-사정--외부여파의-context를-정말-다-파악해서-같은-context를-유지할-수-있을까-못한다---오버라이드가-성공하는-경우는-없다---어느-모듈은-나혼자가-아니라-내-내부--외부-관계된-context들로-정의되기-때문에---extend는-override하지말고-써라">바보가 아니므로 부모(응답)Type을 맞춰줄 순 있지만, 내부 사정 + 외부여파의 context를 정말 다 파악해서, 같은 context를 유지할 수 있을까? 못한다 -&gt; 오버라이드가 성공하는 경우는 없다 -&gt; 어느 모듈은 나혼자가 아니라 내 내부 + 외부 관계된 context들로 정의되기 때문에 -&gt; extend는 override하지말고 써라</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#좋은-확장">좋은 확장</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#조건1-super-대신-부모생성자는-인자받지x--부모메서드는-final-private-abstract-protected를-써라">조건1: super 대신 부모생성자는 인자받지X + 부모메서드는 final, private, abstract protected를 써라</a></li>
+<li class="toc-entry toc-h4"><a href="#조건2-부모-메서드에-3가지">조건2: 부모 메서드에 3가지</a></li>
+<li class="toc-entry toc-h4"><a href="#부모메서드에-final--private--abstractprotected-3가지를-외우자-모던랭귀지코틀린는-내장하고-있다">부모메서드에 final + private + abstractprotected 3가지를 외우자. 모던랭귀지(코틀린)는 내장하고 있다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#우리가-상속을-사용하려면-부모메서드가-final-or-private-or-abstract-protected로-만들고-생성자는-인자를-받지마라---만약-지킬수-없는-상황이라면---이때서야-상속을-포기하고-합성해라---지킬-수-있다면-상속을-많이-써도-된다">우리가 상속을 사용하려면, 부모메서드가 final or private or abstract protected로 만들고, 생성자는 인자를 받지마라 -&gt; 만약 지킬수 없는 상황이라면? -&gt; 이때서야 상속을 포기하고, 합성해라 -&gt; 지킬 수 있다면 상속을 많이 써도 된다.</a></li>
+<li class="toc-entry toc-h5"><a href="#상속을-쓰면-저번-수업-마지막-템플릿메서드vs전략패턴의-차이---상속을-쓰면-클래스조합폭팔은-피해갈-수-없다----피하기-위해서는-has-a모델--합성으로-바꿔야한다---합성은-끝없는-확장을-위해-열어두는-방법이다-대충-상속--3가지-처리만-해주자">상속을 쓰면, 저번 수업 마지막 템플릿메서드vs전략패턴의 차이 -&gt; 상속을 쓰면, 클래스조합폭팔은 피해갈 수 없다.  -&gt; 피하기 위해서는 has-a모델 = 합성으로 바꿔야한다. -&gt; 합성은 끝없는 확장을 위해 열어두는 방법이다. 대충 상속 + 3가지 처리만 해주자.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#코드로-좋은-확장-보기">코드로 좋은 확장 보기</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#plan">Plan</a></li>
+<li class="toc-entry toc-h3"><a href="#pricepertime-extends-plan">PricePerTime (extends Plan)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#좋은-확장의-자식메서드-판별법-override-protected인지-확인하여----부모의-템메--abstract-protected-메서드를-구현했는지-확인한다">좋은 확장의 자식메서드 판별법: @Override protected인지 확인하여 -&gt;  부모의 템메 + abstract protected 메서드를 구현했는지 확인한다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#override-protected에-실패했다면---상속패턴을-쓰면-안된다">@Override protected에 실패했다면 -&gt; 상속패턴을 쓰면 안된다.</a></li>
+<li class="toc-entry toc-h5"><a href="#부모에서-private필드final-or-abstract-protected---자식에서-override-protected가-아닌-이상엔-확정버그라고-판단하면-된다">부모에서 private필드+final or abstract protected /  자식에서 @Override protected가 아닌 이상엔 확정버그라고 판단하면 된다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#nightdiscount-extends-plan">NightDiscount (extends Plan)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#확장의-요령이자-상속의-경우의-수-자식이-조금만-참여하도록---부모가-대부분을-끌어안고-자식한테-쪼금만-위임할-수-있는-경우만-상속이-유리---그외에는-상속을-쓰면-안된다">확장의 요령이자 상속의 경우의 수: 자식이 조금만 참여하도록 -&gt; 부모가 대부분을 끌어안고, 자식한테 쪼금만 위임할 수 있는 경우만 상속이 유리 -&gt; 그외에는 상속을 쓰면 안된다!!</a></li>
+<li class="toc-entry toc-h4"><a href="#나머지는-class를-쓰면-안된다-class에는-역할메서드이-들어가기-때문에---인터페이스를-쓰는-항목으로-바뀌니--이왕할거-구현체가-다-역할을-하도록-해야한다--즉-추클이-거의-다하고-일부만-자식에게-주던지--vs-아예-배째고-인터페이스-쓰든지">나머지는 class를 쓰면 안된다. class에는 역할(메서드)이 들어가기 때문에 -&gt; 인터페이스를 쓰는 항목으로 바뀌니  이왕할거 구현체가 다 역할을 하도록 해야한다.  즉, 추클이 거의 다하고 일부만 자식에게 주던지  vs 아예 배째고 인터페이스 쓰든지</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#객체지향에서는-극단적으로-책임을-넘기만-우리는-그-책임을-열라게-잘게-쪼개서-안정적으로-만들어야한다">객체지향에서는 극단적으로 책임을 넘기만, 우리는 그 책임을 열라게 잘게 쪼개서 안정적으로 만들어야한다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#합성">합성</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#코드로-좋은-확장상속---조합으로-변형해보기">코드로 좋은 확장(상속) -&gt; 조합으로 변형해보기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#plan-1">Plan</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#부모-소유모델전략패턴-합성으로-바꾸면서-변하는-부분">[부모] 소유모델=전략패턴, 합성으로 바꾸면서 변하는 부분</a></li>
+<li class="toc-entry toc-h5"><a href="#normal-class-vs-final-class-선택해야한다---상속대신-조합써놓고-상속가능하게-부모를-final-class가-아닌-normal-class로-열어두었다">normal class vs final class 선택해야한다. -&gt; 상속대신 조합써놓고, 상속가능하게 부모를 final class가 아닌 normal class로 열어두었다?</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#final을-안달았다--다양한-xxx로-확장될-상속가능성-extends-plan을-할-class생성-가능성을-열어두었다---좋은상속-3가지-조건이-지켜지고-있는지-확인해야한다---규칙-1개라도-못지키면-그냥-final을-class에-걸어야한다">final을 안달았다 = 다양한 xxx로 확장될 상속가능성( extends Plan을 할 class생성 가능성)을 열어두었다 -&gt; 좋은상속 3가지 조건이 지켜지고 있는지 확인해야한다. -&gt; 규칙 1개라도 못지키면 그냥 final을 class에 걸어야한다.</a></li>
+<li class="toc-entry toc-h6"><a href="#얘는-normal-class인데-final걸지-않아도-된다-왜">얘는 normal class인데 final걸지 않아도 된다? 왜?</a></li>
+<li class="toc-entry toc-h6"><a href="#우리가-class에-final-안걸고-열어두는-것이-버릇인데-그럴려면-사실은-좋은확장-원칙3가지를-지킨-애들만-final-없이-열어-둘-수-있다">우리가 class에 final 안걸고 열어두는 것이 버릇인데, 그럴려면 사실은 좋은확장 원칙3가지를 지킨 애들만 final 없이 열어 둘 수 있다.</a></li>
+<li class="toc-entry toc-h6"><a href="#우리가-짠-class들을-검토해서-좋은-확장-원칙을-안지키면-final을-걸어두자-기계적으로-걸어도-된다-에러의-원인은-그곳이다-상속확장됬는데-그-전-것의-context를-못지키거나-불변취급했는데-변해서-문제가-생긴다">우리가 짠 class들을 검토해서 좋은 확장 원칙을 안지키면 final을 걸어두자. 기계적으로 걸어도 된다. 에러의 원인은 그곳이다. 상속(확장)됬는데, 그 전 것의 context를 못지키거나 불변취급했는데 변해서 문제가 생긴다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h5"><a href="#전략객체를-받는-인터페이스는-내부에-전메추클-1개가-type만-지정해주면-함수형인터페이스로서-완성된다">전략객체를 받는 인터페이스는 내부에 전메/추클 1개가 Type만 지정해주면, 함수형인터페이스로서 완성된다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#pricepertime-extends-plan----impl-전략인페">pricePerTime (extends plan -&gt;  impl 전략인페)</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#좋은상속의-자식은---구현체전략객체로-바꿀-때-변화가-거의-없다">좋은상속의 자식은 -&gt; 구현체(전략객체)로 바꿀 때 변화가 거의 없다</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#좋은상속일-때--자식구현체-코드">좋은상속일 때  자식(구현체) 코드</a></li>
+<li class="toc-entry toc-h6"><a href="#전략패턴에서-전략객체구현체-코드">전략패턴에서 전략객체(구현체) 코드</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h5"><a href="#자식-소유모델전략패턴-합성으로-바꾸면서-변하는-부분">[자식] 소유모델=전략패턴, 합성으로 바꾸면서 변하는 부분</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#nightdiscount">NightDiscount</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#포워딩">포워딩</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#my-위임-전략객체에게-중요-상태값컨텍스트이-아니라-유틸함수에-필요한-재료-넘겨주는식만이루어진다">my) 위임: 전략객체에게 중요 상태값(컨텍스트)이 아니라, 유틸함수에 필요한 재료 넘겨주는식만이루어진다.</a></li>
+<li class="toc-entry toc-h3"><a href="#plan-2">plan</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#연결되는-합성객체">연결되는 합성객체</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#데코레이터-패턴이라고도-부른다">데코레이터 패턴이라고도 부른다.</a></li>
+<li class="toc-entry toc-h3"><a href="#재귀함수와-객체의-연결-차이">재귀함수와 객체의 연결 차이</a></li>
+<li class="toc-entry toc-h3"><a href="#코드로-보는-데코레이터-패턴">코드로 보는 데코레이터 패턴</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#calculator">Calculator</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#부수적-책임모---아니면-도로서-포괄적-책임으로-승격시켰다">부수적 책임(모) -&gt; (아니면 도로서) 포괄적 책임으로 승격시켰다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#plan-3">Plan</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#기존의-plan과-바뀐-plan">기존의 plan과 바뀐 plan</a></li>
+<li class="toc-entry toc-h5"><a href="#책임을-다-넘긴-후에는-문제-발생시-2가지를-나눠서-볼-수-있다올인된-책임으로-잘개-쪼개기-srp">책임을 다 넘긴 후에는, 문제 발생시 2가지를 나눠서 볼 수 있다.(올인된 책임으로 잘개 쪼개기 SRP)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><ul>
+  <li>참고 유튜브 : https://www.youtube.com/watch?v=navJTjZlUGk</li>
+  <li>정리본: https://github.com/LenKIM/object-book</li>
+  <li>코드: https://github.com/eternity-oop/object</li>
+  <li>책(목차) : https://wikibook.co.kr/object/</li>
+</ul>
+
+<h2 id="상속과-확장11장">
+<a class="anchor" href="#%EC%83%81%EC%86%8D%EA%B3%BC-%ED%99%95%EC%9E%A511%EC%9E%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>상속과 확장(11장)</h2>
+
+<ul>
+  <li>11장에 대한 코드의 변형이 많을 것이다.
+    <ul>
+      <li>코드가 많이 나올 것이다.</li>
+    </ul>
+  </li>
+  <li>11장의 앞부분은 <code class="language-plaintext highlighter-rouge">solid원칙</code> or <code class="language-plaintext highlighter-rouge">solid원칙 확장</code> 이야기
+    <ul>
+      <li>객체지향을 위한 억지스런 코드들도 등장함</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="point-of-point">
+<a class="anchor" href="#point-of-point" aria-hidden="true"><span class="octicon octicon-link"></span></a>point of point</h3>
+
+<ul>
+  <li>11장부터 끝까지 후반부
+    <ul>
+      <li>실제 JVM, c++컴파일러가 어떤 형식으로 실제 컴파일 결과를 만들어내는지</li>
+      <li>그 시스템을 우리가 어떻게 이용해서 객체지향을 구현하는지</li>
+      <li>주 기법은 <code class="language-plaintext highlighter-rouge">포인터의 포인터 = 레이지 바인딩</code> <strong>직접 그 대상을 알지 않고, 그 대상을 알고 있는 놈을 알고 있어서</strong> 물어봐서 알기</li>
+    </ul>
+  </li>
+  <li>메모리에 올라갈 때는 linked list 그 이상도 그 이하도 아니다.
+    <ul>
+      <li>인터페이스 - 추상클래스 - 구상클래스 - 메서드로 찾아들어간다는 것
+        <ul>
+          <li>찾는 메소드가 얘한테 없으면 쟤, 쟤한테 없으면 얘 등 찾아들어가는 linked list다</li>
+        </ul>
+      </li>
+      <li>우리가 개발할 때는, <strong>사람들이 이해할 수 있는 블럭들을 줘야한다.(linked list로 일렬로 연결하면 안됨)</strong>
+        <ul>
+          <li>객체지향적으로 사고할 수 있는 <strong>공통적인 사고의블럭(틀)</strong>을 먼저 줘야, 그 안에서 블록을 이용해 자유롭게 구현이 가능해진다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="상속inherit">
+<a class="anchor" href="#%EC%83%81%EC%86%8Dinherit" aria-hidden="true"><span class="octicon octicon-link"></span></a>상속(inherit)</h3>
+
+<ul>
+  <li>유산을 물려 받는 것</li>
+  <li>상속은 <strong>이미 사망한 사람한테만</strong>받을 수 있다.
+    <ul>
+      <li><strong>객체지향에서 상속이라는 말이 어울리지 않는 이유</strong></li>
+      <li>살아있는데 물려주는 경우 = 증여</li>
+    </ul>
+  </li>
+  <li><strong>상속했다? = 유산은 가지고 있지만, 망자와는 교감을 할 수 없다</strong></li>
+</ul>
+
+<h4 id="증여bestowal">
+<a class="anchor" href="#%EC%A6%9D%EC%97%ACbestowal" aria-hidden="true"><span class="octicon octicon-link"></span></a>증여(bestowal)</h4>
+
+<ul>
+  <li>증여 <strong>해준 쪽과 외적(» 내적) 상호작용</strong>할 수 있다.
+    <ul>
+      <li>상속과 증여는 모두 40% 세금을 뗀다
+        <ul>
+          <li>증여가 아까울 것 같지만, 아파트의 경우, 가격이 오른다고 가정해서 아들이름으로 증여후 사면 40% 세금은 아무것도 아니다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>증여받고도 괴롭히면 싫다.</strong>
+    <ul>
+      <li>오피스텔 물려줬는데, 또 와서 용돈달라고 하는 자식.. 증여한 것으로 먹고 살아야하는데…</li>
+    </ul>
+  </li>
+  <li>
+<strong>재산 외적으로 교감은 환영</strong>한다
+    <ul>
+      <li>자식이 놀러가자고 하면 좋다. 근데… 위에처럼 증여해줬는데도 내적으로 상호작용하면 싫다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="확장extend">
+<a class="anchor" href="#%ED%99%95%EC%9E%A5extend" aria-hidden="true"><span class="octicon octicon-link"></span></a>확장(extend)</h3>
+
+<ul>
+  <li>
+    <p>원래 A가 있었는데, <strong>상속받은게 아니라 <code class="language-plaintext highlighter-rouge">덧붙여야 확장</code>이다</strong></p>
+
+    <ul>
+      <li>프로그래밍에선 확장이 extend 외에 + overriding, overloading도 있다.</li>
+      <li>확장 :  <code class="language-plaintext highlighter-rouge">덧붙이기</code>외에 뜯어내기 등 <code class="language-plaintext highlighter-rouge">구조변경</code>, <code class="language-plaintext highlighter-rouge">용도변경</code> 등을 다 포함한 단어</li>
+    </ul>
+  </li>
+  <li>
+    <p>프로그램 짤 때, 자동차에 날개를 달면 안된다. 확장수준이 아니다.</p>
+    <ul>
+      <li>처음부터 따로 작성되어야한다. 이게 힘들다. <strong>어느 순간 따로 만들어야겠어가 나와야한다. 이 판단을 할 줄 알아야함</strong>
+</li>
+      <li><strong>확장은 점진적인 변화만 인정해준다</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="유산을-물려받지-말-것">
+<a class="anchor" href="#%EC%9C%A0%EC%82%B0%EC%9D%84-%EB%AC%BC%EB%A0%A4%EB%B0%9B%EC%A7%80-%EB%A7%90-%EA%B2%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>유산을 물려받지 말 것</h4>
+
+<ul>
+  <li>
+<strong>점진적인 변화만 인정한다. 부모로부터 물려받지 마라</strong>
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">오버라이드 하지말라</code>는 뜻이다.</strong></li>
+      <li>
+<strong>물려받을 수 있는 <code class="language-plaintext highlighter-rouge">유산</code> 2가지</strong>
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">프로텍티드 하지말라</code>는 뜻이다.</strong></li>
+          <li><strong><code class="language-plaintext highlighter-rouge">super 쓰지말라</code>는 뜻이다</strong></li>
+          <li>public은 논외다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="대리역할을-하지-말-것">
+<a class="anchor" href="#%EB%8C%80%EB%A6%AC%EC%97%AD%ED%95%A0%EC%9D%84-%ED%95%98%EC%A7%80-%EB%A7%90-%EA%B2%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>대리역할을 하지 말 것</h4>
+
+<ul>
+  <li>Type만, 한 카테고리에 있음만 나타내면 된다.</li>
+</ul>
+
+<h4 id="오히려-확장하는-쪽이-부분-책임만-질-것---가장-이상적인-extends관계---점진적이면서-부수적인-주인공이-아닌-놈이-되어야함">
+<a class="anchor" href="#%EC%98%A4%ED%9E%88%EB%A0%A4-%ED%99%95%EC%9E%A5%ED%95%98%EB%8A%94-%EC%AA%BD%EC%9D%B4-%EB%B6%80%EB%B6%84-%EC%B1%85%EC%9E%84%EB%A7%8C-%EC%A7%88-%EA%B2%83---%EA%B0%80%EC%9E%A5-%EC%9D%B4%EC%83%81%EC%A0%81%EC%9D%B8-extends%EA%B4%80%EA%B3%84---%EC%A0%90%EC%A7%84%EC%A0%81%EC%9D%B4%EB%A9%B4%EC%84%9C-%EB%B6%80%EC%88%98%EC%A0%81%EC%9D%B8-%EC%A3%BC%EC%9D%B8%EA%B3%B5%EC%9D%B4-%EC%95%84%EB%8B%8C-%EB%86%88%EC%9D%B4-%EB%90%98%EC%96%B4%EC%95%BC%ED%95%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>오히려 확장하는 쪽이 부분 책임만 질 것 -&gt; 가장 이상적인 extends관계 -&gt; 점진적이면서 부수적인 주인공이 아닌 놈이 되어야함</h4>
+
+<ul>
+  <li>수동적인 관계처럼 보이지만, <strong>원래 그놈이 모든 일을 다하고, 확장하는 쪽은 딱 1가지 일만 하도록</strong>한다</li>
+  <li>
+<strong>객체지향에서 확장된 쪽은 굉장히 부수적인 책임만 가져야한다</strong>
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">점진적 + 부수적이어야한다. 주인공이면 안된다.</code></strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="2가지-나쁜확장">
+<a class="anchor" href="#2%EA%B0%80%EC%A7%80-%EB%82%98%EC%81%9C%ED%99%95%EC%9E%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>2가지 나쁜확장</h3>
+
+<h4 id="나쁜-확장-1-생성자-기능super는-나쁘다">
+<a class="anchor" href="#%EB%82%98%EC%81%9C-%ED%99%95%EC%9E%A5-1-%EC%83%9D%EC%84%B1%EC%9E%90-%EA%B8%B0%EB%8A%A5super%EB%8A%94-%EB%82%98%EC%81%98%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>나쁜 확장 1: (생성자, 기능)super는 나쁘다.</h4>
+
+<ul>
+  <li>super는 다 나쁘다
+    <ul>
+      <li>super의 구체적인 작동
+        <ul>
+          <li>생성자: 생성자 체인으로 <code class="language-plaintext highlighter-rouge">바로 super</code>를 사용</li>
+          <li>나머지: <code class="language-plaintext highlighter-rouge">super.</code>으로 사용  -&gt; 부모의 메서드를 부르는 것</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="약간만-보태면-될-것-같아서">
+<a class="anchor" href="#%EC%95%BD%EA%B0%84%EB%A7%8C-%EB%B3%B4%ED%83%9C%EB%A9%B4-%EB%90%A0-%EA%B2%83-%EA%B0%99%EC%95%84%EC%84%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>약간만 보태면 될 것 같아서…</h5>
+
+<ol>
+  <li>
+    <p>result를 해결하기 위해 base라는 클래스를 만들었다.
+ <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220412204200433.png" alt="image-20220412204200433"></p>
+  </li>
+  <li>
+    <p>result2라는 문제를 다음날 받았는데, 어제만든 base에서 <strong>약간만 보태면 될 것 같다 -&gt; extends</strong></p>
+
+    <ul>
+      <li><strong>문제점: result2를 result의 부분집합으로 판단했다</strong></li>
+      <li>문제점2: <strong>result를 불변한다고 본 것</strong>
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220412204220761.png" alt="image-20220412204220761"></p>
+
+    <ul>
+      <li>**어떤 문제의 부분집합문제라고 봤던 result는, 현실에서 불변이 아닐 수 있다. **</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220412204347756.png" alt="image-20220412204347756"></p>
+
+    <ul>
+      <li>문제가 변했다고 base를 바꾸려할 것이다…</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220412204421999.png" alt="image-20220412204421999"></p>
+
+    <ul>
+      <li>이 순간 result2는 base가 달려저서 더이상 문제해결이 안된다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220412204512039.png" alt="image-20220412204512039"></p>
+  </li>
+</ol>
+
+<h5 id="super를-쓰면-반드시-망가진다-기존-문제는-불변이-아니다---확장을-부분집합형으로-해결하는-방법은-다-망가지게-되어있다-약간만-보태서-확장하면-해결될-것-같은-사고방식은-망가진다---점진적원래-역할외-부수적인-역할만-해야한다">
+<a class="anchor" href="#super%EB%A5%BC-%EC%93%B0%EB%A9%B4-%EB%B0%98%EB%93%9C%EC%8B%9C-%EB%A7%9D%EA%B0%80%EC%A7%84%EB%8B%A4-%EA%B8%B0%EC%A1%B4-%EB%AC%B8%EC%A0%9C%EB%8A%94-%EB%B6%88%EB%B3%80%EC%9D%B4-%EC%95%84%EB%8B%88%EB%8B%A4---%ED%99%95%EC%9E%A5%EC%9D%84-%EB%B6%80%EB%B6%84%EC%A7%91%ED%95%A9%ED%98%95%EC%9C%BC%EB%A1%9C-%ED%95%B4%EA%B2%B0%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95%EC%9D%80-%EB%8B%A4-%EB%A7%9D%EA%B0%80%EC%A7%80%EA%B2%8C-%EB%90%98%EC%96%B4%EC%9E%88%EB%8B%A4-%EC%95%BD%EA%B0%84%EB%A7%8C-%EB%B3%B4%ED%83%9C%EC%84%9C-%ED%99%95%EC%9E%A5%ED%95%98%EB%A9%B4-%ED%95%B4%EA%B2%B0%EB%90%A0-%EA%B2%83-%EA%B0%99%EC%9D%80-%EC%82%AC%EA%B3%A0%EB%B0%A9%EC%8B%9D%EC%9D%80-%EB%A7%9D%EA%B0%80%EC%A7%84%EB%8B%A4---%EC%A0%90%EC%A7%84%EC%A0%81%EC%9B%90%EB%9E%98-%EC%97%AD%ED%95%A0%EC%99%B8-%EB%B6%80%EC%88%98%EC%A0%81%EC%9D%B8-%EC%97%AD%ED%95%A0%EB%A7%8C-%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>super를 쓰면 반드시 망가진다. 기존 문제는 불변이 아니다. -&gt; 확장을 부분집합형으로 해결하는 방법은 다 망가지게 되어있다. (약간만 보태서 확장하면 해결될 것 같은 사고방식은 망가진다) -&gt; 점진적+원래 역할외 부수적인 역할만 해야한다.</h5>
+
+<h4 id="나쁜-확장-2-기능-메서드override는-나쁘다">
+<a class="anchor" href="#%EB%82%98%EC%81%9C-%ED%99%95%EC%9E%A5-2-%EA%B8%B0%EB%8A%A5-%EB%A9%94%EC%84%9C%EB%93%9Coverride%EB%8A%94-%EB%82%98%EC%81%98%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>나쁜 확장 2: (기능, 메서드)override는 나쁘다</h4>
+
+<ul>
+  <li>미묘해서? 나쁘다.
+    <ul>
+      <li>내가  여보를 사랑해</li>
+      <li>나의 자식이 여보를 사랑해??
+        <ul>
+          <li>깔려있는 어마무시한 context를 알고 있기 때문에</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p>base의 기능호출 -&gt; 동그라미 모양(=Type ex&gt; integer)으로 나온다.</p>
+
+    <ul>
+      <li>
+        <p><strong>객체지향은</strong> Type으로 말을 하므로 <strong>작동결과를 Type으로 알 수 있다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220412204941903.png" alt="image-20220412204941903"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>base를 <strong>@Override</strong>하면, 응답값 = Type = <strong>나오는 모양은 같다.</strong></p>
+
+    <ul>
+      <li><strong>오버라이딩하면, 네모 모양으로 나오지 않을 것이란 것을 안다</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220412205133622.png" alt="image-20220412205133622"></p>
+
+    <ul>
+      <li>동그라미형으로 Return될 것이다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220412205206277.png" alt="image-20220412205206277"></p>
+
+    <ul>
+      <li>
+<strong>개발자들은 여기서, <code class="language-plaintext highlighter-rouge">나는 오버라이딩해서 부모의 context를 유지할 수 있을 것이라고 생각</code>한다.</strong>
+        <ul>
+          <li>부모의 응답Type을 보고서, 나도 오버라이딩한 다음 응답Type만 맞춰주면 될 것이라고 생각한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Type모양, 카테고리만 맞춰준다고 해서, 부모의 context를 다 충족한 하며 + 추가 확장기능이 생긴다고 말할 수 있을가?</strong></p>
+
+    <ul>
+      <li>예를 들어, 과목 전체 평균을 내주는 base에 대해, override이후 과목 전체 평균 + 과목별 평균도 내어주도록 확장했다?
+        <ul>
+          <li><strong>base는 보안성 때문에 일부러 과목별 평균 안내고 있던 상태인데?</strong></li>
+          <li><strong>base의 최종 Type만 override한다고해서, <code class="language-plaintext highlighter-rouge">내부 context와 다른 것들과의 관계</code>를 다 알수도, 재현할 수도 없기 때문에 <code class="language-plaintext highlighter-rouge">override</code>를 쓰면 안된다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h5 id="바보가-아니므로-부모응답type을-맞춰줄-순-있지만-내부-사정--외부여파의-context를-정말-다-파악해서-같은-context를-유지할-수-있을까-못한다---오버라이드가-성공하는-경우는-없다---어느-모듈은-나혼자가-아니라-내-내부--외부-관계된-context들로-정의되기-때문에---extend는-override하지말고-써라">
+<a class="anchor" href="#%EB%B0%94%EB%B3%B4%EA%B0%80-%EC%95%84%EB%8B%88%EB%AF%80%EB%A1%9C-%EB%B6%80%EB%AA%A8%EC%9D%91%EB%8B%B5type%EC%9D%84-%EB%A7%9E%EC%B6%B0%EC%A4%84-%EC%88%9C-%EC%9E%88%EC%A7%80%EB%A7%8C-%EB%82%B4%EB%B6%80-%EC%82%AC%EC%A0%95--%EC%99%B8%EB%B6%80%EC%97%AC%ED%8C%8C%EC%9D%98-context%EB%A5%BC-%EC%A0%95%EB%A7%90-%EB%8B%A4-%ED%8C%8C%EC%95%85%ED%95%B4%EC%84%9C-%EA%B0%99%EC%9D%80-context%EB%A5%BC-%EC%9C%A0%EC%A7%80%ED%95%A0-%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C-%EB%AA%BB%ED%95%9C%EB%8B%A4---%EC%98%A4%EB%B2%84%EB%9D%BC%EC%9D%B4%EB%93%9C%EA%B0%80-%EC%84%B1%EA%B3%B5%ED%95%98%EB%8A%94-%EA%B2%BD%EC%9A%B0%EB%8A%94-%EC%97%86%EB%8B%A4---%EC%96%B4%EB%8A%90-%EB%AA%A8%EB%93%88%EC%9D%80-%EB%82%98%ED%98%BC%EC%9E%90%EA%B0%80-%EC%95%84%EB%8B%88%EB%9D%BC-%EB%82%B4-%EB%82%B4%EB%B6%80--%EC%99%B8%EB%B6%80-%EA%B4%80%EA%B3%84%EB%90%9C-context%EB%93%A4%EB%A1%9C-%EC%A0%95%EC%9D%98%EB%90%98%EA%B8%B0-%EB%95%8C%EB%AC%B8%EC%97%90---extend%EB%8A%94-override%ED%95%98%EC%A7%80%EB%A7%90%EA%B3%A0-%EC%8D%A8%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>바보가 아니므로 부모(응답)Type을 맞춰줄 순 있지만, 내부 사정 + 외부여파의 context를 정말 다 파악해서, 같은 context를 유지할 수 있을까? 못한다 -&gt; 오버라이드가 성공하는 경우는 없다 -&gt; 어느 모듈은 나혼자가 아니라 내 내부 + 외부 관계된 context들로 정의되기 때문에 -&gt; extend는 override하지말고 써라</h5>
+
+<h3 id="좋은-확장">
+<a class="anchor" href="#%EC%A2%8B%EC%9D%80-%ED%99%95%EC%9E%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>좋은 확장</h3>
+
+<h4 id="조건1-super-대신-부모생성자는-인자받지x--부모메서드는-final-private-abstract-protected를-써라">
+<a class="anchor" href="#%EC%A1%B0%EA%B1%B41-super-%EB%8C%80%EC%8B%A0-%EB%B6%80%EB%AA%A8%EC%83%9D%EC%84%B1%EC%9E%90%EB%8A%94-%EC%9D%B8%EC%9E%90%EB%B0%9B%EC%A7%80x--%EB%B6%80%EB%AA%A8%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-final-private-abstract-protected%EB%A5%BC-%EC%8D%A8%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>조건1: super 대신 <code class="language-plaintext highlighter-rouge">부모생성자는 인자받지X</code> + <code class="language-plaintext highlighter-rouge">부모메서드는 final, private, abstract protected</code>를 써라</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220412210602281.png" alt="image-20220412210602281"></p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">final, private</code>으로 자식이 못쓰게 하거나</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">abstract면서 protecetd</code>으로 자식이 쓰되 <strong>부모는 동작X -&gt; 기능X -&gt; context X</strong>면서 Type만 정해준다
+    <ul>
+      <li>super function 사용X</li>
+      <li>super Type만 사용됨.</li>
+    </ul>
+  </li>
+  <li>super는 메서드외에 부모생성자 호출로도 사용되는데
+    <ul>
+      <li><strong>부모생성자가 인자를 안받으면, 자식은 호출할 일이 없어진다고 한다.</strong></li>
+    </ul>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">인터페이스</code>는 이 조건1의 2가지를 강제한다</strong>
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">추클</code>을 쓸 뗀, 이 2가지 제약을 걸어주자.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="조건2-부모-메서드에-3가지">
+<a class="anchor" href="#%EC%A1%B0%EA%B1%B42-%EB%B6%80%EB%AA%A8-%EB%A9%94%EC%84%9C%EB%93%9C%EC%97%90-3%EA%B0%80%EC%A7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>조건2: 부모 메서드에 3가지</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220412210607561.png" alt="image-20220412210607561"></p>
+
+<ul>
+  <li>조건1에서 메서드에 걸어둔 3가지를 고수하면, 오버라이드를 할 수도 없다.</li>
+</ul>
+
+<h4 id="부모메서드에-final--private--abstractprotected-3가지를-외우자-모던랭귀지코틀린는-내장하고-있다">
+<a class="anchor" href="#%EB%B6%80%EB%AA%A8%EB%A9%94%EC%84%9C%EB%93%9C%EC%97%90-final--private--abstractprotected-3%EA%B0%80%EC%A7%80%EB%A5%BC-%EC%99%B8%EC%9A%B0%EC%9E%90-%EB%AA%A8%EB%8D%98%EB%9E%AD%EA%B7%80%EC%A7%80%EC%BD%94%ED%8B%80%EB%A6%B0%EB%8A%94-%EB%82%B4%EC%9E%A5%ED%95%98%EA%B3%A0-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a><code class="language-plaintext highlighter-rouge">부모메서드에 final + private + abstractprotected</code> 3가지를 외우자. 모던랭귀지(코틀린)는 내장하고 있다.</h4>
+
+<h5 id="우리가-상속을-사용하려면-부모메서드가-final-or-private-or-abstract-protected로-만들고-생성자는-인자를-받지마라---만약-지킬수-없는-상황이라면---이때서야-상속을-포기하고-합성해라---지킬-수-있다면-상속을-많이-써도-된다">
+<a class="anchor" href="#%EC%9A%B0%EB%A6%AC%EA%B0%80-%EC%83%81%EC%86%8D%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EB%A0%A4%EB%A9%B4-%EB%B6%80%EB%AA%A8%EB%A9%94%EC%84%9C%EB%93%9C%EA%B0%80-final-or-private-or-abstract-protected%EB%A1%9C-%EB%A7%8C%EB%93%A4%EA%B3%A0-%EC%83%9D%EC%84%B1%EC%9E%90%EB%8A%94-%EC%9D%B8%EC%9E%90%EB%A5%BC-%EB%B0%9B%EC%A7%80%EB%A7%88%EB%9D%BC---%EB%A7%8C%EC%95%BD-%EC%A7%80%ED%82%AC%EC%88%98-%EC%97%86%EB%8A%94-%EC%83%81%ED%99%A9%EC%9D%B4%EB%9D%BC%EB%A9%B4---%EC%9D%B4%EB%95%8C%EC%84%9C%EC%95%BC-%EC%83%81%EC%86%8D%EC%9D%84-%ED%8F%AC%EA%B8%B0%ED%95%98%EA%B3%A0-%ED%95%A9%EC%84%B1%ED%95%B4%EB%9D%BC---%EC%A7%80%ED%82%AC-%EC%88%98-%EC%9E%88%EB%8B%A4%EB%A9%B4-%EC%83%81%EC%86%8D%EC%9D%84-%EB%A7%8E%EC%9D%B4-%EC%8D%A8%EB%8F%84-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>우리가 상속을 사용하려면, 부모메서드가 final or private or abstract protected로 만들고, 생성자는 인자를 받지마라 -&gt; 만약 지킬수 없는 상황이라면? -&gt; 이때서야 상속을 포기하고, 합성해라 -&gt; 지킬 수 있다면 상속을 많이 써도 된다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220412211115221.png" alt="image-20220412211115221"></p>
+
+<h5 id="상속을-쓰면-저번-수업-마지막-템플릿메서드vs전략패턴의-차이---상속을-쓰면-클래스조합폭팔은-피해갈-수-없다----피하기-위해서는-has-a모델--합성으로-바꿔야한다---합성은-끝없는-확장을-위해-열어두는-방법이다-대충-상속--3가지-처리만-해주자">
+<a class="anchor" href="#%EC%83%81%EC%86%8D%EC%9D%84-%EC%93%B0%EB%A9%B4-%EC%A0%80%EB%B2%88-%EC%88%98%EC%97%85-%EB%A7%88%EC%A7%80%EB%A7%89-%ED%85%9C%ED%94%8C%EB%A6%BF%EB%A9%94%EC%84%9C%EB%93%9Cvs%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%9D%98-%EC%B0%A8%EC%9D%B4---%EC%83%81%EC%86%8D%EC%9D%84-%EC%93%B0%EB%A9%B4-%ED%81%B4%EB%9E%98%EC%8A%A4%EC%A1%B0%ED%95%A9%ED%8F%AD%ED%8C%94%EC%9D%80-%ED%94%BC%ED%95%B4%EA%B0%88-%EC%88%98-%EC%97%86%EB%8B%A4----%ED%94%BC%ED%95%98%EA%B8%B0-%EC%9C%84%ED%95%B4%EC%84%9C%EB%8A%94-has-a%EB%AA%A8%EB%8D%B8--%ED%95%A9%EC%84%B1%EC%9C%BC%EB%A1%9C-%EB%B0%94%EA%BF%94%EC%95%BC%ED%95%9C%EB%8B%A4---%ED%95%A9%EC%84%B1%EC%9D%80-%EB%81%9D%EC%97%86%EB%8A%94-%ED%99%95%EC%9E%A5%EC%9D%84-%EC%9C%84%ED%95%B4-%EC%97%B4%EC%96%B4%EB%91%90%EB%8A%94-%EB%B0%A9%EB%B2%95%EC%9D%B4%EB%8B%A4-%EB%8C%80%EC%B6%A9-%EC%83%81%EC%86%8D--3%EA%B0%80%EC%A7%80-%EC%B2%98%EB%A6%AC%EB%A7%8C-%ED%95%B4%EC%A3%BC%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>상속을 쓰면, 저번 수업 마지막 템플릿메서드vs전략패턴의 차이 -&gt; 상속을 쓰면, 클래스조합폭팔은 피해갈 수 없다.  -&gt; 피하기 위해서는 has-a모델 = 합성으로 바꿔야한다. -&gt; 합성은 끝없는 확장을 위해 열어두는 방법이다. 대충 상속 + 3가지 처리만 해주자.</h5>
+
+<h2 id="코드로-좋은-확장-보기">
+<a class="anchor" href="#%EC%BD%94%EB%93%9C%EB%A1%9C-%EC%A2%8B%EC%9D%80-%ED%99%95%EC%9E%A5-%EB%B3%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>코드로 좋은 확장 보기</h2>
+
+<h3 id="plan">
+<a class="anchor" href="#plan" aria-hidden="true"><span class="octicon octicon-link"></span></a>Plan</h3>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220412211805689.png" alt="image-20220412211805689"></p>
+
+<ul>
+  <li>
+    <p>부모가 <strong>자식용으로 열어줄 메서드는 <code class="language-plaintext highlighter-rouge">abstract proected</code>를 만들어야하므로 <code class="language-plaintext highlighter-rouge">부모클래스는 abstract class</code>만 가능하다.</strong></p>
+
+    <ul>
+      <li>3가지 조건(final, private, abstract protected) 중에 마지막 조건인  <code class="language-plaintext highlighter-rouge">abstract protecetd</code>를 쓰려면, <strong>부모클래스는 abstract class일 수 밖에 없다.</strong>
+        <ul>
+          <li><strong>final, private만으로도 해결가능하면 abstract클래스 아니여도 된다.</strong></li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220412212108947.png" alt="image-20220412212108947">
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220412212113050.png" alt="image-20220412212113050"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">plan</code>이라는 요금제도 안에서   <code class="language-plaintext highlighter-rouge">call</code>을 <strong>생성자가 아니라 <code class="language-plaintext highlighter-rouge">final 메서드</code>로 받도록 병합시키도록 하고 있다.</strong></p>
+
+    <ul>
+      <li>
+        <p>부모클래스는 생성자로 인자를 받으면 안된다. -&gt; <strong>따로 final, private 메서드를 파서 받아라</strong></p>
+
+        <ul>
+          <li>plan에서 생성자로 받으면 더이상 상속구조를 못만들고 끝난다고 생각해야한다. <strong>생성자가 인자가 없으면 그래도 괜찮다. 하지만, 인자를 받는 생성자인 순간 상속구조를 못쓴다고 생각하자.</strong>
+</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220412212347679.png" alt="image-20220412212347679"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">calculateFee()</code>라는 메서드는 <strong><code class="language-plaintext highlighter-rouge">바깥쪽에 템플릿 메서드</code>로 제공하고</strong> <strong><code class="language-plaintext highlighter-rouge">내부에서 같은이름으로 자식이 개별 구현할 abstract protecetd추클을 사용함</code>으로써  (여러)자식이 부모를 쓰는게 아니라 부모가 자식을 알고 쓰는 구조</strong>가 된다.</p>
+
+    <ul>
+      <li><strong>my) <code class="language-plaintext highlighter-rouge">템메패턴을 쓰면, 자연스럽게 의존성이 역전된 좋은 상속</code>이 된다.</strong></li>
+      <li>
+        <p><strong>자식들은 내부에서 <code class="language-plaintext highlighter-rouge">전체 calls가 아니라 개별 call별로 작은 역할로서 수행</code>해주는 부분적인 역할만 가져 내려간다</strong></p>
+      </li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">확장에서는 상속받는 자식들은 작은역할만 하도록 계산하도록 해줘야한다. 되독이면 쪼여야한다.</code></strong>
+        <ul>
+          <li>확장시 최소한으로 줄여서 시켜라</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>속성은 다 <code class="language-plaintext highlighter-rouge">private</code></strong> 메서드는 final + abstract protecetd + 인자받는 생성자 안 존재함.</p>
+  </li>
+</ul>
+
+<h3 id="pricepertime-extends-plan">
+<a class="anchor" href="#pricepertime-extends-plan" aria-hidden="true"><span class="octicon octicon-link"></span></a>PricePerTime (extends Plan)</h3>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220413141031290.png" alt="image-20220413141031290"></p>
+
+<ul>
+  <li>정책을 확장하여 <strong>일정 시간별로 금액을 부여하는 정책</strong>
+    <ul>
+      <li>인자로 얼마를 부여할지, 몇초마다 부여할지를 입력받는다
+        <ul>
+          <li>예, 1분에 18원</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>본인의 상태만 관리한다.</strong>
+    <ul>
+      <li><strong>부모가 인자받는 생성자가 없기 때문에 -&gt; 좋은확장으로서 super에 대한 의존성이 없다</strong></li>
+      <li>자기자신의 상태외에는 관리하고 있찌 않다</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>상속받은 메서드는 (abstract protected) 템플릿 &amp; 추클 메서드라서 -&gt; super.에 대한 의존성이 전혀 없다</strong></p>
+  </li>
+  <li>즉, 자신의 필드관리만관리(no super) + 추클구현으로 넘어오는 인자1개만 결합한 메서드만 있어서, 상속써도 사고가 안난다</li>
+</ul>
+
+<h4 id="좋은-확장의-자식메서드-판별법-override-protected인지-확인하여----부모의-템메--abstract-protected-메서드를-구현했는지-확인한다">
+<a class="anchor" href="#%EC%A2%8B%EC%9D%80-%ED%99%95%EC%9E%A5%EC%9D%98-%EC%9E%90%EC%8B%9D%EB%A9%94%EC%84%9C%EB%93%9C-%ED%8C%90%EB%B3%84%EB%B2%95-override-protected%EC%9D%B8%EC%A7%80-%ED%99%95%EC%9D%B8%ED%95%98%EC%97%AC----%EB%B6%80%EB%AA%A8%EC%9D%98-%ED%85%9C%EB%A9%94--abstract-protected-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EA%B5%AC%ED%98%84%ED%96%88%EB%8A%94%EC%A7%80-%ED%99%95%EC%9D%B8%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>좋은 확장의 자식메서드 판별법: <code class="language-plaintext highlighter-rouge">@Override protected</code>인지 확인하여 -&gt;  부모의 <code class="language-plaintext highlighter-rouge">템메 + abstract protected</code> 메서드를 구현했는지 확인한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220413141019227.png" alt="image-20220413141019227"></p>
+
+<h5 id="override-protected에-실패했다면---상속패턴을-쓰면-안된다">
+<a class="anchor" href="#override-protected%EC%97%90-%EC%8B%A4%ED%8C%A8%ED%96%88%EB%8B%A4%EB%A9%B4---%EC%83%81%EC%86%8D%ED%8C%A8%ED%84%B4%EC%9D%84-%EC%93%B0%EB%A9%B4-%EC%95%88%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>@Override protected에 실패했다면 -&gt; 상속패턴을 쓰면 안된다.</strong>
+</h5>
+
+<h5 id="부모에서-private필드final-or-abstract-protected---자식에서-override-protected가-아닌-이상엔-확정버그라고-판단하면-된다">
+<a class="anchor" href="#%EB%B6%80%EB%AA%A8%EC%97%90%EC%84%9C-private%ED%95%84%EB%93%9Cfinal-or-abstract-protected---%EC%9E%90%EC%8B%9D%EC%97%90%EC%84%9C-override-protected%EA%B0%80-%EC%95%84%EB%8B%8C-%EC%9D%B4%EC%83%81%EC%97%94-%ED%99%95%EC%A0%95%EB%B2%84%EA%B7%B8%EB%9D%BC%EA%B3%A0-%ED%8C%90%EB%8B%A8%ED%95%98%EB%A9%B4-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>부모에서 private필드+final or abstract protected /  자식에서 @Override protected가 아닌 이상엔 확정버그라고 판단하면 된다.</h5>
+
+<ul>
+  <li>단위테스트도 필요없다.</li>
+</ul>
+
+<h3 id="nightdiscount-extends-plan">
+<a class="anchor" href="#nightdiscount-extends-plan" aria-hidden="true"><span class="octicon octicon-link"></span></a>NightDiscount (extends Plan)</h3>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220413141813273.png" alt="image-20220413141813273"></p>
+
+<ul>
+  <li>낮가격, 저녁가격, 몇초에 한번 부과할지를 받는데,
+    <ul>
+      <li>22 시간도 받아야하는데 하드코딩했음.</li>
+    </ul>
+  </li>
+  <li><strong>자기자신의 상태만 생성자로 받아서 관리한다</strong></li>
+  <li>
+<strong>하나의 콜에 대해 자신의상태 + 넘어온 call로만 계산함</strong>
+    <ul>
+      <li>부모의 의존성을 줄였다.</li>
+      <li><strong>할게 조금이니까 부모의 사정이 안궁금하다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="확장의-요령이자-상속의-경우의-수-자식이-조금만-참여하도록---부모가-대부분을-끌어안고-자식한테-쪼금만-위임할-수-있는-경우만-상속이-유리---그외에는-상속을-쓰면-안된다">
+<a class="anchor" href="#%ED%99%95%EC%9E%A5%EC%9D%98-%EC%9A%94%EB%A0%B9%EC%9D%B4%EC%9E%90-%EC%83%81%EC%86%8D%EC%9D%98-%EA%B2%BD%EC%9A%B0%EC%9D%98-%EC%88%98-%EC%9E%90%EC%8B%9D%EC%9D%B4-%EC%A1%B0%EA%B8%88%EB%A7%8C-%EC%B0%B8%EC%97%AC%ED%95%98%EB%8F%84%EB%A1%9D---%EB%B6%80%EB%AA%A8%EA%B0%80-%EB%8C%80%EB%B6%80%EB%B6%84%EC%9D%84-%EB%81%8C%EC%96%B4%EC%95%88%EA%B3%A0-%EC%9E%90%EC%8B%9D%ED%95%9C%ED%85%8C-%EC%AA%BC%EA%B8%88%EB%A7%8C-%EC%9C%84%EC%9E%84%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8A%94-%EA%B2%BD%EC%9A%B0%EB%A7%8C-%EC%83%81%EC%86%8D%EC%9D%B4-%EC%9C%A0%EB%A6%AC---%EA%B7%B8%EC%99%B8%EC%97%90%EB%8A%94-%EC%83%81%EC%86%8D%EC%9D%84-%EC%93%B0%EB%A9%B4-%EC%95%88%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>확장의 요령이자 상속의 경우의 수: 자식이 조금만 참여하도록 -&gt; 부모가 대부분을 끌어안고, 자식한테 쪼금만 위임할 수 있는 경우만 상속이 유리 -&gt; 그외에는 상속을 쓰면 안된다!!</h4>
+
+<ul>
+  <li><strong>차이가 굉장히 쪼금해서 자식별로 조금만 구현하고, 대부분은 부모가 먹는 경우에만 상속이 유리하다.</strong></li>
+</ul>
+
+<h4 id="나머지는-class를-쓰면-안된다-class에는-역할메서드이-들어가기-때문에---인터페이스를-쓰는-항목으로-바뀌니--이왕할거-구현체가-다-역할을-하도록-해야한다--즉-추클이-거의-다하고-일부만-자식에게-주던지--vs-아예-배째고-인터페이스-쓰든지">
+<a class="anchor" href="#%EB%82%98%EB%A8%B8%EC%A7%80%EB%8A%94-class%EB%A5%BC-%EC%93%B0%EB%A9%B4-%EC%95%88%EB%90%9C%EB%8B%A4-class%EC%97%90%EB%8A%94-%EC%97%AD%ED%95%A0%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%B4-%EB%93%A4%EC%96%B4%EA%B0%80%EA%B8%B0-%EB%95%8C%EB%AC%B8%EC%97%90---%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%A5%BC-%EC%93%B0%EB%8A%94-%ED%95%AD%EB%AA%A9%EC%9C%BC%EB%A1%9C-%EB%B0%94%EB%80%8C%EB%8B%88--%EC%9D%B4%EC%99%95%ED%95%A0%EA%B1%B0-%EA%B5%AC%ED%98%84%EC%B2%B4%EA%B0%80-%EB%8B%A4-%EC%97%AD%ED%95%A0%EC%9D%84-%ED%95%98%EB%8F%84%EB%A1%9D-%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4--%EC%A6%89-%EC%B6%94%ED%81%B4%EC%9D%B4-%EA%B1%B0%EC%9D%98-%EB%8B%A4%ED%95%98%EA%B3%A0-%EC%9D%BC%EB%B6%80%EB%A7%8C-%EC%9E%90%EC%8B%9D%EC%97%90%EA%B2%8C-%EC%A3%BC%EB%8D%98%EC%A7%80--vs-%EC%95%84%EC%98%88-%EB%B0%B0%EC%A7%B8%EA%B3%A0-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4-%EC%93%B0%EB%93%A0%EC%A7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>나머지는 class를 쓰면 안된다. class에는 역할(메서드)이 들어가기 때문에 -&gt; 인터페이스를 쓰는 항목으로 바뀌니  이왕할거 구현체가 다 역할을 하도록 해야한다.  즉, 추클이 거의 다하고 일부만 자식에게 주던지  vs 아예 배째고 인터페이스 쓰든지</h4>
+
+<ul>
+  <li>추클인데, 어중간하게 일하면서, 어중간하게 넘길 때 문제가 발생한다.
+    <ul>
+      <li><strong>다 넘긴다 -&gt; 인터페이스</strong></li>
+      <li><strong>안넘기고 조금만 준다 -&gt; 추클으로 상속</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="객체지향에서는-극단적으로-책임을-넘기만-우리는-그-책임을-열라게-잘게-쪼개서-안정적으로-만들어야한다">
+<a class="anchor" href="#%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%97%90%EC%84%9C%EB%8A%94-%EA%B7%B9%EB%8B%A8%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%B1%85%EC%9E%84%EC%9D%84-%EB%84%98%EA%B8%B0%EB%A7%8C-%EC%9A%B0%EB%A6%AC%EB%8A%94-%EA%B7%B8-%EC%B1%85%EC%9E%84%EC%9D%84-%EC%97%B4%EB%9D%BC%EA%B2%8C-%EC%9E%98%EA%B2%8C-%EC%AA%BC%EA%B0%9C%EC%84%9C-%EC%95%88%EC%A0%95%EC%A0%81%EC%9C%BC%EB%A1%9C-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>객체지향에서는 극단적으로 책임을 넘기만, 우리는 그 책임을 열라게 잘게 쪼개서 안정적으로 만들어야한다.</h5>
+
+<h2 id="합성">
+<a class="anchor" href="#%ED%95%A9%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>합성</h2>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">템플릿메서드</code>는 <strong>기계적</strong>으로 <strong>전략패턴의 전략객체</strong>로 만들 수 있으며, 그 방법이 <code class="language-plaintext highlighter-rouge">상속모델</code> -&gt; <strong>합성모델</strong>로 바꾸는 것과 마찬가지다</p>
+
+    <ul>
+      <li>
+        <p>판단은 <strong>조합폭팔이 일어날 것 같을 때 기계적으로 바꾸면 된다.</strong></p>
+      </li>
+      <li>
+        <p>연습은 <strong>상속이 보이면 조합으로 바꾸기(합성)</strong>를 해보면 된다.</p>
+
+        <ul>
+          <li>
+            <p>평소에 조합으로 바꾸는 연습을 많이 하자.</p>
+          </li>
+          <li>
+            <p>재귀함수를 for루프로 &lt;-&gt; for루프를 재귀함수로 맘대로 바꾸듯이 말이다.</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="코드로-좋은-확장상속---조합으로-변형해보기">
+<a class="anchor" href="#%EC%BD%94%EB%93%9C%EB%A1%9C-%EC%A2%8B%EC%9D%80-%ED%99%95%EC%9E%A5%EC%83%81%EC%86%8D---%EC%A1%B0%ED%95%A9%EC%9C%BC%EB%A1%9C-%EB%B3%80%ED%98%95%ED%95%B4%EB%B3%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>코드로 좋은 확장(상속) -&gt; 조합으로 변형해보기</h3>
+
+<h4 id="plan-1">
+<a class="anchor" href="#plan-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Plan</h4>
+
+<ul>
+  <li>
+    <p>기존: abstract class를 상속한 자식들은 템메 내부의 <code class="language-plaintext highlighter-rouge">calcCallFee(call)</code>의 작은 책임만 나눠가지도록 되어있었다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220413144020973.png" alt="image-20220413144020973"></p>
+  </li>
+  <li>
+    <p><strong>소유모델: <code class="language-plaintext highlighter-rouge">상속해서 자식들이 처리할 문제들을 전략객체가 처리</code>해줄 것이다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220413144230856.png" alt="image-20220413144230856"></p>
+  </li>
+</ul>
+
+<h5 id="부모-소유모델전략패턴-합성으로-바꾸면서-변하는-부분">
+<a class="anchor" href="#%EB%B6%80%EB%AA%A8-%EC%86%8C%EC%9C%A0%EB%AA%A8%EB%8D%B8%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4-%ED%95%A9%EC%84%B1%EC%9C%BC%EB%A1%9C-%EB%B0%94%EA%BE%B8%EB%A9%B4%EC%84%9C-%EB%B3%80%ED%95%98%EB%8A%94-%EB%B6%80%EB%B6%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>[부모] 소유모델=전략패턴, 합성으로 바꾸면서 변하는 부분</h5>
+
+<ul>
+  <li>abstract class -&gt; 그냥 <strong>normal class</strong>로 돌아간다</li>
+  <li>자식들로 위임되는 메서드 (abstract protected)의 역할 -&gt; <strong>선택되어 받아와, 소유하게 될 전략객체가 역할</strong>을 한다.</li>
+</ul>
+
+<h5 id="normal-class-vs-final-class-선택해야한다---상속대신-조합써놓고-상속가능하게-부모를-final-class가-아닌-normal-class로-열어두었다">
+<a class="anchor" href="#normal-class-vs-final-class-%EC%84%A0%ED%83%9D%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4---%EC%83%81%EC%86%8D%EB%8C%80%EC%8B%A0-%EC%A1%B0%ED%95%A9%EC%8D%A8%EB%86%93%EA%B3%A0-%EC%83%81%EC%86%8D%EA%B0%80%EB%8A%A5%ED%95%98%EA%B2%8C-%EB%B6%80%EB%AA%A8%EB%A5%BC-final-class%EA%B0%80-%EC%95%84%EB%8B%8C-normal-class%EB%A1%9C-%EC%97%B4%EC%96%B4%EB%91%90%EC%97%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>normal class vs final class 선택해야한다. -&gt; 상속대신 조합써놓고, 상속가능하게 부모를 final class가 아닌 normal class로 열어두었다?</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220413150009357.png" alt="image-20220413150009357"></p>
+
+<ul>
+  <li>
+<strong>상속(확장) 대신 합성을 적용한 상태지만, <code class="language-plaintext highlighter-rouge">final을 쓰지 않았다 -&gt; plan를 확장한 다양한plan을 만들 수 있게 상속을 허가</code>한 상태다.</strong>
+    <ul>
+      <li>
+<strong>미래의 이 class는 상속될 가능성이 있다.</strong>고 본 것이다 하지만 <strong>아까 말했던 좋은 상속 3가지 조건이 만족되고 있어야한다.</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h6 id="final을-안달았다--다양한-xxx로-확장될-상속가능성-extends-plan을-할-class생성-가능성을-열어두었다---좋은상속-3가지-조건이-지켜지고-있는지-확인해야한다---규칙-1개라도-못지키면-그냥-final을-class에-걸어야한다">
+<a class="anchor" href="#final%EC%9D%84-%EC%95%88%EB%8B%AC%EC%95%98%EB%8B%A4--%EB%8B%A4%EC%96%91%ED%95%9C-xxx%EB%A1%9C-%ED%99%95%EC%9E%A5%EB%90%A0-%EC%83%81%EC%86%8D%EA%B0%80%EB%8A%A5%EC%84%B1-extends-plan%EC%9D%84-%ED%95%A0-class%EC%83%9D%EC%84%B1-%EA%B0%80%EB%8A%A5%EC%84%B1%EC%9D%84-%EC%97%B4%EC%96%B4%EB%91%90%EC%97%88%EB%8B%A4---%EC%A2%8B%EC%9D%80%EC%83%81%EC%86%8D-3%EA%B0%80%EC%A7%80-%EC%A1%B0%EA%B1%B4%EC%9D%B4-%EC%A7%80%EC%BC%9C%EC%A7%80%EA%B3%A0-%EC%9E%88%EB%8A%94%EC%A7%80-%ED%99%95%EC%9D%B8%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4---%EA%B7%9C%EC%B9%99-1%EA%B0%9C%EB%9D%BC%EB%8F%84-%EB%AA%BB%EC%A7%80%ED%82%A4%EB%A9%B4-%EA%B7%B8%EB%83%A5-final%EC%9D%84-class%EC%97%90-%EA%B1%B8%EC%96%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>final을 안달았다 = 다양한 xxx로 확장될 상속가능성( extends Plan을 할 class생성 가능성)을 열어두었다 -&gt; 좋은상속 3가지 조건이 지켜지고 있는지 확인해야한다. -&gt; 규칙 1개라도 못지키면 그냥 final을 class에 걸어야한다.</h6>
+
+<ul>
+  <li>만약 좋은 상속의 3가지 조건인 <code class="language-plaintext highlighter-rouge">private + final + abstract protected</code> + 인자안받는 생성자의 조건이 <strong>안지켜지고 있다면, final로 막아야한다</strong>
+</li>
+</ul>
+
+<h6 id="얘는-normal-class인데-final걸지-않아도-된다-왜">
+<a class="anchor" href="#%EC%96%98%EB%8A%94-normal-class%EC%9D%B8%EB%8D%B0-final%EA%B1%B8%EC%A7%80-%EC%95%8A%EC%95%84%EB%8F%84-%EB%90%9C%EB%8B%A4-%EC%99%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>얘는 normal class인데 final걸지 않아도 된다? 왜?</h6>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220413150537554.png" alt="image-20220413150537554"></p>
+
+<ol>
+  <li><strong>부모에  (인자받는) 생성자가 없다</strong></li>
+  <li><strong>모든 필드, 메서드가 private, final을 만족하고 있다.</strong></li>
+  <li><strong>아니면 메서드는 abstract protected여야한다.</strong></li>
+</ol>
+
+<p><strong>final을 안달아줘도 되는, 다양한 확장가능한 클래스다.</strong></p>
+
+<h6 id="우리가-class에-final-안걸고-열어두는-것이-버릇인데-그럴려면-사실은-좋은확장-원칙3가지를-지킨-애들만-final-없이-열어-둘-수-있다">
+<a class="anchor" href="#%EC%9A%B0%EB%A6%AC%EA%B0%80-class%EC%97%90-final-%EC%95%88%EA%B1%B8%EA%B3%A0-%EC%97%B4%EC%96%B4%EB%91%90%EB%8A%94-%EA%B2%83%EC%9D%B4-%EB%B2%84%EB%A6%87%EC%9D%B8%EB%8D%B0-%EA%B7%B8%EB%9F%B4%EB%A0%A4%EB%A9%B4-%EC%82%AC%EC%8B%A4%EC%9D%80-%EC%A2%8B%EC%9D%80%ED%99%95%EC%9E%A5-%EC%9B%90%EC%B9%993%EA%B0%80%EC%A7%80%EB%A5%BC-%EC%A7%80%ED%82%A8-%EC%95%A0%EB%93%A4%EB%A7%8C-final-%EC%97%86%EC%9D%B4-%EC%97%B4%EC%96%B4-%EB%91%98-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>우리가 class에 final 안걸고 열어두는 것이 버릇인데, 그럴려면 사실은 좋은확장 원칙3가지를 지킨 애들만 final 없이 열어 둘 수 있다.</h6>
+
+<h6 id="우리가-짠-class들을-검토해서-좋은-확장-원칙을-안지키면-final을-걸어두자-기계적으로-걸어도-된다-에러의-원인은-그곳이다-상속확장됬는데-그-전-것의-context를-못지키거나-불변취급했는데-변해서-문제가-생긴다">
+<a class="anchor" href="#%EC%9A%B0%EB%A6%AC%EA%B0%80-%EC%A7%A0-class%EB%93%A4%EC%9D%84-%EA%B2%80%ED%86%A0%ED%95%B4%EC%84%9C-%EC%A2%8B%EC%9D%80-%ED%99%95%EC%9E%A5-%EC%9B%90%EC%B9%99%EC%9D%84-%EC%95%88%EC%A7%80%ED%82%A4%EB%A9%B4-final%EC%9D%84-%EA%B1%B8%EC%96%B4%EB%91%90%EC%9E%90-%EA%B8%B0%EA%B3%84%EC%A0%81%EC%9C%BC%EB%A1%9C-%EA%B1%B8%EC%96%B4%EB%8F%84-%EB%90%9C%EB%8B%A4-%EC%97%90%EB%9F%AC%EC%9D%98-%EC%9B%90%EC%9D%B8%EC%9D%80-%EA%B7%B8%EA%B3%B3%EC%9D%B4%EB%8B%A4-%EC%83%81%EC%86%8D%ED%99%95%EC%9E%A5%EB%90%AC%EB%8A%94%EB%8D%B0-%EA%B7%B8-%EC%A0%84-%EA%B2%83%EC%9D%98-context%EB%A5%BC-%EB%AA%BB%EC%A7%80%ED%82%A4%EA%B1%B0%EB%82%98-%EB%B6%88%EB%B3%80%EC%B7%A8%EA%B8%89%ED%96%88%EB%8A%94%EB%8D%B0-%EB%B3%80%ED%95%B4%EC%84%9C-%EB%AC%B8%EC%A0%9C%EA%B0%80-%EC%83%9D%EA%B8%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>우리가 짠 class들을 검토해서 좋은 확장 원칙을 안지키면 final을 걸어두자. 기계적으로 걸어도 된다. 에러의 원인은 그곳이다. 상속(확장)됬는데, 그 전 것의 context를 못지키거나 불변취급했는데 변해서 문제가 생긴다.</h6>
+
+<ul>
+  <li>
+    <p>Plan은 좋은상속의 조건/원칙을 만족시키는 클래스라서 열어둔 것이다.</p>
+  </li>
+  <li>
+    <p><strong>이제 상속없이, calc를 runtime시 주입만 해주면, 상속없이 알아서 처리된다.</strong></p>
+  </li>
+</ul>
+
+<h5 id="전략객체를-받는-인터페이스는-내부에-전메추클-1개가-type만-지정해주면-함수형인터페이스로서-완성된다">
+<a class="anchor" href="#%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%B0%9B%EB%8A%94-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%8A%94-%EB%82%B4%EB%B6%80%EC%97%90-%EC%A0%84%EB%A9%94%EC%B6%94%ED%81%B4-1%EA%B0%9C%EA%B0%80-type%EB%A7%8C-%EC%A7%80%EC%A0%95%ED%95%B4%EC%A3%BC%EB%A9%B4-%ED%95%A8%EC%88%98%ED%98%95%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%A1%9C%EC%84%9C-%EC%99%84%EC%84%B1%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>전략객체를 받는 인터페이스는 내부에 전메/추클 1개가 Type만 지정해주면, 함수형인터페이스로서 완성된다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220413151905647.png" alt="image-20220413151905647"></p>
+
+<h4 id="pricepertime-extends-plan----impl-전략인페">
+<a class="anchor" href="#pricepertime-extends-plan----impl-%EC%A0%84%EB%9E%B5%EC%9D%B8%ED%8E%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>pricePerTime (extends plan -&gt;  impl 전략인페)</h4>
+
+<h5 id="좋은상속의-자식은---구현체전략객체로-바꿀-때-변화가-거의-없다">
+<a class="anchor" href="#%EC%A2%8B%EC%9D%80%EC%83%81%EC%86%8D%EC%9D%98-%EC%9E%90%EC%8B%9D%EC%9D%80---%EA%B5%AC%ED%98%84%EC%B2%B4%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EB%A1%9C-%EB%B0%94%EA%BF%80-%EB%95%8C-%EB%B3%80%ED%99%94%EA%B0%80-%EA%B1%B0%EC%9D%98-%EC%97%86%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>좋은상속의 자식은 -&gt; 구현체(전략객체)로 바꿀 때 변화가 거의 없다</h5>
+
+<h6 id="좋은상속일-때--자식구현체-코드">
+<a class="anchor" href="#%EC%A2%8B%EC%9D%80%EC%83%81%EC%86%8D%EC%9D%BC-%EB%95%8C--%EC%9E%90%EC%8B%9D%EA%B5%AC%ED%98%84%EC%B2%B4-%EC%BD%94%EB%93%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>좋은상속일 때  자식(구현체) 코드</h6>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220413152150230.png" alt="image-20220413152150230"></p>
+
+<h6 id="전략패턴에서-전략객체구현체-코드">
+<a class="anchor" href="#%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%97%90%EC%84%9C-%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EA%B5%AC%ED%98%84%EC%B2%B4-%EC%BD%94%EB%93%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>전략패턴에서 전략객체(구현체) 코드</h6>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220413152307274.png" alt="image-20220413152307274"></p>
+
+<h5 id="자식-소유모델전략패턴-합성으로-바꾸면서-변하는-부분">
+<a class="anchor" href="#%EC%9E%90%EC%8B%9D-%EC%86%8C%EC%9C%A0%EB%AA%A8%EB%8D%B8%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4-%ED%95%A9%EC%84%B1%EC%9C%BC%EB%A1%9C-%EB%B0%94%EA%BE%B8%EB%A9%B4%EC%84%9C-%EB%B3%80%ED%95%98%EB%8A%94-%EB%B6%80%EB%B6%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>[자식] 소유모델=전략패턴, 합성으로 바꾸면서 변하는 부분</h5>
+
+<ul>
+  <li>extends 부모 -&gt; implement 전략인페</li>
+  <li>@Override protected 메서드 -&gt; @Overried public 메서드
+    <ul>
+      <li><strong>바뀌는 부분이 거의 없다</strong></li>
+      <li>원래 impl될 때 필요한 안전성이 <strong>좋은 상속 원칙 3가지에서 확보된 상태였기 때문</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="nightdiscount">
+<a class="anchor" href="#nightdiscount" aria-hidden="true"><span class="octicon octicon-link"></span></a>NightDiscount</h4>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220413152726772.png" alt="image-20220413152726772"></p>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220413152732456.png" alt="image-20220413152732456"></p>
+
+<ul>
+  <li>역시 마찬가지다.</li>
+</ul>
+
+<h2 id="포워딩">
+<a class="anchor" href="#%ED%8F%AC%EC%9B%8C%EB%94%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>포워딩</h2>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414154117369.png" alt="image-20220414154117369"></p>
+
+<ul>
+  <li>여기서 컨텍스트란 <code class="language-plaintext highlighter-rouge">this or 변수 or 어떤 상태를 공유</code>하는 것
+    <ul>
+      <li>
+<strong>상태공유의 대표적인 예 ex&gt; 꼬리무는 재귀함수</strong>
+        <ul>
+          <li>여태껏 곱했던 것들을 넘겨주는 -&gt; <strong>업데이트된 상태를 외부생성자로 넘겨 받아 공유됨(<code class="language-plaintext highlighter-rouge">어그리게이션</code>)</strong>
+</li>
+        </ul>
+      </li>
+      <li>
+<strong>합성객체에 아무것도 공유 안하는 경우 : <code class="language-plaintext highlighter-rouge">포워딩</code>이라 부른다.</strong>
+        <ul>
+          <li><strong>공유도 안하는데 뭔가를 시킨다? <code class="language-plaintext highlighter-rouge">위임(델리게이션)</code>이라고 부른다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="my-위임-전략객체에게-중요-상태값컨텍스트이-아니라-유틸함수에-필요한-재료-넘겨주는식만이루어진다">
+<a class="anchor" href="#my-%EC%9C%84%EC%9E%84-%EC%A0%84%EB%9E%B5%EA%B0%9D%EC%B2%B4%EC%97%90%EA%B2%8C-%EC%A4%91%EC%9A%94-%EC%83%81%ED%83%9C%EA%B0%92%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%EC%9D%B4-%EC%95%84%EB%8B%88%EB%9D%BC-%EC%9C%A0%ED%8B%B8%ED%95%A8%EC%88%98%EC%97%90-%ED%95%84%EC%9A%94%ED%95%9C-%EC%9E%AC%EB%A3%8C-%EB%84%98%EA%B2%A8%EC%A3%BC%EB%8A%94%EC%8B%9D%EB%A7%8C%EC%9D%B4%EB%A3%A8%EC%96%B4%EC%A7%84%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>my) 위임: 전략객체에게 중요 상태값(컨텍스트)이 아니라, 유틸함수에 필요한 재료 넘겨주는식만이루어진다.</h4>
+
+<h3 id="plan-2">
+<a class="anchor" href="#plan-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>plan</h3>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414154451857.png" alt="image-20220414154451857"></p>
+
+<ul>
+  <li>
+    <p>전략객체는 일을 위임받아서 하는데, <strong>result(결과)를 합쳐가고 있다. 하지만, result를 공유하진 않고, this도 안준다. <code class="language-plaintext highlighter-rouge">call이라는 상태</code>만 넘겨준다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414154641773.png" alt="image-20220414154641773"></p>
+
+    <ul>
+      <li>
+<strong>하지만, 이 <code class="language-plaintext highlighter-rouge">call</code>이라는 것은, plan이 <code class="language-plaintext highlighter-rouge">연산이나 업무처리시 공유되는 context는 아니다.</code></strong>
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">값으로서</code> 참조데이터만 넘어간 것뿐이지, 공유되는 컨텍스트 없이 <code class="language-plaintext highlighter-rouge">유틸함수처럼 전략객체를 호출</code>하고 있다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="연결되는-합성객체">
+<a class="anchor" href="#%EC%97%B0%EA%B2%B0%EB%90%98%EB%8A%94-%ED%95%A9%EC%84%B1%EA%B0%9D%EC%B2%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>연결되는 합성객체</h2>
+
+<h3 id="데코레이터-패턴이라고도-부른다">
+<a class="anchor" href="#%EB%8D%B0%EC%BD%94%EB%A0%88%EC%9D%B4%ED%84%B0-%ED%8C%A8%ED%84%B4%EC%9D%B4%EB%9D%BC%EA%B3%A0%EB%8F%84-%EB%B6%80%EB%A5%B8%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>데코레이터 패턴이라고도 부른다.</h3>
+
+<ul>
+  <li>하나의 객체 -&gt; <strong>인스턴스화 될 때, 자기만의 메모리</strong>를 가진다.
+    <ul>
+      <li>인스턴스의 <strong>객체 속 필드만큼 메모리</strong>를 가진다.</li>
+      <li>필드는 얼마나 가질 수 있을까?
+        <ul>
+          <li>클래스 정의하기 나름이다</li>
+          <li>팔드를 컬렉션으로 정의했다면? <code class="language-plaintext highlighter-rouge">배열&lt;Object&gt;</code>라면, 하나의 인스턴스는 메모리는 무한인가?</li>
+        </ul>
+      </li>
+      <li>많은 사람들이, <strong>컨설팅시 객체를 하나의 작은 컴퓨터</strong>라 부른다.
+        <ul>
+          <li>우리가 남발하는 인스턴스 1개가, 옛날컴퓨터보다 용량(메모리)가 클 수 있다.</li>
+          <li>우리는 캡슐화와 추상화를 통해 문제를 해결하기 때문에, 컴퓨터 1대가 문제를 해결해주는 식으로 생각한다.</li>
+        </ul>
+      </li>
+      <li>그렇다면, 객체 2개 -&gt; 컴퓨터2대(서버2대)를 가지고 협력하면서 문제를 해결하려면?
+        <ul>
+          <li>독립적으로 부르면 상관없지만, 협력해서 한다면?</li>
+          <li>
+<strong>완전히 독립된 메모리공간에 있는 2 객체(컴퓨터2대)의 어떻게 협력할지, 협력관계를 정의해줘야한다.</strong>
+            <ul>
+              <li>나는 너의 뭘 쓸거야,</li>
+              <li>너는 어떤 경로로 나에게 리턴해줘. 나는 그것을 가지고 또 뭘 쓸거야</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>연결된 합성객체 -&gt;  독립되어있는 모듈끼리지만 병합된 결과를 주고받기 위한 인터페이스를 정한다</strong>는, 행위+개념이다.
+    <ul>
+      <li>2개를 연결했다면 -&gt; 또 다른 것과 2개씩 연결할 수 있다.</li>
+      <li>LinkedList와 <strong>연결된 합성 객체or데코패턴or체인오브리스폰서빌리티or composite패턴or …</strong>으로서
+        <ul>
+          <li><strong>하나의 context를 공유해서, 공유된 context를 계속진행시키는 개념을 계속 쓴다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>중급 개발자를 가르는 기준이 된다.</li>
+</ul>
+
+<h3 id="재귀함수와-객체의-연결-차이">
+<a class="anchor" href="#%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98%EC%99%80-%EA%B0%9D%EC%B2%B4%EC%9D%98-%EC%97%B0%EA%B2%B0-%EC%B0%A8%EC%9D%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>재귀함수와 객체의 연결 차이</h3>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414160407785.png" alt="image-20220414160407785"></p>
+
+<ul>
+  <li>일반적인 재귀함수의 구조
+    <ul>
+      <li>네모1개 = 함수
+        <ul>
+          <li>인자를 받아들이는 곳</li>
+          <li>리턴 포인트</li>
+        </ul>
+      </li>
+      <li>2번함수가 3번함수에게 리턴한 인자로 호출 -&gt; 3번 함수는 인자를 받아들여서 수행</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414160535380.png" alt="image-20220414160535380"></p>
+
+<ul>
+  <li>
+<strong>객체지향에서는 객체 != 함수</strong>이므로 위와 같은 모습을 보인다.
+    <ul>
+      <li><strong>하나의 객체속 <code class="language-plaintext highlighter-rouge">특정메소드</code>에서 -&gt; 다른 객체가 발생하는게 아니라 <code class="language-plaintext highlighter-rouge">다른 객체의 메소드</code>로 보낸다.</strong></li>
+      <li>
+<strong>리턴할 때도 특정메소드의 위치로 가서 보낸다</strong>.
+        <ul>
+          <li>그냥 인자/리턴으로 보내는게 아니라, <strong>객체 속 메소드들끼리</strong> 보내고 받고 한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>연결되는 합성객체는 재귀함수의 확장판이라 볼 수 있다.</p>
+
+    <ul>
+      <li>재귀함수: 다 같은 함수들이라서, 부르는 함수의 포인터를 알고 있다. a,b,c,d 다른 함수여도 상관없다.</li>
+      <li>연결된 합성객체들:
+        <ul>
+          <li>같은타입 객체의 같은 메소드들 서로 불러도 된다.</li>
+          <li>다른타입 객체의 특정(다른) 메소드들 서로 불러도 된다 -&gt; <strong>우리가 배웠던 객체간 메세지</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>중요한 것은 시작객체의 메서드가 -&gt; 다른 객체의 메서드를 정확하게 알고 있다는 것</strong>이다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414161138817.png" alt="image-20220414161138817"></p>
+
+    <ul>
+      <li>
+<strong>객체가 메소드를 통해서 <code class="language-plaintext highlighter-rouge">메세지를 보내려면</code>  최소한 지식은 <code class="language-plaintext highlighter-rouge">메세지 받을 객체 Type과 그 메소드</code>에 대해서는 알고 있어야한다.</strong>
+        <ul>
+          <li>객체는 형으로 말해서..?</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414161428346.png" alt="image-20220414161428346"></p>
+
+<ul>
+  <li>
+    <p><strong>가장 왼쪽의 클래스는 특이한 클래스(객체)다. <code class="language-plaintext highlighter-rouge">진입하는 entry point 클래스(진입점 클래스)</code></strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414161554592.png" alt="image-20220414161554592"></p>
+
+    <ul>
+      <li>애초에 모양자체가 특이함.
+        <ul>
+          <li><strong>왼쪽에서 오는 것을 받지도 않고, 오른쪽으로 주기만 함.</strong></li>
+          <li><strong>바깥쪽으로 return도 안함.</strong></li>
+        </ul>
+      </li>
+      <li>java의 main함수처럼 진입점은 어디든 존재한다.</li>
+    </ul>
+  </li>
+  <li>
+<strong>진입점에서 -&gt; 메세지를 주고 받기 시작하는데, <code class="language-plaintext highlighter-rouge">재귀함수처럼 연결된 객체들이 다 같은 Type의 객체임을 인식후 메세지를 주고 받는 경우</code>를 배운다.</strong>
+    <ul>
+      <li>다 같은 Type으로 인식되어 메세지를 주고 받으면 뭐가 좋을까? <strong>연결된 4개 객체에 대한 지식이 1개의 지식만 있으면 된다.</strong>
+        <ul>
+          <li>원래 4개 서로 다른 객체라면  <code class="language-plaintext highlighter-rouge">객체Type과 해당메서드</code>를 최소한의 지식으로 알아야했으니 X4배의 지식이 생겼다.</li>
+        </ul>
+      </li>
+      <li>
+<strong>다 같은 형이니까 <code class="language-plaintext highlighter-rouge">형끼리 통신시 -&gt; 1개의 지식만 필요한 데코레이터 패턴</code></strong>이다</li>
+    </ul>
+  </li>
+  <li>
+<strong>데코레이터 패턴에서는 <code class="language-plaintext highlighter-rouge">같은Type을 상속 or impl하고 있는 모든 객체들</code>(my)구현체들)이 통신에 참여하면</strong>
+    <ul>
+      <li><strong>이 객체는 뭔지 모를지라도, <code class="language-plaintext highlighter-rouge">데코레이터 인터페이스를 따른 객체(구현체)다 == 특정메서드를 특정할 수 있다 == 연속으로 대화할 수 있다</code></strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="코드로-보는-데코레이터-패턴">
+<a class="anchor" href="#%EC%BD%94%EB%93%9C%EB%A1%9C-%EB%B3%B4%EB%8A%94-%EB%8D%B0%EC%BD%94%EB%A0%88%EC%9D%B4%ED%84%B0-%ED%8C%A8%ED%84%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>코드로 보는 데코레이터 패턴</h3>
+
+<h4 id="calculator">
+<a class="anchor" href="#calculator" aria-hidden="true"><span class="octicon octicon-link"></span></a>Calculator</h4>
+
+<ul>
+  <li>기존 좋은상속 -&gt; 합성으로 바꾼 <strong>전략 인터페이스</strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414162720490.png" alt="image-20220414162720490">
+</li>
+  <li>
+<strong>데코레이터 패턴을 적용한 전략 인터페이스</strong>
+  <img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414162546527.png" alt="image-20220414162546527">
+</li>
+</ul>
+
+<h5 id="부수적-책임모---아니면-도로서-포괄적-책임으로-승격시켰다">
+<a class="anchor" href="#%EB%B6%80%EC%88%98%EC%A0%81-%EC%B1%85%EC%9E%84%EB%AA%A8---%EC%95%84%EB%8B%88%EB%A9%B4-%EB%8F%84%EB%A1%9C%EC%84%9C-%ED%8F%AC%EA%B4%84%EC%A0%81-%EC%B1%85%EC%9E%84%EC%9C%BC%EB%A1%9C-%EC%8A%B9%EA%B2%A9%EC%8B%9C%EC%BC%B0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>부수적 책임(모) -&gt; (아니면 도로서) 포괄적 책임으로 승격시켰다.</h5>
+
+<ul>
+  <li>
+    <p><strong>상속계층을 잃어버린 이상에 -&gt; 부모역할을 하던놈이 더 많은 역할을 가져봤자 책임만 분산된다.</strong></p>
+
+    <ul>
+      <li>따라서, <strong>적은 책임의 좋은상속자식 -&gt; 그대로 책임만 합성한 전략패턴 -&gt; <code class="language-plaintext highlighter-rouge">객체에 책임을 부을 수 있을만큼 전략객체에 부어넘겨주는 데코레이터패턴</code></strong>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">call</code>1개에서 <code class="language-plaintext highlighter-rouge">Set&lt;Call&gt;</code> 콜집합으로 책임이 늘어난 것이다.</strong></p>
+  </li>
+  <li>
+    <p><strong>갯수에 따라 무게가 증가한다. 1개 알고 있는 것이랑 <code class="language-plaintext highlighter-rouge">그 컬렉션, 여러개를 알고있는 것이랑 무게가 다르다. 책임이 늘어난 것</code>이다.</strong></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">aggregation용 context</code>(my)누적, 업데이트되는 값)의 전달이 추가되었다.</strong></p>
+
+    <ul>
+      <li>
+        <p>기존 Plan -&gt; 보니 결과값들을 모아주는 변수도 넘어간다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414170744032.png" alt="image-20220414170744032"></p>
+      </li>
+      <li>
+        <p>책에서는 afterCalculator와 그냥 Calculator로 2개를 통해서 aggregator를 수집하도록 설명해놓았지만, 여기선 귀찮아서 합친 것이다.</p>
+
+        <ul>
+          <li><strong>메서드 2개 -&gt; 메서드1개 인자2개로 바뀔 수 있다.</strong></li>
+          <li><strong>인자가 적은 함수가 좋은 이유 -&gt; 인자가 많아지면, 거기에 aggregator가 개입될 가능성이 높아진 것</strong></li>
+          <li>여러인자를 쓰는 것도 싫은데, <strong>함수 2개를 쓰는게 더 싫은 이유: <code class="language-plaintext highlighter-rouge">순서가 지식이 된다. 메서드의 순서는 컴파일러에 안걸려서 에러를 못찾는다.</code></strong>
+            <ul>
+              <li>
+<strong><code class="language-plaintext highlighter-rouge">순서형 메서드들 분할 -&gt; aggregator를 합쳐서 메서드1개로 만들어서 트랜잭션을 자꾸 만들려고 노력한다.</code></strong>
+                <ul>
+                  <li>학습용 코드라서, 순서형 메서드로서 2개가 나온 것이시지, 컴파일에러에 잡히게 만드려면, 1개의 메서드에 인자 2개를 넣어서 처리해야한다.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="plan-3">
+<a class="anchor" href="#plan-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Plan</h4>
+
+<h5 id="기존의-plan과-바뀐-plan">
+<a class="anchor" href="#%EA%B8%B0%EC%A1%B4%EC%9D%98-plan%EA%B3%BC-%EB%B0%94%EB%80%90-plan" aria-hidden="true"><span class="octicon octicon-link"></span></a>기존의 plan과 바뀐 plan</h5>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414172507395.png" alt="image-20220414172507395"></p>
+
+<ul>
+  <li>calulator가 <code class="language-plaintext highlighter-rouge">1개의 call만 처리하는 부분적인 역할</code>을 가지고 있었으나</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is2js/screenshots/main/image-20220414172723275.png" alt="image-20220414172723275"></p>
+
+<ul>
+  <li>이제는 <strong>니가 하다하라고 <code class="language-plaintext highlighter-rouge">전체 call</code>를 다 밀어넣고, <code class="language-plaintext highlighter-rouge">누적을 시작하기도 전에, 누적 aggregator의 초기값</code>을 넘겨줘서 <code class="language-plaintext highlighter-rouge">모든 책임을 위임</code>받는다.</strong>
+    <ul>
+      <li>my) 넘겨받은 <code class="language-plaintext highlighter-rouge">전략객체 속 특정 메서드</code>로  <strong>누적연산의 초기값 + 상태값 전체를 메서드로 넘겨주면</strong>, 책임이 많이 줄어든다.</li>
+      <li><strong>이제부터는, 전략객체를 구상한 구상클래스가 모든 책임을 진다.</strong></li>
+    </ul>
+  </li>
+  <li>
+<strong>plan의 줄어든 책임을</strong>
+    <ol>
+      <li>
+<strong>call 컬렉션(상태값)을 관리</strong>한다.
+        <ul>
+          <li>관리한 상태값을 넘겨줘서 연산은 전략객체가 시행하지만, 넘겨주기전까지 관리는 plan이</li>
+        </ul>
+      </li>
+      <li>전략객체.특정메서드()에 <strong>call컬렉션을 전달</strong>해주는 것</li>
+    </ol>
+  </li>
+  <li>
+<strong>계산하는 모든 책임은, 이름 그대로 Calculator가 다 가져갔다.</strong>
+    <ul>
+      <li>my) 연산 값 1개만 전메로 만들지말고 -&gt; 상태값/누적연산의 초기값 등 모든 연산필요 값들을 파라미터로 넘겨받아 모든 로직을 전메로 넘긴다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="책임을-다-넘긴-후에는-문제-발생시-2가지를-나눠서-볼-수-있다올인된-책임으로-잘개-쪼개기-srp">
+<a class="anchor" href="#%EC%B1%85%EC%9E%84%EC%9D%84-%EB%8B%A4-%EB%84%98%EA%B8%B4-%ED%9B%84%EC%97%90%EB%8A%94-%EB%AC%B8%EC%A0%9C-%EB%B0%9C%EC%83%9D%EC%8B%9C-2%EA%B0%80%EC%A7%80%EB%A5%BC-%EB%82%98%EB%88%A0%EC%84%9C-%EB%B3%BC-%EC%88%98-%EC%9E%88%EB%8B%A4%EC%98%AC%EC%9D%B8%EB%90%9C-%EC%B1%85%EC%9E%84%EC%9C%BC%EB%A1%9C-%EC%9E%98%EA%B0%9C-%EC%AA%BC%EA%B0%9C%EA%B8%B0-srp" aria-hidden="true"><span class="octicon octicon-link"></span></a>책임을 다 넘긴 후에는, 문제 발생시 2가지를 나눠서 볼 수 있다.(올인된 책임으로 잘개 쪼개기 SRP)</h5>
+
+<ul>
+  <li><strong>계산이 잘못이 잘못되면 Calculator를 보면 된다</strong></li>
+  <li>
+    <p><strong>계산기의 투입이 잘못됬거나 or 잘못된 계산기가 투입됬다면, Plan쪽을 보면 된다.</strong></p>
+  </li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">설계란, 큰 책임을 졸라게 쪼개되, 쪼갠 책임마다 각각이 올인되도록 만들어 SRP(단일책임원칙)만 준다.</code></strong>
+    <ul>
+      <li>my) 전략패턴, 합성으로도 모든 책임을 넘길 수 있다.</li>
+      <li>
+<strong>전략당한 부모쪽 = 업데이트되는 calls를 상태값 관리 +  전략객체 Calculator를 관리</strong>
+        <ul>
+          <li>원래는 calls관리가 내 책임</li>
+          <li><strong>Calculator는 <code class="language-plaintext highlighter-rouge">위임을 위해, 참조포인터로서  알고 있는 것</code>임.</strong></li>
+        </ul>
+      </li>
+      <li>plan이 가지고 있던 책임을 쪼개서 <strong>전략객체 Calculator가 계산에 관련된 모든 책임을 먹었다.</strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/object/2022/06/01/(object1-16-1)%EC%A2%8B%EC%9D%80%EC%83%81%EC%86%8D_%ED%95%A9%EC%84%B1%EC%9C%BC%EB%A1%9C%EB%B3%80%EA%B2%BD_plan.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

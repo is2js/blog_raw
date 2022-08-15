@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>OBJECT 18 일관성 있는 설계협력과 rule객체를 통한 구간/범주별 처리 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="OBJECT 18 일관성 있는 설계협력과 rule객체를 통한 구간/범주별 처리" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<meta property="og:description" content="object 책을 강의한 코드스핏츠 유튜브 요약" />
+<link rel="canonical" href="blog.chojaeseong.com/object/2022/06/15/((object2-2)%EC%9D%BC%EA%B4%80%EC%84%B1_%EC%9E%88%EB%8A%94_%EC%84%A4%EA%B3%84_%ED%98%91%EB%A0%A5_rule%EA%B0%9D%EC%B2%B4%EB%A1%9C_%EA%B5%AC%EA%B0%84%EA%B3%BC%EB%B2%94%EC%A3%BC%EB%B3%84%EA%B2%BD%EC%9A%B0%EC%9D%98%EC%88%98_%EB%8F%8C%EB%A9%B4%EC%84%9C_%EC%B2%98%EB%A6%AC-%EB%B3%B5%EC%82%AC%EB%B3%B8.html" />
+<meta property="og:url" content="blog.chojaeseong.com/object/2022/06/15/((object2-2)%EC%9D%BC%EA%B4%80%EC%84%B1_%EC%9E%88%EB%8A%94_%EC%84%A4%EA%B3%84_%ED%98%91%EB%A0%A5_rule%EA%B0%9D%EC%B2%B4%EB%A1%9C_%EA%B5%AC%EA%B0%84%EA%B3%BC%EB%B2%94%EC%A3%BC%EB%B3%84%EA%B2%BD%EC%9A%B0%EC%9D%98%EC%88%98_%EB%8F%8C%EB%A9%B4%EC%84%9C_%EC%B2%98%EB%A6%AC-%EB%B3%B5%EC%82%AC%EB%B3%B8.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/java.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-06-15T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-06-15T00:00:00-05:00","url":"blog.chojaeseong.com/object/2022/06/15/((object2-2)%EC%9D%BC%EA%B4%80%EC%84%B1_%EC%9E%88%EB%8A%94_%EC%84%A4%EA%B3%84_%ED%98%91%EB%A0%A5_rule%EA%B0%9D%EC%B2%B4%EB%A1%9C_%EA%B5%AC%EA%B0%84%EA%B3%BC%EB%B2%94%EC%A3%BC%EB%B3%84%EA%B2%BD%EC%9A%B0%EC%9D%98%EC%88%98_%EB%8F%8C%EB%A9%B4%EC%84%9C_%EC%B2%98%EB%A6%AC-%EB%B3%B5%EC%82%AC%EB%B3%B8.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/java.png","headline":"OBJECT 18 일관성 있는 설계협력과 rule객체를 통한 구간/범주별 처리","dateModified":"2022-06-15T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/object/2022/06/15/((object2-2)%EC%9D%BC%EA%B4%80%EC%84%B1_%EC%9E%88%EB%8A%94_%EC%84%A4%EA%B3%84_%ED%98%91%EB%A0%A5_rule%EA%B0%9D%EC%B2%B4%EB%A1%9C_%EA%B5%AC%EA%B0%84%EA%B3%BC%EB%B2%94%EC%A3%BC%EB%B3%84%EA%B2%BD%EC%9A%B0%EC%9D%98%EC%88%98_%EB%8F%8C%EB%A9%B4%EC%84%9C_%EC%B2%98%EB%A6%AC-%EB%B3%B5%EC%82%AC%EB%B3%B8.html"},"description":"object 책을 강의한 코드스핏츠 유튜브 요약","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">OBJECT 18 일관성 있는 설계협력과 rule객체를 통한 구간/범주별 처리</h1><p class="page-description">object 책을 강의한 코드스핏츠 유튜브 요약</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-06-15T00:00:00-05:00" itemprop="datePublished">
+        Jun 15, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      13 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#object">object</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#설계의-일관성">설계의 일관성</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#새로운-정책1-시간대별-요금부과-정책timeofdaycalc-추가">새로운 정책1: 시간대별 요금부과 정책(TimeOfDayCalc) 추가</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#list-index로-암묵적인-묶음을-사용하지말고-형을-만들어서-구조체로-묶자---다음-정책에-반영-현재는-틀린-코드를-유지">list index로 암묵적인 묶음을 사용하지말고 형을 만들어서 구조체로 묶자. -&gt; 다음 정책에 반영 현재는 틀린 코드를 유지</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#새로운-정책2-요일별-요금부과-정책dayofweekcalc">새로운 정책2: 요일별 요금부과 정책(DayOfWeekCalc)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#dayprice-행위하는-데이터-객체-생성">DayPrice 행위하는 데이터 객체 생성</a></li>
+<li class="toc-entry toc-h4"><a href="#dayprice를-이용하는-녀석-만들기">DayPrice를 이용하는 녀석 만들기</a></li>
+<li class="toc-entry toc-h4"><a href="#timeofdaycalc-vs-dayofweekcalc-비교해보기">TimeOfDayCalc vs DayOfWeekCalc 비교해보기</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#새로운-정책3-통화구간별-요금부과-정책-durationpricecalc">새로운 정책3: (통화)구간별 요금부과 정책 (DurationPriceCalc)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#데코레이터-객체durationpricerule-구간별-할인가격를-만들어-빈틈없는-구간처리-하기">데코레이터 객체(DurationPriceRule, 구간별 할인가격)를 만들어 빈틈없는 구간처리 하기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#시간과-같이-end가-0인-최초-데코객체를-안고-태어나야한다면-다음타자는-이미-만들어진-직전객체-null이-아닌-prev로-안고-태어나야한다">시간과 같이 end가 0인 최초 데코객체를 안고 태어나야한다면, 다음타자는 이미 만들어진 직전객체, null이 아닌 prev로 안고 태어나야한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#01-durationpricecalc-정책을-만들고-최초시작-데코객체특이점객체-소유하기">01 DurationPriceCalc 정책을 만들고 최초시작 데코객체(특이점객체) 소유하기</a></li>
+<li class="toc-entry toc-h4"><a href="#02-durationpricecalc-다음-데코객체를-만들어줄-정보prev제외를-외부에서-받아와---prev를-저장하는-다음타자-생성---재할당으로-다음타자를-소유하도록-업데이트해주는-메서드">02 DurationPriceCalc 다음 데코객체를 만들어줄 정보(prev제외)를 외부에서 받아와 -&gt; prev를 저장하는 다음타자 생성 -&gt; 재할당으로 다음타자를 소유하도록 업데이트해주는 메서드</a></li>
+<li class="toc-entry toc-h4"><a href="#03-durationpricecalc-소유한-rule처리---prev-속-저장된-rule로-처리하도록-소유된-마지막타자가-앞에-것들을-do-while문으로-순환하면서-call-속-duration구간을-나눠서-처리한다">03 DurationPriceCalc 소유한 rule처리 -&gt; prev 속 저장된 rule로 처리하도록, 소유된 마지막타자가 앞에 것들을 do-while문으로 순환하면서 call 속 duration구간을 나눠서 처리한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#새-정책-3개에서-추출할-수-있는-일관성공통점을-찾아볼-수-있을까">새 정책 3개에서 추출할 수 있는 일관성(공통점)을 찾아볼 수 있을까?</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#상속의-자식들을-일반화해서-템플릿메소드패턴의-추상클래스로-만들고-전략패턴으로-바꾸자">상속의 자식들을 일반화해서, 템플릿메소드패턴의 추상클래스로 만들고, 전략패턴으로 바꾸자..?!</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><ul>
+  <li>참고 유튜브 : https://www.youtube.com/watch?v=navJTjZlUGk</li>
+  <li>정리본: https://github.com/LenKIM/object-book</li>
+  <li>코드: https://github.com/eternity-oop/object</li>
+  <li>책(목차) : https://wikibook.co.kr/object/</li>
+</ul>
+
+<h2 id="설계의-일관성">
+<a class="anchor" href="#%EC%84%A4%EA%B3%84%EC%9D%98-%EC%9D%BC%EA%B4%80%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>설계의 일관성</h2>
+
+<ul>
+  <li>
+    <p>14장의 내용은 학습비용이다</p>
+  </li>
+  <li>
+    <p><strong>설계의 일관성을 강조</strong>한다.</p>
+  </li>
+  <li>
+    <p><strong>코드의 배치를 일관성</strong> 있게 했다.</p>
+
+    <ul>
+      <li>코드를 짜는 이유: 알고리즘을 만들기 위해
+        <ul>
+          <li>알고리즘: 어떤 문제를 변수와 제어를 통해서 순차적으로 해결해나가는 과정</li>
+        </ul>
+      </li>
+      <li>설계: 알고리즘을 적절하게 배치하는 것</li>
+      <li>
+<strong>일관성 있는 설계</strong>: 알고리즘 여러갠데 배치는 비슷하게 만드는 것</li>
+      <li>
+<strong>서로 다른 알고리즘이지만, 1개의 함수에 담아버리면, 일관성 있게 된다.</strong>
+        <ul>
+          <li>둘다 함수에 감춰버리면, <strong>바깥에서는 함수만 호출하는 똑같은 코드</strong>가 나온다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>다양한 요금제에 대해 다양한 알고리즘으로 구현한다</p>
+
+    <ul>
+      <li>
+<strong>하지만, 다양한 알고리즘은 calculateFee라는 인터페이스를 지키고 있다</strong>
+        <ul>
+          <li>지키고 있는데 뭐가 문제일까?</li>
+        </ul>
+      </li>
+      <li>
+<strong>각각 구현되어있는 구상클래스의 알고리즘이 제각각인 것이 문제</strong>라고 생각한다
+        <ul>
+          <li>
+<strong>안에 있는 클래스가 어떻게 짜여져있는지 왜 관심</strong>을 가져야할까?</li>
+          <li><strong>다르게 구현되어있어도 메서드의 시그니처를 인터페이스로 지키고 있어서 호출되는 모양은 같은데</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>왜 코드안에 있는 구현까지도 일관성 있게 해야할까? <strong>그 이유는 학습비용 때문이다.</strong></p>
+
+    <ul>
+      <li>다 공부하고 고쳐야하니 <strong>비용이 많이 든다</strong>.
+        <ul>
+          <li><strong>개발 세계에서는 시간만 비용에 관여한다</strong></li>
+        </ul>
+      </li>
+      <li>
+<strong>고인물 효과</strong>가 일어난다.
+        <ul>
+          <li>회사에서 오래본 사람만 쉽게 잘만들고, <strong>처음 들어온 사람은 출중할지라도 잘몰라서 비숙련자</strong>가 된다. <strong>조직 전체에 대한 폐쇄효</strong>과가 나타나서 문제를 일으킨다.</li>
+          <li>학습자체가 어려운게 아니라 학습하는데 시간을 많이 써야하기 때문에 비용이 증가한다</li>
+        </ul>
+      </li>
+      <li>
+<strong>잘 안건들이려는 탄성이 생겨 그 부분을 폐쇄조치하고 격리</strong>하고 <strong>다른 것을 만들</strong>려고 한다.
+        <ul>
+          <li>if로 막아버리고 작동은 하게 두되, 새로운 사람들은 다른 코드를 짜서 거기서 논다.</li>
+        </ul>
+      </li>
+      <li>
+<strong>제품의 수명이 짧아진다.</strong>
+        <ul>
+          <li>유지보수가 안되서 폐쇄되서 해마다 차세대 제품을 만든다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>학습비용을 줄이는 방법은 설계일관성</strong> 밖이다.</p>
+
+    <ul>
+      <li>하나의 규칙을 가지고 있기 때문에, 전체를 이해하는 데 1개만 배우면 된다.</li>
+      <li>
+<strong>학습비용이 늘어나지 않게 비슷한 형태의 설계로 반복해서 사용한다.</strong>
+        <ul>
+          <li>일관성: 어떤 context에서 지속되는 것</li>
+          <li>일반성: 아무 context에서 똑같이 사용할 수 있는 것</li>
+        </ul>
+      </li>
+      <li>
+<strong>여러 상황에서 똑같이 사용할 수 있도록, 제네릭(일반성 있는)한 설계를 해야한다.</strong>
+        <ul>
+          <li>제네릭: 형에 상관없이 알고리즘에 사용할 수 있는 것</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>일반성 있게 짜면, 거꾸로 <strong>일반성에 대한 예외가 발생</strong>한다.</p>
+
+    <ul>
+      <li>일반성 있게 짜면, 적용범위가 줄어들고, 많은 기능들이 잃어버린다.
+        <ul>
+          <li>+,-.x 기능은 정수라는 적용범위내에서 사용가능하지만, /기능은 적용범위에 대해 예외가 되어서 사용못하고 잃어버리는 기능이 된다.</li>
+        </ul>
+      </li>
+      <li><strong>일반성의 도출은 case 수에 달려있다.</strong></li>
+    </ul>
+  </li>
+  <li>우리가 해야할 것: <strong>알고리즘들을 보고, 일반성을 추출해서 설계로 바꾸는 것이 목표</strong>
+    <ul>
+      <li>설계모듈간에 일반성을 추출하면 컴포넌트화가 된다.</li>
+      <li>컴포넌트화간에 일반성을 추출하면 시스템화가 된다.</li>
+    </ul>
+  </li>
+  <li><strong>책에서는 4가지 요금제별 새로나오는 요금제별 알고리즘을 각각 다르게 한 뒤 -&gt; 일반성을 획득 -&gt; 설계에 반영하는 예제가 나온다.</strong></li>
+</ul>
+
+<h3 id="새로운-정책1-시간대별-요금부과-정책timeofdaycalc-추가">
+<a class="anchor" href="#%EC%83%88%EB%A1%9C%EC%9A%B4-%EC%A0%95%EC%B1%851-%EC%8B%9C%EA%B0%84%EB%8C%80%EB%B3%84-%EC%9A%94%EA%B8%88%EB%B6%80%EA%B3%BC-%EC%A0%95%EC%B1%85timeofdaycalc-%EC%B6%94%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>새로운 정책1: 시간대별 요금부과 정책(TimeOfDayCalc) 추가</h3>
+
+<ul>
+  <li><a href="https://github.com/is2js/object2/tree/45629c48217101fc5a2f3189695acb33c1251894/src/main/java/goodComposition">시작커밋</a></li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>날짜구간 관련 <code class="language-plaintext highlighter-rouge">DateTimeInterval</code>객체를 구현한다.</strong></p>
+
+    <ul>
+      <li><a href="https://github.com/is2js/object2/blob/ae736c06d3109a2a70c302249072a622cecd1bb6/src/main/java/goodComposition/DateTimeInterval.java">커밋</a></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>1번에 따른 Call을 재구현</strong>한다.</p>
+
+    <ul>
+      <li><a href="https://github.com/is2js/object2/blob/122da7b2dc5f9c1f9956814fbebc101995bf222f/src/main/java/goodComposition/Call.java">커밋</a></li>
+    </ul>
+  </li>
+  <li>
+    <p>PricePerTimeCalc할인정책을 복사해서 TimeOfDayCalc를 만든다.</p>
+  </li>
+  <li>
+    <p>책에서는 <strong>4개의 list가 순서를 맞춰서 쌍으로 들어온다</strong>고 가정하고 <strong>이빨이 맞는지 검증 없이 사용</strong>하기만 한다.</p>
+
+    <ul>
+      <li>
+        <p>새벽0~아침11시, 아침11시~오후4시, 오후4~밤10시까지, 밤10시~밤12시까지</p>
+      </li>
+      <li>
+        <p><strong>우리가 이빨을 맞춰서 입력한다고 가정하는데, <code class="language-plaintext highlighter-rouge">검증없이 사람이 입력하도록 두면 당연히 이빨이 안맞는 4개의 list가 된다</code></strong></p>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220714152728250.png" alt="image-20220714152728250"></p>
+  </li>
+  <li>
+    <p><strong>call속에 있는 날짜들DateTimeInterval list로 쪼갠 뒤, starts~ends에 대해 구간 vs 구간에서 <code class="language-plaintext highlighter-rouge">시작 vs 시작</code> ~ <code class="language-plaintext highlighter-rouge">마지막 vs 마지막</code>을 비교할 때</strong>
+<img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220714184523912.png" alt="image-20220714184523912"></p>
+
+    <ol>
+      <li><strong><code class="language-plaintext highlighter-rouge">겹치는 시간이 존재</code>한다면, <code class="language-plaintext highlighter-rouge">더 안쪽만 골라내면, 양 구간의 교집합으로 잡혀서,  start~end구간내에서 걸리는 부분만 집어낼 수 있다.</code></strong></li>
+      <li>
+<strong>하지만, <code class="language-plaintext highlighter-rouge">겹치는 시간이 존재하지 않는다</code>면, <code class="language-plaintext highlighter-rouge">더 안쪽만 골라내면, 크로스 안겹치는 구간</code>이 잡힌다.</strong>
+        <ul>
+          <li>
+<strong><code class="language-plaintext highlighter-rouge">애초에 내가 넣어준 구간만 for문으로 돌아</code>가므로, <code class="language-plaintext highlighter-rouge">넣어준 구간이 아닌 interval의 구간은, 계산도 하지 않는다.</code></strong>
+            <ul>
+              <li><strong>내가 구간을 누락했다면, <code class="language-plaintext highlighter-rouge">추가적으로 interval중에 그부분만 빼서  base기본초당/기본요금으로 계산</code>하도록 해야한다.</strong></li>
+              <li><strong>하지만, 빠진 구간을 일일히 찾아서 처리하기 힘들다.</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>하루 전체를 구간별로 쪼개서, 계산을 누적해나간다.</strong>
+        <ol>
+          <li><strong>겹치는 구간이 아니라면, 해당 구간은basePrice, baseDuration으로 계산하도록 하는 로직이 빠져있다.</strong></li>
+        </ol>
+      </li>
+    </ol>
+
+    <ul>
+      <li><a href="https://github.com/is2js/object2/blob/eacc989f3b7eeab6389e057008187f4e816373f6/src/main/java/goodComposition/plan/calc/TimeOfDayCalc.java">커밋</a></li>
+      <li><strong>아래 그림에서 <code class="language-plaintext highlighter-rouge">sum = </code>sum.plus(tempResult)로 값객체 누적변수 sum에 재할당하는 부분이 빠졌음. <code class="language-plaintext highlighter-rouge">추가해야함.</code></strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220714181901315.png" alt="image-20220714181901315"></p>
+  </li>
+  <li>
+    <p>하지만, <strong>시간 구간에서 빠지는 놈들을 수거할 수있는 장치를 <code class="language-plaintext highlighter-rouge">필드</code>로 만들어놓는다.</strong></p>
+
+    <ul>
+      <li><strong>구간에 대한 예외를 처리하는 방법이다.</strong></li>
+      <li>필드명을 base를 붙여서 만든다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220714152924503.png" alt="image-20220714152924503"></p>
+  </li>
+</ol>
+
+<ul>
+  <li>
+<strong>왜 4개의 list로 짰을까??</strong>
+    <ul>
+      <li><strong>index 0, 1, 2로 <code class="language-plaintext highlighter-rouge">index로 묶여 이빨을 맞췄다고 생각</code>해서 이렇게 l값context인 list로 짠 것이다.</strong></li>
+      <li><strong>하지만, index로 묶여있다는 것은 <code class="language-plaintext highlighter-rouge">코드로부터 알 수 없다</code></strong></li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">묶고싶은 것을 구조적으로 묶지않고, 암묵적으로 index로 묶일꺼야~</code>라고 생각하고 있는 것이다.</strong>
+        <ul>
+          <li>이렇게 암묵적으로 묶으면, 일주일뒤에 짠 사람도 모른다. 코드를 보는 사람은 더더욱 모른다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="list-index로-암묵적인-묶음을-사용하지말고-형을-만들어서-구조체로-묶자---다음-정책에-반영-현재는-틀린-코드를-유지">
+<a class="anchor" href="#list-index%EB%A1%9C-%EC%95%94%EB%AC%B5%EC%A0%81%EC%9D%B8-%EB%AC%B6%EC%9D%8C%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EC%A7%80%EB%A7%90%EA%B3%A0-%ED%98%95%EC%9D%84-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%84%9C-%EA%B5%AC%EC%A1%B0%EC%B2%B4%EB%A1%9C-%EB%AC%B6%EC%9E%90---%EB%8B%A4%EC%9D%8C-%EC%A0%95%EC%B1%85%EC%97%90-%EB%B0%98%EC%98%81-%ED%98%84%EC%9E%AC%EB%8A%94-%ED%8B%80%EB%A6%B0-%EC%BD%94%EB%93%9C%EB%A5%BC-%EC%9C%A0%EC%A7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>list index로 암묵적인 묶음을 사용하지말고 형을 만들어서 구조체로 묶자. -&gt; 다음 정책에 반영 현재는 틀린 코드를 유지</h4>
+
+<ul>
+  <li>교훈: <strong>list index로 암묵적으로 묶지말자. 묶음으로 가려면, 구조체로서 형으로 따로 만들어서 묶어야한다.</strong>
+</li>
+</ul>
+
+<h3 id="새로운-정책2-요일별-요금부과-정책dayofweekcalc">
+<a class="anchor" href="#%EC%83%88%EB%A1%9C%EC%9A%B4-%EC%A0%95%EC%B1%852-%EC%9A%94%EC%9D%BC%EB%B3%84-%EC%9A%94%EA%B8%88%EB%B6%80%EA%B3%BC-%EC%A0%95%EC%B1%85dayofweekcalc" aria-hidden="true"><span class="octicon octicon-link"></span></a>새로운 정책2: 요일별 요금부과 정책(DayOfWeekCalc)</h3>
+
+<h4 id="dayprice-행위하는-데이터-객체-생성">
+<a class="anchor" href="#dayprice-%ED%96%89%EC%9C%84%ED%95%98%EB%8A%94-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>DayPrice 행위하는 데이터 객체 생성</h4>
+
+<ul>
+  <li>구상체용 데이터객체는, 구상체pacakge내부에 같이 넣고, internal로 접근제한자를 준다?!</li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">DayOfWeekCalc에 사용될 모든 필드들</code>을 모아서 만든 구조체 클래스(데이터 객체)</strong>
+    <ul>
+      <li><strong>DayOfWeekCalc는 TimeOfDayCalc처럼 <code class="language-plaintext highlighter-rouge">index로 이빨맞춘 List필드들</code>이 아니라 <code class="language-plaintext highlighter-rouge">객체로 묶인 Set&lt;데이터객체&gt;</code>을 알고 있으면 된다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p>책에서 요일당 요금은 1개만</p>
+
+    <ul>
+      <li>화요일은 60초에 18원 1개</li>
+      <li>일요일은 60초에 12원 1개
+        <ul>
+          <li><strong>변수도 price, duration 세트의 1개씩만 있으면, 요일별 n초당 가격1개씩을 인스턴스로 생성할 수 있다.</strong></li>
+          <li>나중에는 Set&lt;DayPrice&gt; = 형태로 여러개를 가지도록 사용된다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>하지만 요일에 대해서는, 주중 vs 주말 여러개씩의 묶음으로 가지고 있어야, 들어오는 interval이 무슨요일인지 판단하기 편하기 때문에, 요일은 Set&lt;DayOfWeek&gt;으로 갖는다.</strong></p>
+
+    <ul>
+      <li>list로 하면 안된다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220714211948396.png" alt="image-20220714211948396"></p>
+  </li>
+  <li>
+    <p><strong>객체지향에서</strong> 데이터객체라도, <strong>데이터를 가지고 있는 이유는 행위</strong>를 하기 위해서이다.</p>
+
+    <ul>
+      <li>
+        <p>요일별 요금을 가져서 -&gt; <strong>하나의 Call에 대해서는 스스로 계산을 할 줄 안다.</strong></p>
+
+        <ul>
+          <li>기존 계산 <strong>구상체들의 계산메서드 시그니쳐를 복사</strong>해온다.</li>
+        </ul>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220714212532581.png" alt="image-20220714212532581"></p>
+      </li>
+      <li>
+        <p><strong>Call은 여러 일에 걸쳐 이루어질 수 있기 때문에, call이 아닌 call이 가진 1일당 데이터인 DateTimeInterval을 받아야한다.</strong></p>
+
+        <ul>
+          <li>책에서 하나의 call이 여러일에 걸쳐져있을 때는, 날짜별로 짤라서 start, end가 있는 interval이 나오며, 배열로 가져온다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>요일별로 계산해주는 것이 <code class="language-plaintext highlighter-rouge">DayOfWeekCalc전용 데이터객체</code> DayPrice의 목적이다.</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>객체지향 세상이므로, 얘한테 물어보는 것이 아니라 스스로 행위를 한다.</strong></p>
+      </li>
+      <li>
+        <p>override와 proteced는 지우고, interval배열[]을 받는 시그니쳐로 변경한다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220714213142439.png" alt="image-20220714213142439"></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="dayprice를-이용하는-녀석-만들기">
+<a class="anchor" href="#dayprice%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%98%EB%8A%94-%EB%85%80%EC%84%9D-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>DayPrice를 이용하는 녀석 만들기</h4>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">PricePerTimeCalc</code>를 복사해서 DayOfWeekCalc를 만든다.</p>
+  </li>
+  <li>
+    <p><strong>필드라고는 Set&lt;DayPrice&gt; prices만 알면 된다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220714214939444.png" alt="image-20220714214939444"></p>
+  </li>
+  <li>
+    <p>받은 calls를 돌면서 1개의 call은 날짜별로 intervals를 만드는데, <strong>각 요일별 요금 Set을 돌리면서</strong></p>
+
+    <ul>
+      <li>개별 요일별요금DayPrice가 intervals를 받아, 각 interval이 어느요일에 해당하는지 확인되면, 계산해서 누적해서 반환해준다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220714220756241.png" alt="image-20220714220756241"></p>
+  </li>
+  <li>
+    <p><strong>list4개가 줄 지어서 있는 것에 대신에 <code class="language-plaintext highlighter-rouge">도입한 데이터객체DayPrice에 훨씬 더 위임</code>되어 있다.</strong></p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">요일별 + 요금</code> Set필요 -&gt; 각 <code class="language-plaintext highlighter-rouge">요일별 + 요금 = DayPrice</code> 객체가 돌면서 <strong>요일별 요금 계산행위까지 다 처리한다.</strong></p>
+      </li>
+      <li>
+        <p><strong>즉, 요일별요금 계산행위 필요 -&gt; 요일별요금 객체를 만들고 요일별요금 계산행위정의(필요한 재료받아서) -&gt;  존재하는 요일만큼 요일별요금 객체를 컬렉션으로 보유 -&gt; 컬렉션을 돌리면서 요일별요금객체가 요일별요금 계산행위를 하게 함.</strong></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="timeofdaycalc-vs-dayofweekcalc-비교해보기">
+<a class="anchor" href="#timeofdaycalc-vs-dayofweekcalc-%EB%B9%84%EA%B5%90%ED%95%B4%EB%B3%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>TimeOfDayCalc vs DayOfWeekCalc 비교해보기</h4>
+
+<ul>
+  <li>난잡하게 list 4개를 가지고 -&gt; index로 암묵적으로 연결</li>
+  <li>미리 묶인, 데이터를 가진 형(데이터객체)를 만들고 -&gt;  행위까지 위임</li>
+</ul>
+
+<h3 id="새로운-정책3-통화구간별-요금부과-정책-durationpricecalc">
+<a class="anchor" href="#%EC%83%88%EB%A1%9C%EC%9A%B4-%EC%A0%95%EC%B1%853-%ED%86%B5%ED%99%94%EA%B5%AC%EA%B0%84%EB%B3%84-%EC%9A%94%EA%B8%88%EB%B6%80%EA%B3%BC-%EC%A0%95%EC%B1%85-durationpricecalc" aria-hidden="true"><span class="octicon octicon-link"></span></a>새로운 정책3: (통화)구간별 요금부과 정책 (DurationPriceCalc)</h3>
+
+<ul>
+  <li>통화를 10분만 했는데, 얼마일까? <strong>구간 정책, duration정책</strong>
+    <ul>
+      <li>0~1분: 15원</li>
+      <li>1분~3분: 20원</li>
+      <li>3분~나머지: 30원</li>
+      <li><strong>15분을 통화해도, 각 구간별로 다른 요금계산이 합쳐서 반환된다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>시간대별 처럼, 구간별은 <code class="language-plaintext highlighter-rouge">중간에 비는 구간</code>이 생기는데, 이것은 어떻게 처리할까?</strong></p>
+
+    <ul>
+      <li>62초부터 ~ 3분: 2초가 비게 된다.
+        <ul>
+          <li><strong>TimeOfWeekCalc에서는 <code class="language-plaintext highlighter-rouge">basePrice, baseDuration 필드</code>를 마련했다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>애당초 구멍은 왜 생길까?</strong></p>
+
+    <ul>
+      <li>
+        <p>if를 넣어도, if도 사람이 짜는 것이기 때문에 구멍이 생긴다.</p>
+      </li>
+      <li>
+        <p><strong>구멍의 근원은 start와 end 2개를 모두 같고 있기 때문이다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220714225514396.png" alt="image-20220714225514396"></p>
+      </li>
+      <li>
+        <p><strong>둘중에 하나만 가지면 구멍이 절대 생길 수 없다</strong></p>
+
+        <ul>
+          <li>start를 없앴다면, 초기값으로 0초부터 시작하는데, end에 따라 구간만 나뉠뿐이지 구멍은 생기지 않는다.</li>
+          <li>baseDuration을 주면, 구멍을 근원적으로 막는 알고리즘으로 바꾼 것이다.
+            <ul>
+              <li>아무리 if를 걸어도 101번째에는 못막는 버그가 생긴다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>start, end를 포함한 list 4개 있는 코드는, 보는 순간 확정버그다</strong></p>
+
+        <ul>
+          <li><strong>start를 빼는 것이 정답이다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>구간처리를 구멍안생기도록 <strong>연쇄되는 처리</strong>가 되도록 하려면, “얘 다음에는 얘가 처리할 거야. 얘 다음엔 얘가 처리할 거야”의 <strong>linked List처럼, 첫빠따는 얘가 먹고, 다음빠따는 연결된 노드가 처리하도록 짜야한다.</strong></p>
+
+    <ul>
+      <li>
+<strong>빈틈이 없어지도록 다음타자</strong>를 가지게 하려면,  <strong>자료구조</strong>로 치면, <strong>LinkedList</strong>
+</li>
+      <li>패턴으로 보면 <strong>데코레이터 패턴이, 다음타자가 다음처리를 하게 하는 것</strong>
+        <ul>
+          <li><strong>데코레이터가 첫빠따를 받고, 다음 데코레이터한테 넘겨야한다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="데코레이터-객체durationpricerule-구간별-할인가격를-만들어-빈틈없는-구간처리-하기">
+<a class="anchor" href="#%EB%8D%B0%EC%BD%94%EB%A0%88%EC%9D%B4%ED%84%B0-%EA%B0%9D%EC%B2%B4durationpricerule-%EA%B5%AC%EA%B0%84%EB%B3%84-%ED%95%A0%EC%9D%B8%EA%B0%80%EA%B2%A9%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4-%EB%B9%88%ED%8B%88%EC%97%86%EB%8A%94-%EA%B5%AC%EA%B0%84%EC%B2%98%EB%A6%AC-%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>데코레이터 객체(DurationPriceRule, 구간별 할인가격)를 만들어 빈틈없는 구간처리 하기</h4>
+
+<ul>
+  <li>
+<strong>구간처리를 빈틈없이 처리하려면, cost는 <code class="language-plaintext highlighter-rouge">start없는 다음타자를 가지는 데코레이터</code>를 <code class="language-plaintext highlighter-rouge">처리해줄 객체로서 1개만</code>을 갖는 것이다.</strong>
+    <ul>
+      <li><strong>데코레이터의 특징은, <code class="language-plaintext highlighter-rouge">처리할 구간</code>에 대해 <code class="language-plaintext highlighter-rouge">구간별 처리해줄 객체 1개</code>만 가지면 되는 것이다. 데코레이터 객체 안에 나머지가 연결되어있고, 최종에는 마지막에 소유할 은 1개의 객체만 가지면 된다.</strong></li>
+    </ul>
+  </li>
+  <li>데코레이터에는 <strong>prev를 연결하는 타입</strong>과 <strong>next를 연결하는 타입</strong> 2가지 종류가 있다.
+    <ul>
+      <li>prev를 연결하는 것은, 생성자에서 이미 완성된 앞타자 prev를 받아서 넣으면 된고
+        <ul>
+          <li>next를 연결하는 것은, 생성자에서 다음 것을 생성해서 next자리에 넣어줘야한다.</li>
+        </ul>
+      </li>
+      <li>
+<strong>시간에 관한 것이므로, duration에 관한 것들은 무조건 뒤에다가 다음타자next를 연결해야한다. start없이. 왜냐면 우리는 세상의 끝을 모르기 때문</strong>
+        <ul>
+          <li>
+<strong>확실히 아는 값인 0을 기준</strong>으로 첫번째 duration 데코레이터 객체 등장 -&gt; <strong>시간을 연결해준다.</strong>
+            <ul>
+              <li>중간에 시간을 0부터 3분까지, 5분까지, 10분까지 다음타자로 연결해주면 된다.</li>
+            </ul>
+          </li>
+          <li><strong>이렇게 하면 빈틈이 안생긴다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p>받와아야할 정보는 <code class="language-plaintext highlighter-rouge">x초부터 ~ 내가원하는 초</code> 까지 인데, 나는 from을 안가질 것이므로 <strong>0초부터 원하는 기간인<code class="language-plaintext highlighter-rouge">to</code>만 가지면 된다.</strong></p>
+
+    <ol>
+      <li>from(start)은 안가지고 <strong><code class="language-plaintext highlighter-rouge">자신이 처리할 수 있는 구간</code>인 <code class="language-plaintext highlighter-rouge">처음부터 end</code>인 Duration <code class="language-plaintext highlighter-rouge">to</code>만 가지게 한다.</strong>
+</li>
+      <li>
+<strong>해당구간의 가격 price</strong>를 가진다.</li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>또한 현재 데코레이터객체는 이전 데코 객체값인 <code class="language-plaintext highlighter-rouge">prev</code>를 알고 있다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220715125509188.png" alt="image-20220715125509188"></p>
+
+    <ul>
+      <li>
+<strong>최초에</strong> 데코레이터패턴을 소유할 <strong>DurationPriceCalc정책</strong>은 <strong>시간에 관련된 정책으로서 <code class="language-plaintext highlighter-rouge">to가 0</code>인 <code class="language-plaintext highlighter-rouge">특이점 데코레이터 객체</code>를 알고 있을 것이기 때문</strong>이다.
+        <ul>
+          <li>끝을 모르고 <strong>최초객체(시작)를 아는</strong> 데코레이터패턴은, 객체 소유클래스에서 <strong>시작객체 존재+ (다음타자한테는)prev(로 끼어주는 조합)</strong>으로</li>
+          <li>
+<strong>시작을 모르고</strong> 끝이 정해진 데코레이터패턴은, 객체 소유 클래스에서 <strong>시작생성 + next + null터미네이팅조합</strong>으로
+            <ul>
+              <li>생성자에서 끝날때까지 next의 새로운 데코객체를 넣어서 체이닝해줘야하고, 마지막에 null을 집어넣어 터미네이팅한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>새로운 타자를 prev로 끼워줘야한다.</strong>
+        <ul>
+          <li><strong>반대로 이야기한다.</strong></li>
+          <li><strong>최초의 것(데코객체, null or null객체)을 만들었기 때문에, 새로만든 것을 prev로 끼워넣어줘야한다. <code class="language-plaintext highlighter-rouge">다음타자는, 직전타자(시작타자)를 안고서 태어나야하므로</code></strong></li>
+          <li>
+<strong>시작을 알아서 <code class="language-plaintext highlighter-rouge">이미 확정된 데코객체</code>가 존재하는 상황이라면, <code class="language-plaintext highlighter-rouge">확정된 객체에 next를 다시 추가할 순 없다</code>. 다음객체에게 <code class="language-plaintext highlighter-rouge">이미 확정된 객체를 prev로 추가</code>해줘야한다.</strong>
+            <ul>
+              <li>**<code class="language-plaintext highlighter-rouge">next+null터미네이팅+생성자체이닝</code>의 조합이 아니라 **</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h5 id="시간과-같이-end가-0인-최초-데코객체를-안고-태어나야한다면-다음타자는-이미-만들어진-직전객체-null이-아닌-prev로-안고-태어나야한다">
+<a class="anchor" href="#%EC%8B%9C%EA%B0%84%EA%B3%BC-%EA%B0%99%EC%9D%B4-end%EA%B0%80-0%EC%9D%B8-%EC%B5%9C%EC%B4%88-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%95%88%EA%B3%A0-%ED%83%9C%EC%96%B4%EB%82%98%EC%95%BC%ED%95%9C%EB%8B%A4%EB%A9%B4-%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90%EB%8A%94-%EC%9D%B4%EB%AF%B8-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A7%84-%EC%A7%81%EC%A0%84%EA%B0%9D%EC%B2%B4-null%EC%9D%B4-%EC%95%84%EB%8B%8C-prev%EB%A1%9C-%EC%95%88%EA%B3%A0-%ED%83%9C%EC%96%B4%EB%82%98%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>시간과 같이 end가 0인 최초 데코객체를 안고 태어나야한다면, 다음타자는 이미 만들어진 직전객체, null이 아닌 prev로 안고 태어나야한다.</h5>
+
+<ul>
+  <li>
+    <p>만약, 최초객체를 만들었는데, 그 객체의 next에다가 setter해주게 되는 것은 말이 안된다.</p>
+  </li>
+  <li>
+    <p>그에 비해 , <strong>최초객체</strong>가 있으면, <strong>다음타자</strong>는 <strong>null이 아닌 prev를 안고 태어나는 형태</strong>가 되어야한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220715122724206.png" alt="image-20220715122724206"></p>
+  </li>
+  <li>
+    <p><strong>데코 레이터패턴의 행위</strong>시, 자신의 상태(price, to)로 처리하고, <strong>next or prev의 연쇄처리까지 해줘야하는데</strong>, <strong><code class="language-plaintext highlighter-rouge">연쇄처리 행위에 있어서 특이점이 존재</code>하며 <code class="language-plaintext highlighter-rouge">null처리 or 특이점객체</code>로 해결한다.</strong></p>
+
+    <ul>
+      <li>
+<strong>바깥에서 체인 끊을 수 없기 때문에, <code class="language-plaintext highlighter-rouge">데코객체의 행위에서 터미네이팅</code>을 해줘야한다.</strong>
+        <ul>
+          <li>만약 terminal코드를 없애줄려면, 그 형 객체(특이점 객체)를 따로 만들어줘야한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>최초데코객체를 가지는 구간처리의 경우, prev를 가져 전방으로 연결해시켜주며, <code class="language-plaintext highlighter-rouge">최초데코객체의 prev는 없으므로 null을 안고서 태어나도록 미리 정해놔야</code>하며, <code class="language-plaintext highlighter-rouge">이 prev == null의 최초데코객체는 처리해야할 구간의 end가 0이므로, 초기값만 반환</code>하고 끝내야한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220715130445634.png" alt="image-20220715130445634"></p>
+  </li>
+  <li>
+    <p><strong>이제 나의 구간만 처리하도록 해야한다.</strong></p>
+
+    <ol>
+      <li>애초에 직전타자prev의 상한선to보다 작거나 같으면, 내가 할일은 없다.</li>
+      <li>
+<strong>이제 나의 시작점(prev.to)보다 큰 구간에 대해서 <code class="language-plaintext highlighter-rouge">상한을 먼저 정해</code>야, <code class="language-plaintext highlighter-rouge">내가 처리할 구간 prev.to ~ 상한</code>만 골라낼 수 있다.</strong>
+        <ol>
+          <li>처리구간duration이 나의 상한 to보다 크면? <strong>to를 상한으로</strong>
+</li>
+          <li>처리구간duration이 나의 상한to보다 작으면?” <strong>duration을 상한으로</strong>
+</li>
+        </ol>
+      </li>
+      <li>이제 <strong>정해진 상한 - 하한(prev.to)</strong>을 잘라낸 뒤, <strong>getSeconds()로 몇초인지 변환하고, 부가할 요금을 반영한다</strong>
+</li>
+    </ol>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220715173158962.png" alt="image-20220715173158962"></p>
+  </li>
+</ul>
+
+<h4 id="01-durationpricecalc-정책을-만들고-최초시작-데코객체특이점객체-소유하기">
+<a class="anchor" href="#01-durationpricecalc-%EC%A0%95%EC%B1%85%EC%9D%84-%EB%A7%8C%EB%93%A4%EA%B3%A0-%EC%B5%9C%EC%B4%88%EC%8B%9C%EC%9E%91-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%ED%8A%B9%EC%9D%B4%EC%A0%90%EA%B0%9D%EC%B2%B4-%EC%86%8C%EC%9C%A0%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 DurationPriceCalc 정책을 만들고 최초시작 데코객체(특이점객체) 소유하기</h4>
+
+<ol>
+  <li>
+    <p><strong>데코객체를 이용해 구간처리해줄 구상체</strong>는, 구간 처리를 연결해서 해주는 <strong><code class="language-plaintext highlighter-rouge">데코객체</code> DurationPriceRule 필드를 1개만 속성으로 가지면 다 처리</strong>된다.</p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">시작이 정해져있는 시간등 구간처리</code>의 prev로 연결되는 데코객체라면, <code class="language-plaintext highlighter-rouge">최초시작 데코객체 = 특이점객체</code>를 소유해야한다.</strong></li>
+      <li>생성자 주입할 수도 있지만, [이미 정해져있는 것]은 내부에서 NULL객체 or 시작객체로  or [컬렉션으로 여러개 받는다면] 내부에서 빈컬렉션으로  필드초기화한다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220715173538626.png" alt="image-20220715173538626"></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">특이점 데코객체(최초시작 데코객체)</code>는 <code class="language-plaintext highlighter-rouge">자신의 생성자 시그니쳐를 복사해와서 그 정보들의 base정보(NULL객체, 초기값들)을 채워서 우리가 선택한 정보들로 초기화</code>해서 가지고 있어야한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220715175326439.png" alt="image-20220715175326439"></p>
+
+    <ul>
+      <li>base정보들을 가지고 있는 최초객체를, 다음타자의 prev로 추가해줄 예정이다.</li>
+      <li>
+<strong><code class="language-plaintext highlighter-rouge">이 때, prev의 초기정보는 null</code>으로서 <code class="language-plaintext highlighter-rouge">이것이 특이점</code>이다.</strong>
+        <ul>
+          <li>
+<strong>앞으로 연결하는 type은 <code class="language-plaintext highlighter-rouge">prev</code>자리에 제일 처음이 <code class="language-plaintext highlighter-rouge">특이점 =null or 특이점객체</code></strong>을 넣어줘야한다.
+            <ul>
+              <li>next로 연결한다면, <strong><code class="language-plaintext highlighter-rouge">next자리에 null을 넣어준다</code></strong>
+</li>
+              <li>진입점이기 때문에 어쩔수 없다, linkedlist는 다 똑같다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/b36f4a26-56a9-4f57-8e79-40d465dea76d.gif" alt="b36f4a26-56a9-4f57-8e79-40d465dea76d"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220715175306912.png" alt="image-20220715175306912"></p>
+  </li>
+</ol>
+
+<h4 id="02-durationpricecalc-다음-데코객체를-만들어줄-정보prev제외를-외부에서-받아와---prev를-저장하는-다음타자-생성---재할당으로-다음타자를-소유하도록-업데이트해주는-메서드">
+<a class="anchor" href="#02-durationpricecalc-%EB%8B%A4%EC%9D%8C-%EB%8D%B0%EC%BD%94%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A4%84-%EC%A0%95%EB%B3%B4prev%EC%A0%9C%EC%99%B8%EB%A5%BC-%EC%99%B8%EB%B6%80%EC%97%90%EC%84%9C-%EB%B0%9B%EC%95%84%EC%99%80---prev%EB%A5%BC-%EC%A0%80%EC%9E%A5%ED%95%98%EB%8A%94-%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90-%EC%83%9D%EC%84%B1---%EC%9E%AC%ED%95%A0%EB%8B%B9%EC%9C%BC%EB%A1%9C-%EB%8B%A4%EC%9D%8C%ED%83%80%EC%9E%90%EB%A5%BC-%EC%86%8C%EC%9C%A0%ED%95%98%EB%8F%84%EB%A1%9D-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%ED%95%B4%EC%A3%BC%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 DurationPriceCalc 다음 데코객체를 만들어줄 정보(prev제외)를 외부에서 받아와 -&gt; prev를 저장하는 다음타자 생성 -&gt; 재할당으로 다음타자를 소유하도록 업데이트해주는 메서드</h4>
+
+<ul>
+  <li>
+    <p>현재 데코객체의 필드는, 구간별요금<code class="language-plaintext highlighter-rouge">price</code>  + 내가처리할구간<code class="language-plaintext highlighter-rouge">duration</code> + <code class="language-plaintext highlighter-rouge">prev</code>이므로,</p>
+
+    <ul>
+      <li><strong>다음 타자를 받아들일 때는, prev를 제외한 필드들<code class="language-plaintext highlighter-rouge">price</code> +  <code class="language-plaintext highlighter-rouge">duration</code>을 add받기기능으로 받아와야한다.</strong></li>
+      <li>prev는 현재 데코객체 이용클래스(정책)이 소유하고 있는 상태다.
+        <ul>
+          <li>외부에서 받기기능은 public void로 받아온다.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220715181030522.png" alt="image-20220715181030522"></p>
+  </li>
+  <li>
+    <p>다음 구간을 처리할 데코객체의 상한 <code class="language-plaintext highlighter-rouge">to</code>는 <strong>현재 소유데코객체 = 예비prev</strong>보다 <strong>구간이 더 커야지 의미</strong>가 있다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220715183521524.png" alt="image-20220715183521524"></p>
+  </li>
+  <li>
+    <p><strong>또한, 우리는 <code class="language-plaintext highlighter-rouge">최초시작객체</code> = 구간끝이0인 객체 -&gt; <code class="language-plaintext highlighter-rouge">아무것도 구간처리 안할 때는 Money.ZERO의 NULL객체를 반환</code>하고 있으므로 <code class="language-plaintext highlighter-rouge">다음객체가 어떤일을 해야한다면, 구간별요금price는 [특이점객체의 반환값]인 Money.ZERO를 가지고 있을 수 없다</code>로 설정해야한다.</strong></p>
+
+    <ul>
+      <li>
+        <p>데코객체 내부에서는 최초객체라면, 구간to가 0이므로, 아무일도 안하여서 ZERO(NULL객체)를 반환했다.</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220715183935278.png" alt="image-20220715183935278"></p>
+      </li>
+      <li>
+        <p>계산로직이 price * seconds인데, price가 zero가 되어버리면, 구간에 대한 계산값 자체가 zero가 되어버리니.. 아무일도 안하는 것과 마찬가지다?</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220715184319845.png" alt="image-20220715184319845"></p>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220715184456247.png" alt="image-20220715184456247"></p>
+  </li>
+  <li>
+    <p>addRule은 <strong>다음 데코레이터객체를 생성</strong>해서 <strong>데코이용 정책클래스의 소유필드를 업데이트한다.</strong></p>
+
+    <ul>
+      <li>이 때, 기존에 <strong>소유하고 있던 것</strong>을 <strong>다음 타자의 prev필드에 저장하고</strong>
+</li>
+      <li>
+<strong>생성한 다음타자를 소유하도록 재할당으로 업데이트한다.</strong>
+        <ul>
+          <li>기존 것은 다음것의 prev로 저장하고 -&gt; 다음것을 소유한다.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220715191930750.png" alt="image-20220715191930750"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220715215434495.png" alt="image-20220715215434495"></p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>다음타자 데코객체를 만든다. prev는 현재소유한 데코객체인 rule을 집어넣어 만든다.
+-&gt; 데코객체이용클래스의 데코객체 변수는 값객체처럼 재할당이 운명이다. 동적으로 기능을 추가한 뒤 사용변수에 재할당해서 업데이트된 기능을 보유하게 한다.
+--&gt; 여기서는, 새로운 기능을 동적으로 추가하는 것이 아니라, 현재 소유 데코객체(prev)를 동적으로 다음타자로 업데이트한 것을 변수에 할당해준다.
+---&gt; 동적으로 새로운 기능을 업데이트해주고, 그것만 호출하는 것이 아니라.
+prev(rule) 기능 사용 -&gt; [다음타자로 업데이트]addRule-&gt; [다음타자 사용]으로
+사용 -&gt; 동적 업데이트 -&gt; 사용 -&gt; 동적 업데이트의 [실행기 분리후, 실행후 업데이트]를 가지는 것 같다
+동적으로 소유객체를 prev속성으로 next객체로 업데이트하는 것도 데코레이터 패턴이다.
+이 메서드에서는 나는 새로운 다음타자 rule만 만들어서 소유하면 된다.
+-&gt; 기존의 prev였던 rule은, 다음타자의 속성으로 들어가서 저장되어있을 것이기 때문이다.
+--&gt; 특이점데코객체(시작데코객체)를 소유했지만,
+현재 메소드를 통해, [다음번 타자를 만들어서 필드로 소유] + [이전것은 속성으로 저장해놓기]의 형태가 반복된다.
+맨 끝만 소유하게 될 것이고 -&gt; prev로 저장된 직전객체는, 소유객체 계산시 반복문을 통해 최초객체까지 불러오면서 계산시킬 것이다.
+여기서 데코레이터는 메소드에서 직접 다음번 데코레이터를 부르진 않고,
+단지 값을 계산할 때, 현재객체로 해당구간 처리후 prev를 불러 값을 처리한다.
+왜냐면, 실행기가 따로 있기 때문이다.
+실행기가 합쳐지면, next와 prev를 불러서 한꺼번에 취합을 할텐데, 이 경우, aggregate 객체로 분리해놓고
+각각의 객체가 맡은 구간만 해결하도록 만들어놔서 -&gt; 나중에 한꺼번에 불러서 처리할테니, 현재는 다음타자만 가지고, 직전은 prev에 저장만 한다.
+  
+코드가 자유로워지면,
+(1) 데코레이터가 순환적인 재귀루프를 돌게 할 수도 있고 -&gt; 끝이 제한되는 경우, 스택오버플로우 위험 없을 때
+*(2) 데코레이터를 재귀안돌리고, 자기일만 하고 빠져나오게 반복문을 돌린다.-&gt; 끝을 모르는 경우, 스택오버플로우 위험이 있을 때
+  
+데코레이터패턴도,
+*(1)loop로 처리하도록 실행기 메서드를 따로 빼고 -&gt; 메서드로 직전타자를 저장하며 다음타자로 업데이트하여 마지막타자만 소유하는 방법
+(2) 데코레이터가 직접 다음루프로 가는 재귀의 방법 -&gt; 생성자에서 원하는 수만큼의 다음타자를 직접 생성하여 저장해놓고, 처음타자를 소유하되, 처리후 재귀로 다음타자를 부른다
+-&gt; 만약, 데코레이터 타자들이 1000개가 넘는, 세밀한 구간처리 요금제를 만들었다고 가정하자
+끝을 모르는..경우로서,  addRule로 구간을 잘게쪼게해서 만들어넣을 수 있음.
+다음타자를 재귀로호출하면, 스택오버플로우가 걸린다.
+--&gt; 기업코드들은, 모두 실행기를 불리해놓고 반복문으로 처리한다.
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="03-durationpricecalc-소유한-rule처리---prev-속-저장된-rule로-처리하도록-소유된-마지막타자가-앞에-것들을-do-while문으로-순환하면서-call-속-duration구간을-나눠서-처리한다">
+<a class="anchor" href="#03-durationpricecalc-%EC%86%8C%EC%9C%A0%ED%95%9C-rule%EC%B2%98%EB%A6%AC---prev-%EC%86%8D-%EC%A0%80%EC%9E%A5%EB%90%9C-rule%EB%A1%9C-%EC%B2%98%EB%A6%AC%ED%95%98%EB%8F%84%EB%A1%9D-%EC%86%8C%EC%9C%A0%EB%90%9C-%EB%A7%88%EC%A7%80%EB%A7%89%ED%83%80%EC%9E%90%EA%B0%80-%EC%95%9E%EC%97%90-%EA%B2%83%EB%93%A4%EC%9D%84-do-while%EB%AC%B8%EC%9C%BC%EB%A1%9C-%EC%88%9C%ED%99%98%ED%95%98%EB%A9%B4%EC%84%9C-call-%EC%86%8D-duration%EA%B5%AC%EA%B0%84%EC%9D%84-%EB%82%98%EB%88%A0%EC%84%9C-%EC%B2%98%EB%A6%AC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 DurationPriceCalc 소유한 rule처리 -&gt; prev 속 저장된 rule로 처리하도록, 소유된 마지막타자가 앞에 것들을 do-while문으로 순환하면서 call 속 duration구간을 나눠서 처리한다.</h4>
+
+<ul>
+  <li>
+    <p><strong>현재의 소유한 마지막타자</strong> rule를 <strong>시작점으로 <code class="language-plaintext highlighter-rouge">do</code>-&gt; 처리 + 처리자업데이트(prev를 처리자로) -&gt; <code class="language-plaintext highlighter-rouge">while( 처리객체 != null)</code>로 로직을 짜야한다.</strong></p>
+
+    <ul>
+      <li>반복문속 처리자는 rule을 재할당하지말고, <strong>반복문(dowhile)위에 지역변수를 만들고, 초기값으로 rule을 배정한 뒤, 업데이트 해준다.</strong>
+</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220715220600202.png" alt="image-20220715220600202"></p>
+
+    <ul>
+      <li><strong>rule -&gt; 반복마다 prev로 업데이트될 <code class="language-plaintext highlighter-rouge">처리자</code>는 <code class="language-plaintext highlighter-rouge">target</code>이라고 변수를 지어준다.</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/9db090d9-a6da-490c-a902-30c8c6be97da.gif" alt="9db090d9-a6da-490c-a902-30c8c6be97da"></p>
+
+    <ul>
+      <li>target처리자가, 현재 처리를 마치면, 저장한 prev를 꺼내서 그놈으로 업데이트시켜서 반복한다.
+        <ul>
+          <li>저장소 prev로 업데이트 시켰는데 그 target이 null이라면, <strong>현재 최초객체</strong>이므로, <strong>특이점 객체는 연산안하는 객체로서 종료되게 한다</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220715221343508.png" alt="image-20220715221343508"></p>
+  </li>
+  <li>따로 <strong>외부실행기 + loop</strong>로 <strong>데코레이터객체를 전진</strong>시켰으니, 스택오버플로우에 안걸린다.
+    <ul>
+      <li>
+    </ul>
+  </li>
+  <li>
+<strong>데코레이터객체 본인이 재귀로 전진해도 되지만, 스택오버플로우에 걸릴 수도 있다.</strong>
+    <ul>
+      <li>
+<strong>반복문을 제거하고,return 문에 꼬리재귀형식</strong>으로<code class="language-plaintext highlighter-rouge">target.calculate( )</code>내부에 <strong>prev가 존재한다면, 재귀호출에서 전진해나가도 된다.</strong>
+</li>
+      <li><strong>그러나 안에 재귀를 두면, 망하는 경우가 많아 <code class="language-plaintext highlighter-rouge">외부실행기 + loop로 분리</code>한다.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="새-정책-3개에서-추출할-수-있는-일관성공통점을-찾아볼-수-있을까">
+<a class="anchor" href="#%EC%83%88-%EC%A0%95%EC%B1%85-3%EA%B0%9C%EC%97%90%EC%84%9C-%EC%B6%94%EC%B6%9C%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8A%94-%EC%9D%BC%EA%B4%80%EC%84%B1%EA%B3%B5%ED%86%B5%EC%A0%90%EC%9D%84-%EC%B0%BE%EC%95%84%EB%B3%BC-%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>새 정책 3개에서 추출할 수 있는 일관성(공통점)을 찾아볼 수 있을까?</h3>
+
+<ul>
+  <li>
+    <p><strong>설계</strong>에서 공통점을 찾는 요령</p>
+
+    <ul>
+      <li>설계: <strong>객체간 협력모델</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>알고리즘에  휘둘리지말고, 각각의 요금제가 <strong>어떠한 협력모델을 가지고 있는지 살펴보자.</strong></p>
+
+    <ul>
+      <li>DurationPriceCalc이 할일은 calculate인데, <strong>일을 직접하지 않고, 데이터를 가지고 구간별 처리해줄 <code class="language-plaintext highlighter-rouge">외부에서 공급받은</code> 데코레이터 <code class="language-plaintext highlighter-rouge">객체와 협력해서 일을 처리</code>하고 있다.</strong>
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">협력 객체(rule, 1개 같지만 n개)</code>를 이용해서, 요금을 처리하는 객체라고 요약할 수 있다.</strong></li>
+        </ul>
+      </li>
+      <li>DayOfWeek도 <code class="language-plaintext highlighter-rouge">협력 객체(prices, n개)</code>를 이용해서, 내 할일을 처리하고 있다.</li>
+      <li>TimeOfDay도 <code class="language-plaintext highlighter-rouge">n개의 start, ends, durations, prices 객체들</code>을 이용해서, 내 할일을 처리하고 있다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>각 요금제는 N개의 rule를 소유하고 있으며, 그것을 이용해서 계산하는 구조를 가진다.</strong></p>
+
+    <ul>
+      <li>
+<strong>요금제는 껍데기인 것이고, <code class="language-plaintext highlighter-rouge">무슨 rule을 탑재하느냐</code>에 따라서 요금제가 달라진다.</strong>
+        <ul>
+          <li>다른애들이 도와줘서 나의 일을 해줬어~</li>
+          <li>추상화를 이정도로 봐야한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>그렇다면, Calculator를 구상한 클래스를 새롭게 추가할 필요 없이, <code class="language-plaintext highlighter-rouge">협력객체공급 + 그 객체사용 코드만</code> 새롭게 구상하면 된다는 사실을 알게 된다.</strong></p>
+
+    <ul>
+      <li>3개의 역할을 도출했다. -&gt; 상속구조 or 소유모델로 만들 수 있다.
+        <ul>
+          <li>노예상은 다 똑같은 일들만 하고 있다. -&gt; <strong>더이상 다형성을 가지지 않(더이상 자식X)으므로, <code class="language-plaintext highlighter-rouge">Calc에게 직접 단일객체 합성</code>으로 일을 위임하고, 필요가 없어진다.</strong>
+            <ul>
+              <li><strong>상속이 전략객체로 바뀌는 과정과 같다.</strong></li>
+              <li>**노예들 ListorSet을 가지게 한다. **</li>
+            </ul>
+          </li>
+          <li>노예들: 종류별로 달라진다.</li>
+          <li>프로듀서: 노예 종류별로 부리는 법이 달라진다.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220715224621177.png" alt="image-20220715224621177"></p>
+
+    <ul>
+      <li>
+<strong>책들은 전부, 디자인패턴처럼, 상속을 합성으로 바꾸는 것이 목표이다.</strong>
+        <ul>
+          <li>상속은 조합폭발을 해결할 방법이 없기 때문</li>
+          <li>상속되어있는 자식들간에, 설계상 공통을 찾아서, 빼내게 되면, 소유모델로 바뀌게 된다.
+            <ul>
+              <li>
+<strong>상속의 자식들</strong> -&gt; 더 세분화된 역할을 <strong>소유하는 객체로 일반화</strong>
+</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>여기서는
+        <ol>
+          <li>
+<strong>자식클래스들의 공통점(3개 역할의 일반화) 추출로 인해, <code class="language-plaintext highlighter-rouge">Calc자식들을 삭제</code></strong>
+            <ol>
+              <li><strong><code class="language-plaintext highlighter-rouge">3개의 객체(자식들)를 1개로 봐라보게 됨.</code></strong></li>
+              <li>
+<strong><code class="language-plaintext highlighter-rouge">역할들은 각각의 특성을 가진 객체로 나눔</code></strong>
+                <ol>
+                  <li>노예 -&gt; 노예 인터페이스의 구상체로 감</li>
+                  <li>부리는놈 -&gt; 프로듀서 인터페이스의 구상체로 감
+                    <ul>
+                      <li><strong>코드는 어디 가지 않는다</strong></li>
+                      <li><strong>if의 제거방법은, 그 case만큼 객체를 만들고, 밖에서 주입하는 수 밖에 없다.</strong></li>
+                      <li><strong>2중if는 전략 인터페이스 2개를 만들어야한다.</strong></li>
+                    </ul>
+                  </li>
+                </ol>
+              </li>
+            </ol>
+          </li>
+          <li>만든 class3개의 일반성을 획득하지 못한다면, <strong>학습비용이 3배로 나간다.</strong>
+</li>
+          <li>
+<strong>일반화에 성공했따면?</strong>
+            <ol>
+              <li><strong>new Calc()만 new때려서 만들고, 그 안에 <code class="language-plaintext highlighter-rouge">노예, 프로듀서</code>만 선택해서 넣어주면 된다.</strong></li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>덩어리진 3개의 Calc구상체들을, 노예 + 프로듀서 + 일반화되어 상속할필요없는 Calc로 바꾼 바람에, 학습비용이 확 준다.</strong></p>
+
+    <ul>
+      <li>역할을 통해 쪼개놨다면, 덩어리보다 더 학습비용이 났다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="상속의-자식들을-일반화해서-템플릿메소드패턴의-추상클래스로-만들고-전략패턴으로-바꾸자">
+<a class="anchor" href="#%EC%83%81%EC%86%8D%EC%9D%98-%EC%9E%90%EC%8B%9D%EB%93%A4%EC%9D%84-%EC%9D%BC%EB%B0%98%ED%99%94%ED%95%B4%EC%84%9C-%ED%85%9C%ED%94%8C%EB%A6%BF%EB%A9%94%EC%86%8C%EB%93%9C%ED%8C%A8%ED%84%B4%EC%9D%98-%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A1%9C-%EB%A7%8C%EB%93%A4%EA%B3%A0-%EC%A0%84%EB%9E%B5%ED%8C%A8%ED%84%B4%EC%9C%BC%EB%A1%9C-%EB%B0%94%EA%BE%B8%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>상속의 자식들을 일반화해서, 템플릿메소드패턴의 추상클래스로 만들고, 전략패턴으로 바꾸자..?!</h4>
+
+<ul>
+  <li>자식들을 공통구조를 일반화해서 템플릿메소드로 올리는데 성공하면
+    <ul>
+      <li>전략패턴으로 변경가능해져서, 추상클래스가 전략주입 일반클래스가 되고, <strong><code class="language-plaintext highlighter-rouge">덩어리졌던 훅메서드 자식클래스들</code>은 <code class="language-plaintext highlighter-rouge">전략메서드만 처리하는 전략객체</code></strong>가 되지만</li>
+      <li><strong>이 경우, 전략메서드에 사용되는 <code class="language-plaintext highlighter-rouge">협력객체</code>또한 추가로 받아야한다.??</strong></li>
+    </ul>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/object/2022/06/15/((object2-2)%EC%9D%BC%EA%B4%80%EC%84%B1_%EC%9E%88%EB%8A%94_%EC%84%A4%EA%B3%84_%ED%98%91%EB%A0%A5_rule%EA%B0%9D%EC%B2%B4%EB%A1%9C_%EA%B5%AC%EA%B0%84%EA%B3%BC%EB%B2%94%EC%A3%BC%EB%B3%84%EA%B2%BD%EC%9A%B0%EC%9D%98%EC%88%98_%EB%8F%8C%EB%A9%B4%EC%84%9C_%EC%B2%98%EB%A6%AC-%EB%B3%B5%EC%82%AC%EB%B3%B8.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
