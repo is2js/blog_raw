@@ -152,3 +152,5 @@ image: "images/posts/python.png"
     1. property가 정의된 상태에서 client에서  **`객체.property = "값"`을 할당하여 작성해야만 action에 `create propery`가 추가로 생기며 누르면 .setter가 자동 정의 된다.**
         ![f1fbb3cb-c840-4f76-98a4-6b624537b768](https://raw.githubusercontent.com/is3js/screenshots/main/f1fbb3cb-c840-4f76-98a4-6b624537b768.gif)
 
+- **`ctrl + shift + del`: unwrap(if/while 등) or remove**
+    - if/while의 내부영역만 남기고, 바깥의  if/while을 제거해준다.
