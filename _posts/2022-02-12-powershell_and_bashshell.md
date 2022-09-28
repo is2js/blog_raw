@@ -30,11 +30,33 @@ image: "images/posts/config.png"
 
 - 링크 : https://docs.microsoft.com/ko-kr/powershell/scripting/install/installing-powershell-core-on-windows?view=powershell-7.1
 
+
 ### powershell 권한 처리 for IDE(파이참에서 터미널 권한 안생기게)
 #### Set-ExecutionPolicy 
 ```shell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
 ```
+### powershell history txt 삭제
+`%UserProfile%\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt`
+
+### powershell 자동완성(history 기반)
+1. profile 스크립트를 열어서, 아래 줄을 추가한다.
+
+   ```
+   notepad $profile
+   ```
+
+   ```   
+   Import-Module PSReadLine
+   Set-PSReadLineOption -PredictionSource History
+   ```
+
+2. 저장후 프로파일을 reload하고 터미널을 껐다 킨다.
+
+   ```
+   . $PROFILE
+   ```
+
 
 ## 기본 명령어
 
