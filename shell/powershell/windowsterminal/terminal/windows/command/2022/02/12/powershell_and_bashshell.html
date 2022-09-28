@@ -144,6 +144,8 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h4"><a href="#set-executionpolicy">Set-ExecutionPolicy</a></li>
 </ul>
 </li>
+<li class="toc-entry toc-h3"><a href="#powershell-history-txt-삭제">powershell history txt 삭제</a></li>
+<li class="toc-entry toc-h3"><a href="#powershell-자동완성history-기반">powershell 자동완성(history 기반)</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h2"><a href="#기본-명령어">기본 명령어</a>
@@ -287,6 +289,33 @@ window.onload = wrap_img;
 <a class="anchor" href="#set-executionpolicy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Set-ExecutionPolicy</h4>
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Set-ExecutionPolicy <span class="nt">-ExecutionPolicy</span> RemoteSigned <span class="nt">-Scope</span> LocalMachine
 </code></pre></div></div>
+<h3 id="powershell-history-txt-삭제">
+<a class="anchor" href="#powershell-history-txt-%EC%82%AD%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>powershell history txt 삭제</h3>
+<p><code class="language-plaintext highlighter-rouge">%UserProfile%\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt</code></p>
+
+<h3 id="powershell-자동완성history-기반">
+<a class="anchor" href="#powershell-%EC%9E%90%EB%8F%99%EC%99%84%EC%84%B1history-%EA%B8%B0%EB%B0%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>powershell 자동완성(history 기반)</h3>
+<ol>
+  <li>
+    <p>profile 스크립트를 열어서, 아래 줄을 추가한다.</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>notepad $profile
+</code></pre></div>    </div>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>Import-Module PSReadLine
+Set-PSReadLineOption -PredictionSource History
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>저장후 프로파일을 reload하고 터미널을 껐다 킨다.</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>. $PROFILE
+</code></pre></div>    </div>
+  </li>
+</ol>
 
 <h2 id="기본-명령어">
 <a class="anchor" href="#%EA%B8%B0%EB%B3%B8-%EB%AA%85%EB%A0%B9%EC%96%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>기본 명령어</h2>
