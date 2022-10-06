@@ -57,6 +57,50 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
    . $PROFILE
    ```
 
+### 환경변수 (가상환경)
+- python가상환경 venv에서 activated한 상태로 적용
+    - `venv\Scripts\activate.ps1`에 저장된다.
+
+1. 등록: 
+
+   ```powershell
+   $env:FLASK_APP = "run"
+   #export FLASK_APP=run
+   ```
+
+      - 파일명은 " " 확장자를 뺀 쌍따옴표로
+      - linux의 export는 파일명에 쌍따옴표 없이
+
+   ```powershell
+   $env:FLASK_RUN_PORT = 8000
+   ```
+
+2. 확인
+
+   ```powershell
+   Get-ChildItem Env:
+   #export
+   ```
+
+   ```powershell
+   Get-ChildItem Env: | Format-Table -Wrap
+   ```
+
+   ```powershell
+   ## 'LOGONSERVER' 환경변수를 찾고 싶다면,
+   Get-ChildItem Env:LOGONSERVER
+   
+   ## 'on'이 포함된 단어, ex) logONserver, ONedrive...
+   Get-ChildItem Env:*on*
+   
+   ## 'on'으로 시작하는 단어, ONedrive ...
+   Get-ChildItem Env:on*
+   
+   ## 'on'으로 끝나는 단어, ex) processor_revisiON ...
+   Get-ChildItem Env:*on
+   ```
+
+
 
 ## 기본 명령어
 

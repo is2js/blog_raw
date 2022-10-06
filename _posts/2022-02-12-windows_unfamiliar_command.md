@@ -24,6 +24,8 @@ image: "images/posts/config.png"
 
 - <kbd>win + shift + ←, →</kbd>: 윈도우 붙는 단위가 아닌 모니터별 창 이동시키기
 
+- <kbd>win + ctrl + backspace</kbd>: win + tab과 동일 기능
+
 
 
 ### 설정 관련
