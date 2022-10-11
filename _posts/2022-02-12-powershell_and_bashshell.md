@@ -66,6 +66,8 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
    ```powershell
    $env:FLASK_APP = "run"
    #export FLASK_APP=run
+   $env:FLASK_DEBUG = "1"
+   #export FLASK_APP=1
    ```
 
       - 파일명은 " " 확장자를 뺀 쌍따옴표로
@@ -73,6 +75,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
 
    ```powershell
    $env:FLASK_RUN_PORT = 8000
+   #export
    ```
 
 2. 확인
