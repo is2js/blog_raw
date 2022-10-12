@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      1 min read
+      6 min read
     
 </span></p>
 
@@ -144,6 +144,44 @@ window.onload = wrap_img;
 </li>
 <li class="toc-entry toc-h3"><a href="#함수객체-name에-base함수가-찍히도록-디버깅되는-데코레이터로-바꾸기-by-wrapper메서드에-functoolswrapsfunc-데코-달아주기">함수객체 name에 base함수가 찍히도록 디버깅되는 데코레이터로 바꾸기 by wrapper메서드에 @functools.wraps(func) 데코 달아주기</a></li>
 <li class="toc-entry toc-h3"><a href="#base함수호출시-필요한-특정-인자를-외부에서-조달하려면-외부에-return되서-가-붙는-함수객체-wrapper에-args-kwargs로-파라미터를-정의하여-어떤-인자든-들어오게-한다">base함수호출시 필요한 특정 인자를 외부에서 조달하려면, 외부에 return되서 ()가 붙는 함수객체 wrapper에 *args, **kwargs로 파라미터를 정의하여 어떤 인자든 들어오게 한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#역순으로-jwt-인증-decorator-작성">역순으로 jwt 인증 decorator 작성</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#01-route마다-매번-token-인증---실패시-예외의-검증하는-로직을-route에-반복-기술하는-대신-데코레이터로-만들기">01 Route마다 매번 [token 인증 -&gt; 실패시 예외]의 검증하는 로직을 route에 반복 기술하는 대신 데코레이터로 만들기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#001-src--auth_jwt--token_verifierpy-생성">001 src &gt; auth_jwt &gt; token_verifier.py 생성</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#02-token인증실패시-예외을-데코레이터-만드는-방법바깥에서부터">02 token인증(실패시 예외)을 데코레이터 만드는 방법(바깥에서부터)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#001-decorator는--호출-전의-base_func객체를-인자로-받아서-내부에서-호출하고-return은-func객체를-호출하고-실제-deco하는-inner-method-wrapper를-호출하지-않은체-반환하므로-inputfuncbase_func---output-funcwrapper이다">001 decorator는  ()호출 전의 base_func객체를 인자로 받아서 내부에서 호출하고, return은 func객체를 호출하고 실제 deco하는 inner method wrapper를 호출하지 않은체 반환하므로 [input:func(base_func) -&gt; output func(wrapper)]이다.</a></li>
+<li class="toc-entry toc-h4"><a href="#002-inner-method-wrapper메서드는-결과값을-deco당하거나-or-호출전후로-작업을-하고-싶은-base_func의-decorating-과정에서---외부-인자가요구하는-순간-wrapper-method도-인자를-args-kwargs로-받는다-inner-method인-wrapper는-decorator-맨-마지막에-호출하지-않은-체-반환되는-closure다">002 inner method wrapper메서드는 [결과값을 deco당하거나 or 호출전후로 작업을 하고 싶은 base_func()]의 decorating 과정에서 -&gt; 외부 인자가요구하는 순간, wrapper method도 인자를 *args, **kwargs로 받는다. inner method인 wrapper는 decorator 맨 마지막에 호출하지 않은 체 반환되는 closure다</a></li>
+<li class="toc-entry toc-h4"><a href="#003-get-route에서-token인증을-위한-decode--예외처리-했던-로직을-inner-method-warpper여기선-decorated-내부로-가져와서-base_func-여기서는-route함수-호출전-1token인증실패시-예외--2-token-refresh-작업을-항상-진행하게-해준다">003 GET route에서 token인증을 위한 decode + 예외처리 했던 로직을 inner method warpper(여기선 decorated) 내부로 가져와서, [base_func (여기서는 route함수) 호출전 (1)TOKEN인증(==실패시 예외) + (2) TOKEN REFRESH 작업]을 항상 진행하게 해준다.</a></li>
+<li class="toc-entry toc-h4"><a href="#004-필요한-것들을-import하고-수정해나간다">004 필요한 것들을 import하고, 수정해나간다</a></li>
+<li class="toc-entry toc-h4"><a href="#005-base_func인-functionroute함수는-wrapperdecorated에서-token인증-및-예외처리-끝내고-자신만-호출되면-되나-인증안되면-예외발생하고-인증되면-route-자신의-역할만-하면-끝">005 base_func인 function(route함수)는 wrapper(decorated)에서 [token인증 및 예외처리] 끝내고, 자신만 호출되면 되나? 인증안되면 예외발생하고, 인증되면 route 자신의 역할만 하면 끝??</a></li>
+<li class="toc-entry toc-h4"><a href="#006-route함수가-decorator로-token인증을-거치는-경우-인증성공시의-refresh된-token을-route함수-인자로-받아야하며-decorator작성시-base_funcroute_func은-argskargs-앞에-가장-첫-인자로-next_token을-추가해야한다">006 route함수가 decorator로 token인증을 거치는 경우, 인증성공시의 refresh된 token을 route함수 인자로 받아야하며, decorator작성시, base_func(route_func)은 *args**kargs 앞에 가장 첫 인자로 next_token을 추가해야한다</a></li>
+<li class="toc-entry toc-h4"><a href="#007-inner-method-wrapper메서드에-functoolswraps-base_func-을-달아주면-디버깅시-함수name이-같이-찍힌다">007 inner method wrapper메서드에 @functools.wraps( base_func )을 달아주면, 디버깅시 함수name이 같이 찍힌다</a></li>
+<li class="toc-entry toc-h4"><a href="#008-auth_jwt-init에-올리기">008 auth_jwt init에 올리기</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#03-token-인증필요-routeget에서-jwt-인증--decorator사용하기">03 token 인증필요 route(GET)에서 jwt 인증  decorator사용하기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#001-jwt-인증-데코레이터는-base_func이-인자로-next_token을-받는-것을-가정했으니---route함수는-token을-인자로-받아야한다---return에도-받은-next_token을-반환해보자">001 jwt 인증 데코레이터는 base_func이 인자로 next_token을 받는 것을 가정했으니 -&gt; route함수는 token을 인자로 받아야한다 -&gt; return에도 받은 next_token을 반환해보자.</a></li>
+<li class="toc-entry toc-h4"><a href="#002-postman에서-토큰생성-post---토큰-인증get-해보기">002 POSTMAN에서 토큰생성 (POST) -&gt; 토큰 인증(GET) 해보기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#token-생성은-생성요청자-uid를-넣어줘야하는데-여기선-하드코딩으로-넣어준다">token 생성은 생성요청자 uid를 넣어줘야하는데, 여기선 하드코딩으로 넣어준다</a></li>
+<li class="toc-entry toc-h5"><a href="#token-인증요청자는-token생성한uid와-동일해야하는데-10headers에-하드코딩으로-post에-썼던-uid를-하드코딩해서-넣어주고-요청한다-또한-2-authrization탭에-post시-발급받은-token을-똑같이-직접-넣어줘야한다">token 인증요청자는 token생성한uid와 동일해야하는데, (10Headers에 하드코딩으로 POST에 썼던 uid를 하드코딩해서 넣어주고 요청한다. 또한, (2) Authrization탭에 POST시 발급받은 token을 똑같이 직접 넣어줘야한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#003-인증요청자가-발급자와-다른uid를-가지고-있다면-token_verify가-인증실패---예외처리를-잘해준다--400-bad-request인데---400-user-not-permission">003 인증요청자가 발급자와 다른uid를 가지고 있다면? @token_verify가 인증실패 -&gt; 예외처리를 잘해준다.  (400, Bad Request인데, -&gt; 400, User not permission)</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#uid를-입력안해도-or-토큰이-없어도예외처리를-잘해준다400-bad-request인데----400에-no-authorized">uid를 입력안해도 (or 토큰이 없어도)예외처리를 잘해준다.(400, Bad Request인데 -&gt;  400에 No Authorized)</a></li>
+<li class="toc-entry toc-h5"><a href="#token-맨끝에-12글자-지워도-잘-에러-내준다498-invalid-token---401-invalid-token">token 맨끝에 1~2글자 지워도 잘 에러 내준다.(498, Invalid Token, -&gt; 401 Invalid Token)</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul><h2 id="데코레이터를-작성하는-순서">
@@ -304,6 +342,327 @@ window.onload = wrap_img;
     </ul>
   </li>
 </ol>
+
+<h2 id="역순으로-jwt-인증-decorator-작성">
+<a class="anchor" href="#%EC%97%AD%EC%88%9C%EC%9C%BC%EB%A1%9C-jwt-%EC%9D%B8%EC%A6%9D-decorator-%EC%9E%91%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>역순으로 jwt 인증 decorator 작성</h2>
+
+<h3 id="01-route마다-매번-token-인증---실패시-예외의-검증하는-로직을-route에-반복-기술하는-대신-데코레이터로-만들기">
+<a class="anchor" href="#01-route%EB%A7%88%EB%8B%A4-%EB%A7%A4%EB%B2%88-token-%EC%9D%B8%EC%A6%9D---%EC%8B%A4%ED%8C%A8%EC%8B%9C-%EC%98%88%EC%99%B8%EC%9D%98-%EA%B2%80%EC%A6%9D%ED%95%98%EB%8A%94-%EB%A1%9C%EC%A7%81%EC%9D%84-route%EC%97%90-%EB%B0%98%EB%B3%B5-%EA%B8%B0%EC%88%A0%ED%95%98%EB%8A%94-%EB%8C%80%EC%8B%A0-%EB%8D%B0%EC%BD%94%EB%A0%88%EC%9D%B4%ED%84%B0%EB%A1%9C-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 Route마다 매번 [token 인증 -&gt; 실패시 예외]의 검증하는 로직을 route에 반복 기술하는 대신 데코레이터로 만들기</h3>
+
+<ul>
+  <li>
+    <p><a href="https://blog.chojaeseong.com/python/algorithm/pycharm/decorator/2022/07/20/python_%EB%8D%B0%EC%BD%94%EB%A0%88%EC%9D%B4%ED%84%B0%EB%A5%BC-%EC%9E%91%EC%84%B1%ED%95%98%EB%8A%94-%EC%88%9C%EC%84%9C.html">참고 내 블로그</a></p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>기본 데코레이터 만들기
+01 기능을 입힐 base함수부터 작성한다. 이왕이면 print가 아니라 return하는 결과물이 있는 함수를 작성하여, 반환값에 대한 장식도 가능하게 한다.
+02 base함수를 (호출부없는)함수객체를 인자로 받는 클로져 함수를 사용-생성한다. 여기까지는 지역상태(메서드내부 인자 등)를 기억하는 함수객체를 return한 뒤, 외부에서 실제 인자를 받는 클로져가 된다.
+03 클로져 상태에서, base함수를 호출한 결과값을 장식해야한다면? 반환은 값이 되므로 함수객체를 반환하지 않게 되어, 클로져도 아니고 데코레이터도 아니게 된다. 그냥 값이 반환된 상태라서 외부에서 ()호출없이 끝난다.
+04 base결과물 장식 후, 클로져 상태(함수객체 반환)를 유지하기 위한 inner메서드 wrapper로 감싼 뒤, return wrapper함수객체 -&gt; 외부에서 호출될 함수로서, 함부러 파라미터를 내부context라고 파라미터로 만들면 안된다. -&gt; base함수의 인자에 맞춰야한다.
+05 완성된 데코는, base함수에 @달아서 사용해주기
+06 다중데코레이터는, 외부에서 한번더 감싸서 만들고, 달 때는 아래-&gt;위 순서대로 단다.
+함수객체 name에 base함수가 찍히도록 디버깅되는 데코레이터로 바꾸기 by wrapper메서드에 @functools.wraps(func) 데코 달아주기
+base함수호출시 필요한 특정 인자를 외부에서 조달하려면, 외부에 return되서 ()가 붙는 함수객체 wrapper에 *args, **kwargs로 파라미터를 정의하여 어떤 인자든 들어오게 한다.
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="001-src--auth_jwt--token_verifierpy-생성">
+<a class="anchor" href="#001-src--auth_jwt--token_verifierpy-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>001 src &gt; auth_jwt &gt; token_verifier.py 생성</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221010211709522.png" alt="image-20221010211709522"></p>
+
+<h3 id="02-token인증실패시-예외을-데코레이터-만드는-방법바깥에서부터">
+<a class="anchor" href="#02-token%EC%9D%B8%EC%A6%9D%EC%8B%A4%ED%8C%A8%EC%8B%9C-%EC%98%88%EC%99%B8%EC%9D%84-%EB%8D%B0%EC%BD%94%EB%A0%88%EC%9D%B4%ED%84%B0-%EB%A7%8C%EB%93%9C%EB%8A%94-%EB%B0%A9%EB%B2%95%EB%B0%94%EA%B9%A5%EC%97%90%EC%84%9C%EB%B6%80%ED%84%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 token인증(실패시 예외)을 데코레이터 만드는 방법(바깥에서부터)</h3>
+
+<ul>
+  <li>
+<strong>route의 메서드</strong>가, 데코레이터의 decorator -&gt; warpper -&gt; base_func 중 <strong>basefunc을 차지하게 됨.</strong>
+</li>
+</ul>
+
+<h4 id="001-decorator는--호출-전의-base_func객체를-인자로-받아서-내부에서-호출하고-return은-func객체를-호출하고-실제-deco하는-inner-method-wrapper를-호출하지-않은체-반환하므로-inputfuncbase_func---output-funcwrapper이다">
+<a class="anchor" href="#001-decorator%EB%8A%94--%ED%98%B8%EC%B6%9C-%EC%A0%84%EC%9D%98-base_func%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%B0%9B%EC%95%84%EC%84%9C-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-%ED%98%B8%EC%B6%9C%ED%95%98%EA%B3%A0-return%EC%9D%80-func%EA%B0%9D%EC%B2%B4%EB%A5%BC-%ED%98%B8%EC%B6%9C%ED%95%98%EA%B3%A0-%EC%8B%A4%EC%A0%9C-deco%ED%95%98%EB%8A%94-inner-method-wrapper%EB%A5%BC-%ED%98%B8%EC%B6%9C%ED%95%98%EC%A7%80-%EC%95%8A%EC%9D%80%EC%B2%B4-%EB%B0%98%ED%99%98%ED%95%98%EB%AF%80%EB%A1%9C-inputfuncbase_func---output-funcwrapper%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>001 decorator는  ()호출 전의 base_func객체를 인자로 받아서 내부에서 호출하고, return은 func객체를 호출하고 실제 deco하는 inner method wrapper를 호출하지 않은체 반환하므로 [input:func(base_func) -&gt; output func(wrapper)]이다.</h4>
+
+<ul>
+  <li>
+    <p>참고</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220720183920956.png" alt=""></p>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">token_verify</span><span class="p">(</span><span class="n">function</span><span class="p">:</span> <span class="nb">callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">callable</span><span class="p">:</span>
+</code></pre></div></div>
+
+<h4 id="002-inner-method-wrapper메서드는-결과값을-deco당하거나-or-호출전후로-작업을-하고-싶은-base_func의-decorating-과정에서---외부-인자가요구하는-순간-wrapper-method도-인자를-args-kwargs로-받는다-inner-method인-wrapper는-decorator-맨-마지막에-호출하지-않은-체-반환되는-closure다">
+<a class="anchor" href="#002-inner-method-wrapper%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-%EA%B2%B0%EA%B3%BC%EA%B0%92%EC%9D%84-deco%EB%8B%B9%ED%95%98%EA%B1%B0%EB%82%98-or-%ED%98%B8%EC%B6%9C%EC%A0%84%ED%9B%84%EB%A1%9C-%EC%9E%91%EC%97%85%EC%9D%84-%ED%95%98%EA%B3%A0-%EC%8B%B6%EC%9D%80-base_func%EC%9D%98-decorating-%EA%B3%BC%EC%A0%95%EC%97%90%EC%84%9C---%EC%99%B8%EB%B6%80-%EC%9D%B8%EC%9E%90%EA%B0%80%EC%9A%94%EA%B5%AC%ED%95%98%EB%8A%94-%EC%88%9C%EA%B0%84-wrapper-method%EB%8F%84-%EC%9D%B8%EC%9E%90%EB%A5%BC-args-kwargs%EB%A1%9C-%EB%B0%9B%EB%8A%94%EB%8B%A4-inner-method%EC%9D%B8-wrapper%EB%8A%94-decorator-%EB%A7%A8-%EB%A7%88%EC%A7%80%EB%A7%89%EC%97%90-%ED%98%B8%EC%B6%9C%ED%95%98%EC%A7%80-%EC%95%8A%EC%9D%80-%EC%B2%B4-%EB%B0%98%ED%99%98%EB%90%98%EB%8A%94-closure%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>002 inner method wrapper메서드는 [결과값을 deco당하거나 or 호출전후로 작업을 하고 싶은 base_func()]의 decorating 과정에서 -&gt; 외부 인자가요구하는 순간, wrapper method도 인자를 <code class="language-plaintext highlighter-rouge">*args, **kwargs</code>로 받는다. inner method인 wrapper는 decorator 맨 마지막에 호출하지 않은 체 반환되는 closure다</h4>
+
+<ul>
+  <li>
+    <p>참고</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220720193114348.png" alt=""></p>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">token_verify</span><span class="p">(</span><span class="n">function</span><span class="p">:</span> <span class="nb">callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">callable</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">decorated</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1">## pre decoration
+</span>
+        <span class="c1"># result = function()
+</span>
+        <span class="c1">## post decoration
+</span>        <span class="c1"># post_decorated_result = result + @
+</span>        <span class="c1"># return decorated_result
+</span>        
+    <span class="k">return</span> <span class="n">decorated</span>
+</code></pre></div></div>
+
+<h4 id="003-get-route에서-token인증을-위한-decode--예외처리-했던-로직을-inner-method-warpper여기선-decorated-내부로-가져와서-base_func-여기서는-route함수-호출전-1token인증실패시-예외--2-token-refresh-작업을-항상-진행하게-해준다">
+<a class="anchor" href="#003-get-route%EC%97%90%EC%84%9C-token%EC%9D%B8%EC%A6%9D%EC%9D%84-%EC%9C%84%ED%95%9C-decode--%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC-%ED%96%88%EB%8D%98-%EB%A1%9C%EC%A7%81%EC%9D%84-inner-method-warpper%EC%97%AC%EA%B8%B0%EC%84%A0-decorated-%EB%82%B4%EB%B6%80%EB%A1%9C-%EA%B0%80%EC%A0%B8%EC%99%80%EC%84%9C-base_func-%EC%97%AC%EA%B8%B0%EC%84%9C%EB%8A%94-route%ED%95%A8%EC%88%98-%ED%98%B8%EC%B6%9C%EC%A0%84-1token%EC%9D%B8%EC%A6%9D%EC%8B%A4%ED%8C%A8%EC%8B%9C-%EC%98%88%EC%99%B8--2-token-refresh-%EC%9E%91%EC%97%85%EC%9D%84-%ED%95%AD%EC%83%81-%EC%A7%84%ED%96%89%ED%95%98%EA%B2%8C-%ED%95%B4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>003 GET route에서 token인증을 위한 decode + 예외처리 했던 로직을 inner method warpper(여기선 decorated) 내부로 가져와서, [base_func (여기서는 route함수) 호출전 (1)TOKEN인증(==실패시 예외) + (2) TOKEN REFRESH 작업]을 항상 진행하게 해준다.</h4>
+
+<ul>
+  <li>
+    <p>get route</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221010214759256.png" alt="image-20221010214759256"></p>
+  </li>
+  <li>
+    <p>이동</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221010214905612.png" alt="image-20221010214905612"></p>
+  </li>
+</ul>
+
+<h4 id="004-필요한-것들을-import하고-수정해나간다">
+<a class="anchor" href="#004-%ED%95%84%EC%9A%94%ED%95%9C-%EA%B2%83%EB%93%A4%EC%9D%84-import%ED%95%98%EA%B3%A0-%EC%88%98%EC%A0%95%ED%95%B4%EB%82%98%EA%B0%84%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>004 필요한 것들을 import하고, 수정해나간다</h4>
+
+<ul>
+  <li>auth_jwt &gt; token_verifier.py에
+    <ul>
+      <li>flaks관련 모듈이 import된다</li>
+      <li>jwt가 import된다</li>
+      <li>싱글톤 token_creator도 import된다
+        <ul>
+          <li><strong>인증 및 예외발생 route에는 없던 refresh를 해주기 위해</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">jwt</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">jsonify</span>
+
+
+<span class="k">def</span> <span class="nf">token_verify</span><span class="p">(</span><span class="n">function</span><span class="p">:</span> <span class="nb">callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">callable</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">decorated</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">raw_token</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">headers</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"Authorization"</span><span class="p">)</span>
+        <span class="n">uid</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">headers</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"uid"</span><span class="p">)</span>
+
+        <span class="c1"># if not raw_token:
+</span>        <span class="k">if</span> <span class="ow">not</span> <span class="n">raw_token</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">uid</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+                <span class="s">"error"</span><span class="p">:</span> <span class="s">"Bad Request"</span>
+            <span class="p">}),</span> <span class="mi">400</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">token</span> <span class="o">=</span> <span class="n">raw_token</span><span class="p">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">token_information</span> <span class="o">=</span> <span class="n">jwt</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s">'1234'</span><span class="p">,</span> <span class="n">algorithms</span><span class="o">=</span><span class="s">'HS256'</span><span class="p">)</span>
+            <span class="n">token_uid</span> <span class="o">=</span> <span class="n">token_information</span><span class="p">[</span><span class="s">"uid"</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="n">jwt</span><span class="p">.</span><span class="n">InvalidSignatureError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+                <span class="s">"error"</span><span class="p">:</span> <span class="s">"Invalid Token"</span>
+            <span class="p">}),</span> <span class="mi">498</span>
+
+        <span class="k">except</span> <span class="n">jwt</span><span class="p">.</span><span class="n">ExpiredSignatureError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+                <span class="s">"error"</span><span class="p">:</span> <span class="s">"Token expried"</span>
+            <span class="p">}),</span> <span class="mi">401</span>
+            
+        <span class="k">except</span> <span class="nb">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+                <span class="s">"error"</span><span class="p">:</span> <span class="s">"Invalid Token2"</span>
+            <span class="p">}),</span> <span class="mi">401</span>
+
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">token_uid</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">int</span><span class="p">(</span><span class="n">uid</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+                <span class="s">"error"</span><span class="p">:</span> <span class="s">"User not permission"</span>
+            <span class="p">}),</span> <span class="mi">400</span>
+
+    <span class="k">return</span> <span class="n">decorated</span>
+
+</code></pre></div></div>
+
+<h4 id="005-base_func인-functionroute함수는-wrapperdecorated에서-token인증-및-예외처리-끝내고-자신만-호출되면-되나-인증안되면-예외발생하고-인증되면-route-자신의-역할만-하면-끝">
+<a class="anchor" href="#005-base_func%EC%9D%B8-functionroute%ED%95%A8%EC%88%98%EB%8A%94-wrapperdecorated%EC%97%90%EC%84%9C-token%EC%9D%B8%EC%A6%9D-%EB%B0%8F-%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC-%EB%81%9D%EB%82%B4%EA%B3%A0-%EC%9E%90%EC%8B%A0%EB%A7%8C-%ED%98%B8%EC%B6%9C%EB%90%98%EB%A9%B4-%EB%90%98%EB%82%98-%EC%9D%B8%EC%A6%9D%EC%95%88%EB%90%98%EB%A9%B4-%EC%98%88%EC%99%B8%EB%B0%9C%EC%83%9D%ED%95%98%EA%B3%A0-%EC%9D%B8%EC%A6%9D%EB%90%98%EB%A9%B4-route-%EC%9E%90%EC%8B%A0%EC%9D%98-%EC%97%AD%ED%95%A0%EB%A7%8C-%ED%95%98%EB%A9%B4-%EB%81%9D" aria-hidden="true"><span class="octicon octicon-link"></span></a>005 base_func인 function(route함수)는 wrapper(decorated)에서 [token인증 및 예외처리] 끝내고, 자신만 호출되면 되나? 인증안되면 예외발생하고, 인증되면 route 자신의 역할만 하면 끝??</h4>
+
+<ul>
+  <li>
+    <p>시나리오</p>
+
+    <ul>
+      <li>
+        <p><strong>route함수가, 인증 및 예외처리만 할 경우 -&gt; deco내wrapper내 token처리 끝나고 base_func()호출시 특별한 인자 없이 <code class="language-plaintext highlighter-rouge">base_func(\*args, \**kwargs)</code>로 return하고 끝낸다</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221010220636213.png" alt="image-20221010220636213"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221010220852840.png" alt="image-20221010220852840"></p>
+      </li>
+      <li>
+        <p><strong>route함수가, 인증 및 예외처리하고 <code class="language-plaintext highlighter-rouge">REFRESH한 token이 새로 발급</code>되어서, <code class="language-plaintext highlighter-rouge">이것을 인자로 받아갈 때</code></strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221010220940515.png" alt="image-20221010220940515"></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221010221134178.png" alt="image-20221010221134178"></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="006-route함수가-decorator로-token인증을-거치는-경우-인증성공시의-refresh된-token을-route함수-인자로-받아야하며-decorator작성시-base_funcroute_func은-argskargs-앞에-가장-첫-인자로-next_token을-추가해야한다">
+<a class="anchor" href="#006-route%ED%95%A8%EC%88%98%EA%B0%80-decorator%EB%A1%9C-token%EC%9D%B8%EC%A6%9D%EC%9D%84-%EA%B1%B0%EC%B9%98%EB%8A%94-%EA%B2%BD%EC%9A%B0-%EC%9D%B8%EC%A6%9D%EC%84%B1%EA%B3%B5%EC%8B%9C%EC%9D%98-refresh%EB%90%9C-token%EC%9D%84-route%ED%95%A8%EC%88%98-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%B0%9B%EC%95%84%EC%95%BC%ED%95%98%EB%A9%B0-decorator%EC%9E%91%EC%84%B1%EC%8B%9C-base_funcroute_func%EC%9D%80-argskargs-%EC%95%9E%EC%97%90-%EA%B0%80%EC%9E%A5-%EC%B2%AB-%EC%9D%B8%EC%9E%90%EB%A1%9C-next_token%EC%9D%84-%EC%B6%94%EA%B0%80%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>006 route함수가 decorator로 token인증을 거치는 경우, 인증성공시의 refresh된 token을 route함수 인자로 받아야하며, decorator작성시, base_func(route_func)은 *args**kargs 앞에 가장 첫 인자로 next_token을 추가해야한다</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221011014624097.png" alt="image-20221011014624097"></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">jwt</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">jsonify</span>
+<span class="kn">from</span> <span class="nn">.token_handler</span> <span class="kn">import</span> <span class="n">token_creator</span>
+
+
+<span class="k">def</span> <span class="nf">token_verify</span><span class="p">(</span><span class="n">function</span><span class="p">:</span> <span class="nb">callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">callable</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">decorated</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">raw_token</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">headers</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"Authorization"</span><span class="p">)</span>
+        <span class="n">uid</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">headers</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"uid"</span><span class="p">)</span>
+
+        <span class="c1"># if not raw_token:
+</span>        <span class="k">if</span> <span class="ow">not</span> <span class="n">raw_token</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">uid</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+                <span class="s">"error"</span><span class="p">:</span> <span class="s">"Bad Request"</span>
+            <span class="p">}),</span> <span class="mi">400</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">token</span> <span class="o">=</span> <span class="n">raw_token</span><span class="p">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">token_information</span> <span class="o">=</span> <span class="n">jwt</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s">'1234'</span><span class="p">,</span> <span class="n">algorithms</span><span class="o">=</span><span class="s">'HS256'</span><span class="p">)</span>
+            <span class="n">token_uid</span> <span class="o">=</span> <span class="n">token_information</span><span class="p">[</span><span class="s">"uid"</span><span class="p">]</span>
+
+        <span class="k">except</span> <span class="n">jwt</span><span class="p">.</span><span class="n">InvalidSignatureError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+                <span class="s">"error"</span><span class="p">:</span> <span class="s">"Invalid Token"</span>
+            <span class="p">}),</span> <span class="mi">498</span>
+
+        <span class="k">except</span> <span class="n">jwt</span><span class="p">.</span><span class="n">ExpiredSignatureError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+                <span class="s">"error"</span><span class="p">:</span> <span class="s">"Token expried"</span>
+            <span class="p">}),</span> <span class="mi">401</span>
+
+        <span class="k">except</span> <span class="nb">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+                <span class="s">"error"</span><span class="p">:</span> <span class="s">"Invalid Token2"</span>
+            <span class="p">}),</span> <span class="mi">401</span>
+
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">token_uid</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">int</span><span class="p">(</span><span class="n">uid</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+                <span class="s">"error"</span><span class="p">:</span> <span class="s">"User not permission"</span>
+            <span class="p">}),</span> <span class="mi">400</span>
+
+        <span class="n">next_token</span> <span class="o">=</span> <span class="n">token_creator</span><span class="p">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+        <span class="c1"># route function
+</span>        <span class="c1"># return function(*args, **kwargs)
+</span>        <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="n">next_token</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">decorated</span>
+</code></pre></div></div>
+
+<h4 id="007-inner-method-wrapper메서드에-functoolswraps-base_func-을-달아주면-디버깅시-함수name이-같이-찍힌다">
+<a class="anchor" href="#007-inner-method-wrapper%EB%A9%94%EC%84%9C%EB%93%9C%EC%97%90-functoolswraps-base_func-%EC%9D%84-%EB%8B%AC%EC%95%84%EC%A3%BC%EB%A9%B4-%EB%94%94%EB%B2%84%EA%B9%85%EC%8B%9C-%ED%95%A8%EC%88%98name%EC%9D%B4-%EA%B0%99%EC%9D%B4-%EC%B0%8D%ED%9E%8C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>007 inner method wrapper메서드에 @functools.wraps( base_func )을 달아주면, 디버깅시 함수name이 같이 찍힌다</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="c1">#...
+</span><span class="k">def</span> <span class="nf">token_verify</span><span class="p">(</span><span class="n">function</span><span class="p">:</span> <span class="nb">callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">callable</span><span class="p">:</span>
+    
+    <span class="o">@</span><span class="n">wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">decorated</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</code></pre></div></div>
+
+<h4 id="008-auth_jwt-init에-올리기">
+<a class="anchor" href="#008-auth_jwt-init%EC%97%90-%EC%98%AC%EB%A6%AC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>008 auth_jwt init에 올리기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">.token_handler</span> <span class="kn">import</span> <span class="n">token_creator</span>
+<span class="kn">from</span> <span class="nn">.token_verifier</span> <span class="kn">import</span> <span class="n">token_verify</span>
+</code></pre></div></div>
+
+<h3 id="03-token-인증필요-routeget에서-jwt-인증--decorator사용하기">
+<a class="anchor" href="#03-token-%EC%9D%B8%EC%A6%9D%ED%95%84%EC%9A%94-routeget%EC%97%90%EC%84%9C-jwt-%EC%9D%B8%EC%A6%9D--decorator%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 token 인증필요 route(GET)에서 jwt 인증  decorator사용하기</h3>
+
+<h4 id="001-jwt-인증-데코레이터는-base_func이-인자로-next_token을-받는-것을-가정했으니---route함수는-token을-인자로-받아야한다---return에도-받은-next_token을-반환해보자">
+<a class="anchor" href="#001-jwt-%EC%9D%B8%EC%A6%9D-%EB%8D%B0%EC%BD%94%EB%A0%88%EC%9D%B4%ED%84%B0%EB%8A%94-base_func%EC%9D%B4-%EC%9D%B8%EC%9E%90%EB%A1%9C-next_token%EC%9D%84-%EB%B0%9B%EB%8A%94-%EA%B2%83%EC%9D%84-%EA%B0%80%EC%A0%95%ED%96%88%EC%9C%BC%EB%8B%88---route%ED%95%A8%EC%88%98%EB%8A%94-token%EC%9D%84-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%B0%9B%EC%95%84%EC%95%BC%ED%95%9C%EB%8B%A4---return%EC%97%90%EB%8F%84-%EB%B0%9B%EC%9D%80-next_token%EC%9D%84-%EB%B0%98%ED%99%98%ED%95%B4%EB%B3%B4%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>001 jwt 인증 데코레이터는 base_func이 인자로 next_token을 받는 것을 가정했으니 -&gt; route함수는 token을 인자로 받아야한다 -&gt; return에도 받은 next_token을 반환해보자.</h4>
+
+<ul>
+  <li>api_route.py</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#...
+</span><span class="kn">from</span> <span class="nn">src.auth_jwt</span> <span class="kn">import</span> <span class="n">token_creator</span><span class="p">,</span> <span class="n">token_verifier</span>
+<span class="c1">#...
+</span>
+<span class="o">@</span><span class="n">api_routes_bp</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/secret"</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">"GET"</span><span class="p">])</span>
+<span class="o">@</span><span class="n">token_verifier</span>
+<span class="k">def</span> <span class="nf">secret_route</span><span class="p">(</span><span class="n">token</span><span class="p">):</span>
+
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+        <span class="s">'data'</span><span class="p">:</span> <span class="n">token</span>
+    <span class="p">}),</span> <span class="mi">200</span>
+</code></pre></div></div>
+
+<h4 id="002-postman에서-토큰생성-post---토큰-인증get-해보기">
+<a class="anchor" href="#002-postman%EC%97%90%EC%84%9C-%ED%86%A0%ED%81%B0%EC%83%9D%EC%84%B1-post---%ED%86%A0%ED%81%B0-%EC%9D%B8%EC%A6%9Dget-%ED%95%B4%EB%B3%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>002 POSTMAN에서 토큰생성 (POST) -&gt; 토큰 인증(GET) 해보기</h4>
+
+<h5 id="token-생성은-생성요청자-uid를-넣어줘야하는데-여기선-하드코딩으로-넣어준다">
+<a class="anchor" href="#token-%EC%83%9D%EC%84%B1%EC%9D%80-%EC%83%9D%EC%84%B1%EC%9A%94%EC%B2%AD%EC%9E%90-uid%EB%A5%BC-%EB%84%A3%EC%96%B4%EC%A4%98%EC%95%BC%ED%95%98%EB%8A%94%EB%8D%B0-%EC%97%AC%EA%B8%B0%EC%84%A0-%ED%95%98%EB%93%9C%EC%BD%94%EB%94%A9%EC%9C%BC%EB%A1%9C-%EB%84%A3%EC%96%B4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>token 생성은 생성요청자 uid를 넣어줘야하는데, 여기선 하드코딩으로 넣어준다</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221011015852728.png" alt="image-20221011015852728"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221011015644925.png" alt="image-20221011015644925"></p>
+
+<h5 id="token-인증요청자는-token생성한uid와-동일해야하는데-10headers에-하드코딩으로-post에-썼던-uid를-하드코딩해서-넣어주고-요청한다-또한-2-authrization탭에-post시-발급받은-token을-똑같이-직접-넣어줘야한다">
+<a class="anchor" href="#token-%EC%9D%B8%EC%A6%9D%EC%9A%94%EC%B2%AD%EC%9E%90%EB%8A%94-token%EC%83%9D%EC%84%B1%ED%95%9Cuid%EC%99%80-%EB%8F%99%EC%9D%BC%ED%95%B4%EC%95%BC%ED%95%98%EB%8A%94%EB%8D%B0-10headers%EC%97%90-%ED%95%98%EB%93%9C%EC%BD%94%EB%94%A9%EC%9C%BC%EB%A1%9C-post%EC%97%90-%EC%8D%BC%EB%8D%98-uid%EB%A5%BC-%ED%95%98%EB%93%9C%EC%BD%94%EB%94%A9%ED%95%B4%EC%84%9C-%EB%84%A3%EC%96%B4%EC%A3%BC%EA%B3%A0-%EC%9A%94%EC%B2%AD%ED%95%9C%EB%8B%A4-%EB%98%90%ED%95%9C-2-authrization%ED%83%AD%EC%97%90-post%EC%8B%9C-%EB%B0%9C%EA%B8%89%EB%B0%9B%EC%9D%80-token%EC%9D%84-%EB%98%91%EA%B0%99%EC%9D%B4-%EC%A7%81%EC%A0%91-%EB%84%A3%EC%96%B4%EC%A4%98%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>token 인증요청자는 token생성한uid와 동일해야하는데, (10Headers에 하드코딩으로 POST에 썼던 uid를 하드코딩해서 넣어주고 요청한다. 또한, (2) Authrization탭에 POST시 발급받은 token을 똑같이 직접 넣어줘야한다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221011015731021.png" alt="image-20221011015731021"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221011015706030.png" alt="image-20221011015706030"></p>
+
+<h4 id="003-인증요청자가-발급자와-다른uid를-가지고-있다면-token_verify가-인증실패---예외처리를-잘해준다--400-bad-request인데---400-user-not-permission">
+<a class="anchor" href="#003-%EC%9D%B8%EC%A6%9D%EC%9A%94%EC%B2%AD%EC%9E%90%EA%B0%80-%EB%B0%9C%EA%B8%89%EC%9E%90%EC%99%80-%EB%8B%A4%EB%A5%B8uid%EB%A5%BC-%EA%B0%80%EC%A7%80%EA%B3%A0-%EC%9E%88%EB%8B%A4%EB%A9%B4-token_verify%EA%B0%80-%EC%9D%B8%EC%A6%9D%EC%8B%A4%ED%8C%A8---%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC%EB%A5%BC-%EC%9E%98%ED%95%B4%EC%A4%80%EB%8B%A4--400-bad-request%EC%9D%B8%EB%8D%B0---400-user-not-permission" aria-hidden="true"><span class="octicon octicon-link"></span></a>003 인증요청자가 발급자와 다른uid를 가지고 있다면? @token_verify가 인증실패 -&gt; 예외처리를 잘해준다.  (400, Bad Request인데, -&gt; 400, User not permission)</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221011020126251.png" alt="image-20221011020126251"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221011020306881.png" alt="image-20221011020306881"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221011021008053.png" alt="image-20221011021008053"></p>
+
+<h5 id="uid를-입력안해도-or-토큰이-없어도예외처리를-잘해준다400-bad-request인데----400에-no-authorized">
+<a class="anchor" href="#uid%EB%A5%BC-%EC%9E%85%EB%A0%A5%EC%95%88%ED%95%B4%EB%8F%84-or-%ED%86%A0%ED%81%B0%EC%9D%B4-%EC%97%86%EC%96%B4%EB%8F%84%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC%EB%A5%BC-%EC%9E%98%ED%95%B4%EC%A4%80%EB%8B%A4400-bad-request%EC%9D%B8%EB%8D%B0----400%EC%97%90-no-authorized" aria-hidden="true"><span class="octicon octicon-link"></span></a>uid를 입력안해도 (or 토큰이 없어도)예외처리를 잘해준다.(400, Bad Request인데 -&gt;  400에 No Authorized)</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221011020237204.png" alt="image-20221011020237204"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221011020246890.png" alt="image-20221011020246890"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221011020826150.png" alt="image-20221011020826150"></p>
+
+<h5 id="token-맨끝에-12글자-지워도-잘-에러-내준다498-invalid-token---401-invalid-token">
+<a class="anchor" href="#token-%EB%A7%A8%EB%81%9D%EC%97%90-12%EA%B8%80%EC%9E%90-%EC%A7%80%EC%9B%8C%EB%8F%84-%EC%9E%98-%EC%97%90%EB%9F%AC-%EB%82%B4%EC%A4%80%EB%8B%A4498-invalid-token---401-invalid-token" aria-hidden="true"><span class="octicon octicon-link"></span></a>token 맨끝에 1~2글자 지워도 잘 에러 내준다.(498, Invalid Token, -&gt; 401 Invalid Token)</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221011020415029.png" alt="image-20221011020415029"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221011020629922.png" alt="image-20221011020629922"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221011020939299.png" alt="image-20221011020939299"></p>
 
 
   </div><a class="u-url" href="/python/algorithm/pycharm/decorator/2022/07/20/python_%EB%8D%B0%EC%BD%94%EB%A0%88%EC%9D%B4%ED%84%B0%EB%A5%BC-%EC%9E%91%EC%84%B1%ED%95%98%EB%8A%94-%EC%88%9C%EC%84%9C.html" hidden></a>
