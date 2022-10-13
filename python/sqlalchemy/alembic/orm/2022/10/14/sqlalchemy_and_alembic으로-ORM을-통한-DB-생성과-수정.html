@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>sqlalchemy과 alembic으로 ORM을 통한 DB 생성과 수정 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="sqlalchemy과 alembic으로 ORM을 통한 DB 생성과 수정" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="ORM으로 DB를 생성부터 수정/삭제까지" />
+<meta property="og:description" content="ORM으로 DB를 생성부터 수정/삭제까지" />
+<link rel="canonical" href="blog.chojaeseong.com/python/sqlalchemy/alembic/orm/2022/10/14/sqlalchemy_and_alembic%EC%9C%BC%EB%A1%9C-ORM%EC%9D%84-%ED%86%B5%ED%95%9C-DB-%EC%83%9D%EC%84%B1%EA%B3%BC-%EC%88%98%EC%A0%95.html" />
+<meta property="og:url" content="blog.chojaeseong.com/python/sqlalchemy/alembic/orm/2022/10/14/sqlalchemy_and_alembic%EC%9C%BC%EB%A1%9C-ORM%EC%9D%84-%ED%86%B5%ED%95%9C-DB-%EC%83%9D%EC%84%B1%EA%B3%BC-%EC%88%98%EC%A0%95.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/python.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-10-14T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-10-14T00:00:00-05:00","url":"blog.chojaeseong.com/python/sqlalchemy/alembic/orm/2022/10/14/sqlalchemy_and_alembic%EC%9C%BC%EB%A1%9C-ORM%EC%9D%84-%ED%86%B5%ED%95%9C-DB-%EC%83%9D%EC%84%B1%EA%B3%BC-%EC%88%98%EC%A0%95.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/python.png","headline":"sqlalchemy과 alembic으로 ORM을 통한 DB 생성과 수정","dateModified":"2022-10-14T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/python/sqlalchemy/alembic/orm/2022/10/14/sqlalchemy_and_alembic%EC%9C%BC%EB%A1%9C-ORM%EC%9D%84-%ED%86%B5%ED%95%9C-DB-%EC%83%9D%EC%84%B1%EA%B3%BC-%EC%88%98%EC%A0%95.html"},"description":"ORM으로 DB를 생성부터 수정/삭제까지","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">sqlalchemy과 alembic으로 ORM을 통한 DB 생성과 수정</h1><p class="page-description">ORM으로 DB를 생성부터 수정/삭제까지</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-10-14T00:00:00-05:00" itemprop="datePublished">
+        Oct 14, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      1 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#python">python</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#sqlalchemy">sqlalchemy</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#alembic">alembic</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#orm">orm</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#sqlalchemy--alembic으로-orm을-통한-db-생성과-수정">sqlalchemy + alembic으로 ORM을 통한 DB 생성과 수정</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-alembic-없이-orm---db-createonly">01 alembic 없이 ORM -&gt; DB create(only)</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#전체-entity-한번에-생성base--engine--entities">전체 Entity 한번에 생성(Base + engine + Entities)</a></li>
+<li class="toc-entry toc-h5"><a href="#특정-entity만--engine으로-생성">특정 Entity만 + engine으로 생성</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#02-alembic을-이용한-orm---db-수정">02 alembic을 이용한 ORM -&gt; DB 수정</a></li>
+</ul>
+</li>
+</ul><h3 id="sqlalchemy--alembic으로-orm을-통한-db-생성과-수정">
+<a class="anchor" href="#sqlalchemy--alembic%EC%9C%BC%EB%A1%9C-orm%EC%9D%84-%ED%86%B5%ED%95%9C-db-%EC%83%9D%EC%84%B1%EA%B3%BC-%EC%88%98%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>sqlalchemy + alembic으로 ORM을 통한 DB 생성과 수정</h3>
+
+<h4 id="01-alembic-없이-orm---db-createonly">
+<a class="anchor" href="#01-alembic-%EC%97%86%EC%9D%B4-orm---db-createonly" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 alembic 없이 ORM -&gt; DB create(only)</h4>
+
+<h5 id="전체-entity-한번에-생성base--engine--entities">
+<a class="anchor" href="#%EC%A0%84%EC%B2%B4-entity-%ED%95%9C%EB%B2%88%EC%97%90-%EC%83%9D%EC%84%B1base--engine--entities" aria-hidden="true"><span class="octicon octicon-link"></span></a>전체 Entity 한번에 생성(Base + engine + Entities)</h5>
+
+<ol>
+  <li>
+    <p><strong>python console</strong>을 열고</p>
+  </li>
+  <li>
+    <p><strong>Base</strong>객체와 engine객체 생성을 위한 <strong>DBConnnectionHandler</strong> import</p>
+  </li>
+  <li>
+    <p><strong>Entity들을 메모리에 올리기</strong>위한 entity import</p>
+  </li>
+  <li>
+    <p><strong>Base.metadata.create_all( engnine )</strong>명령어로 생성</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">infra.config.base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span class="kn">from</span> <span class="nn">infra.config.connection</span> <span class="kn">import</span> <span class="n">DBConnectionHandler</span>
+   
+<span class="kn">from</span> <span class="nn">infra.entities</span> <span class="kn">import</span> <span class="o">*</span>
+   
+<span class="c1">#with DBConnectionHandler() as db:
+#    Base.metadata.create_all(db.get_engine())
+</span><span class="n">engine</span> <span class="o">=</span> <span class="n">DBConnectionHandler</span><span class="p">().</span><span class="n">get_engine</span><span class="p">()</span>
+<span class="n">Base</span><span class="p">.</span><span class="n">metadata</span><span class="p">.</span><span class="n">create_all</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="특정-entity만--engine으로-생성">
+<a class="anchor" href="#%ED%8A%B9%EC%A0%95-entity%EB%A7%8C--engine%EC%9C%BC%EB%A1%9C-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>특정 Entity만 + engine으로 생성</h5>
+
+<ol>
+  <li>
+    <p><strong>python console</strong>을 열고</p>
+  </li>
+  <li>
+    <p>engine객체 생성을 위한 <strong>DBConnnectionHandler</strong> import</p>
+  </li>
+  <li>
+    <p><strong>특정 entity</strong> import</p>
+  </li>
+  <li>
+    <p>Entity.<code class="language-plaintext highlighter-rouge">__table__</code>.create( <strong>engine</strong> )</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">infra.config.connection</span> <span class="kn">import</span> <span class="n">DBConnectionHandler</span>
+   
+<span class="kn">from</span> <span class="nn">infra.entities</span> <span class="kn">import</span> <span class="n">Entity</span>
+   
+   
+<span class="n">Entity</span><span class="p">.</span><span class="n">__table__</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="02-alembic을-이용한-orm---db-수정">
+<a class="anchor" href="#02-alembic%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-orm---db-%EC%88%98%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 alembic을 이용한 ORM -&gt; DB 수정</h4>
+
+<ol>
+  <li>
+    <p><strong>terminal</strong>을 열고</p>
+  </li>
+  <li>
+    <p>alembic 설치 및 alembic 초기화</p>
+
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>pip3 <span class="nb">install </span>alembic
+   
+alembic init alembic
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>alembic 설정</p>
+
+    <ol>
+      <li>
+        <p>./<strong>alembic.init 내부 sqlalchemy.url 주석</strong> 처리</p>
+      </li>
+      <li>
+        <p>./<strong>alembic/versions/env.py 설정</strong></p>
+
+        <ol>
+          <li>
+            <p><strong>config객체에 sqlalchemy.url</strong> main_option 추가</p>
+
+            <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">config</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="n">config</span>        
+         
+<span class="c1"># set sqlalchemy.url
+</span><span class="n">db_url</span> <span class="o">=</span> <span class="s">"mysql+pymysql://root:564123@localhost:3306/cinema"</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="p">.</span><span class="n">get_main_option</span><span class="p">(</span><span class="s">'sqlalchemy.url'</span><span class="p">):</span>
+    <span class="n">config</span><span class="p">.</span><span class="n">set_main_option</span><span class="p">(</span><span class="s">'sqlalchemy.url'</span><span class="p">,</span> <span class="n">db_url</span><span class="p">)</span>
+</code></pre></div>            </div>
+          </li>
+          <li>
+            <p><strong>target_metadata</strong>에 <strong>Base의 .metadata</strong> 할당 및 <strong><code class="language-plaintext highlighter-rouge">entity들 메모리에 띄워두기</code>(필수)</strong></p>
+
+            <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># target_metadata = None
+</span>         
+<span class="kn">from</span> <span class="nn">infra.config.base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span class="kn">from</span> <span class="nn">infra.entities</span> <span class="kn">import</span> <span class="o">*</span>
+         
+<span class="n">target_metadata</span> <span class="o">=</span> <span class="n">Base</span><span class="p">.</span><span class="n">metadata</span>
+</code></pre></div>            </div>
+          </li>
+          <li>
+            <p><strong>run_migrations_online</strong>메서드에 <strong>칼럼Type까지 비교</strong>하도록 <strong>context.configure에 <code class="language-plaintext highlighter-rouge">compare_type=True</code> 추가하기</strong></p>
+
+            <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">run_migrations_online</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1">#...
+</span>    <span class="k">with</span> <span class="n">connectable</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
+        <span class="n">context</span><span class="p">.</span><span class="n">configure</span><span class="p">(</span>
+            <span class="c1">#...
+</span>            <span class="n">compare_type</span><span class="o">=</span><span class="bp">True</span>
+        <span class="p">)</span>
+         
+</code></pre></div>            </div>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>DB생성해놓은 상태에서 revision최초 하나 만들어주기</strong></p>
+
+    <div class="language-powershell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nf">alembic</span><span class="w"> </span><span class="nx">revision</span><span class="w"> </span><span class="nt">-m</span><span class="w"> </span><span class="s2">"init entites"</span><span class="w">
+</span><span class="nf">alembic</span><span class="w"> </span><span class="nx">upgrade</span><span class="w"> </span><span class="nx">head</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Entity모델들을 수정한 뒤, alembic으로 DB 업데이트하기</strong></p>
+
+    <ul>
+      <li>
+<strong>절대 DB를 수작업으로 건들면 안된다.</strong>
+        <ul>
+          <li>ORM수정에 따른 01 ORM으로 DB생성은 무시하면서 인식유지되더라</li>
+        </ul>
+      </li>
+      <li><strong><code class="language-plaintext highlighter-rouge">Entity .py를 삭제</code>할 땐, <code class="language-plaintext highlighter-rouge">init에 걸어둔 것도 같이삭제</code>하자</strong></li>
+    </ul>
+
+    <div class="language-powershell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c"># entity 수정후</span><span class="w">
+</span><span class="nf">alembic</span><span class="w"> </span><span class="nx">revision</span><span class="w"> </span><span class="nt">--autogenerate</span><span class="w"> </span><span class="nt">-m</span><span class="w"> </span><span class="s2">"add column"</span><span class="w">
+</span><span class="nf">alembic</span><span class="w"> </span><span class="nx">upgrade</span><span class="w"> </span><span class="nx">head</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+</ol>
+
+
+  </div><a class="u-url" href="/python/sqlalchemy/alembic/orm/2022/10/14/sqlalchemy_and_alembic%EC%9C%BC%EB%A1%9C-ORM%EC%9D%84-%ED%86%B5%ED%95%9C-DB-%EC%83%9D%EC%84%B1%EA%B3%BC-%EC%88%98%EC%A0%95.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
