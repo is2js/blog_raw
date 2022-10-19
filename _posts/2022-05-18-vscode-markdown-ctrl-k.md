@@ -3,7 +3,7 @@ toc: true
 layout: post
 title: vscode markdown create hyper link shortcut
 description: keybindings.json에 Ctrl+K로 clipboard url link 걸기
-categories: [configuration, vscode]
+categories: [configuration, vscode, setting, hyperlink]
 
 image: "images/posts/config.png"
 
@@ -12,6 +12,9 @@ image: "images/posts/config.png"
 ### keybindings.json 열어 아래 코드 복붙하기
 1. F1 > `keyboard` 검색후 > `바로가기 키 열기 (JSON)`을 선택한다.
 	![20220518161423](https://raw.githubusercontent.com/is2js/screenshots/main/20220518161423.png)
+	- **권한 문제로 수정이 안될 경우**
+		- 실행 > `%appdata%` > (Roaming) > Code >  User > `keybinding.json`을 직접 연다
+			![20221019223840](https://raw.githubusercontent.com/is3js/screenshots/main/20221019223840.png)
 
 2. 아래 코드를 맨 위에 붙여넣는다.
 	```json
