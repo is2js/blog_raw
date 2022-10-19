@@ -4,20 +4,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>vscode markdown create hyper link shortcut | 돌범텤놑</title>
+<title>window에서 sqlite 버전 수동 업그레이드 | 돌범텤놑</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="vscode markdown create hyper link shortcut" />
+<meta property="og:title" content="window에서 sqlite 버전 수동 업그레이드" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="keybindings.json에 Ctrl+K로 clipboard url link 걸기" />
-<meta property="og:description" content="keybindings.json에 Ctrl+K로 clipboard url link 걸기" />
-<link rel="canonical" href="blog.chojaeseong.com/configuration/vscode/2022/05/18/vscode-markdown-ctrl-k.html" />
-<meta property="og:url" content="blog.chojaeseong.com/configuration/vscode/2022/05/18/vscode-markdown-ctrl-k.html" />
+<meta name="description" content="window function 사용을 위한 sqlite3.dll 업그레이드" />
+<meta property="og:description" content="window function 사용을 위한 sqlite3.dll 업그레이드" />
+<link rel="canonical" href="blog.chojaeseong.com/python/database/sqlalchemy/sqlite/windowfunction/sqlite3.dll/2022/10/15/window_sqlite_version_upgrade.html" />
+<meta property="og:url" content="blog.chojaeseong.com/python/database/sqlalchemy/sqlite/windowfunction/sqlite3.dll/2022/10/15/window_sqlite_version_upgrade.html" />
 <meta property="og:site_name" content="돌범텤놑" />
-<meta property="og:image" content="blog.chojaeseong.com/images/posts/config.png" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/python.png" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2022-05-18T00:00:00-05:00" />
+<meta property="article:published_time" content="2022-10-15T00:00:00-05:00" />
 <script type="application/ld+json">
-{"datePublished":"2022-05-18T00:00:00-05:00","url":"blog.chojaeseong.com/configuration/vscode/2022/05/18/vscode-markdown-ctrl-k.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/config.png","headline":"vscode markdown create hyper link shortcut","dateModified":"2022-05-18T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/configuration/vscode/2022/05/18/vscode-markdown-ctrl-k.html"},"description":"keybindings.json에 Ctrl+K로 clipboard url link 걸기","@context":"https://schema.org"}</script>
+{"datePublished":"2022-10-15T00:00:00-05:00","url":"blog.chojaeseong.com/python/database/sqlalchemy/sqlite/windowfunction/sqlite3.dll/2022/10/15/window_sqlite_version_upgrade.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/python.png","headline":"window에서 sqlite 버전 수동 업그레이드","dateModified":"2022-10-15T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/python/database/sqlalchemy/sqlite/windowfunction/sqlite3.dll/2022/10/15/window_sqlite_version_upgrade.html"},"description":"window function 사용을 위한 sqlite3.dll 업그레이드","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <!-- 폰트추가를 위한 link태그 삽입 -->
   <!-- 폰트1:  기본 spoqa 웹폰트 -->
@@ -96,8 +96,8 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">vscode markdown create hyper link shortcut</h1><p class="page-description">keybindings.json에 Ctrl+K로 clipboard url link 걸기</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-05-18T00:00:00-05:00" itemprop="datePublished">
-        May 18, 2022
+    <h1 class="post-title p-name" itemprop="name headline">window에서 sqlite 버전 수동 업그레이드</h1><p class="page-description">window function 사용을 위한 sqlite3.dll 업그레이드</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-10-15T00:00:00-05:00" itemprop="datePublished">
+        Oct 15, 2022
       </time>
        • <span class="read-time" title="Estimated read time">
     
@@ -109,10 +109,22 @@ window.onload = wrap_img;
     
       <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
       
-        <a class="category-tags-link" href="/categories/#configuration">configuration</a>
+        <a class="category-tags-link" href="/categories/#python">python</a>
         &nbsp;
       
-        <a class="category-tags-link" href="/categories/#vscode">vscode</a>
+        <a class="category-tags-link" href="/categories/#database">database</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#sqlalchemy">sqlalchemy</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#sqlite">sqlite</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#windowfunction">windowfunction</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#sqlite3.dll">sqlite3.dll</a>
         
       
       </p>
@@ -124,32 +136,62 @@ window.onload = wrap_img;
     <!-- toc가 먼저 나오므로 h3로 안내하기 -->
     <h3>📜 제목으로 보기</h3>
     <ul class="section-nav">
-<li class="toc-entry toc-h3"><a href="#keybindingsjson-열어-아래-코드-복붙하기">keybindings.json 열어 아래 코드 복붙하기</a></li>
-</ul><h3 id="keybindingsjson-열어-아래-코드-복붙하기">
-<a class="anchor" href="#keybindingsjson-%EC%97%B4%EC%96%B4-%EC%95%84%EB%9E%98-%EC%BD%94%EB%93%9C-%EB%B3%B5%EB%B6%99%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>keybindings.json 열어 아래 코드 복붙하기</h3>
+<li class="toc-entry toc-h3"><a href="#sqlite-자체-버전-업그레이드">sqlite 자체 버전 업그레이드</a></li>
+</ul><h3 id="sqlite-자체-버전-업그레이드">
+<a class="anchor" href="#sqlite-%EC%9E%90%EC%B2%B4-%EB%B2%84%EC%A0%84-%EC%97%85%EA%B7%B8%EB%A0%88%EC%9D%B4%EB%93%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>sqlite 자체 버전 업그레이드</h3>
+<ul>
+  <li>sqlite는 하위버전(3.25.0미만)에서 window function을 제공하지 않으므로 직접 업데이트 해야합니다.</li>
+</ul>
+
 <ol>
-  <li>
-    <p>F1 &gt; <code class="language-plaintext highlighter-rouge">keyboard</code> 검색후 &gt; <code class="language-plaintext highlighter-rouge">바로가기 키 열기 (JSON)</code>을 선택한다.
- <img src="https://raw.githubusercontent.com/is2js/screenshots/main/20220518161423.png" alt="20220518161423"></p>
+  <li>(venv) sqlite 현재 버전 확인(3.25.0 이상 버전부터 window function 지원한다)
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">sqlite3</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">sqlite3</span><span class="p">.</span><span class="n">version</span> <span class="c1"># python librrary 버전에 불과함.
+</span> <span class="s">'2.6.0'</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">sqlite3</span><span class="p">.</span><span class="n">sqlite_version</span> <span class="c1"># sqlite3.dll 버전임 -&gt; 이것을 업데이트 해야한다.
+</span> <span class="s">'3.21.0'</span>
+</code></pre></div>    </div>
   </li>
-  <li>아래 코드를 맨 위에 붙여넣는다.
-    <div class="language-json highlighter-rouge">
-<div class="highlight"><pre class="highlight"><code><span class="w">     </span><span class="err">//</span><span class="w"> </span><span class="err">스니펫</span><span class="w"> </span><span class="err">참고:</span><span class="w"> </span><span class="err">https://code.visualstudio.com/docs/editor/userdefinedsnippets</span><span class="w">
-     </span><span class="err">//</span><span class="w"> </span><span class="err">마크다운일</span><span class="w"> </span><span class="err">때,</span><span class="w"> </span><span class="err">링크</span><span class="w"> </span><span class="err">삽입</span><span class="w"> </span><span class="err">태그</span><span class="w"> </span><span class="err">추가</span><span class="w">
-     </span><span class="p">{</span><span class="w">
-         </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+k"</span><span class="p">,</span><span class="w">
-         </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editor.action.insertSnippet"</span><span class="p">,</span><span class="w">
-         </span><span class="nl">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-             </span><span class="nl">"snippet"</span><span class="p">:</span><span class="w"> </span><span class="s2">"[${TM_SELECTED_TEXT}](${CLIPBOARD})"</span><span class="w">
-         </span><span class="p">},</span><span class="w">
-         </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorHasSelection &amp;&amp; editorLangId == 'markdown'"</span><span class="w">
-     </span><span class="p">}</span><span class="err">,</span><span class="w">
-</span></code></pre></div>    </div>
+  <li>venv를 만들어주는 <code class="language-plaintext highlighter-rouge">base interpreter</code>의 sqlite3.dll부터 변경
+    <ol>
+      <li>현재 venv를 만드는 local python의 버전을 확인한다.
+        <ul>
+          <li>환경설정 &gt; Project: &gt; Python Interpreter &gt; 점점점 Add (+) &gt; Base Interpreter 경로 확인
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/20221019222134.png" alt="20221019222134">
+</li>
+          <li>실행 &gt; <code class="language-plaintext highlighter-rouge">%appdata%</code> &gt; base 경로 &gt; <code class="language-plaintext highlighter-rouge">Dlls</code>폴더까지 들어가서 sqlite3.dll 파일 확인하기
+ <img src="https://raw.githubusercontent.com/is3js/screenshots/main/20221019222609.png" alt="20221019222609">
+</li>
+        </ul>
+      </li>
+      <li>
+<a href="https://sqlite.org/download.html">sqlite3 홈페이지</a>를 방문하여 <code class="language-plaintext highlighter-rouge">x64</code>검색으로 3.25.0 이상버전을 다운받는다.
+        <ul>
+          <li>ctrl+f로 <code class="language-plaintext highlighter-rouge">x64</code> 검색 -&gt; sqlite-dll-win64-x64-3390400.zip 다운로드</li>
+        </ul>
+      </li>
+      <li>기존 sqlite3.dll 에 <code class="language-plaintext highlighter-rouge">.old</code>를 붙여 백업하고, <code class="language-plaintext highlighter-rouge">zip 속의 sqlite3.dll로 교체</code>한다.</li>
+    </ol>
   </li>
-  <li>이후 <code class="language-plaintext highlighter-rouge">clipboard에 url을 복사한 상태</code>에서, markdown 내 텍스트에 <kbd>ctrl + k</kbd>를 눌러서 링크를 바로 건다</li>
+  <li>venv의 sqlite3.dll 변경
+    <ul>
+      <li>venv &gt; Scrips 폴더에 &gt; sqlite3.dll에 위치
+  <img src="https://raw.githubusercontent.com/is3js/screenshots/main/20221019224637.png" alt="20221019224637">
+</li>
+      <li>다운 받은 것으로 교체해준다</li>
+    </ul>
+  </li>
+  <li>(venv) sqlite 현재 버전 바뀐 것 다시 확인
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">sqlite3</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">sqlite3</span><span class="p">.</span><span class="n">sqlite_version</span> 
+ <span class="s">'3.39.0'</span>
+</code></pre></div>    </div>
+  </li>
 </ol>
 
-  </div><a class="u-url" href="/configuration/vscode/2022/05/18/vscode-markdown-ctrl-k.html" hidden></a>
+  </div><a class="u-url" href="/python/database/sqlalchemy/sqlite/windowfunction/sqlite3.dll/2022/10/15/window_sqlite_version_upgrade.html" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
