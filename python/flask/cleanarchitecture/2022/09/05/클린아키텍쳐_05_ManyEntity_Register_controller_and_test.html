@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>클린아키텍쳐 05 ManyEntity Register Controller와 test | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="클린아키텍쳐 05 ManyEntity Register Controller와 test" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="python clean architecture" />
+<meta property="og:description" content="python clean architecture" />
+<link rel="canonical" href="blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/05/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_05_ManyEntity_Register_controller_and_test.html" />
+<meta property="og:url" content="blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/05/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_05_ManyEntity_Register_controller_and_test.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/python.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-09-05T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-09-05T00:00:00-05:00","url":"blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/05/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_05_ManyEntity_Register_controller_and_test.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/python.png","headline":"클린아키텍쳐 05 ManyEntity Register Controller와 test","dateModified":"2022-09-05T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/05/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_05_ManyEntity_Register_controller_and_test.html"},"description":"python clean architecture","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">클린아키텍쳐 05 ManyEntity Register Controller와 test</h1><p class="page-description">python clean architecture</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-09-05T00:00:00-05:00" itemprop="datePublished">
+        Sep 5, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      14 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#python">python</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#flask">flask</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#cleanarchitecture">cleanarchitecture</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#클린-아키텍쳐-5장">클린 아키텍쳐 5장</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#1-manyentity-register-controller---register_pet_controller">1 ManyEntity Register Controller - register_pet_controller</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#01-manyentity-register-controller의--필수params들-검증--usecase-method-호출까지">01 ManyEntity register controller의  필수params들 검증 ~ usecase method 호출까지</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#controller는-usecase를-인자로-받아야하니-use-case-interface-import해서-생성자-작성">controller는 usecase를 인자로 받아야하니, use case interface import해서 생성자 작성</a></li>
+<li class="toc-entry toc-h4"><a href="#controller는-handle-method를-가지며-httprequest가-input으로-httpresponse가-output으로">controller는 handle method를 가지며, HttpRequest가 input으로 HttpResponse가 output으로</a></li>
+<li class="toc-entry toc-h4"><a href="#controller도-usecase처럼-if-조건만족시-성공의-response--none으로-시작하지만-validate_entrytype검사-대신-if-http_request요구필드필수필드-존재검사로-validate한다">controller도 usecase처럼 if 조건만족시 성공의 response = None으로 시작하지만, validate_entry(Type검사) 대신 if http_request.요구필드(필수필드 존재검사)로 validate한다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#findselect는-query를-뒤져-validte하지만-registerinsert는-body를-뒤져-validate한다-body에-pet생성필드가-다-있어야한다">find(select)는 .query를 뒤져 validte하지만, register(insert)는 .body를 뒤져 validate한다!! body에 pet생성필드가 다 있어야한다</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#body_params에는-nullableage를-제외하고-생성에-필요한-필수-필드들id제외-nullable제외이-in으로-keys에-들어가있어야-하니-if로-검사한다">body_params에는 [nullable(age)를 제외하고] 생성에 필요한 필수 필드들(id제외, nullable제외)이 in으로 keys()에 들어가있어야 하니, if로 검사한다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#select의-query_params는-선택형인자들로서-if문으로-잇고없고를-모든-경우를-나눴지만-insert의-body_params는-and로-생성에-필수-필드들은-무조건-and로-다있어야한다-대신-nullabletrue의-age필드는-검사항목에서-제외한다--fk필드의-경우-request에서-애초에-fk_information의-dict로-들어와야한다">select의 query_params는 선택형인자들로서 if문으로 잇고/없고를 모든 경우를 나눴지만, insert의 body_params는 and로 생성에 필수 필드들은 무조건 and로 다있어야한다. 대신 nullable=True의 age필드는 검사항목에서 제외한다.  fk필드의 경우, request에서 애초에 fk_information의 dict로 들어와야한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#fk정보는--select를-위한-정보만-dict로-들어와서-pk-usecase에서-private메서드로-탐색하여-validate한다-각각의-repousecase필드별개별-method에서는-fk_id-or-fk_unique필드만-사용하지만-pk-usecase으로는-fk_information의-dict형태로-묶여서-들어와야한다">fk정보는  select를 위한 정보만 dict로 들어와서, PK usecase에서 private메서드로 탐색하여 validate한다. 각각의 repo/usecase(필드별개별) method에서는 fk_id or fk_unique필드만 사용하지만, [PK usecase으로는 fk_information의 dict형태]로 묶여서 들어와야한다</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#fk_informationdict에도-select를-위한-선택형인자-pk-or-unqiuekey-둘중에-1개라도-포함하고-있는지-in-keys를-통해-확인한다">fk_information(dict)에도 select를 위한 선택형인자 pk or unqiuekey 둘중에 1개라도 포함하고 있는지 in keys()를 통해 확인한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#requestbody-생성필수-필드들-및-fk-select필수필드-존재-검증이-ififif로-끝났다면-nullable필드를-확인하고-있으면-받고-없어도-none으로-받아놔야-use-case-method에-인자로-넣어줄-수-있다">request.body 생성필수 필드들 및 fk select필수필드 존재 검증이 ififif로 끝났다면, [nullable필드]를 확인하고 있으면 받고, 없어도 None으로 받아놔야, use case method에 인자로 넣어줄 수 있다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#usecase-register-method에서-nullable필드는-선택형으로-맨-마지막에--none으로-넣어줬지만-안에-있는지-없는지-모르는-상황에서는-확인하고-변수로-받아서-넣어준다">usecase register method에서 nullable필드는 선택형으로 맨 마지막에 = None으로 넣어줬지만, [안에 있는지 없는지 모르는 상황]에서는 확인하고 변수로 받아서 넣어준다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#존재-검증-만족시-모든-필드들을-지역변수로-뽑은-다음-usecase-method에-넣어서-호출한다">존재 검증 만족시, 모든 필드들을 지역변수로 뽑은 다음 usecase method에 넣어서 호출한다</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#02-manyentity-register-controller의--usecase-method-response에-대한-ififif존재검증들마다-elseelseelse-httpreponse-return-처리">02 ManyEntity register controller의  usecase method response에 대한 ififif존재검증들마다 elseelseelse HttpReponse return 처리</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#fk_information의-필수필드-존재검증-실패else---usecase-dictbool-listdto의-실패처리한다">fk_information의 필수필드 존재검증 실패(else) -&gt; usecase Dict[bool, List[DTO]]의 실패처리한다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#controller의-return은-httpresponse지만-일단-usecase의-성공에-대한-response부터-만들고-if-usecase_reponsesuccess-is-false로-가야한다">controller의 return은 HttpResponse지만, 일단 usecase의 성공에 대한 response부터 만들고, if usecase_reponse[“Success”] is False로 가야한다</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#body-속-필수-필드-존재검증-실패else시에도-usecase-실패-response를-작성한다">body 속 필수 필드 존재검증 실패(else)시에도 usecase 실패 response를 작성한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#if-if-성공usecase응답에-대한-else-가상-실패응답-else-가상-실패응답-까지-다-처리하고-나서--성공response인지-vs실패response인지-확인한다">if if 성공usecase응답에 대한 else: 가상 실패응답 else: 가상 실패응답 까지 다 처리하고 나서 =&gt; 성공response인지 vs실패response인지 확인한다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#if-성공실패-중-실패면-httpresponse를-실패로-만들어-early-return한다-인자">if 성공/실패 중 실패면, HttpResponse를 실패로 만들어 early return한다. 인자</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#usecase실패응답에-대한-httpreponse를-early-return후-성공을-200--data로-return한다">usecase실패응답에 대한 HttpReponse를 early return후, 성공을 200 + Data로 return한다</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#03-생성에-필요한-body가-자체가-없는-경우-조회시필요한-query가-없는-것과-마찬가지로-400에러">03 생성에 필요한 body가 자체가 없는 경우, 조회시필요한 query가 없는 것과 마찬가지로 400에러</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#2-manyentity-register-controller-test---register_pet_controller_testpy">2 ManyEntity Register Controller test - register_pet_controller_test.py</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#01-srcpresentercontrollers-register_pet_controller_testpy를-생성">01 src&gt;presenter&gt;controllers&gt; register_pet_controller_test.py를 생성</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#controller는-repo를-품는-usecase를-품어서-생성되니-usecase-spy부터-만들고-오자">controller는 repo를 품는 UseCase를 품어서 생성되니, Usecase Spy부터 만들고 오자</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#02-srcdatatest폴더에--register_pet_spypy-만들어서-정의">02 src&gt;data&gt;test폴더에 &gt; register_pet_spy.py 만들어서 정의</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#spy를-정의할-땐-원본을-같이-보면서-정의하자">spy를 정의할 땐, 원본을 같이 보면서 정의하자</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#생성자를-복사해오되-실제repo실제fk-usecase-대신-type없는-repospyusecasespy가-들어갈-것이므로-둘다-파라미터-타입을-any로-바꾼다">생성자를 복사해오되, 실제repo/실제Fk usecase 대신 Type없는 repoSpy/usecaseSpy가 들어갈 것이므로 둘다, 파라미터 타입을 any로 바꾼다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#spy는-repo든-usecase든-method-input을-품을-param_dict를-생성자에-추가한다">Spy는 repo든 usecase든, method input을 품을 param_dict를 생성자에 추가한다</a></li>
+<li class="toc-entry toc-h4"><a href="#usecase-원본-method도-복사해와서-수정한다">usecase 원본 method도 복사해와서 수정한다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#내부-구현부-중에서-repo의-insert_pet-method를-호출해서-응답받는-중간-output은-mock_pet로-대체한다">내부 구현부 중에서 repo의 insert_pet method를 호출해서 응답받는 중간 output은 mock_pet로 대체한다</a></li>
+<li class="toc-entry toc-h5"><a href="#method의-input들은-self-method_param-dict에-보관한다">method의 input들은 self. method_param dict에 보관한다</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#03-문제는-fk_information-dict를-http_request로부터-받아서-findfk-usecase를-처리하는-private메서드를-처리하는-것이다">03 문제는 fk_information dict를 http_request로부터 받아서, FindFk usecase를 처리하는 private메서드를 처리하는 것이다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#user_information에-대한-validate는-원본-속-private메서드에서-한것-처럼-진행되어야하니-private메서드도-가져온다spy는-input을-품고잇지만-사용은-안할뿐이지-검증은-원본과-같이-그대로-진행한다">user_information에 대한 validate는 원본 속 private메서드에서 한것 처럼 진행되어야하니, private메서드도 가져온다(spy는 input을 품고잇지만, 사용은 안할뿐이지 검증은 원본과 같이 그대로 진행한다.)</a></li>
+<li class="toc-entry toc-h4"><a href="#이번엔-fk의-usecase-method를-호출을-통한-중간output을-dictbool-listdto-형태로-mock_users객체와-함께-만들어낸다">이번엔 fk의 usecase method를 호출을 통한 중간output을 Dict[bool, List[DTO]] 형태로 mock_users()객체와 함께 만들어낸다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#04-이제-controller-test를-작성시작한다">04 이제 controller test를 작성시작한다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#인자에-들어갈-spy가-usecase면-그놈이-품고-태어나야할-repospy도-같이-import하자">인자에 들어갈 Spy가 UseCase면, 그놈이 품고 태어나야할 RepoSpy도 같이 import하자</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#만일-manyentity-register-usecasespy면자신의-repospy외-findfkusecasespy도-동시에-품어서-생성해야하고-이어서-fkrepospy도-필요하다">만일 ManyEntity register UseCaseSpy면,자신의 RepoSpy외, FindFkUseCaseSpy도 동시에 품어서 생성해야하고, 이어서 FkRepoSpy도 필요하다</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#test_handle메서드에서는-controller객체를-생성하기-위해-useacse---repospy-먼저-생성해서-넣어준다">test_handle메서드에서는 controller객체를 생성하기 위해, useacse -&gt; repospy 먼저 생성해서 넣어준다</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#사실-manyentityusecase-spy에서는-findfk-usecase가-필요없다----spy가-아니라면-private메서드-내에서-finduser를-호출하는데-spy에서는-output을-대체하기-때문이다">사실, ManyEntityUsecase Spy에서는 FindFk usecase가 필요없다 -&gt;  Spy가 아니라면, private메서드 내에서 FindUser를 호출하는데, Spy에서는 output을 대체하기 때문이다.</a></li>
+<li class="toc-entry toc-h5"><a href="#registermanyentity의-spy생성에서는-findfk-usecase를-none으로-대체한다사용안되서">RegisterManyEntity의 Spy생성에서는 FindFk Usecase를 None으로 대체한다(사용안되서)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#05-controller의-handle-method로-오는-input은-httprequestusecase-test시-오는-attributes를-감싼">05 Controller의 handle method로 오는 input은 HttpRequest(usecase test시 오는 attributes를 감싼)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#controller-handle-method-test시-findselect계열의-get-요청이라면-body없이-query만-오므로-httprequest객체-생성시-간단하게-바로-넣었다">controller handle method test시, Find/select계열의 GET 요청이라면, body없이 query만 오므로 HttpRequest객체 생성시 간단하게 바로 넣었다.</a></li>
+<li class="toc-entry toc-h4"><a href="#registerinsert-계열의-post-요청은-객체생성에-필요한-모든-정보가-body에-담겨져서-오니-attributes로-먼저-body를-채울-정보를-만들고---body를-채운-httprequest객체를-만들어서-input으로-준다">register/insert 계열의 POST 요청은 객체생성에 필요한 모든 정보가 body에 담겨져서 오니, attributes로 먼저 body를 채울 정보를 만들고 -&gt; body를 채운 HttpRequest객체를 만들어서 input으로 준다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#06-handle-method에-input으로-httprequest객체로-주고-response지역변수에-httpresponse를-받는다">06 handle method에 input으로 HttpRequest객체로 주고 response지역변수에 HttpResponse를 받는다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#body채우기용-attributes변수도-있지만-input-test에서-spy_method_param_dict--vs--http_requestebody로-잘먹엇는지--input객체로-확인하기-위해서-http_request-변수도-따로-받아준다">body채우기용 attributes변수도 있지만, input test에서 Spy_method_param_dict  vs  http_requeste.body[”“]로 잘먹엇는지  input객체로 확인하기 위해서, http_request 변수도 따로 받아준다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#07-input-test">07 Input Test</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#input-테스트는-spy객체가-param-dict에--httprequest객체-속-body필드get이면-query-속-attributes필드를-잘-먹었는지-확인한다">input 테스트는 Spy객체가 param dict에  HttpRequest객체 속 .body필드(GET이면 .query) 속 attributes필드를 잘 먹었는지 확인한다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#fk_information-정보는-controller가-아닌-usecase-레벨의-test라면-private메서드에서--findfk-usecase-spy객체가-먹고-있기-때문에--testing-inputs에서-바로-확인-안했었다-하지만-controller-test에선-findfk-usecase-spy조차-도입안하기-때문에-바로-검사해버린다">fk_information 정보는, Controller가 아닌 Usecase 레벨의 test라면, private메서드에서  FindFk usecase Spy객체가 먹고 있기 때문에,  Testing inputs에서 바로 확인 안했었다. 하지만, Controller test에선 FindFk usecase Spy조차 도입안하기 때문에, 바로 검사해버린다.</a></li>
+<li class="toc-entry toc-h5"><a href="#pytest-돌릴-때--vs주는-이유는-printresponse도-찍어서-같이보기-위해">pytest 돌릴 때, -vs주는 이유는 print(response)도 찍어서 같이보기 위해~!</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#08-output-test">08 Output Test</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#controller의-output-test는-response가-status_code와-body로-구성되어있으니-200인지--body-dict에--error-key가-안꼽혀있는지-not-in-으로-확인한다">controller의 output test는 response가 status_code=와 body로 구성되어있으니, 200인지 / body dict에  “error” key가 안꼽혀있는지 not in 으로 확인한다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#3-manyentity-register-controller-fail-test">3 ManyEntity Register Controller Fail Test</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#controller-fail-test는-일단-handle의-어느-지점else의-에러를-낼지-부터-살펴봐야한다">controller fail test는 일단, handle의 어느 지점(else)의 에러를 낼지 부터 살펴봐야한다.</a></li>
+<li class="toc-entry toc-h3"><a href="#생략하고-커밋">생략하고 커밋</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#참고">참고</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#gitignore">gitignore</a></li>
+<li class="toc-entry toc-h4"><a href="#sqlalchemy패키지">sqlalchemy패키지</a></li>
+<li class="toc-entry toc-h4"><a href="#github에서-br따서-작업하기">github에서 br따서 작업하기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#1-1-github에서-br생성--clone">[1-1] github에서 br생성 ~ clone</a></li>
+<li class="toc-entry toc-h5"><a href="#clone후-초기-작업-세팅">clone후 초기 작업 세팅</a></li>
+<li class="toc-entry toc-h5"><a href="#1-2-작업끝난-br의-폴더에서-새-작업-br생성--분기게시-초기세팅-또-안해도-되는-장점">[1-2] 작업끝난 br의 폴더에서 새 작업 br생성 ~ 분기게시 (초기세팅 또 안해도 되는 장점)</a></li>
+<li class="toc-entry toc-h5"><a href="#1-3--옛날에-따둔-br에서-작업시작할-땐-최신-master를-rebase후에-작업시작하기">[1-3]  옛날에 따둔 br에서 작업시작할 땐, 최신 master를 rebase후에 작업시작하기</a></li>
+<li class="toc-entry toc-h5"><a href="#2-해당br-작업테스트-완료후--merge까지-정리">[2] 해당br 작업(테스트) 완료후 ~ merge까지 정리</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#vscode-설정">vscode 설정</a></li>
+<li class="toc-entry toc-h4"><a href="#test정리">test정리</a></li>
+<li class="toc-entry toc-h4"><a href="#status_code">status_code</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h1 id="클린-아키텍쳐-5장">
+<a class="anchor" href="#%ED%81%B4%EB%A6%B0-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90-5%EC%9E%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>클린 아키텍쳐 5장</h1>
+
+<h2 id="1-manyentity-register-controller---register_pet_controller">
+<a class="anchor" href="#1-manyentity-register-controller---register_pet_controller" aria-hidden="true"><span class="octicon octicon-link"></span></a>1 ManyEntity Register Controller - register_pet_controller</h2>
+
+<h3 id="01-manyentity-register-controller의--필수params들-검증--usecase-method-호출까지">
+<a class="anchor" href="#01-manyentity-register-controller%EC%9D%98--%ED%95%84%EC%88%98params%EB%93%A4-%EA%B2%80%EC%A6%9D--usecase-method-%ED%98%B8%EC%B6%9C%EA%B9%8C%EC%A7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 ManyEntity register controller의  필수params들 검증 ~ usecase method 호출까지</h3>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">register_pet_controller.py</code>를 만들고 작성한다.</li>
+</ul>
+
+<h4 id="controller는-usecase를-인자로-받아야하니-use-case-interface-import해서-생성자-작성">
+<a class="anchor" href="#controller%EB%8A%94-usecase%EB%A5%BC-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%B0%9B%EC%95%84%EC%95%BC%ED%95%98%EB%8B%88-use-case-interface-import%ED%95%B4%EC%84%9C-%EC%83%9D%EC%84%B1%EC%9E%90-%EC%9E%91%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>controller는 usecase를 인자로 받아야하니, use case interface import해서 생성자 작성</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">src.domain.use_cases</span> <span class="kn">import</span> <span class="n">RegisterPet</span>
+
+
+<span class="k">class</span> <span class="nc">RegisterPetController</span><span class="p">:</span>
+    <span class="s">""" Class to define controller to register_pet use case """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">register_pet_use_case</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">RegisterPet</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">register_pet_use_case</span> <span class="o">=</span> <span class="n">register_pet_use_case</span>
+
+</code></pre></div></div>
+
+<h4 id="controller는-handle-method를-가지며-httprequest가-input으로-httpresponse가-output으로">
+<a class="anchor" href="#controller%EB%8A%94-handle-method%EB%A5%BC-%EA%B0%80%EC%A7%80%EB%A9%B0-httprequest%EA%B0%80-input%EC%9C%BC%EB%A1%9C-httpresponse%EA%B0%80-output%EC%9C%BC%EB%A1%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>controller는 handle method를 가지며, HttpRequest가 input으로 HttpResponse가 output으로</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">src.domain.use_cases</span> <span class="kn">import</span> <span class="n">RegisterPet</span>
+<span class="kn">from</span> <span class="nn">src.presenters.helpers</span> <span class="kn">import</span> <span class="n">HttpRequest</span>
+<span class="kn">from</span> <span class="nn">src.presenters.helpers</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+
+
+<span class="k">class</span> <span class="nc">RegisterPetController</span><span class="p">:</span>
+    <span class="s">""" Class to define controller to register_pet use case """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">register_pet_use_case</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">RegisterPet</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">register_pet_use_case</span> <span class="o">=</span> <span class="n">register_pet_use_case</span>
+
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">http_request</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">HttpRequest</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
+        <span class="s">"""Method to call use case"""</span>
+</code></pre></div></div>
+
+<h4 id="controller도-usecase처럼-if-조건만족시-성공의-response--none으로-시작하지만-validate_entrytype검사-대신-if-http_request요구필드필수필드-존재검사로-validate한다">
+<a class="anchor" href="#controller%EB%8F%84-usecase%EC%B2%98%EB%9F%BC-if-%EC%A1%B0%EA%B1%B4%EB%A7%8C%EC%A1%B1%EC%8B%9C-%EC%84%B1%EA%B3%B5%EC%9D%98-response--none%EC%9C%BC%EB%A1%9C-%EC%8B%9C%EC%9E%91%ED%95%98%EC%A7%80%EB%A7%8C-validate_entrytype%EA%B2%80%EC%82%AC-%EB%8C%80%EC%8B%A0-if-http_request%EC%9A%94%EA%B5%AC%ED%95%84%EB%93%9C%ED%95%84%EC%88%98%ED%95%84%EB%93%9C-%EC%A1%B4%EC%9E%AC%EA%B2%80%EC%82%AC%EB%A1%9C-validate%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>controller도 usecase처럼 if 조건만족시 성공의 response = None으로 시작하지만, validate_entry(Type검사) 대신 if http_request.요구필드(필수필드 존재검사)로 validate한다.</h4>
+
+<h5 id="findselect는-query를-뒤져-validte하지만-registerinsert는-body를-뒤져-validate한다-body에-pet생성필드가-다-있어야한다">
+<a class="anchor" href="#findselect%EB%8A%94-query%EB%A5%BC-%EB%92%A4%EC%A0%B8-validte%ED%95%98%EC%A7%80%EB%A7%8C-registerinsert%EB%8A%94-body%EB%A5%BC-%EB%92%A4%EC%A0%B8-validate%ED%95%9C%EB%8B%A4-body%EC%97%90-pet%EC%83%9D%EC%84%B1%ED%95%84%EB%93%9C%EA%B0%80-%EB%8B%A4-%EC%9E%88%EC%96%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>find(select)는 .query를 뒤져 validte하지만, register(insert)는 .body를 뒤져 validate한다!! body에 pet생성필드가 다 있어야한다</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">RegisterPetController</span><span class="p">:</span>
+    <span class="s">""" Class to define controller to register_pet use case """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">register_pet_use_case</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">RegisterPet</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">register_pet_use_case</span> <span class="o">=</span> <span class="n">register_pet_use_case</span>
+
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">http_request</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">HttpRequest</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
+        <span class="s">"""Method to call use case"""</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="k">if</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">:</span>
+            <span class="c1"># if body in http_request
+</span></code></pre></div></div>
+
+<h4 id="body_params에는-nullableage를-제외하고-생성에-필요한-필수-필드들id제외-nullable제외이-in으로-keys에-들어가있어야-하니-if로-검사한다">
+<a class="anchor" href="#body_params%EC%97%90%EB%8A%94-nullableage%EB%A5%BC-%EC%A0%9C%EC%99%B8%ED%95%98%EA%B3%A0-%EC%83%9D%EC%84%B1%EC%97%90-%ED%95%84%EC%9A%94%ED%95%9C-%ED%95%84%EC%88%98-%ED%95%84%EB%93%9C%EB%93%A4id%EC%A0%9C%EC%99%B8-nullable%EC%A0%9C%EC%99%B8%EC%9D%B4-in%EC%9C%BC%EB%A1%9C-keys%EC%97%90-%EB%93%A4%EC%96%B4%EA%B0%80%EC%9E%88%EC%96%B4%EC%95%BC-%ED%95%98%EB%8B%88-if%EB%A1%9C-%EA%B2%80%EC%82%AC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>body_params에는 [nullable(age)를 제외하고] 생성에 필요한 필수 필드들(id제외, nullable제외)이 in으로 keys()에 들어가있어야 하니, if로 검사한다.</h4>
+
+<h5 id="select의-query_params는-선택형인자들로서-if문으로-잇고없고를-모든-경우를-나눴지만-insert의-body_params는-and로-생성에-필수-필드들은-무조건-and로-다있어야한다-대신-nullabletrue의-age필드는-검사항목에서-제외한다--fk필드의-경우-request에서-애초에-fk_information의-dict로-들어와야한다">
+<a class="anchor" href="#select%EC%9D%98-query_params%EB%8A%94-%EC%84%A0%ED%83%9D%ED%98%95%EC%9D%B8%EC%9E%90%EB%93%A4%EB%A1%9C%EC%84%9C-if%EB%AC%B8%EC%9C%BC%EB%A1%9C-%EC%9E%87%EA%B3%A0%EC%97%86%EA%B3%A0%EB%A5%BC-%EB%AA%A8%EB%93%A0-%EA%B2%BD%EC%9A%B0%EB%A5%BC-%EB%82%98%EB%88%B4%EC%A7%80%EB%A7%8C-insert%EC%9D%98-body_params%EB%8A%94-and%EB%A1%9C-%EC%83%9D%EC%84%B1%EC%97%90-%ED%95%84%EC%88%98-%ED%95%84%EB%93%9C%EB%93%A4%EC%9D%80-%EB%AC%B4%EC%A1%B0%EA%B1%B4-and%EB%A1%9C-%EB%8B%A4%EC%9E%88%EC%96%B4%EC%95%BC%ED%95%9C%EB%8B%A4-%EB%8C%80%EC%8B%A0-nullabletrue%EC%9D%98-age%ED%95%84%EB%93%9C%EB%8A%94-%EA%B2%80%EC%82%AC%ED%95%AD%EB%AA%A9%EC%97%90%EC%84%9C-%EC%A0%9C%EC%99%B8%ED%95%9C%EB%8B%A4--fk%ED%95%84%EB%93%9C%EC%9D%98-%EA%B2%BD%EC%9A%B0-request%EC%97%90%EC%84%9C-%EC%95%A0%EC%B4%88%EC%97%90-fk_information%EC%9D%98-dict%EB%A1%9C-%EB%93%A4%EC%96%B4%EC%99%80%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>select의 query_params는 선택형인자들로서 if문으로 잇고/없고를 모든 경우를 나눴지만, insert의 body_params는 and로 생성에 필수 필드들은 무조건 and로 다있어야한다. 대신 nullable=True의 age필드는 검사항목에서 제외한다.  fk필드의 경우, request에서 애초에 fk_information의 dict로 들어와야한다.</h5>
+
+<h5 id="fk정보는--select를-위한-정보만-dict로-들어와서-pk-usecase에서-private메서드로-탐색하여-validate한다-각각의-repousecase필드별개별-method에서는-fk_id-or-fk_unique필드만-사용하지만-pk-usecase으로는-fk_information의-dict형태로-묶여서-들어와야한다">
+<a class="anchor" href="#fk%EC%A0%95%EB%B3%B4%EB%8A%94--select%EB%A5%BC-%EC%9C%84%ED%95%9C-%EC%A0%95%EB%B3%B4%EB%A7%8C-dict%EB%A1%9C-%EB%93%A4%EC%96%B4%EC%99%80%EC%84%9C-pk-usecase%EC%97%90%EC%84%9C-private%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%ED%83%90%EC%83%89%ED%95%98%EC%97%AC-validate%ED%95%9C%EB%8B%A4-%EA%B0%81%EA%B0%81%EC%9D%98-repousecase%ED%95%84%EB%93%9C%EB%B3%84%EA%B0%9C%EB%B3%84-method%EC%97%90%EC%84%9C%EB%8A%94-fk_id-or-fk_unique%ED%95%84%EB%93%9C%EB%A7%8C-%EC%82%AC%EC%9A%A9%ED%95%98%EC%A7%80%EB%A7%8C-pk-usecase%EC%9C%BC%EB%A1%9C%EB%8A%94-fk_information%EC%9D%98-dict%ED%98%95%ED%83%9C%EB%A1%9C-%EB%AC%B6%EC%97%AC%EC%84%9C-%EB%93%A4%EC%96%B4%EC%99%80%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>fk정보는  select를 위한 정보만 dict로 들어와서, PK usecase에서 private메서드로 탐색하여 validate한다. 각각의 repo/usecase(필드별개별) method에서는 fk_id or fk_unique필드만 사용하지만, [PK usecase으로는 fk_information의 dict형태]로 묶여서 들어와야한다</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">RegisterPetController</span><span class="p">:</span>
+    <span class="c1">#...
+</span>
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">http_request</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">HttpRequest</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
+        <span class="s">"""Method to call use case"""</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="k">if</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">:</span>
+            <span class="c1"># if body in http_request
+</span>
+            <span class="n">body_params</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="s">"name"</span> <span class="ow">in</span> <span class="n">body_params</span> <span class="ow">and</span> <span class="s">"specie"</span> <span class="ow">in</span> <span class="n">body_params</span> <span class="ow">and</span> <span class="s">"user_information"</span> <span class="ow">in</span> <span class="n">body_params</span><span class="p">:</span>
+</code></pre></div></div>
+
+<h4 id="fk_informationdict에도-select를-위한-선택형인자-pk-or-unqiuekey-둘중에-1개라도-포함하고-있는지-in-keys를-통해-확인한다">
+<a class="anchor" href="#fk_informationdict%EC%97%90%EB%8F%84-select%EB%A5%BC-%EC%9C%84%ED%95%9C-%EC%84%A0%ED%83%9D%ED%98%95%EC%9D%B8%EC%9E%90-pk-or-unqiuekey-%EB%91%98%EC%A4%91%EC%97%90-1%EA%B0%9C%EB%9D%BC%EB%8F%84-%ED%8F%AC%ED%95%A8%ED%95%98%EA%B3%A0-%EC%9E%88%EB%8A%94%EC%A7%80-in-keys%EB%A5%BC-%ED%86%B5%ED%95%B4-%ED%99%95%EC%9D%B8%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>fk_information(dict)에도 select를 위한 선택형인자 pk or unqiuekey 둘중에 1개라도 포함하고 있는지 in keys()를 통해 확인한다.</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">RegisterPetController</span><span class="p">:</span>
+    <span class="c1">#...
+</span>
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">http_request</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">HttpRequest</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
+        <span class="s">"""Method to call use case"""</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="k">if</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">:</span>
+            <span class="c1"># if body in http_request
+</span>
+            <span class="n">body_params</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="s">"name"</span> <span class="ow">in</span> <span class="n">body_params</span> <span class="ow">and</span> <span class="s">"specie"</span> <span class="ow">in</span> <span class="n">body_params</span> <span class="ow">and</span> <span class="s">"user_information"</span> <span class="ow">in</span> <span class="n">body_params</span><span class="p">:</span>
+
+                <span class="n">user_information_params</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"user_information"</span><span class="p">].</span><span class="n">keys</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="s">"user_id"</span> <span class="ow">in</span> <span class="n">user_information_params</span> <span class="ow">or</span> <span class="s">"user_name"</span> <span class="ow">in</span> <span class="n">user_information_params</span><span class="p">:</span>
+
+</code></pre></div></div>
+
+<h4 id="requestbody-생성필수-필드들-및-fk-select필수필드-존재-검증이-ififif로-끝났다면-nullable필드를-확인하고-있으면-받고-없어도-none으로-받아놔야-use-case-method에-인자로-넣어줄-수-있다">
+<a class="anchor" href="#requestbody-%EC%83%9D%EC%84%B1%ED%95%84%EC%88%98-%ED%95%84%EB%93%9C%EB%93%A4-%EB%B0%8F-fk-select%ED%95%84%EC%88%98%ED%95%84%EB%93%9C-%EC%A1%B4%EC%9E%AC-%EA%B2%80%EC%A6%9D%EC%9D%B4-ififif%EB%A1%9C-%EB%81%9D%EB%82%AC%EB%8B%A4%EB%A9%B4-nullable%ED%95%84%EB%93%9C%EB%A5%BC-%ED%99%95%EC%9D%B8%ED%95%98%EA%B3%A0-%EC%9E%88%EC%9C%BC%EB%A9%B4-%EB%B0%9B%EA%B3%A0-%EC%97%86%EC%96%B4%EB%8F%84-none%EC%9C%BC%EB%A1%9C-%EB%B0%9B%EC%95%84%EB%86%94%EC%95%BC-use-case-method%EC%97%90-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%84%A3%EC%96%B4%EC%A4%84-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>request.body 생성필수 필드들 및 fk select필수필드 존재 검증이 ififif로 끝났다면, [nullable필드]를 확인하고 있으면 받고, 없어도 None으로 받아놔야, use case method에 인자로 넣어줄 수 있다.</h4>
+
+<h5 id="usecase-register-method에서-nullable필드는-선택형으로-맨-마지막에--none으로-넣어줬지만-안에-있는지-없는지-모르는-상황에서는-확인하고-변수로-받아서-넣어준다">
+<a class="anchor" href="#usecase-register-method%EC%97%90%EC%84%9C-nullable%ED%95%84%EB%93%9C%EB%8A%94-%EC%84%A0%ED%83%9D%ED%98%95%EC%9C%BC%EB%A1%9C-%EB%A7%A8-%EB%A7%88%EC%A7%80%EB%A7%89%EC%97%90--none%EC%9C%BC%EB%A1%9C-%EB%84%A3%EC%96%B4%EC%A4%AC%EC%A7%80%EB%A7%8C-%EC%95%88%EC%97%90-%EC%9E%88%EB%8A%94%EC%A7%80-%EC%97%86%EB%8A%94%EC%A7%80-%EB%AA%A8%EB%A5%B4%EB%8A%94-%EC%83%81%ED%99%A9%EC%97%90%EC%84%9C%EB%8A%94-%ED%99%95%EC%9D%B8%ED%95%98%EA%B3%A0-%EB%B3%80%EC%88%98%EB%A1%9C-%EB%B0%9B%EC%95%84%EC%84%9C-%EB%84%A3%EC%96%B4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>usecase register method에서 nullable필드는 선택형으로 맨 마지막에 = None으로 넣어줬지만, [안에 있는지 없는지 모르는 상황]에서는 확인하고 변수로 받아서 넣어준다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221005174311701.png" alt="image-20221005174311701"></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">RegisterPetController</span><span class="p">:</span>
+    <span class="c1">#...
+</span>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">http_request</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">HttpRequest</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
+        <span class="c1">#...
+</span>        <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">:</span>
+
+            <span class="n">body_params</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s">"name"</span> <span class="ow">in</span> <span class="n">body_params</span> <span class="ow">and</span> <span class="s">"specie"</span> <span class="ow">in</span> <span class="n">body_params</span> <span class="ow">and</span> <span class="s">"user_information"</span> <span class="ow">in</span> <span class="n">body_params</span><span class="p">:</span>
+                <span class="n">user_information_params</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"user_information"</span><span class="p">].</span><span class="n">keys</span><span class="p">()</span>
+                <span class="k">if</span> <span class="s">"user_id"</span> <span class="ow">in</span> <span class="n">user_information_params</span> <span class="ow">or</span> <span class="s">"user_name"</span> <span class="ow">in</span> <span class="n">user_information_params</span><span class="p">:</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span>
+                    <span class="n">specie</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"specie"</span><span class="p">]</span>
+                    <span class="n">user_information</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"user_information"</span><span class="p">]</span>
+
+                    <span class="k">if</span> <span class="s">"age"</span> <span class="ow">in</span> <span class="n">body_params</span><span class="p">:</span>
+                        <span class="n">age</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"age"</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">age</span> <span class="o">=</span> <span class="bp">None</span>
+
+</code></pre></div></div>
+
+<h4 id="존재-검증-만족시-모든-필드들을-지역변수로-뽑은-다음-usecase-method에-넣어서-호출한다">
+<a class="anchor" href="#%EC%A1%B4%EC%9E%AC-%EA%B2%80%EC%A6%9D-%EB%A7%8C%EC%A1%B1%EC%8B%9C-%EB%AA%A8%EB%93%A0-%ED%95%84%EB%93%9C%EB%93%A4%EC%9D%84-%EC%A7%80%EC%97%AD%EB%B3%80%EC%88%98%EB%A1%9C-%EB%BD%91%EC%9D%80-%EB%8B%A4%EC%9D%8C-usecase-method%EC%97%90-%EB%84%A3%EC%96%B4%EC%84%9C-%ED%98%B8%EC%B6%9C%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>존재 검증 만족시, 모든 필드들을 지역변수로 뽑은 다음 usecase method에 넣어서 호출한다</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">http_request</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">HttpRequest</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
+    <span class="s">"""Method to call use case"""</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">if</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">:</span>
+        <span class="c1"># if body in http_request
+</span>
+        <span class="n">body_params</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="s">"name"</span> <span class="ow">in</span> <span class="n">body_params</span> <span class="ow">and</span> <span class="s">"specie"</span> <span class="ow">in</span> <span class="n">body_params</span> <span class="ow">and</span> <span class="s">"user_information"</span> <span class="ow">in</span> <span class="n">body_params</span><span class="p">:</span>
+
+            <span class="n">user_information_params</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"user_information"</span><span class="p">].</span><span class="n">keys</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="s">"user_id"</span> <span class="ow">in</span> <span class="n">user_information_params</span> <span class="ow">or</span> <span class="s">"user_name"</span> <span class="ow">in</span> <span class="n">user_information_params</span><span class="p">:</span>
+
+                <span class="n">name</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span>
+                <span class="n">specie</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"specie"</span><span class="p">]</span>
+                <span class="n">user_information</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"user_information"</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="s">"age"</span> <span class="ow">in</span> <span class="n">body_params</span><span class="p">:</span>
+                    <span class="n">age</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"age"</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">age</span> <span class="o">=</span> <span class="bp">None</span>
+
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">register_pet_use_case</span><span class="p">.</span><span class="n">register</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">specie</span><span class="o">=</span><span class="n">specie</span><span class="p">,</span>
+                    <span class="n">user_information</span><span class="o">=</span><span class="n">user_information</span><span class="p">,</span>
+                    <span class="n">age</span><span class="o">=</span><span class="n">age</span>
+                <span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="02-manyentity-register-controller의--usecase-method-response에-대한-ififif존재검증들마다-elseelseelse-httpreponse-return-처리">
+<a class="anchor" href="#02-manyentity-register-controller%EC%9D%98--usecase-method-response%EC%97%90-%EB%8C%80%ED%95%9C-ififif%EC%A1%B4%EC%9E%AC%EA%B2%80%EC%A6%9D%EB%93%A4%EB%A7%88%EB%8B%A4-elseelseelse-httpreponse-return-%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 ManyEntity register controller의  usecase method response에 대한 ififif존재검증들마다 elseelseelse HttpReponse return 처리</h3>
+
+<h4 id="fk_information의-필수필드-존재검증-실패else---usecase-dictbool-listdto의-실패처리한다">
+<a class="anchor" href="#fk_information%EC%9D%98-%ED%95%84%EC%88%98%ED%95%84%EB%93%9C-%EC%A1%B4%EC%9E%AC%EA%B2%80%EC%A6%9D-%EC%8B%A4%ED%8C%A8else---usecase-dictbool-listdto%EC%9D%98-%EC%8B%A4%ED%8C%A8%EC%B2%98%EB%A6%AC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>fk_information의 필수필드 존재검증 실패(else) -&gt; usecase Dict[bool, List[DTO]]의 실패처리한다.</h4>
+
+<h5 id="controller의-return은-httpresponse지만-일단-usecase의-성공에-대한-response부터-만들고-if-usecase_reponsesuccess-is-false로-가야한다">
+<a class="anchor" href="#controller%EC%9D%98-return%EC%9D%80-httpresponse%EC%A7%80%EB%A7%8C-%EC%9D%BC%EB%8B%A8-usecase%EC%9D%98-%EC%84%B1%EA%B3%B5%EC%97%90-%EB%8C%80%ED%95%9C-response%EB%B6%80%ED%84%B0-%EB%A7%8C%EB%93%A4%EA%B3%A0-if-usecase_reponsesuccess-is-false%EB%A1%9C-%EA%B0%80%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>controller의 return은 HttpResponse지만, 일단 usecase의 성공에 대한 response부터 만들고, if usecase_reponse[“Success”] is False로 가야한다</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">http_request</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">HttpRequest</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
+    <span class="s">"""Method to call use case"""</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">if</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">:</span>
+        <span class="c1"># if body in http_request
+</span>
+        <span class="n">body_params</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="s">"name"</span> <span class="ow">in</span> <span class="n">body_params</span> <span class="ow">and</span> <span class="s">"specie"</span> <span class="ow">in</span> <span class="n">body_params</span> <span class="ow">and</span> <span class="s">"user_information"</span> <span class="ow">in</span> <span class="n">body_params</span><span class="p">:</span>
+
+            <span class="n">user_information_params</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"user_information"</span><span class="p">].</span><span class="n">keys</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="s">"user_id"</span> <span class="ow">in</span> <span class="n">user_information_params</span> <span class="ow">or</span> <span class="s">"user_name"</span> <span class="ow">in</span> <span class="n">user_information_params</span><span class="p">:</span>
+
+                <span class="n">name</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span>
+                <span class="n">specie</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"specie"</span><span class="p">]</span>
+                <span class="n">user_information</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"user_information"</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="s">"age"</span> <span class="ow">in</span> <span class="n">body_params</span><span class="p">:</span>
+                    <span class="n">age</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"age"</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">age</span> <span class="o">=</span> <span class="bp">None</span>
+
+                        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">register_pet_use_case</span><span class="p">.</span><span class="n">register</span><span class="p">(</span>
+                            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                            <span class="n">specie</span><span class="o">=</span><span class="n">specie</span><span class="p">,</span>
+                            <span class="n">user_information</span><span class="o">=</span><span class="n">user_information</span><span class="p">,</span>
+                            <span class="n">age</span><span class="o">=</span><span class="n">age</span>
+                        <span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+
+</code></pre></div></div>
+
+<h4 id="body-속-필수-필드-존재검증-실패else시에도-usecase-실패-response를-작성한다">
+<a class="anchor" href="#body-%EC%86%8D-%ED%95%84%EC%88%98-%ED%95%84%EB%93%9C-%EC%A1%B4%EC%9E%AC%EA%B2%80%EC%A6%9D-%EC%8B%A4%ED%8C%A8else%EC%8B%9C%EC%97%90%EB%8F%84-usecase-%EC%8B%A4%ED%8C%A8-response%EB%A5%BC-%EC%9E%91%EC%84%B1%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>body 속 필수 필드 존재검증 실패(else)시에도 usecase 실패 response를 작성한다.</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">http_request</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">HttpRequest</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
+    <span class="s">"""Method to call use case"""</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">if</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">:</span>
+        <span class="c1"># if body in http_request
+</span>
+        <span class="n">body_params</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="s">"name"</span> <span class="ow">in</span> <span class="n">body_params</span> <span class="ow">and</span> <span class="s">"specie"</span> <span class="ow">in</span> <span class="n">body_params</span> <span class="ow">and</span> <span class="s">"user_information"</span> <span class="ow">in</span> <span class="n">body_params</span><span class="p">:</span>
+
+            <span class="n">user_information_params</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"user_information"</span><span class="p">].</span><span class="n">keys</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="s">"user_id"</span> <span class="ow">in</span> <span class="n">user_information_params</span> <span class="ow">or</span> <span class="s">"user_name"</span> <span class="ow">in</span> <span class="n">user_information_params</span><span class="p">:</span>
+
+                <span class="n">name</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span>
+                <span class="n">specie</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"specie"</span><span class="p">]</span>
+                <span class="n">user_information</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"user_information"</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="s">"age"</span> <span class="ow">in</span> <span class="n">body_params</span><span class="p">:</span>
+                    <span class="n">age</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"age"</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">age</span> <span class="o">=</span> <span class="bp">None</span>
+
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">register_pet_use_case</span><span class="p">.</span><span class="n">register</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">specie</span><span class="o">=</span><span class="n">specie</span><span class="p">,</span>
+                    <span class="n">user_information</span><span class="o">=</span><span class="n">user_information</span><span class="p">,</span>
+                    <span class="n">age</span><span class="o">=</span><span class="n">age</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="if-if-성공usecase응답에-대한-else-가상-실패응답-else-가상-실패응답-까지-다-처리하고-나서--성공response인지-vs실패response인지-확인한다">
+<a class="anchor" href="#if-if-%EC%84%B1%EA%B3%B5usecase%EC%9D%91%EB%8B%B5%EC%97%90-%EB%8C%80%ED%95%9C-else-%EA%B0%80%EC%83%81-%EC%8B%A4%ED%8C%A8%EC%9D%91%EB%8B%B5-else-%EA%B0%80%EC%83%81-%EC%8B%A4%ED%8C%A8%EC%9D%91%EB%8B%B5-%EA%B9%8C%EC%A7%80-%EB%8B%A4-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B3%A0-%EB%82%98%EC%84%9C--%EC%84%B1%EA%B3%B5response%EC%9D%B8%EC%A7%80-vs%EC%8B%A4%ED%8C%A8response%EC%9D%B8%EC%A7%80-%ED%99%95%EC%9D%B8%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>if if 성공usecase응답에 대한 else: 가상 실패응답 else: 가상 실패응답 까지 다 처리하고 나서 =&gt; 성공response인지 vs실패response인지 확인한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221005221932984.png" alt="image-20221005221932984"></p>
+
+<h5 id="if-성공실패-중-실패면-httpresponse를-실패로-만들어-early-return한다-인자">
+<a class="anchor" href="#if-%EC%84%B1%EA%B3%B5%EC%8B%A4%ED%8C%A8-%EC%A4%91-%EC%8B%A4%ED%8C%A8%EB%A9%B4-httpresponse%EB%A5%BC-%EC%8B%A4%ED%8C%A8%EB%A1%9C-%EB%A7%8C%EB%93%A4%EC%96%B4-early-return%ED%95%9C%EB%8B%A4-%EC%9D%B8%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>if 성공/실패 중 실패면, HttpResponse를 실패로 만들어 early return한다. 인자</h5>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">422</code>: <strong>필수param(dict속 필드)이 빠졌을 경우(존재검증) or 필수param이 validate_entry실패할 경우</strong>
+</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">http_request</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">HttpRequest</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
+    <span class="s">"""Method to call use case"""</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">if</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">:</span>
+        <span class="c1"># if body in http_request
+</span>
+        <span class="n">body_params</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="s">"name"</span> <span class="ow">in</span> <span class="n">body_params</span> <span class="ow">and</span> <span class="s">"specie"</span> <span class="ow">in</span> <span class="n">body_params</span> <span class="ow">and</span> <span class="s">"user_information"</span> <span class="ow">in</span> <span class="n">body_params</span><span class="p">:</span>
+
+            <span class="n">user_information_params</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"user_information"</span><span class="p">].</span><span class="n">keys</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="s">"user_id"</span> <span class="ow">in</span> <span class="n">user_information_params</span> <span class="ow">or</span> <span class="s">"user_name"</span> <span class="ow">in</span> <span class="n">user_information_params</span><span class="p">:</span>
+
+                <span class="n">name</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span>
+                <span class="n">specie</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"specie"</span><span class="p">]</span>
+                <span class="n">user_information</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"user_information"</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="s">"age"</span> <span class="ow">in</span> <span class="n">body_params</span><span class="p">:</span>
+                    <span class="n">age</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"age"</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">age</span> <span class="o">=</span> <span class="bp">None</span>
+
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">register_pet_use_case</span><span class="p">.</span><span class="n">register</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">specie</span><span class="o">=</span><span class="n">specie</span><span class="p">,</span>
+                    <span class="n">user_information</span><span class="o">=</span><span class="n">user_information</span><span class="p">,</span>
+                    <span class="n">age</span><span class="o">=</span><span class="n">age</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">response</span><span class="p">[</span><span class="s">"Success"</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="n">http_error</span> <span class="o">=</span> <span class="n">HttpErrors</span><span class="p">.</span><span class="n">error_422</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"status_code"</span><span class="p">],</span> <span class="n">body</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"body"</span><span class="p">])</span>
+
+</code></pre></div></div>
+
+<h4 id="usecase실패응답에-대한-httpreponse를-early-return후-성공을-200--data로-return한다">
+<a class="anchor" href="#usecase%EC%8B%A4%ED%8C%A8%EC%9D%91%EB%8B%B5%EC%97%90-%EB%8C%80%ED%95%9C-httpreponse%EB%A5%BC-early-return%ED%9B%84-%EC%84%B1%EA%B3%B5%EC%9D%84-200--data%EB%A1%9C-return%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>usecase실패응답에 대한 HttpReponse를 early return후, 성공을 200 + Data로 return한다</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">http_request</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">HttpRequest</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
+    <span class="s">"""Method to call use case"""</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">if</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">:</span>
+        <span class="c1"># if body in http_request
+</span>
+        <span class="n">body_params</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="s">"name"</span> <span class="ow">in</span> <span class="n">body_params</span> <span class="ow">and</span> <span class="s">"specie"</span> <span class="ow">in</span> <span class="n">body_params</span> <span class="ow">and</span> <span class="s">"user_information"</span> <span class="ow">in</span> <span class="n">body_params</span><span class="p">:</span>
+
+            <span class="n">user_information_params</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"user_information"</span><span class="p">].</span><span class="n">keys</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="s">"user_id"</span> <span class="ow">in</span> <span class="n">user_information_params</span> <span class="ow">or</span> <span class="s">"user_name"</span> <span class="ow">in</span> <span class="n">user_information_params</span><span class="p">:</span>
+
+                <span class="n">name</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span>
+                <span class="n">specie</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"specie"</span><span class="p">]</span>
+                <span class="n">user_information</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"user_information"</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="s">"age"</span> <span class="ow">in</span> <span class="n">body_params</span><span class="p">:</span>
+                    <span class="n">age</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"age"</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">age</span> <span class="o">=</span> <span class="bp">None</span>
+
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">register_pet_use_case</span><span class="p">.</span><span class="n">register</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">specie</span><span class="o">=</span><span class="n">specie</span><span class="p">,</span>
+                    <span class="n">user_information</span><span class="o">=</span><span class="n">user_information</span><span class="p">,</span>
+                    <span class="n">age</span><span class="o">=</span><span class="n">age</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">response</span><span class="p">[</span><span class="s">"Success"</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="n">http_error</span> <span class="o">=</span> <span class="n">HttpErrors</span><span class="p">.</span><span class="n">error_422</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"status_code"</span><span class="p">],</span> <span class="n">body</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"body"</span><span class="p">])</span>
+        
+        <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">response</span><span class="p">[</span><span class="s">"Data"</span><span class="p">])</span>
+</code></pre></div></div>
+
+<h3 id="03-생성에-필요한-body가-자체가-없는-경우-조회시필요한-query가-없는-것과-마찬가지로-400에러">
+<a class="anchor" href="#03-%EC%83%9D%EC%84%B1%EC%97%90-%ED%95%84%EC%9A%94%ED%95%9C-body%EA%B0%80-%EC%9E%90%EC%B2%B4%EA%B0%80-%EC%97%86%EB%8A%94-%EA%B2%BD%EC%9A%B0-%EC%A1%B0%ED%9A%8C%EC%8B%9C%ED%95%84%EC%9A%94%ED%95%9C-query%EA%B0%80-%EC%97%86%EB%8A%94-%EA%B2%83%EA%B3%BC-%EB%A7%88%EC%B0%AC%EA%B0%80%EC%A7%80%EB%A1%9C-400%EC%97%90%EB%9F%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 생성에 필요한 body가 자체가 없는 경우, 조회시필요한 query가 없는 것과 마찬가지로 400에러</h3>
+
+<ul>
+  <li>if http_request.body: 에 대한 else:시 return</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">http_request</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">HttpRequest</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
+    <span class="s">"""Method to call use case"""</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">if</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">:</span>
+        <span class="c1"># if body in http_request
+</span>
+        <span class="n">body_params</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="s">"name"</span> <span class="ow">in</span> <span class="n">body_params</span> <span class="ow">and</span> <span class="s">"specie"</span> <span class="ow">in</span> <span class="n">body_params</span> <span class="ow">and</span> <span class="s">"user_information"</span> <span class="ow">in</span> <span class="n">body_params</span><span class="p">:</span>
+
+            <span class="n">user_information_params</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"user_information"</span><span class="p">].</span><span class="n">keys</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="s">"user_id"</span> <span class="ow">in</span> <span class="n">user_information_params</span> <span class="ow">or</span> <span class="s">"user_name"</span> <span class="ow">in</span> <span class="n">user_information_params</span><span class="p">:</span>
+
+                <span class="n">name</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span>
+                <span class="n">specie</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"specie"</span><span class="p">]</span>
+                <span class="n">user_information</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"user_information"</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="s">"age"</span> <span class="ow">in</span> <span class="n">body_params</span><span class="p">:</span>
+                    <span class="n">age</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"age"</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">age</span> <span class="o">=</span> <span class="bp">None</span>
+
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">register_pet_use_case</span><span class="p">.</span><span class="n">register</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">specie</span><span class="o">=</span><span class="n">specie</span><span class="p">,</span>
+                    <span class="n">user_information</span><span class="o">=</span><span class="n">user_information</span><span class="p">,</span>
+                    <span class="n">age</span><span class="o">=</span><span class="n">age</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">response</span><span class="p">[</span><span class="s">"Success"</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="n">http_error</span> <span class="o">=</span> <span class="n">HttpErrors</span><span class="p">.</span><span class="n">error_422</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"status_code"</span><span class="p">],</span> <span class="n">body</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"body"</span><span class="p">])</span>
+        
+        <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">response</span><span class="p">[</span><span class="s">"Data"</span><span class="p">])</span>
+    
+    <span class="n">http_error</span> <span class="o">=</span><span class="n">HttpErrors</span><span class="p">.</span><span class="n">error_400</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"status_code"</span><span class="p">],</span> <span class="n">body</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"body"</span><span class="p">])</span>
+
+</code></pre></div></div>
+
+<h2 id="2-manyentity-register-controller-test---register_pet_controller_testpy">
+<a class="anchor" href="#2-manyentity-register-controller-test---register_pet_controller_testpy" aria-hidden="true"><span class="octicon octicon-link"></span></a>2 ManyEntity Register Controller test - register_pet_controller_test.py</h2>
+
+<h3 id="01-srcpresentercontrollers-register_pet_controller_testpy를-생성">
+<a class="anchor" href="#01-srcpresentercontrollers-register_pet_controller_testpy%EB%A5%BC-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 src&gt;presenter&gt;controllers&gt; register_pet_controller_test.py를 생성</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221005224633181.png" alt="image-20221005224633181"></p>
+
+<h4 id="controller는-repo를-품는-usecase를-품어서-생성되니-usecase-spy부터-만들고-오자">
+<a class="anchor" href="#controller%EB%8A%94-repo%EB%A5%BC-%ED%92%88%EB%8A%94-usecase%EB%A5%BC-%ED%92%88%EC%96%B4%EC%84%9C-%EC%83%9D%EC%84%B1%EB%90%98%EB%8B%88-usecase-spy%EB%B6%80%ED%84%B0-%EB%A7%8C%EB%93%A4%EA%B3%A0-%EC%98%A4%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>controller는 repo를 품는 UseCase를 품어서 생성되니, Usecase Spy부터 만들고 오자</h4>
+
+<h3 id="02-srcdatatest폴더에--register_pet_spypy-만들어서-정의">
+<a class="anchor" href="#02-srcdatatest%ED%8F%B4%EB%8D%94%EC%97%90--register_pet_spypy-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%84%9C-%EC%A0%95%EC%9D%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 src&gt;data&gt;test폴더에 &gt; register_pet_spy.py 만들어서 정의</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">RegisterPetSpy</span><span class="p">:</span>
+    <span class="s">""" Class to define use case: Register Pet """</span>
+</code></pre></div></div>
+
+<h4 id="spy를-정의할-땐-원본을-같이-보면서-정의하자">
+<a class="anchor" href="#spy%EB%A5%BC-%EC%A0%95%EC%9D%98%ED%95%A0-%EB%95%90-%EC%9B%90%EB%B3%B8%EC%9D%84-%EA%B0%99%EC%9D%B4-%EB%B3%B4%EB%A9%B4%EC%84%9C-%EC%A0%95%EC%9D%98%ED%95%98%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>spy를 정의할 땐, 원본을 같이 보면서 정의하자</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221005225006085.png" alt="image-20221005225006085"></p>
+
+<h5 id="생성자를-복사해오되-실제repo실제fk-usecase-대신-type없는-repospyusecasespy가-들어갈-것이므로-둘다-파라미터-타입을-any로-바꾼다">
+<a class="anchor" href="#%EC%83%9D%EC%84%B1%EC%9E%90%EB%A5%BC-%EB%B3%B5%EC%82%AC%ED%95%B4%EC%98%A4%EB%90%98-%EC%8B%A4%EC%A0%9Crepo%EC%8B%A4%EC%A0%9Cfk-usecase-%EB%8C%80%EC%8B%A0-type%EC%97%86%EB%8A%94-repospyusecasespy%EA%B0%80-%EB%93%A4%EC%96%B4%EA%B0%88-%EA%B2%83%EC%9D%B4%EB%AF%80%EB%A1%9C-%EB%91%98%EB%8B%A4-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0-%ED%83%80%EC%9E%85%EC%9D%84-any%EB%A1%9C-%EB%B0%94%EA%BE%BC%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>생성자를 복사해오되, 실제repo/실제Fk usecase 대신 Type없는 repoSpy/usecaseSpy가 들어갈 것이므로 둘다, 파라미터 타입을 any로 바꾼다.</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">RegisterPetSpy</span><span class="p">:</span>
+    <span class="s">""" Class to define use case: Register Pet """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pet_repository</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">find_user</span><span class="p">:</span> <span class="nb">any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">pet_repository</span> <span class="o">=</span> <span class="n">pet_repository</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">find_user</span> <span class="o">=</span> <span class="n">find_user</span>
+
+</code></pre></div></div>
+
+<h4 id="spy는-repo든-usecase든-method-input을-품을-param_dict를-생성자에-추가한다">
+<a class="anchor" href="#spy%EB%8A%94-repo%EB%93%A0-usecase%EB%93%A0-method-input%EC%9D%84-%ED%92%88%EC%9D%84-param_dict%EB%A5%BC-%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90-%EC%B6%94%EA%B0%80%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Spy는 repo든 usecase든, method input을 품을 param_dict를 생성자에 추가한다</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">RegisterPetSpy</span><span class="p">:</span>
+    <span class="s">""" Class to define use case: Register Pet """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pet_repository</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">find_user</span><span class="p">:</span> <span class="nb">any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">pet_repository</span> <span class="o">=</span> <span class="n">pet_repository</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">find_user</span> <span class="o">=</span> <span class="n">find_user</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">register_param</span> <span class="o">=</span> <span class="p">{}</span>
+
+</code></pre></div></div>
+
+<h4 id="usecase-원본-method도-복사해와서-수정한다">
+<a class="anchor" href="#usecase-%EC%9B%90%EB%B3%B8-method%EB%8F%84-%EB%B3%B5%EC%82%AC%ED%95%B4%EC%99%80%EC%84%9C-%EC%88%98%EC%A0%95%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>usecase 원본 method도 복사해와서 수정한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221005232354106.png" alt="image-20221005232354106"></p>
+
+<h5 id="내부-구현부-중에서-repo의-insert_pet-method를-호출해서-응답받는-중간-output은-mock_pet로-대체한다">
+<a class="anchor" href="#%EB%82%B4%EB%B6%80-%EA%B5%AC%ED%98%84%EB%B6%80-%EC%A4%91%EC%97%90%EC%84%9C-repo%EC%9D%98-insert_pet-method%EB%A5%BC-%ED%98%B8%EC%B6%9C%ED%95%B4%EC%84%9C-%EC%9D%91%EB%8B%B5%EB%B0%9B%EB%8A%94-%EC%A4%91%EA%B0%84-output%EC%9D%80-mock_pet%EB%A1%9C-%EB%8C%80%EC%B2%B4%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>내부 구현부 중에서 repo의 insert_pet method를 호출해서 응답받는 중간 output은 mock_pet로 대체한다</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221005232718746.png" alt="image-20221005232718746"></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">RegisterPetSpy</span><span class="p">:</span>
+    <span class="s">""" Class to define use case: Register Pet """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pet_repository</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">find_user</span><span class="p">:</span> <span class="nb">any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">pet_repository</span> <span class="o">=</span> <span class="n">pet_repository</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">find_user</span> <span class="o">=</span> <span class="n">find_user</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">register_param</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">specie</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user_information</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">age</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Pets</span><span class="p">]:</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="n">validate_entry</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">specie</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">__find_user_information</span><span class="p">(</span><span class="n">user_information</span><span class="p">)</span>
+        <span class="n">checker</span> <span class="o">=</span> <span class="n">validate_entry</span> <span class="ow">and</span> <span class="n">user</span><span class="p">[</span><span class="s">"Success"</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">checker</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">mock_pet</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="n">checker</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="n">response</span><span class="p">}</span>
+</code></pre></div></div>
+
+<h5 id="method의-input들은-self-method_param-dict에-보관한다">
+<a class="anchor" href="#method%EC%9D%98-input%EB%93%A4%EC%9D%80-self-method_param-dict%EC%97%90-%EB%B3%B4%EA%B4%80%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>method의 input들은 self. method_param dict에 보관한다</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">register</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">specie</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user_information</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">age</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Pets</span><span class="p">]:</span>
+
+    <span class="bp">self</span><span class="p">.</span><span class="n">register_param</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">register_param</span><span class="p">[</span><span class="s">"specie"</span><span class="p">]</span> <span class="o">=</span> <span class="n">specie</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">register_param</span><span class="p">[</span><span class="s">"user_information"</span><span class="p">]</span> <span class="o">=</span> <span class="n">user_information</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">register_param</span><span class="p">[</span><span class="s">"age"</span><span class="p">]</span> <span class="o">=</span> <span class="n">age</span>
+</code></pre></div></div>
+
+<h3 id="03-문제는-fk_information-dict를-http_request로부터-받아서-findfk-usecase를-처리하는-private메서드를-처리하는-것이다">
+<a class="anchor" href="#03-%EB%AC%B8%EC%A0%9C%EB%8A%94-fk_information-dict%EB%A5%BC-http_request%EB%A1%9C%EB%B6%80%ED%84%B0-%EB%B0%9B%EC%95%84%EC%84%9C-findfk-usecase%EB%A5%BC-%EC%B2%98%EB%A6%AC%ED%95%98%EB%8A%94-private%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EC%B2%98%EB%A6%AC%ED%95%98%EB%8A%94-%EA%B2%83%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 문제는 fk_information dict를 http_request로부터 받아서, FindFk usecase를 처리하는 private메서드를 처리하는 것이다.</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221005233105542.png" alt="image-20221005233105542"></p>
+
+<h4 id="user_information에-대한-validate는-원본-속-private메서드에서-한것-처럼-진행되어야하니-private메서드도-가져온다spy는-input을-품고잇지만-사용은-안할뿐이지-검증은-원본과-같이-그대로-진행한다">
+<a class="anchor" href="#user_information%EC%97%90-%EB%8C%80%ED%95%9C-validate%EB%8A%94-%EC%9B%90%EB%B3%B8-%EC%86%8D-private%EB%A9%94%EC%84%9C%EB%93%9C%EC%97%90%EC%84%9C-%ED%95%9C%EA%B2%83-%EC%B2%98%EB%9F%BC-%EC%A7%84%ED%96%89%EB%90%98%EC%96%B4%EC%95%BC%ED%95%98%EB%8B%88-private%EB%A9%94%EC%84%9C%EB%93%9C%EB%8F%84-%EA%B0%80%EC%A0%B8%EC%98%A8%EB%8B%A4spy%EB%8A%94-input%EC%9D%84-%ED%92%88%EA%B3%A0%EC%9E%87%EC%A7%80%EB%A7%8C-%EC%82%AC%EC%9A%A9%EC%9D%80-%EC%95%88%ED%95%A0%EB%BF%90%EC%9D%B4%EC%A7%80-%EA%B2%80%EC%A6%9D%EC%9D%80-%EC%9B%90%EB%B3%B8%EA%B3%BC-%EA%B0%99%EC%9D%B4-%EA%B7%B8%EB%8C%80%EB%A1%9C-%EC%A7%84%ED%96%89%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>user_information에 대한 validate는 원본 속 private메서드에서 한것 처럼 진행되어야하니, private메서드도 가져온다(spy는 input을 품고잇지만, 사용은 안할뿐이지 검증은 원본과 같이 그대로 진행한다.)</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221005233548364.png" alt="image-20221005233548364"></p>
+
+<h4 id="이번엔-fk의-usecase-method를-호출을-통한-중간output을-dictbool-listdto-형태로-mock_users객체와-함께-만들어낸다">
+<a class="anchor" href="#%EC%9D%B4%EB%B2%88%EC%97%94-fk%EC%9D%98-usecase-method%EB%A5%BC-%ED%98%B8%EC%B6%9C%EC%9D%84-%ED%86%B5%ED%95%9C-%EC%A4%91%EA%B0%84output%EC%9D%84-dictbool-listdto-%ED%98%95%ED%83%9C%EB%A1%9C-mock_users%EA%B0%9D%EC%B2%B4%EC%99%80-%ED%95%A8%EA%BB%98-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%82%B8%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>이번엔 fk의 usecase method를 호출을 통한 중간output을 Dict[bool, List[DTO]] 형태로 mock_users()객체와 함께 만들어낸다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221005233827774.png" alt="image-20221005233827774"></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">RegisterPetSpy</span><span class="p">:</span>
+    <span class="s">""" Class to define use case: Register Pet """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pet_repository</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">find_user</span><span class="p">:</span> <span class="nb">any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">pet_repository</span> <span class="o">=</span> <span class="n">pet_repository</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">find_user</span> <span class="o">=</span> <span class="n">find_user</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">register_param</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">specie</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user_information</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">age</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Pets</span><span class="p">]:</span>
+
+        <span class="bp">self</span><span class="p">.</span><span class="n">register_param</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">register_param</span><span class="p">[</span><span class="s">"specie"</span><span class="p">]</span> <span class="o">=</span> <span class="n">specie</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">register_param</span><span class="p">[</span><span class="s">"user_information"</span><span class="p">]</span> <span class="o">=</span> <span class="n">user_information</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">register_param</span><span class="p">[</span><span class="s">"age"</span><span class="p">]</span> <span class="o">=</span> <span class="n">age</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="n">validate_entry</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">specie</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">__find_user_information</span><span class="p">(</span><span class="n">user_information</span><span class="p">)</span>
+        <span class="n">checker</span> <span class="o">=</span> <span class="n">validate_entry</span> <span class="ow">and</span> <span class="n">user</span><span class="p">[</span><span class="s">"Success"</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">checker</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">mock_pet</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="n">checker</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="n">response</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__find_user_information</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">user_information</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Users</span><span class="p">]]:</span>
+
+        <span class="n">user_founded</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">user_params</span> <span class="o">=</span> <span class="n">user_information</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="s">"user_id"</span> <span class="ow">in</span> <span class="n">user_params</span> <span class="ow">and</span> <span class="s">"user_name"</span> <span class="ow">in</span> <span class="n">user_params</span><span class="p">:</span>
+            <span class="n">user_founded</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="p">[</span><span class="n">mock_user</span><span class="p">()]}</span>
+
+        <span class="k">elif</span> <span class="s">"user_id"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">user_params</span> <span class="ow">and</span> <span class="s">"user_name"</span> <span class="ow">in</span> <span class="n">user_params</span><span class="p">:</span>
+            <span class="n">user_founded</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="p">[</span><span class="n">mock_user</span><span class="p">()]}</span>
+
+        <span class="k">elif</span> <span class="s">"user_id"</span> <span class="ow">in</span> <span class="n">user_params</span> <span class="ow">and</span> <span class="s">"user_name"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">user_params</span><span class="p">:</span>
+            <span class="n">user_founded</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="p">[</span><span class="n">mock_user</span><span class="p">()]}</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">user_founded</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>완성됬으니 init에 올린다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">.find_user_spy</span> <span class="kn">import</span> <span class="n">FindUserSpy</span>
+<span class="kn">from</span> <span class="nn">.register_pet_spy</span> <span class="kn">import</span> <span class="n">RegisterPetSpy</span>
+</code></pre></div></div>
+
+<h3 id="04-이제-controller-test를-작성시작한다">
+<a class="anchor" href="#04-%EC%9D%B4%EC%A0%9C-controller-test%EB%A5%BC-%EC%9E%91%EC%84%B1%EC%8B%9C%EC%9E%91%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 이제 controller test를 작성시작한다.</h3>
+
+<ol>
+  <li>faker + test할  controller class + 인자에 들어갈 usecase Spy import</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span> <span class="nn">.register_pet_controller</span> <span class="kn">import</span> <span class="n">RegisterPetController</span>
+<span class="kn">from</span> <span class="nn">src.data.test</span> <span class="kn">import</span> <span class="n">RegisterPetSpy</span>
+</code></pre></div></div>
+
+<h4 id="인자에-들어갈-spy가-usecase면-그놈이-품고-태어나야할-repospy도-같이-import하자">
+<a class="anchor" href="#%EC%9D%B8%EC%9E%90%EC%97%90-%EB%93%A4%EC%96%B4%EA%B0%88-spy%EA%B0%80-usecase%EB%A9%B4-%EA%B7%B8%EB%86%88%EC%9D%B4-%ED%92%88%EA%B3%A0-%ED%83%9C%EC%96%B4%EB%82%98%EC%95%BC%ED%95%A0-repospy%EB%8F%84-%EA%B0%99%EC%9D%B4-import%ED%95%98%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>인자에 들어갈 Spy가 UseCase면, 그놈이 품고 태어나야할 RepoSpy도 같이 import하자</h4>
+
+<h5 id="만일-manyentity-register-usecasespy면자신의-repospy외-findfkusecasespy도-동시에-품어서-생성해야하고-이어서-fkrepospy도-필요하다">
+<a class="anchor" href="#%EB%A7%8C%EC%9D%BC-manyentity-register-usecasespy%EB%A9%B4%EC%9E%90%EC%8B%A0%EC%9D%98-repospy%EC%99%B8-findfkusecasespy%EB%8F%84-%EB%8F%99%EC%8B%9C%EC%97%90-%ED%92%88%EC%96%B4%EC%84%9C-%EC%83%9D%EC%84%B1%ED%95%B4%EC%95%BC%ED%95%98%EA%B3%A0-%EC%9D%B4%EC%96%B4%EC%84%9C-fkrepospy%EB%8F%84-%ED%95%84%EC%9A%94%ED%95%98%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>만일 ManyEntity register UseCaseSpy면,자신의 RepoSpy외, FindFkUseCaseSpy도 동시에 품어서 생성해야하고, 이어서 FkRepoSpy도 필요하다</h5>
+
+<ul>
+  <li>UseCaseSpy
+    <ul>
+      <li>RepoSpy (+ FkUseCaseSpy -&gt; +FkRepoSpy)</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span> <span class="nn">.register_pet_controller</span> <span class="kn">import</span> <span class="n">RegisterPetController</span>
+<span class="kn">from</span> <span class="nn">src.data.test</span> <span class="kn">import</span> <span class="n">RegisterPetSpy</span><span class="p">,</span> <span class="n">FindUserSpy</span>
+<span class="kn">from</span> <span class="nn">src.infra.test</span> <span class="kn">import</span> <span class="n">PetRepositorySpy</span><span class="p">,</span> <span class="n">UserRepositorySpy</span>
+
+<span class="n">faker</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
+
+</code></pre></div></div>
+
+<h4 id="test_handle메서드에서는-controller객체를-생성하기-위해-useacse---repospy-먼저-생성해서-넣어준다">
+<a class="anchor" href="#test_handle%EB%A9%94%EC%84%9C%EB%93%9C%EC%97%90%EC%84%9C%EB%8A%94-controller%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0-%EC%9C%84%ED%95%B4-useacse---repospy-%EB%A8%BC%EC%A0%80-%EC%83%9D%EC%84%B1%ED%95%B4%EC%84%9C-%EB%84%A3%EC%96%B4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>test_handle메서드에서는 controller객체를 생성하기 위해, useacse -&gt; repospy 먼저 생성해서 넣어준다</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span> <span class="nn">.register_pet_controller</span> <span class="kn">import</span> <span class="n">RegisterPetController</span>
+<span class="kn">from</span> <span class="nn">src.data.test</span> <span class="kn">import</span> <span class="n">RegisterPetSpy</span><span class="p">,</span> <span class="n">FindUserSpy</span>
+<span class="kn">from</span> <span class="nn">src.infra.test</span> <span class="kn">import</span> <span class="n">PetRepositorySpy</span><span class="p">,</span> <span class="n">UserRepositorySpy</span>
+
+<span class="n">faker</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">test_handle</span><span class="p">():</span>
+    <span class="s">"""Testing Handle method"""</span>
+
+    <span class="n">register_use_case</span> <span class="o">=</span> <span class="n">RegisterPetSpy</span><span class="p">(</span><span class="n">PetRepositorySpy</span><span class="p">(),</span> <span class="n">FindUserSpy</span><span class="p">(</span><span class="n">UserRepositorySpy</span><span class="p">()))</span>
+
+</code></pre></div></div>
+
+<h5 id="사실-manyentityusecase-spy에서는-findfk-usecase가-필요없다----spy가-아니라면-private메서드-내에서-finduser를-호출하는데-spy에서는-output을-대체하기-때문이다">
+<a class="anchor" href="#%EC%82%AC%EC%8B%A4-manyentityusecase-spy%EC%97%90%EC%84%9C%EB%8A%94-findfk-usecase%EA%B0%80-%ED%95%84%EC%9A%94%EC%97%86%EB%8B%A4----spy%EA%B0%80-%EC%95%84%EB%8B%88%EB%9D%BC%EB%A9%B4-private%EB%A9%94%EC%84%9C%EB%93%9C-%EB%82%B4%EC%97%90%EC%84%9C-finduser%EB%A5%BC-%ED%98%B8%EC%B6%9C%ED%95%98%EB%8A%94%EB%8D%B0-spy%EC%97%90%EC%84%9C%EB%8A%94-output%EC%9D%84-%EB%8C%80%EC%B2%B4%ED%95%98%EA%B8%B0-%EB%95%8C%EB%AC%B8%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>사실, ManyEntityUsecase Spy에서는 FindFk usecase가 필요없다 -&gt;  Spy가 아니라면, private메서드 내에서 FindUser를 호출하는데, Spy에서는 output을 대체하기 때문이다.</h5>
+
+<ul>
+  <li>
+    <p>RegisterPet: FindFk Usecase가 private메서드에서 중간output을 받기위해 사용된다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221006015059389.png" alt="image-20221006015059389"></p>
+  </li>
+  <li>
+    <p>RegisterPetSpy: FindFk UseCaseSpy는 사용되질 private메서드에서 호출에 사용되지 않는다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221006015207384.png" alt="image-20221006015207384"></p>
+  </li>
+</ul>
+
+<h5 id="registermanyentity의-spy생성에서는-findfk-usecase를-none으로-대체한다사용안되서">
+<a class="anchor" href="#registermanyentity%EC%9D%98-spy%EC%83%9D%EC%84%B1%EC%97%90%EC%84%9C%EB%8A%94-findfk-usecase%EB%A5%BC-none%EC%9C%BC%EB%A1%9C-%EB%8C%80%EC%B2%B4%ED%95%9C%EB%8B%A4%EC%82%AC%EC%9A%A9%EC%95%88%EB%90%98%EC%84%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>RegisterManyEntity의 Spy생성에서는 FindFk Usecase를 None으로 대체한다(사용안되서)</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span> <span class="nn">.register_pet_controller</span> <span class="kn">import</span> <span class="n">RegisterPetController</span>
+<span class="kn">from</span> <span class="nn">src.data.test</span> <span class="kn">import</span> <span class="n">RegisterPetSpy</span><span class="p">,</span> <span class="n">FindUserSpy</span>
+<span class="kn">from</span> <span class="nn">src.infra.test</span> <span class="kn">import</span> <span class="n">PetRepositorySpy</span><span class="p">,</span> <span class="n">UserRepositorySpy</span>
+
+<span class="n">faker</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">test_handle</span><span class="p">():</span>
+    <span class="s">""" Testing Handle method"""</span>
+
+    <span class="c1"># register_use_case = RegisterPetSpy(PetRepositorySpy(), FindUserSpy(UserRepositorySpy()))
+</span>    <span class="n">register_use_case</span> <span class="o">=</span> <span class="n">RegisterPetSpy</span><span class="p">(</span><span class="n">PetRepositorySpy</span><span class="p">(),</span> <span class="bp">None</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>controller 객체를 생성한다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_handle</span><span class="p">():</span>
+    <span class="s">""" Testing Handle method"""</span>
+
+    <span class="c1"># register_use_case = RegisterPetSpy(PetRepositorySpy(), FindUserSpy(UserRepositorySpy()))
+</span>    <span class="n">register_use_case</span> <span class="o">=</span> <span class="n">RegisterPetSpy</span><span class="p">(</span><span class="n">PetRepositorySpy</span><span class="p">(),</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="n">register_pet_controller</span> <span class="o">=</span> <span class="n">RegisterPetController</span><span class="p">(</span><span class="n">register_use_case</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h3 id="05-controller의-handle-method로-오는-input은-httprequestusecase-test시-오는-attributes를-감싼">
+<a class="anchor" href="#05-controller%EC%9D%98-handle-method%EB%A1%9C-%EC%98%A4%EB%8A%94-input%EC%9D%80-httprequestusecase-test%EC%8B%9C-%EC%98%A4%EB%8A%94-attributes%EB%A5%BC-%EA%B0%90%EC%8B%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 Controller의 handle method로 오는 input은 HttpRequest(usecase test시 오는 attributes를 감싼)</h3>
+
+<h4 id="controller-handle-method-test시-findselect계열의-get-요청이라면-body없이-query만-오므로-httprequest객체-생성시-간단하게-바로-넣었다">
+<a class="anchor" href="#controller-handle-method-test%EC%8B%9C-findselect%EA%B3%84%EC%97%B4%EC%9D%98-get-%EC%9A%94%EC%B2%AD%EC%9D%B4%EB%9D%BC%EB%A9%B4-body%EC%97%86%EC%9D%B4-query%EB%A7%8C-%EC%98%A4%EB%AF%80%EB%A1%9C-httprequest%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1%EC%8B%9C-%EA%B0%84%EB%8B%A8%ED%95%98%EA%B2%8C-%EB%B0%94%EB%A1%9C-%EB%84%A3%EC%97%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>controller handle method test시, Find/select계열의 GET 요청이라면, body없이 query만 오므로 HttpRequest객체 생성시 간단하게 바로 넣었다.</h4>
+
+<ul>
+  <li>find_user_controller_test.py</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221006015921182.png" alt="image-20221006015921182"></p>
+
+<h4 id="registerinsert-계열의-post-요청은-객체생성에-필요한-모든-정보가-body에-담겨져서-오니-attributes로-먼저-body를-채울-정보를-만들고---body를-채운-httprequest객체를-만들어서-input으로-준다">
+<a class="anchor" href="#registerinsert-%EA%B3%84%EC%97%B4%EC%9D%98-post-%EC%9A%94%EC%B2%AD%EC%9D%80-%EA%B0%9D%EC%B2%B4%EC%83%9D%EC%84%B1%EC%97%90-%ED%95%84%EC%9A%94%ED%95%9C-%EB%AA%A8%EB%93%A0-%EC%A0%95%EB%B3%B4%EA%B0%80-body%EC%97%90-%EB%8B%B4%EA%B2%A8%EC%A0%B8%EC%84%9C-%EC%98%A4%EB%8B%88-attributes%EB%A1%9C-%EB%A8%BC%EC%A0%80-body%EB%A5%BC-%EC%B1%84%EC%9A%B8-%EC%A0%95%EB%B3%B4%EB%A5%BC-%EB%A7%8C%EB%93%A4%EA%B3%A0---body%EB%A5%BC-%EC%B1%84%EC%9A%B4-httprequest%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%84%9C-input%EC%9C%BC%EB%A1%9C-%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>register/insert 계열의 POST 요청은 객체생성에 필요한 모든 정보가 body에 담겨져서 오니, attributes로 먼저 body를 채울 정보를 만들고 -&gt; body를 채운 HttpRequest객체를 만들어서 input으로 준다.</h4>
+
+<ul>
+  <li>
+    <p>specie는 enum에 정해놓은 문자열 중 1개를 줘야한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221006020619904.png" alt="image-20221006020619904"></p>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_handle</span><span class="p">():</span>
+    <span class="s">""" Testing Handle method"""</span>
+
+    <span class="n">register_use_case</span> <span class="o">=</span> <span class="n">RegisterPetSpy</span><span class="p">(</span><span class="n">PetRepositorySpy</span><span class="p">(),</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="n">register_pet_controller</span> <span class="o">=</span> <span class="n">RegisterPetController</span><span class="p">(</span><span class="n">register_use_case</span><span class="p">)</span>
+
+    <span class="n">attributes</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"name"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">word</span><span class="p">(),</span>
+        <span class="s">"specie"</span><span class="p">:</span> <span class="s">"dog"</span><span class="p">,</span>
+        <span class="s">"age"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">random_number</span><span class="p">(),</span>
+        <span class="s">"user_information"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">"user_id"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">random_number</span><span class="p">(),</span>
+            <span class="s">"user_name"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">word</span><span class="p">(),</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="06-handle-method에-input으로-httprequest객체로-주고-response지역변수에-httpresponse를-받는다">
+<a class="anchor" href="#06-handle-method%EC%97%90-input%EC%9C%BC%EB%A1%9C-httprequest%EA%B0%9D%EC%B2%B4%EB%A1%9C-%EC%A3%BC%EA%B3%A0-response%EC%A7%80%EC%97%AD%EB%B3%80%EC%88%98%EC%97%90-httpresponse%EB%A5%BC-%EB%B0%9B%EB%8A%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>06 handle method에 input으로 HttpRequest객체로 주고 response지역변수에 HttpResponse를 받는다.</h3>
+
+<h4 id="body채우기용-attributes변수도-있지만-input-test에서-spy_method_param_dict--vs--http_requestebody로-잘먹엇는지--input객체로-확인하기-위해서-http_request-변수도-따로-받아준다">
+<a class="anchor" href="#body%EC%B1%84%EC%9A%B0%EA%B8%B0%EC%9A%A9-attributes%EB%B3%80%EC%88%98%EB%8F%84-%EC%9E%88%EC%A7%80%EB%A7%8C-input-test%EC%97%90%EC%84%9C-spy_method_param_dict--vs--http_requestebody%EB%A1%9C-%EC%9E%98%EB%A8%B9%EC%97%87%EB%8A%94%EC%A7%80--input%EA%B0%9D%EC%B2%B4%EB%A1%9C-%ED%99%95%EC%9D%B8%ED%95%98%EA%B8%B0-%EC%9C%84%ED%95%B4%EC%84%9C-http_request-%EB%B3%80%EC%88%98%EB%8F%84-%EB%94%B0%EB%A1%9C-%EB%B0%9B%EC%95%84%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>body채우기용 attributes변수도 있지만, input test에서 Spy_method_param_dict  vs  http_requeste.body[”“]로 잘먹엇는지  input객체로 확인하기 위해서, http_request 변수도 따로 받아준다.</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_handle</span><span class="p">():</span>
+    <span class="s">""" Testing Handle method"""</span>
+
+    <span class="n">register_use_case</span> <span class="o">=</span> <span class="n">RegisterPetSpy</span><span class="p">(</span><span class="n">PetRepositorySpy</span><span class="p">(),</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="n">register_pet_controller</span> <span class="o">=</span> <span class="n">RegisterPetController</span><span class="p">(</span><span class="n">register_use_case</span><span class="p">)</span>
+
+    <span class="n">attributes</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"name"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">word</span><span class="p">(),</span>
+        <span class="s">"specie"</span><span class="p">:</span> <span class="s">"Dog"</span><span class="p">,</span>
+        <span class="s">"age"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">random_number</span><span class="p">(),</span>
+        <span class="s">"user_information"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">"user_id"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">random_number</span><span class="p">(),</span>
+            <span class="s">"user_name"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">word</span><span class="p">(),</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+	
+    <span class="n">http_request</span> <span class="o">=</span> <span class="n">HttpRequest</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="n">attributes</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">register_pet_controller</span><span class="p">.</span><span class="n">handle</span><span class="p">(</span><span class="n">HttpRequest</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="n">attributes</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h3 id="07-input-test">
+<a class="anchor" href="#07-input-test" aria-hidden="true"><span class="octicon octicon-link"></span></a>07 Input Test</h3>
+
+<h4 id="input-테스트는-spy객체가-param-dict에--httprequest객체-속-body필드get이면-query-속-attributes필드를-잘-먹었는지-확인한다">
+<a class="anchor" href="#input-%ED%85%8C%EC%8A%A4%ED%8A%B8%EB%8A%94-spy%EA%B0%9D%EC%B2%B4%EA%B0%80-param-dict%EC%97%90--httprequest%EA%B0%9D%EC%B2%B4-%EC%86%8D-body%ED%95%84%EB%93%9Cget%EC%9D%B4%EB%A9%B4-query-%EC%86%8D-attributes%ED%95%84%EB%93%9C%EB%A5%BC-%EC%9E%98-%EB%A8%B9%EC%97%88%EB%8A%94%EC%A7%80-%ED%99%95%EC%9D%B8%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>input 테스트는 Spy객체가 param dict에  HttpRequest객체 속 .body필드(GET이면 .query) 속 attributes필드를 잘 먹었는지 확인한다.</h4>
+
+<h5 id="fk_information-정보는-controller가-아닌-usecase-레벨의-test라면-private메서드에서--findfk-usecase-spy객체가-먹고-있기-때문에--testing-inputs에서-바로-확인-안했었다-하지만-controller-test에선-findfk-usecase-spy조차-도입안하기-때문에-바로-검사해버린다">
+<a class="anchor" href="#fk_information-%EC%A0%95%EB%B3%B4%EB%8A%94-controller%EA%B0%80-%EC%95%84%EB%8B%8C-usecase-%EB%A0%88%EB%B2%A8%EC%9D%98-test%EB%9D%BC%EB%A9%B4-private%EB%A9%94%EC%84%9C%EB%93%9C%EC%97%90%EC%84%9C--findfk-usecase-spy%EA%B0%9D%EC%B2%B4%EA%B0%80-%EB%A8%B9%EA%B3%A0-%EC%9E%88%EA%B8%B0-%EB%95%8C%EB%AC%B8%EC%97%90--testing-inputs%EC%97%90%EC%84%9C-%EB%B0%94%EB%A1%9C-%ED%99%95%EC%9D%B8-%EC%95%88%ED%96%88%EC%97%88%EB%8B%A4-%ED%95%98%EC%A7%80%EB%A7%8C-controller-test%EC%97%90%EC%84%A0-findfk-usecase-spy%EC%A1%B0%EC%B0%A8-%EB%8F%84%EC%9E%85%EC%95%88%ED%95%98%EA%B8%B0-%EB%95%8C%EB%AC%B8%EC%97%90-%EB%B0%94%EB%A1%9C-%EA%B2%80%EC%82%AC%ED%95%B4%EB%B2%84%EB%A6%B0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>fk_information 정보는, Controller가 아닌 Usecase 레벨의 test라면, private메서드에서  FindFk usecase Spy객체가 먹고 있기 때문에,  Testing inputs에서 바로 확인 안했었다. 하지만, Controller test에선 FindFk usecase Spy조차 도입안하기 때문에, 바로 검사해버린다.</h5>
+
+<ul>
+  <li>
+    <p>참고: UseCase에서는 fk_information 정보를 자기가 먹지 않고, private메서드에서 , Fk Usecase에게 넘겨서 먹이고, 따로 검사한다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221006021515002.png" alt="image-20221006021515002"></p>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_handle</span><span class="p">():</span>
+    <span class="s">""" Testing Handle method"""</span>
+
+    <span class="n">register_use_case</span> <span class="o">=</span> <span class="n">RegisterPetSpy</span><span class="p">(</span><span class="n">PetRepositorySpy</span><span class="p">(),</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="n">register_pet_controller</span> <span class="o">=</span> <span class="n">RegisterPetController</span><span class="p">(</span><span class="n">register_use_case</span><span class="p">)</span>
+
+    <span class="n">attributes</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"name"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">word</span><span class="p">(),</span>
+        <span class="s">"specie"</span><span class="p">:</span> <span class="s">"Dog"</span><span class="p">,</span>
+        <span class="s">"age"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">random_number</span><span class="p">(),</span>
+        <span class="s">"user_information"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">"user_id"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">random_number</span><span class="p">(),</span>
+            <span class="s">"user_name"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">word</span><span class="p">(),</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">http_request</span> <span class="o">=</span> <span class="n">HttpRequest</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="n">attributes</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">register_pet_controller</span><span class="p">.</span><span class="n">handle</span><span class="p">(</span><span class="n">http_request</span><span class="p">)</span>
+    
+    <span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+    <span class="c1"># Testing inputs
+</span>    <span class="k">assert</span> <span class="n">register_use_case</span><span class="p">.</span><span class="n">register_param</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span> <span class="o">==</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">register_use_case</span><span class="p">.</span><span class="n">register_param</span><span class="p">[</span><span class="s">"specie"</span><span class="p">]</span> <span class="o">==</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"specie"</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">register_use_case</span><span class="p">.</span><span class="n">register_param</span><span class="p">[</span><span class="s">"user_information"</span><span class="p">]</span> <span class="o">==</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"user_information"</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">register_use_case</span><span class="p">.</span><span class="n">register_param</span><span class="p">[</span><span class="s">"age"</span><span class="p">]</span> <span class="o">==</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"age"</span><span class="p">]</span>
+</code></pre></div></div>
+
+<h5 id="pytest-돌릴-때--vs주는-이유는-printresponse도-찍어서-같이보기-위해">
+<a class="anchor" href="#pytest-%EB%8F%8C%EB%A6%B4-%EB%95%8C--vs%EC%A3%BC%EB%8A%94-%EC%9D%B4%EC%9C%A0%EB%8A%94-printresponse%EB%8F%84-%EC%B0%8D%EC%96%B4%EC%84%9C-%EA%B0%99%EC%9D%B4%EB%B3%B4%EA%B8%B0-%EC%9C%84%ED%95%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>pytest 돌릴 때, -vs주는 이유는 print(response)도 찍어서 같이보기 위해~!</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HttpResponse (status_code=200, body=Pets(id=68452, name='Kristen Sutton', specie='dog', age=1, user_id=58342))
+</code></pre></div></div>
+
+<h3 id="08-output-test">
+<a class="anchor" href="#08-output-test" aria-hidden="true"><span class="octicon octicon-link"></span></a>08 Output Test</h3>
+
+<h4 id="controller의-output-test는-response가-status_code와-body로-구성되어있으니-200인지--body-dict에--error-key가-안꼽혀있는지-not-in-으로-확인한다">
+<a class="anchor" href="#controller%EC%9D%98-output-test%EB%8A%94-response%EA%B0%80-status_code%EC%99%80-body%EB%A1%9C-%EA%B5%AC%EC%84%B1%EB%90%98%EC%96%B4%EC%9E%88%EC%9C%BC%EB%8B%88-200%EC%9D%B8%EC%A7%80--body-dict%EC%97%90--error-key%EA%B0%80-%EC%95%88%EA%BC%BD%ED%98%80%EC%9E%88%EB%8A%94%EC%A7%80-not-in-%EC%9C%BC%EB%A1%9C-%ED%99%95%EC%9D%B8%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>controller의 output test는 response가 status_code=와 body로 구성되어있으니, 200인지 / body dict에  “error” key가 안꼽혀있는지 not in 으로 확인한다.</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Testing Outputs
+</span><span class="k">assert</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span>
+<span class="k">assert</span> <span class="s">"error"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">response</span><span class="p">.</span><span class="n">body</span>
+</code></pre></div></div>
+
+<ul>
+  <li>pytest</li>
+</ul>
+
+<h2 id="3-manyentity-register-controller-fail-test">
+<a class="anchor" href="#3-manyentity-register-controller-fail-test" aria-hidden="true"><span class="octicon octicon-link"></span></a>3 ManyEntity Register Controller Fail Test</h2>
+
+<h3 id="controller-fail-test는-일단-handle의-어느-지점else의-에러를-낼지-부터-살펴봐야한다">
+<a class="anchor" href="#controller-fail-test%EB%8A%94-%EC%9D%BC%EB%8B%A8-handle%EC%9D%98-%EC%96%B4%EB%8A%90-%EC%A7%80%EC%A0%90else%EC%9D%98-%EC%97%90%EB%9F%AC%EB%A5%BC-%EB%82%BC%EC%A7%80-%EB%B6%80%ED%84%B0-%EC%82%B4%ED%8E%B4%EB%B4%90%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>controller fail test는 일단, handle의 어느 지점(else)의 에러를 낼지 부터 살펴봐야한다.</h3>
+
+<h3 id="생략하고-커밋">
+<a class="anchor" href="#%EC%83%9D%EB%9E%B5%ED%95%98%EA%B3%A0-%EC%BB%A4%EB%B0%8B" aria-hidden="true"><span class="octicon octicon-link"></span></a>생략하고 커밋</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git status
+
+git add .
+
+git commit -am "feat: Implementing RegisterPetController"
+
+git commit -am "feat: Implementing RegisterPetController"
+</code></pre></div></div>
+
+<h2 id="참고">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고</h2>
+
+<ul>
+  <li><a href="https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html">Robert C. Martin (Uncle Bob)의 Clean Code Blog</a></li>
+  <li><a href="https://velog.io/@jahoy/Python%EC%9C%BC%EB%A1%9C-Clean-Architecture-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0">용어 참고 블로그 1편</a></li>
+  <li><a href="https://velog.io/@jahoy/Python%EC%9C%BC%EB%A1%9C-%ED%81%B4%EB%A6%B0-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B02">용어 참고 블로그 2편</a></li>
+</ul>
+
+<h4 id="gitignore">
+<a class="anchor" href="#gitignore" aria-hidden="true"><span class="octicon octicon-link"></span></a>gitignore</h4>
+
+<ul>
+  <li>
+    <p>git에 commit되었던 것을 ignore하고 싶을 때</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git rm [파일명] --cached
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>git amend</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git commit --amend --no-edit
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<ol>
+  <li>console 등에서 init import부터 생기는 pycache폴더</li>
+  <li>venv</li>
+  <li>연습용 sqlite .db파일</li>
+  <li>pytest시 생기는 .pytest_cache 폴더</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>**/__pycache__
+venv
+storage.db
+.pytest_cache
+</code></pre></div></div>
+
+<h4 id="sqlalchemy패키지">
+<a class="anchor" href="#sqlalchemy%ED%8C%A8%ED%82%A4%EC%A7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>sqlalchemy패키지</h4>
+
+<ul>
+  <li>일반 패키지: create_engine / 칼럼재료들</li>
+  <li>.orm 패키지:
+    <ul>
+      <li>relatioship: 1:M에서 1에 해당하는 table이 들고 있는 가짜칼럼</li>
+      <li>sessionmaker: handler class 속 enter에서 engine을 묶어서 session을 반환해주는 놈</li>
+    </ul>
+  </li>
+  <li>계층별 변수정리
+    <ul>
+      <li>id : sqlalchemy -&gt; <strong>repo부터는</strong> fk_id도 있으니 <code class="language-plaintext highlighter-rouge">pk_id</code>
+</li>
+      <li>name: sqlalchemy-&gt;repo-&gt;usecase까지는 그냥 name (선택인자 개별메서드에by_name)-&gt; <strong>controller부터는 외부에선 다른(pet)_name도 있으니 <code class="language-plaintext highlighter-rouge">pk_name</code></strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="github에서-br따서-작업하기">
+<a class="anchor" href="#github%EC%97%90%EC%84%9C-br%EB%94%B0%EC%84%9C-%EC%9E%91%EC%97%85%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>github에서 br따서 작업하기</h4>
+
+<h5 id="1-1-github에서-br생성--clone">
+<a class="anchor" href="#1-1-github%EC%97%90%EC%84%9C-br%EC%83%9D%EC%84%B1--clone" aria-hidden="true"><span class="octicon octicon-link"></span></a>[1-1] github에서 br생성 ~ clone</h5>
+
+<ol>
+  <li>
+    <p>github에 들어가서 <code class="language-plaintext highlighter-rouge">feat/~</code>로 브랜치 생성</p>
+  </li>
+  <li>
+    <p>해당 br만 clone</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git clone -b [branch] [git주소]
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="clone후-초기-작업-세팅">
+<a class="anchor" href="#clone%ED%9B%84-%EC%B4%88%EA%B8%B0-%EC%9E%91%EC%97%85-%EC%84%B8%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>clone후 초기 작업 세팅</h5>
+
+<ol>
+  <li>gitignore중에 db파일 있으면 옮겨주기
+    <ul>
+      <li>없으면 config import해서 Base + handler -&gt; get_enigne -&gt; bind한 다음, create_all()해줘야할듯??</li>
+    </ul>
+  </li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220929154256052.png" alt="image-20220929154256052"></p>
+
+<ol>
+  <li>github에서 따온 빈 새br에 대해, venv를 만들고 활성화하고  vscode를 연다</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python -m virtualenv -p python310 venv
+
+.\venv\Scripts\activate
+</code></pre></div></div>
+
+<ol>
+  <li>최초 requirements.txt 직접 설치</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip3 install -r requirements.txt
+</code></pre></div></div>
+
+<ol>
+  <li>최초 pre-commit install 직접 세팅</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pre-commit install
+</code></pre></div></div>
+
+<ol>
+  <li>vscode 열고 interpreter venv로 지정</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>code .
+</code></pre></div></div>
+
+<h5 id="1-2-작업끝난-br의-폴더에서-새-작업-br생성--분기게시-초기세팅-또-안해도-되는-장점">
+<a class="anchor" href="#1-2-%EC%9E%91%EC%97%85%EB%81%9D%EB%82%9C-br%EC%9D%98-%ED%8F%B4%EB%8D%94%EC%97%90%EC%84%9C-%EC%83%88-%EC%9E%91%EC%97%85-br%EC%83%9D%EC%84%B1--%EB%B6%84%EA%B8%B0%EA%B2%8C%EC%8B%9C-%EC%B4%88%EA%B8%B0%EC%84%B8%ED%8C%85-%EB%98%90-%EC%95%88%ED%95%B4%EB%8F%84-%EB%90%98%EB%8A%94-%EC%9E%A5%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>[1-2] 작업끝난 br의 폴더에서 새 작업 br생성 ~ 분기게시 (초기세팅 또 안해도 되는 장점)</h5>
+
+<ol>
+  <li>
+    <p>현재 br를 확인한다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">git</span> <span class="n">branch</span>
+<span class="o">*</span> <span class="n">feat</span><span class="o">/</span><span class="n">register_user_use_case</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>checkout -b</strong>로 새 br 생성하여 진입하기</p>
+
+    <ul>
+      <li>원래는 github에서 create branch했었음.</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git checkout -b feat/generic_use_cases
+   
+git branch
+   
+* feat/generic_use_cases
+  feat/register_user_use_case
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>git push -u origin [branch명]으로 <code class="language-plaintext highlighter-rouge">새로생성한 br를 push해서 github에 생성하기</code></strong></p>
+
+    <ul>
+      <li>vscode에서는 push -u origin [branch] 대신  <strong><code class="language-plaintext highlighter-rouge">분기게시</code>가 뜬다.</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>github에서 <strong>빈 분기가 생성되었는지 확인하기</strong></p>
+
+    <ul>
+      <li>github에 merge되기 위해서는 <strong>직전 작업이후 <code class="language-plaintext highlighter-rouge">github에 새 작업 br를 먼저 생성해놓고 작업</code>에 들어가야한다</strong>
+</li>
+    </ul>
+  </li>
+</ol>
+
+<h5 id="1-3--옛날에-따둔-br에서-작업시작할-땐-최신-master를-rebase후에-작업시작하기">
+<a class="anchor" href="#1-3--%EC%98%9B%EB%82%A0%EC%97%90-%EB%94%B0%EB%91%94-br%EC%97%90%EC%84%9C-%EC%9E%91%EC%97%85%EC%8B%9C%EC%9E%91%ED%95%A0-%EB%95%90-%EC%B5%9C%EC%8B%A0-master%EB%A5%BC-rebase%ED%9B%84%EC%97%90-%EC%9E%91%EC%97%85%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>[1-3]  옛날에 따둔 br에서 작업시작할 땐, 최신 master를 rebase후에 작업시작하기</h5>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">git checkout master</code>를 통해 <strong>안가져와서 안보이던 master</strong>를 만든다</p>
+
+    <ul>
+      <li>
+<strong>-b의 새로만든 것이 아니므로</strong> remote와 연결된 master가 된다.</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">git branch</code>로 확인</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git checkout master
+   
+git branch
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">git pull</code>로 master에 최신 코드를 가져온다</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git pull
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>rebase받을 업뎃안된 작업br로 넘어간 뒤, <code class="language-plaintext highlighter-rouge">matser의 내용을 rebase로 받아온다</code></strong></p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git checkout [작업br]
+   
+git rebase master
+   
+git log --oneline
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="2-해당br-작업테스트-완료후--merge까지-정리">
+<a class="anchor" href="#2-%ED%95%B4%EB%8B%B9br-%EC%9E%91%EC%97%85%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%99%84%EB%A3%8C%ED%9B%84--merge%EA%B9%8C%EC%A7%80-%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>[2] 해당br 작업(테스트) 완료후 ~ merge까지 정리</h5>
+
+<ol>
+  <li>
+    <p>status 확인후 add . 후  -am으로 커밋-&gt;실패-&gt;-am커밋</p>
+
+    <ul>
+      <li><strong>add를 먼저 날려야 add된상태로 pytest하는 것 같다?!</strong></li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git status
+   
+git add .
+   
+git commit -am "feat: implementing data interfaces"
+   
+git commit -am "feat: implementing data interfaces"
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>git push는 현재 로그인된 vscode에서 하고 있음.</strong></p>
+  </li>
+  <li>
+    <p><strong>github에 들어가보면, <code class="language-plaintext highlighter-rouge">Compare &amp; pull request</code>가 떠있더라도 <code class="language-plaintext highlighter-rouge">PR탭 &gt; new PR</code>로 들어가는 버릇을 들여보자.</strong></p>
+  </li>
+</ol>
+
+<ul>
+  <li>Comparing change까지 들어가서 코드를 확인하고 <code class="language-plaintext highlighter-rouge">Able to merge</code> 및 <code class="language-plaintext highlighter-rouge">세부코드</code>를 확인하고 <strong>직접 Create PR까지 가자</strong>
+</li>
+</ul>
+
+<ol>
+  <li><strong>merge후 master에 반영되었는지까지 확인하자</strong></li>
+</ol>
+
+<h4 id="vscode-설정">
+<a class="anchor" href="#vscode-%EC%84%A4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>vscode 설정</h4>
+
+<ul>
+  <li>캐쉬파일 안보이기</li>
+</ul>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">"files.exclude"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"**/__pycache__"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"**/.pytest_cache"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+</span></code></pre></div></div>
+
+<ul>
+  <li>
+    <p>tab시 space로 입력되기</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001015405760.png" alt="image-20221001015405760"></p>
+  </li>
+  <li>
+    <p>탐색기 열기 단축키 : <code class="language-plaintext highlighter-rouge">shift + alt + R</code></p>
+
+    <ul>
+      <li>파일: 파일 탐색기에 표시</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="test정리">
+<a class="anchor" href="#test%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>test정리</h4>
+
+<ol>
+  <li>
+    <p>repo_insert_X</p>
+
+    <ol>
+      <li>id제외 faker + insert메서드 -&gt; new_dto</li>
+      <li>new_dto속 배정id + engine db select -&gt; query_data -&gt; engine db delete</li>
+      <li>assert new_dto.필드 == query_data필드 비교</li>
+    </ol>
+  </li>
+  <li>
+    <p>repo_select_X</p>
+    <ol>
+      <li>id포함 faker -&gt; entity모델 객체</li>
+      <li>id포함 재료들 + engine db insert -&gt; db데이터만들어놓기</li>
+      <li>id, fk재료들 + select메서드 -&gt; List[entity모델객체들]</li>
+      <li>engine db delete</li>
+    </ol>
+  </li>
+</ol>
+
+<h4 id="status_code">
+<a class="anchor" href="#status_code" aria-hidden="true"><span class="octicon octicon-link"></span></a>status_code</h4>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">422</code>: validate_entry실패하는 query 속 param들 -&gt; usecase메서드의 결과물 response의 [“Success”]가 False</p>
+
+    <ul>
+      <li><strong>필수param(dict속 필드)이 빠졌을 경우(존재검증) or 필수param이 validate_entry실패할 경우</strong></li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>if reponse["Success"] is False:
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">400</code>: query속 param들이 필요한 controller인데 http_request안에 아예 존재도 안했다면, 400 Bad Request에러</p>
+
+    <ul>
+      <li><strong>http_request에 필수param을 포함한 .query or .body가 아예 날라오지도 않았을 경우</strong></li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>if http_request.query:
+	# if query
+# if not query
+else:
+</code></pre></div>    </div>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>if http_request.body:
+	# if body
+# if not body
+else:
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+
+  </div><a class="u-url" href="/python/flask/cleanarchitecture/2022/09/05/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_05_ManyEntity_Register_controller_and_test.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>sqlalchemy으로 DB 생성 alembic으로 DB 수정 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="sqlalchemy으로 DB 생성 alembic으로 DB 수정" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="ORM으로 DB를 생성부터 수정/삭제까지" />
+<meta property="og:description" content="ORM으로 DB를 생성부터 수정/삭제까지" />
+<link rel="canonical" href="blog.chojaeseong.com/python/database/sqlalchemy/alembic/orm/2022/10/14/sqlalchemy_and_alembic%EC%9C%BC%EB%A1%9C-ORM%EC%9D%84-%ED%86%B5%ED%95%9C-DB-%EC%83%9D%EC%84%B1%EA%B3%BC-%EC%88%98%EC%A0%95.html" />
+<meta property="og:url" content="blog.chojaeseong.com/python/database/sqlalchemy/alembic/orm/2022/10/14/sqlalchemy_and_alembic%EC%9C%BC%EB%A1%9C-ORM%EC%9D%84-%ED%86%B5%ED%95%9C-DB-%EC%83%9D%EC%84%B1%EA%B3%BC-%EC%88%98%EC%A0%95.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/python.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-10-14T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-10-14T00:00:00-05:00","url":"blog.chojaeseong.com/python/database/sqlalchemy/alembic/orm/2022/10/14/sqlalchemy_and_alembic%EC%9C%BC%EB%A1%9C-ORM%EC%9D%84-%ED%86%B5%ED%95%9C-DB-%EC%83%9D%EC%84%B1%EA%B3%BC-%EC%88%98%EC%A0%95.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/python.png","headline":"sqlalchemy으로 DB 생성 alembic으로 DB 수정","dateModified":"2022-10-14T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/python/database/sqlalchemy/alembic/orm/2022/10/14/sqlalchemy_and_alembic%EC%9C%BC%EB%A1%9C-ORM%EC%9D%84-%ED%86%B5%ED%95%9C-DB-%EC%83%9D%EC%84%B1%EA%B3%BC-%EC%88%98%EC%A0%95.html"},"description":"ORM으로 DB를 생성부터 수정/삭제까지","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">sqlalchemy으로 DB 생성  alembic으로 DB 수정</h1><p class="page-description">ORM으로 DB를 생성부터 수정/삭제까지</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-10-14T00:00:00-05:00" itemprop="datePublished">
+        Oct 14, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#python">python</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#database">database</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#sqlalchemy">sqlalchemy</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#alembic">alembic</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#orm">orm</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#sqlalchemy-orm---db-생성-및-alembic을-통한-orm---db-수정">sqlalchemy ORM -&gt; DB 생성 및 alembic을 통한 ORM -&gt; DB 수정</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-pyconsole로-orm---db-createonly">01 PyConsole로 ORM -&gt; DB create(only)</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#전체-entity-한번에-생성base--engine--entities">전체 Entity 한번에 생성(Base + engine + Entities)</a></li>
+<li class="toc-entry toc-h5"><a href="#특정-entity만--engine으로-생성">특정 Entity만 + engine으로 생성</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#02-db-생성-로직화-with-env-and-fake-data">02 DB 생성 로직화 with .env and fake data</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#구조-설정">구조 설정</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#다른-entity그룹을-생성-01--같은base를-공통으로-상속해서-사용하되-create_basepy의-생성대상entity-메모리에-다른-entity그룹을-import하기---load-fake-data를-수정해야하니-비추">다른 entity그룹을 생성 01: : 같은Base를 공통으로 상속해서 사용하되, .create_base.py의 생성대상entity 메모리에 다른 entity그룹을 import하기 -&gt; load fake data를 수정해야하니 비추</a></li>
+<li class="toc-entry toc-h6"><a href="#다른-entity그룹을-생성-02--create_base2py를-만들어서-다른-entity메모리-다른-load_fake_data까지-구현하여-main에-import해서-사용하기">다른 entity그룹을 생성 02:  .create_base2.py를 만들어서 다른 entity메모리 +다른 load_fake_data까지 구현하여 main에 import해서 사용하기</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h5"><a href="#_load_fake_data-메서드-구현-예시">_load_fake_data 메서드 구현 예시</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#03-alembic을-이용한-orm---db-수정">03 alembic을 이용한 ORM -&gt; DB 수정</a></li>
+</ul>
+</li>
+</ul><h3 id="sqlalchemy-orm---db-생성-및-alembic을-통한-orm---db-수정">
+<a class="anchor" href="#sqlalchemy-orm---db-%EC%83%9D%EC%84%B1-%EB%B0%8F-alembic%EC%9D%84-%ED%86%B5%ED%95%9C-orm---db-%EC%88%98%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>sqlalchemy ORM -&gt; DB 생성 및 alembic을 통한 ORM -&gt; DB 수정</h3>
+
+<h4 id="01-pyconsole로-orm---db-createonly">
+<a class="anchor" href="#01-pyconsole%EB%A1%9C-orm---db-createonly" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 PyConsole로 ORM -&gt; DB create(only)</h4>
+
+<h5 id="전체-entity-한번에-생성base--engine--entities">
+<a class="anchor" href="#%EC%A0%84%EC%B2%B4-entity-%ED%95%9C%EB%B2%88%EC%97%90-%EC%83%9D%EC%84%B1base--engine--entities" aria-hidden="true"><span class="octicon octicon-link"></span></a>전체 Entity 한번에 생성(Base + engine + Entities)</h5>
+
+<ol>
+  <li>
+    <p><strong>python console</strong>을 열고</p>
+  </li>
+  <li>
+    <p><strong>Base</strong>객체와 engine객체 생성을 위한 <strong>DBConnnectionHandler</strong> import</p>
+  </li>
+  <li>
+    <p><strong>Entity들을 메모리에 올리기</strong>위한 entity import</p>
+  </li>
+  <li>
+    <p><strong>Base.metadata.create_all( engnine )</strong>명령어로 생성</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">infra.config.base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span class="kn">from</span> <span class="nn">infra.config.connection</span> <span class="kn">import</span> <span class="n">DBConnectionHandler</span>
+   
+<span class="kn">from</span> <span class="nn">infra.entities</span> <span class="kn">import</span> <span class="o">*</span>
+   
+<span class="c1">#with DBConnectionHandler() as db:
+#    Base.metadata.create_all(db.get_engine())
+</span><span class="n">engine</span> <span class="o">=</span> <span class="n">DBConnectionHandler</span><span class="p">().</span><span class="n">get_engine</span><span class="p">()</span>
+<span class="n">Base</span><span class="p">.</span><span class="n">metadata</span><span class="p">.</span><span class="n">create_all</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="특정-entity만--engine으로-생성">
+<a class="anchor" href="#%ED%8A%B9%EC%A0%95-entity%EB%A7%8C--engine%EC%9C%BC%EB%A1%9C-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>특정 Entity만 + engine으로 생성</h5>
+
+<ol>
+  <li>
+    <p><strong>python console</strong>을 열고</p>
+  </li>
+  <li>
+    <p>engine객체 생성을 위한 <strong>DBConnnectionHandler</strong> import</p>
+  </li>
+  <li>
+    <p><strong>특정 entity</strong> import</p>
+  </li>
+  <li>
+    <p>Entity.<code class="language-plaintext highlighter-rouge">__table__</code>.create( <strong>engine</strong> )</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">infra.config.connection</span> <span class="kn">import</span> <span class="n">DBConnectionHandler</span>
+   
+<span class="kn">from</span> <span class="nn">infra.entities</span> <span class="kn">import</span> <span class="n">Entity</span>
+   
+   
+<span class="n">Entity</span><span class="p">.</span><span class="n">__table__</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="02-db-생성-로직화-with-env-and-fake-data">
+<a class="anchor" href="#02-db-%EC%83%9D%EC%84%B1-%EB%A1%9C%EC%A7%81%ED%99%94-with-env-and-fake-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 DB 생성 로직화 with .env and fake data</h4>
+
+<h5 id="구조-설정">
+<a class="anchor" href="#%EA%B5%AC%EC%A1%B0-%EC%84%A4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>구조 설정</h5>
+
+<ol>
+  <li>
+    <p><strong>python-dotenv 환경설정: 블로그 참고</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221016235532505.png" alt="image-20221016235532505"></p>
+  </li>
+  <li>
+    <p>src &gt; infra &gt; config &gt; <strong><code class="language-plaintext highlighter-rouge">connection.py</code>의 DBConnectionHandler</strong>의</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221016235601151.png" alt="image-20221016235601151"></p>
+
+    <ol>
+      <li>
+        <p>connection_string을 <strong>settings.DATABASE_URL에서 가져온다.</strong></p>
+
+        <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">sessionmaker</span>
+<span class="kn">from</span> <span class="nn">src.config.settings</span> <span class="kn">import</span> <span class="n">settings</span>
+      
+      
+<span class="k">class</span> <span class="nc">DBConnectionHandler</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="c1"># self.__connection_string = "mysql+pymysql://root:564123@localhost:3306/cinema"
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">__connection_string</span> <span class="o">=</span> <span class="n">settings</span><span class="p">.</span><span class="n">DATABASE_URL</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">__engine</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">__create_database_engine</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">session</span> <span class="o">=</span> <span class="bp">None</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p><strong>contextManager에서 새로 engine연결하면, <code class="language-plaintext highlighter-rouge">sqlite-memory DB</code>는 손실되니, <code class="language-plaintext highlighter-rouge">get_current_sesion</code>으로 <code class="language-plaintext highlighter-rouge">현재 생성된 conn객체(engine을 가진)로 Session클래스</code>를 반환해주는 메서드를 만든다.</strong></p>
+
+        <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">get_current_session</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">Session</span> <span class="o">=</span> <span class="n">sessionmaker</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">__engine</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Session</span>
+</code></pre></div>        </div>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>src &gt; infra &gt; config &gt; <strong><code class="language-plaintext highlighter-rouge">db_creator.py</code>를 만들고 <code class="language-plaintext highlighter-rouge">Session클래스</code>와 <code class="language-plaintext highlighter-rouge">Base + engine의 create_db 메서드</code>를 구현한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221016235616216.png" alt="image-20221016235616216"></p>
+
+    <ul>
+      <li><strong>Session 클래스를 만들어놓고, main이든 어디든 session=Session()객체를 만들어, 연결된 engine으로 db에 쿼리를 날릴 수 있다.</strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">Base.metadata.create_all( engine )</code>시 <code class="language-plaintext highlighter-rouge">entityModel들이 메모리에 떠있어야</code>하는데, <code class="language-plaintext highlighter-rouge">main에서 실행시킬 것이므로 그 전까지 떠있기만 하면 된다</code></strong></li>
+    </ul>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span class="kn">from</span> <span class="nn">.connection</span> <span class="kn">import</span> <span class="n">DBConnectionHandler</span>
+   
+<span class="n">conn</span> <span class="o">=</span> <span class="n">DBConnectionHandler</span><span class="p">()</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">get_engine</span><span class="p">()</span>
+   
+<span class="n">Session</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">get_current_session</span><span class="p">()</span>
+   
+   
+<span class="k">def</span> <span class="nf">create_db</span><span class="p">():</span>
+    <span class="n">Base</span><span class="p">.</span><span class="n">metadata</span><span class="p">.</span><span class="n">create_all</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">일회성</code>으로 실행시킬 script이며, <code class="language-plaintext highlighter-rouge">entities정보 + configs정보</code>를 통하하여 사용할 <code class="language-plaintext highlighter-rouge">. &gt; create_database.py</code>를 생성한다</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221017000354366.png" alt="image-20221017000354366"></p>
+
+    <ul>
+      <li>
+        <p><strong>src&gt;infra&gt;config&gt;<code class="language-plaintext highlighter-rouge">db_creator.py</code>의 <code class="language-plaintext highlighter-rouge">Session</code>클래스 + <code class="language-plaintext highlighter-rouge">create_db()</code>메서드를 import해서 사용한다</strong></p>
+      </li>
+      <li>
+        <p><strong>src&gt;infra&gt;entities &gt; <code class="language-plaintext highlighter-rouge">*</code> 전체를 init에서 올려서 <code class="language-plaintext highlighter-rouge">db생성시 entityModel들 메모리에 import</code>시킨다</strong></p>
+      </li>
+      <li>
+        <p>메모리상 entity들 + create_db()를 통해 <strong>db생성후 <code class="language-plaintext highlighter-rouge">Session()</code>객체로 <code class="language-plaintext highlighter-rouge">load_fake_data</code>를 구현하여 샘플 데이터를 집어넣는다.</strong></p>
+
+        <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">src.infra.config.db_creator</span> <span class="kn">import</span> <span class="n">create_db</span><span class="p">,</span> <span class="n">Session</span>
+     
+<span class="kn">from</span> <span class="nn">src.infra.models</span> <span class="kn">import</span> <span class="o">*</span>
+     
+     
+<span class="k">def</span> <span class="nf">_load_fake_data</span><span class="p">(</span><span class="n">session</span><span class="p">):</span>
+    <span class="n">group1</span> <span class="o">=</span> <span class="n">Groups</span><span class="p">(</span><span class="n">group_name</span><span class="o">=</span><span class="s">'1-MDA-7'</span><span class="p">)</span>
+    <span class="n">group2</span> <span class="o">=</span> <span class="n">Groups</span><span class="p">(</span><span class="n">group_name</span><span class="o">=</span><span class="s">'1-MDA-9'</span><span class="p">)</span>
+    <span class="n">session</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">group1</span><span class="p">)</span>
+    <span class="n">session</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">group2</span><span class="p">)</span>
+    <span class="n">session</span><span class="p">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">session</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+     
+     
+<span class="k">def</span> <span class="nf">create_database</span><span class="p">(</span><span class="n">load_fake_data</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    <span class="n">create_db</span><span class="p">()</span>
+     
+    <span class="k">if</span> <span class="n">load_fake_data</span><span class="p">:</span>
+        <span class="n">_load_fake_data</span><span class="p">(</span><span class="n">Session</span><span class="p">())</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h6 id="다른-entity그룹을-생성-01--같은base를-공통으로-상속해서-사용하되-create_basepy의-생성대상entity-메모리에-다른-entity그룹을-import하기---load-fake-data를-수정해야하니-비추">
+<a class="anchor" href="#%EB%8B%A4%EB%A5%B8-entity%EA%B7%B8%EB%A3%B9%EC%9D%84-%EC%83%9D%EC%84%B1-01--%EA%B0%99%EC%9D%80base%EB%A5%BC-%EA%B3%B5%ED%86%B5%EC%9C%BC%EB%A1%9C-%EC%83%81%EC%86%8D%ED%95%B4%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%90%98-create_basepy%EC%9D%98-%EC%83%9D%EC%84%B1%EB%8C%80%EC%83%81entity-%EB%A9%94%EB%AA%A8%EB%A6%AC%EC%97%90-%EB%8B%A4%EB%A5%B8-entity%EA%B7%B8%EB%A3%B9%EC%9D%84-import%ED%95%98%EA%B8%B0---load-fake-data%EB%A5%BC-%EC%88%98%EC%A0%95%ED%95%B4%EC%95%BC%ED%95%98%EB%8B%88-%EB%B9%84%EC%B6%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>다른 entity그룹을 생성 01: : 같은Base를 공통으로 상속해서 사용하되, .create_base.py의 생성대상entity 메모리에 다른 entity그룹을 import하기 -&gt; load fake data를 수정해야하니 비추</h6>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">src.infra.config.db_creator</span> <span class="kn">import</span> <span class="n">create_db</span><span class="p">,</span> <span class="n">Session</span>
+
+<span class="c1"># 변경
+#from src.infra.models import *
+</span><span class="kn">from</span> <span class="nn">src.infra.entities</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">def</span> <span class="nf">_load_fake_data</span><span class="p">(</span><span class="n">session</span><span class="p">):</span>
+	<span class="p">...</span>
+
+<span class="k">def</span> <span class="nf">create_database</span><span class="p">(</span><span class="n">load_fake_data</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    <span class="n">create_db</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h6 id="다른-entity그룹을-생성-02--create_base2py를-만들어서-다른-entity메모리-다른-load_fake_data까지-구현하여-main에-import해서-사용하기">
+<a class="anchor" href="#%EB%8B%A4%EB%A5%B8-entity%EA%B7%B8%EB%A3%B9%EC%9D%84-%EC%83%9D%EC%84%B1-02--create_base2py%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%84%9C-%EB%8B%A4%EB%A5%B8-entity%EB%A9%94%EB%AA%A8%EB%A6%AC-%EB%8B%A4%EB%A5%B8-load_fake_data%EA%B9%8C%EC%A7%80-%EA%B5%AC%ED%98%84%ED%95%98%EC%97%AC-main%EC%97%90-import%ED%95%B4%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>다른 entity그룹을 생성 02:  .create_base2.py를 만들어서 다른 entity메모리 +다른 load_fake_data까지 구현하여 main에 import해서 사용하기</h6>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">src.infra.config.db_creator</span> <span class="kn">import</span> <span class="n">create_db</span><span class="p">,</span> <span class="n">Session</span>
+
+<span class="c1">#from src.infra.models import *
+</span><span class="kn">from</span> <span class="nn">src.infra.entities</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<span class="k">def</span> <span class="nf">_load_fake_data</span><span class="p">(</span><span class="n">session</span><span class="p">):</span>
+    <span class="c1"># 다르게 구현
+</span>
+
+<span class="k">def</span> <span class="nf">create_database</span><span class="p">(</span><span class="n">load_fake_data</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    <span class="n">create_db</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">load_fake_data</span><span class="p">:</span>
+        <span class="n">_load_fake_data</span><span class="p">(</span><span class="n">Session</span><span class="p">())</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#from create_database import *
+</span><span class="kn">from</span> <span class="nn">create_database2</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">create_database</span><span class="p">(</span><span class="n">load_fake_data</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">session</span> <span class="o">=</span> <span class="n">Session</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">session</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="n">Filmes</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">.&gt;main.py</code>에서 <code class="language-plaintext highlighter-rouge">.&gt;create_database.py</code>를 통채로 <code class="language-plaintext highlighter-rouge">*</code> import하여</strong></p>
+
+    <ul>
+      <li>db_creator.py 속에 있던 <strong><code class="language-plaintext highlighter-rouge">Session</code></strong>
+</li>
+      <li>create_datbase.py에 있던 <code class="language-plaintext highlighter-rouge">*(entityes)</code> + <strong><code class="language-plaintext highlighter-rouge">create_database(load_fake_data=)</code></strong>
+        <ul>
+          <li>모두를 <code class="language-plaintext highlighter-rouge">*</code> import해서 사용한다</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">create_database</span> <span class="kn">import</span> <span class="o">*</span>
+   
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">create_database</span><span class="p">(</span><span class="n">load_fake_data</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">session</span> <span class="o">=</span> <span class="n">Session</span><span class="p">()</span>
+   
+    <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">session</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="n">Groups</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="_load_fake_data-메서드-구현-예시">
+<a class="anchor" href="#_load_fake_data-%EB%A9%94%EC%84%9C%EB%93%9C-%EA%B5%AC%ED%98%84-%EC%98%88%EC%8B%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>_load_fake_data 메서드 구현 예시</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+
+<span class="kn">from</span> <span class="nn">src.infra.config.db_creator</span> <span class="kn">import</span> <span class="n">create_db</span><span class="p">,</span> <span class="n">Session</span>
+
+<span class="kn">from</span> <span class="nn">src.infra.models</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<span class="k">def</span> <span class="nf">_load_fake_data</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">Session</span><span class="p">):</span>
+    <span class="c1">## 1) 1:M 에서 [M의 fk]로 쓰일 [1의 객체]부터 먼저 생성한다.
+</span>    <span class="c1">## 2) N:M 에서 relationship칼럼이 없는 Entity부터 먼저 생성한다.
+</span>    <span class="c1"># -&gt; lessons.relationship칼럼.append( groups )
+</span>    <span class="n">group1</span> <span class="o">=</span> <span class="n">Groups</span><span class="p">(</span><span class="n">group_name</span><span class="o">=</span><span class="s">'1-MDA-7'</span><span class="p">)</span>
+    <span class="n">group2</span> <span class="o">=</span> <span class="n">Groups</span><span class="p">(</span><span class="n">group_name</span><span class="o">=</span><span class="s">'1-MDA-9'</span><span class="p">)</span>
+    <span class="n">session</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">group1</span><span class="p">)</span>
+    <span class="n">session</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">group2</span><span class="p">)</span>
+
+    <span class="c1">## 3) N:M에서 종류가 제한적인 것을 미리 만들어놓고
+</span>    <span class="c1">##    반복문을 돌면서, 생성하여, 반대entity는 append로 등록해준다.
+</span>    <span class="n">lesson_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">'수학'</span><span class="p">,</span> <span class="s">'프로그래밍'</span><span class="p">,</span> <span class="s">'철학'</span><span class="p">,</span> <span class="s">'알고리즘 및 데이터 구조'</span><span class="p">,</span> <span class="s">'선형대수학'</span><span class="p">,</span> <span class="s">'통계'</span><span class="p">,</span> <span class="s">'체육'</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lesson_names</span><span class="p">):</span>
+        <span class="n">lesson</span> <span class="o">=</span> <span class="n">Lessons</span><span class="p">(</span><span class="n">lesson_title</span><span class="o">=</span><span class="n">it</span><span class="p">)</span>
+        <span class="n">lesson</span><span class="p">.</span><span class="n">groups</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">group1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lesson</span><span class="p">.</span><span class="n">groups</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">group2</span><span class="p">)</span>
+        <span class="n">session</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">lesson</span><span class="p">)</span>
+
+    <span class="n">faker</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">(</span><span class="s">'ko_KR'</span><span class="p">)</span>
+    <span class="c1">## 4) 랜덤으로 택1시키려면, list로 미리 쏴두고 -&gt; faker.random.choice
+</span>    <span class="n">group_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">group1</span><span class="p">,</span> <span class="n">group2</span><span class="p">]</span>
+
+    <span class="c1">## 중간에 끊겨도 되는 지점을 commit해준다.
+</span>    <span class="n">session</span><span class="p">.</span><span class="n">commit</span><span class="p">()</span>
+
+    <span class="c1">## 5) student를 50개 만든다. fk에 해당하는 group.id를 group_list에서 택1한 뒤 id만 뽑아쓴다.
+</span>    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
+        <span class="n">full_name</span> <span class="o">=</span> <span class="n">faker</span><span class="p">.</span><span class="n">name</span><span class="p">().</span><span class="n">split</span><span class="p">(</span><span class="s">' '</span><span class="p">)</span>
+        <span class="n">age</span> <span class="o">=</span> <span class="n">faker</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+        <span class="n">address</span> <span class="o">=</span> <span class="n">faker</span><span class="p">.</span><span class="n">address</span><span class="p">()</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="n">faker</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">choice</span><span class="p">(</span><span class="n">group_list</span><span class="p">)</span>  <span class="c1">#
+</span>
+        <span class="n">student</span> <span class="o">=</span> <span class="n">Students</span><span class="p">(</span><span class="n">full_name</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">group</span><span class="p">.</span><span class="nb">id</span><span class="p">)</span>
+        <span class="n">session</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">student</span><span class="p">)</span>
+
+    <span class="n">session</span><span class="p">.</span><span class="n">commit</span><span class="p">()</span>
+
+    <span class="n">session</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+    
+    
+<span class="k">def</span> <span class="nf">create_database</span><span class="p">(</span><span class="n">load_fake_data</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
+    <span class="n">create_db</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">load_fake_data</span><span class="p">:</span>
+        <span class="n">_load_fake_data</span><span class="p">(</span><span class="n">Session</span><span class="p">())</span>
+
+</code></pre></div></div>
+
+<h4 id="03-alembic을-이용한-orm---db-수정">
+<a class="anchor" href="#03-alembic%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-orm---db-%EC%88%98%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 alembic을 이용한 ORM -&gt; DB 수정</h4>
+
+<ol>
+  <li>
+    <p><strong>terminal</strong>을 열고</p>
+  </li>
+  <li>
+    <p>alembic 설치 및 alembic 초기화</p>
+
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>pip3 <span class="nb">install </span>alembic
+   
+alembic init alembic
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>alembic 설정</p>
+
+    <ol>
+      <li>
+        <p>./<strong>alembic.init 내부 sqlalchemy.url 주석</strong> 처리</p>
+      </li>
+      <li>
+        <p>./<strong>alembic/versions/env.py 설정</strong></p>
+
+        <ol>
+          <li>
+            <p><strong>config객체에 sqlalchemy.url</strong> main_option 추가</p>
+
+            <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">config</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="n">config</span>        
+         
+<span class="c1"># set sqlalchemy.url
+</span><span class="n">db_url</span> <span class="o">=</span> <span class="s">"mysql+pymysql://root:564123@localhost:3306/cinema"</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="p">.</span><span class="n">get_main_option</span><span class="p">(</span><span class="s">'sqlalchemy.url'</span><span class="p">):</span>
+    <span class="n">config</span><span class="p">.</span><span class="n">set_main_option</span><span class="p">(</span><span class="s">'sqlalchemy.url'</span><span class="p">,</span> <span class="n">db_url</span><span class="p">)</span>
+</code></pre></div>            </div>
+          </li>
+          <li>
+            <p><strong>target_metadata</strong>에 <strong>Base의 .metadata</strong> 할당 및 <strong><code class="language-plaintext highlighter-rouge">entity들 메모리에 띄워두기</code>(필수)</strong></p>
+
+            <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># target_metadata = None
+</span>         
+<span class="kn">from</span> <span class="nn">src.infra.config.base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span class="kn">from</span> <span class="nn">src.infra.entities</span> <span class="kn">import</span> <span class="o">*</span>
+         
+<span class="n">target_metadata</span> <span class="o">=</span> <span class="n">Base</span><span class="p">.</span><span class="n">metadata</span>
+</code></pre></div>            </div>
+          </li>
+          <li>
+            <p><strong>run_migrations_online</strong>메서드에 <strong>칼럼Type까지 비교</strong>하도록 <strong>context.configure에 <code class="language-plaintext highlighter-rouge">compare_type=True</code> 추가하기</strong></p>
+
+            <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">run_migrations_online</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c1">#...
+</span>    <span class="k">with</span> <span class="n">connectable</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
+        <span class="n">context</span><span class="p">.</span><span class="n">configure</span><span class="p">(</span>
+            <span class="c1">#...
+</span>            <span class="n">compare_type</span><span class="o">=</span><span class="bp">True</span>
+        <span class="p">)</span>
+         
+</code></pre></div>            </div>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>DB생성해놓은 상태에서 revision최초 하나 만들어주기</strong></p>
+
+    <div class="language-powershell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nf">alembic</span><span class="w"> </span><span class="nx">revision</span><span class="w"> </span><span class="nt">-m</span><span class="w"> </span><span class="s2">"init entites"</span><span class="w">
+</span><span class="nf">alembic</span><span class="w"> </span><span class="nx">upgrade</span><span class="w"> </span><span class="nx">head</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Entity모델들을 수정한 뒤, alembic으로 DB 업데이트하기</strong></p>
+
+    <ul>
+      <li>
+<strong>절대 DB를 수작업으로 건들면 안된다.</strong>
+        <ul>
+          <li>ORM수정에 따른 01 ORM으로 DB생성은 무시하면서 인식유지되더라</li>
+        </ul>
+      </li>
+      <li><strong><code class="language-plaintext highlighter-rouge">Entity .py를 삭제</code>할 땐, <code class="language-plaintext highlighter-rouge">init에 걸어둔 것도 같이삭제</code>하자</strong></li>
+    </ul>
+
+    <div class="language-powershell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c"># entity 수정후</span><span class="w">
+</span><span class="nf">alembic</span><span class="w"> </span><span class="nx">revision</span><span class="w"> </span><span class="nt">--autogenerate</span><span class="w"> </span><span class="nt">-m</span><span class="w"> </span><span class="s2">"add column"</span><span class="w">
+</span><span class="nf">alembic</span><span class="w"> </span><span class="nx">upgrade</span><span class="w"> </span><span class="nx">head</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+</ol>
+
+
+  </div><a class="u-url" href="/python/database/sqlalchemy/alembic/orm/2022/10/14/sqlalchemy_and_alembic%EC%9C%BC%EB%A1%9C-ORM%EC%9D%84-%ED%86%B5%ED%95%9C-DB-%EC%83%9D%EC%84%B1%EA%B3%BC-%EC%88%98%EC%A0%95.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

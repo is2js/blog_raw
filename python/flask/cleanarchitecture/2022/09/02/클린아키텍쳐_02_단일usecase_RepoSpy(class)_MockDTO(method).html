@@ -1,0 +1,1987 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>클린아키텍쳐 02 usecase와 test를 위한 RepoSpy, MockDto method | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="클린아키텍쳐 02 usecase와 test를 위한 RepoSpy, MockDto method" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="python clean architecture" />
+<meta property="og:description" content="python clean architecture" />
+<link rel="canonical" href="blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/02/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_02_%EB%8B%A8%EC%9D%BCusecase_RepoSpy(class)_MockDTO(method).html" />
+<meta property="og:url" content="blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/02/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_02_%EB%8B%A8%EC%9D%BCusecase_RepoSpy(class)_MockDTO(method).html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/python.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-09-02T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-09-02T00:00:00-05:00","url":"blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/02/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_02_%EB%8B%A8%EC%9D%BCusecase_RepoSpy(class)_MockDTO(method).html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/python.png","headline":"클린아키텍쳐 02 usecase와 test를 위한 RepoSpy, MockDto method","dateModified":"2022-09-02T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/02/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_02_%EB%8B%A8%EC%9D%BCusecase_RepoSpy(class)_MockDTO(method).html"},"description":"python clean architecture","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">클린아키텍쳐 02 usecase와 test를 위한 RepoSpy, MockDto method</h1><p class="page-description">python clean architecture</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-09-02T00:00:00-05:00" itemprop="datePublished">
+        Sep 2, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      20 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#python">python</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#flask">flask</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#cleanarchitecture">cleanarchitecture</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#클린-아키텍쳐-2장">클린 아키텍쳐 2장</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#1-use-cases-register-user">1 use cases (register user)</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#01-br따서-작업-세팅하기">01 br따서 작업 세팅하기</a></li>
+<li class="toc-entry toc-h3"><a href="#02-scrdomain-use_cases폴더-및-init생성">02 scr&gt;domain&gt; use_cases폴더 및 init생성</a></li>
+<li class="toc-entry toc-h3"><a href="#03-domain-layer-register_user인터페이스---data-layer에서-객체-class를-구현한다">03 domain layer register_user인터페이스 -&gt; data layer에서 객체 class를 구현한다</a></li>
+<li class="toc-entry toc-h3"><a href="#register-user-use-case-만들기">register user Use Case 만들기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#domain-layer에-interface로-설계한다">domain layer에 interface로 설계한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#registeruser-의-반환타입은-dictbool-dto형태이다">RegisterUser 의 반환타입은 Dict[bool, DTO]형태이다.</a></li>
+<li class="toc-entry toc-h4"><a href="#data-layer에서-개별-use_case마다-만들어줄--class폴더init을-만들고-domain-layer에-만든-use_cases--속-인터페이스들을-import한다">data layer에서 개별 use_case마다 만들어줄  class폴더+init을 만들고, domain layer에 만든 use_cases  속 인터페이스들을 import한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#data-layer의-개별use-case--class들은-repository를-생성자에서-인자로-받아-객체로-생성된다객체-static인-clasmethod-x---typing을-위해-userrepository-interface를-구현했던-것이다">data layer의 개별use case  Class들은 repository를 생성자에서 인자로 받아 객체로 생성된다(객체 static인 clasmethod X) -&gt; typing을 위해 UserRepository Interface를 구현했던 것이다!</a></li>
+<li class="toc-entry toc-h4"><a href="#data-layer의-개별-use-case-class들은-객체로-생성될-것이며-repository를-필드로-보유하고-use-case-class이름과-유사하게-인스턴스-메서드를-만들어-repository필드와-같이-작동한다">data layer의 개별 use case Class들은 객체로 생성될 것이며, repository를 필드로 보유하고, use case Class이름과 유사하게 인스턴스 메서드를 만들어 repository필드와 같이 작동한다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#인스턴스-메서드는-일단-파라미터들의-type-유효성부터-검사한다validate_entry">인스턴스 메서드는 일단, 파라미터들의 type 유효성부터 검사한다.(validate_entry)</a></li>
+<li class="toc-entry toc-h5"><a href="#if-validate_entry-성공시에만-repositoryinsert_user를-호출하여-가변변수-respoonse--none에-결과값dto를-할당해준다-reigster메서드의-반환타입은-success-data이다">if validate_entry 성공시에만 repository.insert_user를 호출하여 가변변수 respoonse = None에 결과값(DTO)를 할당해준다. reigster메서드의 반환타입은 {“Success”, “data”}이다</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#04-use-case--class-test-register-user-test">04 use case  Class test (register user test)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#data-layer의-개별-usecase-class-in-개별-usecase-폴더에서-_testpy도-만들어준다">data layer의 개별 usecase Class in 개별 usecase 폴더에서 _test.py도 만들어준다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#05-use-case-test는-mock_repo-repository-spy-객체가-필요하다db관련된-infra의-repo를-테스트할-없음-inputoutput-테스트를-위한-목repo">05 use case test는 mock_repo [Repository Spy] 객체가 필요하다(DB관련된 infra의 repo를 테스트할 없음. input/output 테스트를 위한 목repo)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#srcinfra-속--test폴더--init-만든다">src&gt;infra 속&gt;  test폴더 + init 만든다.</a></li>
+<li class="toc-entry toc-h4"><a href="#특정repo에-대한-repository_spypy를-만든다">특정repo에 대한 repository_spy.py를 만든다.</a></li>
+<li class="toc-entry toc-h4"><a href="#input-spy-처리-repo-spy는-repo의-메서드들의-signature에-따른-인자들을-받았을-때-실제로-메서드-호출-대신-메서드별-배정된-param-dict-필드속에-저장-파라미터들을-저장해놓는다">[input spy 처리] repo spy는 repo의 메서드들의 signature에 따른 인자들을 받았을 때, 실제로 메서드 호출 대신 메서드별 배정된 param dict 필드속에 저장 파라미터들을 저장해놓는다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#06-repo-spy의-return에-사용될-mock-dto-반환-mock_method-만들기">06 Repo Spy의 return에 사용될 Mock DTO 반환 mock_method 만들기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#output-목처리-repo메서드별-return-type에-맞는-실제dto객체x-목객체-처리할-수-있또록-return-dto반환-mock_method가-필요하다">[output 목처리] repo메서드별 return type에 맞는 실제DTO객체(X) 목객체 처리할 수 있또록 return DTO반환 mock_method()가 필요하다</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#return-type인-dto의-목객체는-dto가-있는-domain에-test폴더-init을-만든다">return type인 DTO의 목객체는 DTO가 있는 domain에 test폴더+ init을 만든다.</a></li>
+<li class="toc-entry toc-h5"><a href="#mock-method의-이름은-mock_xxxpy로-만든다">mock method의 이름은 mock_xxx.py로 만든다.</a></li>
+<li class="toc-entry toc-h5"><a href="#repo-spy클래스와-달리-실제dto-class--faker로-mock-dto반환-mock-method를-만든다">repo spy클래스와 달리, 실제DTO class + faker로 mock DTO반환 mock method를 만든다.</a></li>
+<li class="toc-entry toc-h5"><a href="#mock-method가-만들어지면-init에-올린다">mock method가 만들어지면, init에 올린다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#repo-spy에서-mock_method를-import해서-mock-dto를-반환받도록-사용한다">Repo Spy에서 mock_method를 import해서 mock DTO를 반환받도록 사용한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#repo-spy가-완성되었으면-infratest의-init에-올린다">repo spy가 완성되었으면, infra.test의 init에 올린다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#07-use-case-testregister_test마무리">07 use case test(register_test)마무리</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-usecase-class-에서는-인자-repository-대신-repository-spy객체를-import해서-사용한다">01 usecase Class 에서는, 인자 repository 대신, repository spy객체를 import해서 사용한다</a></li>
+<li class="toc-entry toc-h4"><a href="#02-use-case의-input-test는-javascript모양으로-dict를-구성하여-use-class-method에-던져준다">02 use case의 input test는 javascript모양으로 dict를 구성하여 use class method에 던져준다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#repo-spy를-가진-usecase-class는-내부에서-repo-method호출시-method별-param-dict에-소유만-하고있고-mock_method로-dto목객체를-response에-건네줄-것이다">repo spy를 가진 usecase class는, 내부에서 repo method호출시, method별 param dict에 소유만 하고있고, mock_method()로 DTO목객체를 response에 건네줄 것이다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#03-use-case-class-test는-input과-output을-따로-테스팅한다">03 use case class test는 input과 output을 따로 테스팅한다</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#use-case-input-test는-input이-usecase객체를-투입된-뒤-사용된-repo-spy-속-method별-param-dict에-잘-들어갔는지-까지-검사">use case Input Test는 input이 usecase객체를 투입된 뒤, 사용된 repo spy 속 method별 param dict에 잘 들어갔는지 까지 검사</a></li>
+<li class="toc-entry toc-h5"><a href="#use-case-output-test는-repo-spy는-mock_users를-return하지만-input과-별개이므로-input이-제대로-안들어갔다면-false--none으로-반환될-validate_entry와-response존재유무만-검사한다">use case Output Test는 repo spy는 mock_users()를 return하지만 input과 별개이므로, [input이 제대로 안들어갔다면, False / None]으로 반환될 [validate_entry와 response존재유무]만 검사한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#pytest--vs를-돌리되-검증안하는-response의-실제내용spy-repo가-faker-mock_users를-통해-반환한-데이터를-확인하면서-돌려보자">pytest -vs를 돌리되, 검증안하는 response의 실제내용(spy repo가 faker mock_users()를 통해 반환한 데이터)를 확인하면서 돌려보자.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#04-use-case-class는-input에-대한-fail-test도-필요하다">04 use case Class는 input에 대한 fail test도 필요하다</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#성공test를-복사해서-_fail-테스트-메서드를-만든다">성공test를 복사해서 _fail 테스트 메서드를 만든다.</a></li>
+<li class="toc-entry toc-h5"><a href="#js-input-attributes에-invalid-type을-입력">js input attributes에 invalid type을 입력</a></li>
+<li class="toc-entry toc-h5"><a href="#input이-잘못되면-usecase---repo-spy의-메서드로-진입도-못하므로-assert시-repo-spy의-param-dict는-비어있어야한다">input이 잘못되면, usecase -&gt; repo spy의 메서드로 진입도 못하므로, assert시 repo spy의 param dict는 비어있어야한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#ouput-test에서는-validate_entry여부인-success는-false--return의-data는-response--none-초기화상태를-응답하게-된다">ouput test에서는 validate_entry여부인 Success는 False / return의 Data는 response = None 초기화상태를 응답하게 된다.</a></li>
+<li class="toc-entry toc-h5"><a href="#참고-pytest-특정경로는-폴더까지만으로-줘도-된다">참고) pytest 특정경로는 폴더까지만으로 줘도 된다.</a></li>
+<li class="toc-entry toc-h5"><a href="#test완료된-git-처리">test완료된 git 처리</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#use-cases-2-finduser">use cases 2 FindUser</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#작업-끝난-br의-local-폴더에서-새-br파서-작업-이어서-하기">작업 끝난 br의 local 폴더에서 새 br파서 작업 이어서 하기</a></li>
+<li class="toc-entry toc-h3"><a href="#01-use-case-class는-domain--use_cases-에-interface형태-class부터-정의하더라">01 use case Class는 domain &gt; use_cases 에 [Interface형태 Class]부터 정의하더라</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#as--interface를-붙여쓰므로-class명에-직접-interface를-붙여쓰지-않으므로--datainterfaces에-속하진-않는다">as -Interface를 붙여쓰므로, class명에 직접 interface를 붙여쓰지 않으므로,  data&gt;interfaces에 속하진 않는다.</a></li>
+<li class="toc-entry toc-h4"><a href="#finduser는-select_user를-쓸-것인데-idunique_colfk-에-따라-경우의-수가-있으므로-그만큼-by_xx메서드를-나눠서-만든다-use_case-class의-메서드-returntype은-dictbool-dto-아니라면-dictbool-listdto-고정이다">FindUser는 select_user를 쓸 것인데, id/unique_col/fk 에 따라 경우의 수가 있으므로, 그만큼 by_xx메서드를 나눠서 만든다. use_case Class의 메서드 returnType은 Dict[bool, DTO] 아니라면 Dict[bool, List[DTO]] 고정이다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#02-data---개별use_case폴더명--init-생성후-개별use_case동사명py에다가-usecase-class를-정의한다">02 data &gt;  개별use_case폴더명 + init 생성후, 개별use_case동사명.py에다가 usecase Class를 정의한다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#domainuse_cases의-py명과-data개별use_case명은--동사_목적어지만-개별use_case폴더-속-py파일은-동사로만-구성한다">domain&gt;use_cases&gt;의 py명과, data&gt;개별use_case명은  동사_목적어지만, 개별use_case폴더 속 py파일은 동사로만 구성한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#domainuse_cases에서-정의한-interface를-as--interface로-import-해서-실제-usecase-classfinduser를-구현한다">domain&gt;use_cases에서 정의한 interface를 as -Interface로 import 해서 실제 Usecase Class(FindUser)를 구현한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#usecase-class는-repository를-인자로-받는데-이-때-datainterfaces에-정의한-repo-interface를-as-repo로-import해서-준다">usecase Class는 repository를 인자로 받는데, 이 때, data&gt;interfaces에 정의한 repo interface를 as repo로 import해서 준다.</a></li>
+<li class="toc-entry toc-h4"><a href="#usecase-class-method의-signature는-domainuse_cases에-정의해둔-interface의-signature를-복사해서-수정한다">usecase class method의 signature는 domain&gt;use_cases에 정의해둔 interface의 signature를 복사해서 수정한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#usecase-method의-구현부는-responsenone초기화-vaildate_entry로-시작하고-응답형은-각각을-채운-dict로-한다">usecase method의 구현부는 response=None초기화, vaildate_entry로 시작하고, 응답형은 각각을 채운 dict로 한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#03-usecase-class-testfind_testpy">03 usecase Class test(find_test.py)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#test는-동일폴더-속-모듈--faker를-기본적으로-import">test는 동일폴더 속 모듈 + faker를 기본적으로 import</a></li>
+<li class="toc-entry toc-h4"><a href="#repo인자로-사용하는-usecase-class-test는-infrarepo동일선상-test폴더의-repospy를-import해서-인자로-사용한다">repo인자로 사용하는 usecase Class test는 infra&gt;repo동일선상 test폴더의 repospy를 import해서 인자로 사용한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#usecase는-input을-js타입의-attr-dict를-faker로-만들고-usecase-method에-넣어주면-내부-repo-spy가-param-dict에-물고-있을-것이다">usecase는 input을 js타입의 attr dict를 faker로 만들고, usecase method에 넣어주면, 내부 repo spy가 param dict에 물고 있을 것이다.</a></li>
+<li class="toc-entry toc-h4"><a href="#usecase-method-test는-outputdict를-successvalidate_entry-torf-와-datanone-or-not-none-2개를-검사하면-된다">usecase method test는 output(dict)를 Success(validate_entry TorF )와 Data(None or not None) 2개를 검사하면 된다</a></li>
+<li class="toc-entry toc-h4"><a href="#test메서드1개마다-pytest를-돌린다-탐색기폴더에-우클릭-상대경로-복사해서-pytest--vs를-돌리면-된다">test메서드1개마다 pytest를 돌린다. 탐색기폴더에 우클릭 상대경로 복사해서 pytest -vs를 돌리면 된다.</a></li>
+<li class="toc-entry toc-h4"><a href="#spy-repo는-내부에서-faker로-실시간으로-만드는-mock_entity로-객체를-만들어-반환해주므로-print로-pytest--vs에서-내용물을-확인할-수-있지만-랜덤객체고-type만-dto다">spy repo는 내부에서 faker로 실시간으로 만드는 mock_entity()로 객체를 만들어 반환해주므로, print()로 pytest -vs에서 내용물을 확인할 수 있지만, 랜덤객체고 Type만 DTO다</a></li>
+<li class="toc-entry toc-h4"><a href="#test까지-끝났으면-모듈을-init에-올려주기">test까지 끝났으면 모듈을 init에 올려주기</a></li>
+<li class="toc-entry toc-h4"><a href="#by_id-이외에-메서드test는-생략하고-need-test를-달아주고-commit">by_id 이외에 메서드test는 생략하고 (need test)를 달아주고 commit</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#use-cases-3-findpet">use cases 3 FindPet</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#01-srcdomain-use_cases--find_petpy-interface-정의하기">01 src&gt;domain&gt; use_cases &gt; find_pet.py (interface) 정의하기</a></li>
+<li class="toc-entry toc-h3"><a href="#02-srcdatafind_pet폴더init--findpy-usecase-class-정의하기">02 src&gt;data&gt;find_pet폴더&gt;init + find.py (usecase Class) 정의하기</a></li>
+<li class="toc-entry toc-h3"><a href="#03-srcdatafind_pet폴더-find_testpy-usecase-class-test-정의하기">03 src&gt;data&gt;find_pet폴더&gt; find_test.py (usecase Class test) 정의하기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-usecase-test는-인자로-들어가는-repo에-대한-repo-spy가-필요---repo-spy의-반환-값인-mock_dto-반환-메서드-mock_pet가-먼저-필요">01 usecase test는 인자로 들어가는 repo에 대한 repo spy가 필요 -&gt; repo spy의 반환 값인 mock_DTO 반환 [메서드] mock_pet()가 먼저 필요</a></li>
+<li class="toc-entry toc-h4"><a href="#02-mock_petdto-반환-moc_method-부터-만들기">02 mock_pet(DTO) 반환 moc_method() 부터 만들기</a></li>
+<li class="toc-entry toc-h4"><a href="#03-srcinfratest에-pet_repository_spypy를-정의한다">03 src&gt;infra&gt;test에 pet_repository_spy.py를 정의한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#04-드디어-use_case_testfind_testpy에-spy-repo-사용해서-정의하기">04 드디어 use_case_test(find_test.py)에 spy repo 사용해서 정의하기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#usecase-method의-test-중-input-test는-repo-spy가-먹은-input-vs-attributes로-만든-input을-비교한다">usecase method의 test 중 input test는 repo spy가 먹은 input vs attributes로 만든 input을 비교한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#usecase-method의-test-중-output-test는-repo-spy가-반환하는-목객체가-중요한게-아니라-usecase반환-dict의-success-tf유무--data-존재유무를-확인한다">usecase method의 test 중 output test는 repo spy가 반환하는 목객체가 중요한게 아니라 usecase반환 dict의 success T/F유무 + data 존재유무를 확인한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#05-1개-메서드-완성시마다-pytest를-돌린다">05 1개 메서드 완성시마다 pytest를 돌린다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#04-나머지-method-생략---need-test로-커밋하기">04 나머지 method 생략 -&gt; (need test)로 커밋하기</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#참고">참고</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#gitignore">gitignore</a></li>
+<li class="toc-entry toc-h4"><a href="#sqlalchemy패키지">sqlalchemy패키지</a></li>
+<li class="toc-entry toc-h4"><a href="#github에서-br따서-작업하기">github에서 br따서 작업하기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#1-1-github에서-br생성--clone">[1-1] github에서 br생성 ~ clone</a></li>
+<li class="toc-entry toc-h5"><a href="#clone후-초기-작업-세팅">clone후 초기 작업 세팅</a></li>
+<li class="toc-entry toc-h5"><a href="#1-2-작업끝난-br의-폴더에서-새-작업-br생성--분기게시-초기세팅-또-안해도-되는-장점">[1-2] 작업끝난 br의 폴더에서 새 작업 br생성 ~ 분기게시 (초기세팅 또 안해도 되는 장점)</a></li>
+<li class="toc-entry toc-h5"><a href="#2-해당br-작업테스트-완료후--merge까지-정리">[2] 해당br 작업(테스트) 완료후 ~ merge까지 정리</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#vscode-설정">vscode 설정</a></li>
+<li class="toc-entry toc-h4"><a href="#test정리">test정리</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h1 id="클린-아키텍쳐-2장">
+<a class="anchor" href="#%ED%81%B4%EB%A6%B0-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90-2%EC%9E%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>클린 아키텍쳐 2장</h1>
+
+<h2 id="1-use-cases-register-user">
+<a class="anchor" href="#1-use-cases-register-user" aria-hidden="true"><span class="octicon octicon-link"></span></a>1 use cases (register user)</h2>
+
+<h3 id="01-br따서-작업-세팅하기">
+<a class="anchor" href="#01-br%EB%94%B0%EC%84%9C-%EC%9E%91%EC%97%85-%EC%84%B8%ED%8C%85%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 br따서 작업 세팅하기</h3>
+
+<ol>
+  <li>
+    <p>github에서 작업br 생성</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001002856072.png" alt="image-20221001002856072"></p>
+  </li>
+  <li>
+    <p>clone주소 복사 후 -&gt; local에 new폴더 생성후 -&gt; clone -b [branch명] [clone주소]</p>
+
+    <ul>
+      <li>branch명이 복잡하면, view에 들어가서 복사할 수 있다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001003032736.png" alt="image-20221001003032736"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001003424553.png" alt="image-20221001003424553"></p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>wt -d .
+</code></pre></div>    </div>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git clone -b feat/register_user_use_case https://github.com/is2js/backend-python.git
+</code></pre></div>    </div>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001003645458.png" alt="image-20221001003645458"></p>
+  </li>
+  <li>
+    <p><strong>이후는 이전에 작업한 것처럼 gitignore상 백업db있으면 복붙부터.. 시작한다</strong></p>
+  </li>
+</ol>
+
+<h3 id="02-scrdomain-use_cases폴더-및-init생성">
+<a class="anchor" href="#02-scrdomain-use_cases%ED%8F%B4%EB%8D%94-%EB%B0%8F-init%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 scr&gt;domain&gt; use_cases폴더 및 init생성</h3>
+
+<ul>
+  <li>use_cases들은 실제로 사용되는 로직이기 때문에 models(DTO)처럼 domain에 배속된다.</li>
+</ul>
+
+<h3 id="03-domain-layer-register_user인터페이스---data-layer에서-객체-class를-구현한다">
+<a class="anchor" href="#03-domain-layer-register_user%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4---data-layer%EC%97%90%EC%84%9C-%EA%B0%9D%EC%B2%B4-class%EB%A5%BC-%EA%B5%AC%ED%98%84%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 domain layer register_user인터페이스 -&gt; data layer에서 객체 class를 구현한다</h3>
+
+<h3 id="register-user-use-case-만들기">
+<a class="anchor" href="#register-user-use-case-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>register user Use Case 만들기</h3>
+
+<h4 id="domain-layer에-interface로-설계한다">
+<a class="anchor" href="#domain-layer%EC%97%90-interface%EB%A1%9C-%EC%84%A4%EA%B3%84%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>domain layer에 interface로 설계한다.</h4>
+
+<ol>
+  <li>
+    <p>src&gt;domain&gt;use_cases&gt; <code class="language-plaintext highlighter-rouge">register_user.py</code>을 생성한다.</p>
+  </li>
+  <li>
+    <p><strong>data layer에 속한 interfaces도 아닌데, interface로 구현하기 위해</strong></p>
+
+    <ul>
+      <li>
+        <p>abc의 모듈들을 import한다.</p>
+      </li>
+      <li>DTO Users도 import한다.</li>
+      <li><strong>use_case 영역은 앞서구현한 infra의 entites들을 포함하고 있는 더 큰 개념이다?!</strong></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001004910220.png" alt="image-20221001004910220"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001005153934.png" alt="image-20221001005153934"></p>
+  </li>
+</ol>
+
+<h4 id="registeruser-의-반환타입은-dictbool-dto형태이다">
+<a class="anchor" href="#registeruser-%EC%9D%98-%EB%B0%98%ED%99%98%ED%83%80%EC%9E%85%EC%9D%80-dictbool-dto%ED%98%95%ED%83%9C%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>RegisterUser 의 반환타입은 Dict[bool, DTO]형태이다.</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractclassmethod</span>
+<span class="kn">from</span> <span class="nn">src.domain.models</span> <span class="kn">import</span> <span class="n">Users</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+
+
+<span class="k">class</span> <span class="nc">RegisterUser</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="s">""" Interface to RegisterUser use case """</span>
+
+    <span class="o">@</span><span class="n">abstractclassmethod</span>
+    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Users</span><span class="p">]:</span>
+        <span class="s">""" Case """</span>
+
+        <span class="k">raise</span> <span class="nb">Exception</span><span class="p">(</span><span class="s">"Should implement method: register"</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><strong>여기서 cls를 사용하는데, 직전에는 self로 줬기 때문에, 수정해야할 것 같다</strong></p>
+  </li>
+  <li>
+    <p><strong>생성된 인터페이스를 init에 올려준다.</strong></p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">.register_user</span> <span class="kn">import</span> <span class="n">RegisterUser</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="data-layer에서-개별-use_case마다-만들어줄--class폴더init을-만들고-domain-layer에-만든-use_cases--속-인터페이스들을-import한다">
+<a class="anchor" href="#data-layer%EC%97%90%EC%84%9C-%EA%B0%9C%EB%B3%84-use_case%EB%A7%88%EB%8B%A4-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A4%84--class%ED%8F%B4%EB%8D%94init%EC%9D%84-%EB%A7%8C%EB%93%A4%EA%B3%A0-domain-layer%EC%97%90-%EB%A7%8C%EB%93%A0-use_cases--%EC%86%8D-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EB%93%A4%EC%9D%84-import%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>data layer에서 개별 use_case마다 만들어줄  class폴더+init을 만들고, domain layer에 만든 use_cases  속 인터페이스들을 import한다.</h4>
+
+<ol>
+  <li>
+    <p>data layer에 <code class="language-plaintext highlighter-rouge">register_user</code>폴더와 <code class="language-plaintext highlighter-rouge">init</code>을 + <code class="language-plaintext highlighter-rouge">register.py</code>를 만든다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001010236852.png" alt="image-20221001010236852"></p>
+  </li>
+  <li>
+    <p>data layer의 <code class="language-plaintext highlighter-rouge">개별_usecase폴더</code>의 py들은 domain layer의 <code class="language-plaintext highlighter-rouge">use_case</code>폴더 속 인터페이스를 as Interface로 import해서 사용한다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">src.domain.use_cases</span> <span class="kn">import</span> <span class="n">RegisterUser</span> <span class="k">as</span> <span class="n">RegisterUserInterface</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>인터페이스를 상속해서 실제 use_case내용을 정의한다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">src.domain.use_cases</span> <span class="kn">import</span> <span class="n">RegisterUser</span> <span class="k">as</span> <span class="n">RegisterUserInterface</span>
+   
+<span class="k">class</span> <span class="nc">RegisterUser</span><span class="p">(</span><span class="n">RegisterUserInterface</span><span class="p">):</span>
+	<span class="s">""" class to define usecase: Register User"""</span>
+   
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="data-layer의-개별use-case--class들은-repository를-생성자에서-인자로-받아-객체로-생성된다객체-static인-clasmethod-x---typing을-위해-userrepository-interface를-구현했던-것이다">
+<a class="anchor" href="#data-layer%EC%9D%98-%EA%B0%9C%EB%B3%84use-case--class%EB%93%A4%EC%9D%80-repository%EB%A5%BC-%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90%EC%84%9C-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%B0%9B%EC%95%84-%EA%B0%9D%EC%B2%B4%EB%A1%9C-%EC%83%9D%EC%84%B1%EB%90%9C%EB%8B%A4%EA%B0%9D%EC%B2%B4-static%EC%9D%B8-clasmethod-x---typing%EC%9D%84-%EC%9C%84%ED%95%B4-userrepository-interface%EB%A5%BC-%EA%B5%AC%ED%98%84%ED%96%88%EB%8D%98-%EA%B2%83%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>data layer의 개별use case  Class들은 repository를 생성자에서 인자로 받아 객체로 생성된다(객체 static인 clasmethod X) -&gt; typing을 위해 UserRepository Interface를 구현했던 것이다!</h4>
+
+<ol>
+  <li>
+    <p>data layer의 use case class는 <strong>필요한 repository를 인자로 받는다.</strong></p>
+
+    <ul>
+      <li>인자로 받는 것은 import가 필요없으나, <strong>인자의 Type때문에 그것의 interface를 import해야한다</strong>
+</li>
+    </ul>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">src.domain.use_cases</span> <span class="kn">import</span> <span class="n">RegisterUser</span> <span class="k">as</span> <span class="n">RegisterUserInterface</span>
+   
+<span class="k">class</span> <span class="nc">RegisterUser</span><span class="p">(</span><span class="n">RegisterUserInterface</span><span class="p">):</span>
+	<span class="s">""" class to define usecase: Register User"""</span>
+   
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_repository</span><span class="p">):</span>
+		<span class="bp">self</span><span class="p">.</span><span class="n">user_repository</span> <span class="o">=</span> <span class="n">user_repository</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>user_repository 파라미터의 type을 정해주기 위해서 <code class="language-plaintext highlighter-rouge">user_repository interface in data layer</code> 와  typing패키지의 <code class="language-plaintext highlighter-rouge">Type</code>모듈을 import해서 사용한다.</strong></p>
+
+    <ul>
+      <li><strong>interface를 type으로 쓸려면 <code class="language-plaintext highlighter-rouge">as </code>에 interface를 제외하고 달아준다.</strong></li>
+    </ul>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
+<span class="c1">#...
+</span><span class="kn">from</span> <span class="nn">src.data.interfaces</span> <span class="kn">import</span> <span class="n">UserRepositoryInterface</span> <span class="k">as</span> <span class="n">UserRepository</span>
+   
+<span class="k">class</span> <span class="nc">RegisterUser</span><span class="p">(</span><span class="n">RegisterUserInterface</span><span class="p">):</span>
+	<span class="s">""" class to define usecase: Register User"""</span>
+   
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_repository</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">UserRepository</span><span class="p">]):</span>
+		<span class="bp">self</span><span class="p">.</span><span class="n">user_repository</span> <span class="o">=</span> <span class="n">user_repository</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="data-layer의-개별-use-case-class들은-객체로-생성될-것이며-repository를-필드로-보유하고-use-case-class이름과-유사하게-인스턴스-메서드를-만들어-repository필드와-같이-작동한다">
+<a class="anchor" href="#data-layer%EC%9D%98-%EA%B0%9C%EB%B3%84-use-case-class%EB%93%A4%EC%9D%80-%EA%B0%9D%EC%B2%B4%EB%A1%9C-%EC%83%9D%EC%84%B1%EB%90%A0-%EA%B2%83%EC%9D%B4%EB%A9%B0-repository%EB%A5%BC-%ED%95%84%EB%93%9C%EB%A1%9C-%EB%B3%B4%EC%9C%A0%ED%95%98%EA%B3%A0-use-case-class%EC%9D%B4%EB%A6%84%EA%B3%BC-%EC%9C%A0%EC%82%AC%ED%95%98%EA%B2%8C-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4-repository%ED%95%84%EB%93%9C%EC%99%80-%EA%B0%99%EC%9D%B4-%EC%9E%91%EB%8F%99%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>data layer의 개별 use case Class들은 객체로 생성될 것이며, repository를 필드로 보유하고, use case Class이름과 유사하게 인스턴스 메서드를 만들어 repository필드와 같이 작동한다.</h4>
+
+<ol>
+  <li>
+    <p>register 메서드를 만들 것이므로 <strong>인터페이스(<code class="language-plaintext highlighter-rouge">domain 속 register_user.py</code>)에서 시그니쳐를 복사해온다.</strong></p>
+
+    <ul>
+      <li>cls -&gt; self로 바꿔준다.</li>
+    </ul>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">RegisterUser</span><span class="p">(</span><span class="n">RegisterUserInterface</span><span class="p">):</span>
+	<span class="s">""" class to define usecase: Register User"""</span>
+   
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_repository</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">UserRepository</span><span class="p">]):</span>
+		<span class="bp">self</span><span class="p">.</span><span class="n">user_repository</span> <span class="o">=</span> <span class="n">user_repository</span>
+   	
+	<span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Users</span><span class="p">]:</span>
+		<span class="s">"""REgister user use case
+		:param - name: person name
+		       - password: password of the person
+		:return - Dictionary with informations of the process
+		"""</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>그에 따른 Dict 모듈, Users모듈을 import한다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Type</span>
+<span class="c1">#...
+</span><span class="kn">from</span> <span class="nn">src.domain.models</span> <span class="kn">import</span> <span class="n">Users</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="인스턴스-메서드는-일단-파라미터들의-type-유효성부터-검사한다validate_entry">
+<a class="anchor" href="#%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-%EC%9D%BC%EB%8B%A8-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%93%A4%EC%9D%98-type-%EC%9C%A0%ED%9A%A8%EC%84%B1%EB%B6%80%ED%84%B0-%EA%B2%80%EC%82%AC%ED%95%9C%EB%8B%A4validate_entry" aria-hidden="true"><span class="octicon octicon-link"></span></a>인스턴스 메서드는 일단, 파라미터들의 type 유효성부터 검사한다.(validate_entry)</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Users</span><span class="p">]:</span>
+		<span class="s">"""REgister user use case
+		:param - name: person name
+		       - password: password of the person
+		:return - Dictionary with informations of the process
+		"""</span>
+
+		<span class="n">validate_entry</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h5 id="if-validate_entry-성공시에만-repositoryinsert_user를-호출하여-가변변수-respoonse--none에-결과값dto를-할당해준다-reigster메서드의-반환타입은-success-data이다">
+<a class="anchor" href="#if-validate_entry-%EC%84%B1%EA%B3%B5%EC%8B%9C%EC%97%90%EB%A7%8C-repositoryinsert_user%EB%A5%BC-%ED%98%B8%EC%B6%9C%ED%95%98%EC%97%AC-%EA%B0%80%EB%B3%80%EB%B3%80%EC%88%98-respoonse--none%EC%97%90-%EA%B2%B0%EA%B3%BC%EA%B0%92dto%EB%A5%BC-%ED%95%A0%EB%8B%B9%ED%95%B4%EC%A4%80%EB%8B%A4-reigster%EB%A9%94%EC%84%9C%EB%93%9C%EC%9D%98-%EB%B0%98%ED%99%98%ED%83%80%EC%9E%85%EC%9D%80-success-data%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>if validate_entry 성공시에만 repository.insert_user를 호출하여 가변변수 respoonse = None에 결과값(DTO)를 할당해준다. reigster메서드의 반환타입은 {“Success”, “data”}이다</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">class</span> <span class="nc">RegisterUser</span><span class="p">(</span><span class="n">RegisterUserInterface</span><span class="p">):</span>
+    <span class="s">""" class to define usecase: Register User"""</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_repository</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">UserRepository</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">user_repository</span> <span class="o">=</span> <span class="n">user_repository</span>
+
+    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Users</span><span class="p">]:</span>
+        <span class="s">"""REgister user use case
+        :param - name: person name
+               - password: password of the person
+        :return - Dictionary with informations of the process
+        """</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">validate_entry</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">validate_entry</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">user_repository</span><span class="p">.</span><span class="n">insert_user</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="n">validate_entry</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="n">response</span><span class="p">}</span>
+
+</code></pre></div></div>
+
+<h3 id="04-use-case--class-test-register-user-test">
+<a class="anchor" href="#04-use-case--class-test-register-user-test" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 use case  Class test (register user test)</h3>
+
+<h4 id="data-layer의-개별-usecase-class-in-개별-usecase-폴더에서-_testpy도-만들어준다">
+<a class="anchor" href="#data-layer%EC%9D%98-%EA%B0%9C%EB%B3%84-usecase-class-in-%EA%B0%9C%EB%B3%84-usecase-%ED%8F%B4%EB%8D%94%EC%97%90%EC%84%9C-_testpy%EB%8F%84-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>data layer의 개별 usecase Class in 개별 usecase 폴더에서 _test.py도 만들어준다.</h4>
+
+<ol>
+  <li>
+    <p>src&gt;data&gt;register_user &gt; 에 <code class="language-plaintext highlighter-rouge">reigster_test.py</code>를 만든다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001015820100.png" alt="image-20221001015820100"></p>
+  </li>
+  <li>
+    <p>faker와 테스트할 use case CLass를 import</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span> <span class="nn">.register</span> <span class="kn">import</span> <span class="n">RegisterUser</span>
+   
+<span class="n">faker</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
+   
+<span class="k">def</span> <span class="nf">test_register</span><span class="p">():</span>
+    <span class="s">""" Testing registry method"""</span>
+       
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>use case class는 repository를 인자로 받는데,  사실상 repository는 test로 DB생성후 삭제하며 테스트가 끝난 상황이다</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>repo를 이용한 useCase의 test는 무엇을 하는 것일까?</strong></p>
+      </li>
+      <li>
+        <p><strong>내부 repository는 검증이 끝났으니 <code class="language-plaintext highlighter-rouge">validate_entry 검증</code> + <code class="language-plaintext highlighter-rouge">response가 제대로 들어오는지만</code> 된다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001021341888.png" alt="image-20221001021341888"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="05-use-case-test는-mock_repo-repository-spy-객체가-필요하다db관련된-infra의-repo를-테스트할-없음-inputoutput-테스트를-위한-목repo">
+<a class="anchor" href="#05-use-case-test%EB%8A%94-mock_repo-repository-spy-%EA%B0%9D%EC%B2%B4%EA%B0%80-%ED%95%84%EC%9A%94%ED%95%98%EB%8B%A4db%EA%B4%80%EB%A0%A8%EB%90%9C-infra%EC%9D%98-repo%EB%A5%BC-%ED%85%8C%EC%8A%A4%ED%8A%B8%ED%95%A0-%EC%97%86%EC%9D%8C-inputoutput-%ED%85%8C%EC%8A%A4%ED%8A%B8%EB%A5%BC-%EC%9C%84%ED%95%9C-%EB%AA%A9repo" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 use case test는 mock_repo [Repository Spy] 객체가 필요하다(DB관련된 infra의 repo를 테스트할 없음. input/output 테스트를 위한 목repo)</h3>
+
+<h4 id="srcinfra-속--test폴더--init-만든다">
+<a class="anchor" href="#srcinfra-%EC%86%8D--test%ED%8F%B4%EB%8D%94--init-%EB%A7%8C%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>src&gt;infra 속&gt;  test폴더 + init 만든다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001021719040.png" alt="image-20221001021719040"></p>
+
+<h4 id="특정repo에-대한-repository_spypy를-만든다">
+<a class="anchor" href="#%ED%8A%B9%EC%A0%95repo%EC%97%90-%EB%8C%80%ED%95%9C-repository_spypy%EB%A5%BC-%EB%A7%8C%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>특정repo에 대한 repository_spy.py를 만든다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001021844812.png" alt="image-20221001021844812"></p>
+
+<ol>
+  <li>
+</ol>
+
+<h4 id="input-spy-처리-repo-spy는-repo의-메서드들의-signature에-따른-인자들을-받았을-때-실제로-메서드-호출-대신-메서드별-배정된-param-dict-필드속에-저장-파라미터들을-저장해놓는다">
+<a class="anchor" href="#input-spy-%EC%B2%98%EB%A6%AC-repo-spy%EB%8A%94-repo%EC%9D%98-%EB%A9%94%EC%84%9C%EB%93%9C%EB%93%A4%EC%9D%98-signature%EC%97%90-%EB%94%B0%EB%A5%B8-%EC%9D%B8%EC%9E%90%EB%93%A4%EC%9D%84-%EB%B0%9B%EC%95%98%EC%9D%84-%EB%95%8C-%EC%8B%A4%EC%A0%9C%EB%A1%9C-%EB%A9%94%EC%84%9C%EB%93%9C-%ED%98%B8%EC%B6%9C-%EB%8C%80%EC%8B%A0-%EB%A9%94%EC%84%9C%EB%93%9C%EB%B3%84-%EB%B0%B0%EC%A0%95%EB%90%9C-param-dict-%ED%95%84%EB%93%9C%EC%86%8D%EC%97%90-%EC%A0%80%EC%9E%A5-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%93%A4%EC%9D%84-%EC%A0%80%EC%9E%A5%ED%95%B4%EB%86%93%EB%8A%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>[input spy 처리] repo spy는 repo의 메서드들의 signature에 따른 인자들을 받았을 때, 실제로 메서드 호출 대신 메서드별 배정된 param dict 필드속에 저장 파라미터들을 저장해놓는다.</h4>
+
+<ul>
+  <li>spy repository의 메서드들은 random한 input-&gt;output만 만들어내며 DB에는 접근하지 않도록 한다</li>
+</ul>
+
+<ol>
+  <li>
+    <p>repoSpy class를 만든다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">UserRepositorySpy</span><span class="p">:</span>
+    <span class="s">""" Spy to User Repository """</span>
+       
+</code></pre></div>    </div>
+
+    <p>​</p>
+  </li>
+  <li>
+    <p><strong>원본repo의 메서드 시그니처를 그대로 가져오되, <code class="language-plaintext highlighter-rouge">메서드별 param들을 저장할 필드</code>를 <code class="language-plaintext highlighter-rouge">메서드 갯수대로</code> 만든다.</strong></p>
+
+    <ul>
+      <li>repo의 객체static메서드인 cls -&gt; self로 바꿔주기</li>
+    </ul>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">UserRepositorySpy</span><span class="p">:</span>
+    <span class="s">""" Spy to User Repository """</span>
+   
+   
+    <span class="k">def</span> <span class="nf">insert_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Users</span><span class="p">:</span>
+        <span class="k">pass</span> 
+   
+    <span class="k">def</span> <span class="nf">select_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Users</span><span class="p">]:</span>
+        <span class="k">pass</span>
+   
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>메서드 갯수대로 <strong>생성자에 param저장용 dict필드 만들기</strong></p>
+
+    <ul>
+      <li>메서드명 뒤에 _param을 붙여서  = {} 선언해주기</li>
+    </ul>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">UserRepositorySpy</span><span class="p">:</span>
+    <span class="s">""" Spy to User Repository """</span>
+   
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">insert_user_param</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">select_user_param</span> <span class="o">=</span> <span class="p">{}</span>
+           
+       
+    <span class="k">def</span> <span class="nf">insert_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Users</span><span class="p">:</span>
+        <span class="k">pass</span> 
+   
+    <span class="k">def</span> <span class="nf">select_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Users</span><span class="p">]:</span>
+        <span class="k">pass</span>
+   
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>repo 메서드들의 return type은 거의 DTO라고 보면된다. <code class="language-plaintext highlighter-rouge">models</code>에서 import해주자</strong></p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">src.domain.models.users</span> <span class="kn">import</span> <span class="n">Users</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>spy repo의 메서드로 들어오는 인자들을, 각 메서드당 배정된 param필드에 입력해준다.</strong></p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">UserRepositorySpy</span><span class="p">:</span>
+    <span class="s">""" Spy to User Repository """</span>
+   
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">insert_user_param</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">select_user_param</span> <span class="o">=</span> <span class="p">{}</span>
+           
+       
+    <span class="k">def</span> <span class="nf">insert_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Users</span><span class="p">:</span>
+        <span class="s">""" Spy to all the attributes """</span>
+   
+        <span class="bp">self</span><span class="p">.</span><span class="n">insert_user_param</span><span class="p">[</span><span class="s">'name'</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">insert_user_param</span><span class="p">[</span><span class="s">'password'</span><span class="p">]</span> <span class="o">=</span> <span class="n">password</span>
+   
+        <span class="k">pass</span> 
+   
+    <span class="k">def</span> <span class="nf">select_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Users</span><span class="p">]:</span>
+        <span class="s">""" Spy to all the attributes """</span>
+   
+        <span class="bp">self</span><span class="p">.</span><span class="n">select_user_param</span><span class="p">[</span><span class="s">'user_id'</span><span class="p">]</span> <span class="o">=</span> <span class="n">user_id</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">select_user_param</span><span class="p">[</span><span class="s">'name'</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+           
+        <span class="k">pass</span>
+   
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>이제 각 method별로 return type에 맞는 mock_user()가 필요하다</strong></p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">UserRepositorySpy</span><span class="p">:</span>
+    <span class="c1">#...
+</span>       
+    <span class="k">def</span> <span class="nf">insert_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Users</span><span class="p">:</span>
+        <span class="s">""" Spy to all the attributes """</span>
+   
+        <span class="bp">self</span><span class="p">.</span><span class="n">insert_user_param</span><span class="p">[</span><span class="s">'name'</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">insert_user_param</span><span class="p">[</span><span class="s">'password'</span><span class="p">]</span> <span class="o">=</span> <span class="n">password</span>
+   
+        <span class="c1"># return Users
+</span>        <span class="k">return</span> <span class="n">mock_users</span><span class="p">()</span>
+   
+    <span class="k">def</span> <span class="nf">select_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Users</span><span class="p">]:</span>
+        <span class="c1">#...
+</span>   
+        <span class="k">return</span> <span class="p">[</span><span class="n">mock_users</span><span class="p">()]</span>
+   
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="06-repo-spy의-return에-사용될-mock-dto-반환-mock_method-만들기">
+<a class="anchor" href="#06-repo-spy%EC%9D%98-return%EC%97%90-%EC%82%AC%EC%9A%A9%EB%90%A0-mock-dto-%EB%B0%98%ED%99%98-mock_method-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>06 Repo Spy의 return에 사용될 Mock DTO 반환 mock_method 만들기</h3>
+
+<h4 id="output-목처리-repo메서드별-return-type에-맞는-실제dto객체x-목객체-처리할-수-있또록-return-dto반환-mock_method가-필요하다">
+<a class="anchor" href="#output-%EB%AA%A9%EC%B2%98%EB%A6%AC-repo%EB%A9%94%EC%84%9C%EB%93%9C%EB%B3%84-return-type%EC%97%90-%EB%A7%9E%EB%8A%94-%EC%8B%A4%EC%A0%9Cdto%EA%B0%9D%EC%B2%B4x-%EB%AA%A9%EA%B0%9D%EC%B2%B4-%EC%B2%98%EB%A6%AC%ED%95%A0-%EC%88%98-%EC%9E%88%EB%98%90%EB%A1%9D-return-dto%EB%B0%98%ED%99%98-mock_method%EA%B0%80-%ED%95%84%EC%9A%94%ED%95%98%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>[output 목처리] repo메서드별 return type에 맞는 실제DTO객체(X) 목객체 처리할 수 있또록 return DTO반환 mock_method()가 필요하다</h4>
+
+<h5 id="return-type인-dto의-목객체는-dto가-있는-domain에-test폴더-init을-만든다">
+<a class="anchor" href="#return-type%EC%9D%B8-dto%EC%9D%98-%EB%AA%A9%EA%B0%9D%EC%B2%B4%EB%8A%94-dto%EA%B0%80-%EC%9E%88%EB%8A%94-domain%EC%97%90-test%ED%8F%B4%EB%8D%94-init%EC%9D%84-%EB%A7%8C%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>return type인 DTO의 목객체는 DTO가 있는 domain에 test폴더+ init을 만든다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001031333044.png" alt="image-20221001031333044"></p>
+
+<h5 id="mock-method의-이름은-mock_xxxpy로-만든다">
+<a class="anchor" href="#mock-method%EC%9D%98-%EC%9D%B4%EB%A6%84%EC%9D%80-mock_xxxpy%EB%A1%9C-%EB%A7%8C%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>mock method의 이름은 mock_xxx.py로 만든다.</h5>
+
+<ol>
+  <li>
+<code class="language-plaintext highlighter-rouge">mock_users.py</code>생성</li>
+</ol>
+
+<h5 id="repo-spy클래스와-달리-실제dto-class--faker로-mock-dto반환-mock-method를-만든다">
+<a class="anchor" href="#repo-spy%ED%81%B4%EB%9E%98%EC%8A%A4%EC%99%80-%EB%8B%AC%EB%A6%AC-%EC%8B%A4%EC%A0%9Cdto-class--faker%EB%A1%9C-mock-dto%EB%B0%98%ED%99%98-mock-method%EB%A5%BC-%EB%A7%8C%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>repo spy클래스와 달리, 실제DTO class + faker로 mock DTO반환 mock method를 만든다.</h5>
+
+<ol>
+  <li>
+    <p>실제 DTO class <code class="language-plaintext highlighter-rouge">Users</code>와 <code class="language-plaintext highlighter-rouge">faker</code>를 import</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span> <span class="nn">src.domain.models</span> <span class="kn">import</span> <span class="n">Users</span>
+   
+<span class="n">faker</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
+   
+<span class="k">def</span> <span class="nf">mock_users</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Users</span><span class="p">:</span>
+    <span class="s">""" Mocking Users """</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>내용물은 딱히 없고, faker로 만들 재료들로, DTO 객체를 만들어서 반환해주면 된다.</strong></p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span> <span class="nn">src.domain.models</span> <span class="kn">import</span> <span class="n">Users</span>
+   
+<span class="n">faker</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
+   
+<span class="k">def</span> <span class="nf">mock_users</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Users</span><span class="p">:</span>
+    <span class="s">""" Mocking Users """</span>
+   
+    <span class="k">return</span> <span class="n">Users</span><span class="p">(</span>
+        <span class="nb">id</span><span class="o">=</span><span class="n">faker</span><span class="p">.</span><span class="n">random_number</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">faker</span><span class="p">.</span><span class="n">name</span><span class="p">(),</span>
+        <span class="n">password</span><span class="o">=</span><span class="n">faker</span><span class="p">.</span><span class="n">name</span><span class="p">()</span>
+    <span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="mock-method가-만들어지면-init에-올린다">
+<a class="anchor" href="#mock-method%EA%B0%80-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A7%80%EB%A9%B4-init%EC%97%90-%EC%98%AC%EB%A6%B0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>mock method가 만들어지면, init에 올린다.</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">.mock_users</span> <span class="kn">import</span> <span class="n">mock_users</span>
+</code></pre></div></div>
+
+<h4 id="repo-spy에서-mock_method를-import해서-mock-dto를-반환받도록-사용한다">
+<a class="anchor" href="#repo-spy%EC%97%90%EC%84%9C-mock_method%EB%A5%BC-import%ED%95%B4%EC%84%9C-mock-dto%EB%A5%BC-%EB%B0%98%ED%99%98%EB%B0%9B%EB%8F%84%EB%A1%9D-%EC%82%AC%EC%9A%A9%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Repo Spy에서 mock_method를 import해서 mock DTO를 반환받도록 사용한다.</h4>
+
+<ul>
+  <li>
+    <p>user_repsitory_spy</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">#...
+</span><span class="kn">from</span> <span class="nn">src.domain.test</span> <span class="kn">import</span> <span class="n">mock_users</span>
+  
+<span class="k">class</span> <span class="nc">UserRepositorySpy</span><span class="p">:</span>
+    <span class="s">""" Spy to User Repository """</span>
+  
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">insert_user_param</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">select_user_param</span> <span class="o">=</span> <span class="p">{}</span>
+          
+      
+    <span class="k">def</span> <span class="nf">insert_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Users</span><span class="p">:</span>
+        <span class="c1">#...
+</span>        <span class="k">return</span> <span class="n">mock_users</span><span class="p">()</span>
+  
+    <span class="k">def</span> <span class="nf">select_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Users</span><span class="p">]:</span>
+        <span class="c1">#...
+</span>        <span class="k">return</span> <span class="p">[</span><span class="n">mock_users</span><span class="p">()]</span>
+  
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="repo-spy가-완성되었으면-infratest의-init에-올린다">
+<a class="anchor" href="#repo-spy%EA%B0%80-%EC%99%84%EC%84%B1%EB%90%98%EC%97%88%EC%9C%BC%EB%A9%B4-infratest%EC%9D%98-init%EC%97%90-%EC%98%AC%EB%A6%B0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>repo spy가 완성되었으면, infra.test의 init에 올린다.</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">.user_repository_spy</span> <span class="kn">import</span> <span class="n">UserRepositorySpy</span>
+</code></pre></div></div>
+
+<h3 id="07-use-case-testregister_test마무리">
+<a class="anchor" href="#07-use-case-testregister_test%EB%A7%88%EB%AC%B4%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>07 use case test(register_test)마무리</h3>
+
+<h4 id="01-usecase-class-에서는-인자-repository-대신-repository-spy객체를-import해서-사용한다">
+<a class="anchor" href="#01-usecase-class-%EC%97%90%EC%84%9C%EB%8A%94-%EC%9D%B8%EC%9E%90-repository-%EB%8C%80%EC%8B%A0-repository-spy%EA%B0%9D%EC%B2%B4%EB%A5%BC-import%ED%95%B4%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 usecase Class 에서는, 인자 repository 대신, repository spy객체를 import해서 사용한다</h4>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">register_test.py</code>에서 repo의 spy객체인 infra&gt;test의 user repository spy를 import하고 use case class의 인자로 spy객체를 생성해서 넣어준다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">#...
+</span><span class="kn">from</span> <span class="nn">src.infra.test</span> <span class="kn">import</span> <span class="n">UserRepositorySpy</span>
+   
+<span class="n">faker</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
+   
+<span class="k">def</span> <span class="nf">test_register</span><span class="p">():</span>
+    <span class="s">""" Testing registry method"""</span>
+   
+    <span class="n">user_repo</span> <span class="o">=</span> <span class="n">UserRepositorySpy</span><span class="p">()</span>
+    <span class="n">register_user</span> <span class="o">=</span> <span class="n">RegisterUser</span><span class="p">(</span><span class="n">user_repo</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="02-use-case의-input-test는-javascript모양으로-dict를-구성하여-use-class-method에-던져준다">
+<a class="anchor" href="#02-use-case%EC%9D%98-input-test%EB%8A%94-javascript%EB%AA%A8%EC%96%91%EC%9C%BC%EB%A1%9C-dict%EB%A5%BC-%EA%B5%AC%EC%84%B1%ED%95%98%EC%97%AC-use-class-method%EC%97%90-%EB%8D%98%EC%A0%B8%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 use case의 input test는 javascript모양으로 dict를 구성하여 use class method에 던져준다.</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span> <span class="nn">.register</span> <span class="kn">import</span> <span class="n">RegisterUser</span>
+<span class="kn">from</span> <span class="nn">src.infra.test</span> <span class="kn">import</span> <span class="n">UserRepositorySpy</span>
+
+<span class="n">faker</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">test_register</span><span class="p">():</span>
+    <span class="s">""" Testing registry method"""</span>
+
+    <span class="n">user_repo</span> <span class="o">=</span> <span class="n">UserRepositorySpy</span><span class="p">()</span>
+    <span class="n">register_user</span> <span class="o">=</span> <span class="n">RegisterUser</span><span class="p">(</span><span class="n">user_repo</span><span class="p">)</span>
+
+    <span class="n">attributes</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"name"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">name</span><span class="p">(),</span>
+        <span class="s">"password"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">name</span><span class="p">(),</span>
+    <span class="p">}</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">register_user</span><span class="p">.</span><span class="n">register</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">attributes</span><span class="p">[</span><span class="s">"name"</span><span class="p">],</span> <span class="n">password</span><span class="o">=</span><span class="n">attributes</span><span class="p">[</span><span class="s">"password"</span><span class="p">])</span>
+    
+</code></pre></div></div>
+
+<h5 id="repo-spy를-가진-usecase-class는-내부에서-repo-method호출시-method별-param-dict에-소유만-하고있고-mock_method로-dto목객체를-response에-건네줄-것이다">
+<a class="anchor" href="#repo-spy%EB%A5%BC-%EA%B0%80%EC%A7%84-usecase-class%EB%8A%94-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-repo-method%ED%98%B8%EC%B6%9C%EC%8B%9C-method%EB%B3%84-param-dict%EC%97%90-%EC%86%8C%EC%9C%A0%EB%A7%8C-%ED%95%98%EA%B3%A0%EC%9E%88%EA%B3%A0-mock_method%EB%A1%9C-dto%EB%AA%A9%EA%B0%9D%EC%B2%B4%EB%A5%BC-response%EC%97%90-%EA%B1%B4%EB%84%A4%EC%A4%84-%EA%B2%83%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>repo spy를 가진 usecase class는, 내부에서 repo method호출시, method별 param dict에 소유만 하고있고, mock_method()로 DTO목객체를 response에 건네줄 것이다.</h5>
+
+<h4 id="03-use-case-class-test는-input과-output을-따로-테스팅한다">
+<a class="anchor" href="#03-use-case-class-test%EB%8A%94-input%EA%B3%BC-output%EC%9D%84-%EB%94%B0%EB%A1%9C-%ED%85%8C%EC%8A%A4%ED%8C%85%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 use case class test는 input과 output을 따로 테스팅한다</h4>
+
+<h5 id="use-case-input-test는-input이-usecase객체를-투입된-뒤-사용된-repo-spy-속-method별-param-dict에-잘-들어갔는지-까지-검사">
+<a class="anchor" href="#use-case-input-test%EB%8A%94-input%EC%9D%B4-usecase%EA%B0%9D%EC%B2%B4%EB%A5%BC-%ED%88%AC%EC%9E%85%EB%90%9C-%EB%92%A4-%EC%82%AC%EC%9A%A9%EB%90%9C-repo-spy-%EC%86%8D-method%EB%B3%84-param-dict%EC%97%90-%EC%9E%98-%EB%93%A4%EC%96%B4%EA%B0%94%EB%8A%94%EC%A7%80-%EA%B9%8C%EC%A7%80-%EA%B2%80%EC%82%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>use case Input Test는 input이 usecase객체를 투입된 뒤, 사용된 repo spy 속 method별 param dict에 잘 들어갔는지 까지 검사</h5>
+
+<ul>
+  <li>
+    <p>response와 무관하게, 넣어준 input vs repo spy에 들어간 param dict 속 input을 비교한다</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_register</span><span class="p">():</span>
+    <span class="s">""" Testing registry method"""</span>
+  
+    <span class="n">user_repo</span> <span class="o">=</span> <span class="n">UserRepositorySpy</span><span class="p">()</span>
+    <span class="n">register_user</span> <span class="o">=</span> <span class="n">RegisterUser</span><span class="p">(</span><span class="n">user_repo</span><span class="p">)</span>
+  
+    <span class="n">attributes</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"name"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">name</span><span class="p">(),</span>
+        <span class="s">"password"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">name</span><span class="p">(),</span>
+    <span class="p">}</span>
+  
+    <span class="n">response</span> <span class="o">=</span> <span class="n">register_user</span><span class="p">.</span><span class="n">register</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">attributes</span><span class="p">[</span><span class="s">"name"</span><span class="p">],</span> <span class="n">password</span><span class="o">=</span><span class="n">attributes</span><span class="p">[</span><span class="s">"password"</span><span class="p">])</span>
+  
+    <span class="c1"># Testing inputs
+</span>    <span class="k">assert</span> <span class="n">user_repo</span><span class="p">.</span><span class="n">insert_user_param</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span> <span class="o">==</span> <span class="n">attributes</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">user_repo</span><span class="p">.</span><span class="n">insert_user_param</span><span class="p">[</span><span class="s">"password"</span><span class="p">]</span> <span class="o">==</span> <span class="n">attributes</span><span class="p">[</span><span class="s">"password"</span><span class="p">]</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="use-case-output-test는-repo-spy는-mock_users를-return하지만-input과-별개이므로-input이-제대로-안들어갔다면-false--none으로-반환될-validate_entry와-response존재유무만-검사한다">
+<a class="anchor" href="#use-case-output-test%EB%8A%94-repo-spy%EB%8A%94-mock_users%EB%A5%BC-return%ED%95%98%EC%A7%80%EB%A7%8C-input%EA%B3%BC-%EB%B3%84%EA%B0%9C%EC%9D%B4%EB%AF%80%EB%A1%9C-input%EC%9D%B4-%EC%A0%9C%EB%8C%80%EB%A1%9C-%EC%95%88%EB%93%A4%EC%96%B4%EA%B0%94%EB%8B%A4%EB%A9%B4-false--none%EC%9C%BC%EB%A1%9C-%EB%B0%98%ED%99%98%EB%90%A0-validate_entry%EC%99%80-response%EC%A1%B4%EC%9E%AC%EC%9C%A0%EB%AC%B4%EB%A7%8C-%EA%B2%80%EC%82%AC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>use case Output Test는 repo spy는 mock_users()를 return하지만 input과 별개이므로, [input이 제대로 안들어갔다면, False / None]으로 반환될 [validate_entry와 response존재유무]만 검사한다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001145410425.png" alt="image-20221001145410425"></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_register</span><span class="p">():</span>
+    <span class="s">""" Testing registry method"""</span>
+
+    <span class="n">user_repo</span> <span class="o">=</span> <span class="n">UserRepositorySpy</span><span class="p">()</span>
+    <span class="n">register_user</span> <span class="o">=</span> <span class="n">RegisterUser</span><span class="p">(</span><span class="n">user_repo</span><span class="p">)</span>
+
+    <span class="n">attributes</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"name"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">name</span><span class="p">(),</span>
+        <span class="s">"password"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">name</span><span class="p">(),</span>
+    <span class="p">}</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">register_user</span><span class="p">.</span><span class="n">register</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">attributes</span><span class="p">[</span><span class="s">"name"</span><span class="p">],</span> <span class="n">password</span><span class="o">=</span><span class="n">attributes</span><span class="p">[</span><span class="s">"password"</span><span class="p">])</span>
+
+    <span class="c1"># Testing inputs
+</span>    <span class="k">assert</span> <span class="n">user_repo</span><span class="p">.</span><span class="n">insert_user_param</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span> <span class="o">==</span> <span class="n">attributes</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">user_repo</span><span class="p">.</span><span class="n">insert_user_param</span><span class="p">[</span><span class="s">"password"</span><span class="p">]</span> <span class="o">==</span> <span class="n">attributes</span><span class="p">[</span><span class="s">"password"</span><span class="p">]</span>
+
+    <span class="c1"># Tesing outputs
+</span>    <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">"Success"</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">True</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">"Data"</span><span class="p">]</span>
+</code></pre></div></div>
+
+<h5 id="pytest--vs를-돌리되-검증안하는-response의-실제내용spy-repo가-faker-mock_users를-통해-반환한-데이터를-확인하면서-돌려보자">
+<a class="anchor" href="#pytest--vs%EB%A5%BC-%EB%8F%8C%EB%A6%AC%EB%90%98-%EA%B2%80%EC%A6%9D%EC%95%88%ED%95%98%EB%8A%94-response%EC%9D%98-%EC%8B%A4%EC%A0%9C%EB%82%B4%EC%9A%A9spy-repo%EA%B0%80-faker-mock_users%EB%A5%BC-%ED%86%B5%ED%95%B4-%EB%B0%98%ED%99%98%ED%95%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A5%BC-%ED%99%95%EC%9D%B8%ED%95%98%EB%A9%B4%EC%84%9C-%EB%8F%8C%EB%A0%A4%EB%B3%B4%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>pytest -vs를 돌리되, 검증안하는 response의 실제내용(spy repo가 faker mock_users()를 통해 반환한 데이터)를 확인하면서 돌려보자.</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pytest src\data\register_user\register_test.py -vs
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001145810603.png" alt="image-20221001145810603"></p>
+
+<h4 id="04-use-case-class는-input에-대한-fail-test도-필요하다">
+<a class="anchor" href="#04-use-case-class%EB%8A%94-input%EC%97%90-%EB%8C%80%ED%95%9C-fail-test%EB%8F%84-%ED%95%84%EC%9A%94%ED%95%98%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 use case Class는 input에 대한 fail test도 필요하다</h4>
+
+<h5 id="성공test를-복사해서-_fail-테스트-메서드를-만든다">
+<a class="anchor" href="#%EC%84%B1%EA%B3%B5test%EB%A5%BC-%EB%B3%B5%EC%82%AC%ED%95%B4%EC%84%9C-_fail-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EB%A7%8C%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>성공test를 복사해서 _fail 테스트 메서드를 만든다.</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_register_fail</span><span class="p">():</span>
+    <span class="s">""" Testing registry method in fail"""</span>
+
+</code></pre></div></div>
+
+<h5 id="js-input-attributes에-invalid-type을-입력">
+<a class="anchor" href="#js-input-attributes%EC%97%90-invalid-type%EC%9D%84-%EC%9E%85%EB%A0%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>js input attributes에 invalid type을 입력</h5>
+
+<ul>
+  <li>name은 str타입인데 int를 넣어준다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_register_fail</span><span class="p">():</span>
+    <span class="s">""" Testing registry method in fail"""</span>
+
+    <span class="n">user_repo</span> <span class="o">=</span> <span class="n">UserRepositorySpy</span><span class="p">()</span>
+    <span class="n">register_user</span> <span class="o">=</span> <span class="n">RegisterUser</span><span class="p">(</span><span class="n">user_repo</span><span class="p">)</span>
+
+    <span class="n">attributes</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="c1"># "name": faker.name(),
+</span>        <span class="s">"name"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">random_number</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+        <span class="s">"password"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">name</span><span class="p">(),</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<h5 id="input이-잘못되면-usecase---repo-spy의-메서드로-진입도-못하므로-assert시-repo-spy의-param-dict는-비어있어야한다">
+<a class="anchor" href="#input%EC%9D%B4-%EC%9E%98%EB%AA%BB%EB%90%98%EB%A9%B4-usecase---repo-spy%EC%9D%98-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EC%A7%84%EC%9E%85%EB%8F%84-%EB%AA%BB%ED%95%98%EB%AF%80%EB%A1%9C-assert%EC%8B%9C-repo-spy%EC%9D%98-param-dict%EB%8A%94-%EB%B9%84%EC%96%B4%EC%9E%88%EC%96%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>input이 잘못되면, usecase -&gt; repo spy의 메서드로 진입도 못하므로, assert시 repo spy의 param dict는 비어있어야한다.</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001155815817.png" alt="image-20221001155815817"></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Testing inputs
+# assert user_repo.insert_user_param["name"] == attributes["name"]
+# assert user_repo.insert_user_param["password"] == attributes["password"]
+</span><span class="k">assert</span> <span class="n">user_repo</span><span class="p">.</span><span class="n">insert_user_param</span> <span class="o">==</span> <span class="p">{}</span>
+</code></pre></div></div>
+
+<h5 id="ouput-test에서는-validate_entry여부인-success는-false--return의-data는-response--none-초기화상태를-응답하게-된다">
+<a class="anchor" href="#ouput-test%EC%97%90%EC%84%9C%EB%8A%94-validate_entry%EC%97%AC%EB%B6%80%EC%9D%B8-success%EB%8A%94-false--return%EC%9D%98-data%EB%8A%94-response--none-%EC%B4%88%EA%B8%B0%ED%99%94%EC%83%81%ED%83%9C%EB%A5%BC-%EC%9D%91%EB%8B%B5%ED%95%98%EA%B2%8C-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>ouput test에서는 validate_entry여부인 Success는 False / return의 Data는 response = None 초기화상태를 응답하게 된다.</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Tesing outputs
+</span><span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">"Success"</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">False</span>
+<span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">"Data"</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span>
+</code></pre></div></div>
+
+<h5 id="참고-pytest-특정경로는-폴더까지만으로-줘도-된다">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0-pytest-%ED%8A%B9%EC%A0%95%EA%B2%BD%EB%A1%9C%EB%8A%94-%ED%8F%B4%EB%8D%94%EA%B9%8C%EC%A7%80%EB%A7%8C%EC%9C%BC%EB%A1%9C-%EC%A4%98%EB%8F%84-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고) pytest 특정경로는 폴더까지만으로 줘도 된다.</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pytest src\data\register_user\ -vs
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001160341867.png" alt="image-20221001160341867"></p>
+
+<h5 id="test완료된-git-처리">
+<a class="anchor" href="#test%EC%99%84%EB%A3%8C%EB%90%9C-git-%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>test완료된 git 처리</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git status
+git add .
+git commit -m "feat: Creating register user use case and testing it"
+</code></pre></div></div>
+
+<ul>
+  <li>push후 PR까지 완료하기</li>
+</ul>
+
+<h2 id="use-cases-2-finduser">
+<a class="anchor" href="#use-cases-2-finduser" aria-hidden="true"><span class="octicon octicon-link"></span></a>use cases 2 FindUser</h2>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001204534126.png" alt="image-20221001204534126"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001204542131.png" alt="image-20221001204542131"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001204550933.png" alt="image-20221001204550933"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001204612237.png" alt="image-20221001204612237"></p>
+
+<h3 id="작업-끝난-br의-local-폴더에서-새-br파서-작업-이어서-하기">
+<a class="anchor" href="#%EC%9E%91%EC%97%85-%EB%81%9D%EB%82%9C-br%EC%9D%98-local-%ED%8F%B4%EB%8D%94%EC%97%90%EC%84%9C-%EC%83%88-br%ED%8C%8C%EC%84%9C-%EC%9E%91%EC%97%85-%EC%9D%B4%EC%96%B4%EC%84%9C-%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>작업 끝난 br의 local 폴더에서 새 br파서 작업 이어서 하기</h3>
+
+<ol>
+  <li>
+    <p>현재 br를 확인한다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">git</span> <span class="n">branch</span>
+<span class="o">*</span> <span class="n">feat</span><span class="o">/</span><span class="n">register_user_use_case</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>checkout -b</strong>로 새 br 생성하여 진입하기</p>
+
+    <ul>
+      <li>원래는 github에서 create branch했었음.</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git checkout -b feat/generic_use_cases
+   
+git branch
+   
+* feat/generic_use_cases
+  feat/register_user_use_case
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>git push -u origin [branch명]으로 <code class="language-plaintext highlighter-rouge">새로생성한 br를 push해서 github에 생성하기</code></strong></p>
+
+    <ul>
+      <li>
+        <p>vscode에서는 push -u origin [branch] 대신  <strong><code class="language-plaintext highlighter-rouge">분기게시</code>가 뜬다.</strong></p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001205639510.png" alt="image-20221001205639510"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>github에서 <strong>빈 분기가 생성되었는지 확인하기</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001205751422.png" alt="image-20221001205751422"></p>
+  </li>
+</ol>
+
+<h3 id="01-use-case-class는-domain--use_cases-에-interface형태-class부터-정의하더라">
+<a class="anchor" href="#01-use-case-class%EB%8A%94-domain--use_cases-%EC%97%90-interface%ED%98%95%ED%83%9C-class%EB%B6%80%ED%84%B0-%EC%A0%95%EC%9D%98%ED%95%98%EB%8D%94%EB%9D%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 use case Class는 domain &gt; use_cases 에 [Interface형태 Class]부터 정의하더라</h3>
+
+<h4 id="as--interface를-붙여쓰므로-class명에-직접-interface를-붙여쓰지-않으므로--datainterfaces에-속하진-않는다">
+<a class="anchor" href="#as--interface%EB%A5%BC-%EB%B6%99%EC%97%AC%EC%93%B0%EB%AF%80%EB%A1%9C-class%EB%AA%85%EC%97%90-%EC%A7%81%EC%A0%91-interface%EB%A5%BC-%EB%B6%99%EC%97%AC%EC%93%B0%EC%A7%80-%EC%95%8A%EC%9C%BC%EB%AF%80%EB%A1%9C--datainterfaces%EC%97%90-%EC%86%8D%ED%95%98%EC%A7%84-%EC%95%8A%EB%8A%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>as -Interface를 붙여쓰므로, class명에 직접 interface를 붙여쓰지 않으므로,  data&gt;interfaces에 속하진 않는다.</h4>
+
+<ol>
+  <li>
+    <p>src&gt;domain&gt;use_cases&gt; <code class="language-plaintext highlighter-rouge">find_user.py</code>를 만든다</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractclassmethod</span>
+   
+<span class="k">class</span> <span class="nc">FindUser</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="s">""" Interface to FindUser use case """</span>
+   
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="finduser는-select_user를-쓸-것인데-idunique_colfk-에-따라-경우의-수가-있으므로-그만큼-by_xx메서드를-나눠서-만든다-use_case-class의-메서드-returntype은-dictbool-dto-아니라면-dictbool-listdto-고정이다">
+<a class="anchor" href="#finduser%EB%8A%94-select_user%EB%A5%BC-%EC%93%B8-%EA%B2%83%EC%9D%B8%EB%8D%B0-idunique_colfk-%EC%97%90-%EB%94%B0%EB%9D%BC-%EA%B2%BD%EC%9A%B0%EC%9D%98-%EC%88%98%EA%B0%80-%EC%9E%88%EC%9C%BC%EB%AF%80%EB%A1%9C-%EA%B7%B8%EB%A7%8C%ED%81%BC-by_xx%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EB%82%98%EB%88%A0%EC%84%9C-%EB%A7%8C%EB%93%A0%EB%8B%A4-use_case-class%EC%9D%98-%EB%A9%94%EC%84%9C%EB%93%9C-returntype%EC%9D%80-dictbool-dto-%EC%95%84%EB%8B%88%EB%9D%BC%EB%A9%B4-dictbool-listdto-%EA%B3%A0%EC%A0%95%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>FindUser는 select_user를 쓸 것인데, id/unique_col/fk 에 따라 경우의 수가 있으므로, 그만큼 <code class="language-plaintext highlighter-rouge">by_xx</code>메서드를 나눠서 만든다. use_case Class의 메서드 returnType은 Dict[bool, DTO] 아니라면 Dict[bool, List[DTO]] 고정이다.</h4>
+
+<ul>
+  <li>by_id로 1개만 select한다고 하더라도, select메서드의 return type은 고정적으로 List[DTO]이다.</li>
+</ul>
+
+<ol>
+  <li>
+    <p>user_id, name 2개를 검색id로 사용할 수 있는데, 일단  <code class="language-plaintext highlighter-rouge">by_id</code>부터 정의한다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractclassmethod</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+   
+<span class="kn">from</span> <span class="nn">src.domain.models</span> <span class="kn">import</span> <span class="n">Users</span>
+   
+<span class="k">class</span> <span class="nc">FindUser</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="s">""" Interface to FindUser use case """</span>
+   
+    <span class="o">@</span><span class="n">abstractclassmethod</span>
+    <span class="k">def</span> <span class="nf">by_id</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Users</span><span class="p">]]:</span>
+        <span class="s">""" Specific Case """</span>
+   
+        <span class="k">raise</span> <span class="nb">Exception</span><span class="p">(</span><span class="s">"Should implement method: by_id"</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>복사해서 <code class="language-plaintext highlighter-rouge">by_name</code> 메서드도 만든다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">abstractclassmethod</span>
+<span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Users</span><span class="p">]]:</span>
+    <span class="s">""" Specific Case """</span>
+   
+    <span class="k">raise</span> <span class="nb">Exception</span><span class="p">(</span><span class="s">"Should implement method: by_name"</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>복사해서 <code class="language-plaintext highlighter-rouge">by_id_and_name</code>을 만든다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">abstractclassmethod</span>
+<span class="k">def</span> <span class="nf">by_id_and_name</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Users</span><span class="p">]]:</span>
+    <span class="s">""" Specific Case """</span>
+   
+    <span class="k">raise</span> <span class="nb">Exception</span><span class="p">(</span><span class="s">"Should implement method: by_id_and_name"</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>인터페이스 정의가 끝나면, use_cases의 init에 올려준다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">.register_user</span> <span class="kn">import</span> <span class="n">RegisterUser</span>
+<span class="kn">from</span> <span class="nn">.find_user</span> <span class="kn">import</span> <span class="n">FindUser</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="02-data---개별use_case폴더명--init-생성후-개별use_case동사명py에다가-usecase-class를-정의한다">
+<a class="anchor" href="#02-data---%EA%B0%9C%EB%B3%84use_case%ED%8F%B4%EB%8D%94%EB%AA%85--init-%EC%83%9D%EC%84%B1%ED%9B%84-%EA%B0%9C%EB%B3%84use_case%EB%8F%99%EC%82%AC%EB%AA%85py%EC%97%90%EB%8B%A4%EA%B0%80-usecase-class%EB%A5%BC-%EC%A0%95%EC%9D%98%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 data &gt;  개별use_case폴더명 + init 생성후, 개별use_case동사명.py에다가 usecase Class를 정의한다.</h3>
+
+<h4 id="domainuse_cases의-py명과-data개별use_case명은--동사_목적어지만-개별use_case폴더-속-py파일은-동사로만-구성한다">
+<a class="anchor" href="#domainuse_cases%EC%9D%98-py%EB%AA%85%EA%B3%BC-data%EA%B0%9C%EB%B3%84use_case%EB%AA%85%EC%9D%80--%EB%8F%99%EC%82%AC_%EB%AA%A9%EC%A0%81%EC%96%B4%EC%A7%80%EB%A7%8C-%EA%B0%9C%EB%B3%84use_case%ED%8F%B4%EB%8D%94-%EC%86%8D-py%ED%8C%8C%EC%9D%BC%EC%9D%80-%EB%8F%99%EC%82%AC%EB%A1%9C%EB%A7%8C-%EA%B5%AC%EC%84%B1%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>domain&gt;use_cases&gt;의 py명과, data&gt;개별use_case명은  동사_목적어지만, 개별use_case폴더 속 py파일은 동사로만 구성한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001213404812.png" alt="image-20221001213404812"></p>
+
+<ol>
+  <li>src&gt;data&gt;<code class="language-plaintext highlighter-rouge">find_user</code>폴더 + init을 만들고, <strong><code class="language-plaintext highlighter-rouge">find.py</code>를 생성한다</strong>
+</li>
+</ol>
+
+<h4 id="domainuse_cases에서-정의한-interface를-as--interface로-import-해서-실제-usecase-classfinduser를-구현한다">
+<a class="anchor" href="#domainuse_cases%EC%97%90%EC%84%9C-%EC%A0%95%EC%9D%98%ED%95%9C-interface%EB%A5%BC-as--interface%EB%A1%9C-import-%ED%95%B4%EC%84%9C-%EC%8B%A4%EC%A0%9C-usecase-classfinduser%EB%A5%BC-%EA%B5%AC%ED%98%84%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>domain&gt;use_cases에서 정의한 interface를 as -Interface로 import 해서 실제 Usecase Class(FindUser)를 구현한다.</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">src.domain.use_cases</span> <span class="kn">import</span> <span class="n">FindUser</span> <span class="k">as</span> <span class="n">FindUserInterface</span>
+
+<span class="k">class</span> <span class="nc">FindUser</span><span class="p">(</span><span class="n">FindUserInterface</span><span class="p">):</span>
+    <span class="s">""" Class to define use case Find User """</span>
+</code></pre></div></div>
+
+<h4 id="usecase-class는-repository를-인자로-받는데-이-때-datainterfaces에-정의한-repo-interface를-as-repo로-import해서-준다">
+<a class="anchor" href="#usecase-class%EB%8A%94-repository%EB%A5%BC-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%B0%9B%EB%8A%94%EB%8D%B0-%EC%9D%B4-%EB%95%8C-datainterfaces%EC%97%90-%EC%A0%95%EC%9D%98%ED%95%9C-repo-interface%EB%A5%BC-as-repo%EB%A1%9C-import%ED%95%B4%EC%84%9C-%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>usecase Class는 repository를 인자로 받는데, 이 때, data&gt;interfaces에 정의한 repo interface를 as repo로 import해서 준다.</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">src.domain.use_cases</span> <span class="kn">import</span> <span class="n">FindUser</span> <span class="k">as</span> <span class="n">FindUserInterface</span>
+<span class="kn">from</span> <span class="nn">src.data.interfaces</span> <span class="kn">import</span> <span class="n">UserRepositoryInterface</span> <span class="k">as</span> <span class="n">UserRepository</span>
+
+
+<span class="k">class</span> <span class="nc">FindUser</span><span class="p">(</span><span class="n">FindUserInterface</span><span class="p">):</span>
+    <span class="s">""" Class to define use case Find User """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_repository</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">UserRepository</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">user_repository</span> <span class="o">=</span> <span class="n">user_repository</span>
+</code></pre></div></div>
+
+<h4 id="usecase-class-method의-signature는-domainuse_cases에-정의해둔-interface의-signature를-복사해서-수정한다">
+<a class="anchor" href="#usecase-class-method%EC%9D%98-signature%EB%8A%94-domainuse_cases%EC%97%90-%EC%A0%95%EC%9D%98%ED%95%B4%EB%91%94-interface%EC%9D%98-signature%EB%A5%BC-%EB%B3%B5%EC%82%AC%ED%95%B4%EC%84%9C-%EC%88%98%EC%A0%95%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>usecase class method의 signature는 domain&gt;use_cases에 정의해둔 interface의 signature를 복사해서 수정한다.</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">FindUser</span><span class="p">(</span><span class="n">FindUserInterface</span><span class="p">):</span>
+    <span class="s">""" Class to define use case Find User """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_repository</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">UserRepository</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">user_repository</span> <span class="o">=</span> <span class="n">user_repository</span>
+
+    <span class="k">def</span> <span class="nf">by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Users</span><span class="p">]]:</span>
+        <span class="s">""" Select User By id
+        :param - user_i: id of the user
+        :return - Dictionary with informations of the process 
+        """</span>
+</code></pre></div></div>
+
+<h4 id="usecase-method의-구현부는-responsenone초기화-vaildate_entry로-시작하고-응답형은-각각을-채운-dict로-한다">
+<a class="anchor" href="#usecase-method%EC%9D%98-%EA%B5%AC%ED%98%84%EB%B6%80%EB%8A%94-responsenone%EC%B4%88%EA%B8%B0%ED%99%94-vaildate_entry%EB%A1%9C-%EC%8B%9C%EC%9E%91%ED%95%98%EA%B3%A0-%EC%9D%91%EB%8B%B5%ED%98%95%EC%9D%80-%EA%B0%81%EA%B0%81%EC%9D%84-%EC%B1%84%EC%9A%B4-dict%EB%A1%9C-%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>usecase method의 구현부는 response=None초기화, vaildate_entry로 시작하고, 응답형은 각각을 채운 dict로 한다.</h4>
+
+<ol>
+  <li>entry에서 형 검사시 통과못하면, repository를 이용못하고 response가 None으로 반환된다.</li>
+  <li>entry 형검사 통과시, response에 인자로 받은 repository를 이용해 DTO를 이용한 결과가 들어간다</li>
+  <li>return dict로 validate_entry결과 및 response결과를 key에 넣어 반환한다.</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+    <span class="k">def</span> <span class="nf">by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Users</span><span class="p">]]:</span>
+        <span class="s">""" Select User By id
+        :param - user_i: id of the user
+        :return - Dictionary with informations of the process 
+        """</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">validate_entry</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">validate_entry</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">user_repository</span><span class="p">.</span><span class="n">select_user</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="n">validate_entry</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="n">response</span><span class="p">}</span>
+
+</code></pre></div></div>
+
+<ol>
+  <li><strong>나머지 인자 경우의 수에 따른 select method들을 다 복사해서 구현해준다.</strong></li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Users</span><span class="p">]]:</span>
+    <span class="s">""" Select User By name
+        :param - name: name of the user
+        :return - Dictionary with informations of the process 
+        """</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">validate_entry</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">validate_entry</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">user_repository</span><span class="p">.</span><span class="n">select_user</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="n">validate_entry</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="n">response</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">by_id_and_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Users</span><span class="p">]]:</span>
+        <span class="s">""" Select User By id and name
+        :param - user_id: id of the user
+        :return - Dictionary with informations of the process 
+        """</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">validate_entry</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">validate_entry</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">user_repository</span><span class="p">.</span><span class="n">select_user</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="n">validate_entry</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="n">response</span><span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="03-usecase-class-testfind_testpy">
+<a class="anchor" href="#03-usecase-class-testfind_testpy" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 usecase Class test(find_test.py)</h3>
+
+<h4 id="test는-동일폴더-속-모듈--faker를-기본적으로-import">
+<a class="anchor" href="#test%EB%8A%94-%EB%8F%99%EC%9D%BC%ED%8F%B4%EB%8D%94-%EC%86%8D-%EB%AA%A8%EB%93%88--faker%EB%A5%BC-%EA%B8%B0%EB%B3%B8%EC%A0%81%EC%9C%BC%EB%A1%9C-import" aria-hidden="true"><span class="octicon octicon-link"></span></a>test는 동일폴더 속 모듈 + faker를 기본적으로 import</h4>
+
+<ol>
+  <li>
+    <p>src&gt;data&gt;find_user&gt; <code class="language-plaintext highlighter-rouge">find_test.py</code>를 만든다.</p>
+  </li>
+  <li>
+    <p>test는 기본적으로 faker를 import한다.</p>
+  </li>
+  <li>
+    <p>test는 기본적으로 <strong>동일폴더에 있는 테스트할 모듈을 <code class="language-plaintext highlighter-rouge">.모듈명</code>import한다</strong></p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span> <span class="nn">.find</span> <span class="kn">import</span> <span class="n">FindUser</span>
+   
+<span class="n">faker</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="repo인자로-사용하는-usecase-class-test는-infrarepo동일선상-test폴더의-repospy를-import해서-인자로-사용한다">
+<a class="anchor" href="#repo%EC%9D%B8%EC%9E%90%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-usecase-class-test%EB%8A%94-infrarepo%EB%8F%99%EC%9D%BC%EC%84%A0%EC%83%81-test%ED%8F%B4%EB%8D%94%EC%9D%98-repospy%EB%A5%BC-import%ED%95%B4%EC%84%9C-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>repo인자로 사용하는 usecase Class test는 infra&gt;repo동일선상 test폴더의 repospy를 import해서 인자로 사용한다.</h4>
+
+<ul>
+  <li>repo spy: repo와 동일하게 생겼으나 내부에서 CRUD없이 method별 dict에 param들을 모아두고, 확인용으로 쓴다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span> <span class="nn">.find</span> <span class="kn">import</span> <span class="n">FindUser</span>
+<span class="kn">from</span> <span class="nn">src.infra.test</span> <span class="kn">import</span> <span class="n">UserRepositorySpy</span>
+
+<span class="n">faker</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">test_by_id</span><span class="p">():</span>
+    <span class="s">""" Testing by_id method """</span>
+
+    <span class="n">user_repo</span> <span class="o">=</span> <span class="n">UserRepositorySpy</span><span class="p">()</span>
+    <span class="n">find_user</span> <span class="o">=</span> <span class="n">FindUser</span><span class="p">(</span><span class="n">user_repo</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="usecase는-input을-js타입의-attr-dict를-faker로-만들고-usecase-method에-넣어주면-내부-repo-spy가-param-dict에-물고-있을-것이다">
+<a class="anchor" href="#usecase%EB%8A%94-input%EC%9D%84-js%ED%83%80%EC%9E%85%EC%9D%98-attr-dict%EB%A5%BC-faker%EB%A1%9C-%EB%A7%8C%EB%93%A4%EA%B3%A0-usecase-method%EC%97%90-%EB%84%A3%EC%96%B4%EC%A3%BC%EB%A9%B4-%EB%82%B4%EB%B6%80-repo-spy%EA%B0%80-param-dict%EC%97%90-%EB%AC%BC%EA%B3%A0-%EC%9E%88%EC%9D%84-%EA%B2%83%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>usecase는 input을 js타입의 attr dict를 faker로 만들고, usecase method에 넣어주면, 내부 repo spy가 param dict에 물고 있을 것이다.</h4>
+
+<ul>
+  <li>attributes에는 “id”로 입력했지만, param dict는 <strong>param명으로 입력되기 때문에, user_id=에 넣어줬으면 user_id로 저장시켰을 것이다.</strong>
+</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_by_id</span><span class="p">():</span>
+    <span class="s">""" Testing by_id method """</span>
+
+    <span class="n">user_repo</span> <span class="o">=</span> <span class="n">UserRepositorySpy</span><span class="p">()</span>
+    <span class="n">find_user</span> <span class="o">=</span> <span class="n">FindUser</span><span class="p">(</span><span class="n">user_repo</span><span class="p">)</span>
+
+    <span class="n">attributes</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"id"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">random_number</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">find_user</span><span class="p">.</span><span class="n">by_id</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">attributes</span><span class="p">[</span><span class="s">"id"</span><span class="p">])</span>
+
+    <span class="c1"># Testing Inputs
+</span>    <span class="k">assert</span> <span class="n">user_repo</span><span class="p">.</span><span class="n">select_user_param</span><span class="p">[</span><span class="s">"user_id"</span><span class="p">]</span> <span class="o">==</span> <span class="n">attributes</span><span class="p">[</span><span class="s">"id"</span><span class="p">]</span>
+</code></pre></div></div>
+
+<h4 id="usecase-method-test는-outputdict를-successvalidate_entry-torf-와-datanone-or-not-none-2개를-검사하면-된다">
+<a class="anchor" href="#usecase-method-test%EB%8A%94-outputdict%EB%A5%BC-successvalidate_entry-torf-%EC%99%80-datanone-or-not-none-2%EA%B0%9C%EB%A5%BC-%EA%B2%80%EC%82%AC%ED%95%98%EB%A9%B4-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>usecase method test는 output(dict)를 Success(validate_entry TorF )와 Data(None or not None) 2개를 검사하면 된다</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Testing Inputs
+</span><span class="k">assert</span> <span class="n">user_repo</span><span class="p">.</span><span class="n">select_user_param</span><span class="p">[</span><span class="s">"user_id"</span><span class="p">]</span> <span class="o">==</span> <span class="n">attributes</span><span class="p">[</span><span class="s">"id"</span><span class="p">]</span>
+
+<span class="c1"># Testing outputs
+</span><span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">"Success"</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">True</span>
+<span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">"Data"</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+</code></pre></div></div>
+
+<h4 id="test메서드1개마다-pytest를-돌린다-탐색기폴더에-우클릭-상대경로-복사해서-pytest--vs를-돌리면-된다">
+<a class="anchor" href="#test%EB%A9%94%EC%84%9C%EB%93%9C1%EA%B0%9C%EB%A7%88%EB%8B%A4-pytest%EB%A5%BC-%EB%8F%8C%EB%A6%B0%EB%8B%A4-%ED%83%90%EC%83%89%EA%B8%B0%ED%8F%B4%EB%8D%94%EC%97%90-%EC%9A%B0%ED%81%B4%EB%A6%AD-%EC%83%81%EB%8C%80%EA%B2%BD%EB%A1%9C-%EB%B3%B5%EC%82%AC%ED%95%B4%EC%84%9C-pytest--vs%EB%A5%BC-%EB%8F%8C%EB%A6%AC%EB%A9%B4-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>test메서드1개마다 pytest를 돌린다. 탐색기폴더에 우클릭 상대경로 복사해서 pytest -vs를 돌리면 된다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001224900780.png" alt="image-20221001224900780"></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pytest src\data\find_user -vs
+</code></pre></div></div>
+
+<h4 id="spy-repo는-내부에서-faker로-실시간으로-만드는-mock_entity로-객체를-만들어-반환해주므로-print로-pytest--vs에서-내용물을-확인할-수-있지만-랜덤객체고-type만-dto다">
+<a class="anchor" href="#spy-repo%EB%8A%94-%EB%82%B4%EB%B6%80%EC%97%90%EC%84%9C-faker%EB%A1%9C-%EC%8B%A4%EC%8B%9C%EA%B0%84%EC%9C%BC%EB%A1%9C-%EB%A7%8C%EB%93%9C%EB%8A%94-mock_entity%EB%A1%9C-%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4-%EB%B0%98%ED%99%98%ED%95%B4%EC%A3%BC%EB%AF%80%EB%A1%9C-print%EB%A1%9C-pytest--vs%EC%97%90%EC%84%9C-%EB%82%B4%EC%9A%A9%EB%AC%BC%EC%9D%84-%ED%99%95%EC%9D%B8%ED%95%A0-%EC%88%98-%EC%9E%88%EC%A7%80%EB%A7%8C-%EB%9E%9C%EB%8D%A4%EA%B0%9D%EC%B2%B4%EA%B3%A0-type%EB%A7%8C-dto%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>spy repo는 내부에서 faker로 실시간으로 만드는 mock_entity()로 객체를 만들어 반환해주므로, print()로 pytest -vs에서 내용물을 확인할 수 있지만, 랜덤객체고 Type만 DTO다</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001225054616.png" alt="image-20221001225054616"></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">response</span> <span class="o">=</span> <span class="n">find_user</span><span class="p">.</span><span class="n">by_id</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">attributes</span><span class="p">[</span><span class="s">"id"</span><span class="p">])</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+<span class="c1"># Testing Inputs
+</span><span class="k">assert</span> <span class="n">user_repo</span><span class="p">.</span><span class="n">select_user_param</span><span class="p">[</span><span class="s">"user_id"</span><span class="p">]</span> <span class="o">==</span> <span class="n">attributes</span><span class="p">[</span><span class="s">"id"</span><span class="p">]</span>
+
+<span class="c1"># Testing outputs
+</span><span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">"Success"</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">True</span>
+<span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">"Data"</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+</code></pre></div></div>
+
+<h4 id="test까지-끝났으면-모듈을-init에-올려주기">
+<a class="anchor" href="#test%EA%B9%8C%EC%A7%80-%EB%81%9D%EB%82%AC%EC%9C%BC%EB%A9%B4-%EB%AA%A8%EB%93%88%EC%9D%84-init%EC%97%90-%EC%98%AC%EB%A0%A4%EC%A3%BC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>test까지 끝났으면 모듈을 init에 올려주기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">.find</span> <span class="kn">import</span> <span class="n">FindUser</span>
+</code></pre></div></div>
+
+<h4 id="by_id-이외에-메서드test는-생략하고-need-test를-달아주고-commit">
+<a class="anchor" href="#by_id-%EC%9D%B4%EC%99%B8%EC%97%90-%EB%A9%94%EC%84%9C%EB%93%9Ctest%EB%8A%94-%EC%83%9D%EB%9E%B5%ED%95%98%EA%B3%A0-need-test%EB%A5%BC-%EB%8B%AC%EC%95%84%EC%A3%BC%EA%B3%A0-commit" aria-hidden="true"><span class="octicon octicon-link"></span></a>by_id 이외에 메서드test는 생략하고 (need test)를 달아주고 commit</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit -am "feat: implementing find user (need test)"
+</code></pre></div></div>
+
+<h2 id="use-cases-3-findpet">
+<a class="anchor" href="#use-cases-3-findpet" aria-hidden="true"><span class="octicon octicon-link"></span></a>use cases 3 FindPet</h2>
+
+<h3 id="01-srcdomain-use_cases--find_petpy-interface-정의하기">
+<a class="anchor" href="#01-srcdomain-use_cases--find_petpy-interface-%EC%A0%95%EC%9D%98%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 src&gt;domain&gt; use_cases &gt; find_pet.py (interface) 정의하기</h3>
+
+<ul>
+  <li>use case  메서드들은 모두 Dict[bool, DTO or List[DTO]]를 반환한다</li>
+  <li>interface는 Use case가 객체생성class가 될 것이므로 @abstractmethod로 정의한다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">src.domain.models</span> <span class="kn">import</span> <span class="n">Pets</span>
+
+
+<span class="k">class</span> <span class="nc">FindPet</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="s">""" Interface to FindPet use case """</span>
+
+    <span class="o">@</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">by_pet_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pet_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Pets</span><span class="p">]]:</span>
+        <span class="s">""" Specific case """</span>
+
+        <span class="k">raise</span> <span class="nb">Exception</span><span class="p">(</span><span class="s">"Should implement method: by_pet_id"</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">by_user_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Pets</span><span class="p">]]:</span>
+        <span class="s">""" Specific case """</span>
+
+        <span class="k">raise</span> <span class="nb">Exception</span><span class="p">(</span><span class="s">"Should implement method: by_user_id"</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">by_pet_id_and_user_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pet_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Pets</span><span class="p">]]:</span>
+        <span class="s">""" Specific case """</span>
+
+        <span class="k">raise</span> <span class="nb">Exception</span><span class="p">(</span><span class="s">"Should implement method: by_pet_id_and_user_id"</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>완성되면 init.py에 올려준다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">.register_user</span> <span class="kn">import</span> <span class="n">RegisterUser</span>
+<span class="kn">from</span> <span class="nn">.find_user</span> <span class="kn">import</span> <span class="n">FindUser</span>
+<span class="kn">from</span> <span class="nn">.find_pet</span> <span class="kn">import</span> <span class="n">FindPet</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="02-srcdatafind_pet폴더init--findpy-usecase-class-정의하기">
+<a class="anchor" href="#02-srcdatafind_pet%ED%8F%B4%EB%8D%94init--findpy-usecase-class-%EC%A0%95%EC%9D%98%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 src&gt;data&gt;find_pet폴더&gt;init + find.py (usecase Class) 정의하기</h3>
+
+<ul>
+  <li>src&gt;domian&gt;use_cases&gt;find_pet.py에 정의한 interface를 바탕으로 usecase class 정의하기
+    <ul>
+      <li>repo를 인자로 작동하는 usecase Class</li>
+      <li>메서드는 주로 reponse=None초기화, validate_entry로 시작한다.
+        <ul>
+          <li>entry가 참일 때, response에 repository의 메서드 호출 결과값을 재할당해준다. 아니면 None으로 반환된다.</li>
+        </ul>
+      </li>
+      <li>repo select메서드의 반환타입은 무조건 복수 DTO List[DTO]이다.</li>
+      <li>usecase select메서드(find)의 반환타입은 무조건 Dict[bool, DTO or List[DTO]]이다.</li>
+    </ul>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">src.data.interfaces</span> <span class="kn">import</span> <span class="n">PetRepositoryInterface</span> <span class="k">as</span> <span class="n">PetRepository</span>
+<span class="kn">from</span> <span class="nn">src.domain.use_cases</span> <span class="kn">import</span> <span class="n">FindPet</span> <span class="k">as</span> <span class="n">FindPetInterface</span>
+<span class="kn">from</span> <span class="nn">src.domain.models</span> <span class="kn">import</span> <span class="n">Pets</span>
+  
+  
+<span class="k">class</span> <span class="nc">FindPet</span><span class="p">(</span><span class="n">FindPetInterface</span><span class="p">):</span>
+  
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pet_repository</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">PetRepository</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">pet_repository</span> <span class="o">=</span> <span class="n">pet_repository</span>
+  
+    <span class="k">def</span> <span class="nf">by_pet_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pet_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Pets</span><span class="p">]]:</span>
+        <span class="s">""" Select Pet By pet_id 
+        :param - pet_id: id of the pet
+        :return - Dictionary with informations of the process
+        """</span>
+  
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">validate_entry</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pet_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+  
+        <span class="k">if</span> <span class="n">validate_entry</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">pet_repository</span><span class="p">.</span><span class="n">select_pet</span><span class="p">(</span><span class="n">pet_id</span><span class="o">=</span><span class="n">pet_id</span><span class="p">)</span>
+  
+        <span class="k">return</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="n">validate_entry</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="n">response</span><span class="p">}</span>
+  
+    <span class="k">def</span> <span class="nf">by_user_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Pets</span><span class="p">]]:</span>
+        <span class="s">""" Select Pet By user_id 
+        :param - user_id: id of the user
+        :return - Dictionary with informations of the process
+        """</span>
+  
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">validate_entry</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+  
+        <span class="k">if</span> <span class="n">validate_entry</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">pet_repository</span><span class="p">.</span><span class="n">select_pet</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
+  
+        <span class="k">return</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="n">validate_entry</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="n">response</span><span class="p">}</span>
+  
+    <span class="k">def</span> <span class="nf">by_pet_id_and_user_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pet_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Pets</span><span class="p">]]:</span>
+        <span class="s">""" Select Pet By pet_id 
+        :param - pet_id: id of the pet
+        :return - Dictionary with informations of the process
+        """</span>
+  
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">validate_entry</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pet_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+  
+        <span class="k">if</span> <span class="n">validate_entry</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">pet_repository</span><span class="p">.</span><span class="n">select_pet</span><span class="p">(</span><span class="n">pet_id</span><span class="o">=</span><span class="n">pet_id</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
+  
+        <span class="k">return</span> <span class="p">{</span><span class="s">"Success"</span><span class="p">:</span> <span class="n">validate_entry</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="n">response</span><span class="p">}</span>
+  
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>작성된 class는 init에 올려준다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">.find</span> <span class="kn">import</span> <span class="n">FindPet</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="03-srcdatafind_pet폴더-find_testpy-usecase-class-test-정의하기">
+<a class="anchor" href="#03-srcdatafind_pet%ED%8F%B4%EB%8D%94-find_testpy-usecase-class-test-%EC%A0%95%EC%9D%98%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 src&gt;data&gt;find_pet폴더&gt; find_test.py (usecase Class test) 정의하기</h3>
+
+<h4 id="01-usecase-test는-인자로-들어가는-repo에-대한-repo-spy가-필요---repo-spy의-반환-값인-mock_dto-반환-메서드-mock_pet가-먼저-필요">
+<a class="anchor" href="#01-usecase-test%EB%8A%94-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%93%A4%EC%96%B4%EA%B0%80%EB%8A%94-repo%EC%97%90-%EB%8C%80%ED%95%9C-repo-spy%EA%B0%80-%ED%95%84%EC%9A%94---repo-spy%EC%9D%98-%EB%B0%98%ED%99%98-%EA%B0%92%EC%9D%B8-mock_dto-%EB%B0%98%ED%99%98-%EB%A9%94%EC%84%9C%EB%93%9C-mock_pet%EA%B0%80-%EB%A8%BC%EC%A0%80-%ED%95%84%EC%9A%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 usecase test는 인자로 들어가는 repo에 대한 repo spy가 필요 -&gt; repo spy의 반환 값인 mock_DTO 반환 [메서드] mock_pet()가 먼저 필요</h4>
+
+<h4 id="02-mock_petdto-반환-moc_method-부터-만들기">
+<a class="anchor" href="#02-mock_petdto-%EB%B0%98%ED%99%98-moc_method-%EB%B6%80%ED%84%B0-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 mock_pet(DTO) 반환 moc_method() 부터 만들기</h4>
+
+<ul>
+  <li>faker + DTO import로 아무거나 생성해서 반환해주면 된다. <strong>mock객체는 반환되는 필드값이 중요하지 않다.</strong>
+    <ul>
+      <li>enum에 대해서는 string값을 넣어준다. DB든 dto든 string으로 들어가있다?!</li>
+    </ul>
+  </li>
+  <li>src&gt;domain&gt;models에 속하므로 models의 같은 선상인 <strong>src&gt;domain&gt;test에 mock_pet.py에 메서드를 만들어준다.</strong>
+    <ul>
+      <li><strong>실시간 객체가 필요한데, class가 아니라 <code class="language-plaintext highlighter-rouge">목객체 생성 mock_method</code>로 만들어주면 된다.</strong></li>
+    </ul>
+  </li>
+  <li>mock_users.py -&gt; 나중에 mock_user.py로 변경해야할 것 같다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span> <span class="nn">src.domain.models</span> <span class="kn">import</span> <span class="n">Pets</span>
+
+<span class="n">faker</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">mock_pet</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Pets</span><span class="p">:</span>
+    <span class="s">""" Mocking Pet 
+    :param - None
+    :return - Fake Pet registry
+    """</span>
+
+    <span class="k">return</span> <span class="n">Pets</span><span class="p">(</span>
+        <span class="nb">id</span><span class="o">=</span><span class="n">faker</span><span class="p">.</span><span class="n">random_number</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">faker</span><span class="p">.</span><span class="n">name</span><span class="p">(),</span>
+        <span class="n">specie</span><span class="o">=</span><span class="s">"dog"</span><span class="p">,</span>
+        <span class="n">age</span><span class="o">=</span><span class="n">faker</span><span class="p">.</span><span class="n">random_number</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">user_id</span><span class="o">=</span><span class="n">faker</span><span class="p">.</span><span class="n">random_number</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>만들어졌으면 init에 올려준다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">.mock_users</span> <span class="kn">import</span> <span class="n">mock_users</span>
+<span class="kn">from</span> <span class="nn">.mock_pet</span> <span class="kn">import</span> <span class="n">mock_pet</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="03-srcinfratest에-pet_repository_spypy를-정의한다">
+<a class="anchor" href="#03-srcinfratest%EC%97%90-pet_repository_spypy%EB%A5%BC-%EC%A0%95%EC%9D%98%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 src&gt;infra&gt;test에 pet_repository_spy.py를 정의한다.</h4>
+
+<ul>
+  <li>
+    <p>repo폴더 같은 선상의 test폴더더에 <code class="language-plaintext highlighter-rouge">pet_repository_spy.py</code>생성</p>
+  </li>
+  <li>
+    <p>repo spy는 <strong>class에 원본repo method별  -&gt; init에 param_dict를 만들어, input을 사용하지 않고 모아둔다.</strong></p>
+
+    <ul>
+      <li>
+<strong>output도 mock_dto()메서드로 생성해서 반환해준다.</strong>
+        <ul>
+          <li>insert처럼 단수일 경우 mock_pet()</li>
+          <li>select처럼 복수일 경우 [ mock_pet() ]</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">src.domain.test</span> <span class="kn">import</span> <span class="n">mock_pet</span>
+<span class="kn">from</span> <span class="nn">src.domain.models</span> <span class="kn">import</span> <span class="n">Pets</span>
+  
+<span class="k">class</span> <span class="nc">PetRepositorySpy</span><span class="p">:</span>
+    <span class="s">""" Spy to Pet Repository """</span>
+  
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">insert_pet_param</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">select_pet_param</span> <span class="o">=</span> <span class="p">{}</span>
+  
+    <span class="k">def</span> <span class="nf">insert_pet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">specie</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">age</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pets</span><span class="p">:</span>
+        <span class="s">""" Spy all the attributes """</span>
+  
+        <span class="bp">self</span><span class="p">.</span><span class="n">insert_pet_param</span><span class="p">[</span><span class="s">'name'</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">insert_pet_param</span><span class="p">[</span><span class="s">'specie'</span><span class="p">]</span> <span class="o">=</span> <span class="n">specie</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">insert_pet_param</span><span class="p">[</span><span class="s">'age'</span><span class="p">]</span> <span class="o">=</span> <span class="n">age</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">insert_pet_param</span><span class="p">[</span><span class="s">'user_id'</span><span class="p">]</span> <span class="o">=</span> <span class="n">user_id</span>
+  
+        <span class="k">return</span> <span class="n">mock_pet</span><span class="p">()</span>
+  
+    <span class="k">def</span> <span class="nf">select_pet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pet_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Pets</span><span class="p">]:</span>
+        <span class="s">""" Spy all the attributes """</span>
+  
+        <span class="bp">self</span><span class="p">.</span><span class="n">select_pet_param</span><span class="p">[</span><span class="s">'pet_id'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pet_id</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">select_pet_param</span><span class="p">[</span><span class="s">'user_id'</span><span class="p">]</span> <span class="o">=</span> <span class="n">user_id</span>
+  
+        <span class="k">return</span> <span class="p">[</span><span class="n">mock_pet</span><span class="p">()]</span>
+  
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>완성됬으면 init에 올려준다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">.user_repository_spy</span> <span class="kn">import</span> <span class="n">UserRepositorySpy</span>
+<span class="kn">from</span> <span class="nn">.pet_repository_spy</span> <span class="kn">import</span> <span class="n">PetRepositorySpy</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="04-드디어-use_case_testfind_testpy에-spy-repo-사용해서-정의하기">
+<a class="anchor" href="#04-%EB%93%9C%EB%94%94%EC%96%B4-use_case_testfind_testpy%EC%97%90-spy-repo-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C-%EC%A0%95%EC%9D%98%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 드디어 use_case_test(find_test.py)에 spy repo 사용해서 정의하기</h4>
+
+<ul>
+  <li>
+    <p>repo spy를 import하고, 원본 usecase Class를 import해서 정의해서 <strong>usecase class의 method들을 test_한다</strong></p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span> <span class="nn">src.infra.test</span> <span class="kn">import</span> <span class="n">PetRepositorySpy</span>
+<span class="kn">from</span> <span class="nn">.find</span> <span class="kn">import</span> <span class="n">FindPet</span>
+  
+<span class="n">faker</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
+  
+<span class="k">def</span> <span class="nf">test_by_pet_id</span><span class="p">():</span>
+    <span class="s">""" Testing by_pet_id method in FindPet """</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>usecase 객체를 생성시 repo spy를 넣어서 생성한다.</p>
+  </li>
+  <li>
+    <p>usecase 객체는 <strong>request input을 받으니,  dict로 input을 정의하고 method에 하나씩 뽑아서 넣어준다.</strong></p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_by_pet_id</span><span class="p">():</span>
+    <span class="s">""" Testing by_pet_id method in FindPet """</span>
+  
+    <span class="n">pet_repo</span> <span class="o">=</span> <span class="n">PetRepositorySpy</span><span class="p">()</span>
+    <span class="n">find_pet</span> <span class="o">=</span> <span class="n">FindPet</span><span class="p">(</span><span class="n">pet_repo</span><span class="p">)</span>
+  
+    <span class="n">attributes</span> <span class="o">=</span> <span class="p">{</span><span class="s">"pet_id"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">random_number</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="mi">2</span><span class="p">)}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">find_pet</span><span class="p">.</span><span class="n">by_pet_id</span><span class="p">(</span><span class="n">pet_id</span><span class="o">=</span><span class="n">attributes</span><span class="p">[</span><span class="s">"pet_id"</span><span class="p">])</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="usecase-method의-test-중-input-test는-repo-spy가-먹은-input-vs-attributes로-만든-input을-비교한다">
+<a class="anchor" href="#usecase-method%EC%9D%98-test-%EC%A4%91-input-test%EB%8A%94-repo-spy%EA%B0%80-%EB%A8%B9%EC%9D%80-input-vs-attributes%EB%A1%9C-%EB%A7%8C%EB%93%A0-input%EC%9D%84-%EB%B9%84%EA%B5%90%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>usecase method의 test 중 input test는 repo spy가 먹은 input vs attributes로 만든 input을 비교한다.</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_by_pet_id</span><span class="p">():</span>
+    <span class="s">""" Testing by_pet_id method in FindPet """</span>
+
+    <span class="n">pet_repo</span> <span class="o">=</span> <span class="n">PetRepositorySpy</span><span class="p">()</span>
+    <span class="n">find_pet</span> <span class="o">=</span> <span class="n">FindPet</span><span class="p">(</span><span class="n">pet_repo</span><span class="p">)</span>
+
+    <span class="n">attributes</span> <span class="o">=</span> <span class="p">{</span><span class="s">"pet_id"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">random_number</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="mi">2</span><span class="p">)}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">find_pet</span><span class="p">.</span><span class="n">by_pet_id</span><span class="p">(</span><span class="n">pet_id</span><span class="o">=</span><span class="n">attributes</span><span class="p">[</span><span class="s">"pet_id"</span><span class="p">])</span>
+
+    <span class="c1"># Testing Input
+</span>    <span class="k">assert</span> <span class="n">pet_repo</span><span class="p">.</span><span class="n">select_pet_param</span><span class="p">[</span><span class="s">"pet_id"</span><span class="p">]</span> <span class="o">==</span> <span class="n">attributes</span><span class="p">[</span><span class="s">"pet_id"</span><span class="p">]</span>
+</code></pre></div></div>
+
+<h5 id="usecase-method의-test-중-output-test는-repo-spy가-반환하는-목객체가-중요한게-아니라-usecase반환-dict의-success-tf유무--data-존재유무를-확인한다">
+<a class="anchor" href="#usecase-method%EC%9D%98-test-%EC%A4%91-output-test%EB%8A%94-repo-spy%EA%B0%80-%EB%B0%98%ED%99%98%ED%95%98%EB%8A%94-%EB%AA%A9%EA%B0%9D%EC%B2%B4%EA%B0%80-%EC%A4%91%EC%9A%94%ED%95%9C%EA%B2%8C-%EC%95%84%EB%8B%88%EB%9D%BC-usecase%EB%B0%98%ED%99%98-dict%EC%9D%98-success-tf%EC%9C%A0%EB%AC%B4--data-%EC%A1%B4%EC%9E%AC%EC%9C%A0%EB%AC%B4%EB%A5%BC-%ED%99%95%EC%9D%B8%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>usecase method의 test 중 output test는 repo spy가 반환하는 목객체가 중요한게 아니라 usecase반환 dict의 success T/F유무 + data 존재유무를 확인한다.</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Testing Output
+</span><span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">"Success"</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">True</span>
+<span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s">"Data"</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+</code></pre></div></div>
+
+<h4 id="05-1개-메서드-완성시마다-pytest를-돌린다">
+<a class="anchor" href="#05-1%EA%B0%9C-%EB%A9%94%EC%84%9C%EB%93%9C-%EC%99%84%EC%84%B1%EC%8B%9C%EB%A7%88%EB%8B%A4-pytest%EB%A5%BC-%EB%8F%8C%EB%A6%B0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 1개 메서드 완성시마다 pytest를 돌린다.</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> pytest [파일이 속한 폴더 상대경로 복사] -vs
+</code></pre></div></div>
+
+<h3 id="04-나머지-method-생략---need-test로-커밋하기">
+<a class="anchor" href="#04-%EB%82%98%EB%A8%B8%EC%A7%80-method-%EC%83%9D%EB%9E%B5---need-test%EB%A1%9C-%EC%BB%A4%EB%B0%8B%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 나머지 method 생략 -&gt; (need test)로 커밋하기</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git status
+
+git add .
+
+git commit -am "feat: implementing FindUser use case (need test)"
+
+git commit -am "feat: implementing FindUser use case (need test)"
+
+git log --oneline
+</code></pre></div></div>
+
+<h2 id="참고">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고</h2>
+
+<ul>
+  <li><a href="https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html">Robert C. Martin (Uncle Bob)의 Clean Code Blog</a></li>
+  <li><a href="https://velog.io/@jahoy/Python%EC%9C%BC%EB%A1%9C-Clean-Architecture-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0">용어 참고 블로그 1편</a></li>
+  <li><a href="https://velog.io/@jahoy/Python%EC%9C%BC%EB%A1%9C-%ED%81%B4%EB%A6%B0-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B02">용어 참고 블로그 2편</a></li>
+</ul>
+
+<h4 id="gitignore">
+<a class="anchor" href="#gitignore" aria-hidden="true"><span class="octicon octicon-link"></span></a>gitignore</h4>
+
+<ul>
+  <li>
+    <p>git에 commit되었던 것을 ignore하고 싶을 때</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git rm [파일명] --cached
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>git amend</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git commit --amend --no-edit
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<ol>
+  <li>console 등에서 init import부터 생기는 pycache폴더</li>
+  <li>venv</li>
+  <li>연습용 sqlite .db파일</li>
+  <li>pytest시 생기는 .pytest_cache 폴더</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>**/__pycache__
+venv
+storage.db
+.pytest_cache
+</code></pre></div></div>
+
+<h4 id="sqlalchemy패키지">
+<a class="anchor" href="#sqlalchemy%ED%8C%A8%ED%82%A4%EC%A7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>sqlalchemy패키지</h4>
+
+<ul>
+  <li>일반 패키지: create_engine / 칼럼재료들</li>
+  <li>.orm 패키지:
+    <ul>
+      <li>relatioship: 1:M에서 1에 해당하는 table이 들고 있는 가짜칼럼</li>
+      <li>sessionmaker: handler class 속 enter에서 engine을 묶어서 session을 반환해주는 놈</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="github에서-br따서-작업하기">
+<a class="anchor" href="#github%EC%97%90%EC%84%9C-br%EB%94%B0%EC%84%9C-%EC%9E%91%EC%97%85%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>github에서 br따서 작업하기</h4>
+
+<h5 id="1-1-github에서-br생성--clone">
+<a class="anchor" href="#1-1-github%EC%97%90%EC%84%9C-br%EC%83%9D%EC%84%B1--clone" aria-hidden="true"><span class="octicon octicon-link"></span></a>[1-1] github에서 br생성 ~ clone</h5>
+
+<ol>
+  <li>
+    <p>github에 들어가서 <code class="language-plaintext highlighter-rouge">feat/~</code>로 브랜치 생성</p>
+  </li>
+  <li>
+    <p>해당 br만 clone</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git clone -b [branch] [git주소]
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="clone후-초기-작업-세팅">
+<a class="anchor" href="#clone%ED%9B%84-%EC%B4%88%EA%B8%B0-%EC%9E%91%EC%97%85-%EC%84%B8%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>clone후 초기 작업 세팅</h5>
+
+<ol>
+  <li>gitignore중에 db파일 있으면 옮겨주기
+    <ul>
+      <li>없으면 config import해서 Base + handler -&gt; get_enigne -&gt; bind한 다음, create_all()해줘야할듯??</li>
+    </ul>
+  </li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220929154256052.png" alt="image-20220929154256052"></p>
+
+<ol>
+  <li>github에서 따온 빈 새br에 대해, venv를 만들고 활성화하고  vscode를 연다</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python -m virtualenv -p python310 venv
+
+.\venv\Scripts\activate
+</code></pre></div></div>
+
+<ol>
+  <li>최초 requirements.txt 직접 설치</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip3 install -r requirements.txt
+</code></pre></div></div>
+
+<ol>
+  <li>최초 pre-commit install 직접 세팅</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pre-commit install
+</code></pre></div></div>
+
+<ol>
+  <li>vscode 열고 interpreter venv로 지정</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>code .
+</code></pre></div></div>
+
+<h5 id="1-2-작업끝난-br의-폴더에서-새-작업-br생성--분기게시-초기세팅-또-안해도-되는-장점">
+<a class="anchor" href="#1-2-%EC%9E%91%EC%97%85%EB%81%9D%EB%82%9C-br%EC%9D%98-%ED%8F%B4%EB%8D%94%EC%97%90%EC%84%9C-%EC%83%88-%EC%9E%91%EC%97%85-br%EC%83%9D%EC%84%B1--%EB%B6%84%EA%B8%B0%EA%B2%8C%EC%8B%9C-%EC%B4%88%EA%B8%B0%EC%84%B8%ED%8C%85-%EB%98%90-%EC%95%88%ED%95%B4%EB%8F%84-%EB%90%98%EB%8A%94-%EC%9E%A5%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>[1-2] 작업끝난 br의 폴더에서 새 작업 br생성 ~ 분기게시 (초기세팅 또 안해도 되는 장점)</h5>
+
+<ol>
+  <li>
+    <p>현재 br를 확인한다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">git</span> <span class="n">branch</span>
+<span class="o">*</span> <span class="n">feat</span><span class="o">/</span><span class="n">register_user_use_case</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>checkout -b</strong>로 새 br 생성하여 진입하기</p>
+
+    <ul>
+      <li>원래는 github에서 create branch했었음.</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git checkout -b feat/generic_use_cases
+   
+git branch
+   
+* feat/generic_use_cases
+  feat/register_user_use_case
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>git push -u origin [branch명]으로 <code class="language-plaintext highlighter-rouge">새로생성한 br를 push해서 github에 생성하기</code></strong></p>
+
+    <ul>
+      <li>vscode에서는 push -u origin [branch] 대신  <strong><code class="language-plaintext highlighter-rouge">분기게시</code>가 뜬다.</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>github에서 <strong>빈 분기가 생성되었는지 확인하기</strong></p>
+
+    <ul>
+      <li>github에 merge되기 위해서는 <strong>직전 작업이후 <code class="language-plaintext highlighter-rouge">github에 새 작업 br를 먼저 생성해놓고 작업</code>에 들어가야한다</strong>
+</li>
+    </ul>
+  </li>
+</ol>
+
+<h5 id="2-해당br-작업테스트-완료후--merge까지-정리">
+<a class="anchor" href="#2-%ED%95%B4%EB%8B%B9br-%EC%9E%91%EC%97%85%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%99%84%EB%A3%8C%ED%9B%84--merge%EA%B9%8C%EC%A7%80-%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>[2] 해당br 작업(테스트) 완료후 ~ merge까지 정리</h5>
+
+<ol>
+  <li>
+    <p>status 확인후 add . 후  -am으로 커밋-&gt;실패-&gt;-am커밋</p>
+
+    <ul>
+      <li><strong>add를 먼저 날려야 add된상태로 pytest하는 것 같다?!</strong></li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git status
+   
+git add 
+   
+git commit -am "feat: implementing data interfaces"
+   
+git commit -am "feat: implementing data interfaces"
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>git push는 현재 로그인된 vscode에서 하고 있음.</strong></p>
+  </li>
+  <li>
+    <p><strong>github에 들어가보면, <code class="language-plaintext highlighter-rouge">Compare &amp; pull request</code>가 떠있더라도 <code class="language-plaintext highlighter-rouge">PR탭 &gt; new PR</code>로 들어가는 버릇을 들여보자.</strong></p>
+  </li>
+</ol>
+
+<ul>
+  <li>Comparing change까지 들어가서 코드를 확인하고 <code class="language-plaintext highlighter-rouge">Able to merge</code> 및 <code class="language-plaintext highlighter-rouge">세부코드</code>를 확인하고 <strong>직접 Create PR까지 가자</strong>
+</li>
+</ul>
+
+<ol>
+  <li><strong>merge후 master에 반영되었는지까지 확인하자</strong></li>
+</ol>
+
+<h4 id="vscode-설정">
+<a class="anchor" href="#vscode-%EC%84%A4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>vscode 설정</h4>
+
+<ul>
+  <li>캐쉬파일 안보이기</li>
+</ul>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">"files.exclude"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"**/__pycache__"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"**/.pytest_cache"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+</span></code></pre></div></div>
+
+<ul>
+  <li>
+    <p>tab시 space로 입력되기</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001015405760.png" alt="image-20221001015405760"></p>
+  </li>
+  <li>
+    <p>탐색기 열기 단축키 : <code class="language-plaintext highlighter-rouge">shift + alt + R</code></p>
+
+    <ul>
+      <li>파일: 파일 탐색기에 표시</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="test정리">
+<a class="anchor" href="#test%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>test정리</h4>
+
+<ol>
+  <li>
+    <p>repo_insert_X</p>
+
+    <ol>
+      <li>id제외 faker + insert메서드 -&gt; new_dto</li>
+      <li>new_dto속 배정id + engine db select -&gt; query_data -&gt; engine db delete</li>
+      <li>
+        <p>assert new_dto.필드 == query_data필드 비교</p>
+      </li>
+      <li>repo_select_X</li>
+      <li>id포함 faker -&gt; entity모델 객체</li>
+      <li>id포함 재료들 + engine db insert -&gt; db데이터만들어놓기</li>
+      <li>id, fk재료들 + select메서드 -&gt; List[entity모델객체들]</li>
+      <li>engine db delete</li>
+    </ol>
+  </li>
+</ol>
+
+
+  </div><a class="u-url" href="/python/flask/cleanarchitecture/2022/09/02/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_02_%EB%8B%A8%EC%9D%BCusecase_RepoSpy(class)_MockDTO(method).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

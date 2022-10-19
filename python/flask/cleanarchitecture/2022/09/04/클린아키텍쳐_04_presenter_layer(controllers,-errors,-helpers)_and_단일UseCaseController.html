@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>클린아키텍쳐 04 presenter layer와 OneEntity UseCaseController | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="클린아키텍쳐 04 presenter layer와 OneEntity UseCaseController" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="python clean architecture" />
+<meta property="og:description" content="python clean architecture" />
+<link rel="canonical" href="blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/04/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_04_presenter_layer(controllers,-errors,-helpers)_and_%EB%8B%A8%EC%9D%BCUseCaseController.html" />
+<meta property="og:url" content="blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/04/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_04_presenter_layer(controllers,-errors,-helpers)_and_%EB%8B%A8%EC%9D%BCUseCaseController.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/python.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-09-04T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-09-04T00:00:00-05:00","url":"blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/04/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_04_presenter_layer(controllers,-errors,-helpers)_and_%EB%8B%A8%EC%9D%BCUseCaseController.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/python.png","headline":"클린아키텍쳐 04 presenter layer와 OneEntity UseCaseController","dateModified":"2022-09-04T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/04/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_04_presenter_layer(controllers,-errors,-helpers)_and_%EB%8B%A8%EC%9D%BCUseCaseController.html"},"description":"python clean architecture","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">클린아키텍쳐 04 presenter layer와 OneEntity UseCaseController</h1><p class="page-description">python clean architecture</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-09-04T00:00:00-05:00" itemprop="datePublished">
+        Sep 4, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      13 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#python">python</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#flask">flask</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#cleanarchitecture">cleanarchitecture</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#클린-아키텍쳐-4장">클린 아키텍쳐 4장</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#1-presenters-layer에서-usecase-controller-만들기">1 presenters layer에서 usecase controller 만들기</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#01-이번부터는-master에서-바로작업-b없이-checkout후-git-pull">01 이번부터는 master에서 바로작업(-b없이 checkout후 git pull)</a></li>
+<li class="toc-entry toc-h3"><a href="#02-controller도입시부터-srcpresenters폴더init을-먼저-만들고-내부에-controllers-helpers-erros--각각의-init을-만든다">02 controller도입시부터 src&gt;presenters(폴더+init)을 먼저 만들고, 내부에 controllers, helpers, erros + 각각의 init을 만든다.</a></li>
+<li class="toc-entry toc-h3"><a href="#03-helpers---http_modelspy를-먼저-만든다">03 helpers &gt;  http_models.py를 먼저 만든다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#httprequest-class">HttpRequest class</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#생성자에-header-dict-body-dict-query-dict가-생성자의-선택형kwargs인자로--오며-필드로-가진다-repr도-같이-정의해준다">생성자에 header Dict, body Dict, query Dict가 생성자의 선택형kwargs인자로  오며 필드로 가진다. repr도 같이 정의해준다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#httpresponse-class">HttpResponse class</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#생성자에-status_code-int-body-any가-필수args로-오며-필드로-가진다">생성자에 status_code int, body any가 필수args로 오며 필드로 가진다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#init에-2개-class를-올려준다">init에 2개 class를 올려준다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#04-controllers--use_case_controllerpy를-만든다">04 controllers &gt; use_case_controller.py를 만든다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#use_case별-controllerpy---usecasecontroller-class를-만든다">use_case별 controller.py -&gt; UseCaseController class를 만든다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#usecase별controller는-usecase객체를-생성자인자로-받는다">usecase별controller는 usecase객체를 생성자인자로 받는다</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#usecasecontrollerr객체는-handle메서드를-가지며-http_request를-인자로-받고-http_response를-반환한다">usecaseControllerr객체는 handle메서드를 가지며, http_request를 인자로 받고 http_response를 반환한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#handle메서드-인자-http_request-속-queryqueryparam에-따라-usecase객체의-호출method-경우의수가-달라진다">handle메서드 인자 http_request 속 query(queryparam)에 따라 usecase객체의 호출method 경우의수가 달라진다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#의문점-해결-선택형인자들이-들어와서-내려가도-중간service-usecase는-경우의-수별-메서드로-편의제공">의문점 해결: 선택형인자들이 들어와서 내려가도, 중간service usecase는 경우의 수별 메서드로 편의제공</a></li>
+<li class="toc-entry toc-h5"><a href="#httprequest속-queryparam에는-repo-sqlalchemy에-사용될-선택형인자가-담겨있다-여기서는-select_all을-애초에-정의하지-않았으므로-메서드로-처리는-안했지만-query-param없는-find도-있을-것이다">HttpRequest속 query(param)에는 repo-&gt;sqlalchemy에 사용될 선택형인자가 담겨있다. [여기서는 select_all을 애초에 정의하지 않았으므로 메서드로 처리는 안했지만, query param없는 find도 있을 것이다.]</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#find-usecase의-결과response의--if-responsesuccess가-is-false인-경우---validate_entry-false라면-controller에서는-status_code-422로-응답해줘야한다">Find usecase의 결과response의  if response[“Success”]가 is False인 경우 -&gt; validate_entry False라면, controller에서는 status_code 422로 응답해줘야한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#05-errors--http_errospy로-error별-statue_code--body데이터-dict-반환-httperrors-static-class-정의하기">05 errors &gt; http_erros.py로 [error별 statue_code + body데이터 dict 반환] HttpErrors (static) class 정의하기</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#use_case_controller-handle메서드-내-response-success가-false인-경우를-처리하기-위한-개별-httpresponse를-만들어줘야한다-그-내용물로-들어갈-error용-status_code--body를-dict로-묶어놓은-httperrors-static-class를-정의한다">use_case_controller handle메서드 내 response “Success”가 False인 경우를 처리하기 위한 개별 HttpResponse를 만들어줘야한다. 그 내용물로 들어갈 [error용 status_code + body]를 dict로 묶어놓은 HttpErrors (static) class를 정의한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#06-다시-handle-controller로-복귀">06 다시 handle controller로 복귀</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#if-http_requestquery가-있어서-usecase-메서드별-처리하고-response결과를-받았는데-responsesuccess가-valid인-경우-httperros를-이용해-httpresponse객체-만들어서-early-return">if http_request.query가 있어서 usecase 메서드별 처리하고 response결과를 받았는데, response[“Success”]가 valid인 경우 HttpErros를 이용해 HttpResponse객체 만들어서 early return</a></li>
+<li class="toc-entry toc-h4"><a href="#if-http_requestquery가-있고--responsesuccess가-false아니라면-200-성공code--개별-응답data를-반환한다">if http_request.query가 있고,  response[“Success”]가 False아니라면, [200 성공code + 개별 응답Data를 반환한다]</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#usecase는-validate_entry--응답data----controller는-status_code200--응답data">usecase는 validate_entry + 응답Data  -&gt; controller는 status_code200 + 응답Data</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#적어도-select용-param이-있어야-하는-find_user-controller에서-만큼은-http_request에--query가-없다면-사실상-400에러">적어도 select용 param이 있어야 하는 find_user controller에서 만큼은, http_request에  query가 없다면, 사실상 400에러</a></li>
+<li class="toc-entry toc-h4"><a href="#완성된-find_user_controller는-init-에--올려준다">완성된 find_user_controller는 init 에  올려준다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#2--usecase-controller-test">2  usecase controller test</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#01-usecase-controller는-usecase를-인자로-받으니-test-사용할--usecasespy-호출감지--args보관반환은mock-를-먼저-만들어야한다">01 usecase Controller는 usecase를 인자로 받으니, test 사용할  usecaseSpy( 호출감지 = args보관+반환은mock )를 먼저 만들어야한다.</a></li>
+<li class="toc-entry toc-h3"><a href="#02-usecase-controller는-repo를-품고-있는-usecase객체를-인자로-받는다">02 UseCase Controller는 repo를 품고 있는 UseCase객체를 인자로 받는다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#그러므로-repospy객체를-품는-usecasespy객체를-생성해서-test할-controller에-넣어준다">그러므로 repoSpy객체를 품는 UseCaseSpy객체를 생성해서 test할 Controller에 넣어준다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#03-controller의-handle-method-테스트는-httprequest의-선택형인자headers-body-query-중-query만-필요한-param을-넣어서한다">03 Controller의 handle method 테스트는 HttpRequest의 선택형인자(headers, body, query) 중 query만 필요한 param을 넣어서한다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#usecase는-attributes-dict---method에-1개씩-뽑아서-할당해줬었다-controller부터는-method-input이-httprequest객체-by--query-속-필요한-param들이다">usecase는 attributes dict -&gt; method에 1개씩 뽑아서 할당해줬었다. controller부터는 method input이 [httprequest객체 by  query 속 필요한 param]들이다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#04-input-test---usecase-spy객체가-품고-있는-param_dict-test">04 input Test -&gt; usecase Spy객체가 품고 있는 param_dict test</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#usecasespy-역시-repospy처럼-개별메서드마다-param-dict에-품고-있으니-input-test는-usecasespy객체param_dict--http_requestquery로-한다">UseCaseSpy 역시 RepoSpy처럼, 개별메서드마다 param dict에 품고 있으니, input test는 UseCaseSpy객체.param_dict == http_request.query로 한다</a></li>
+<li class="toc-entry toc-h4"><a href="#input-test만-끝나도-printreponse와-함께-일단-pytest--vs한다">input test만 끝나도 print(reponse)와 함께 일단 pytest -vs한다</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#input-test-실패-분석">input test 실패 분석</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#05-outputtest--">05 OutputTest -&gt;</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#usecase의-output은-dictbool-listdto-or-dto--ouput-test는-success-true와-data-is-not-none이었다">useCase의 output은 Dict[bool, List[Dto] or Dto] =&gt; Ouput test는 “Success” True와 “Data” is not None이었다.</a></li>
+<li class="toc-entry toc-h4"><a href="#controller-output은-실패만-안한다면-httprequeststatus_code200-bodyusecase의resonsedata">Controller output은 실패만 안한다면 HttpRequest(status_code=200, body=usecase의Resonse[“Data”])</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#contoller-output-test는-controllerhandle의-결과인-responsehttp_response객체의-status_code-200-body-is-not-none이다">Contoller Output test는 controller.handle()의 결과인 response(http_response)객체의 .status_code ==200, .body is Not None이다.</a></li>
+<li class="toc-entry toc-h5"><a href="#output-test도-끝나면-pytest">output test도 끝나면 pytest</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#3-usecase-controller-fail-test-no-query-param-in-httprequest">3 usecase controller fail test (no query param in HttpRequest)</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#01-no-query-param-fail-test는-성공test에서-httprequest객체-인자만-삭제하고-printresponse를-찍은-상태에서-테스트를-먼저-돌려보자">01 no query param fail test는 성공test에서 HttpRequest객체 인자만 삭제하고 print(response)를 찍은 상태에서 테스트를 먼저 돌려보자.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#response를-찍어서-어떤-status_code를-확인해야할지-숙련안되었으면-확인해야한다">response를 찍어서, 어떤 status_code를 확인해야할지 숙련안되었으면 확인해야한다</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#02-not-query-param-input-test-spy속-모든-param-dict---빈-dict">02 not query param Input test: spy속 모든 param dict == {} (빈 dict)</a></li>
+<li class="toc-entry toc-h3"><a href="#03-not-query-param-output-test-status_code--400-body---code별-에러메세지가-error-key에-있으니-key검사만-한다">03 not query param Output test: .status_code == 400, .body -&gt; code별 에러메세지가 “error” key에 있으니 key검사만 한다!</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#참고로-validate_entry-실패는-status_code-422">참고로 validate_entry 실패는 status_code 422</a></li>
+<li class="toc-entry toc-h4"><a href="#pytest-돌리고-통과했으면-확인용-printresponse-삭제후-커밋">pytest 돌리고 통과했으면 확인용 print(response) 삭제후 커밋</a></li>
+<li class="toc-entry toc-h4"><a href="#master는-push후-merge안해줘도-된다">master는 push후 merge안해줘도 된다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#참고">참고</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#gitignore">gitignore</a></li>
+<li class="toc-entry toc-h4"><a href="#sqlalchemy패키지">sqlalchemy패키지</a></li>
+<li class="toc-entry toc-h4"><a href="#github에서-br따서-작업하기">github에서 br따서 작업하기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#1-1-github에서-br생성--clone">[1-1] github에서 br생성 ~ clone</a></li>
+<li class="toc-entry toc-h5"><a href="#clone후-초기-작업-세팅">clone후 초기 작업 세팅</a></li>
+<li class="toc-entry toc-h5"><a href="#1-2-작업끝난-br의-폴더에서-새-작업-br생성--분기게시-초기세팅-또-안해도-되는-장점">[1-2] 작업끝난 br의 폴더에서 새 작업 br생성 ~ 분기게시 (초기세팅 또 안해도 되는 장점)</a></li>
+<li class="toc-entry toc-h5"><a href="#1-3--옛날에-따둔-br에서-작업시작할-땐-최신-master를-rebase후에-작업시작하기">[1-3]  옛날에 따둔 br에서 작업시작할 땐, 최신 master를 rebase후에 작업시작하기</a></li>
+<li class="toc-entry toc-h5"><a href="#2-해당br-작업테스트-완료후--merge까지-정리">[2] 해당br 작업(테스트) 완료후 ~ merge까지 정리</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#vscode-설정">vscode 설정</a></li>
+<li class="toc-entry toc-h4"><a href="#test정리">test정리</a></li>
+<li class="toc-entry toc-h4"><a href="#status_code">status_code</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h1 id="클린-아키텍쳐-4장">
+<a class="anchor" href="#%ED%81%B4%EB%A6%B0-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90-4%EC%9E%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>클린 아키텍쳐 4장</h1>
+
+<h2 id="1-presenters-layer에서-usecase-controller-만들기">
+<a class="anchor" href="#1-presenters-layer%EC%97%90%EC%84%9C-usecase-controller-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>1 presenters layer에서 usecase controller 만들기</h2>
+
+<h3 id="01-이번부터는-master에서-바로작업-b없이-checkout후-git-pull">
+<a class="anchor" href="#01-%EC%9D%B4%EB%B2%88%EB%B6%80%ED%84%B0%EB%8A%94-master%EC%97%90%EC%84%9C-%EB%B0%94%EB%A1%9C%EC%9E%91%EC%97%85-b%EC%97%86%EC%9D%B4-checkout%ED%9B%84-git-pull" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 이번부터는 master에서 바로작업(-b없이 checkout후 git pull)</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch
+* feat/registry_pet
+
+git checkout master
+Switched to a new branch 'master'
+Branch 'master' set up to track remote branch 'master' from 'origin'.
+
+git branch
+  feat/registry_pet
+* master
+
+git pull
+Already up to date.
+</code></pre></div></div>
+
+<h3 id="02-controller도입시부터-srcpresenters폴더init을-먼저-만들고-내부에-controllers-helpers-erros--각각의-init을-만든다">
+<a class="anchor" href="#02-controller%EB%8F%84%EC%9E%85%EC%8B%9C%EB%B6%80%ED%84%B0-srcpresenters%ED%8F%B4%EB%8D%94init%EC%9D%84-%EB%A8%BC%EC%A0%80-%EB%A7%8C%EB%93%A4%EA%B3%A0-%EB%82%B4%EB%B6%80%EC%97%90-controllers-helpers-erros--%EA%B0%81%EA%B0%81%EC%9D%98-init%EC%9D%84-%EB%A7%8C%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 controller도입시부터 src&gt;presenters(폴더+init)을 먼저 만들고, 내부에 controllers, helpers, erros + 각각의 init을 만든다.</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221004165242326.png" alt="image-20221004165242326"></p>
+
+<h3 id="03-helpers---http_modelspy를-먼저-만든다">
+<a class="anchor" href="#03-helpers---http_modelspy%EB%A5%BC-%EB%A8%BC%EC%A0%80-%EB%A7%8C%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 helpers &gt;  http_models.py를 먼저 만든다.</h3>
+
+<h4 id="httprequest-class">
+<a class="anchor" href="#httprequest-class" aria-hidden="true"><span class="octicon octicon-link"></span></a>HttpRequest class</h4>
+
+<h5 id="생성자에-header-dict-body-dict-query-dict가-생성자의-선택형kwargs인자로--오며-필드로-가진다-repr도-같이-정의해준다">
+<a class="anchor" href="#%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90-header-dict-body-dict-query-dict%EA%B0%80-%EC%83%9D%EC%84%B1%EC%9E%90%EC%9D%98-%EC%84%A0%ED%83%9D%ED%98%95kwargs%EC%9D%B8%EC%9E%90%EB%A1%9C--%EC%98%A4%EB%A9%B0-%ED%95%84%EB%93%9C%EB%A1%9C-%EA%B0%80%EC%A7%84%EB%8B%A4-repr%EB%8F%84-%EA%B0%99%EC%9D%B4-%EC%A0%95%EC%9D%98%ED%95%B4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>생성자에 header Dict, body Dict, query Dict가 <strong>생성자의 선택형kwargs인자</strong>로  오며 필드로 가진다. repr도 같이 정의해준다.</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+
+
+<span class="k">class</span> <span class="nc">HttpRequest</span><span class="p">:</span>
+    <span class="s">""" Class to http_request representation """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">header</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">body</span> <span class="o">=</span> <span class="n">body</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">query</span> <span class="o">=</span> <span class="n">query</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">f"HttpRequest (header=</span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">header</span><span class="si">}</span><span class="s">, body=</span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">body</span><span class="si">}</span><span class="s">, query=</span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">query</span><span class="si">}</span><span class="s">)"</span>
+
+</code></pre></div></div>
+
+<h4 id="httpresponse-class">
+<a class="anchor" href="#httpresponse-class" aria-hidden="true"><span class="octicon octicon-link"></span></a>HttpResponse class</h4>
+
+<h5 id="생성자에-status_code-int-body-any가-필수args로-오며-필드로-가진다">
+<a class="anchor" href="#%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90-status_code-int-body-any%EA%B0%80-%ED%95%84%EC%88%98args%EB%A1%9C-%EC%98%A4%EB%A9%B0-%ED%95%84%EB%93%9C%EB%A1%9C-%EA%B0%80%EC%A7%84%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>생성자에 status_code int, body any가 필수args로 오며 필드로 가진다.</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">HttpResponse</span><span class="p">:</span>
+    <span class="s">""" Class to http_response representation """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status_code</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="nb">any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="n">status_code</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">body</span> <span class="o">=</span> <span class="n">body</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">f"HttpResponse (status_code=</span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">status_code</span><span class="si">}</span><span class="s">, body=</span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">body</span><span class="si">}</span><span class="s">)"</span>
+
+</code></pre></div></div>
+
+<h4 id="init에-2개-class를-올려준다">
+<a class="anchor" href="#init%EC%97%90-2%EA%B0%9C-class%EB%A5%BC-%EC%98%AC%EB%A0%A4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>init에 2개 class를 올려준다.</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">.http_models</span> <span class="kn">import</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="n">HttpResponse</span>
+</code></pre></div></div>
+
+<h3 id="04-controllers--use_case_controllerpy를-만든다">
+<a class="anchor" href="#04-controllers--use_case_controllerpy%EB%A5%BC-%EB%A7%8C%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 controllers &gt; use_case_controller.py를 만든다.</h3>
+
+<h4 id="use_case별-controllerpy---usecasecontroller-class를-만든다">
+<a class="anchor" href="#use_case%EB%B3%84-controllerpy---usecasecontroller-class%EB%A5%BC-%EB%A7%8C%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>use_case별 controller.py -&gt; UseCaseController class를 만든다.</h4>
+
+<h5 id="usecase별controller는-usecase객체를-생성자인자로-받는다">
+<a class="anchor" href="#usecase%EB%B3%84controller%EB%8A%94-usecase%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%83%9D%EC%84%B1%EC%9E%90%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%B0%9B%EB%8A%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>usecase별controller는 usecase객체를 생성자인자로 받는다</h5>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">find_user_controller.py</code> 생성</p>
+  </li>
+  <li>
+    <p><strong>usecase class 객체를 생성자를 인자로 받는다</strong></p>
+
+    <ol>
+      <li>
+<strong>usecase class 는 repo까지</strong> 다 먹고 있는 service계층이다.</li>
+      <li>
+<strong>usecase인자의 Type[]에 interface를 src.domain.usecase에서 찾아서 주면된다.</strong>
+        <ul>
+          <li>interface를 원래 class명과 같이 정의한데는 인자의 Type으로 주는데 있다.</li>
+          <li><strong>대신 실제 usecase class 정의시에만 as -Interface 로 import했었다.</strong></li>
+        </ul>
+      </li>
+    </ol>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
+   
+<span class="kn">from</span> <span class="nn">src.domain.use_cases</span> <span class="kn">import</span> <span class="n">FindUser</span>
+   
+   
+<span class="k">class</span> <span class="nc">FindUserController</span><span class="p">:</span>
+    <span class="s">""" Class to define controller to find_user use case"""</span>
+   
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">find_user_use_case</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">FindUser</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">find_user_use_case</span> <span class="o">=</span> <span class="n">find_user_use_case</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="usecasecontrollerr객체는-handle메서드를-가지며-http_request를-인자로-받고-http_response를-반환한다">
+<a class="anchor" href="#usecasecontrollerr%EA%B0%9D%EC%B2%B4%EB%8A%94-handle%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-%EA%B0%80%EC%A7%80%EB%A9%B0-http_request%EB%A5%BC-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%B0%9B%EA%B3%A0-http_response%EB%A5%BC-%EB%B0%98%ED%99%98%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>usecaseControllerr객체는 handle메서드를 가지며, http_request를 인자로 받고 http_response를 반환한다.</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
+
+<span class="kn">from</span> <span class="nn">src.domain.use_cases</span> <span class="kn">import</span> <span class="n">FindUser</span>
+<span class="kn">from</span> <span class="nn">src.presenters.helpers</span> <span class="kn">import</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="n">HttpResponse</span>
+
+
+<span class="k">class</span> <span class="nc">FindUserController</span><span class="p">:</span>
+    <span class="s">""" Class to define controller to find_user use case"""</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">find_user_use_case</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">FindUser</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">find_user_use_case</span> <span class="o">=</span> <span class="n">find_user_use_case</span>
+
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">http_request</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">HttpRequest</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
+        <span class="s">""" Method to call use case """</span>
+
+</code></pre></div></div>
+
+<h4 id="handle메서드-인자-http_request-속-queryqueryparam에-따라-usecase객체의-호출method-경우의수가-달라진다">
+<a class="anchor" href="#handle%EB%A9%94%EC%84%9C%EB%93%9C-%EC%9D%B8%EC%9E%90-http_request-%EC%86%8D-queryqueryparam%EC%97%90-%EB%94%B0%EB%9D%BC-usecase%EA%B0%9D%EC%B2%B4%EC%9D%98-%ED%98%B8%EC%B6%9Cmethod-%EA%B2%BD%EC%9A%B0%EC%9D%98%EC%88%98%EA%B0%80-%EB%8B%AC%EB%9D%BC%EC%A7%84%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>handle메서드 인자 http_request 속 query(queryparam)에 따라 usecase객체의 호출method 경우의수가 달라진다.</h4>
+
+<ul>
+  <li>이것 때문에.. 더 상위에서도 query param이 갈라지기 때문에, use case에서도 나눠놨구나..</li>
+  <li>sqlalchemy query.filter -&gt; 선택형인자  1개 메서드 -&gt; keyword별로 줘서 처리
+    <ul>
+      <li>repo select -&gt; 선택형인자  1개메서드 -&gt; if로 나눠서 하위1개메서드로 처리 (상위가 선택형인자 1개메서드면, 내부에서 if로 나누되, 하위도 선택형인자면, if안에 1개 메서드로 처리 된다.)
+        <ul>
+          <li>use case find -&gt; <strong>인자별로 method처리 -&gt; repo는 내부에서 선택형인자로 if로 나누되, 1개 메서드로 처리</strong>
+            <ul>
+              <li>use case find controller -&gt; <strong>사실상 quer param dict에서</strong> 하나씩 확인해야하는 keys() 확인후 처리하는 <strong>선택형인자</strong> -&gt; <strong>if로 나눠서 처리</strong> -&gt;
+                <ul>
+                  <li><strong>use case find는 if상위 인자별로 개별 method 호출로서 -&gt; 상위 if경우의수마다 정해진메서드 여러개로 개별처리</strong></li>
+                  <li>
+                  <li>만약 use case find도 선택형인자로 1개메서드 처리했다면? -&gt; 상위 if 경우의수마다 1개메서드로 처리
+                    <ul>
+                      <li><strong>use case는 <code class="language-plaintext highlighter-rouge">하위 repo메서드가 선택형인 것을 이용</code>해서, <code class="language-plaintext highlighter-rouge">내부 if를 나누지 않고 개별 메서드를 여러개 정의함</code>으로서 <code class="language-plaintext highlighter-rouge">상위가 if를 나누어서 편하게 쓰기</code>개별 정의된 메서드만 호출할 수 있게 편의를 제공했다.</strong></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>my) select는 어쩔수 없이 repo-&gt;usecase-&gt;controller상위로 갈때까지 param 경우의 수를 계속 확인해야한다.
+    <ul>
+      <li>만약, 중간의  usecase를 선택형인자 메서드1개로 처리하지 않고, 미리 경우의 수별 method를 정의해놓는다면,  usecase의 상위는 param경우의 수마다 개별메서드를 호출할 수 있다.</li>
+      <li>만약, 선택형인자 메서드1개로 처리했다면, param경우의 수마다 선택형메서드 1개를 넣어서 호출하면 된다.</li>
+      <li>
+<strong>왜 repo는 선택형인자 1개메소드로 처리하면서, usecase는 경우의수별 메서드를 따로 정의해놓을까???</strong>
+        <ul>
+          <li><strong>sqlalchemy -&gt; repo까지는 선택형으로 처리하더라도 <code class="language-plaintext highlighter-rouge">usecase는 controller에 사용될 service로서, 편의성 제공</code>을 해야할 것 같다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="의문점-해결-선택형인자들이-들어와서-내려가도-중간service-usecase는-경우의-수별-메서드로-편의제공">
+<a class="anchor" href="#%EC%9D%98%EB%AC%B8%EC%A0%90-%ED%95%B4%EA%B2%B0-%EC%84%A0%ED%83%9D%ED%98%95%EC%9D%B8%EC%9E%90%EB%93%A4%EC%9D%B4-%EB%93%A4%EC%96%B4%EC%99%80%EC%84%9C-%EB%82%B4%EB%A0%A4%EA%B0%80%EB%8F%84-%EC%A4%91%EA%B0%84service-usecase%EB%8A%94-%EA%B2%BD%EC%9A%B0%EC%9D%98-%EC%88%98%EB%B3%84-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%ED%8E%B8%EC%9D%98%EC%A0%9C%EA%B3%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>의문점 해결: 선택형인자들이 들어와서 내려가도, 중간service usecase는 경우의 수별 메서드로 편의제공</h5>
+
+<h5 id="httprequest속-queryparam에는-repo-sqlalchemy에-사용될-선택형인자가-담겨있다-여기서는-select_all을-애초에-정의하지-않았으므로-메서드로-처리는-안했지만-query-param없는-find도-있을-것이다">
+<a class="anchor" href="#httprequest%EC%86%8D-queryparam%EC%97%90%EB%8A%94-repo-sqlalchemy%EC%97%90-%EC%82%AC%EC%9A%A9%EB%90%A0-%EC%84%A0%ED%83%9D%ED%98%95%EC%9D%B8%EC%9E%90%EA%B0%80-%EB%8B%B4%EA%B2%A8%EC%9E%88%EB%8B%A4-%EC%97%AC%EA%B8%B0%EC%84%9C%EB%8A%94-select_all%EC%9D%84-%EC%95%A0%EC%B4%88%EC%97%90-%EC%A0%95%EC%9D%98%ED%95%98%EC%A7%80-%EC%95%8A%EC%95%98%EC%9C%BC%EB%AF%80%EB%A1%9C-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EC%B2%98%EB%A6%AC%EB%8A%94-%EC%95%88%ED%96%88%EC%A7%80%EB%A7%8C-query-param%EC%97%86%EB%8A%94-find%EB%8F%84-%EC%9E%88%EC%9D%84-%EA%B2%83%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>HttpRequest속 query(param)에는 repo-&gt;sqlalchemy에 사용될 선택형인자가 담겨있다. [여기서는 select_all을 애초에 정의하지 않았으므로 메서드로 처리는 안했지만, query param없는 find도 있을 것이다.]</h5>
+
+<ol>
+  <li>use case처럼 response = None으로 시작한다
+    <ul>
+      <li><strong>성공시만 해당하면 False시작(flag) or None시작(data)이다.</strong></li>
+      <li>만약, 탈락조건 해당시만 처리되면 <strong>True시작</strong>이다.</li>
+    </ul>
+  </li>
+  <li>query가 존재한다면, 선택형인자를 경우의수별로 확인하기 위해 query param dict를 기준으로 확인한다.</li>
+  <li>
+<strong>DTO, entity Model만<code class="language-plaintext highlighter-rouge">sqlalchemy에 넣기 위한 id</code>라고 사용하고, <code class="language-plaintext highlighter-rouge">repo의 메서드</code>부터는 인자에 <code class="language-plaintext highlighter-rouge">user_id</code>를 사용한다.</strong>
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">name의 일반명사는, sqlalchemy, repo, usecase의 메서드까지는 개별메서드구성을 위해 name</code>을 사용하되, <code class="language-plaintext highlighter-rouge">controller에서는 외부의 다른name도 있으니, user_name</code>으로 사용한다.</strong></li>
+      <li>변수정리
+        <ul>
+          <li>id : sqlalchemy -&gt; <strong>repo부터는</strong> fk_id도 있으니 <code class="language-plaintext highlighter-rouge">pk_id</code>
+</li>
+          <li>name: sqlalchemy-&gt;repo-&gt;usecase(선택인자개별메서드에by_name)-&gt; <strong>controller부터는 외부에선 다른(pet)_name도 있으니 <code class="language-plaintext highlighter-rouge">pk_name</code></strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>controller로 오는 http_request.query 속 keys 경우의수별로 <strong>service로서 인자 경우의수별로 개별제공되는 usecase의 method를 호출하여 response 재할당</strong>
+</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">FindUserController</span><span class="p">:</span>
+    <span class="s">""" Class to define controller to find_user use case"""</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">find_user_use_case</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">FindUser</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">find_user_use_case</span> <span class="o">=</span> <span class="n">find_user_use_case</span>
+
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">http_request</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">HttpRequest</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
+        <span class="s">""" Method to call use case """</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="k">if</span> <span class="n">http_request</span><span class="p">.</span><span class="n">query</span><span class="p">:</span>
+            <span class="c1"># If query
+</span>
+            <span class="n">query_string_params</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">query</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="s">"user_id"</span> <span class="ow">in</span> <span class="n">query_string_params</span> <span class="ow">and</span> <span class="s">"user_name"</span> <span class="ow">in</span> <span class="n">query_string_params</span><span class="p">:</span>
+                <span class="n">user_id</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">query</span><span class="p">[</span><span class="s">"user_id"</span><span class="p">]</span>
+                <span class="n">user_name</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">query</span><span class="p">[</span><span class="s">"user_name"</span><span class="p">]</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">find_user_use_case</span><span class="p">.</span><span class="n">by_id_and_name</span><span class="p">(</span>
+                    <span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">user_name</span>
+                <span class="p">)</span>
+
+            <span class="k">elif</span> <span class="s">"user_id"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">query_string_params</span> <span class="ow">and</span> <span class="s">"user_name"</span> <span class="ow">in</span> <span class="n">query_string_params</span><span class="p">:</span>
+                <span class="n">user_name</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">query</span><span class="p">[</span><span class="s">"user_name"</span><span class="p">]</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">find_user_use_case</span><span class="p">.</span><span class="n">by_name</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">user_name</span>
+                <span class="p">)</span>
+
+            <span class="k">elif</span> <span class="s">"user_id"</span> <span class="ow">in</span> <span class="n">query_string_params</span> <span class="ow">and</span> <span class="s">"user_name"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">query_string_params</span><span class="p">:</span>
+                <span class="n">user_id</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">query</span><span class="p">[</span><span class="s">"user_id"</span><span class="p">]</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">find_user_use_case</span><span class="p">.</span><span class="n">by_id</span><span class="p">(</span>
+                    <span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span>
+                <span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Success'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+
+</code></pre></div></div>
+
+<h4 id="find-usecase의-결과response의--if-responsesuccess가-is-false인-경우---validate_entry-false라면-controller에서는-status_code-422로-응답해줘야한다">
+<a class="anchor" href="#find-usecase%EC%9D%98-%EA%B2%B0%EA%B3%BCresponse%EC%9D%98--if-responsesuccess%EA%B0%80-is-false%EC%9D%B8-%EA%B2%BD%EC%9A%B0---validate_entry-false%EB%9D%BC%EB%A9%B4-controller%EC%97%90%EC%84%9C%EB%8A%94-status_code-422%EB%A1%9C-%EC%9D%91%EB%8B%B5%ED%95%B4%EC%A4%98%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Find usecase의 결과response의  if response[“Success”]가 is False인 경우 -&gt; validate_entry False라면, controller에서는 status_code 422로 응답해줘야한다.</h4>
+
+<ul>
+  <li>
+    <p>http <code class="language-plaintext highlighter-rouge">422</code>: 이 응답은 서버가 요청을 이해하고 요청 문법도 올바르지만 요청된 지시를 따를 수 없음을 나타냅니다.</p>
+
+    <ul>
+      <li><strong>파라미터 type에러에 걸릴 경우 validate_entry가 False가 되므로 이 경우 <code class="language-plaintext highlighter-rouge">422</code>로 응답한다.</strong></li>
+    </ul>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">FindUserController</span><span class="p">:</span>
+    <span class="c1">#...
+</span>        <span class="k">if</span> <span class="n">http_request</span><span class="p">.</span><span class="n">query</span><span class="p">:</span>
+            <span class="c1"># If query
+</span>  
+            <span class="n">query_string_params</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">query</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span>
+  
+            <span class="c1">#...
+</span>  
+            <span class="k">elif</span> <span class="s">"user_id"</span> <span class="ow">in</span> <span class="n">query_string_params</span> <span class="ow">and</span> <span class="s">"user_name"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">query_string_params</span><span class="p">:</span>
+                <span class="n">user_id</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">query</span><span class="p">[</span><span class="s">"user_id"</span><span class="p">]</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">find_user_use_case</span><span class="p">.</span><span class="n">by_id</span><span class="p">(</span>
+                    <span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span>
+                <span class="p">)</span>
+  
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Success'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+  
+              
+            <span class="k">if</span> <span class="n">response</span><span class="p">[</span><span class="s">"Success"</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="c1"># validate_entry False -&gt; 422
+</span></code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="05-errors--http_errospy로-error별-statue_code--body데이터-dict-반환-httperrors-static-class-정의하기">
+<a class="anchor" href="#05-errors--http_errospy%EB%A1%9C-error%EB%B3%84-statue_code--body%EB%8D%B0%EC%9D%B4%ED%84%B0-dict-%EB%B0%98%ED%99%98-httperrors-static-class-%EC%A0%95%EC%9D%98%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 errors &gt; http_erros.py로 [error별 statue_code + body데이터 dict 반환] HttpErrors (static) class 정의하기</h3>
+
+<h4 id="use_case_controller-handle메서드-내-response-success가-false인-경우를-처리하기-위한-개별-httpresponse를-만들어줘야한다-그-내용물로-들어갈-error용-status_code--body를-dict로-묶어놓은-httperrors-static-class를-정의한다">
+<a class="anchor" href="#use_case_controller-handle%EB%A9%94%EC%84%9C%EB%93%9C-%EB%82%B4-response-success%EA%B0%80-false%EC%9D%B8-%EA%B2%BD%EC%9A%B0%EB%A5%BC-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B8%B0-%EC%9C%84%ED%95%9C-%EA%B0%9C%EB%B3%84-httpresponse%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A4%98%EC%95%BC%ED%95%9C%EB%8B%A4-%EA%B7%B8-%EB%82%B4%EC%9A%A9%EB%AC%BC%EB%A1%9C-%EB%93%A4%EC%96%B4%EA%B0%88-error%EC%9A%A9-status_code--body%EB%A5%BC-dict%EB%A1%9C-%EB%AC%B6%EC%96%B4%EB%86%93%EC%9D%80-httperrors-static-class%EB%A5%BC-%EC%A0%95%EC%9D%98%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>use_case_controller handle메서드 내 response “Success”가 False인 경우를 처리하기 위한 개별 HttpResponse를 만들어줘야한다. 그 내용물로 들어갈 [error용 status_code + body]를 dict로 묶어놓은 HttpErrors (static) class를 정의한다.</h4>
+
+<ul>
+  <li>my) <code class="language-plaintext highlighter-rouge">정해진 dict들</code> 매핑을 <code class="language-plaintext highlighter-rouge">errors.py</code>안에 <code class="language-plaintext highlighter-rouge">static메서드별로 매핑</code>해놓고, <code class="language-plaintext highlighter-rouge">Class.static메서드를 호출로 매핑dict를 반환</code>해서 꺼내쓰네?!</li>
+</ul>
+
+<ol>
+  <li>src&gt; presenter &gt; errors &gt; <code class="language-plaintext highlighter-rouge">http_erros.py</code>를 생성</li>
+  <li>각 에러별로 <code class="language-plaintext highlighter-rouge">@staticmethod</code>로 <strong>객체 없이 클래스로 바로 호출하여 ` (error용 status_code, (error용)body를 dict`로 묶어서 반환해줄 method를 만든다.</strong>
+</li>
+  <li><strong>body역시 개별dict이며, “error” key안에 “code별 message” 를 담는다.</strong></li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">HttpErrors</span><span class="p">:</span>
+    <span class="s">""" Class to define errors in http """</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">error_422</span><span class="p">():</span>
+        <span class="s">""" HTTP 422 """</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s">"status_code"</span><span class="p">:</span> <span class="mi">422</span><span class="p">,</span> <span class="s">"body"</span><span class="p">:</span> <span class="p">{</span><span class="s">"error"</span><span class="p">:</span> <span class="s">"Unprocessable Entity"</span><span class="p">}}</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>init에 올려서 contoller들이 import해서 사용하기</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#...
+</span><span class="kn">from</span> <span class="nn">.http_errors</span> <span class="kn">import</span> <span class="n">HttpErrors</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+<strong>cf) <code class="language-plaintext highlighter-rouge">목객체</code>도 정해진 형태의 데이터반환</strong>이지만, **<code class="language-plaintext highlighter-rouge">1개의 랜덤데이터 반환</code>이므로 Static(method) Class로 정의하지 않고, 그냥 <code class="language-plaintext highlighter-rouge">메서드 1개 </code>로 **
+    <ul>
+      <li><strong>http erros는 여러 종류의 데이터들 반환 -&gt; class로 묶어서 statiac 메서드별로 1개의 데이터씩 반환</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="06-다시-handle-controller로-복귀">
+<a class="anchor" href="#06-%EB%8B%A4%EC%8B%9C-handle-controller%EB%A1%9C-%EB%B3%B5%EA%B7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>06 다시 handle controller로 복귀</h3>
+
+<h4 id="if-http_requestquery가-있어서-usecase-메서드별-처리하고-response결과를-받았는데-responsesuccess가-valid인-경우-httperros를-이용해-httpresponse객체-만들어서-early-return">
+<a class="anchor" href="#if-http_requestquery%EA%B0%80-%EC%9E%88%EC%96%B4%EC%84%9C-usecase-%EB%A9%94%EC%84%9C%EB%93%9C%EB%B3%84-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B3%A0-response%EA%B2%B0%EA%B3%BC%EB%A5%BC-%EB%B0%9B%EC%95%98%EB%8A%94%EB%8D%B0-responsesuccess%EA%B0%80-valid%EC%9D%B8-%EA%B2%BD%EC%9A%B0-httperros%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%B4-httpresponse%EA%B0%9D%EC%B2%B4-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%84%9C-early-return" aria-hidden="true"><span class="octicon octicon-link"></span></a>if http_request.query가 있어서 usecase 메서드별 처리하고 response결과를 받았는데, response[“Success”]가 valid인 경우 HttpErros를 이용해 HttpResponse객체 만들어서 early return</h4>
+
+<ol>
+  <li>usecase 메서드의 반환이 Success가 False라면 validate_entry가 실패한 것-&gt; 422 에러를 HttpErrors 스태틱 클래스에서 뽑아서 <strong>HttpResoponse객체를 만들어 반환해준다.</strong>
+</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#...
+</span><span class="kn">from</span> <span class="nn">src.presenters.errors</span> <span class="kn">import</span> <span class="n">HttpErrors</span>
+
+<span class="k">class</span> <span class="nc">FindUserController</span><span class="p">:</span>
+    <span class="c1">#...
+</span>
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">http_request</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">HttpRequest</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
+        <span class="c1">#...
+</span>
+        <span class="k">if</span> <span class="n">http_request</span><span class="p">.</span><span class="n">query</span><span class="p">:</span>
+            <span class="c1">#...
+</span>
+            <span class="k">elif</span> <span class="s">"user_id"</span> <span class="ow">in</span> <span class="n">query_string_params</span> <span class="ow">and</span> <span class="s">"user_name"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">query_string_params</span><span class="p">:</span>
+                <span class="n">user_id</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">query</span><span class="p">[</span><span class="s">"user_id"</span><span class="p">]</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">find_user_use_case</span><span class="p">.</span><span class="n">by_id</span><span class="p">(</span>
+                    <span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span>
+                <span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Success'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+
+            <span class="k">if</span> <span class="n">response</span><span class="p">[</span><span class="s">"Success"</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="n">http_error</span> <span class="o">=</span> <span class="n">HttpErrors</span><span class="p">.</span><span class="n">error_422</span><span class="p">()</span>
+                <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span>
+                    <span class="n">status_code</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"status_code"</span><span class="p">],</span> <span class="n">body</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"body"</span><span class="p">]</span>
+                <span class="p">)</span>
+
+</code></pre></div></div>
+
+<h4 id="if-http_requestquery가-있고--responsesuccess가-false아니라면-200-성공code--개별-응답data를-반환한다">
+<a class="anchor" href="#if-http_requestquery%EA%B0%80-%EC%9E%88%EA%B3%A0--responsesuccess%EA%B0%80-false%EC%95%84%EB%8B%88%EB%9D%BC%EB%A9%B4-200-%EC%84%B1%EA%B3%B5code--%EA%B0%9C%EB%B3%84-%EC%9D%91%EB%8B%B5data%EB%A5%BC-%EB%B0%98%ED%99%98%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>if http_request.query가 있고,  response[“Success”]가 False아니라면, [200 성공code + 개별 응답Data를 반환한다]</h4>
+
+<h5 id="usecase는-validate_entry--응답data----controller는-status_code200--응답data">
+<a class="anchor" href="#usecase%EB%8A%94-validate_entry--%EC%9D%91%EB%8B%B5data----controller%EB%8A%94-status_code200--%EC%9D%91%EB%8B%B5data" aria-hidden="true"><span class="octicon octicon-link"></span></a>usecase는 validate_entry + 응답Data  -&gt; controller는 status_code200 + 응답Data</h5>
+
+<ul>
+  <li>아… usecase의 response[“Success”]는 controller의 status_code=200이 아닌 422 상황 처리를 위함이었구나.</li>
+  <li>아… usecase의 <strong>response[“Data”]</strong>야 말로, controller의 응답<strong>body</strong>가 되는 구나</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">FindUserController</span><span class="p">:</span>
+    <span class="c1">#...
+</span>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">http_request</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">HttpRequest</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
+        <span class="c1">#...
+</span>        <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="k">if</span> <span class="n">http_request</span><span class="p">.</span><span class="n">query</span><span class="p">:</span>
+            <span class="c1">#...
+</span>
+            <span class="k">elif</span> <span class="s">"user_id"</span> <span class="ow">in</span> <span class="n">query_string_params</span> <span class="ow">and</span> <span class="s">"user_name"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">query_string_params</span><span class="p">:</span>
+                <span class="n">user_id</span> <span class="o">=</span> <span class="n">http_request</span><span class="p">.</span><span class="n">query</span><span class="p">[</span><span class="s">"user_id"</span><span class="p">]</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">find_user_use_case</span><span class="p">.</span><span class="n">by_id</span><span class="p">(</span>
+                    <span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span>
+                <span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Success'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">"Data"</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+
+            <span class="k">if</span> <span class="n">response</span><span class="p">[</span><span class="s">"Success"</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="n">http_error</span> <span class="o">=</span> <span class="n">HttpErrors</span><span class="p">.</span><span class="n">error_422</span><span class="p">()</span>
+                <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span>
+                    <span class="n">status_code</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"status_code"</span><span class="p">],</span> <span class="n">body</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"body"</span><span class="p">]</span>
+                <span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span>
+                <span class="n">status_code</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">response</span><span class="p">[</span><span class="s">"Data"</span><span class="p">]</span>
+            <span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="적어도-select용-param이-있어야-하는-find_user-controller에서-만큼은-http_request에--query가-없다면-사실상-400에러">
+<a class="anchor" href="#%EC%A0%81%EC%96%B4%EB%8F%84-select%EC%9A%A9-param%EC%9D%B4-%EC%9E%88%EC%96%B4%EC%95%BC-%ED%95%98%EB%8A%94-find_user-controller%EC%97%90%EC%84%9C-%EB%A7%8C%ED%81%BC%EC%9D%80-http_request%EC%97%90--query%EA%B0%80-%EC%97%86%EB%8B%A4%EB%A9%B4-%EC%82%AC%EC%8B%A4%EC%83%81-400%EC%97%90%EB%9F%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>적어도 select용 param이 있어야 하는 find_user controller에서 만큼은, http_request에  query가 없다면, 사실상 400에러</h4>
+
+<ol>
+  <li>
+    <p>HttpErros static class에 400 에러 정의해주기</p>
+
+    <ul>
+      <li><strong>query속 param들이 필요한 controller인데 아예 존재도 안했다면, 400 Bad Request에러</strong></li>
+    </ul>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">HttpErrors</span><span class="p">:</span>
+    <span class="c1">#...
+</span>   
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">error_400</span><span class="p">():</span>
+        <span class="s">""" HTTP 400 """</span>
+   
+        <span class="k">return</span> <span class="p">{</span><span class="s">"status_code"</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span> <span class="s">"body"</span><span class="p">:</span> <span class="p">{</span><span class="s">"error"</span><span class="p">:</span> <span class="s">"Bad request"</span><span class="p">}}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>if http.query -&gt; ealry return 아래 -&gt; <code class="language-plaintext highlighter-rouge">if not http.query 부분</code></strong></p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">FindUserController</span><span class="p">:</span>
+    <span class="c1">#...
+</span>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">http_request</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">HttpRequest</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">HttpResponse</span><span class="p">:</span>
+        <span class="c1">#...
+</span>        <span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+   
+        <span class="k">if</span> <span class="n">http_request</span><span class="p">.</span><span class="n">query</span><span class="p">:</span>
+            <span class="c1"># if query
+</span>            <span class="k">if</span> <span class="n">response</span><span class="p">[</span><span class="s">"Success"</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="n">http_error</span> <span class="o">=</span> <span class="n">HttpErrors</span><span class="p">.</span><span class="n">error_422</span><span class="p">()</span>
+                <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span>
+                    <span class="n">status_code</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"status_code"</span><span class="p">],</span> <span class="n">body</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"body"</span><span class="p">]</span>
+                <span class="p">)</span>
+   
+            <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span>
+                <span class="n">status_code</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">response</span><span class="p">[</span><span class="s">"Data"</span><span class="p">]</span>
+            <span class="p">)</span>
+           
+   
+        <span class="c1"># If no query in http request
+</span>        <span class="n">http_error</span> <span class="o">=</span> <span class="n">HttpErrors</span><span class="p">.</span><span class="n">error_400</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"status_code"</span><span class="p">],</span> <span class="n">body</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"body"</span><span class="p">]</span>
+        <span class="p">)</span>
+   
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="완성된-find_user_controller는-init-에--올려준다">
+<a class="anchor" href="#%EC%99%84%EC%84%B1%EB%90%9C-find_user_controller%EB%8A%94-init-%EC%97%90--%EC%98%AC%EB%A0%A4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>완성된 find_user_controller는 init 에  올려준다.</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">.find_user_controller</span> <span class="kn">import</span> <span class="n">FindUserController</span>
+</code></pre></div></div>
+
+<h2 id="2--usecase-controller-test">
+<a class="anchor" href="#2--usecase-controller-test" aria-hidden="true"><span class="octicon octicon-link"></span></a>2  usecase controller test</h2>
+
+<ol>
+  <li>
+    <p>src&gt;presenter&gt;controllers&gt;<code class="language-plaintext highlighter-rouge">find_user_controller_test.py</code> 생성</p>
+  </li>
+  <li>
+    <p>test할 controller  + faker import</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span> <span class="nn">.find_user_controller</span> <span class="kn">import</span> <span class="n">FindUserController</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="01-usecase-controller는-usecase를-인자로-받으니-test-사용할--usecasespy-호출감지--args보관반환은mock-를-먼저-만들어야한다">
+<a class="anchor" href="#01-usecase-controller%EB%8A%94-usecase%EB%A5%BC-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%B0%9B%EC%9C%BC%EB%8B%88-test-%EC%82%AC%EC%9A%A9%ED%95%A0--usecasespy-%ED%98%B8%EC%B6%9C%EA%B0%90%EC%A7%80--args%EB%B3%B4%EA%B4%80%EB%B0%98%ED%99%98%EC%9D%80mock-%EB%A5%BC-%EB%A8%BC%EC%A0%80-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 usecase Controller는 usecase를 인자로 받으니, test 사용할  usecaseSpy( 호출감지 = args보관+반환은mock )를 먼저 만들어야한다.</h3>
+
+<ul>
+  <li>이전에는 <strong>ManyEntity Register usecase</strong>에서 fk정보에 대한 Fkentity에 존재하는지 유무를 usecase레벨에서 확인하기 위해 <strong>FindFK UseCase를 인자</strong>로 받아야해서 <strong>FindFK(User)Spy</strong>를 개발했었따.
+    <ul>
+      <li><strong>여기서는, usecase controller라면, 해당usecase를 인자로 받아야하기 때문에 UseCaseSpy를 생성한다</strong></li>
+    </ul>
+  </li>
+  <li>RegisterPet usecase를 test하기 위해 FK인 <strong>FindUserSpy</strong>를 이미 구현했으므로 import해서 사용한다
+    <ul>
+      <li>src&gt;data&gt;test&gt;<code class="language-plaintext highlighter-rouge">find_user_spy</code>.py</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span> <span class="nn">.find_user_controller</span> <span class="kn">import</span> <span class="n">FindUserController</span>
+<span class="kn">from</span> <span class="nn">src.data.test</span> <span class="kn">import</span> <span class="n">FindUserSpy</span>
+
+<span class="n">faker</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">test_handler</span><span class="p">():</span>
+    <span class="s">""" Testing Handle method """</span>
+    
+</code></pre></div></div>
+
+<h3 id="02-usecase-controller는-repo를-품고-있는-usecase객체를-인자로-받는다">
+<a class="anchor" href="#02-usecase-controller%EB%8A%94-repo%EB%A5%BC-%ED%92%88%EA%B3%A0-%EC%9E%88%EB%8A%94-usecase%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%B0%9B%EB%8A%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 UseCase Controller는 repo를 품고 있는 UseCase객체를 인자로 받는다.</h3>
+
+<h4 id="그러므로-repospy객체를-품는-usecasespy객체를-생성해서-test할-controller에-넣어준다">
+<a class="anchor" href="#%EA%B7%B8%EB%9F%AC%EB%AF%80%EB%A1%9C-repospy%EA%B0%9D%EC%B2%B4%EB%A5%BC-%ED%92%88%EB%8A%94-usecasespy%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%83%9D%EC%84%B1%ED%95%B4%EC%84%9C-test%ED%95%A0-controller%EC%97%90-%EB%84%A3%EC%96%B4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>그러므로 repoSpy객체를 품는 UseCaseSpy객체를 생성해서 test할 Controller에 넣어준다.</h4>
+
+<ul>
+  <li>
+    <p>참고: <strong>ManyEntity의 Find는 FK_id value로 검색만 하지만, <code class="language-plaintext highlighter-rouge">ManyEntity Register</code>의 경우만, Fk객체를 UseCase FindFk를 써야하기 때문에 <code class="language-plaintext highlighter-rouge">자신useacse품는 Repo</code> + <code class="language-plaintext highlighter-rouge">FKusecase를 쓰기 위한, 품어야하는 Fk Repo</code> 2개가 필요하다</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221004234048437.png" alt="image-20221004234048437"></p>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p>usecase가 품을 repo spy 객체 -&gt; controller가 품을 usecase Spy 객체를 생성하여 테스트할 controller 객체를 만든다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_handler</span><span class="p">():</span>
+    <span class="s">""" Testing Handle method """</span>
+   
+    <span class="n">find_user_use_case</span> <span class="o">=</span> <span class="n">FindUserSpy</span><span class="p">(</span><span class="n">UserRepositorySpy</span><span class="p">())</span>
+    <span class="n">find_user_controller</span> <span class="o">=</span> <span class="n">FindUserController</span><span class="p">(</span><span class="n">find_user_use_case</span><span class="p">)</span>
+       
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="03-controller의-handle-method-테스트는-httprequest의-선택형인자headers-body-query-중-query만-필요한-param을-넣어서한다">
+<a class="anchor" href="#03-controller%EC%9D%98-handle-method-%ED%85%8C%EC%8A%A4%ED%8A%B8%EB%8A%94-httprequest%EC%9D%98-%EC%84%A0%ED%83%9D%ED%98%95%EC%9D%B8%EC%9E%90headers-body-query-%EC%A4%91-query%EB%A7%8C-%ED%95%84%EC%9A%94%ED%95%9C-param%EC%9D%84-%EB%84%A3%EC%96%B4%EC%84%9C%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 Controller의 handle method 테스트는 HttpRequest의 선택형인자(headers, body, query) 중 query만 필요한 param을 넣어서한다.</h3>
+
+<h4 id="usecase는-attributes-dict---method에-1개씩-뽑아서-할당해줬었다-controller부터는-method-input이-httprequest객체-by--query-속-필요한-param들이다">
+<a class="anchor" href="#usecase%EB%8A%94-attributes-dict---method%EC%97%90-1%EA%B0%9C%EC%94%A9-%EB%BD%91%EC%95%84%EC%84%9C-%ED%95%A0%EB%8B%B9%ED%95%B4%EC%A4%AC%EC%97%88%EB%8B%A4-controller%EB%B6%80%ED%84%B0%EB%8A%94-method-input%EC%9D%B4-httprequest%EA%B0%9D%EC%B2%B4-by--query-%EC%86%8D-%ED%95%84%EC%9A%94%ED%95%9C-param%EB%93%A4%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>usecase는 attributes dict -&gt; method에 1개씩 뽑아서 할당해줬었다. controller부터는 method input이 [httprequest객체 by  query 속 필요한 param]들이다.</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">def</span> <span class="nf">test_handler</span><span class="p">():</span>
+    <span class="s">""" Testing Handle method """</span>
+
+    <span class="n">find_user_use_case</span> <span class="o">=</span> <span class="n">FindUserSpy</span><span class="p">(</span><span class="n">UserRepositorySpy</span><span class="p">())</span>
+    <span class="n">find_user_controller</span> <span class="o">=</span> <span class="n">FindUserController</span><span class="p">(</span><span class="n">find_user_use_case</span><span class="p">)</span>
+
+    <span class="n">http_request</span> <span class="o">=</span> <span class="n">HttpRequest</span><span class="p">(</span>
+        <span class="n">query</span><span class="o">=</span><span class="p">{</span><span class="s">"user_id"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">random_number</span><span class="p">(),</span> <span class="s">"user_name"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">word</span><span class="p">()}</span>
+        <span class="p">)</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">find_user_controller</span><span class="p">.</span><span class="n">handle</span><span class="p">(</span><span class="n">http_request</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="04-input-test---usecase-spy객체가-품고-있는-param_dict-test">
+<a class="anchor" href="#04-input-test---usecase-spy%EA%B0%9D%EC%B2%B4%EA%B0%80-%ED%92%88%EA%B3%A0-%EC%9E%88%EB%8A%94-param_dict-test" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 input Test -&gt; usecase Spy객체가 품고 있는 param_dict test</h3>
+
+<h4 id="usecasespy-역시-repospy처럼-개별메서드마다-param-dict에-품고-있으니-input-test는-usecasespy객체param_dict--http_requestquery로-한다">
+<a class="anchor" href="#usecasespy-%EC%97%AD%EC%8B%9C-repospy%EC%B2%98%EB%9F%BC-%EA%B0%9C%EB%B3%84%EB%A9%94%EC%84%9C%EB%93%9C%EB%A7%88%EB%8B%A4-param-dict%EC%97%90-%ED%92%88%EA%B3%A0-%EC%9E%88%EC%9C%BC%EB%8B%88-input-test%EB%8A%94-usecasespy%EA%B0%9D%EC%B2%B4param_dict--http_requestquery%EB%A1%9C-%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>UseCaseSpy 역시 RepoSpy처럼, 개별메서드마다 param dict에 품고 있으니, input test는 UseCaseSpy객체.param_dict == http_request.query로 한다</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221005001633572.png" alt="image-20221005001633572"></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_handler</span><span class="p">():</span>
+    <span class="s">""" Testing Handle method """</span>
+
+    <span class="n">find_user_use_case</span> <span class="o">=</span> <span class="n">FindUserSpy</span><span class="p">(</span><span class="n">UserRepositorySpy</span><span class="p">())</span>
+    <span class="n">find_user_controller</span> <span class="o">=</span> <span class="n">FindUserController</span><span class="p">(</span><span class="n">find_user_use_case</span><span class="p">)</span>
+
+    <span class="n">http_request</span> <span class="o">=</span> <span class="n">HttpRequest</span><span class="p">(</span>
+        <span class="n">query</span><span class="o">=</span><span class="p">{</span><span class="s">"user_id"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">random_number</span><span class="p">(),</span> <span class="s">"user_name"</span><span class="p">:</span> <span class="n">faker</span><span class="p">.</span><span class="n">word</span><span class="p">()}</span>
+    <span class="p">)</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">find_user_controller</span><span class="p">.</span><span class="n">handle</span><span class="p">(</span><span class="n">http_request</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+    
+    <span class="c1"># Testing Inputs
+</span>    <span class="k">assert</span> <span class="n">find_user_use_case</span><span class="p">.</span><span class="n">by_id_and_name_param</span><span class="p">[</span><span class="s">"user_id"</span><span class="p">]</span> <span class="o">==</span> <span class="n">http_request</span><span class="p">.</span><span class="n">query</span><span class="p">[</span><span class="s">"user_id"</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">find_user_use_case</span><span class="p">.</span><span class="n">by_id_and_name_param</span><span class="p">[</span><span class="s">"user_name"</span><span class="p">]</span> <span class="o">==</span> <span class="n">http_request</span><span class="p">.</span><span class="n">query</span><span class="p">[</span><span class="s">"user_name"</span><span class="p">]</span>
+
+</code></pre></div></div>
+
+<h4 id="input-test만-끝나도-printreponse와-함께-일단-pytest--vs한다">
+<a class="anchor" href="#input-test%EB%A7%8C-%EB%81%9D%EB%82%98%EB%8F%84-printreponse%EC%99%80-%ED%95%A8%EA%BB%98-%EC%9D%BC%EB%8B%A8-pytest--vs%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>input test만 끝나도 print(reponse)와 함께 일단 pytest -vs한다</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pytest src\presenters\controllers -vs
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221005002714887.png" alt="image-20221005002714887"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221005002637412.png" alt="image-20221005002637412"></p>
+
+<h5 id="input-test-실패-분석">
+<a class="anchor" href="#input-test-%EC%8B%A4%ED%8C%A8-%EB%B6%84%EC%84%9D" aria-hidden="true"><span class="octicon octicon-link"></span></a>input test 실패 분석</h5>
+
+<ol>
+  <li>
+    <p><strong>controller가 UseCaseSpy를 품고 있지만, <code class="language-plaintext highlighter-rouge">Spy는 mock_dto()</code>를 통해 목객체를 반환하므로, <code class="language-plaintext highlighter-rouge">print상 찍힌 response속 Data: List[DTO]</code>는 잘 찍힌다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221005002912279.png" alt="image-20221005002912279"></p>
+  </li>
+  <li>
+    <p><strong>key_error인데, <code class="language-plaintext highlighter-rouge">UseCaseSpy는 name등의 id제외 일반명사는 그냥 인자로 사용(not user_name)</code>하고 있고, <code class="language-plaintext highlighter-rouge">Controller의 HttpRequest는 외부에서 user_name으로 일반명사에 entity명을 붙여서 사용</code>하고 있다.</strong></p>
+
+    <ul>
+      <li>UseCaseSpy의 param dict는 일반명사 <code class="language-plaintext highlighter-rouge">name</code>을 key로 저장하기 때문에 바꿔준다.</li>
+    </ul>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Testing Inputs
+</span><span class="k">assert</span> <span class="n">find_user_use_case</span><span class="p">.</span><span class="n">by_id_and_name_param</span><span class="p">[</span><span class="s">"user_id"</span><span class="p">]</span> <span class="o">==</span> <span class="n">http_request</span><span class="p">.</span><span class="n">query</span><span class="p">[</span><span class="s">"user_id"</span><span class="p">]</span>
+<span class="c1"># user_name -&gt; name in use case
+</span><span class="k">assert</span> <span class="n">find_user_use_case</span><span class="p">.</span><span class="n">by_id_and_name_param</span><span class="p">[</span><span class="s">"name"</span><span class="p">]</span> <span class="o">==</span> <span class="n">http_request</span><span class="p">.</span><span class="n">query</span><span class="p">[</span><span class="s">"user_name"</span><span class="p">]</span>
+   
+</code></pre></div>    </div>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221005003829152.png" alt="image-20221005003829152"></p>
+  </li>
+</ol>
+
+<h3 id="05-outputtest--">
+<a class="anchor" href="#05-outputtest--" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 OutputTest -&gt;</h3>
+
+<h4 id="usecase의-output은-dictbool-listdto-or-dto--ouput-test는-success-true와-data-is-not-none이었다">
+<a class="anchor" href="#usecase%EC%9D%98-output%EC%9D%80-dictbool-listdto-or-dto--ouput-test%EB%8A%94-success-true%EC%99%80-data-is-not-none%EC%9D%B4%EC%97%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>useCase의 output은 Dict[bool, List[Dto] or Dto] =&gt; Ouput test는 “Success” True와 “Data” is not None이었다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221005004143865.png" alt="image-20221005004143865"></p>
+
+<h4 id="controller-output은-실패만-안한다면-httprequeststatus_code200-bodyusecase의resonsedata">
+<a class="anchor" href="#controller-output%EC%9D%80-%EC%8B%A4%ED%8C%A8%EB%A7%8C-%EC%95%88%ED%95%9C%EB%8B%A4%EB%A9%B4-httprequeststatus_code200-bodyusecase%EC%9D%98resonsedata" aria-hidden="true"><span class="octicon octicon-link"></span></a>Controller output은 실패만 안한다면 HttpRequest(status_code=200, body=usecase의Resonse[“Data”])</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221005004439758.png" alt="image-20221005004439758"></p>
+
+<h5 id="contoller-output-test는-controllerhandle의-결과인-responsehttp_response객체의-status_code-200-body-is-not-none이다">
+<a class="anchor" href="#contoller-output-test%EB%8A%94-controllerhandle%EC%9D%98-%EA%B2%B0%EA%B3%BC%EC%9D%B8-responsehttp_response%EA%B0%9D%EC%B2%B4%EC%9D%98-status_code-200-body-is-not-none%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contoller Output test는 controller.handle()의 결과인 response(http_response)객체의 .status_code ==200, .body is Not None이다.</h5>
+
+<ul>
+  <li>usecase는 dict로 담아서 반환.</li>
+  <li>controller는 HttpResponse객체에 필드로 담아서 반환</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Testing Outputs
+</span><span class="k">assert</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span>
+<span class="k">assert</span> <span class="n">response</span><span class="p">.</span><span class="n">body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+</code></pre></div></div>
+
+<h5 id="output-test도-끝나면-pytest">
+<a class="anchor" href="#output-test%EB%8F%84-%EB%81%9D%EB%82%98%EB%A9%B4-pytest" aria-hidden="true"><span class="octicon octicon-link"></span></a>output test도 끝나면 pytest</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pytest</span> <span class="n">src</span>\<span class="n">presenters</span>\<span class="n">controllers</span> <span class="o">-</span><span class="n">vs</span>
+</code></pre></div></div>
+
+<h2 id="3-usecase-controller-fail-test-no-query-param-in-httprequest">
+<a class="anchor" href="#3-usecase-controller-fail-test-no-query-param-in-httprequest" aria-hidden="true"><span class="octicon octicon-link"></span></a>3 usecase controller fail test (no query param in HttpRequest)</h2>
+
+<h3 id="01-no-query-param-fail-test는-성공test에서-httprequest객체-인자만-삭제하고-printresponse를-찍은-상태에서-테스트를-먼저-돌려보자">
+<a class="anchor" href="#01-no-query-param-fail-test%EB%8A%94-%EC%84%B1%EA%B3%B5test%EC%97%90%EC%84%9C-httprequest%EA%B0%9D%EC%B2%B4-%EC%9D%B8%EC%9E%90%EB%A7%8C-%EC%82%AD%EC%A0%9C%ED%95%98%EA%B3%A0-printresponse%EB%A5%BC-%EC%B0%8D%EC%9D%80-%EC%83%81%ED%83%9C%EC%97%90%EC%84%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8%EB%A5%BC-%EB%A8%BC%EC%A0%80-%EB%8F%8C%EB%A0%A4%EB%B3%B4%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 no query param fail test는 성공test에서 HttpRequest객체 인자만 삭제하고 print(response)를 찍은 상태에서 테스트를 먼저 돌려보자.</h3>
+
+<ol>
+  <li>
+    <p>성공 test를 복사해서 <strong>def</strong> test_handle_no_query_param 만든다.</p>
+  </li>
+  <li>
+    <p>HttpRequest의 query인자를 삭제하고 빈 객체를 만든다</p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">print(response)를 포함한 상태로 pytest</code>를 돌려 에러를 내본다.</strong></p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_handler_no_query_param</span><span class="p">():</span>
+    <span class="s">""" Testing Handle method """</span>
+   
+    <span class="n">find_user_use_case</span> <span class="o">=</span> <span class="n">FindUserSpy</span><span class="p">(</span><span class="n">UserRepositorySpy</span><span class="p">())</span>
+    <span class="n">find_user_controller</span> <span class="o">=</span> <span class="n">FindUserController</span><span class="p">(</span><span class="n">find_user_use_case</span><span class="p">)</span>
+   
+    <span class="n">http_request</span> <span class="o">=</span> <span class="n">HttpRequest</span><span class="p">()</span>
+</code></pre></div>    </div>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221005013332634.png" alt="image-20221005013332634"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221005013340723.png" alt="image-20221005013340723"></p>
+  </li>
+</ol>
+
+<h4 id="response를-찍어서-어떤-status_code를-확인해야할지-숙련안되었으면-확인해야한다">
+<a class="anchor" href="#response%EB%A5%BC-%EC%B0%8D%EC%96%B4%EC%84%9C-%EC%96%B4%EB%96%A4-status_code%EB%A5%BC-%ED%99%95%EC%9D%B8%ED%95%B4%EC%95%BC%ED%95%A0%EC%A7%80-%EC%88%99%EB%A0%A8%EC%95%88%EB%90%98%EC%97%88%EC%9C%BC%EB%A9%B4-%ED%99%95%EC%9D%B8%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>response를 찍어서, 어떤 status_code를 확인해야할지 숙련안되었으면 확인해야한다</h4>
+
+<h3 id="02-not-query-param-input-test-spy속-모든-param-dict---빈-dict">
+<a class="anchor" href="#02-not-query-param-input-test-spy%EC%86%8D-%EB%AA%A8%EB%93%A0-param-dict---%EB%B9%88-dict" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 not query param Input test: spy속 모든 param dict == {} (빈 dict)</h3>
+
+<ul>
+  <li>
+    <p>빈 dict는 비교되나보다.</p>
+
+    <ul>
+      <li>
+        <p><strong>어떤 기본 자료구조든 객체없이 값으로만 구성되고 (seq는 순서까지), 비교된다.</strong></p>
+
+        <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="p">{}</span> <span class="o">==</span> <span class="p">{}</span>
+<span class="bp">True</span>
+    
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="s">"abc"</span><span class="p">}</span> <span class="o">==</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="s">"abc"</span><span class="p">}</span>
+<span class="bp">True</span>
+    
+ <span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="s">"abc"</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span> <span class="o">==</span> <span class="p">{</span><span class="mi">2</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="s">"abc"</span><span class="p">}</span>
+<span class="bp">True</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_handler_no_query_param</span><span class="p">():</span>
+    <span class="s">""" Testing Handle method """</span>
+
+    <span class="n">find_user_use_case</span> <span class="o">=</span> <span class="n">FindUserSpy</span><span class="p">(</span><span class="n">UserRepositorySpy</span><span class="p">())</span>
+    <span class="n">find_user_controller</span> <span class="o">=</span> <span class="n">FindUserController</span><span class="p">(</span><span class="n">find_user_use_case</span><span class="p">)</span>
+
+    <span class="n">http_request</span> <span class="o">=</span> <span class="n">HttpRequest</span><span class="p">()</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">find_user_controller</span><span class="p">.</span><span class="n">handle</span><span class="p">(</span><span class="n">http_request</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+    <span class="c1"># Testing Inputs
+</span>    <span class="k">assert</span> <span class="n">find_user_use_case</span><span class="p">.</span><span class="n">by_id_param</span> <span class="o">==</span> <span class="p">{}</span>
+    <span class="k">assert</span> <span class="n">find_user_use_case</span><span class="p">.</span><span class="n">by_name_param</span> <span class="o">==</span> <span class="p">{}</span>
+    <span class="k">assert</span> <span class="n">find_user_use_case</span><span class="p">.</span><span class="n">by_id_and_name_param</span> <span class="o">==</span> <span class="p">{}</span>
+</code></pre></div></div>
+
+<h3 id="03-not-query-param-output-test-status_code--400-body---code별-에러메세지가-error-key에-있으니-key검사만-한다">
+<a class="anchor" href="#03-not-query-param-output-test-status_code--400-body---code%EB%B3%84-%EC%97%90%EB%9F%AC%EB%A9%94%EC%84%B8%EC%A7%80%EA%B0%80-error-key%EC%97%90-%EC%9E%88%EC%9C%BC%EB%8B%88-key%EA%B2%80%EC%82%AC%EB%A7%8C-%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 not query param Output test: .status_code == 400, .body -&gt; code별 에러메세지가 “error” key에 있으니 key검사만 한다!</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1"># Testing Outputs
+</span>    <span class="k">assert</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">400</span>
+    <span class="k">assert</span> <span class="s">"error"</span> <span class="ow">in</span> <span class="n">response</span><span class="p">.</span><span class="n">body</span>
+</code></pre></div></div>
+
+<h4 id="참고로-validate_entry-실패는-status_code-422">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0%EB%A1%9C-validate_entry-%EC%8B%A4%ED%8C%A8%EB%8A%94-status_code-422" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고로 validate_entry 실패는 status_code 422</h4>
+
+<h4 id="pytest-돌리고-통과했으면-확인용-printresponse-삭제후-커밋">
+<a class="anchor" href="#pytest-%EB%8F%8C%EB%A6%AC%EA%B3%A0-%ED%86%B5%EA%B3%BC%ED%96%88%EC%9C%BC%EB%A9%B4-%ED%99%95%EC%9D%B8%EC%9A%A9-printresponse-%EC%82%AD%EC%A0%9C%ED%9B%84-%EC%BB%A4%EB%B0%8B" aria-hidden="true"><span class="octicon octicon-link"></span></a>pytest 돌리고 통과했으면 확인용 print(response) 삭제후 커밋</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pytest src\presenters\controllers -vs
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git status
+git add .
+
+
+git commit -am "feat: Implementing FindUserController"
+git commit -am "feat: Implementing FindUserController"
+</code></pre></div></div>
+
+<h4 id="master는-push후-merge안해줘도-된다">
+<a class="anchor" href="#master%EB%8A%94-push%ED%9B%84-merge%EC%95%88%ED%95%B4%EC%A4%98%EB%8F%84-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>master는 push후 merge안해줘도 된다.</h4>
+
+<h2 id="참고">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고</h2>
+
+<ul>
+  <li><a href="https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html">Robert C. Martin (Uncle Bob)의 Clean Code Blog</a></li>
+  <li><a href="https://velog.io/@jahoy/Python%EC%9C%BC%EB%A1%9C-Clean-Architecture-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0">용어 참고 블로그 1편</a></li>
+  <li><a href="https://velog.io/@jahoy/Python%EC%9C%BC%EB%A1%9C-%ED%81%B4%EB%A6%B0-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B02">용어 참고 블로그 2편</a></li>
+</ul>
+
+<h4 id="gitignore">
+<a class="anchor" href="#gitignore" aria-hidden="true"><span class="octicon octicon-link"></span></a>gitignore</h4>
+
+<ul>
+  <li>
+    <p>git에 commit되었던 것을 ignore하고 싶을 때</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git rm [파일명] --cached
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>git amend</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git commit --amend --no-edit
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<ol>
+  <li>console 등에서 init import부터 생기는 pycache폴더</li>
+  <li>venv</li>
+  <li>연습용 sqlite .db파일</li>
+  <li>pytest시 생기는 .pytest_cache 폴더</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>**/__pycache__
+venv
+storage.db
+.pytest_cache
+</code></pre></div></div>
+
+<h4 id="sqlalchemy패키지">
+<a class="anchor" href="#sqlalchemy%ED%8C%A8%ED%82%A4%EC%A7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>sqlalchemy패키지</h4>
+
+<ul>
+  <li>일반 패키지: create_engine / 칼럼재료들</li>
+  <li>.orm 패키지:
+    <ul>
+      <li>relatioship: 1:M에서 1에 해당하는 table이 들고 있는 가짜칼럼</li>
+      <li>sessionmaker: handler class 속 enter에서 engine을 묶어서 session을 반환해주는 놈</li>
+    </ul>
+  </li>
+  <li>계층별 변수정리
+    <ul>
+      <li>id : sqlalchemy -&gt; <strong>repo부터는</strong> fk_id도 있으니 <code class="language-plaintext highlighter-rouge">pk_id</code>
+</li>
+      <li>name: sqlalchemy-&gt;repo-&gt;usecase까지는 그냥 name (선택인자 개별메서드에by_name)-&gt; <strong>controller부터는 외부에선 다른(pet)_name도 있으니 <code class="language-plaintext highlighter-rouge">pk_name</code></strong>
+</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="github에서-br따서-작업하기">
+<a class="anchor" href="#github%EC%97%90%EC%84%9C-br%EB%94%B0%EC%84%9C-%EC%9E%91%EC%97%85%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>github에서 br따서 작업하기</h4>
+
+<h5 id="1-1-github에서-br생성--clone">
+<a class="anchor" href="#1-1-github%EC%97%90%EC%84%9C-br%EC%83%9D%EC%84%B1--clone" aria-hidden="true"><span class="octicon octicon-link"></span></a>[1-1] github에서 br생성 ~ clone</h5>
+
+<ol>
+  <li>
+    <p>github에 들어가서 <code class="language-plaintext highlighter-rouge">feat/~</code>로 브랜치 생성</p>
+  </li>
+  <li>
+    <p>해당 br만 clone</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git clone -b [branch] [git주소]
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="clone후-초기-작업-세팅">
+<a class="anchor" href="#clone%ED%9B%84-%EC%B4%88%EA%B8%B0-%EC%9E%91%EC%97%85-%EC%84%B8%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>clone후 초기 작업 세팅</h5>
+
+<ol>
+  <li>gitignore중에 db파일 있으면 옮겨주기
+    <ul>
+      <li>없으면 config import해서 Base + handler -&gt; get_enigne -&gt; bind한 다음, create_all()해줘야할듯??</li>
+    </ul>
+  </li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220929154256052.png" alt="image-20220929154256052"></p>
+
+<ol>
+  <li>github에서 따온 빈 새br에 대해, venv를 만들고 활성화하고  vscode를 연다</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python -m virtualenv -p python310 venv
+
+.\venv\Scripts\activate
+</code></pre></div></div>
+
+<ol>
+  <li>최초 requirements.txt 직접 설치</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip3 install -r requirements.txt
+</code></pre></div></div>
+
+<ol>
+  <li>최초 pre-commit install 직접 세팅</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pre-commit install
+</code></pre></div></div>
+
+<ol>
+  <li>vscode 열고 interpreter venv로 지정</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>code .
+</code></pre></div></div>
+
+<h5 id="1-2-작업끝난-br의-폴더에서-새-작업-br생성--분기게시-초기세팅-또-안해도-되는-장점">
+<a class="anchor" href="#1-2-%EC%9E%91%EC%97%85%EB%81%9D%EB%82%9C-br%EC%9D%98-%ED%8F%B4%EB%8D%94%EC%97%90%EC%84%9C-%EC%83%88-%EC%9E%91%EC%97%85-br%EC%83%9D%EC%84%B1--%EB%B6%84%EA%B8%B0%EA%B2%8C%EC%8B%9C-%EC%B4%88%EA%B8%B0%EC%84%B8%ED%8C%85-%EB%98%90-%EC%95%88%ED%95%B4%EB%8F%84-%EB%90%98%EB%8A%94-%EC%9E%A5%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>[1-2] 작업끝난 br의 폴더에서 새 작업 br생성 ~ 분기게시 (초기세팅 또 안해도 되는 장점)</h5>
+
+<ol>
+  <li>
+    <p>현재 br를 확인한다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">git</span> <span class="n">branch</span>
+<span class="o">*</span> <span class="n">feat</span><span class="o">/</span><span class="n">register_user_use_case</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>checkout -b</strong>로 새 br 생성하여 진입하기</p>
+
+    <ul>
+      <li>원래는 github에서 create branch했었음.</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git checkout -b feat/generic_use_cases
+   
+git branch
+   
+* feat/generic_use_cases
+  feat/register_user_use_case
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>git push -u origin [branch명]으로 <code class="language-plaintext highlighter-rouge">새로생성한 br를 push해서 github에 생성하기</code></strong></p>
+
+    <ul>
+      <li>vscode에서는 push -u origin [branch] 대신  <strong><code class="language-plaintext highlighter-rouge">분기게시</code>가 뜬다.</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>github에서 <strong>빈 분기가 생성되었는지 확인하기</strong></p>
+
+    <ul>
+      <li>github에 merge되기 위해서는 <strong>직전 작업이후 <code class="language-plaintext highlighter-rouge">github에 새 작업 br를 먼저 생성해놓고 작업</code>에 들어가야한다</strong>
+</li>
+    </ul>
+  </li>
+</ol>
+
+<h5 id="1-3--옛날에-따둔-br에서-작업시작할-땐-최신-master를-rebase후에-작업시작하기">
+<a class="anchor" href="#1-3--%EC%98%9B%EB%82%A0%EC%97%90-%EB%94%B0%EB%91%94-br%EC%97%90%EC%84%9C-%EC%9E%91%EC%97%85%EC%8B%9C%EC%9E%91%ED%95%A0-%EB%95%90-%EC%B5%9C%EC%8B%A0-master%EB%A5%BC-rebase%ED%9B%84%EC%97%90-%EC%9E%91%EC%97%85%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>[1-3]  옛날에 따둔 br에서 작업시작할 땐, 최신 master를 rebase후에 작업시작하기</h5>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">git checkout master</code>를 통해 <strong>안가져와서 안보이던 master</strong>를 만든다</p>
+
+    <ul>
+      <li>
+<strong>-b의 새로만든 것이 아니므로</strong> remote와 연결된 master가 된다.</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">git branch</code>로 확인</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git checkout master
+   
+git branch
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">git pull</code>로 master에 최신 코드를 가져온다</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git pull
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>rebase받을 업뎃안된 작업br로 넘어간 뒤, <code class="language-plaintext highlighter-rouge">matser의 내용을 rebase로 받아온다</code></strong></p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git checkout [작업br]
+   
+git rebase master
+   
+git log --oneline
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="2-해당br-작업테스트-완료후--merge까지-정리">
+<a class="anchor" href="#2-%ED%95%B4%EB%8B%B9br-%EC%9E%91%EC%97%85%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%99%84%EB%A3%8C%ED%9B%84--merge%EA%B9%8C%EC%A7%80-%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>[2] 해당br 작업(테스트) 완료후 ~ merge까지 정리</h5>
+
+<ol>
+  <li>
+    <p>status 확인후 add . 후  -am으로 커밋-&gt;실패-&gt;-am커밋</p>
+
+    <ul>
+      <li><strong>add를 먼저 날려야 add된상태로 pytest하는 것 같다?!</strong></li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git status
+   
+git add 
+   
+git commit -am "feat: implementing data interfaces"
+   
+git commit -am "feat: implementing data interfaces"
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>git push는 현재 로그인된 vscode에서 하고 있음.</strong></p>
+  </li>
+  <li>
+    <p><strong>github에 들어가보면, <code class="language-plaintext highlighter-rouge">Compare &amp; pull request</code>가 떠있더라도 <code class="language-plaintext highlighter-rouge">PR탭 &gt; new PR</code>로 들어가는 버릇을 들여보자.</strong></p>
+  </li>
+</ol>
+
+<ul>
+  <li>Comparing change까지 들어가서 코드를 확인하고 <code class="language-plaintext highlighter-rouge">Able to merge</code> 및 <code class="language-plaintext highlighter-rouge">세부코드</code>를 확인하고 <strong>직접 Create PR까지 가자</strong>
+</li>
+</ul>
+
+<ol>
+  <li><strong>merge후 master에 반영되었는지까지 확인하자</strong></li>
+</ol>
+
+<h4 id="vscode-설정">
+<a class="anchor" href="#vscode-%EC%84%A4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>vscode 설정</h4>
+
+<ul>
+  <li>캐쉬파일 안보이기</li>
+</ul>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">"files.exclude"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"**/__pycache__"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"**/.pytest_cache"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+</span></code></pre></div></div>
+
+<ul>
+  <li>
+    <p>tab시 space로 입력되기</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001015405760.png" alt="image-20221001015405760"></p>
+  </li>
+  <li>
+    <p>탐색기 열기 단축키 : <code class="language-plaintext highlighter-rouge">shift + alt + R</code></p>
+
+    <ul>
+      <li>파일: 파일 탐색기에 표시</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="test정리">
+<a class="anchor" href="#test%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>test정리</h4>
+
+<ol>
+  <li>
+    <p>repo_insert_X</p>
+
+    <ol>
+      <li>id제외 faker + insert메서드 -&gt; new_dto</li>
+      <li>new_dto속 배정id + engine db select -&gt; query_data -&gt; engine db delete</li>
+      <li>assert new_dto.필드 == query_data필드 비교</li>
+    </ol>
+  </li>
+  <li>
+    <p>repo_select_X</p>
+    <ol>
+      <li>id포함 faker -&gt; entity모델 객체</li>
+      <li>id포함 재료들 + engine db insert -&gt; db데이터만들어놓기</li>
+      <li>id, fk재료들 + select메서드 -&gt; List[entity모델객체들]</li>
+      <li>engine db delete</li>
+    </ol>
+  </li>
+</ol>
+
+<h4 id="status_code">
+<a class="anchor" href="#status_code" aria-hidden="true"><span class="octicon octicon-link"></span></a>status_code</h4>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">422</code>: validate_entry실패하는 query 속 param들 -&gt; usecase메서드의 결과물 response의 [“Success”]가 False</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>if reponse["Success"] is False:
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">400</code>: query속 param들이 필요한 controller인데 http_request안에 아예 존재도 안했다면, 400 Bad Request에러</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>if http_request.query:
+	# if query
+# if not query
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+
+  </div><a class="u-url" href="/python/flask/cleanarchitecture/2022/09/04/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_04_presenter_layer(controllers,-errors,-helpers)_and_%EB%8B%A8%EC%9D%BCUseCaseController.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

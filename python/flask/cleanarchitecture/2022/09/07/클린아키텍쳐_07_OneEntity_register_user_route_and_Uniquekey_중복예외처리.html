@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>클린아키텍쳐 07 OneEntity Register Route와 UniqueKey 중복예외 처리 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="클린아키텍쳐 07 OneEntity Register Route와 UniqueKey 중복예외 처리" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="python clean architecture" />
+<meta property="og:description" content="python clean architecture" />
+<link rel="canonical" href="blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/07/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_07_OneEntity_register_user_route_and_Uniquekey_%EC%A4%91%EB%B3%B5%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC.html" />
+<meta property="og:url" content="blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/07/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_07_OneEntity_register_user_route_and_Uniquekey_%EC%A4%91%EB%B3%B5%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/python.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-09-07T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-09-07T00:00:00-05:00","url":"blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/07/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_07_OneEntity_register_user_route_and_Uniquekey_%EC%A4%91%EB%B3%B5%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/python.png","headline":"클린아키텍쳐 07 OneEntity Register Route와 UniqueKey 중복예외 처리","dateModified":"2022-09-07T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/07/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_07_OneEntity_register_user_route_and_Uniquekey_%EC%A4%91%EB%B3%B5%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC.html"},"description":"python clean architecture","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">클린아키텍쳐 07 OneEntity Register Route와 UniqueKey 중복예외 처리</h1><p class="page-description">python clean architecture</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-09-07T00:00:00-05:00" itemprop="datePublished">
+        Sep 7, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      10 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#python">python</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#flask">flask</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#cleanarchitecture">cleanarchitecture</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#클린-아키텍쳐-7장">클린 아키텍쳐 7장</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#1-postman---route--request모듈---postman으로-요청응답-확인하기">1 POSTMAN -&gt; route + request모듈 -&gt; POSTMAN으로 요청+응답 확인하기</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#01-flask의-request모듈로-route별-요청정보를-한번에-확인할-수-있다">01 flask의 request모듈로 route별 요청정보를 한번에 확인할 수 있다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#route에서-request모듈argsto_dict를-jsonfy에서-key와-함께-반환해주면-어떤-정보를이-들어오는지-확인가능하다">route에서 request모듈.args.to_dict()를 jsonfy에서 key와 함께 반환해주면, 어떤 정보를이 들어오는지 확인가능하다</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#2-usecase_controller별-route-추가">2 usecase_controller별 route 추가</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#01-register-user-route-추가">01 register user Route 추가</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#001-함수명에-use_case를-작성해놓고---api명은-apientity-만---methods로-행위register-post-나타내서-작성하기">001 함수명에 use_case를 작성해놓고 -&gt; api명은 “/api/entity” 만 +  methods로 행위(register-&gt;POST) 나타내서 작성하기</a></li>
+<li class="toc-entry toc-h4"><a href="#002-adapter-작성flask-request모듈--composite-route객체-만나서-결과반환-method">002 adapter 작성(flask request모듈 + composite route객체 만나서 결과반환 method)</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#flask-request----httprequest---composite-route객체repousecasecontroller를-조합-완성객체---httpresponse----return-httpresonse해주는-method">flask request -&gt; [ HttpRequest -&gt; composite route객체(repo+usecase+controller를 조합 완성객체) -&gt; HttpResponse ] -&gt; return HttpResonse해주는 method</a></li>
+<li class="toc-entry toc-h5"><a href="#srcmainadapter에-api_adapterpy-생성">src&gt;main&gt;adapter에 api_adapter.py 생성</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#003-flask_adapter-메서드-signatue-작성-flask의-request를-받아---httprequest로-변환하고---composite-route객체-사용하도록-2개의-직접적인-연결을-막는-장소이면서-2개를-인자로-받는-장소">003 flask_adapter 메서드 signatue 작성: [flask의 request]를 받아 -&gt; HttpRequest로 변환하고 -&gt; [composite route객체] 사용하도록 [2개의 직접적인 연결을 막는 장소이면서, 2개를 인자로 받는 장소]</a></li>
+<li class="toc-entry toc-h4"><a href="#004-flask_adapter-메서드-구현부-작성">004 flask_adapter 메서드 구현부 작성</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#post요청일-때의-flask의-requestjson-확인해보기">POST요청일 때의 flask의 request.json 확인해보기</a>
+<ul>
+<li class="toc-entry toc-h6"><a href="#postman의-post요청은-절대조건1-headear에-content-type-applicationjson-명시--2-body는-raw로-작성하기">POSTMAN의 POST요청은 절대조건1) headear에 Content-Type: application/json 명시 + 2) body는 raw로 작성하기</a></li>
+<li class="toc-entry toc-h6"><a href="#post-route추가하고-requestjson-자체가-dict임을-인지할-것">post route추가하고 request.json 자체가 dict임을 인지할 것</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h5"><a href="#requestjsonraw-body---dict를-httprequest의-body인자로-넣어주면-객체-생성하여-사용하기">request.json(raw Body -&gt; Dict)를 HttpRequest의 body=인자로 넣어주면 객체 생성하여 사용하기</a></li>
+<li class="toc-entry toc-h5"><a href="#httprequest객체로-composite-route객체-사용하여--response-return">httprequest객체로 composite route객체 사용하여  response return</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#005-api_routepy에서-작성완료된-flask-adapter메서드와-해당usecase의-composer-메서드를-import해서-사용한다">005 api_route.py에서 작성완료된 flask adapter메서드와 해당usecase의 composer 메서드를 import해서 사용한다.</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#flaskrequest--compositeroute객체를-연결해주는-adapter메서드와-해당usecase의-composite-route객체를-반환해주는-composer-method를-import해서-사용한다">flask.request + composite.route객체를 연결해주는 adapter메서드와 해당usecase의 composite route객체를 반환해주는 composer method를 import해서 사용한다.</a></li>
+<li class="toc-entry toc-h5"><a href="#flask_adapter가-반환해주는-httpresponse객체를-controller에서-다시-한번-살펴보기">flask_adapter가 반환해주는 HttpResponse객체를 controller에서 다시 한번 살펴보기</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#006-composite-route객체의-결과물에는-status_codebody필드를-가지며-성공과-실패가-있으니--router에서는-성공과-실패를-구분해서-message로-반환한다">006 composite route객체의 결과물에는 status_code/body필드를 가지며, 성공과 실패가 있으니 =&gt; router에서는 성공과 실패를 구분해서 message로 반환한다</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#route는--none초기화가-아니라-빈-dict-로-초기화해놓고-composite-route객체-성공시에-채운다">route는 = None초기화가 아니라, 빈 dict {}로 초기화해놓고, composite route객체 성공시에 채운다.</a></li>
+<li class="toc-entry toc-h5"><a href="#일단-성공시-message-재할당해서-채울-데이터를-만든다">일단 성공시 message 재할당해서 채울 데이터를 만든다.</a></li>
+<li class="toc-entry toc-h5"><a href="#다-만들어진-message는-jsonify시-소문자-data를-key로-해서-value에-줘서-반환한다-이-때-튜플로서-responsestatus_code도-같이-보낸다">다 만들어진 message는 jsonify시 소문자 &quot;data&quot;를 key로 해서 value에 줘서 반환한다. 이 때, 튜플로서 response.status_code도 같이 보낸다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#007-성공시-message만-먼저-작성완료했으면-postman으로-확인한다---status_code는-body우측상단에-따로확인----db도-확인한다">007 성공시 message만 먼저 작성완료했으면, POSTMAN으로 확인한다. -&gt; status_code는 body우측상단에 따로확인  -&gt; DB도 확인한다</a></li>
+<li class="toc-entry toc-h4"><a href="#008-unique-key인-name를-바꿔서-send보내면-성공하지만-다시보내면-예외가-터진다-이미-가진-name에-대해--unique-constraint-failed---integrityerror의-예외가-터진다">008 unique key인 name를 바꿔서 send보내면 성공하지만.. 다시보내면 예외가 터진다. 이미 가진 name에 대해  UNIQUE constraint failed -&gt; IntegrityError의 예외가 터진다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#02-route에서-터지는-db에러는-adapter_method에서-composite-route객체route메서드에서-잡는다">02 route에서 터지는 DB에러는 adapter_method에서 composite route객체.route메서드에서 잡는다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#001-registerinsert에서는-unique-key-필드를-send-2번으로-중복에러존재검증에러를-터트려서-잡는다">001 register(insert)에서는 unique key 필드를 SEND 2번으로 중복에러(존재검증)에러를 터트려서 잡는다.</a></li>
+<li class="toc-entry toc-h4"><a href="#002-adapter-method에서-terminal의-sqlalchemy-에러를-import한다">002 adapter method에서, terminal의 SQLAlchemy 에러를 import한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#003-route객체route-호출부를-try-except-해당에러로-잡는다">003 route객체.route() 호출부를 [try ~except 해당에러]로 잡는다.</a></li>
+<li class="toc-entry toc-h4"><a href="#004-except로-잡은-에러에-대해-httperror를-인터넷에서-검색후-message를-가져오고-해당-에러를-에러매핑-httperrors클래스의-static메서드로-추가한다">004 except로 잡은 에러에 대해 HttpError를 인터넷에서 검색후 message를 가져오고, 해당 에러를 에러매핑 HttpErrors클래스의 static메서드로 추가한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#005-except-error부분에서-httperros-409를-뽑아내---성공-결과물과-같은-type의-httpresponse객체를-만들고-early-return해준다">005 except Error:부분에서 HttpErros 409를 뽑아내 -&gt; 성공 결과물과 같은 Type의 HttpResponse객체를 만들고 early return해준다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#03-등록-route에서는-예외처리-완료된-adapter-method결과인-httpresponse의-status_code를-따라-message를-처리">03 [등록 route]에서는 [예외처리 완료된 adapter method]결과인 [HttpResponse의 status_code를 따라] message를 처리</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#001-status_code--300미만이라면-정상-response를-받는-것이다-성공시-message를-그대로-사용">001 status_code &lt; 300미만이라면, 정상 response를 받는 것이다. 성공시 message를 그대로 사용</a></li>
+<li class="toc-entry toc-h4"><a href="#002--200번대가-아니라면-jsonify하는-key-value가-달라진다-기존-data-message----error--statuestatus_code-titleerror_message">002  200번대가 아니라면 jsonify하는 key value가 달라진다( 기존: “data”: message  -&gt; “error” :{ “statue”:status_code, “title”:error_message}</a></li>
+<li class="toc-entry toc-h4"><a href="#003-router의-300-처리는-headers-없는-post요청no-body도-400-error로-내려준다">003 router의 &lt;300 처리는 Headers 없는 POST요청(no body)도 400 error로 내려준다</a></li>
+<li class="toc-entry toc-h4"><a href="#004-route--300처리는-필수param-없는-요청or-validate_entry통과못하면도-422-에러로-내려준다">004 route &lt; 300처리는 필수param 없는 요청(or validate_entry통과못하면)도 422 에러로 내려준다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#commit">commit</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#참고">참고</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#gitignore">gitignore</a></li>
+<li class="toc-entry toc-h4"><a href="#sqlalchemy패키지">sqlalchemy패키지</a></li>
+<li class="toc-entry toc-h4"><a href="#github에서-br따서-작업하기">github에서 br따서 작업하기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#1-1-github에서-br생성--clone">[1-1] github에서 br생성 ~ clone</a></li>
+<li class="toc-entry toc-h5"><a href="#clone후-초기-작업-세팅">clone후 초기 작업 세팅</a></li>
+<li class="toc-entry toc-h5"><a href="#1-2-작업끝난-br의-폴더에서-새-작업-br생성--분기게시-초기세팅-또-안해도-되는-장점">[1-2] 작업끝난 br의 폴더에서 새 작업 br생성 ~ 분기게시 (초기세팅 또 안해도 되는 장점)</a></li>
+<li class="toc-entry toc-h5"><a href="#1-3--옛날에-따둔-br에서-작업시작할-땐-최신-master를-rebase후에-작업시작하기">[1-3]  옛날에 따둔 br에서 작업시작할 땐, 최신 master를 rebase후에 작업시작하기</a></li>
+<li class="toc-entry toc-h5"><a href="#2-해당br-작업테스트-완료후--merge까지-정리">[2] 해당br 작업(테스트) 완료후 ~ merge까지 정리</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#vscode-설정">vscode 설정</a></li>
+<li class="toc-entry toc-h4"><a href="#test정리">test정리</a></li>
+<li class="toc-entry toc-h4"><a href="#status_code">status_code</a></li>
+<li class="toc-entry toc-h4"><a href="#powershell-환경변수-등록확인">powershell 환경변수 등록/확인</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h1 id="클린-아키텍쳐-7장">
+<a class="anchor" href="#%ED%81%B4%EB%A6%B0-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90-7%EC%9E%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>클린 아키텍쳐 7장</h1>
+
+<h2 id="1-postman---route--request모듈---postman으로-요청응답-확인하기">
+<a class="anchor" href="#1-postman---route--request%EB%AA%A8%EB%93%88---postman%EC%9C%BC%EB%A1%9C-%EC%9A%94%EC%B2%AD%EC%9D%91%EB%8B%B5-%ED%99%95%EC%9D%B8%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>1 POSTMAN -&gt; route + request모듈 -&gt; POSTMAN으로 요청+응답 확인하기</h2>
+
+<h3 id="01-flask의-request모듈로-route별-요청정보를-한번에-확인할-수-있다">
+<a class="anchor" href="#01-flask%EC%9D%98-request%EB%AA%A8%EB%93%88%EB%A1%9C-route%EB%B3%84-%EC%9A%94%EC%B2%AD%EC%A0%95%EB%B3%B4%EB%A5%BC-%ED%95%9C%EB%B2%88%EC%97%90-%ED%99%95%EC%9D%B8%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 flask의 request모듈로 route별 요청정보를 한번에 확인할 수 있다.</h3>
+
+<h4 id="route에서-request모듈argsto_dict를-jsonfy에서-key와-함께-반환해주면-어떤-정보를이-들어오는지-확인가능하다">
+<a class="anchor" href="#route%EC%97%90%EC%84%9C-request%EB%AA%A8%EB%93%88argsto_dict%EB%A5%BC-jsonfy%EC%97%90%EC%84%9C-key%EC%99%80-%ED%95%A8%EA%BB%98-%EB%B0%98%ED%99%98%ED%95%B4%EC%A3%BC%EB%A9%B4-%EC%96%B4%EB%96%A4-%EC%A0%95%EB%B3%B4%EB%A5%BC%EC%9D%B4-%EB%93%A4%EC%96%B4%EC%98%A4%EB%8A%94%EC%A7%80-%ED%99%95%EC%9D%B8%EA%B0%80%EB%8A%A5%ED%95%98%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>route에서 request모듈.args.to_dict()를 jsonfy에서 key와 함께 반환해주면, 어떤 정보를이 들어오는지 확인가능하다</h4>
+
+<ol>
+  <li>request 모듈을 import하고</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">request.args.to_dict()</code>를 route에서 직렬화해서 반환해주도록 정의하고</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">flask run</code>이후에</li>
+  <li>POSTMAN에서
+    <ul>
+      <li>Rquest- Params에서 query param을 입력해서 넘겨주면</li>
+      <li>Response - Body에서 resonse된 정보를 확인할 수 있다.</li>
+    </ul>
+  </li>
+</ol>
+
+<ul>
+  <li><strong>src&gt;main&gt;routes&gt; api_route.py</strong></li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Blueprint</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">request</span>
+<span class="c1"># from src.main.composer import register_user_composer
+</span>
+<span class="n">api_routes_bp</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span><span class="s">"api_routes"</span><span class="p">,</span> <span class="n">__name__</span><span class="p">)</span>
+
+
+<span class="o">@</span><span class="n">api_routes_bp</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/api"</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">"GET"</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">something</span><span class="p">():</span>
+    <span class="s">"""test"""</span>
+
+    <span class="c1"># return jsonify({"Programmer": "Dolbum"})
+</span>    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s">"message"</span><span class="p">:</span> <span class="n">request</span><span class="p">.</span><span class="n">args</span><span class="p">.</span><span class="n">to_dict</span><span class="p">()})</span>
+
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>flask run
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221006235742915.png" alt="image-20221006235742915"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221006235802628.png" alt="image-20221006235802628"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221006235904614.png" alt="image-20221006235904614"></p>
+
+<h2 id="2-usecase_controller별-route-추가">
+<a class="anchor" href="#2-usecase_controller%EB%B3%84-route-%EC%B6%94%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>2 usecase_controller별 route 추가</h2>
+
+<h3 id="01-register-user-route-추가">
+<a class="anchor" href="#01-register-user-route-%EC%B6%94%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 register user Route 추가</h3>
+
+<h4 id="001-함수명에-use_case를-작성해놓고---api명은-apientity-만---methods로-행위register-post-나타내서-작성하기">
+<a class="anchor" href="#001-%ED%95%A8%EC%88%98%EB%AA%85%EC%97%90-use_case%EB%A5%BC-%EC%9E%91%EC%84%B1%ED%95%B4%EB%86%93%EA%B3%A0---api%EB%AA%85%EC%9D%80-apientity-%EB%A7%8C---methods%EB%A1%9C-%ED%96%89%EC%9C%84register-post-%EB%82%98%ED%83%80%EB%82%B4%EC%84%9C-%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>001 함수명에 use_case를 작성해놓고 -&gt; api명은 “/api/entity” 만 +  methods로 행위(register-&gt;POST) 나타내서 작성하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">api_routes_bp</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/api/users"</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">"POST"</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">register_user</span><span class="p">():</span>
+    <span class="s">""" register user route """</span>
+
+    <span class="k">return</span> 
+</code></pre></div></div>
+
+<h4 id="002-adapter-작성flask-request모듈--composite-route객체-만나서-결과반환-method">
+<a class="anchor" href="#002-adapter-%EC%9E%91%EC%84%B1flask-request%EB%AA%A8%EB%93%88--composite-route%EA%B0%9D%EC%B2%B4-%EB%A7%8C%EB%82%98%EC%84%9C-%EA%B2%B0%EA%B3%BC%EB%B0%98%ED%99%98-method" aria-hidden="true"><span class="octicon octicon-link"></span></a>002 adapter 작성(flask request모듈 + composite route객체 만나서 결과반환 method)</h4>
+
+<h5 id="flask-request----httprequest---composite-route객체repousecasecontroller를-조합-완성객체---httpresponse----return-httpresonse해주는-method">
+<a class="anchor" href="#flask-request----httprequest---composite-route%EA%B0%9D%EC%B2%B4repousecasecontroller%EB%A5%BC-%EC%A1%B0%ED%95%A9-%EC%99%84%EC%84%B1%EA%B0%9D%EC%B2%B4---httpresponse----return-httpresonse%ED%95%B4%EC%A3%BC%EB%8A%94-method" aria-hidden="true"><span class="octicon octicon-link"></span></a>flask request -&gt; [ HttpRequest -&gt; composite route객체(repo+usecase+controller를 조합 완성객체) -&gt; HttpResponse ] -&gt; return HttpResonse해주는 method</h5>
+
+<ul>
+  <li>adapter pattern to Flask는
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">프레임워크의 request</code>를 <code class="language-plaintext highlighter-rouge">바로 조합route객체의 input</code>로 받게 하는게 아니라</strong></li>
+      <li>
+<strong>완충역할을 해줄 <code class="language-plaintext highlighter-rouge">커스텀 HttpRequest</code>로 변환해서 사용하는 과정</strong>
+        <ul>
+          <li><strong>Composite route객체: 커스텀 HttpRequest를 input으로 가져서 <code class="language-plaintext highlighter-rouge">어느 프레임웤의 request든 HttpRequest로 변환하면 받아준다</code></strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="srcmainadapter에-api_adapterpy-생성">
+<a class="anchor" href="#srcmainadapter%EC%97%90-api_adapterpy-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>src&gt;main&gt;adapter에 api_adapter.py 생성</h5>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007001802260.png" alt="image-20221007001802260"></p>
+
+<h4 id="003-flask_adapter-메서드-signatue-작성-flask의-request를-받아---httprequest로-변환하고---composite-route객체-사용하도록-2개의-직접적인-연결을-막는-장소이면서-2개를-인자로-받는-장소">
+<a class="anchor" href="#003-flask_adapter-%EB%A9%94%EC%84%9C%EB%93%9C-signatue-%EC%9E%91%EC%84%B1-flask%EC%9D%98-request%EB%A5%BC-%EB%B0%9B%EC%95%84---httprequest%EB%A1%9C-%EB%B3%80%ED%99%98%ED%95%98%EA%B3%A0---composite-route%EA%B0%9D%EC%B2%B4-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8F%84%EB%A1%9D-2%EA%B0%9C%EC%9D%98-%EC%A7%81%EC%A0%91%EC%A0%81%EC%9D%B8-%EC%97%B0%EA%B2%B0%EC%9D%84-%EB%A7%89%EB%8A%94-%EC%9E%A5%EC%86%8C%EC%9D%B4%EB%A9%B4%EC%84%9C-2%EA%B0%9C%EB%A5%BC-%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%B0%9B%EB%8A%94-%EC%9E%A5%EC%86%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>003 flask_adapter 메서드 signatue 작성: [flask의 request]를 받아 -&gt; HttpRequest로 변환하고 -&gt; [composite route객체] 사용하도록 [2개의 직접적인 연결을 막는 장소이면서, 2개를 인자로 받는 장소]</h4>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">flask의 request</code>를 any type으로 + <code class="language-plaintext highlighter-rouge">usecase_route객체</code> 2개를 처리하기 위한 method로서 인자로 2개를 받는다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">src.main.interface</span> <span class="kn">import</span> <span class="n">RouteInterface</span>
+   
+   
+<span class="k">def</span> <span class="nf">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">api_route</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">RouteInterface</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">any</span><span class="p">:</span>
+    <span class="s">""" Adapter pattern to Flask
+    :param - Flask Request
+    :api_route: Composite Routes
+    """</span>
+    <span class="k">return</span> 
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Route<code class="language-plaintext highlighter-rouge">인터페이스는 Type용으로만 쓴다면</code> 편하게 <code class="language-plaintext highlighter-rouge">인터페이스는 삭제하고 as Route</code>로 변경해서 쓴다.</strong></p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">src.main.interface</span> <span class="kn">import</span> <span class="n">RouteInterface</span> <span class="k">as</span> <span class="n">Route</span>
+   
+   
+<span class="k">def</span> <span class="nf">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">api_route</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Route</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">any</span><span class="p">:</span>
+    <span class="s">""" Adapter pattern to Flask
+    :param - Flask Request
+    :api_route: Composite Routes
+    """</span>
+    <span class="k">return</span> 
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="004-flask_adapter-메서드-구현부-작성">
+<a class="anchor" href="#004-flask_adapter-%EB%A9%94%EC%84%9C%EB%93%9C-%EA%B5%AC%ED%98%84%EB%B6%80-%EC%9E%91%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>004 flask_adapter 메서드 구현부 작성</h4>
+
+<h5 id="post요청일-때의-flask의-requestjson-확인해보기">
+<a class="anchor" href="#post%EC%9A%94%EC%B2%AD%EC%9D%BC-%EB%95%8C%EC%9D%98-flask%EC%9D%98-requestjson-%ED%99%95%EC%9D%B8%ED%95%B4%EB%B3%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>POST요청일 때의 flask의 request.json 확인해보기</h5>
+
+<ol>
+  <li>
+    <p>flask의 <code class="language-plaintext highlighter-rouge">request</code>모듈의 <strong><code class="language-plaintext highlighter-rouge">request.json</code>은 POST요청 속 body를 dict로 자동으로 만들어준다.</strong></p>
+
+    <ul>
+      <li>cf) GET요청 속 params들은 <code class="language-plaintext highlighter-rouge">request.args.to_dict()</code>해야 dict로 만들어줬었다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007005634213.png" alt="image-20221007005634213"></p>
+  </li>
+</ol>
+
+<h6 id="postman의-post요청은-절대조건1-headear에-content-type-applicationjson-명시--2-body는-raw로-작성하기">
+<a class="anchor" href="#postman%EC%9D%98-post%EC%9A%94%EC%B2%AD%EC%9D%80-%EC%A0%88%EB%8C%80%EC%A1%B0%EA%B1%B41-headear%EC%97%90-content-type-applicationjson-%EB%AA%85%EC%8B%9C--2-body%EB%8A%94-raw%EB%A1%9C-%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>POSTMAN의 POST요청은 절대조건1) headear에 Content-Type: application/json 명시 + 2) body는 raw로 작성하기</h6>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007010147636.png" alt="image-20221007010147636"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007010158453.png" alt="image-20221007010158453"></p>
+
+<h6 id="post-route추가하고-requestjson-자체가-dict임을-인지할-것">
+<a class="anchor" href="#post-route%EC%B6%94%EA%B0%80%ED%95%98%EA%B3%A0-requestjson-%EC%9E%90%EC%B2%B4%EA%B0%80-dict%EC%9E%84%EC%9D%84-%EC%9D%B8%EC%A7%80%ED%95%A0-%EA%B2%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>post route추가하고 request.json 자체가 dict임을 인지할 것</h6>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007010234258.png" alt="image-20221007010234258"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007010250973.png" alt="image-20221007010250973"></p>
+
+<h5 id="requestjsonraw-body---dict를-httprequest의-body인자로-넣어주면-객체-생성하여-사용하기">
+<a class="anchor" href="#requestjsonraw-body---dict%EB%A5%BC-httprequest%EC%9D%98-body%EC%9D%B8%EC%9E%90%EB%A1%9C-%EB%84%A3%EC%96%B4%EC%A3%BC%EB%A9%B4-%EA%B0%9D%EC%B2%B4-%EC%83%9D%EC%84%B1%ED%95%98%EC%97%AC-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>request.json(raw Body -&gt; Dict)를 HttpRequest의 body=인자로 넣어주면 객체 생성하여 사용하기</h5>
+
+<ul>
+  <li>
+    <p>HttpRequest의 3개 필드들은 Dict Type을 인자로 받는다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007010544424.png" alt="image-20221007010544424"></p>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">src.main.interface</span> <span class="kn">import</span> <span class="n">RouteInterface</span> <span class="k">as</span> <span class="n">Route</span>
+<span class="kn">from</span> <span class="nn">src.presenters.helpers</span> <span class="kn">import</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="n">HttpResponse</span>
+
+
+<span class="k">def</span> <span class="nf">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">api_route</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Route</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">any</span><span class="p">:</span>
+    <span class="s">""" Adapter pattern to Flask
+    :param - Flask Request
+    :api_route: Composite Routes
+    """</span>
+    <span class="n">http_request</span> <span class="o">=</span> <span class="n">HttpRequest</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="n">request</span><span class="p">.</span><span class="n">json</span><span class="p">)</span>
+    
+    <span class="k">return</span>
+
+</code></pre></div></div>
+
+<h5 id="httprequest객체로-composite-route객체-사용하여--response-return">
+<a class="anchor" href="#httprequest%EA%B0%9D%EC%B2%B4%EB%A1%9C-composite-route%EA%B0%9D%EC%B2%B4-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC--response-return" aria-hidden="true"><span class="octicon octicon-link"></span></a>httprequest객체로 composite route객체 사용하여  response return</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">src.main.interface</span> <span class="kn">import</span> <span class="n">RouteInterface</span> <span class="k">as</span> <span class="n">Route</span>
+<span class="kn">from</span> <span class="nn">src.presenters.helpers</span> <span class="kn">import</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="n">HttpResponse</span>
+
+
+<span class="k">def</span> <span class="nf">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">api_route</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Route</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">any</span><span class="p">:</span>
+    <span class="s">""" Adapter pattern to Flask
+    :param - Flask Request
+    :api_route: Composite Routes
+    """</span>
+    <span class="n">http_request</span> <span class="o">=</span> <span class="n">HttpRequest</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="n">request</span><span class="p">.</span><span class="n">json</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">api_route</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="n">http_request</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">response</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>route객체 == controller객체 -&gt; .route메서드로</p>
+
+    <ul>
+      <li>“Success”와 “Data”를 key로 가지는 HttpResponse객체를 반환한다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007014616163.png" alt="image-20221007014616163"></p>
+  </li>
+  <li>
+    <p>작성완료된 adapter method를 init에 올린다.</p>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">.api_adapter</span> <span class="kn">import</span> <span class="n">flask_adapter</span>
+</code></pre></div></div>
+
+<h4 id="005-api_routepy에서-작성완료된-flask-adapter메서드와-해당usecase의-composer-메서드를-import해서-사용한다">
+<a class="anchor" href="#005-api_routepy%EC%97%90%EC%84%9C-%EC%9E%91%EC%84%B1%EC%99%84%EB%A3%8C%EB%90%9C-flask-adapter%EB%A9%94%EC%84%9C%EB%93%9C%EC%99%80-%ED%95%B4%EB%8B%B9usecase%EC%9D%98-composer-%EB%A9%94%EC%84%9C%EB%93%9C%EB%A5%BC-import%ED%95%B4%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>005 api_route.py에서 작성완료된 flask adapter메서드와 해당usecase의 composer 메서드를 import해서 사용한다.</h4>
+
+<h5 id="flaskrequest--compositeroute객체를-연결해주는-adapter메서드와-해당usecase의-composite-route객체를-반환해주는-composer-method를-import해서-사용한다">
+<a class="anchor" href="#flaskrequest--compositeroute%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EC%97%B0%EA%B2%B0%ED%95%B4%EC%A3%BC%EB%8A%94-adapter%EB%A9%94%EC%84%9C%EB%93%9C%EC%99%80-%ED%95%B4%EB%8B%B9usecase%EC%9D%98-composite-route%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%B0%98%ED%99%98%ED%95%B4%EC%A3%BC%EB%8A%94-composer-method%EB%A5%BC-import%ED%95%B4%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>flask.request + composite.route객체를 연결해주는 adapter메서드와 해당usecase의 composite route객체를 반환해주는 composer method를 import해서 사용한다.</h5>
+
+<ul>
+  <li>composer는 <strong>repo + usecase + controller객체를 다 생성후 합성해서 반환해줘야하는 <code class="language-plaintext highlighter-rouge">method()</code>이다.</strong>
+</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#...
+</span><span class="kn">from</span> <span class="nn">src.main.adapter</span> <span class="kn">import</span> <span class="n">flask_adapter</span>
+<span class="kn">from</span> <span class="nn">src.main.composer</span> <span class="kn">import</span> <span class="n">register_user_composer</span>
+
+<span class="n">api_routes_bp</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span><span class="s">"api_routes"</span><span class="p">,</span> <span class="n">__name__</span><span class="p">)</span>
+
+<span class="c1">#...
+</span>
+<span class="o">@</span><span class="n">api_routes_bp</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/api/users"</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">"POST"</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">register_user</span><span class="p">():</span>    
+    <span class="s">""" register user route """</span>
+
+    <span class="n">message</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">,</span> <span class="n">api_route</span><span class="o">=</span><span class="n">register_user_composer</span><span class="p">())</span>
+
+    <span class="k">return</span> 
+</code></pre></div></div>
+
+<h5 id="flask_adapter가-반환해주는-httpresponse객체를-controller에서-다시-한번-살펴보기">
+<a class="anchor" href="#flask_adapter%EA%B0%80-%EB%B0%98%ED%99%98%ED%95%B4%EC%A3%BC%EB%8A%94-httpresponse%EA%B0%9D%EC%B2%B4%EB%A5%BC-controller%EC%97%90%EC%84%9C-%EB%8B%A4%EC%8B%9C-%ED%95%9C%EB%B2%88-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>flask_adapter가 반환해주는 HttpResponse객체를 controller에서 다시 한번 살펴보기</h5>
+
+<ul>
+  <li>
+    <p>HttpRequest는 POST용-body필드 / GET용-query필드를 각각 뒤지지만</p>
+  </li>
+  <li>
+    <p><strong>HttpResponse는 <code class="language-plaintext highlighter-rouge">어떤 method든</code>결국 <code class="language-plaintext highlighter-rouge">body=</code>에 use_case결과의 <code class="language-plaintext highlighter-rouge">"Data"</code>가 들어간다.</strong></p>
+
+    <ul>
+      <li>
+        <p>find</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007015904879.png" alt="image-20221007015904879"></p>
+      </li>
+      <li>
+        <p>register</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007015934723.png" alt="image-20221007015934723"></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>fail시에는 <strong>body=에 message가 들어간다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007020005317.png" alt="image-20221007020005317"></p>
+  </li>
+</ul>
+
+<h4 id="006-composite-route객체의-결과물에는-status_codebody필드를-가지며-성공과-실패가-있으니--router에서는-성공과-실패를-구분해서-message로-반환한다">
+<a class="anchor" href="#006-composite-route%EA%B0%9D%EC%B2%B4%EC%9D%98-%EA%B2%B0%EA%B3%BC%EB%AC%BC%EC%97%90%EB%8A%94-status_codebody%ED%95%84%EB%93%9C%EB%A5%BC-%EA%B0%80%EC%A7%80%EB%A9%B0-%EC%84%B1%EA%B3%B5%EA%B3%BC-%EC%8B%A4%ED%8C%A8%EA%B0%80-%EC%9E%88%EC%9C%BC%EB%8B%88--router%EC%97%90%EC%84%9C%EB%8A%94-%EC%84%B1%EA%B3%B5%EA%B3%BC-%EC%8B%A4%ED%8C%A8%EB%A5%BC-%EA%B5%AC%EB%B6%84%ED%95%B4%EC%84%9C-message%EB%A1%9C-%EB%B0%98%ED%99%98%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>006 composite route객체의 결과물에는 status_code/body필드를 가지며, 성공과 실패가 있으니 =&gt; router에서는 성공과 실패를 구분해서 message로 반환한다</h4>
+
+<h5 id="route는--none초기화가-아니라-빈-dict-로-초기화해놓고-composite-route객체-성공시에-채운다">
+<a class="anchor" href="#route%EB%8A%94--none%EC%B4%88%EA%B8%B0%ED%99%94%EA%B0%80-%EC%95%84%EB%8B%88%EB%9D%BC-%EB%B9%88-dict-%EB%A1%9C-%EC%B4%88%EA%B8%B0%ED%99%94%ED%95%B4%EB%86%93%EA%B3%A0-composite-route%EA%B0%9D%EC%B2%B4-%EC%84%B1%EA%B3%B5%EC%8B%9C%EC%97%90-%EC%B1%84%EC%9A%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>route는 = None초기화가 아니라, 빈 dict {}로 초기화해놓고, composite route객체 성공시에 채운다.</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">api_routes_bp</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/api/users"</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">"POST"</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">register_user</span><span class="p">():</span>    
+    <span class="s">""" register user route """</span>
+
+    <span class="c1"># message = None
+</span>    <span class="n">message</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">,</span> <span class="n">api_route</span><span class="o">=</span><span class="n">register_user_composer</span><span class="p">())</span>
+</code></pre></div></div>
+
+<h5 id="일단-성공시-message-재할당해서-채울-데이터를-만든다">
+<a class="anchor" href="#%EC%9D%BC%EB%8B%A8-%EC%84%B1%EA%B3%B5%EC%8B%9C-message-%EC%9E%AC%ED%95%A0%EB%8B%B9%ED%95%B4%EC%84%9C-%EC%B1%84%EC%9A%B8-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A5%BC-%EB%A7%8C%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>일단 성공시 message 재할당해서 채울 데이터를 만든다.</h5>
+
+<ol>
+  <li>
+    <p><strong>message에는 <code class="language-plaintext highlighter-rouge">"Type" : "entity(소문자)"</code>가 추가된다.</strong></p>
+  </li>
+  <li>
+    <p><strong>생성성공시 id부터 생성된 객체필드들을 <code class="language-plaintext highlighter-rouge">response.body</code>에서 뽑아쓰면 된다. <code class="language-plaintext highlighter-rouge">response(body=에 "Data"정보)</code>가 들어가 있기 때문이다.</strong></p>
+
+    <ul>
+      <li><strong>adapter메서드는 inputType(여기서만Flaks request), outputType(여기서만 HttpResponse? 항상일 것 같지만?)의 Type이 안정해진 any로 사용하기 때문에, 결과물에 대한 필드 접근을 직접해야한다.</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>POST후 생성된 객체정보를 알고 싶으면 <code class="language-plaintext highlighter-rouge">src&gt;models&gt;</code>에서 DTO객체(namedTuple)의 필드명을 본다.</strong></p>
+
+    <ul>
+      <li>password는 제외하고 응답보낼 것이다.</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007020732432.png" alt="image-20221007020732432"></p>
+  </li>
+  <li>
+    <p><strong>POST(register)후 <code class="language-plaintext highlighter-rouge">새롭게 배정된 id</code>는 따로 필드로 배정하지만, <code class="language-plaintext highlighter-rouge">post요청시 body에 들어온 정보는 attributes</code>로 한번 더 싸서 보낸다?!</strong></p>
+  </li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">api_routes_bp</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/api/users"</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">"POST"</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">register_user</span><span class="p">():</span>
+    <span class="s">""" register user route """</span>
+
+    <span class="c1"># message = None
+</span>    <span class="n">message</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">,</span> <span class="n">api_route</span><span class="o">=</span><span class="n">register_user_composer</span><span class="p">())</span>
+
+    <span class="n">message</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"Type"</span><span class="p">:</span> <span class="s">"users"</span><span class="p">,</span>
+        <span class="s">"id"</span><span class="p">:</span> <span class="n">response</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="nb">id</span><span class="p">,</span>
+        <span class="s">"attributes"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">"name"</span><span class="p">:</span> <span class="n">response</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">name</span>
+            <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<h5 id="다-만들어진-message는-jsonify시-소문자-data를-key로-해서-value에-줘서-반환한다-이-때-튜플로서-responsestatus_code도-같이-보낸다">
+<a class="anchor" href="#%EB%8B%A4-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A7%84-message%EB%8A%94-jsonify%EC%8B%9C-%EC%86%8C%EB%AC%B8%EC%9E%90-data%EB%A5%BC-key%EB%A1%9C-%ED%95%B4%EC%84%9C-value%EC%97%90-%EC%A4%98%EC%84%9C-%EB%B0%98%ED%99%98%ED%95%9C%EB%8B%A4-%EC%9D%B4-%EB%95%8C-%ED%8A%9C%ED%94%8C%EB%A1%9C%EC%84%9C-responsestatus_code%EB%8F%84-%EA%B0%99%EC%9D%B4-%EB%B3%B4%EB%82%B8%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>다 만들어진 message는 <code class="language-plaintext highlighter-rouge">jsonify</code>시 <code class="language-plaintext highlighter-rouge">소문자 "data"</code>를 key로 해서 value에 줘서 반환한다. 이 때, 튜플로서 response.status_code도 같이 보낸다.</h5>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">api_routes_bp</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/api/users"</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">"POST"</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">register_user</span><span class="p">():</span>
+    <span class="s">""" register user route """</span>
+
+    <span class="c1"># message = None
+</span>    <span class="n">message</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">,</span> <span class="n">api_route</span><span class="o">=</span><span class="n">register_user_composer</span><span class="p">())</span>
+
+    <span class="n">message</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"Type"</span><span class="p">:</span> <span class="s">"users"</span><span class="p">,</span>
+        <span class="s">"id"</span><span class="p">:</span> <span class="n">response</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="nb">id</span><span class="p">,</span>
+        <span class="s">"attributes"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">"name"</span><span class="p">:</span> <span class="n">response</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">name</span>
+            <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s">"data"</span><span class="p">:</span> <span class="n">message</span><span class="p">}),</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span>
+
+</code></pre></div></div>
+
+<h4 id="007-성공시-message만-먼저-작성완료했으면-postman으로-확인한다---status_code는-body우측상단에-따로확인----db도-확인한다">
+<a class="anchor" href="#007-%EC%84%B1%EA%B3%B5%EC%8B%9C-message%EB%A7%8C-%EB%A8%BC%EC%A0%80-%EC%9E%91%EC%84%B1%EC%99%84%EB%A3%8C%ED%96%88%EC%9C%BC%EB%A9%B4-postman%EC%9C%BC%EB%A1%9C-%ED%99%95%EC%9D%B8%ED%95%9C%EB%8B%A4---status_code%EB%8A%94-body%EC%9A%B0%EC%B8%A1%EC%83%81%EB%8B%A8%EC%97%90-%EB%94%B0%EB%A1%9C%ED%99%95%EC%9D%B8----db%EB%8F%84-%ED%99%95%EC%9D%B8%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>007 성공시 message만 먼저 작성완료했으면, POSTMAN으로 확인한다. -&gt; status_code는 body우측상단에 따로확인  -&gt; DB도 확인한다</h4>
+
+<ol>
+  <li>
+    <p>POST로 수정</p>
+  </li>
+  <li>
+    <p>url 확인 <code class="language-plaintext highlighter-rouge">/api/users</code> 로 <strong>행위없이 entity로만 끝내기</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007021609472.png" alt="image-20221007021609472"></p>
+  </li>
+  <li>
+    <p><strong>POST로서 Headers에 컨텐츠 타입 작성</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007021400718.png" alt="image-20221007021400718"></p>
+  </li>
+  <li>
+    <p><strong>Body는 raw로 json으로 작성</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007021430123.png" alt="image-20221007021430123"></p>
+  </li>
+  <li>
+    <p>send</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007021928933.png" alt="image-20221007021928933"></p>
+  </li>
+  <li>
+    <p><strong>튜플로 보낸 status 코드는 POSTMAN body 우측상단에 보인다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007022229156.png" alt="image-20221007022229156"></p>
+  </li>
+  <li>
+    <p><strong>DB도 확인한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007022056791.png" alt="image-20221007022056791"></p>
+  </li>
+</ol>
+
+<h4 id="008-unique-key인-name를-바꿔서-send보내면-성공하지만-다시보내면-예외가-터진다-이미-가진-name에-대해--unique-constraint-failed---integrityerror의-예외가-터진다">
+<a class="anchor" href="#008-unique-key%EC%9D%B8-name%EB%A5%BC-%EB%B0%94%EA%BF%94%EC%84%9C-send%EB%B3%B4%EB%82%B4%EB%A9%B4-%EC%84%B1%EA%B3%B5%ED%95%98%EC%A7%80%EB%A7%8C-%EB%8B%A4%EC%8B%9C%EB%B3%B4%EB%82%B4%EB%A9%B4-%EC%98%88%EC%99%B8%EA%B0%80-%ED%84%B0%EC%A7%84%EB%8B%A4-%EC%9D%B4%EB%AF%B8-%EA%B0%80%EC%A7%84-name%EC%97%90-%EB%8C%80%ED%95%B4--unique-constraint-failed---integrityerror%EC%9D%98-%EC%98%88%EC%99%B8%EA%B0%80-%ED%84%B0%EC%A7%84%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>008 unique key인 name를 바꿔서 send보내면 성공하지만.. 다시보내면 예외가 터진다. 이미 가진 name에 대해  UNIQUE constraint failed -&gt; IntegrityError의 예외가 터진다.</h4>
+
+<ul>
+  <li>
+    <p>jjs123 -&gt; jjs1234</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007022146088.png" alt="image-20221007022146088"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007022310742.png" alt="image-20221007022310742"></p>
+  </li>
+  <li>
+    <p>똑같은  name으로 한번더 SEND</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007022437167.png" alt="image-20221007022437167"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007022558718.png" alt="image-20221007022558718"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007022535965.png" alt="image-20221007022535965"></p>
+  </li>
+</ul>
+
+<h3 id="02-route에서-터지는-db에러는-adapter_method에서-composite-route객체route메서드에서-잡는다">
+<a class="anchor" href="#02-route%EC%97%90%EC%84%9C-%ED%84%B0%EC%A7%80%EB%8A%94-db%EC%97%90%EB%9F%AC%EB%8A%94-adapter_method%EC%97%90%EC%84%9C-composite-route%EA%B0%9D%EC%B2%B4route%EB%A9%94%EC%84%9C%EB%93%9C%EC%97%90%EC%84%9C-%EC%9E%A1%EB%8A%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 route에서 터지는 DB에러는 adapter_method에서 composite route객체.route메서드에서 잡는다.</h3>
+
+<h4 id="001-registerinsert에서는-unique-key-필드를-send-2번으로-중복에러존재검증에러를-터트려서-잡는다">
+<a class="anchor" href="#001-registerinsert%EC%97%90%EC%84%9C%EB%8A%94-unique-key-%ED%95%84%EB%93%9C%EB%A5%BC-send-2%EB%B2%88%EC%9C%BC%EB%A1%9C-%EC%A4%91%EB%B3%B5%EC%97%90%EB%9F%AC%EC%A1%B4%EC%9E%AC%EA%B2%80%EC%A6%9D%EC%97%90%EB%9F%AC%EB%A5%BC-%ED%84%B0%ED%8A%B8%EB%A0%A4%EC%84%9C-%EC%9E%A1%EB%8A%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>001 register(insert)에서는 unique key 필드를 SEND 2번으로 중복에러(존재검증)에러를 터트려서 잡는다.</h4>
+
+<h4 id="002-adapter-method에서-terminal의-sqlalchemy-에러를-import한다">
+<a class="anchor" href="#002-adapter-method%EC%97%90%EC%84%9C-terminal%EC%9D%98-sqlalchemy-%EC%97%90%EB%9F%AC%EB%A5%BC-import%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>002 adapter method에서, terminal의 SQLAlchemy 에러를 import한다.</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: users.name
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#...
+</span><span class="kn">from</span> <span class="nn">sqlalchemy.exc</span> <span class="kn">import</span> <span class="n">IntegrityError</span>
+<span class="c1">#...
+</span>
+<span class="k">def</span> <span class="nf">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">api_route</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Route</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">any</span><span class="p">:</span>
+    <span class="c1">#...
+</span></code></pre></div></div>
+
+<h4 id="003-route객체route-호출부를-try-except-해당에러로-잡는다">
+<a class="anchor" href="#003-route%EA%B0%9D%EC%B2%B4route-%ED%98%B8%EC%B6%9C%EB%B6%80%EB%A5%BC-try-except-%ED%95%B4%EB%8B%B9%EC%97%90%EB%9F%AC%EB%A1%9C-%EC%9E%A1%EB%8A%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>003 route객체.route() 호출부를 [try ~except 해당에러]로 잡는다.</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">api_route</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Route</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">any</span><span class="p">:</span>
+    <span class="c1">#...
+</span>    <span class="n">http_request</span> <span class="o">=</span> <span class="n">HttpRequest</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="n">request</span><span class="p">.</span><span class="n">json</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">api_route</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="n">http_request</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">IntegrityError</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">return</span> <span class="n">response</span>
+</code></pre></div></div>
+
+<h4 id="004-except로-잡은-에러에-대해-httperror를-인터넷에서-검색후-message를-가져오고-해당-에러를-에러매핑-httperrors클래스의-static메서드로-추가한다">
+<a class="anchor" href="#004-except%EB%A1%9C-%EC%9E%A1%EC%9D%80-%EC%97%90%EB%9F%AC%EC%97%90-%EB%8C%80%ED%95%B4-httperror%EB%A5%BC-%EC%9D%B8%ED%84%B0%EB%84%B7%EC%97%90%EC%84%9C-%EA%B2%80%EC%83%89%ED%9B%84-message%EB%A5%BC-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B3%A0-%ED%95%B4%EB%8B%B9-%EC%97%90%EB%9F%AC%EB%A5%BC-%EC%97%90%EB%9F%AC%EB%A7%A4%ED%95%91-httperrors%ED%81%B4%EB%9E%98%EC%8A%A4%EC%9D%98-static%EB%A9%94%EC%84%9C%EB%93%9C%EB%A1%9C-%EC%B6%94%EA%B0%80%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>004 except로 잡은 에러에 대해 HttpError를 인터넷에서 검색후 message를 가져오고, 해당 에러를 에러매핑 HttpErrors클래스의 static메서드로 추가한다.</h4>
+
+<ul>
+  <li><strong>중복에러는 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/409">409 Conflict</a>에 해당한다</strong></li>
+  <li>src&gt;presenter&gt;errors&gt;http_errors.py의 HttpErrors class에 <strong>매핑 static 클래스로 추가한다.</strong>
+</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">HttpErrors</span><span class="p">:</span>
+    <span class="c1">#...
+</span>    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">error_409</span><span class="p">():</span>
+        <span class="s">"""HTTP 409"""</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s">"status_code"</span><span class="p">:</span> <span class="mi">409</span><span class="p">,</span> <span class="s">"body"</span><span class="p">:</span> <span class="p">{</span><span class="s">"error"</span><span class="p">:</span> <span class="s">"Conflict"</span><span class="p">}}</span>
+</code></pre></div></div>
+
+<h4 id="005-except-error부분에서-httperros-409를-뽑아내---성공-결과물과-같은-type의-httpresponse객체를-만들고-early-return해준다">
+<a class="anchor" href="#005-except-error%EB%B6%80%EB%B6%84%EC%97%90%EC%84%9C-httperros-409%EB%A5%BC-%EB%BD%91%EC%95%84%EB%82%B4---%EC%84%B1%EA%B3%B5-%EA%B2%B0%EA%B3%BC%EB%AC%BC%EA%B3%BC-%EA%B0%99%EC%9D%80-type%EC%9D%98-httpresponse%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%A7%8C%EB%93%A4%EA%B3%A0-early-return%ED%95%B4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>005 except Error:부분에서 HttpErros 409를 뽑아내 -&gt; 성공 결과물과 같은 Type의 HttpResponse객체를 만들고 early return해준다.</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">api_route</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Route</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">any</span><span class="p">:</span>
+    <span class="s">""" Adapter pattern to Flask
+    :param - Flask Request
+    :api_route: Composite Routes
+    """</span>
+    <span class="n">http_request</span> <span class="o">=</span> <span class="n">HttpRequest</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="n">request</span><span class="p">.</span><span class="n">json</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">api_route</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="n">http_request</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">IntegrityError</span><span class="p">:</span>
+        <span class="n">http_error</span> <span class="o">=</span> <span class="n">HttpErrors</span><span class="p">.</span><span class="n">error_409</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"status_code"</span><span class="p">],</span>
+            <span class="n">body</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"body"</span><span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">response</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>참고 <strong>HttpErros의 “body”에는 {“error” : “error_message”}의 dict가 들어가있음.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007163935039.png" alt="image-20221007163935039"></p>
+  </li>
+</ul>
+
+<h3 id="03-등록-route에서는-예외처리-완료된-adapter-method결과인-httpresponse의-status_code를-따라-message를-처리">
+<a class="anchor" href="#03-%EB%93%B1%EB%A1%9D-route%EC%97%90%EC%84%9C%EB%8A%94-%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC-%EC%99%84%EB%A3%8C%EB%90%9C-adapter-method%EA%B2%B0%EA%B3%BC%EC%9D%B8-httpresponse%EC%9D%98-status_code%EB%A5%BC-%EB%94%B0%EB%9D%BC-message%EB%A5%BC-%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 [등록 route]에서는 [예외처리 완료된 adapter method]결과인 [HttpResponse의 status_code를 따라] message를 처리</h3>
+
+<h4 id="001-status_code--300미만이라면-정상-response를-받는-것이다-성공시-message를-그대로-사용">
+<a class="anchor" href="#001-status_code--300%EB%AF%B8%EB%A7%8C%EC%9D%B4%EB%9D%BC%EB%A9%B4-%EC%A0%95%EC%83%81-response%EB%A5%BC-%EB%B0%9B%EB%8A%94-%EA%B2%83%EC%9D%B4%EB%8B%A4-%EC%84%B1%EA%B3%B5%EC%8B%9C-message%EB%A5%BC-%EA%B7%B8%EB%8C%80%EB%A1%9C-%EC%82%AC%EC%9A%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>001 status_code &lt; 300미만이라면, 정상 response를 받는 것이다. 성공시 message를 그대로 사용</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">api_routes_bp</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/api/users"</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">"POST"</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">register_user</span><span class="p">():</span>
+    <span class="s">""" register user route """</span>
+
+    <span class="n">message</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">,</span> <span class="n">api_route</span><span class="o">=</span><span class="n">register_user_composer</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span> <span class="o">&lt;</span> <span class="mi">300</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">"Type"</span><span class="p">:</span> <span class="s">"users"</span><span class="p">,</span>
+            <span class="s">"id"</span><span class="p">:</span> <span class="n">response</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="nb">id</span><span class="p">,</span>
+            <span class="s">"attributes"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s">"name"</span><span class="p">:</span> <span class="n">response</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">name</span>
+                <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s">"data"</span><span class="p">:</span> <span class="n">message</span><span class="p">}),</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span>
+        
+    <span class="c1"># Handing Errors
+</span>    <span class="k">return</span> 
+</code></pre></div></div>
+
+<h4 id="002--200번대가-아니라면-jsonify하는-key-value가-달라진다-기존-data-message----error--statuestatus_code-titleerror_message">
+<a class="anchor" href="#002--200%EB%B2%88%EB%8C%80%EA%B0%80-%EC%95%84%EB%8B%88%EB%9D%BC%EB%A9%B4-jsonify%ED%95%98%EB%8A%94-key-value%EA%B0%80-%EB%8B%AC%EB%9D%BC%EC%A7%84%EB%8B%A4-%EA%B8%B0%EC%A1%B4-data-message----error--statuestatus_code-titleerror_message" aria-hidden="true"><span class="octicon octicon-link"></span></a>002  200번대가 아니라면 jsonify하는 key value가 달라진다( 기존: “data”: message  -&gt; “error” :{ “statue”:status_code, “title”:error_message}</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="o">@</span><span class="n">api_routes_bp</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/api/users"</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">"POST"</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">register_user</span><span class="p">():</span>
+    <span class="s">""" register user route """</span>
+
+    <span class="n">message</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">,</span> <span class="n">api_route</span><span class="o">=</span><span class="n">register_user_composer</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span> <span class="o">&lt;</span> <span class="mi">300</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">"Type"</span><span class="p">:</span> <span class="s">"users"</span><span class="p">,</span>
+            <span class="s">"id"</span><span class="p">:</span> <span class="n">response</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="nb">id</span><span class="p">,</span>
+            <span class="s">"attributes"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s">"name"</span><span class="p">:</span> <span class="n">response</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">name</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s">"data"</span><span class="p">:</span> <span class="n">message</span><span class="p">}),</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span>
+
+    <span class="c1"># Handing Errors
+</span>    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+        <span class="s">"error"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">"status"</span><span class="p">:</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span><span class="p">,</span>
+            <span class="s">"title"</span><span class="p">:</span> <span class="n">response</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"error"</span><span class="p">],</span>
+        <span class="p">}</span>
+    <span class="p">}),</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007165408175.png" alt="image-20221007165408175"></p>
+
+<h4 id="003-router의-300-처리는-headers-없는-post요청no-body도-400-error로-내려준다">
+<a class="anchor" href="#003-router%EC%9D%98-300-%EC%B2%98%EB%A6%AC%EB%8A%94-headers-%EC%97%86%EB%8A%94-post%EC%9A%94%EC%B2%ADno-body%EB%8F%84-400-error%EB%A1%9C-%EB%82%B4%EB%A0%A4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>003 router의 &lt;300 처리는 Headers 없는 POST요청(no body)도 400 error로 내려준다</h4>
+
+<ul>
+  <li>
+    <p>postman no headers -&gt;</p>
+  </li>
+  <li>
+    <p>flask request.json -&gt; None</p>
+  </li>
+  <li>
+    <p><strong>usecase controller class</strong>의  route method -&gt;</p>
+
+    <ul>
+      <li>
+        <p>no body(reqeuest.json)로 인한 HttpErros 400 생성</p>
+
+        <ol>
+          <li>httpresponse {‘status_code’: 400, ‘body’: {‘error’: ‘Bad request’}}</li>
+        </ol>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007170747881.png" alt="image-20221007170747881"></p>
+      </li>
+    </ul>
+
+    <ol>
+      <li>cf) route객체인 composer는 객체 조합해서 생성 후 객체 반환하는 메서드라 로직이 없음.</li>
+    </ol>
+  </li>
+</ul>
+
+<ol>
+  <li>route 300미만시 error로 처리</li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007170605687.png" alt="image-20221007170605687"></p>
+
+<h4 id="004-route--300처리는-필수param-없는-요청or-validate_entry통과못하면도-422-에러로-내려준다">
+<a class="anchor" href="#004-route--300%EC%B2%98%EB%A6%AC%EB%8A%94-%ED%95%84%EC%88%98param-%EC%97%86%EB%8A%94-%EC%9A%94%EC%B2%ADor-validate_entry%ED%86%B5%EA%B3%BC%EB%AA%BB%ED%95%98%EB%A9%B4%EB%8F%84-422-%EC%97%90%EB%9F%AC%EB%A1%9C-%EB%82%B4%EB%A0%A4%EC%A4%80%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>004 route &lt; 300처리는 필수param 없는 요청(or validate_entry통과못하면)도 422 에러로 내려준다.</h4>
+
+<ul>
+  <li>
+    <p>headers는 주고(nobody 400 해결), <strong>unique key이자 필수 param인 name없이 줘보자.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007171152068.png" alt="image-20221007171152068"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007171203026.png" alt="image-20221007171203026"></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">useacse controller route메서드</code>에서, <code class="language-plaintext highlighter-rouge">필수 param 존재검증(or validate_entry)</code>시 통과못하면 422에러를 냈다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007171351206.png" alt="image-20221007171351206"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221007171241972.png" alt="image-20221007171241972"></p>
+  </li>
+</ul>
+
+<h3 id="commit">
+<a class="anchor" href="#commit" aria-hidden="true"><span class="octicon octicon-link"></span></a>commit</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit -am "feat: implementing register_use Route with flask"
+</code></pre></div></div>
+
+<h2 id="참고">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고</h2>
+
+<ul>
+  <li>
+<a href="https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html">Robert C. Martin (Uncle Bob)의 Clean Code Blog</a>
+    <ul>
+      <li><a href="https://leanpub.com/clean-architectures-in-python">PDF-free-Clean Architectures in Python</a></li>
+    </ul>
+  </li>
+  <li><a href="https://velog.io/@jahoy/Python%EC%9C%BC%EB%A1%9C-Clean-Architecture-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0">용어 참고 블로그 1편</a></li>
+  <li><a href="https://velog.io/@jahoy/Python%EC%9C%BC%EB%A1%9C-%ED%81%B4%EB%A6%B0-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B02">용어 참고 블로그 2편</a></li>
+  <li><a href="https://testdriven.io/blog/fastapi-crud/#postgres-setup">fasapi vs flask</a></li>
+</ul>
+
+<h4 id="gitignore">
+<a class="anchor" href="#gitignore" aria-hidden="true"><span class="octicon octicon-link"></span></a>gitignore</h4>
+
+<ul>
+  <li>
+    <p>git에 commit되었던 것을 ignore하고 싶을 때</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git rm [파일명] --cached
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>git amend</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git commit --amend --no-edit
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<ol>
+  <li>console 등에서 init import부터 생기는 pycache폴더</li>
+  <li>venv</li>
+  <li>연습용 sqlite .db파일</li>
+  <li>pytest시 생기는 .pytest_cache 폴더</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>**/__pycache__
+venv
+storage.db
+.pytest_cache
+</code></pre></div></div>
+
+<h4 id="sqlalchemy패키지">
+<a class="anchor" href="#sqlalchemy%ED%8C%A8%ED%82%A4%EC%A7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>sqlalchemy패키지</h4>
+
+<ul>
+  <li>일반 패키지: create_engine / 칼럼재료들</li>
+  <li>.orm 패키지:
+    <ul>
+      <li>relatioship: 1:M에서 1에 해당하는 table이 들고 있는 가짜칼럼</li>
+      <li>sessionmaker: handler class 속 enter에서 engine을 묶어서 session을 반환해주는 놈</li>
+    </ul>
+  </li>
+  <li>.exc 패키지:
+    <ul>
+      <li>IntegrityError: unique key 중복시 나는 에러</li>
+    </ul>
+  </li>
+  <li>계층별 변수정리
+    <ul>
+      <li>id : sqlalchemy -&gt; <strong>repo부터는</strong> fk_id도 있으니 <code class="language-plaintext highlighter-rouge">pk_id</code>
+</li>
+      <li>name: sqlalchemy-&gt;repo-&gt;usecase까지는 그냥 name (선택인자 개별메서드에by_name)-&gt; <strong>controller부터는 외부에선 다른(pet)_name도 있으니 <code class="language-plaintext highlighter-rouge">fk_name</code></strong>
+        <ul>
+          <li><strong>OneEntity의 경우 그냥 controller에서도 <code class="language-plaintext highlighter-rouge">name</code>만</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="github에서-br따서-작업하기">
+<a class="anchor" href="#github%EC%97%90%EC%84%9C-br%EB%94%B0%EC%84%9C-%EC%9E%91%EC%97%85%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>github에서 br따서 작업하기</h4>
+
+<h5 id="1-1-github에서-br생성--clone">
+<a class="anchor" href="#1-1-github%EC%97%90%EC%84%9C-br%EC%83%9D%EC%84%B1--clone" aria-hidden="true"><span class="octicon octicon-link"></span></a>[1-1] github에서 br생성 ~ clone</h5>
+
+<ol>
+  <li>
+    <p>github에 들어가서 <code class="language-plaintext highlighter-rouge">feat/~</code>로 브랜치 생성</p>
+  </li>
+  <li>
+    <p>해당 br만 clone</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git clone -b [branch] [git주소]
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="clone후-초기-작업-세팅">
+<a class="anchor" href="#clone%ED%9B%84-%EC%B4%88%EA%B8%B0-%EC%9E%91%EC%97%85-%EC%84%B8%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>clone후 초기 작업 세팅</h5>
+
+<ol>
+  <li>gitignore중에 db파일 있으면 옮겨주기
+    <ul>
+      <li>없으면 config import해서 Base + handler -&gt; get_enigne -&gt; bind한 다음, create_all()해줘야할듯??</li>
+    </ul>
+  </li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220929154256052.png" alt="image-20220929154256052"></p>
+
+<ol>
+  <li>github에서 따온 빈 새br에 대해, venv를 만들고 활성화하고  vscode를 연다</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python -m virtualenv -p python310 venv
+
+.\venv\Scripts\activate
+</code></pre></div></div>
+
+<ol>
+  <li>최초 requirements.txt 직접 설치</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip3 install -r requirements.txt
+</code></pre></div></div>
+
+<ol>
+  <li>최초 pre-commit install 직접 세팅</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pre-commit install
+</code></pre></div></div>
+
+<ol>
+  <li>vscode 열고 interpreter venv로 지정</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>code .
+</code></pre></div></div>
+
+<h5 id="1-2-작업끝난-br의-폴더에서-새-작업-br생성--분기게시-초기세팅-또-안해도-되는-장점">
+<a class="anchor" href="#1-2-%EC%9E%91%EC%97%85%EB%81%9D%EB%82%9C-br%EC%9D%98-%ED%8F%B4%EB%8D%94%EC%97%90%EC%84%9C-%EC%83%88-%EC%9E%91%EC%97%85-br%EC%83%9D%EC%84%B1--%EB%B6%84%EA%B8%B0%EA%B2%8C%EC%8B%9C-%EC%B4%88%EA%B8%B0%EC%84%B8%ED%8C%85-%EB%98%90-%EC%95%88%ED%95%B4%EB%8F%84-%EB%90%98%EB%8A%94-%EC%9E%A5%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>[1-2] 작업끝난 br의 폴더에서 새 작업 br생성 ~ 분기게시 (초기세팅 또 안해도 되는 장점)</h5>
+
+<ol>
+  <li>
+    <p>현재 br를 확인한다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">git</span> <span class="n">branch</span>
+<span class="o">*</span> <span class="n">feat</span><span class="o">/</span><span class="n">register_user_use_case</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>checkout -b</strong>로 새 br 생성하여 진입하기</p>
+
+    <ul>
+      <li>원래는 github에서 create branch했었음.</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git checkout -b feat/generic_use_cases
+   
+git branch
+   
+* feat/generic_use_cases
+  feat/register_user_use_case
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>git push -u origin [branch명]으로 <code class="language-plaintext highlighter-rouge">새로생성한 br를 push해서 github에 생성하기</code></strong></p>
+
+    <ul>
+      <li>vscode에서는 push -u origin [branch] 대신  <strong><code class="language-plaintext highlighter-rouge">분기게시</code>가 뜬다.</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>github에서 <strong>빈 분기가 생성되었는지 확인하기</strong></p>
+
+    <ul>
+      <li>github에 merge되기 위해서는 <strong>직전 작업이후 <code class="language-plaintext highlighter-rouge">github에 새 작업 br를 먼저 생성해놓고 작업</code>에 들어가야한다</strong>
+</li>
+    </ul>
+  </li>
+</ol>
+
+<h5 id="1-3--옛날에-따둔-br에서-작업시작할-땐-최신-master를-rebase후에-작업시작하기">
+<a class="anchor" href="#1-3--%EC%98%9B%EB%82%A0%EC%97%90-%EB%94%B0%EB%91%94-br%EC%97%90%EC%84%9C-%EC%9E%91%EC%97%85%EC%8B%9C%EC%9E%91%ED%95%A0-%EB%95%90-%EC%B5%9C%EC%8B%A0-master%EB%A5%BC-rebase%ED%9B%84%EC%97%90-%EC%9E%91%EC%97%85%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>[1-3]  옛날에 따둔 br에서 작업시작할 땐, 최신 master를 rebase후에 작업시작하기</h5>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">git checkout master</code>를 통해 <strong>안가져와서 안보이던 master</strong>를 만든다</p>
+
+    <ul>
+      <li>
+<strong>-b의 새로만든 것이 아니므로</strong> remote와 연결된 master가 된다.</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">git branch</code>로 확인</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git checkout master
+   
+git branch
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">git pull</code>로 master에 최신 코드를 가져온다</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git pull
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>rebase받을 업뎃안된 작업br로 넘어간 뒤, <code class="language-plaintext highlighter-rouge">matser의 내용을 rebase로 받아온다</code></strong></p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git checkout [작업br]
+   
+git rebase master
+   
+git log --oneline
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="2-해당br-작업테스트-완료후--merge까지-정리">
+<a class="anchor" href="#2-%ED%95%B4%EB%8B%B9br-%EC%9E%91%EC%97%85%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%99%84%EB%A3%8C%ED%9B%84--merge%EA%B9%8C%EC%A7%80-%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>[2] 해당br 작업(테스트) 완료후 ~ merge까지 정리</h5>
+
+<ol>
+  <li>
+    <p>status 확인후 add . 후  -am으로 커밋-&gt;실패-&gt;-am커밋</p>
+
+    <ul>
+      <li><strong>add를 먼저 날려야 add된상태로 pytest하는 것 같다?!</strong></li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git status
+   
+git add .
+   
+git commit -am "feat: implementing data interfaces"
+   
+git commit -am "feat: implementing data interfaces"
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>git push는 현재 로그인된 vscode에서 하고 있음.</strong></p>
+  </li>
+  <li>
+    <p><strong>github에 들어가보면, <code class="language-plaintext highlighter-rouge">Compare &amp; pull request</code>가 떠있더라도 <code class="language-plaintext highlighter-rouge">PR탭 &gt; new PR</code>로 들어가는 버릇을 들여보자.</strong></p>
+  </li>
+</ol>
+
+<ul>
+  <li>Comparing change까지 들어가서 코드를 확인하고 <code class="language-plaintext highlighter-rouge">Able to merge</code> 및 <code class="language-plaintext highlighter-rouge">세부코드</code>를 확인하고 <strong>직접 Create PR까지 가자</strong>
+</li>
+</ul>
+
+<ol>
+  <li><strong>merge후 master에 반영되었는지까지 확인하자</strong></li>
+</ol>
+
+<h4 id="vscode-설정">
+<a class="anchor" href="#vscode-%EC%84%A4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>vscode 설정</h4>
+
+<ul>
+  <li>캐쉬파일 안보이기</li>
+</ul>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">"files.exclude"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"**/__pycache__"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"**/.pytest_cache"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+</span></code></pre></div></div>
+
+<ul>
+  <li>
+    <p>tab시 space로 입력되기</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001015405760.png" alt="image-20221001015405760"></p>
+  </li>
+  <li>
+    <p>탐색기 열기 단축키 : <code class="language-plaintext highlighter-rouge">shift + alt + R</code></p>
+
+    <ul>
+      <li>파일: 파일 탐색기에 표시</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="test정리">
+<a class="anchor" href="#test%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>test정리</h4>
+
+<ol>
+  <li>
+    <p>repo_insert_X</p>
+
+    <ol>
+      <li>id제외 faker + insert메서드 -&gt; new_dto</li>
+      <li>new_dto속 배정id + engine db select -&gt; query_data -&gt; engine db delete</li>
+      <li>assert new_dto.필드 == query_data필드 비교</li>
+    </ol>
+  </li>
+  <li>
+    <p>repo_select_X</p>
+    <ol>
+      <li>id포함 faker -&gt; entity모델 객체</li>
+      <li>id포함 재료들 + engine db insert -&gt; db데이터만들어놓기</li>
+      <li>id, fk재료들 + select메서드 -&gt; List[entity모델객체들]</li>
+      <li>engine db delete</li>
+    </ol>
+  </li>
+</ol>
+
+<h4 id="status_code">
+<a class="anchor" href="#status_code" aria-hidden="true"><span class="octicon octicon-link"></span></a>status_code</h4>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">422</code>: validate_entry실패하는 query 속 param들 -&gt; usecase메서드의 결과물 response의 [“Success”]가 False</p>
+
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">필수param</code>(dict속 필드)이 빠졌을 경우(존재검증) or 필수param이 <code class="language-plaintext highlighter-rouge">validate_entry실패</code>할 경우 -&gt; <code class="language-plaintext highlighter-rouge">response("Success"/"Data")의 "Success"가 False</code></strong></li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>if reponse["Success"] is False:
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">400</code>: query속 param들이 필요한 controller인데 http_request안에 아예 존재도 안했다면, 400 Bad Request에러</p>
+
+    <ul>
+      <li><strong>http_request에 필수param을 포함한 .query or .body가 아예 날라오지도 않았을 경우</strong></li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>if http_request.query:
+	# if query
+# if not query
+else:
+</code></pre></div>    </div>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>if http_request.body:
+	# if body
+# if not body
+else:
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">409</code>:  타겟 자원에 상태에 요청이 conflict를 유발한 경우</p>
+
+    <ul>
+      <li><strong>register(insert) 요청에 대해 unique key(name)이 중복되어, 중복에러(IntegrityError)를 발생한 경우</strong></li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>POSTMAND에서 생성요청을 같은name를 가진 body로 2번 요청했을 때
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="powershell-환경변수-등록확인">
+<a class="anchor" href="#powershell-%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98-%EB%93%B1%EB%A1%9D%ED%99%95%EC%9D%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>powershell 환경변수 등록/확인</h4>
+
+<ul>
+  <li>python가상환경 venv에서 activated한 상태로 적용
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">venv\Scripts\activate.ps1</code>에 저장된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p>등록:</p>
+
+    <div class="language-powershell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">FLASK_APP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"hello"</span><span class="w">
+</span></code></pre></div>    </div>
+
+    <ul>
+      <li>파일명은 “ “ 확장자를 뺀 쌍따옴표로</li>
+    </ul>
+
+    <div class="language-powershell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">FLASK_RUN_PORT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8000</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>확인</p>
+
+    <div class="language-powershell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nf">Get-ChildItem</span><span class="w"> </span><span class="nx">Env:</span><span class="w">
+</span></code></pre></div>    </div>
+
+    <div class="language-powershell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nf">Get-ChildItem</span><span class="w"> </span><span class="nx">Env:</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nf">Format-Table</span><span class="w"> </span><span class="nt">-Wrap</span><span class="w">
+</span></code></pre></div>    </div>
+
+    <div class="language-powershell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c">## 'LOGONSERVER' 환경변수를 찾고 싶다면,</span><span class="w">
+</span><span class="nf">Get-ChildItem</span><span class="w"> </span><span class="nx">Env:LOGONSERVER</span><span class="w">
+   
+</span><span class="c">## 'on'이 포함된 단어, ex) logONserver, ONedrive...</span><span class="w">
+</span><span class="nf">Get-ChildItem</span><span class="w"> </span><span class="nx">Env:</span><span class="o">*</span><span class="nx">on</span><span class="o">*</span><span class="w">
+   
+</span><span class="c">## 'on'으로 시작하는 단어, ONedrive ...</span><span class="w">
+</span><span class="nf">Get-ChildItem</span><span class="w"> </span><span class="nx">Env:on</span><span class="o">*</span><span class="w">
+   
+</span><span class="c">## 'on'으로 끝나는 단어, ex) processor_revisiON ...</span><span class="w">
+</span><span class="nf">Get-ChildItem</span><span class="w"> </span><span class="nx">Env:</span><span class="o">*</span><span class="nx">on</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+</ol>
+
+
+  </div><a class="u-url" href="/python/flask/cleanarchitecture/2022/09/07/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_07_OneEntity_register_user_route_and_Uniquekey_%EC%A4%91%EB%B3%B5%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

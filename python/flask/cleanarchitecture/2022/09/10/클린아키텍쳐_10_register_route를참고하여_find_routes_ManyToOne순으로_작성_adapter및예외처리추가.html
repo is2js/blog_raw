@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>클린아키텍쳐 10 Register를 통한 Find route구현 -&gt; OneEntity의 Route들 구현 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="클린아키텍쳐 10 Register를 통한 Find route구현 -&gt; OneEntity의 Route들 구현" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="python clean architecture" />
+<meta property="og:description" content="python clean architecture" />
+<link rel="canonical" href="blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/10/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_10_register_route%EB%A5%BC%EC%B0%B8%EA%B3%A0%ED%95%98%EC%97%AC_find_routes_ManyToOne%EC%88%9C%EC%9C%BC%EB%A1%9C_%EC%9E%91%EC%84%B1_adapter%EB%B0%8F%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC%EC%B6%94%EA%B0%80.html" />
+<meta property="og:url" content="blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/10/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_10_register_route%EB%A5%BC%EC%B0%B8%EA%B3%A0%ED%95%98%EC%97%AC_find_routes_ManyToOne%EC%88%9C%EC%9C%BC%EB%A1%9C_%EC%9E%91%EC%84%B1_adapter%EB%B0%8F%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC%EC%B6%94%EA%B0%80.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/python.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-09-10T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-09-10T00:00:00-05:00","url":"blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/10/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_10_register_route%EB%A5%BC%EC%B0%B8%EA%B3%A0%ED%95%98%EC%97%AC_find_routes_ManyToOne%EC%88%9C%EC%9C%BC%EB%A1%9C_%EC%9E%91%EC%84%B1_adapter%EB%B0%8F%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC%EC%B6%94%EA%B0%80.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/python.png","headline":"클린아키텍쳐 10 Register를 통한 Find route구현 -&gt; OneEntity의 Route들 구현","dateModified":"2022-09-10T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/python/flask/cleanarchitecture/2022/09/10/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_10_register_route%EB%A5%BC%EC%B0%B8%EA%B3%A0%ED%95%98%EC%97%AC_find_routes_ManyToOne%EC%88%9C%EC%9C%BC%EB%A1%9C_%EC%9E%91%EC%84%B1_adapter%EB%B0%8F%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC%EC%B6%94%EA%B0%80.html"},"description":"python clean architecture","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">클린아키텍쳐 10 Register를 통한 Find route구현 -&gt; OneEntity의 Route들 구현</h1><p class="page-description">python clean architecture</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-09-10T00:00:00-05:00" itemprop="datePublished">
+        Sep 10, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      11 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#python">python</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#flask">flask</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#cleanarchitecture">cleanarchitecture</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#클린-아키텍쳐-9장">클린 아키텍쳐 9장</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#1-find-oneentitymanyentity-동시에-route-추가---find-user">1 Find OneEntity/ManyEntity 동시에 route 추가 - find user</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#01-composer-메서드부터-작성">01 composer 메서드부터 작성</a></li>
+<li class="toc-entry toc-h3"><a href="#02-route-작성">02 route 작성</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#find-pet-route부터-작성---methods-변경에-따른-adapter-request처리-필요">find pet route부터 작성 -&gt; methods 변경에 따른 adapter request처리 필요</a></li>
+<li class="toc-entry toc-h4"><a href="#현재-flask_adapter-메서드는-postregister-request만-처리-중">현재 flask_adapter 메서드는 POST(register) request만 처리 중</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#2-methods추가에-따른-adapter-method-구현부-수정">2 methods추가에 따른 adapter method 구현부 수정</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#01-register를-위한-post-requestjson뿐만-아니라-find를-위한-get-방식입력시-requestargsto_dict-처리">01 register를 위한 POST request(.json)뿐만 아니라 find를 위한 GET 방식입력시 request.args.to_dict() 처리</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#001-일단-post로-보내면-requestargs는-비어있고-requestjson만-차있다">001 일단, POST로 보내면 request.args는 비어있고, request.json만 차있다.</a></li>
+<li class="toc-entry toc-h4"><a href="#002-post일때도-requestargsto_dict나-to_dict한-것을-params로-받아-keys를-해도-비어있는-dict로-상관없다">002 POST일때도 request.args.to_dict()나, to_dict()한 것을 params로 받아 .keys()를 해도 비어있는 dict로 상관없다</a></li>
+<li class="toc-entry toc-h4"><a href="#002-get방식에-대비하여-requestargsto_dict를-query_string_params로-받아놓고-모든-entity_id를-존재를-확인하여-존재시-int로-convert한다혹시나-find시-id를-문자열로-입력한-것에-대비한다">002 GET방식에 대비하여 request.args.to_dict()를 query_string_params로 받아놓고, 모든 entity_id를 존재를 확인하여 존재시 int로 convert한다(혹시나 find시 id를 문자열로 입력한 것에 대비한다)</a></li>
+<li class="toc-entry toc-h4"><a href="#003-route를-요청하지-않은-상태지만-try-필수param의-id속성의-형변환이-에러가-난다면-except-400에러를-내서-early-return한다">003 route를 요청하지 않은 상태지만. [try] 필수param의 id속성의 형변환이 에러가 난다면, [except] 400에러를 내서 early return한다</a></li>
+<li class="toc-entry toc-h4"><a href="#004-httprequest에는-post든-get이든-일단-선택형인자로서-body-query가-둘다-들어간다-비어있어도-상관없다-또한-flask-requestheaders--header인자에-넣어주면-된다">004 HttpRequest에는 POST든, GET이든 일단 선택형인자로서 body=, query=가 둘다 들어간다. 비어있어도 상관없다. 또한 flask request.headers =&gt; header=인자에 넣어주면 된다.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#3-get방식-find-route의-message는-post방식-register-message의-복수형이다">3 GET방식 find Route의 message는 POST방식 register message의 복수형이다</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#01-register의-responsebody에는-controller-결과-나온-dto-1개만-data로-들어갔지만-find의-reponse에는-listentitymodel의-data가-body로-들어갔다">01 register의 response.body에는 controller 결과 나온 DTO 1개만 “Data”로 들어갔지만, find의 reponse에는 List[EntityModel]의 “Data”가 “body”로 들어갔다.</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#001-get-route의-route객체-reposonsebody는-list이므로-300-성공시-responsebody를-순회하며-message--에-여러개의-정보를-append해야한다">001 GET route의 route객체 reposonse.body는 LIST이므로, &lt;300 성공시, response.body를 순회하며 message = []에 여러개의 정보를 append해야한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#002-post의-message-내용만-잘라내서-listresponse-body-순회하며-append할-준비를-한다">002 POST의 message 내용만 잘라내서, list(response body) 순회하며 append할 준비를 한다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#02-route-return-data에-list를-반환하는지-postman으로-확인하기">02 route return “data”에 list를 반환하는지 POSTMAN으로 확인하기</a></li>
+<li class="toc-entry toc-h3"><a href="#03-enum에-의한-직렬화-에러">03 Enum에 의한 직렬화 에러</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#register시에는-repo에서-enumvalue의-값으로-만든-dto를-반환해주지만-find시에는-순수enum을-가진-entitymodel객체를-반환해주는-괴리">register시에는 repo에서 [enum.value]의 값으로 만든 DTO를 반환해주지만, find시에는 [순수enum]을 가진 EntityModel객체를 반환해주는 괴리</a></li>
+<li class="toc-entry toc-h4"><a href="#register시-반환은-말그대로-등록완료를-보여주기-위한-dto를-반환하지만-find는-use_case들에서-내부로직이-작동할-수-있어서-dto로-반환하면-안된다">register시 반환은 말그대로 등록완료를 보여주기 위한 DTO를 반환하지만, find는 use_case들에서 내부로직이 작동할 수 있어서, DTO로 반환하면 안된다.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#04-find시-responsebody에-반환되는-것들은-listentitymodel이니-route에서-직접-enumvalue로-뽑아주자규칙">04 find시 response.body에 반환되는 것들은 List[EntityModel]이니, route에서 직접 enum.value로 뽑아주자.(규칙)</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#pk인-pet_id로--1개-조회---list로-반환">pk인 pet_id로  1개 조회 -&gt; list로 반환</a></li>
+<li class="toc-entry toc-h4"><a href="#fk인-user_id로-여러개-조회---list로-반환">fk인 user_id로 여러개 조회 -&gt; list로 반환</a></li>
+<li class="toc-entry toc-h4"><a href="#fk에-대해서는-없는-데이터에-대해---존재검증-없이-빈list-반환-by-all">fk에 대해서는 없는 데이터에 대해 -&gt; 존재검증 없이 빈list 반환 by .all()</a></li>
+<li class="toc-entry toc-h4"><a href="#pk에-대해서는-one-로-조회하며-없는-데이터에-대해-noresultfound에러가-난다">pk에 대해서는 .one() 로 조회하며, 없는 데이터에 대해 NoResultFound에러가 난다.</a></li>
+<li class="toc-entry toc-h4"><a href="#pk에-대해서-first로-없는-데이터를-조회하면---에러없이-none으로반환되어-진행되며-필드id를-뽑을-때-attributeerror가-난다">pk에 대해서 .first()로 없는 데이터를 조회하면? -&gt; 에러없이 None으로반환되어 진행되며 필드(.id)를 뽑을 때 attributeError가 난다</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#4-find-route에-대해-repo의-select시-pk가-껴있는-로직은-one시-noresultfound-예외처리해야한다">4 find route에 대해 repo의 select시 pk가 껴있는 로직은 .one()시 NoResultFound 예외처리해야한다.</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#01-repo들의-select시-pk로-조회로직은-복수를-기대하여-all로-조회하며-데이터가-없어도-에러가-안나고-빈list가-내려오지만-pk가-포함된-조회는-one으로-조회하며-noresultfound-에러가-난다">01 repo들의 select시 pk로 조회로직은 복수를 기대하여 .all()로 조회하며, 데이터가 없어도 에러가 안나고 빈list가 내려오지만, pk가 포함된 조회는 .one()으로 조회하며 NoResultFound 에러가 난다.</a></li>
+<li class="toc-entry toc-h3"><a href="#02-repo들마다-select_xxx메서드에-noresultfound예외처리하자">02 repo들마다 select_xxx()메서드에 NoResultFound예외처리하자</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#나머지-except은-rollback하도록-그대로-두고-except-noresultfound만-빈-를-반환하도록-한다">나머지 except은 rollback하도록 그대로 두고, except NoResultFound만 빈 []를 반환하도록 한다.</a></li>
+<li class="toc-entry toc-h4"><a href="#이제-다시-없는-pk로-find해보자-select---one---noresultfound---return-">이제 다시 없는 pk로 find해보자( select -&gt; .one() -&gt; NoResultFound -&gt; return [])</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#5-find_pet-route를-복사해서-find_user--route-만들기">5 find_pet route를 복사해서 find_user  route 만들기</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#단일entity-find시에는-relationships-속성을-지우고-message를-만든다">단일Entity Find시에는 relationships 속성을 지우고 message를 만든다.</a></li>
+<li class="toc-entry toc-h3"><a href="#postman으로-조회">postman으로 조회</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#pk로-조회">pk로 조회</a></li>
+<li class="toc-entry toc-h4"><a href="#unique-key인-name으로-조회---실패---필드명과-달라도-user_name으로-조회">unique key인 name으로 조회 -&gt; 실패 -&gt; 필드명과 달라도 user_name으로 조회</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#필드명은-name이지만-다른entity도-nam을-가질-경우-controller에서-entity_name으로-처리했을-것임">필드명은 name이지만, 다른entity도 nam을 가질 경우, controller에서 entity_name으로 처리했을 것임</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#없는-pk로-조회---one---빈-list가-올-것임">없는 pk로 조회 -&gt; one -&gt; 빈 list가 올 것임</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#6-adapter에서-발견하지-못한-에러들에-대해-except-500-처리">6 adapter에서 발견하지 못한 에러들에 대해 except 500 처리</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#adapter에서-잡는-에러는-현재-get시-id형변환-실패에-대한-400에러---post시-route메서드-호출결과-uniquekeyname중복에-대한-409에러-등-request에-대한-사용자에러-밖에-없다">adapter에서 잡는 에러는 현재 GET시 id형변환 실패에 대한 400에러 +  POST시 route메서드 호출결과 uniquekey(name)중복에 대한 409에러 등 request에 대한 사용자에러 밖에 없다</a></li>
+<li class="toc-entry toc-h3"><a href="#adapter에서-route객체의-route-method호출-후-409중복검증외에-모든-실패를-500으로-잡도록-except를-추가한다">adapter에서 route객체의 .route method호출 후 409(중복검증)외에 모든 실패를 500으로 잡도록 except를 추가한다.</a></li>
+<li class="toc-entry toc-h3"><a href="#httperrors에-500을-추가한다">HttpErrors에 500을 추가한다</a></li>
+<li class="toc-entry toc-h3"><a href="#adapter에서-예기치-못한-500에러에-대한-출력을-추가한다">adapter에서 예기치 못한 500에러에 대한 출력을 추가한다</a></li>
+<li class="toc-entry toc-h3"><a href="#commit---push">commit -&gt; push</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#참고">참고</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#gitignore">gitignore</a></li>
+<li class="toc-entry toc-h4"><a href="#sqlalchemy패키지">sqlalchemy패키지</a></li>
+<li class="toc-entry toc-h4"><a href="#github에서-br따서-작업하기">github에서 br따서 작업하기</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#1-1-github에서-br생성--clone">[1-1] github에서 br생성 ~ clone</a></li>
+<li class="toc-entry toc-h5"><a href="#clone후-초기-작업-세팅">clone후 초기 작업 세팅</a></li>
+<li class="toc-entry toc-h5"><a href="#1-2-작업끝난-br의-폴더에서-새-작업-br생성--분기게시-초기세팅-또-안해도-되는-장점">[1-2] 작업끝난 br의 폴더에서 새 작업 br생성 ~ 분기게시 (초기세팅 또 안해도 되는 장점)</a></li>
+<li class="toc-entry toc-h5"><a href="#1-3--옛날에-따둔-br에서-작업시작할-땐-최신-master를-pull---rebase후에-작업시작하기">[1-3]  옛날에 따둔 br에서 작업시작할 땐, 최신 master를 pull -&gt; rebase후에 작업시작하기</a></li>
+<li class="toc-entry toc-h5"><a href="#2-framework-있다면-venv에-환경변수-세팅---vscode-디버깅-세팅">[2] framework 있다면 venv에 환경변수 세팅 -&gt; vscode 디버깅 세팅</a></li>
+<li class="toc-entry toc-h5"><a href="#3-해당br-작업테스트-완료후--merge까지-정리">[3] 해당br 작업(테스트) 완료후 ~ merge까지 정리</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#vscode-설정">vscode 설정</a></li>
+<li class="toc-entry toc-h4"><a href="#test정리">test정리</a></li>
+<li class="toc-entry toc-h4"><a href="#status_code">status_code</a></li>
+<li class="toc-entry toc-h4"><a href="#powershell-환경변수-등록확인">powershell 환경변수 등록/확인</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h1 id="클린-아키텍쳐-9장">
+<a class="anchor" href="#%ED%81%B4%EB%A6%B0-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90-9%EC%9E%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>클린 아키텍쳐 9장</h1>
+
+<h2 id="1-find-oneentitymanyentity-동시에-route-추가---find-user">
+<a class="anchor" href="#1-find-oneentitymanyentity-%EB%8F%99%EC%8B%9C%EC%97%90-route-%EC%B6%94%EA%B0%80---find-user" aria-hidden="true"><span class="octicon octicon-link"></span></a>1 Find OneEntity/ManyEntity 동시에 route 추가 - find user</h2>
+
+<h3 id="01-composer-메서드부터-작성">
+<a class="anchor" href="#01-composer-%EB%A9%94%EC%84%9C%EB%93%9C%EB%B6%80%ED%84%B0-%EC%9E%91%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 composer 메서드부터 작성</h3>
+
+<ul>
+  <li>framework adapter메서드가 작성된 상태에서 필요한 것은 usecase별 route(controller)객체</li>
+  <li><strong>find MayEntity는 딱히 fk_repo 및 fk_usecase는 필요없다</strong></li>
+</ul>
+
+<ol>
+  <li>
+    <p>src&gt;main&gt; composer &gt; <code class="language-plaintext highlighter-rouge">find_user_composite.py</code> 생성</p>
+  </li>
+  <li>
+    <p>controller객체(route객체)완성까지 필요한 것들  import</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">src.infra.repo.user_repository</span> <span class="kn">import</span> <span class="n">UserRepository</span>
+<span class="kn">from</span> <span class="nn">src.data.find_user</span> <span class="kn">import</span> <span class="n">FindUser</span>
+<span class="kn">from</span> <span class="nn">src.main.interface.route</span> <span class="kn">import</span> <span class="n">RouteInterface</span>
+<span class="kn">from</span> <span class="nn">src.presenters.controllers</span> <span class="kn">import</span> <span class="n">FindUserController</span>
+   
+<span class="k">def</span> <span class="nf">find_user_composer</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">RouteInterface</span><span class="p">:</span>
+    <span class="s">"""Composing Find User Route
+    :param - None
+    :return - Object with Find User Route
+    """</span>
+   
+    <span class="n">repository</span> <span class="o">=</span> <span class="n">UserRepository</span><span class="p">()</span>
+    <span class="n">use_case</span> <span class="o">=</span> <span class="n">FindUser</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
+    <span class="n">find_user_route</span> <span class="o">=</span> <span class="n">FindUserController</span><span class="p">(</span><span class="n">use_case</span><span class="p">)</span>
+   
+    <span class="k">return</span> <span class="n">find_user_route</span>
+   
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>src&gt;main&gt; composer &gt; <code class="language-plaintext highlighter-rouge">find_pet_composite.py</code> 생성후 <strong>위에 작성한 것 복붙하여 수정</strong>하여 똑같이 작업</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">src.infra.repo.pet_repository</span> <span class="kn">import</span> <span class="n">PetRepository</span>
+<span class="kn">from</span> <span class="nn">src.data.find_pet</span> <span class="kn">import</span> <span class="n">FindPet</span>
+<span class="kn">from</span> <span class="nn">src.main.interface.route</span> <span class="kn">import</span> <span class="n">RouteInterface</span>
+<span class="kn">from</span> <span class="nn">src.presenters.controllers</span> <span class="kn">import</span> <span class="n">FindPetController</span>
+   
+   
+<span class="k">def</span> <span class="nf">find_pet_composer</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">RouteInterface</span><span class="p">:</span>
+    <span class="s">"""Composing Find Pet Route
+    :param - None
+    :return - Object with Find Pet Route
+    """</span>
+   
+    <span class="n">repository</span> <span class="o">=</span> <span class="n">PetRepository</span><span class="p">()</span>
+    <span class="n">use_case</span> <span class="o">=</span> <span class="n">FindPet</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
+    <span class="n">find_pet_route</span> <span class="o">=</span> <span class="n">FindPetController</span><span class="p">(</span><span class="n">use_case</span><span class="p">)</span>
+   
+    <span class="k">return</span> <span class="n">find_pet_route</span>
+   
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>둘다 init에 올리기</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">#...
+</span><span class="kn">from</span> <span class="nn">.find_user_composite</span> <span class="kn">import</span> <span class="n">find_user_composer</span>
+<span class="kn">from</span> <span class="nn">.find_pet_composite</span> <span class="kn">import</span> <span class="n">find_pet_composer</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="02-route-작성">
+<a class="anchor" href="#02-route-%EC%9E%91%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 route 작성</h3>
+
+<h4 id="find-pet-route부터-작성---methods-변경에-따른-adapter-request처리-필요">
+<a class="anchor" href="#find-pet-route%EB%B6%80%ED%84%B0-%EC%9E%91%EC%84%B1---methods-%EB%B3%80%EA%B2%BD%EC%97%90-%EB%94%B0%EB%A5%B8-adapter-request%EC%B2%98%EB%A6%AC-%ED%95%84%EC%9A%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>find pet route부터 작성 -&gt; methods 변경에 따른 adapter request처리 필요</h4>
+
+<ol>
+  <li>
+    <p><strong>find route도 기존route를 복사해서 작성한다</strong></p>
+  </li>
+  <li>
+    <p>함수명에 usecase  / url에는 entity만 / methods에 행위만</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">api_routes_bp</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/api/pets"</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">"GET"</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">find_pet</span><span class="p">():</span>
+    <span class="s">"""find pet route"""</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>composer 메서드 import하여 adapter 입력해주기</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">api_routes_bp</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/api/pets"</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">"GET"</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">find_pet</span><span class="p">():</span>
+    <span class="s">"""find pet route"""</span>
+   
+    <span class="n">message</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">,</span> <span class="n">api_route</span><span class="o">=</span><span class="n">find_pet_composer</span><span class="p">())</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="현재-flask_adapter-메서드는-postregister-request만-처리-중">
+<a class="anchor" href="#%ED%98%84%EC%9E%AC-flask_adapter-%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-postregister-request%EB%A7%8C-%EC%B2%98%EB%A6%AC-%EC%A4%91" aria-hidden="true"><span class="octicon octicon-link"></span></a>현재 flask_adapter 메서드는 POST(register) request만 처리 중</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221008232106781.png" alt="image-20221008232106781"></p>
+
+<h2 id="2-methods추가에-따른-adapter-method-구현부-수정">
+<a class="anchor" href="#2-methods%EC%B6%94%EA%B0%80%EC%97%90-%EB%94%B0%EB%A5%B8-adapter-method-%EA%B5%AC%ED%98%84%EB%B6%80-%EC%88%98%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>2 methods추가에 따른 adapter method 구현부 수정</h2>
+
+<h3 id="01-register를-위한-post-requestjson뿐만-아니라-find를-위한-get-방식입력시-requestargsto_dict-처리">
+<a class="anchor" href="#01-register%EB%A5%BC-%EC%9C%84%ED%95%9C-post-requestjson%EB%BF%90%EB%A7%8C-%EC%95%84%EB%8B%88%EB%9D%BC-find%EB%A5%BC-%EC%9C%84%ED%95%9C-get-%EB%B0%A9%EC%8B%9D%EC%9E%85%EB%A0%A5%EC%8B%9C-requestargsto_dict-%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 register를 위한 POST request(.json)뿐만 아니라 find를 위한 GET 방식입력시 request.args.to_dict() 처리</h3>
+
+<h4 id="001-일단-post로-보내면-requestargs는-비어있고-requestjson만-차있다">
+<a class="anchor" href="#001-%EC%9D%BC%EB%8B%A8-post%EB%A1%9C-%EB%B3%B4%EB%82%B4%EB%A9%B4-requestargs%EB%8A%94-%EB%B9%84%EC%96%B4%EC%9E%88%EA%B3%A0-requestjson%EB%A7%8C-%EC%B0%A8%EC%9E%88%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>001 일단, POST로 보내면 request.args는 비어있고, request.json만 차있다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009000743835.png" alt="image-20221009000743835"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009000819974.png" alt="image-20221009000819974"></p>
+
+<h4 id="002-post일때도-requestargsto_dict나-to_dict한-것을-params로-받아-keys를-해도-비어있는-dict로-상관없다">
+<a class="anchor" href="#002-post%EC%9D%BC%EB%95%8C%EB%8F%84-requestargsto_dict%EB%82%98-to_dict%ED%95%9C-%EA%B2%83%EC%9D%84-params%EB%A1%9C-%EB%B0%9B%EC%95%84-keys%EB%A5%BC-%ED%95%B4%EB%8F%84-%EB%B9%84%EC%96%B4%EC%9E%88%EB%8A%94-dict%EB%A1%9C-%EC%83%81%EA%B4%80%EC%97%86%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>002 POST일때도 request.args.to_dict()나, to_dict()한 것을 params로 받아 .keys()를 해도 비어있는 dict로 상관없다</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009001116249.png" alt="image-20221009001116249"></p>
+
+<h4 id="002-get방식에-대비하여-requestargsto_dict를-query_string_params로-받아놓고-모든-entity_id를-존재를-확인하여-존재시-int로-convert한다혹시나-find시-id를-문자열로-입력한-것에-대비한다">
+<a class="anchor" href="#002-get%EB%B0%A9%EC%8B%9D%EC%97%90-%EB%8C%80%EB%B9%84%ED%95%98%EC%97%AC-requestargsto_dict%EB%A5%BC-query_string_params%EB%A1%9C-%EB%B0%9B%EC%95%84%EB%86%93%EA%B3%A0-%EB%AA%A8%EB%93%A0-entity_id%EB%A5%BC-%EC%A1%B4%EC%9E%AC%EB%A5%BC-%ED%99%95%EC%9D%B8%ED%95%98%EC%97%AC-%EC%A1%B4%EC%9E%AC%EC%8B%9C-int%EB%A1%9C-convert%ED%95%9C%EB%8B%A4%ED%98%B9%EC%8B%9C%EB%82%98-find%EC%8B%9C-id%EB%A5%BC-%EB%AC%B8%EC%9E%90%EC%97%B4%EB%A1%9C-%EC%9E%85%EB%A0%A5%ED%95%9C-%EA%B2%83%EC%97%90-%EB%8C%80%EB%B9%84%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>002 GET방식에 대비하여 request.args.to_dict()를 query_string_params로 받아놓고, 모든 entity_id를 존재를 확인하여 존재시 int로 convert한다(혹시나 find시 id를 문자열로 입력한 것에 대비한다)</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">api_route</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Route</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">any</span><span class="p">:</span>
+    <span class="s">"""Adapter pattern to Flask
+    :param - Flask Request
+    :api_route: Composite Routes
+    """</span>
+
+    <span class="n">query_string_params</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">args</span><span class="p">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="s">"pet_id"</span> <span class="ow">in</span> <span class="n">query_string_params</span><span class="p">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">query_string_params</span><span class="p">[</span><span class="s">"pet_id"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">query_string_params</span><span class="p">[</span><span class="s">"pet_id"</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="s">"user_id"</span> <span class="ow">in</span> <span class="n">query_string_params</span><span class="p">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">query_string_params</span><span class="p">[</span><span class="s">"user_id"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">query_string_params</span><span class="p">[</span><span class="s">"user_id"</span><span class="p">])</span>
+
+    <span class="n">http_request</span> <span class="o">=</span> <span class="n">HttpRequest</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="n">request</span><span class="p">.</span><span class="n">json</span><span class="p">)</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">api_route</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="n">http_request</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">IntegrityError</span><span class="p">:</span>
+        <span class="n">http_error</span> <span class="o">=</span> <span class="n">HttpErrors</span><span class="p">.</span><span class="n">error_409</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"status_code"</span><span class="p">],</span> <span class="n">body</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"body"</span><span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">response</span>
+</code></pre></div></div>
+
+<h4 id="003-route를-요청하지-않은-상태지만-try-필수param의-id속성의-형변환이-에러가-난다면-except-400에러를-내서-early-return한다">
+<a class="anchor" href="#003-route%EB%A5%BC-%EC%9A%94%EC%B2%AD%ED%95%98%EC%A7%80-%EC%95%8A%EC%9D%80-%EC%83%81%ED%83%9C%EC%A7%80%EB%A7%8C-try-%ED%95%84%EC%88%98param%EC%9D%98-id%EC%86%8D%EC%84%B1%EC%9D%98-%ED%98%95%EB%B3%80%ED%99%98%EC%9D%B4-%EC%97%90%EB%9F%AC%EA%B0%80-%EB%82%9C%EB%8B%A4%EB%A9%B4-except-400%EC%97%90%EB%9F%AC%EB%A5%BC-%EB%82%B4%EC%84%9C-early-return%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>003 route를 요청하지 않은 상태지만. [try] 필수param의 id속성의 형변환이 에러가 난다면, [except] 400에러를 내서 early return한다</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">api_route</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Route</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">any</span><span class="p">:</span>
+    <span class="s">"""Adapter pattern to Flask
+    :param - Flask Request
+    :api_route: Composite Routes
+    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">query_string_params</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">args</span><span class="p">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="s">"pet_id"</span> <span class="ow">in</span> <span class="n">query_string_params</span><span class="p">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">query_string_params</span><span class="p">[</span><span class="s">"pet_id"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">query_string_params</span><span class="p">[</span><span class="s">"pet_id"</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="s">"user_id"</span> <span class="ow">in</span> <span class="n">query_string_params</span><span class="p">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">query_string_params</span><span class="p">[</span><span class="s">"user_id"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">query_string_params</span><span class="p">[</span><span class="s">"user_id"</span><span class="p">])</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">http_error</span> <span class="o">=</span> <span class="n">HttpErrors</span><span class="p">.</span><span class="n">error_400</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"status_code"</span><span class="p">],</span> <span class="n">body</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"body"</span><span class="p">]</span>
+        <span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>구체적인 except를 지정하지 않아서 경고가 뜨는데, 이것은 실제 요청하면서 발견하여 넣어줄 예정이다.</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009004135197.png" alt="image-20221009004135197"></p>
+  </li>
+</ul>
+
+<h4 id="004-httprequest에는-post든-get이든-일단-선택형인자로서-body-query가-둘다-들어간다-비어있어도-상관없다-또한-flask-requestheaders--header인자에-넣어주면-된다">
+<a class="anchor" href="#004-httprequest%EC%97%90%EB%8A%94-post%EB%93%A0-get%EC%9D%B4%EB%93%A0-%EC%9D%BC%EB%8B%A8-%EC%84%A0%ED%83%9D%ED%98%95%EC%9D%B8%EC%9E%90%EB%A1%9C%EC%84%9C-body-query%EA%B0%80-%EB%91%98%EB%8B%A4-%EB%93%A4%EC%96%B4%EA%B0%84%EB%8B%A4-%EB%B9%84%EC%96%B4%EC%9E%88%EC%96%B4%EB%8F%84-%EC%83%81%EA%B4%80%EC%97%86%EB%8B%A4-%EB%98%90%ED%95%9C-flask-requestheaders--header%EC%9D%B8%EC%9E%90%EC%97%90-%EB%84%A3%EC%96%B4%EC%A3%BC%EB%A9%B4-%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>004 HttpRequest에는 POST든, GET이든 일단 선택형인자로서 body=, query=가 둘다 들어간다. 비어있어도 상관없다. 또한 flask request.headers =&gt; header=인자에 넣어주면 된다.</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">api_route</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Route</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">any</span><span class="p">:</span>
+    <span class="c1">#...
+</span>    <span class="k">try</span><span class="p">:</span>
+        <span class="n">query_string_params</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">args</span><span class="p">.</span><span class="n">to_dict</span><span class="p">()</span>
+		<span class="c1">#...
+</span>
+	<span class="n">http_request</span> <span class="o">=</span> <span class="n">HttpRequest</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="n">request</span><span class="p">.</span><span class="n">headers</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">request</span><span class="p">.</span><span class="n">json</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="n">query_string_params</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h2 id="3-get방식-find-route의-message는-post방식-register-message의-복수형이다">
+<a class="anchor" href="#3-get%EB%B0%A9%EC%8B%9D-find-route%EC%9D%98-message%EB%8A%94-post%EB%B0%A9%EC%8B%9D-register-message%EC%9D%98-%EB%B3%B5%EC%88%98%ED%98%95%EC%9D%B4%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>3 GET방식 find Route의 message는 POST방식 register message의 복수형이다</h2>
+
+<h3 id="01-register의-responsebody에는-controller-결과-나온-dto-1개만-data로-들어갔지만-find의-reponse에는-listentitymodel의-data가-body로-들어갔다">
+<a class="anchor" href="#01-register%EC%9D%98-responsebody%EC%97%90%EB%8A%94-controller-%EA%B2%B0%EA%B3%BC-%EB%82%98%EC%98%A8-dto-1%EA%B0%9C%EB%A7%8C-data%EB%A1%9C-%EB%93%A4%EC%96%B4%EA%B0%94%EC%A7%80%EB%A7%8C-find%EC%9D%98-reponse%EC%97%90%EB%8A%94-listentitymodel%EC%9D%98-data%EA%B0%80-body%EB%A1%9C-%EB%93%A4%EC%96%B4%EA%B0%94%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 register의 response.body에는 controller 결과 나온 DTO 1개만 “Data”로 들어갔지만, find의 reponse에는 List[EntityModel]의 “Data”가 “body”로 들어갔다.</h3>
+
+<ul>
+  <li>
+    <p>jsonapi에서도 <strong>여러개를 반환할 때는, “data”에  message value를 넣을 때 list로 각 entity결과물을 건네준다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009005946581.png" alt="image-20221009005946581"></p>
+  </li>
+</ul>
+
+<h4 id="001-get-route의-route객체-reposonsebody는-list이므로-300-성공시-responsebody를-순회하며-message--에-여러개의-정보를-append해야한다">
+<a class="anchor" href="#001-get-route%EC%9D%98-route%EA%B0%9D%EC%B2%B4-reposonsebody%EB%8A%94-list%EC%9D%B4%EB%AF%80%EB%A1%9C-300-%EC%84%B1%EA%B3%B5%EC%8B%9C-responsebody%EB%A5%BC-%EC%88%9C%ED%9A%8C%ED%95%98%EB%A9%B0-message--%EC%97%90-%EC%97%AC%EB%9F%AC%EA%B0%9C%EC%9D%98-%EC%A0%95%EB%B3%B4%EB%A5%BC-append%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>001 GET route의 route객체 reposonse.body는 LIST이므로, &lt;300 성공시, response.body를 순회하며 message = []에 여러개의 정보를 append해야한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009005224105.png" alt="image-20221009005224105"></p>
+
+<h4 id="002-post의-message-내용만-잘라내서-listresponse-body-순회하며-append할-준비를-한다">
+<a class="anchor" href="#002-post%EC%9D%98-message-%EB%82%B4%EC%9A%A9%EB%A7%8C-%EC%9E%98%EB%9D%BC%EB%82%B4%EC%84%9C-listresponse-body-%EC%88%9C%ED%9A%8C%ED%95%98%EB%A9%B0-append%ED%95%A0-%EC%A4%80%EB%B9%84%EB%A5%BC-%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>002 POST의 message 내용만 잘라내서, list(response body) 순회하며 append할 준비를 한다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009005315694.png" alt="image-20221009005315694"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009005437698.png" alt="image-20221009005437698"></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">api_routes_bp</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/api/pets"</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">"GET"</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">find_pet</span><span class="p">():</span>
+    <span class="s">"""find pet route"""</span>
+
+    <span class="n">message</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">,</span> <span class="n">api_route</span><span class="o">=</span><span class="n">find_pet_composer</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span> <span class="o">&lt;</span> <span class="mi">300</span><span class="p">:</span>
+        <span class="c1"># in GET(find) response.body is List[DTO]
+</span>        <span class="n">message</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">response</span><span class="p">.</span><span class="n">body</span><span class="p">:</span>
+            <span class="n">message</span><span class="p">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s">"type"</span><span class="p">:</span> <span class="s">"pets"</span><span class="p">,</span>
+                    <span class="s">"id"</span><span class="p">:</span> <span class="n">element</span><span class="p">.</span><span class="nb">id</span><span class="p">,</span>
+                    <span class="s">"attributes"</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s">"name"</span><span class="p">:</span> <span class="n">element</span><span class="p">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="s">"specie"</span><span class="p">:</span> <span class="n">element</span><span class="p">.</span><span class="n">specie</span><span class="p">,</span>
+                        <span class="s">"age"</span><span class="p">:</span> <span class="n">element</span><span class="p">.</span><span class="n">age</span><span class="p">,</span>
+                    <span class="p">},</span>
+                    <span class="s">"relationships"</span><span class="p">:</span> <span class="p">{</span><span class="s">"owner"</span><span class="p">:</span> <span class="p">{</span><span class="s">"type"</span><span class="p">:</span> <span class="s">"users"</span><span class="p">,</span> <span class="s">"id"</span><span class="p">:</span> <span class="n">element</span><span class="p">.</span><span class="n">user_id</span><span class="p">}},</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s">"data"</span><span class="p">:</span> <span class="n">message</span><span class="p">}),</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span>
+
+    <span class="c1"># Handing Errors
+</span>    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">jsonify</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s">"error"</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s">"status"</span><span class="p">:</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span><span class="p">,</span>
+                    <span class="s">"title"</span><span class="p">:</span> <span class="n">response</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"error"</span><span class="p">],</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">),</span>
+        <span class="n">response</span><span class="p">.</span><span class="n">status_code</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="02-route-return-data에-list를-반환하는지-postman으로-확인하기">
+<a class="anchor" href="#02-route-return-data%EC%97%90-list%EB%A5%BC-%EB%B0%98%ED%99%98%ED%95%98%EB%8A%94%EC%A7%80-postman%EC%9C%BC%EB%A1%9C-%ED%99%95%EC%9D%B8%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 route return “data”에 list를 반환하는지 POSTMAN으로 확인하기</h3>
+
+<ol>
+  <li>
+    <p>GET방식이므로 headers를 지우고, Params에 조회할 id를 입력한다.</p>
+
+    <ul>
+      <li>
+        <p>외부이므로  <code class="language-plaintext highlighter-rouge">entity_id</code>로 입력</p>
+      </li>
+      <li>
+        <p>db에서 확인</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009010446941.png" alt="image-20221009010446941"></p>
+      </li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009010945333.png" alt="image-20221009010945333"></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009011716642.png" alt="image-20221009011716642"></p>
+  </li>
+</ol>
+
+<h3 id="03-enum에-의한-직렬화-에러">
+<a class="anchor" href="#03-enum%EC%97%90-%EC%9D%98%ED%95%9C-%EC%A7%81%EB%A0%AC%ED%99%94-%EC%97%90%EB%9F%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 Enum에 의한 직렬화 에러</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009011718106.png" alt="image-20221009011718106"></p>
+
+<h4 id="register시에는-repo에서-enumvalue의-값으로-만든-dto를-반환해주지만-find시에는-순수enum을-가진-entitymodel객체를-반환해주는-괴리">
+<a class="anchor" href="#register%EC%8B%9C%EC%97%90%EB%8A%94-repo%EC%97%90%EC%84%9C-enumvalue%EC%9D%98-%EA%B0%92%EC%9C%BC%EB%A1%9C-%EB%A7%8C%EB%93%A0-dto%EB%A5%BC-%EB%B0%98%ED%99%98%ED%95%B4%EC%A3%BC%EC%A7%80%EB%A7%8C-find%EC%8B%9C%EC%97%90%EB%8A%94-%EC%88%9C%EC%88%98enum%EC%9D%84-%EA%B0%80%EC%A7%84-entitymodel%EA%B0%9D%EC%B2%B4%EB%A5%BC-%EB%B0%98%ED%99%98%ED%95%B4%EC%A3%BC%EB%8A%94-%EA%B4%B4%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>register시에는 repo에서 [enum.value]의 값으로 만든 DTO를 반환해주지만, find시에는 [순수enum]을 가진 EntityModel객체를 반환해주는 괴리</h4>
+
+<ul>
+  <li>
+    <p>register시 작동하는 repo.insert -&gt; <strong>enum 속 값을 .value로 뽑아서 보내준다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009011307170.png" alt="image-20221009011307170"></p>
+  </li>
+  <li>
+    <p>find시 작동하는 repo.select -&gt; <strong>enum 그대로를 가진 model객체를 보내준다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009011400620.png" alt="image-20221009011400620"></p>
+  </li>
+</ul>
+
+<h4 id="register시-반환은-말그대로-등록완료를-보여주기-위한-dto를-반환하지만-find는-use_case들에서-내부로직이-작동할-수-있어서-dto로-반환하면-안된다">
+<a class="anchor" href="#register%EC%8B%9C-%EB%B0%98%ED%99%98%EC%9D%80-%EB%A7%90%EA%B7%B8%EB%8C%80%EB%A1%9C-%EB%93%B1%EB%A1%9D%EC%99%84%EB%A3%8C%EB%A5%BC-%EB%B3%B4%EC%97%AC%EC%A3%BC%EA%B8%B0-%EC%9C%84%ED%95%9C-dto%EB%A5%BC-%EB%B0%98%ED%99%98%ED%95%98%EC%A7%80%EB%A7%8C-find%EB%8A%94-use_case%EB%93%A4%EC%97%90%EC%84%9C-%EB%82%B4%EB%B6%80%EB%A1%9C%EC%A7%81%EC%9D%B4-%EC%9E%91%EB%8F%99%ED%95%A0-%EC%88%98-%EC%9E%88%EC%96%B4%EC%84%9C-dto%EB%A1%9C-%EB%B0%98%ED%99%98%ED%95%98%EB%A9%B4-%EC%95%88%EB%90%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>register시 반환은 말그대로 등록완료를 보여주기 위한 DTO를 반환하지만, find는 use_case들에서 내부로직이 작동할 수 있어서, DTO로 반환하면 안된다.</h4>
+
+<h3 id="04-find시-responsebody에-반환되는-것들은-listentitymodel이니-route에서-직접-enumvalue로-뽑아주자규칙">
+<a class="anchor" href="#04-find%EC%8B%9C-responsebody%EC%97%90-%EB%B0%98%ED%99%98%EB%90%98%EB%8A%94-%EA%B2%83%EB%93%A4%EC%9D%80-listentitymodel%EC%9D%B4%EB%8B%88-route%EC%97%90%EC%84%9C-%EC%A7%81%EC%A0%91-enumvalue%EB%A1%9C-%EB%BD%91%EC%95%84%EC%A3%BC%EC%9E%90%EA%B7%9C%EC%B9%99" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 find시 response.body에 반환되는 것들은 List[EntityModel]이니, route에서 직접 enum.value로 뽑아주자.(규칙)</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009012457418.png" alt="image-20221009012457418"></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">api_routes_bp</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/api/pets"</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">"GET"</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">find_pet</span><span class="p">():</span>
+    <span class="c1">#...
+</span>
+    <span class="k">if</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span> <span class="o">&lt;</span> <span class="mi">300</span><span class="p">:</span>
+        <span class="c1"># in GET(find) response.body is List[EntityModel] -&gt; use enum.value 
+</span>        <span class="n">message</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">response</span><span class="p">.</span><span class="n">body</span><span class="p">:</span>
+            <span class="n">message</span><span class="p">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s">"type"</span><span class="p">:</span> <span class="s">"pets"</span><span class="p">,</span>
+                    <span class="s">"id"</span><span class="p">:</span> <span class="n">element</span><span class="p">.</span><span class="nb">id</span><span class="p">,</span>
+                    <span class="s">"attributes"</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s">"name"</span><span class="p">:</span> <span class="n">element</span><span class="p">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="s">"specie"</span><span class="p">:</span> <span class="n">element</span><span class="p">.</span><span class="n">specie</span><span class="p">.</span><span class="n">value</span><span class="p">,</span>
+                        <span class="s">"age"</span><span class="p">:</span> <span class="n">element</span><span class="p">.</span><span class="n">age</span><span class="p">,</span>
+                    <span class="p">},</span>
+                    <span class="s">"relationships"</span><span class="p">:</span> <span class="p">{</span><span class="s">"owner"</span><span class="p">:</span> <span class="p">{</span><span class="s">"type"</span><span class="p">:</span> <span class="s">"users"</span><span class="p">,</span> <span class="s">"id"</span><span class="p">:</span> <span class="n">element</span><span class="p">.</span><span class="n">user_id</span><span class="p">}},</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s">"data"</span><span class="p">:</span> <span class="n">message</span><span class="p">}),</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span>
+
+   <span class="c1">#...
+</span></code></pre></div></div>
+
+<h4 id="pk인-pet_id로--1개-조회---list로-반환">
+<a class="anchor" href="#pk%EC%9D%B8-pet_id%EB%A1%9C--1%EA%B0%9C-%EC%A1%B0%ED%9A%8C---list%EB%A1%9C-%EB%B0%98%ED%99%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>pk인 pet_id로  1개 조회 -&gt; list로 반환</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009012616442.png" alt="image-20221009012616442"></p>
+
+<h4 id="fk인-user_id로-여러개-조회---list로-반환">
+<a class="anchor" href="#fk%EC%9D%B8-user_id%EB%A1%9C-%EC%97%AC%EB%9F%AC%EA%B0%9C-%EC%A1%B0%ED%9A%8C---list%EB%A1%9C-%EB%B0%98%ED%99%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>fk인 user_id로 여러개 조회 -&gt; list로 반환</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009012946912.png" alt="image-20221009012946912"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009013007868.png" alt="image-20221009013007868"></p>
+
+<h4 id="fk에-대해서는-없는-데이터에-대해---존재검증-없이-빈list-반환-by-all">
+<a class="anchor" href="#fk%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C%EB%8A%94-%EC%97%86%EB%8A%94-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%97%90-%EB%8C%80%ED%95%B4---%EC%A1%B4%EC%9E%AC%EA%B2%80%EC%A6%9D-%EC%97%86%EC%9D%B4-%EB%B9%88list-%EB%B0%98%ED%99%98-by-all" aria-hidden="true"><span class="octicon octicon-link"></span></a>fk에 대해서는 없는 데이터에 대해 -&gt; 존재검증 없이 빈list 반환 by .all()</h4>
+
+<ul>
+  <li>
+    <p>fk조회시 데이터 없으면 빈list 반환</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009013143835.png" alt="image-20221009013143835"></p>
+  </li>
+</ul>
+
+<h4 id="pk에-대해서는-one-로-조회하며-없는-데이터에-대해-noresultfound에러가-난다">
+<a class="anchor" href="#pk%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C%EB%8A%94-one-%EB%A1%9C-%EC%A1%B0%ED%9A%8C%ED%95%98%EB%A9%B0-%EC%97%86%EB%8A%94-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%97%90-%EB%8C%80%ED%95%B4-noresultfound%EC%97%90%EB%9F%AC%EA%B0%80-%EB%82%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>pk에 대해서는 .one() 로 조회하며, 없는 데이터에 대해 NoResultFound에러가 난다.</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009014058912.png" alt="image-20221009014058912"></p>
+
+<h4 id="pk에-대해서-first로-없는-데이터를-조회하면---에러없이-none으로반환되어-진행되며-필드id를-뽑을-때-attributeerror가-난다">
+<a class="anchor" href="#pk%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C-first%EB%A1%9C-%EC%97%86%EB%8A%94-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A5%BC-%EC%A1%B0%ED%9A%8C%ED%95%98%EB%A9%B4---%EC%97%90%EB%9F%AC%EC%97%86%EC%9D%B4-none%EC%9C%BC%EB%A1%9C%EB%B0%98%ED%99%98%EB%90%98%EC%96%B4-%EC%A7%84%ED%96%89%EB%90%98%EB%A9%B0-%ED%95%84%EB%93%9Cid%EB%A5%BC-%EB%BD%91%EC%9D%84-%EB%95%8C-attributeerror%EA%B0%80-%EB%82%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>pk에 대해서 .first()로 없는 데이터를 조회하면? -&gt; 에러없이 None으로반환되어 진행되며 필드(.id)를 뽑을 때 attributeError가 난다</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009014242418.png" alt="image-20221009014242418"></p>
+
+<h2 id="4-find-route에-대해-repo의-select시-pk가-껴있는-로직은-one시-noresultfound-예외처리해야한다">
+<a class="anchor" href="#4-find-route%EC%97%90-%EB%8C%80%ED%95%B4-repo%EC%9D%98-select%EC%8B%9C-pk%EA%B0%80-%EA%BB%B4%EC%9E%88%EB%8A%94-%EB%A1%9C%EC%A7%81%EC%9D%80-one%EC%8B%9C-noresultfound-%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>4 find route에 대해 repo의 select시 pk가 껴있는 로직은 .one()시 NoResultFound 예외처리해야한다.</h2>
+
+<h3 id="01-repo들의-select시-pk로-조회로직은-복수를-기대하여-all로-조회하며-데이터가-없어도-에러가-안나고-빈list가-내려오지만-pk가-포함된-조회는-one으로-조회하며-noresultfound-에러가-난다">
+<a class="anchor" href="#01-repo%EB%93%A4%EC%9D%98-select%EC%8B%9C-pk%EB%A1%9C-%EC%A1%B0%ED%9A%8C%EB%A1%9C%EC%A7%81%EC%9D%80-%EB%B3%B5%EC%88%98%EB%A5%BC-%EA%B8%B0%EB%8C%80%ED%95%98%EC%97%AC-all%EB%A1%9C-%EC%A1%B0%ED%9A%8C%ED%95%98%EB%A9%B0-%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B0%80-%EC%97%86%EC%96%B4%EB%8F%84-%EC%97%90%EB%9F%AC%EA%B0%80-%EC%95%88%EB%82%98%EA%B3%A0-%EB%B9%88list%EA%B0%80-%EB%82%B4%EB%A0%A4%EC%98%A4%EC%A7%80%EB%A7%8C-pk%EA%B0%80-%ED%8F%AC%ED%95%A8%EB%90%9C-%EC%A1%B0%ED%9A%8C%EB%8A%94-one%EC%9C%BC%EB%A1%9C-%EC%A1%B0%ED%9A%8C%ED%95%98%EB%A9%B0-noresultfound-%EC%97%90%EB%9F%AC%EA%B0%80-%EB%82%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 repo들의 select시 pk로 조회로직은 복수를 기대하여 .all()로 조회하며, 데이터가 없어도 에러가 안나고 빈list가 내려오지만, pk가 포함된 조회는 .one()으로 조회하며 NoResultFound 에러가 난다.</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009013914987.png" alt="image-20221009013914987"></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sqlalchemy</span><span class="p">.</span><span class="n">exc</span><span class="p">.</span><span class="n">NoResultFound</span><span class="p">:</span> <span class="n">No</span> <span class="n">row</span> <span class="n">was</span> <span class="n">found</span> <span class="n">when</span> <span class="n">one</span> <span class="n">was</span> <span class="n">required</span>
+</code></pre></div></div>
+
+<h3 id="02-repo들마다-select_xxx메서드에-noresultfound예외처리하자">
+<a class="anchor" href="#02-repo%EB%93%A4%EB%A7%88%EB%8B%A4-select_xxx%EB%A9%94%EC%84%9C%EB%93%9C%EC%97%90-noresultfound%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC%ED%95%98%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 repo들마다 select_xxx()메서드에 NoResultFound예외처리하자</h3>
+
+<h4 id="나머지-except은-rollback하도록-그대로-두고-except-noresultfound만-빈-를-반환하도록-한다">
+<a class="anchor" href="#%EB%82%98%EB%A8%B8%EC%A7%80-except%EC%9D%80-rollback%ED%95%98%EB%8F%84%EB%A1%9D-%EA%B7%B8%EB%8C%80%EB%A1%9C-%EB%91%90%EA%B3%A0-except-noresultfound%EB%A7%8C-%EB%B9%88-%EB%A5%BC-%EB%B0%98%ED%99%98%ED%95%98%EB%8F%84%EB%A1%9D-%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>나머지 except은 rollback하도록 그대로 두고, except NoResultFound만 빈 []를 반환하도록 한다.</h4>
+
+<ol>
+  <li>
+    <p>repo마다 <code class="language-plaintext highlighter-rouge">.orm.exc</code>패키지에서 <code class="language-plaintext highlighter-rouge">NoResultFound</code> import</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sqlalchemy.orm.exc</span> <span class="kn">import</span> <span class="n">NoResultFound</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>select메서드로 가서 <strong>except구문을 추가한 뒤 NoResultFound를 잡아서 빈 list <code class="language-plaintext highlighter-rouge">[]</code>를 반환하자</strong></p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">except</span> <span class="n">NoResultFound</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">[]</span>
+   
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">db_connection</span><span class="p">.</span><span class="n">session</span><span class="p">.</span><span class="n">rollback</span><span class="p">()</span>
+    <span class="k">raise</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">db_connection</span><span class="p">.</span><span class="n">session</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="이제-다시-없는-pk로-find해보자-select---one---noresultfound---return-">
+<a class="anchor" href="#%EC%9D%B4%EC%A0%9C-%EB%8B%A4%EC%8B%9C-%EC%97%86%EB%8A%94-pk%EB%A1%9C-find%ED%95%B4%EB%B3%B4%EC%9E%90-select---one---noresultfound---return-" aria-hidden="true"><span class="octicon octicon-link"></span></a>이제 다시 없는 pk로 find해보자( select -&gt; .one() -&gt; NoResultFound -&gt; return [])</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009023436515.png" alt="image-20221009023436515"></p>
+
+<h2 id="5-find_pet-route를-복사해서-find_user--route-만들기">
+<a class="anchor" href="#5-find_pet-route%EB%A5%BC-%EB%B3%B5%EC%82%AC%ED%95%B4%EC%84%9C-find_user--route-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>5 find_pet route를 복사해서 find_user  route 만들기</h2>
+
+<h3 id="단일entity-find시에는-relationships-속성을-지우고-message를-만든다">
+<a class="anchor" href="#%EB%8B%A8%EC%9D%BCentity-find%EC%8B%9C%EC%97%90%EB%8A%94-relationships-%EC%86%8D%EC%84%B1%EC%9D%84-%EC%A7%80%EC%9A%B0%EA%B3%A0-message%EB%A5%BC-%EB%A7%8C%EB%93%A0%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>단일Entity Find시에는 relationships 속성을 지우고 message를 만든다.</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009023721569.png" alt="image-20221009023721569"></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">api_routes_bp</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/api/users"</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">"GET"</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">find_user</span><span class="p">():</span>
+    <span class="s">"""find user route"""</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">,</span> <span class="n">api_route</span><span class="o">=</span><span class="n">find_user_composer</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span> <span class="o">&lt;</span> <span class="mi">300</span><span class="p">:</span>
+        <span class="c1"># in GET(find) response.body is List[EntityModel] -&gt; use enum.value
+</span>        <span class="n">message</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">response</span><span class="p">.</span><span class="n">body</span><span class="p">:</span>
+            <span class="n">message</span><span class="p">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s">"type"</span><span class="p">:</span> <span class="s">"users"</span><span class="p">,</span>
+                    <span class="s">"id"</span><span class="p">:</span> <span class="n">element</span><span class="p">.</span><span class="nb">id</span><span class="p">,</span>
+                    <span class="s">"attributes"</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s">"name"</span><span class="p">:</span> <span class="n">element</span><span class="p">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s">"data"</span><span class="p">:</span> <span class="n">message</span><span class="p">}),</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span>
+
+    <span class="c1"># Handing Errors
+</span>    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">jsonify</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s">"error"</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s">"status"</span><span class="p">:</span> <span class="n">response</span><span class="p">.</span><span class="n">status_code</span><span class="p">,</span>
+                    <span class="s">"title"</span><span class="p">:</span> <span class="n">response</span><span class="p">.</span><span class="n">body</span><span class="p">[</span><span class="s">"error"</span><span class="p">],</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">),</span>
+        <span class="n">response</span><span class="p">.</span><span class="n">status_code</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="postman으로-조회">
+<a class="anchor" href="#postman%EC%9C%BC%EB%A1%9C-%EC%A1%B0%ED%9A%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>postman으로 조회</h3>
+
+<h4 id="pk로-조회">
+<a class="anchor" href="#pk%EB%A1%9C-%EC%A1%B0%ED%9A%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>pk로 조회</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009023913795.png" alt="image-20221009023913795"></p>
+
+<h4 id="unique-key인-name으로-조회---실패---필드명과-달라도-user_name으로-조회">
+<a class="anchor" href="#unique-key%EC%9D%B8-name%EC%9C%BC%EB%A1%9C-%EC%A1%B0%ED%9A%8C---%EC%8B%A4%ED%8C%A8---%ED%95%84%EB%93%9C%EB%AA%85%EA%B3%BC-%EB%8B%AC%EB%9D%BC%EB%8F%84-user_name%EC%9C%BC%EB%A1%9C-%EC%A1%B0%ED%9A%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>unique key인 name으로 조회 -&gt; 실패 -&gt; 필드명과 달라도 user_name으로 조회</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009024000315.png" alt="image-20221009024000315"></p>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009024032089.png" alt="image-20221009024032089"></p>
+
+<h5 id="필드명은-name이지만-다른entity도-nam을-가질-경우-controller에서-entity_name으로-처리했을-것임">
+<a class="anchor" href="#%ED%95%84%EB%93%9C%EB%AA%85%EC%9D%80-name%EC%9D%B4%EC%A7%80%EB%A7%8C-%EB%8B%A4%EB%A5%B8entity%EB%8F%84-nam%EC%9D%84-%EA%B0%80%EC%A7%88-%EA%B2%BD%EC%9A%B0-controller%EC%97%90%EC%84%9C-entity_name%EC%9C%BC%EB%A1%9C-%EC%B2%98%EB%A6%AC%ED%96%88%EC%9D%84-%EA%B2%83%EC%9E%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>필드명은 name이지만, 다른entity도 nam을 가질 경우, controller에서 entity_name으로 처리했을 것임</h5>
+
+<ul>
+  <li>
+<strong>id는 repo인자부터</strong> fk때문에 <code class="language-plaintext highlighter-rouge">entity_id</code>
+</li>
+  <li>
+<strong>name등 고유명사는 controller인자부터</strong>  외부인자랑 겹치므로 <code class="language-plaintext highlighter-rouge">entity_name</code>
+</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009024210204.png" alt="image-20221009024210204"></p>
+
+<h4 id="없는-pk로-조회---one---빈-list가-올-것임">
+<a class="anchor" href="#%EC%97%86%EB%8A%94-pk%EB%A1%9C-%EC%A1%B0%ED%9A%8C---one---%EB%B9%88-list%EA%B0%80-%EC%98%AC-%EA%B2%83%EC%9E%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>없는 pk로 조회 -&gt; one -&gt; 빈 list가 올 것임</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009024605907.png" alt="image-20221009024605907"></p>
+
+<h2 id="6-adapter에서-발견하지-못한-에러들에-대해-except-500-처리">
+<a class="anchor" href="#6-adapter%EC%97%90%EC%84%9C-%EB%B0%9C%EA%B2%AC%ED%95%98%EC%A7%80-%EB%AA%BB%ED%95%9C-%EC%97%90%EB%9F%AC%EB%93%A4%EC%97%90-%EB%8C%80%ED%95%B4-except-500-%EC%B2%98%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>6 adapter에서 발견하지 못한 에러들에 대해 except 500 처리</h2>
+
+<h3 id="adapter에서-잡는-에러는-현재-get시-id형변환-실패에-대한-400에러---post시-route메서드-호출결과-uniquekeyname중복에-대한-409에러-등-request에-대한-사용자에러-밖에-없다">
+<a class="anchor" href="#adapter%EC%97%90%EC%84%9C-%EC%9E%A1%EB%8A%94-%EC%97%90%EB%9F%AC%EB%8A%94-%ED%98%84%EC%9E%AC-get%EC%8B%9C-id%ED%98%95%EB%B3%80%ED%99%98-%EC%8B%A4%ED%8C%A8%EC%97%90-%EB%8C%80%ED%95%9C-400%EC%97%90%EB%9F%AC---post%EC%8B%9C-route%EB%A9%94%EC%84%9C%EB%93%9C-%ED%98%B8%EC%B6%9C%EA%B2%B0%EA%B3%BC-uniquekeyname%EC%A4%91%EB%B3%B5%EC%97%90-%EB%8C%80%ED%95%9C-409%EC%97%90%EB%9F%AC-%EB%93%B1-request%EC%97%90-%EB%8C%80%ED%95%9C-%EC%82%AC%EC%9A%A9%EC%9E%90%EC%97%90%EB%9F%AC-%EB%B0%96%EC%97%90-%EC%97%86%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>adapter에서 잡는 에러는 현재 GET시 id형변환 실패에 대한 400에러 +  POST시 route메서드 호출결과 uniquekey(name)중복에 대한 409에러 등 request에 대한 사용자에러 밖에 없다</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009025030110.png" alt="image-20221009025030110"></p>
+
+<h3 id="adapter에서-route객체의-route-method호출-후-409중복검증외에-모든-실패를-500으로-잡도록-except를-추가한다">
+<a class="anchor" href="#adapter%EC%97%90%EC%84%9C-route%EA%B0%9D%EC%B2%B4%EC%9D%98-route-method%ED%98%B8%EC%B6%9C-%ED%9B%84-409%EC%A4%91%EB%B3%B5%EA%B2%80%EC%A6%9D%EC%99%B8%EC%97%90-%EB%AA%A8%EB%93%A0-%EC%8B%A4%ED%8C%A8%EB%A5%BC-500%EC%9C%BC%EB%A1%9C-%EC%9E%A1%EB%8F%84%EB%A1%9D-except%EB%A5%BC-%EC%B6%94%EA%B0%80%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>adapter에서 route객체의 .route method호출 후 409(중복검증)외에 모든 실패를 500으로 잡도록 except를 추가한다.</h3>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009025224172.png" alt="image-20221009025224172"></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">def</span> <span class="nf">flask_adapter</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">api_route</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Route</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">any</span><span class="p">:</span>
+    <span class="c1">#...
+</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">api_route</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="n">http_request</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">IntegrityError</span><span class="p">:</span>
+        <span class="n">http_error</span> <span class="o">=</span> <span class="n">HttpErrors</span><span class="p">.</span><span class="n">error_409</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"status_code"</span><span class="p">],</span> <span class="n">body</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"body"</span><span class="p">]</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="p">:</span>
+        <span class="n">http_error</span> <span class="o">=</span> <span class="n">HttpErrors</span><span class="p">.</span><span class="n">error_500</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"status_code"</span><span class="p">],</span> <span class="n">body</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"body"</span><span class="p">]</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span>
+</code></pre></div></div>
+
+<h3 id="httperrors에-500을-추가한다">
+<a class="anchor" href="#httperrors%EC%97%90-500%EC%9D%84-%EC%B6%94%EA%B0%80%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>HttpErrors에 500을 추가한다</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">error_500</span><span class="p">():</span>
+        <span class="s">"""HTTP 500"""</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s">"status_code"</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> <span class="s">"body"</span><span class="p">:</span> <span class="p">{</span><span class="s">"error"</span><span class="p">:</span> <span class="s">"Internal Server Error"</span><span class="p">}}</span>
+
+</code></pre></div></div>
+
+<h3 id="adapter에서-예기치-못한-500에러에-대한-출력을-추가한다">
+<a class="anchor" href="#adapter%EC%97%90%EC%84%9C-%EC%98%88%EA%B8%B0%EC%B9%98-%EB%AA%BB%ED%95%9C-500%EC%97%90%EB%9F%AC%EC%97%90-%EB%8C%80%ED%95%9C-%EC%B6%9C%EB%A0%A5%EC%9D%84-%EC%B6%94%EA%B0%80%ED%95%9C%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>adapter에서 예기치 못한 500에러에 대한 출력을 추가한다</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+        <span class="n">http_error</span> <span class="o">=</span> <span class="n">HttpErrors</span><span class="p">.</span><span class="n">error_500</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"status_code"</span><span class="p">],</span> <span class="n">body</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"body"</span><span class="p">]</span>
+        <span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="commit---push">
+<a class="anchor" href="#commit---push" aria-hidden="true"><span class="octicon octicon-link"></span></a>commit -&gt; push</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit -am "feat: implementing find_pet and find_user Routes"
+</code></pre></div></div>
+
+<h2 id="참고">
+<a class="anchor" href="#%EC%B0%B8%EA%B3%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>참고</h2>
+
+<ul>
+  <li>
+<a href="https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html">Robert C. Martin (Uncle Bob)의 Clean Code Blog</a>
+    <ul>
+      <li><a href="https://leanpub.com/clean-architectures-in-python">PDF-free-Clean Architectures in Python</a></li>
+    </ul>
+  </li>
+  <li><a href="https://velog.io/@jahoy/Python%EC%9C%BC%EB%A1%9C-Clean-Architecture-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0">용어 참고 블로그 1편</a></li>
+  <li><a href="https://velog.io/@jahoy/Python%EC%9C%BC%EB%A1%9C-%ED%81%B4%EB%A6%B0-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B02">용어 참고 블로그 2편</a></li>
+  <li>
+    <p><a href="https://testdriven.io/blog/fastapi-crud/#postgres-setup">fasapi vs flask</a></p>
+  </li>
+  <li>jsonapi 예제문서
+    <ul>
+      <li>https://jsonapi.org/format/#document-top-level</li>
+      <li>https://jsonapi.org/format/#crud-creating-responses</li>
+    </ul>
+  </li>
+  <li>vscode flask 디버깅 세팅 문서
+    <ul>
+      <li>https://code.visualstudio.com/docs/python/debugging#_flask-debugging</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="gitignore">
+<a class="anchor" href="#gitignore" aria-hidden="true"><span class="octicon octicon-link"></span></a>gitignore</h4>
+
+<ul>
+  <li>
+    <p>git에 commit되었던 것을 ignore하고 싶을 때</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git rm [파일명] --cached
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>git amend</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git commit --amend --no-edit
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<ol>
+  <li>console 등에서 init import부터 생기는 pycache폴더</li>
+  <li>venv</li>
+  <li>연습용 sqlite .db파일</li>
+  <li>pytest시 생기는 .pytest_cache 폴더</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>**/__pycache__
+venv
+storage.db
+.pytest_cache
+</code></pre></div></div>
+
+<h4 id="sqlalchemy패키지">
+<a class="anchor" href="#sqlalchemy%ED%8C%A8%ED%82%A4%EC%A7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>sqlalchemy패키지</h4>
+
+<ul>
+  <li>일반 패키지: create_engine / 칼럼재료들</li>
+  <li>.orm 패키지:
+    <ul>
+      <li>
+        <p>relatioship: 1:M에서 1에 해당하는 table이 들고 있는 가짜칼럼</p>
+      </li>
+      <li>
+        <p>sessionmaker: handler class 속 enter에서 engine을 묶어서 session을 반환해주는 놈</p>
+      </li>
+      <li>
+        <p>.orm.exc 패키지</p>
+
+        <ul>
+          <li>
+            <p><strong>NoResultFound</strong></p>
+
+            <ul>
+              <li>
+                <p><strong>repo에서</strong> pk로 select시 .one()으로 1개만 찾을 때, 없으면 발생하는 예외</p>
+              </li>
+              <li>
+                <p>따로 except를 잡아서 빈list를 반환(select는 원래 List반환)</p>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009023057244.png" alt="image-20221009023057244"></p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>.exc 패키지(exception):</p>
+
+    <ul>
+      <li>
+        <p><strong>IntegrityError</strong>:</p>
+
+        <ul>
+          <li>
+            <p><strong>adapter에서 처리</strong>하며 register시 unique key 중복시 나는 에러</p>
+
+            <ul>
+              <li>
+                <p>repo에서는 그냥 raise만 올려놓고, adapter에서 잡더라</p>
+
+                <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221009014640656.png" alt="image-20221009014640656"></p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>계층별 변수정리
+    <ul>
+      <li>id : sqlalchemy -&gt; <strong>repo 인자부터는</strong> fk_id도 있으니 <code class="language-plaintext highlighter-rouge">pk_id</code>
+</li>
+      <li>
+        <p>name: sqlalchemy-&gt;repo-&gt;usecase까지는 그냥 name (선택인자 개별메서드에by_name)-&gt; <strong>controller 인자부터는 외부에선 다른(pet)_name도 있으니 <code class="language-plaintext highlighter-rouge">fk_name</code></strong></p>
+
+        <ul>
+          <li><strong>OneEntity의 경우 그냥 controller에서도 <code class="language-plaintext highlighter-rouge">name</code>만</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>route 조심해야할 것</strong></p>
+
+    <ul>
+      <li>
+        <p>register route는 response.body에 controller response[“Data”]에 있던 <strong>DTO가 반환</strong></p>
+      </li>
+      <li>
+        <p><strong>find route</strong>는 response.body에 controller response[“Data”]에 있던 List<strong>EntityModel객체 반환</strong>되니 <strong>message 작성시 enum필드에 대해 .value까지 해서 보내기</strong></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>repo 조심해야할 것</p>
+
+    <ul>
+      <li>
+<strong>select repo</strong>는
+        <ul>
+          <li>fk에 대해서는 항상 <strong>.all()로 조회</strong>해서 <strong>없어도 빈list반환하며 에러안남</strong>
+</li>
+          <li><strong>pk or unique key에 대해서는 <code class="language-plaintext highlighter-rouge">.one()</code>으로 조회하므로 <code class="language-plaintext highlighter-rouge">없을 때는 NoResultFound</code>가 나니 예외처리 필수</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="github에서-br따서-작업하기">
+<a class="anchor" href="#github%EC%97%90%EC%84%9C-br%EB%94%B0%EC%84%9C-%EC%9E%91%EC%97%85%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>github에서 br따서 작업하기</h4>
+
+<h5 id="1-1-github에서-br생성--clone">
+<a class="anchor" href="#1-1-github%EC%97%90%EC%84%9C-br%EC%83%9D%EC%84%B1--clone" aria-hidden="true"><span class="octicon octicon-link"></span></a>[1-1] github에서 br생성 ~ clone</h5>
+
+<ol>
+  <li>
+    <p>github에 들어가서 <code class="language-plaintext highlighter-rouge">feat/~</code>로 브랜치 생성</p>
+  </li>
+  <li>
+    <p>해당 br만 clone</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git clone -b [branch] [git주소]
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="clone후-초기-작업-세팅">
+<a class="anchor" href="#clone%ED%9B%84-%EC%B4%88%EA%B8%B0-%EC%9E%91%EC%97%85-%EC%84%B8%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>clone후 초기 작업 세팅</h5>
+
+<ol>
+  <li>gitignore중에 db파일 있으면 옮겨주기
+    <ul>
+      <li>없으면 config import해서 Base + handler -&gt; get_enigne -&gt; bind한 다음, create_all()해줘야할듯??</li>
+    </ul>
+  </li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20220929154256052.png" alt="image-20220929154256052"></p>
+
+<ol>
+  <li>github에서 따온 빈 새br에 대해, venv를 만들고 활성화하고  vscode를 연다</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python -m virtualenv -p python310 venv
+
+.\venv\Scripts\activate
+</code></pre></div></div>
+
+<ol>
+  <li>최초 requirements.txt 직접 설치</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip3 install -r requirements.txt
+</code></pre></div></div>
+
+<ol>
+  <li>최초 pre-commit install 직접 세팅</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pre-commit install
+</code></pre></div></div>
+
+<ol>
+  <li>vscode 열고 interpreter venv로 지정</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>code .
+</code></pre></div></div>
+
+<h5 id="1-2-작업끝난-br의-폴더에서-새-작업-br생성--분기게시-초기세팅-또-안해도-되는-장점">
+<a class="anchor" href="#1-2-%EC%9E%91%EC%97%85%EB%81%9D%EB%82%9C-br%EC%9D%98-%ED%8F%B4%EB%8D%94%EC%97%90%EC%84%9C-%EC%83%88-%EC%9E%91%EC%97%85-br%EC%83%9D%EC%84%B1--%EB%B6%84%EA%B8%B0%EA%B2%8C%EC%8B%9C-%EC%B4%88%EA%B8%B0%EC%84%B8%ED%8C%85-%EB%98%90-%EC%95%88%ED%95%B4%EB%8F%84-%EB%90%98%EB%8A%94-%EC%9E%A5%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>[1-2] 작업끝난 br의 폴더에서 새 작업 br생성 ~ 분기게시 (초기세팅 또 안해도 되는 장점)</h5>
+
+<ol>
+  <li>
+    <p>현재 br를 확인한다.</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">git</span> <span class="n">branch</span>
+<span class="o">*</span> <span class="n">feat</span><span class="o">/</span><span class="n">register_user_use_case</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>checkout -b</strong>로 새 br 생성하여 진입하기</p>
+
+    <ul>
+      <li>원래는 github에서 create branch했었음.</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git checkout -b feat/generic_use_cases
+   
+git branch
+   
+* feat/generic_use_cases
+  feat/register_user_use_case
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>git push -u origin [branch명]으로 <code class="language-plaintext highlighter-rouge">새로생성한 br를 push해서 github에 생성하기</code></strong></p>
+
+    <ul>
+      <li>vscode에서는 push -u origin [branch] 대신  <strong><code class="language-plaintext highlighter-rouge">분기게시</code>가 뜬다.</strong>
+</li>
+    </ul>
+  </li>
+  <li>
+    <p>github에서 <strong>빈 분기가 생성되었는지 확인하기</strong></p>
+
+    <ul>
+      <li>github에 merge되기 위해서는 <strong>직전 작업이후 <code class="language-plaintext highlighter-rouge">github에 새 작업 br를 먼저 생성해놓고 작업</code>에 들어가야한다</strong>
+</li>
+    </ul>
+  </li>
+</ol>
+
+<h5 id="1-3--옛날에-따둔-br에서-작업시작할-땐-최신-master를-pull---rebase후에-작업시작하기">
+<a class="anchor" href="#1-3--%EC%98%9B%EB%82%A0%EC%97%90-%EB%94%B0%EB%91%94-br%EC%97%90%EC%84%9C-%EC%9E%91%EC%97%85%EC%8B%9C%EC%9E%91%ED%95%A0-%EB%95%90-%EC%B5%9C%EC%8B%A0-master%EB%A5%BC-pull---rebase%ED%9B%84%EC%97%90-%EC%9E%91%EC%97%85%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>[1-3]  옛날에 따둔 br에서 작업시작할 땐, 최신 master를 pull -&gt; rebase후에 작업시작하기</h5>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">git checkout master</code>를 통해 <strong>안가져와서 안보이던 master</strong>를 만든다</p>
+
+    <ul>
+      <li>
+<strong>-b의 새로만든 것이 아니므로</strong> remote와 연결된 master가 된다.</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">git branch</code>로 확인</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git checkout master
+   
+git branch
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">git pull</code>로 master에 최신 코드를 가져온다</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git pull
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>rebase받을 업뎃안된 작업br로 넘어간 뒤, <code class="language-plaintext highlighter-rouge">matser의 내용을 rebase로 받아온다</code></strong></p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git checkout [작업br]
+   
+git rebase master
+   
+git log --oneline
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="2-framework-있다면-venv에-환경변수-세팅---vscode-디버깅-세팅">
+<a class="anchor" href="#2-framework-%EC%9E%88%EB%8B%A4%EB%A9%B4-venv%EC%97%90-%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98-%EC%84%B8%ED%8C%85---vscode-%EB%94%94%EB%B2%84%EA%B9%85-%EC%84%B8%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>[2] framework 있다면 venv에 환경변수 세팅 -&gt; vscode 디버깅 세팅</h5>
+
+<ol>
+  <li>
+    <p>등록:</p>
+
+    <div class="language-powershell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">FLASK_APP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"초기화된 app객체를 import한 python파일명"</span><span class="w">
+</span><span class="c">#export FLASK_APP=파일명</span><span class="w">
+</span></code></pre></div>    </div>
+
+    <ul>
+      <li>powershell은 파일명은 “ “ 확장자를 뺀 쌍따옴표로</li>
+      <li><strong>보통 app객체 import한 python파일은 <code class="language-plaintext highlighter-rouge">run</code>이라고 명명하며, main으로 app.run도 가지고 있다.</strong></li>
+    </ul>
+
+    <div class="language-powershell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">FLASK_RUN_PORT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8000</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>확인</p>
+
+    <div class="language-powershell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nf">Get-ChildItem</span><span class="w"> </span><span class="nx">Env:</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>cli로 framework실행</strong></p>
+  </li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   flask run
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p><strong>vscode에 F5로 실행 및 디버깅 가능하게 세팅(.vscode/launch.json)</strong></p>
+
+    <ol>
+      <li>
+        <p>vscode 좌측에 <code class="language-plaintext highlighter-rouge">실행 및 디버그</code>버튼을 클릭한다.</p>
+      </li>
+      <li>
+        <p><strong>launch.json file</strong>을 누르고 -&gt; python -&gt; python file을 선택해서 <strong>local에 <code class="language-plaintext highlighter-rouge">.vscode &gt; launch.json</code>을 생성한다</strong></p>
+      </li>
+      <li>
+        <p>vscode 문서 &gt; python &gt; debugging &gt; <a href="https://code.visualstudio.com/docs/python/debugging#_flask-debugging">flask debugging</a>을 찾아가서 설정을 복사해온다</p>
+
+        <div class="language-json highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Python: Flask (development mode)"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"python"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"request"</span><span class="p">:</span><span class="w"> </span><span class="s2">"launch"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"module"</span><span class="p">:</span><span class="w"> </span><span class="s2">"flask"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"env"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"FLASK_APP"</span><span class="p">:</span><span class="w"> </span><span class="s2">"app.py"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"FLASK_ENV"</span><span class="p">:</span><span class="w"> </span><span class="s2">"development"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"run"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nl">"jinja"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="p">}</span><span class="err">,</span><span class="w">
+      
+</span></code></pre></div>        </div>
+      </li>
+      <li>
+        <p><strong>launch.json 내용 중 <code class="language-plaintext highlighter-rouge">configurations</code> 내부 list value 중 1개로 dict를 복붙한다.</strong></p>
+      </li>
+      <li>
+        <p><strong>FLASK_APP에 파일명이 아닌 py확장자까지 다 적어줘야한다. app객체를 import하고 있는 <code class="language-plaintext highlighter-rouge">run.py</code>를 명시해주자</strong></p>
+      </li>
+      <li>
+        <p>다시한번 run and debug 탭을 누르고 실행시킨다.</p>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<ul>
+  <li>F5 실행, shift+F5 종료, ctrl + shilft + F5 재실행</li>
+</ul>
+
+<ol>
+  <li>
+    <p>F9로 route의 return부분을 break point를 찍고 -&gt; F5로 실행상태에서 -&gt; POSTMAN으로 입력을 준 뒤 -&gt;break point확인 후 확인이 끝나면 -&gt; continue(F5) 해보자.</p>
+  </li>
+  <li>
+    <p>git commit</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>   improve: enabling debugger
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h5 id="3-해당br-작업테스트-완료후--merge까지-정리">
+<a class="anchor" href="#3-%ED%95%B4%EB%8B%B9br-%EC%9E%91%EC%97%85%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%99%84%EB%A3%8C%ED%9B%84--merge%EA%B9%8C%EC%A7%80-%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>[3] 해당br 작업(테스트) 완료후 ~ merge까지 정리</h5>
+
+<ol>
+  <li>
+    <p>status 확인후 add . 후  -am으로 커밋-&gt;실패-&gt;-am커밋</p>
+
+    <ul>
+      <li><strong>add를 먼저 날려야 add된상태로 pytest하는 것 같다?!</strong></li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>git status
+   
+git add .
+   
+git commit -am "feat: implementing data interfaces"
+   
+git commit -am "feat: implementing data interfaces"
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>git push는 현재 로그인된 vscode에서 하고 있음.</strong></p>
+  </li>
+  <li>
+    <p><strong>github에 들어가보면, <code class="language-plaintext highlighter-rouge">Compare &amp; pull request</code>가 떠있더라도 <code class="language-plaintext highlighter-rouge">PR탭 &gt; new PR</code>로 들어가는 버릇을 들여보자.</strong></p>
+  </li>
+</ol>
+
+<ul>
+  <li>Comparing change까지 들어가서 코드를 확인하고 <code class="language-plaintext highlighter-rouge">Able to merge</code> 및 <code class="language-plaintext highlighter-rouge">세부코드</code>를 확인하고 <strong>직접 Create PR까지 가자</strong>
+</li>
+</ul>
+
+<ol>
+  <li><strong>merge후 master에 반영되었는지까지 확인하자</strong></li>
+</ol>
+
+<h4 id="vscode-설정">
+<a class="anchor" href="#vscode-%EC%84%A4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>vscode 설정</h4>
+
+<ul>
+  <li>캐쉬파일 안보이기</li>
+</ul>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">"files.exclude"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"**/__pycache__"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"**/.pytest_cache"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+</span></code></pre></div></div>
+
+<ul>
+  <li>
+    <p>tab시 space로 입력되기</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221001015405760.png" alt="image-20221001015405760"></p>
+  </li>
+  <li>
+    <p>탐색기 열기 단축키 : <code class="language-plaintext highlighter-rouge">shift + alt + R</code></p>
+
+    <ul>
+      <li>파일: 파일 탐색기에 표시</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="test정리">
+<a class="anchor" href="#test%EC%A0%95%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>test정리</h4>
+
+<ol>
+  <li>
+    <p>repo_insert_X</p>
+
+    <ol>
+      <li>id제외 faker + insert메서드 -&gt; new_dto</li>
+      <li>new_dto속 배정id + engine db select -&gt; query_data -&gt; engine db delete</li>
+      <li>assert new_dto.필드 == query_data필드 비교</li>
+    </ol>
+  </li>
+  <li>
+    <p>repo_select_X</p>
+    <ol>
+      <li>id포함 faker -&gt; entity모델 객체</li>
+      <li>id포함 재료들 + engine db insert -&gt; db데이터만들어놓기</li>
+      <li>id, fk재료들 + select메서드 -&gt; List[entity모델객체들]</li>
+      <li>engine db delete</li>
+    </ol>
+  </li>
+</ol>
+
+<h4 id="status_code">
+<a class="anchor" href="#status_code" aria-hidden="true"><span class="octicon octicon-link"></span></a>status_code</h4>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">422</code>: validate_entry실패하는 query 속 param들 -&gt; usecase메서드의 결과물 response의 [“Success”]가 False</p>
+
+    <ul>
+      <li>
+        <p><strong><code class="language-plaintext highlighter-rouge">필수param</code>(dict속 필드)이 빠졌을 경우(존재검증) or 필수param이 <code class="language-plaintext highlighter-rouge">validate_entry실패</code>할 경우 -&gt; <code class="language-plaintext highlighter-rouge">response("Success"/"Data")의 "Success"가 False</code></strong></p>
+
+        <ul>
+          <li>
+            <p>use_case_controller</p>
+
+            <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">reponse</span><span class="p">[</span><span class="s">"Success"</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+</code></pre></div>            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">400</code>: query속 param들이 필요한 controller인데 http_request안에 아예 존재도 안했다면, 400 Bad Request에러 + 필수param(id)의 형변환 실패시</p>
+
+    <ul>
+      <li>
+        <p><strong>http_request에 필수param을 포함한 .query or .body가 아예 날라오지도 않았을 경우</strong></p>
+
+        <ul>
+          <li>
+            <p>use_case_controller</p>
+
+            <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">http_request</span><span class="p">.</span><span class="n">query</span><span class="p">:</span>
+	<span class="c1"># if query
+# if not query
+</span><span class="k">else</span><span class="p">:</span>
+</code></pre></div>            </div>
+
+            <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">http_request</span><span class="p">.</span><span class="n">body</span><span class="p">:</span>
+	<span class="c1"># if body
+# if not body
+</span><span class="k">else</span><span class="p">:</span>
+</code></pre></div>            </div>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>필수param(id)의 형변환을 실패했을 때</strong></p>
+
+        <ul>
+          <li>
+            <p>flask_adapter</p>
+
+            <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">try</span><span class="p">:</span>
+    <span class="n">query_string_params</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">args</span><span class="p">.</span><span class="n">to_dict</span><span class="p">()</span>
+       
+    <span class="k">if</span> <span class="s">"pet_id"</span> <span class="ow">in</span> <span class="n">query_string_params</span><span class="p">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">query_string_params</span><span class="p">[</span><span class="s">"pet_id"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">query_string_params</span><span class="p">[</span><span class="s">"pet_id"</span><span class="p">])</span>
+       
+    <span class="k">if</span> <span class="s">"user_id"</span> <span class="ow">in</span> <span class="n">query_string_params</span><span class="p">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">query_string_params</span><span class="p">[</span><span class="s">"user_id"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">query_string_params</span><span class="p">[</span><span class="s">"user_id"</span><span class="p">])</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">http_error</span> <span class="o">=</span> <span class="n">HttpErrors</span><span class="p">.</span><span class="n">error_400</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span>
+        <span class="n">status_code</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"status_code"</span><span class="p">],</span> <span class="n">body</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"body"</span><span class="p">]</span>
+    <span class="p">)</span>
+       
+</code></pre></div>            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">409</code>:  타겟 자원에 상태에 요청이 conflict를 유발한 경우</p>
+
+    <ul>
+      <li>
+        <p><strong>register(insert) POST 요청에 대해 unique key(name)이 중복된 send가 날아와, db에서 unique constraint == 중복에러(IntegrityError)를 발생한 경우</strong></p>
+
+        <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>POSTMAND에서 생성요청을 같은name를 가진 body로 2번 요청했을 때
+</code></pre></div>        </div>
+
+        <ul>
+          <li>
+            <p>flask_adapter</p>
+
+            <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="k">try</span><span class="p">:</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">api_route</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="n">http_request</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">IntegrityError</span><span class="p">:</span>
+        <span class="n">http_error</span> <span class="o">=</span> <span class="n">HttpErrors</span><span class="p">.</span><span class="n">error_409</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"status_code"</span><span class="p">],</span> <span class="n">body</span><span class="o">=</span><span class="n">http_error</span><span class="p">[</span><span class="s">"body"</span><span class="p">]</span>
+        <span class="p">)</span>
+</code></pre></div>            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>   
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="powershell-환경변수-등록확인">
+<a class="anchor" href="#powershell-%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98-%EB%93%B1%EB%A1%9D%ED%99%95%EC%9D%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>powershell 환경변수 등록/확인</h4>
+
+<ul>
+  <li>python가상환경 venv에서 activated한 상태로 적용
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">venv\Scripts\activate.ps1</code>에 저장된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p>등록:</p>
+
+    <div class="language-powershell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">FLASK_APP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"hello"</span><span class="w">
+</span></code></pre></div>    </div>
+
+    <ul>
+      <li>파일명은 “ “ 확장자를 뺀 쌍따옴표로</li>
+    </ul>
+
+    <div class="language-powershell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">FLASK_RUN_PORT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8000</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>확인</p>
+
+    <div class="language-powershell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nf">Get-ChildItem</span><span class="w"> </span><span class="nx">Env:</span><span class="w">
+</span></code></pre></div>    </div>
+
+    <div class="language-powershell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nf">Get-ChildItem</span><span class="w"> </span><span class="nx">Env:</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nf">Format-Table</span><span class="w"> </span><span class="nt">-Wrap</span><span class="w">
+</span></code></pre></div>    </div>
+
+    <div class="language-powershell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c">## 'LOGONSERVER' 환경변수를 찾고 싶다면,</span><span class="w">
+</span><span class="nf">Get-ChildItem</span><span class="w"> </span><span class="nx">Env:LOGONSERVER</span><span class="w">
+   
+</span><span class="c">## 'on'이 포함된 단어, ex) logONserver, ONedrive...</span><span class="w">
+</span><span class="nf">Get-ChildItem</span><span class="w"> </span><span class="nx">Env:</span><span class="o">*</span><span class="nx">on</span><span class="o">*</span><span class="w">
+   
+</span><span class="c">## 'on'으로 시작하는 단어, ONedrive ...</span><span class="w">
+</span><span class="nf">Get-ChildItem</span><span class="w"> </span><span class="nx">Env:on</span><span class="o">*</span><span class="w">
+   
+</span><span class="c">## 'on'으로 끝나는 단어, ex) processor_revisiON ...</span><span class="w">
+</span><span class="nf">Get-ChildItem</span><span class="w"> </span><span class="nx">Env:</span><span class="o">*</span><span class="nx">on</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+</ol>
+
+
+  </div><a class="u-url" href="/python/flask/cleanarchitecture/2022/09/10/%ED%81%B4%EB%A6%B0%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_10_register_route%EB%A5%BC%EC%B0%B8%EA%B3%A0%ED%95%98%EC%97%AC_find_routes_ManyToOne%EC%88%9C%EC%9C%BC%EB%A1%9C_%EC%9E%91%EC%84%B1_adapter%EB%B0%8F%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC%EC%B6%94%EA%B0%80.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
