@@ -1,7 +1,7 @@
 ---
 toc: true
 layout: post
-title: vscode markdown link shortcut
+title: vscode markdown create hyper link shortcut
 description: keybindings.json에 Ctrl+K로 clipboard url link 걸기
 categories: [configuration, vscode]
 
