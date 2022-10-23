@@ -1,10 +1,10 @@
 ---
 toc: true
 layout: post
-title: python project 설정
+title: CleanPython 01 project init(lint, formatter, hook)
 description: python lint, formatter, hook 설정
 
-categories: [python, project, configuration, settings, lint, formatter, black, flake8, pre-commit, dotenv]
+categories: [python, cleanpython, project, configuration, settings, lint, formatter, black, flake8, pre-commit, dotenv]
 image: "images/posts/python.png"
 ---
 
