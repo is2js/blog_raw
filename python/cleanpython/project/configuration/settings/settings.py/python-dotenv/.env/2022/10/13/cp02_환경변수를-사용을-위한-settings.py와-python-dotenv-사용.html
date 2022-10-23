@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>CleanPython 02 환경변수를 위한 settings.py와 .env 사용 | 돌범텤놑</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="CleanPython 02 환경변수를 위한 settings.py와 .env 사용" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="환경변수 사용을 위한 settings.py와 python-dotenv 사용" />
+<meta property="og:description" content="환경변수 사용을 위한 settings.py와 python-dotenv 사용" />
+<link rel="canonical" href="blog.chojaeseong.com/python/cleanpython/project/configuration/settings/settings.py/python-dotenv/.env/2022/10/13/cp02_%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98%EB%A5%BC-%EC%82%AC%EC%9A%A9%EC%9D%84-%EC%9C%84%ED%95%9C-settings.py%EC%99%80-python-dotenv-%EC%82%AC%EC%9A%A9.html" />
+<meta property="og:url" content="blog.chojaeseong.com/python/cleanpython/project/configuration/settings/settings.py/python-dotenv/.env/2022/10/13/cp02_%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98%EB%A5%BC-%EC%82%AC%EC%9A%A9%EC%9D%84-%EC%9C%84%ED%95%9C-settings.py%EC%99%80-python-dotenv-%EC%82%AC%EC%9A%A9.html" />
+<meta property="og:site_name" content="돌범텤놑" />
+<meta property="og:image" content="blog.chojaeseong.com/images/posts/python.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-10-13T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2022-10-13T00:00:00-05:00","url":"blog.chojaeseong.com/python/cleanpython/project/configuration/settings/settings.py/python-dotenv/.env/2022/10/13/cp02_%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98%EB%A5%BC-%EC%82%AC%EC%9A%A9%EC%9D%84-%EC%9C%84%ED%95%9C-settings.py%EC%99%80-python-dotenv-%EC%82%AC%EC%9A%A9.html","@type":"BlogPosting","image":"blog.chojaeseong.com/images/posts/python.png","headline":"CleanPython 02 환경변수를 위한 settings.py와 .env 사용","dateModified":"2022-10-13T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"blog.chojaeseong.com/python/cleanpython/project/configuration/settings/settings.py/python-dotenv/.env/2022/10/13/cp02_%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98%EB%A5%BC-%EC%82%AC%EC%9A%A9%EC%9D%84-%EC%9C%84%ED%95%9C-settings.py%EC%99%80-python-dotenv-%EC%82%AC%EC%9A%A9.html"},"description":"환경변수 사용을 위한 settings.py와 python-dotenv 사용","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- 폰트추가를 위한 link태그 삽입 -->
+  <!-- 폰트1:  기본 spoqa 웹폰트 -->
+  <!-- css에서 * {} 다 뒤집어씀. -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+  <!-- 폰트2:  블로그 제목들 sunflower 웹폰트 -->
+  <!-- 쥬피터 등 포스트 내부 글자 h1, h2 제목은 sunflower체 도입 -->
+  <link href="//fonts.googleapis.com/css?family=Sunflower:300,500,700" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="blog.chojaeseong.com/feed.xml" title="돌범텤놑" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">돌범텤놑</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">CleanPython 02 환경변수를 위한 settings.py와 .env 사용</h1><p class="page-description">환경변수 사용을 위한 settings.py와 python-dotenv 사용</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-10-13T00:00:00-05:00" itemprop="datePublished">
+        Oct 13, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#python">python</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#cleanpython">cleanpython</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#project">project</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#configuration">configuration</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#settings">settings</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#settings.py">settings.py</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#python-dotenv">python-dotenv</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#.env">.env</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>📜 제목으로 보기</h3>
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#환경변수를-사용을-위한-settingspy와-python-dotenv-사용">환경변수를 사용을 위한 settings.py와 python-dotenv 사용</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-settingspy에-환경변수-상수필드로-저장할-class들-정의하기">01 settings.py에 환경변수 상수필드로 저장할 class들 정의하기</a></li>
+<li class="toc-entry toc-h4"><a href="#02-settingspy를-보고-env-채우기">02 settings.py를 보고 .env 채우기</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#예시">예시</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#srcconfigsettingspy">src&gt;config&gt;settings.py</a></li>
+<li class="toc-entry toc-h4"><a href="#env-예시">.env 예시</a></li>
+</ul>
+</li>
+</ul><h3 id="환경변수를-사용을-위한-settingspy와-python-dotenv-사용">
+<a class="anchor" href="#%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98%EB%A5%BC-%EC%82%AC%EC%9A%A9%EC%9D%84-%EC%9C%84%ED%95%9C-settingspy%EC%99%80-python-dotenv-%EC%82%AC%EC%9A%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>환경변수를 사용을 위한 settings.py와 python-dotenv 사용</h3>
+
+<h4 id="01-settingspy에-환경변수-상수필드로-저장할-class들-정의하기">
+<a class="anchor" href="#01-settingspy%EC%97%90-%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98-%EC%83%81%EC%88%98%ED%95%84%EB%93%9C%EB%A1%9C-%EC%A0%80%EC%9E%A5%ED%95%A0-class%EB%93%A4-%EC%A0%95%EC%9D%98%ED%95%98%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 settings.py에 환경변수 상수필드로 저장할 class들 정의하기</h4>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">pip3 install python-dotenv</code></p>
+  </li>
+  <li>
+    <p>root에 <code class="language-plaintext highlighter-rouge">.env</code> 생성 및 <code class="language-plaintext highlighter-rouge">.gitignore</code> 생성하여 넣어주기</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221015003050610.png" alt="image-20221015003050610"></p>
+  </li>
+  <li>
+    <p><strong>src &gt; config &gt; <code class="language-plaintext highlighter-rouge">settings.py</code></strong>를 생성한다</p>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">장고의 파일명 차용</code></li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221015002736471.png" alt="image-20221015002736471"></p>
+  </li>
+  <li>
+    <p><strong>setting.py내부에서는 <code class="language-plaintext highlighter-rouge">각 카테고리별 환경변수를 상수필드에 저장할 class</code>를 개별로 생성하고, <code class="language-plaintext highlighter-rouge">카테고리별 환경변수class의 객체</code>를 맨 아래 생성한다</strong></p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">FastApi 방식 차용</code>: <a href="https://github.com/heumsi/python-rest-api-server-101/blob/main/project/src/config.py">참고 github</a></p>
+      </li>
+      <li>
+        <p>class Project</p>
+      </li>
+      <li>
+        <p>class DB</p>
+      </li>
+      <li>
+        <p>class Auth</p>
+
+        <ul>
+          <li>project = Project()</li>
+          <li>db = DB()</li>
+          <li>auth = Auth()</li>
+        </ul>
+      </li>
+      <li>
+        <p>정의</p>
+
+        <ol>
+          <li>
+            <p><strong>사용할 상수필드명 = os.getenv(“KEY”)</strong>으로 미리 정의해 둔다.</p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221023232319004.png" alt="image-20221023232319004"></p>
+          </li>
+          <li>
+            <p><strong>환경변수를 꺼내기 전에, load_dotenv()가 수행되어야한다.</strong></p>
+
+            <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221023232331767.png" alt="image-20221023232331767"></p>
+          </li>
+          <li>
+            <p>**DB의 종류에 따라 <code class="language-plaintext highlighter-rouge">DB_CONNECTION</code>에 소문자로 <code class="language-plaintext highlighter-rouge">dialect+driver</code>형식으로 정의해주고, **</p>
+
+            <ul>
+              <li>
+<strong><code class="language-plaintext highlighter-rouge">sqlite</code>라면, root폴더의 DB_NAME.db</strong>만 사용하도록 정의해주었다.
+                <ul>
+                  <li><strong><code class="language-plaintext highlighter-rouge">sqlite의 memory db</code>만 쓰는 경우, <code class="language-plaintext highlighter-rouge">DB_NAME을 memory</code>라고 주면, 정해진 양식만 사용하도록 설정했다.</strong></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>fastapi의 config가 아닌 경우, <code class="language-plaintext highlighter-rouge">type변환을 직접</code>해줘야한다.</strong></p>
+
+            <ul>
+              <li>None에 int()가 씌여서 에러가 날 수 도 있으니 <strong>숫자형으로 변환할 환경변수는, <code class="language-plaintext highlighter-rouge">숫자문자열 기본값</code>을 os.getenv()에 지정해준다</strong>
+</li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+    </ul>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span>
+   
+<span class="n">dotenv_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">"./.env"</span><span class="p">)</span>
+<span class="n">load_dotenv</span><span class="p">(</span><span class="n">dotenv_path</span><span class="o">=</span><span class="n">dotenv_path</span><span class="p">)</span>
+   
+   
+<span class="k">class</span> <span class="nc">Project</span><span class="p">:</span>
+    <span class="c1"># project
+</span>    <span class="n">PROJECT_NAME</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"PROJECT_NAME"</span><span class="p">)</span>
+    <span class="n">PROJECT_VERSION</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"PROJECT_VERSION"</span><span class="p">)</span>
+   
+   
+<span class="k">class</span> <span class="nc">DB</span><span class="p">:</span>
+    <span class="c1"># DB_CONNECTION은 dialect+driver를 문자열로 지정한다
+</span>    <span class="c1"># -&gt; driver를 지정안해주면 기본 driver가 들어간다.
+</span>    <span class="n">DB_CONNECTION</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"DB_CONNECTION"</span><span class="p">).</span><span class="n">lower</span><span class="p">()</span>
+   
+    <span class="n">DB_USER</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"DB_USER"</span><span class="p">)</span>
+    <span class="n">DB_PASSWORD</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"DB_PASSWORD"</span><span class="p">)</span>
+    <span class="n">DB_SERVER</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"DB_SERVER"</span><span class="p">,</span> <span class="s">"localhost"</span><span class="p">)</span>
+    <span class="n">DB_PORT</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"DB_PORT"</span><span class="p">,</span> <span class="s">"3306"</span><span class="p">)</span>
+    <span class="n">DB_NAME</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"DB_NAME"</span><span class="p">,</span> <span class="s">"test"</span><span class="p">)</span>
+   
+    <span class="c1">## DB_CONNECTION은 dialect+driver를 문자열로 하지만, sqlite인 경우 양식이 다르다.
+</span>    <span class="c1">## =&gt; sqlite은 dialect만 지정해주되
+</span>    <span class="c1">## =&gt; DB_NAME이 memory명 다른 양식으로 입력되도록 짠다.
+</span>    <span class="k">if</span> <span class="n">DB_CONNECTION</span> <span class="o">==</span> <span class="s">"sqlite"</span><span class="p">:</span>
+        <span class="c1">#1) sqlite를 메모리로 쓰는 경우 for fake data + CRUD 연습
+</span>        <span class="k">if</span> <span class="n">DB_NAME</span> <span class="o">==</span> <span class="s">'memory'</span><span class="p">:</span>
+            <span class="n">DATABASE_URL</span> <span class="o">=</span> <span class="s">f"sqlite:///:memory:"</span>
+        <span class="c1">#2) sqlite를 file로 쓰는 경우
+</span>        <span class="k">else</span><span class="p">:</span>
+            <span class="n">DATABASE_URL</span> <span class="o">=</span> <span class="s">f"sqlite:///</span><span class="si">{</span><span class="n">DB_NAME</span><span class="si">}</span><span class="s">.db"</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">DATABASE_URL</span> <span class="o">=</span> <span class="s">f"</span><span class="si">{</span><span class="n">DB_CONNECTION</span><span class="si">}</span><span class="s">://</span><span class="si">{</span><span class="n">DB_USER</span><span class="si">}</span><span class="s">:</span><span class="si">{</span><span class="n">DB_PASSWORD</span><span class="si">}</span><span class="s">@</span><span class="si">{</span><span class="n">DB_SERVER</span><span class="si">}</span><span class="s">:</span><span class="si">{</span><span class="n">DB_PORT</span><span class="si">}</span><span class="s">/</span><span class="si">{</span><span class="n">DB_NAME</span><span class="si">}</span><span class="s">"</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"*"</span> <span class="o">*</span> <span class="mi">15</span> <span class="o">+</span> <span class="s">f"DATABASE_URL: </span><span class="si">{</span><span class="n">DATABASE_URL</span><span class="si">}</span><span class="s">"</span> <span class="o">+</span> <span class="s">"*"</span> <span class="o">*</span> <span class="mi">15</span><span class="p">)</span>
+   
+   
+<span class="k">class</span> <span class="nc">Auth</span><span class="p">:</span>
+    <span class="c1"># jwt. Watch out -&gt; int( None )
+</span>    <span class="n">TOKEN_KEY</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"TOKEN_KEY"</span><span class="p">)</span>
+    <span class="n">EXP_TIME_MIN</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"EXP_TIME_MIN"</span><span class="p">,</span> <span class="s">"30"</span><span class="p">))</span>
+    <span class="n">REFRESH_TIME_MIN</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"REFRESH_TIME_MIN"</span><span class="p">,</span> <span class="s">"15"</span><span class="p">))</span>
+   
+       
+<span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">()</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">DB</span><span class="p">()</span>
+<span class="n">auth</span> <span class="o">=</span> <span class="n">Auth</span><span class="p">()</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>src&gt;config&gt; init.py에 <strong>생성해놓은 환경변수객체들을 import해놓는다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221023232852851.png" alt="image-20221023232852851"></p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">.settings</span> <span class="kn">import</span> <span class="n">db</span><span class="p">,</span> <span class="n">auth</span><span class="p">,</span> <span class="n">project</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>환경변수가 필요한 곳으로 가서 <code class="language-plaintext highlighter-rouge">from src.config</code>에서 <code class="language-plaintext highlighter-rouge">import 필요한 환경변수객체</code>를 import하여 상수필드를 꺼내 쓴다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221023232958438.png" alt="image-20221023232958438"></p>
+  </li>
+</ol>
+
+<h4 id="02-settingspy를-보고-env-채우기">
+<a class="anchor" href="#02-settingspy%EB%A5%BC-%EB%B3%B4%EA%B3%A0-env-%EC%B1%84%EC%9A%B0%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>02 settings.py를 보고 .env 채우기</h4>
+
+<ol>
+  <li>
+    <p>src&gt; config&gt; settings.py로 가서, <strong>사용할 환경변수 목록을 확인한다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221023233126925.png" alt="image-20221023233126925"></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">.env</code>파일에서 그대로 보고 작성한다</p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221023233207086.png" alt="image-20221023233207086"></p>
+  </li>
+</ol>
+
+<h3 id="예시">
+<a class="anchor" href="#%EC%98%88%EC%8B%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>예시</h3>
+
+<h4 id="srcconfigsettingspy">
+<a class="anchor" href="#srcconfigsettingspy" aria-hidden="true"><span class="octicon octicon-link"></span></a>src&gt;config&gt;settings.py</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span>
+
+<span class="n">dotenv_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">"./.env"</span><span class="p">)</span>
+<span class="n">load_dotenv</span><span class="p">(</span><span class="n">dotenv_path</span><span class="o">=</span><span class="n">dotenv_path</span><span class="p">)</span>
+
+
+<span class="c1"># fastapi 세팅 참고
+# https://github.com/heumsi/python-rest-api-server-101/blob/main/project/src/config.py
+</span><span class="k">class</span> <span class="nc">Project</span><span class="p">:</span>
+    <span class="c1"># project
+</span>    <span class="n">PROJECT_NAME</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"PROJECT_NAME"</span><span class="p">)</span>
+    <span class="n">PROJECT_VERSION</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"PROJECT_VERSION"</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">DB</span><span class="p">:</span>
+    <span class="c1"># database
+</span>    <span class="n">DB_CONNECTION</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"DB_CONNECTION"</span><span class="p">).</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="n">DB_USER</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"DB_USER"</span><span class="p">)</span>
+    <span class="n">DB_PASSWORD</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"DB_PASSWORD"</span><span class="p">)</span>
+    <span class="n">DB_SERVER</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"DB_SERVER"</span><span class="p">,</span> <span class="s">"localhost"</span><span class="p">)</span>
+    <span class="n">DB_PORT</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"DB_PORT"</span><span class="p">,</span> <span class="s">"3306"</span><span class="p">)</span>
+    <span class="n">DB_NAME</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"DB_NAME"</span><span class="p">,</span> <span class="s">"test"</span><span class="p">)</span>
+
+    <span class="c1">## sqlite인 경우 양식이 다르다.
+</span>    <span class="k">if</span> <span class="n">DB_CONNECTION</span> <span class="o">==</span> <span class="s">"sqlite"</span><span class="p">:</span>
+        <span class="c1">## sqlite를 메모리로 쓰는 경우 for fake data + CRUD 연습
+</span>        <span class="k">if</span> <span class="n">DB_NAME</span> <span class="o">==</span> <span class="s">'memory'</span><span class="p">:</span>
+            <span class="n">DATABASE_URL</span> <span class="o">=</span> <span class="s">f"sqlite:///:memory:"</span>
+        <span class="c1">## sqlite를 file로 쓰는 경우
+</span>        <span class="k">else</span><span class="p">:</span>
+            <span class="n">DATABASE_URL</span> <span class="o">=</span> <span class="s">f"sqlite:///</span><span class="si">{</span><span class="n">DB_NAME</span><span class="si">}</span><span class="s">.db"</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">DATABASE_URL</span> <span class="o">=</span> <span class="s">f"</span><span class="si">{</span><span class="n">DB_CONNECTION</span><span class="si">}</span><span class="s">://</span><span class="si">{</span><span class="n">DB_USER</span><span class="si">}</span><span class="s">:</span><span class="si">{</span><span class="n">DB_PASSWORD</span><span class="si">}</span><span class="s">@</span><span class="si">{</span><span class="n">DB_SERVER</span><span class="si">}</span><span class="s">:</span><span class="si">{</span><span class="n">DB_PORT</span><span class="si">}</span><span class="s">/</span><span class="si">{</span><span class="n">DB_NAME</span><span class="si">}</span><span class="s">"</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"*"</span> <span class="o">*</span> <span class="mi">15</span> <span class="o">+</span> <span class="s">f"DATABASE_URL: </span><span class="si">{</span><span class="n">DATABASE_URL</span><span class="si">}</span><span class="s">"</span> <span class="o">+</span> <span class="s">"*"</span> <span class="o">*</span> <span class="mi">15</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Auth</span><span class="p">:</span>
+    <span class="c1"># jwt. Watch out -&gt; int( None )
+</span>    <span class="n">TOKEN_KEY</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"TOKEN_KEY"</span><span class="p">)</span>
+    <span class="n">EXP_TIME_MIN</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"EXP_TIME_MIN"</span><span class="p">,</span> <span class="s">"30"</span><span class="p">))</span>
+    <span class="n">REFRESH_TIME_MIN</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">"REFRESH_TIME_MIN"</span><span class="p">,</span> <span class="s">"15"</span><span class="p">))</span>
+
+
+<span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="p">()</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">DB</span><span class="p">()</span>
+<span class="n">auth</span> <span class="o">=</span> <span class="n">Auth</span><span class="p">()</span>
+
+</code></pre></div></div>
+
+<h4 id="env-예시">
+<a class="anchor" href="#env-%EC%98%88%EC%8B%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>.env 예시</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 비워둘거면 아예 주석처리해야 default값이 적용된다.</span>
+
+<span class="c"># project===</span>
+<span class="c"># PROJECT_NAME</span>
+<span class="c"># PROJECT_VERSION</span>
+
+<span class="c"># database-sqlite===</span>
+<span class="nv">DB_CONNECTION</span><span class="o">=</span>sqlite
+<span class="c"># DB_NAME=xxxx.db</span>
+<span class="nv">DB_NAME</span><span class="o">=</span>memory
+
+<span class="c"># database===</span>
+<span class="c"># DB_CONNECTION=mysql+pymysql</span>
+<span class="c"># DB_NAME=cinema</span>
+<span class="c"># DB_USER=root</span>
+<span class="c"># DB_PASSWORD=564123</span>
+<span class="c"># DB_SERVER= </span>
+<span class="c"># DB_PORT=</span>
+
+<span class="c"># jwt</span>
+<span class="c"># TOKEN_KEY=</span>
+<span class="c"># EXP_TIME_MIN=</span>
+<span class="c"># REFRESH_TIME_MIN</span>
+</code></pre></div></div>
+
+
+  </div><a class="u-url" href="/python/cleanpython/project/configuration/settings/settings.py/python-dotenv/.env/2022/10/13/cp02_%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98%EB%A5%BC-%EC%82%AC%EC%9A%A9%EC%9D%84-%EC%9C%84%ED%95%9C-settings.py%EC%99%80-python-dotenv-%EC%82%AC%EC%9A%A9.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>평범한 한의사 돌범의 엔지니어 도전기</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/is2js" target="_blank" title="is2js"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
