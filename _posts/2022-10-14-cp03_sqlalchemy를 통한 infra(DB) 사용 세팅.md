@@ -12,6 +12,8 @@ image: "images/posts/python.png"
 
 
 
+
+
 ### 01 src>infra> config + entities(models) 모듈 생성
 
 ![image-20221024001913826](https://raw.githubusercontent.com/is3js/screenshots/main/image-20221024001913826.png)
@@ -334,11 +336,93 @@ image: "images/posts/python.png"
        print('*' * 30)
    ```
 
+
+
+
+
+### 05 학습용 DB 및 모델 추가
+
+#### 01 .env에서 DB설정 변경
+
+1. `.env`의 dialect + **db_name을 바꿔준다.**
+
+   - root에 새롭게 저장될 db
+
+     ![image-20221024175436534](https://raw.githubusercontent.com/is3js/screenshots/main/image-20221024175436534.png)
+
+#### 02  새 Entitiy 패키지 만들기
+
+
+
+2. **src> infra> 에 `새로운 entity` 패키지를 만들어준다.**
+
+   ![image-20221024175529595](https://raw.githubusercontent.com/is3js/screenshots/main/image-20221024175529595.png)
+
+3. src>infra>새로운entitiy패키지에 **table별 EntityModel class를 정의하고, init에 올려준다.**
+
+   ![image-20221024182553837](https://raw.githubusercontent.com/is3js/screenshots/main/image-20221024182553837.png)
+
+   - init.py
+
+     ```python
+     from .users import User
+     from .addresses import Addresses
+     ```
+
+
+
+#### 03 새 create_database_xxx.py 만들기
+
+- create_database.py는
+  - **`.env`에 따라 설정이 달라지는 고정된 메서드와 객체  `src.infra.config.db_creator의 create_db, Session`을 import한다**
+  - **`init data를 insert`용 or `main에서 메모리에 띄워야할 생성EntityModle들을 *로 import`를 해야한다**
+
+1. **기존 `create_database.py를 복사`해서  `create_database_xxxx.py`를 만든다.**
+
+   ![image-20221024183057771](https://raw.githubusercontent.com/is3js/screenshots/main/image-20221024183057771.png)
+
+2. **`새롭게 만든 entity로 import * 하도록 수정`한다**
+
+   ![image-20221024183148169](https://raw.githubusercontent.com/is3js/screenshots/main/image-20221024183148169.png)
+
+   ```python
+   from src.infra.config.db_creator import create_db, Session
+   from src.infra.tutorial2 import *
+   
+   
+   def _load_fake_data(session: Session):
+       ...
+   
+   
+   def create_database(load_fake_data: bool = True):
+       create_db()
+   
+       if load_fake_data:
+           _load_fake_data(Session())
+   
+   ```
+
    
 
 
 
-### 05 (번외) 모듈없이 Python Console에서 ORM -> DB table 생성하는 방법(sqlite memory 불가)
+#### 04 main.py 에서 from 새로운 create_database_xx import *해서 query날리기
+
+![image-20221024183248152](https://raw.githubusercontent.com/is3js/screenshots/main/image-20221024183248152.png)
+
+```python
+from create_database_tutorial2 import *
+
+if __name__ == '__main__':
+    create_database()
+    session = Session()
+```
+
+![image-20221024183321517](https://raw.githubusercontent.com/is3js/screenshots/main/image-20221024183321517.png)
+
+
+
+### (번외) 모듈없이 Python Console에서 ORM -> DB table 생성하는 방법(sqlite memory 불가)
 
 
 
