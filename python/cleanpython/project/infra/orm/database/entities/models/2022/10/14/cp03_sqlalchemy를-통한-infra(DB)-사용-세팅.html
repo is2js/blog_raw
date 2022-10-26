@@ -164,7 +164,15 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h4"><a href="#2-root--mainpy-정의-db생성-및-생성당시-session으로-query날리기">2 root(.) &gt; main.py 정의 (db생성 및 생성당시 session으로 query날리기)</a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h3"><a href="#05-번외-모듈없이-python-console에서-orm---db-table-생성하는-방법sqlite-memory-불가">05 (번외) 모듈없이 Python Console에서 ORM -&gt; DB table 생성하는 방법(sqlite memory 불가)</a>
+<li class="toc-entry toc-h3"><a href="#05-학습용-db-및-모델-추가">05 학습용 DB 및 모델 추가</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#01-env에서-db설정-변경">01 .env에서 DB설정 변경</a></li>
+<li class="toc-entry toc-h4"><a href="#02--새-entitiy-패키지-만들기">02  새 Entitiy 패키지 만들기</a></li>
+<li class="toc-entry toc-h4"><a href="#03-새-create_database_xxxpy-만들기">03 새 create_database_xxx.py 만들기</a></li>
+<li class="toc-entry toc-h4"><a href="#04-mainpy-에서-from-새로운-create_database_xx-import-해서-query날리기">04 main.py 에서 from 새로운 create_database_xx import *해서 query날리기</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#번외-모듈없이-python-console에서-orm---db-table-생성하는-방법sqlite-memory-불가">(번외) 모듈없이 Python Console에서 ORM -&gt; DB table 생성하는 방법(sqlite memory 불가)</a>
 <ul>
 <li class="toc-entry toc-h4"><a href="#1-전체-entity-한번에-생성base--engine--entities">1 전체 Entity 한번에 생성(Base + engine + Entities)</a></li>
 <li class="toc-entry toc-h4"><a href="#2-특정-entity만--engine으로-생성">2 특정 Entity만 + engine으로 생성</a></li>
@@ -548,8 +556,111 @@ window.onload = wrap_img;
   </li>
 </ol>
 
-<h3 id="05-번외-모듈없이-python-console에서-orm---db-table-생성하는-방법sqlite-memory-불가">
-<a class="anchor" href="#05-%EB%B2%88%EC%99%B8-%EB%AA%A8%EB%93%88%EC%97%86%EC%9D%B4-python-console%EC%97%90%EC%84%9C-orm---db-table-%EC%83%9D%EC%84%B1%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95sqlite-memory-%EB%B6%88%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 (번외) 모듈없이 Python Console에서 ORM -&gt; DB table 생성하는 방법(sqlite memory 불가)</h3>
+<h3 id="05-학습용-db-및-모델-추가">
+<a class="anchor" href="#05-%ED%95%99%EC%8A%B5%EC%9A%A9-db-%EB%B0%8F-%EB%AA%A8%EB%8D%B8-%EC%B6%94%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>05 학습용 DB 및 모델 추가</h3>
+
+<h4 id="01-env에서-db설정-변경">
+<a class="anchor" href="#01-env%EC%97%90%EC%84%9C-db%EC%84%A4%EC%A0%95-%EB%B3%80%EA%B2%BD" aria-hidden="true"><span class="octicon octicon-link"></span></a>01 .env에서 DB설정 변경</h4>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">.env</code>의 dialect + <strong>db_name을 바꿔준다.</strong></p>
+
+    <ul>
+      <li>
+        <p>root에 새롭게 저장될 db</p>
+
+        <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221024175436534.png" alt="image-20221024175436534"></p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="02--새-entitiy-패키지-만들기">
+<a class="anchor" href="#02--%EC%83%88-entitiy-%ED%8C%A8%ED%82%A4%EC%A7%80-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>02  새 Entitiy 패키지 만들기</h4>
+
+<ol>
+  <li>
+    <p><strong>src&gt; infra&gt; 에 <code class="language-plaintext highlighter-rouge">새로운 entity</code> 패키지를 만들어준다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221024175529595.png" alt="image-20221024175529595"></p>
+  </li>
+  <li>
+    <p>src&gt;infra&gt;새로운entitiy패키지에 <strong>table별 EntityModel class를 정의하고, init에 올려준다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221024182553837.png" alt="image-20221024182553837"></p>
+
+    <ul>
+      <li>
+        <p>init.py</p>
+
+        <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">.users</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">.addresses</span> <span class="kn">import</span> <span class="n">Addresses</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="03-새-create_database_xxxpy-만들기">
+<a class="anchor" href="#03-%EC%83%88-create_database_xxxpy-%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>03 새 create_database_xxx.py 만들기</h4>
+
+<ul>
+  <li>create_database.py는
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">.env</code>에 따라 설정이 달라지는 고정된 메서드와 객체  <code class="language-plaintext highlighter-rouge">src.infra.config.db_creator의 create_db, Session</code>을 import한다</strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">init data를 insert</code>용 or <code class="language-plaintext highlighter-rouge">main에서 메모리에 띄워야할 생성EntityModle들을 *로 import</code>를 해야한다</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>기존 <code class="language-plaintext highlighter-rouge">create_database.py를 복사</code>해서  <code class="language-plaintext highlighter-rouge">create_database_xxxx.py</code>를 만든다.</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221024183057771.png" alt="image-20221024183057771"></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">새롭게 만든 entity로 import * 하도록 수정</code>한다</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221024183148169.png" alt="image-20221024183148169"></p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">src.infra.config.db_creator</span> <span class="kn">import</span> <span class="n">create_db</span><span class="p">,</span> <span class="n">Session</span>
+<span class="kn">from</span> <span class="nn">src.infra.tutorial2</span> <span class="kn">import</span> <span class="o">*</span>
+   
+   
+<span class="k">def</span> <span class="nf">_load_fake_data</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">Session</span><span class="p">):</span>
+    <span class="p">...</span>
+   
+   
+<span class="k">def</span> <span class="nf">create_database</span><span class="p">(</span><span class="n">load_fake_data</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
+    <span class="n">create_db</span><span class="p">()</span>
+   
+    <span class="k">if</span> <span class="n">load_fake_data</span><span class="p">:</span>
+        <span class="n">_load_fake_data</span><span class="p">(</span><span class="n">Session</span><span class="p">())</span>
+   
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="04-mainpy-에서-from-새로운-create_database_xx-import-해서-query날리기">
+<a class="anchor" href="#04-mainpy-%EC%97%90%EC%84%9C-from-%EC%83%88%EB%A1%9C%EC%9A%B4-create_database_xx-import-%ED%95%B4%EC%84%9C-query%EB%82%A0%EB%A6%AC%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>04 main.py 에서 from 새로운 create_database_xx import *해서 query날리기</h4>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221024183248152.png" alt="image-20221024183248152"></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">create_database_tutorial2</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">create_database</span><span class="p">()</span>
+    <span class="n">session</span> <span class="o">=</span> <span class="n">Session</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20221024183321517.png" alt="image-20221024183321517"></p>
+
+<h3 id="번외-모듈없이-python-console에서-orm---db-table-생성하는-방법sqlite-memory-불가">
+<a class="anchor" href="#%EB%B2%88%EC%99%B8-%EB%AA%A8%EB%93%88%EC%97%86%EC%9D%B4-python-console%EC%97%90%EC%84%9C-orm---db-table-%EC%83%9D%EC%84%B1%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95sqlite-memory-%EB%B6%88%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>(번외) 모듈없이 Python Console에서 ORM -&gt; DB table 생성하는 방법(sqlite memory 불가)</h3>
 
 <h4 id="1-전체-entity-한번에-생성base--engine--entities">
 <a class="anchor" href="#1-%EC%A0%84%EC%B2%B4-entity-%ED%95%9C%EB%B2%88%EC%97%90-%EC%83%9D%EC%84%B1base--engine--entities" aria-hidden="true"><span class="octicon octicon-link"></span></a>1 전체 Entity 한번에 생성(Base + engine + Entities)</h4>
