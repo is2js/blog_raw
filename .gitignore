@@ -12,3 +12,38 @@ _notebooks/.ipynb_checkpoints
 .netlify
 .tweet-cache
 __pycache__
+_posts/갑분 초대 = 알림 시스템 만들기.md
+_posts/코맨트1_select 이후 post 만들기.md
+_posts/코맨트2_이후_중국youtube_admin개발(admin구성과login).md
+_posts/코맨트3_이후_중국youtube_admin개발(entity별 구현).md
+_posts/코맨트4_이후_중국youtube_admin개발(User CRUD(upload), Base Menu, Main index).md
+_posts/코맨트5_이후_중국youtube_admin개발(main_category_post_post_detail).md
+_posts/코맨트6_이후_중국youtube_admin개발(article_form에 quill적용 + axios).md
+_posts/코맨트7_이후_중국youtube_admin개발().md
+_posts/코맨트7_이후_중국youtube_admin개발(category하위 search, tag, archive, recent_post).md
+_posts/코맨트8_이후_중국youtube_admin개발(user권한처리, userinfo, navbar-item수정).md
+_posts/코맨트9_이후_중국youtube_admin개발(banner, vue, icon).md
+_posts/코맨트9_이후_중국youtube_admin개발(banner).md
+_posts/코맨트10_이후_중국youtube_admin개발(carousel, vue).md
+_posts/코맨트11_이후_중국youtube_admin개발(post cascade공부, imgsrc삭제).md
+_posts/코맨트12_이후_중국youtube_admin개발(dashboard, 통계처리).md
+_posts/코맨트13_이후_중국youtube_admin개발(모델변화user,setting추가, userinfo_edit개발, banner_preview추가).md
+_posts/코맨트14_이후_중국youtube_admin개발(setting, colopicker, datepicker, meta적용).md
+_posts/코맨트15_이후_중국youtube_admin개발(중국, 배포, uwsgi, nginx,flask createadminuser).md
+_posts/코맨트16_이후_중국youtube_admin개발(내부 config변경 택1화, 외부 flask run 실행설정 ps1, cmd파일).md
+_posts/코맨트17_위키_반영하기(role 부여 및 정리).md
+_posts/코맨트18_위키_반영하기(employee관리 및 department) copy.md
+_posts/코맨트19_초대_tabs_modal구현(invite모델, tab-anchor개발, modal개발, redirect_url).md
+_posts/코맨트20_baseform 생성, 초대수락처리, 직원수정, 퇴사대신 재직상태처리, modal 다시 정리, submirform시 버튼비활성화 .md
+_posts/코맨트21_baseform 생성, 초대수락처리, 직원수정, 퇴사대신 재직상태처리, modal 다시 정리, submirform시 버튼비활성화.md
+_posts/코맨트21_Department모델과 사용.md
+_posts/코맨트22_Department모델과 사용2.md
+_posts/코맨트23_Department모델과 사용3-재귀만모으기.md
+_posts/코맨트24_부서정리.md
+_posts/코맨트25_직원관리에 User정보 hover적용 + 부서여러개는 b-tooltip+재직상태변경(퇴사)처리.md
+_posts/코맨트26_재직상태변경(휴직 + 복직)처리 + 근무일수 + 연차계산 처리.md
+_posts/코맨트27_재직상태변경시_날짜선택추가_부서변경_modal_route완성하기.md
+_posts/코맨트28_조직도1 backend 및 vue기초(component개념).md
+_posts/코맨트29_조직도2 vue draggable component예시2개 + mixin 적용.md
+_posts/코맨트30_부서관리1 vue draggable 실전적용1(view + fake route).md
+_posts/코맨트31_부서관리2 vue draggable 실전적용 2(route연결 + autocomplete).md
