@@ -42,8 +42,10 @@ baseurl: "" # the subpath of your site, e.g. "/blog".
 # Github and twitter are optional:
 minima:
   social_links:
-    twitter: is2js
-    github: is2js
+    - { platform: rss, user_url: "/feed.xml" }
+    - { platform: github, user_url: "https://github.com/is2js/" }
+    - { platform: twitter, user_url: "https://twitter.com/yarotheslav" }
+    - { platform: linkedin, user_url: "https://www.linkedin.com/in/yshmarov/" }
 
 # Set this to true to get LaTeX math equation support
 use_math: true
@@ -104,6 +106,8 @@ plugins:
 paginate: 20
 paginate_path: /page:num/
 
+# 빌드 문제시 remote_thme를 살펴보고 업데이트를 반영해야한다.
+# -> https://stackoverflow.com/questions/74408145/minima-theme-build-shows-liquid-exception-invalid-syntax-for-include-tag-file
 remote_theme: jekyll/minima
 
 titles_from_headings:
