@@ -52,7 +52,11 @@
 </ul>
 </li>
 <li class="toc-entry toc-h2"><a href="#live-template-외">live template 외</a></li>
-<li class="toc-entry toc-h2"><a href="#단축키">단축키</a></li>
+<li class="toc-entry toc-h2"><a href="#단축키">단축키</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#flask-jinja-live-template">flask jinja live template</a></li>
+</ul>
+</li>
 </ul><h2 id="세팅">
 <a class="anchor" href="#%EC%84%B8%ED%8C%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>세팅</h2>
 
@@ -311,6 +315,39 @@
     <ul>
       <li>if/while의 내부영역만 남기고, 바깥의  if/while을 제거해준다.</li>
     </ul>
+  </li>
+</ul>
+
+<h3 id="flask-jinja-live-template">
+<a class="anchor" href="#flask-jinja-live-template" aria-hidden="true"><span class="octicon octicon-link"></span></a>flask jinja live template</h3>
+<ul>
+  <li>html에 대해 적용해주면 된다.</li>
+  <li>jext
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  extends "$NAME$" 
+</code></pre></div>    </div>
+  </li>
+  <li>jb
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  block $NAME$
+  $END$ 
+  endblock $NAME$
+</code></pre></div>    </div>
+  </li>
+  <li>jfor
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  for $END$ in $NAME$
+  endfor
+</code></pre></div>    </div>
+  </li>
+  <li>jif
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  if $NAME$
+  $END$ 
+  else
+
+  endif
+</code></pre></div>    </div>
   </li>
 </ul>
 
