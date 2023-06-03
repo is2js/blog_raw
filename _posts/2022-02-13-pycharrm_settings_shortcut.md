@@ -131,7 +131,7 @@ image: "images/posts/python.png"
     ![8f9c3a17-afa3-4a23-a474-829913b929af](https://raw.githubusercontent.com/is3js/screenshots/main/8f9c3a17-afa3-4a23-a474-829913b929af.gif)
 
 - `ctrl + shift + alt + B`(assign): black 포맷터 실행
-    ![20220716132507](https://raw.githubusercontent.com/is3js/screenshots/main/20220716132507.png)
+    ![20220716132507](https://raw.githubusercontent.com/is3js/screenshots/main/20220716132507.png) 
 
 
 - **생성자 및 필드 추가 과정**
