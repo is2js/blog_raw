@@ -161,27 +161,27 @@ image: "images/posts/python.png"
 - html에 대해 적용해주면 된다.
 - jext
     ```
-    {% extends "$NAME$" %}
+    extends "$NAME$" 
     ```
 
 - jb
     ```
-    {% block $NAME$ %}
+    block $NAME$
     $END$ 
-    {% endblock $NAME$ %}
+    endblock $NAME$
     ```
 
 - jfor
     ```
-    {% for $END$ in $NAME$ %}
-    {% endfor %}
+    for $END$ in $NAME$
+    endfor
     ```
 
 - jif
     ```
-    {% if $NAME$ %}
+    if $NAME$
     $END$ 
-    {% else %}
+    else
 
-    {% endif %}
+    endif
     ```
