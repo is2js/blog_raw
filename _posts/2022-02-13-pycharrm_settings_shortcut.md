@@ -154,3 +154,34 @@ image: "images/posts/python.png"
 
 - **`ctrl + shift + del`: unwrap(if/while 등) or remove**
     - if/while의 내부영역만 남기고, 바깥의  if/while을 제거해준다.
+
+
+
+### flask jinja live template
+- html에 대해 적용해주면 된다.
+- jext
+    ```
+    {% extends "$NAME$" %}
+    ```
+
+- jb
+    ```
+    {% block $NAME$ %}
+    $END$ 
+    {% endblock $NAME$ %}
+    ```
+
+- jfor
+    ```
+    {% for $END$ in $NAME$ %}
+    {% endfor %}
+    ```
+
+- jif
+    ```
+    {% if $NAME$ %}
+    $END$ 
+    {% else %}
+
+    {% endif %}
+    ```
