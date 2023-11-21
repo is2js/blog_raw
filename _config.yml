@@ -107,7 +107,7 @@ theme: null
 paginate: 20
 paginate_path: /page:num/
 
-# 빌드 문제시 remote_thme를 살펴보고 업데이트를 반영해야한다.
+# 빌드 문제시 remote_theme를 살펴보고 업데이트를 반영해야한다.
 # -> https://stackoverflow.com/questions/74408145/minima-theme-build-shows-liquid-exception-invalid-syntax-for-include-tag-file
 remote_theme: jekyll/minima
 
