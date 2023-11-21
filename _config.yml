@@ -87,19 +87,19 @@ html_escape:
 
 # Everything below here should be left alone. Modifications may break fastpages
 future: true
-# theme: minima
-# plugins:
-#   - jekyll-feed
-#   - jekyll-gist
-#   - jekyll-octicons
-#   - jekyll-toc
-#   - jekyll-twitter-plugin
-#   - jekyll-relative-links
-#   - jekyll-seo-tag
-#   - jekyll-remote-theme
-#   - jekyll-paginate
-#   - jekyll-sitemap
-#   - jemoji
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-gist
+  - jekyll-octicons
+  - jekyll-toc
+  - jekyll-twitter-plugin
+  - jekyll-relative-links
+  - jekyll-seo-tag
+  - jekyll-remote-theme
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jemoji
 theme: null
 
 # See https://jekyllrb.com/docs/pagination/
