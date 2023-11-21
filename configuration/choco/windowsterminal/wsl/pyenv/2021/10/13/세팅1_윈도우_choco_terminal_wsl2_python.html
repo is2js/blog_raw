@@ -1,7 +1,9 @@
 <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">terminal -&gt; choco -&gt; wsl, pyenv</h1><p class="page-description">윈도우 chocolately로 각종 개발 환경 설치하기</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-10-13T00:00:00-05:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">terminal -&gt; choco -&gt; wsl, pyenv</h1>
+<p class="page-description">윈도우 chocolately로 각종 개발 환경 설치하기</p>
+<p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-10-13T00:00:00-05:00" itemprop="datePublished">
         Oct 13, 2021
       </time>
        • <span class="read-time" title="Estimated read time">
@@ -12,19 +14,19 @@
 </span></p>
 
     
-      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i> 
       
         <a class="category-tags-link" href="/categories/#configuration">configuration</a>
-        &nbsp;
+         
       
         <a class="category-tags-link" href="/categories/#choco">choco</a>
-        &nbsp;
+         
       
         <a class="category-tags-link" href="/categories/#windowsterminal">windowsterminal</a>
-        &nbsp;
+         
       
         <a class="category-tags-link" href="/categories/#wsl">wsl</a>
-        &nbsp;
+         
       
         <a class="category-tags-link" href="/categories/#Pyenv">Pyenv</a>
         
@@ -38,38 +40,44 @@
     <!-- toc가 먼저 나오므로 h3로 안내하기 -->
     <h3>📜 제목으로 보기</h3>
     <ul class="section-nav">
-<li class="toc-entry toc-h3"><a href="#chocolately로-초기-설치">chocolately로 초기 설치</a>
+<li class="toc-entry toc-h3">
+<a href="#chocolately%EB%A1%9C-%EC%B4%88%EA%B8%B0-%EC%84%A4%EC%B9%98">chocolately로 초기 설치</a>
 <ul>
-<li class="toc-entry toc-h4"><a href="#window-terminal-단축키-설정">Window Terminal 단축키 설정</a></li>
+<li class="toc-entry toc-h4"><a href="#window-terminal-%EB%8B%A8%EC%B6%95%ED%82%A4-%EC%84%A4%EC%A0%95">Window Terminal 단축키 설정</a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h3"><a href="#window-terminal-및-wsl2-zsh-세팅">Window Terminal 및 wsl2 zsh 세팅</a>
+<li class="toc-entry toc-h3">
+<a href="#window-terminal-%EB%B0%8F-wsl2-zsh-%EC%84%B8%ED%8C%85">Window Terminal 및 wsl2 zsh 세팅</a>
 <ul>
 <li class="toc-entry toc-h6"><a href="#zsh-syntax-highlighting">zsh-syntax-highlighting</a></li>
 <li class="toc-entry toc-h6"><a href="#zsh-autosuggestions">zsh-autosuggestions</a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h3"><a href="#wsl2-계정-및-폴더-설정-in-win10">wsl2 계정 및 폴더 설정 in win10</a>
+<li class="toc-entry toc-h3">
+<a href="#wsl2-%EA%B3%84%EC%A0%95-%EB%B0%8F-%ED%8F%B4%EB%8D%94-%EC%84%A4%EC%A0%95-in-win10">wsl2 계정 및 폴더 설정 in win10</a>
 <ul>
-<li class="toc-entry toc-h4"><a href="#항상-특정유저로-wsl2-진입">항상 특정유저로 wsl2 진입</a></li>
-<li class="toc-entry toc-h4"><a href="#윈도우-탐색기에-wsl2경로-네트워크로-만들기">윈도우 탐색기에 wsl2경로 네트워크로 만들기</a></li>
+<li class="toc-entry toc-h4"><a href="#%ED%95%AD%EC%83%81-%ED%8A%B9%EC%A0%95%EC%9C%A0%EC%A0%80%EB%A1%9C-wsl2-%EC%A7%84%EC%9E%85">항상 특정유저로 wsl2 진입</a></li>
+<li class="toc-entry toc-h4"><a href="#%EC%9C%88%EB%8F%84%EC%9A%B0-%ED%83%90%EC%83%89%EA%B8%B0%EC%97%90-wsl2%EA%B2%BD%EB%A1%9C-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%EB%A1%9C-%EB%A7%8C%EB%93%A4%EA%B8%B0">윈도우 탐색기에 wsl2경로 네트워크로 만들기</a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h3"><a href="#wsl2-ubuntu-기본설정">wsl2 ubuntu 기본설정</a>
+<li class="toc-entry toc-h3">
+<a href="#wsl2-ubuntu-%EA%B8%B0%EB%B3%B8%EC%84%A4%EC%A0%95">wsl2 ubuntu 기본설정</a>
 <ul>
-<li class="toc-entry toc-h4"><a href="#유저계정에-root권한부여-파일3개-수정">유저계정에 root권한부여 (파일3개 수정)</a></li>
-<li class="toc-entry toc-h4"><a href="#windows-업데이트-이후-wsl-error-발생할-때">windows 업데이트 이후 wsl error 발생할 때</a></li>
-<li class="toc-entry toc-h4"><a href="#python-python3-매핑">python-&gt;python3 매핑</a></li>
+<li class="toc-entry toc-h4"><a href="#%EC%9C%A0%EC%A0%80%EA%B3%84%EC%A0%95%EC%97%90-root%EA%B6%8C%ED%95%9C%EB%B6%80%EC%97%AC-%ED%8C%8C%EC%9D%BC3%EA%B0%9C-%EC%88%98%EC%A0%95">유저계정에 root권한부여 (파일3개 수정)</a></li>
+<li class="toc-entry toc-h4"><a href="#windows-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EC%9D%B4%ED%9B%84-wsl-error-%EB%B0%9C%EC%83%9D%ED%95%A0-%EB%95%8C">windows 업데이트 이후 wsl error 발생할 때</a></li>
+<li class="toc-entry toc-h4"><a href="#python-python3-%EB%A7%A4%ED%95%91">python-&gt;python3 매핑</a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h3"><a href="#python-가상환경-설정">python 가상환경 설정</a>
+<li class="toc-entry toc-h3">
+<a href="#python-%EA%B0%80%EC%83%81%ED%99%98%EA%B2%BD-%EC%84%A4%EC%A0%95">python 가상환경 설정</a>
 <ul>
-<li class="toc-entry toc-h4"><a href="#pip3--pyenv격리된-python-설치">pip3 &amp; pyenv(격리된 python) 설치</a></li>
-<li class="toc-entry toc-h4"><a href="#virtualenv--pyenv-virtualenvwrapper격리된-python으로-가상환경-생성-설치">virtualenv &amp; pyenv-virtualenvwrapper(격리된 python으로 가상환경 생성) 설치</a></li>
-<li class="toc-entry toc-h4"><a href="#참고-path-관련-확인해보기">참고) path 관련 확인해보기</a></li>
+<li class="toc-entry toc-h4"><a href="#pip3--pyenv%EA%B2%A9%EB%A6%AC%EB%90%9C-python-%EC%84%A4%EC%B9%98">pip3 &amp; pyenv(격리된 python) 설치</a></li>
+<li class="toc-entry toc-h4"><a href="#virtualenv--pyenv-virtualenvwrapper%EA%B2%A9%EB%A6%AC%EB%90%9C-python%EC%9C%BC%EB%A1%9C-%EA%B0%80%EC%83%81%ED%99%98%EA%B2%BD-%EC%83%9D%EC%84%B1-%EC%84%A4%EC%B9%98">virtualenv &amp; pyenv-virtualenvwrapper(격리된 python으로 가상환경 생성) 설치</a></li>
+<li class="toc-entry toc-h4"><a href="#%EC%B0%B8%EA%B3%A0-path-%EA%B4%80%EB%A0%A8-%ED%99%95%EC%9D%B8%ED%95%B4%EB%B3%B4%EA%B8%B0">참고) path 관련 확인해보기</a></li>
 </ul>
 </li>
-</ul><h3 id="chocolately로-초기-설치">
+</ul>
+<h3 id="chocolately로-초기-설치">
 <a class="anchor" href="#chocolately%EB%A1%9C-%EC%B4%88%EA%B8%B0-%EC%84%A4%EC%B9%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>chocolately로 초기 설치</h3>
 
 <ol>
@@ -1276,5 +1284,6 @@ pip3 <span class="nt">--version</span>
 </ul>
 
 
-  </div><a class="u-url" href="/configuration/choco/windowsterminal/wsl/pyenv/2021/10/13/%EC%84%B8%ED%8C%851_%EC%9C%88%EB%8F%84%EC%9A%B0_choco_terminal_wsl2_python.html" hidden></a>
+  </div>
+<a class="u-url" href="/configuration/choco/windowsterminal/wsl/pyenv/2021/10/13/%EC%84%B8%ED%8C%851_%EC%9C%88%EB%8F%84%EC%9A%B0_choco_terminal_wsl2_python.html" hidden></a>
 </article>
