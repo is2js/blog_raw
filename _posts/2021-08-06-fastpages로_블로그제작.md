@@ -326,7 +326,7 @@ image: "images/posts/blog.png"
 
      ```javascript
      ---
-     layout: default
+     layout: base
      permalink: /gitInfo/
      title: gitInfo
      search_exclude: true
