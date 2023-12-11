@@ -102,17 +102,27 @@ image: "images/posts/blog.png"
 
 ### fastpaes comments:true인 경우, 댓글바로가기 삽입
 
-- `_layout/post.html`에 추가
-
-  ```html
+- `_layout/post.html`에 anchor태그#id + 댓글 마지막에 id=추가
+    ```html
     <div class="post-content e-content" itemprop="articleBody">
-      <!-- toc가 먼저 나오므로 h3로 안내하기 -->
-      <h3>📜 제목으로 보기</h3>
-      {%- if page.comments -%}
-      <a href="#댓글">🖊 댓글 바로가기</a>
-      {%- endif -%}
-      {{ content | toc  }}
+        <!-- toc가 먼저 나오므로 h3로 안내하기 -->
+    <h3>
+        📜 제목으로 보기 
+        {%- if page.comments -%}
+        <h4><a href="#댓글띁">✏마지막 댓글로</a></h4>
+        {%- endif -%}
+    </h3>
+    {{ content | toc  }}
     </div>
-  ```
+
+    {%- if page.comments -%}
+    {%- include utterances.html -%}
+    <h4 id="댓글띁">댓글 끝</h4>
+    {%- endif -%}
+
+    {%- if site.disqus.shortname -%}
+    {%- include disqus_comments.html -%}
+    {%- endif -%}
+    ```
 
   
