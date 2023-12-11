@@ -18,36 +18,6 @@ github_repo: "blog_raw"
 # url: "https://is2js.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 url: "blog.chojaeseong.com" # the base hostname & protocol for your site, e.g. http://example.com
 
-### 댓글 ###
-# Set which comment system to use
-comments:
-  # 'disqus' / 'giscus' / 'utterances' are available
-  provider:            utterances
-
-# You must install utterances github app before use.(https://github.com/apps/utterances)
-# Make sure all variables are set properly. Check below link for detail.
-# https://utteranc.es/
-utterances:
-  repo:                "is2js/blog_raw"
-  issue-term:          "pathname"
-  label:               "Comments"
-  theme:               "github-light"
-  #########
-
-# You must install giscus github app before use.(https://github.com/apps/giscus)
-# Make sure all variables are set properly. Check below link for detail.
-# https://giscus.vercel.app/
-# giscus:
-#   repo:                "LazyRen/LazyRen.github.io"
-#   repo-id:             "[your-repo-id]"
-#   category:            "Comments"
-#   category-id:         "[your-category-id]"
-#   mapping:             "pathname"
-#   reaction-enabled:    "1"
-#   theme:               "dark_dimmed"
-#   crossorigin:         "anonymous"
-###
-
 
 ###########################################################
 #########  Special Instructions for baseurl ###############
