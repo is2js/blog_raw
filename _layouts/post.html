@@ -57,9 +57,13 @@ layout: base
   <div class="post-content e-content" itemprop="articleBody">
     <!-- toc가 먼저 나오므로 h3로 안내하기 -->
     <h3>📜 제목으로 보기</h3>
+    {%- if page.comments -%}
+    <a href="#댓글">🖊 댓글 바로가기</a>
+    {%- endif -%}
     {{ content | toc  }}
   </div>
   {%- if page.comments -%}
+    <h3 id="댓글">
     {%- include utterances.html -%}
   {%- endif -%}
   {%- if site.disqus.shortname -%}
