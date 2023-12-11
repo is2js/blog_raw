@@ -6,6 +6,7 @@ description: 헬스장 가서 할 운동 정리 중.
 
 categories: [헬스, 운동]
 image: "images/posts/blog.png"
+comments: true
 ---
 
 
