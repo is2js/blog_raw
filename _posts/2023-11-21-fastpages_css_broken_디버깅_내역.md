@@ -38,4 +38,13 @@ minima:
     - 대부분 minima의 변동 사항의 문제였던 것 같다.
     - minima의 `layout: default`의 layout 이름을 `layout: base`로 변경했다고 한다.
         - ctrl + shift + F로 `layout: default`를 찾아서 ctrl + shift + H로 `layout: base`로 변경
-        
+
+
+3. 과정에서 문제가 생겼는지 search 클릭시 https://https:// 2번 붙어서, `search.js` 수정
+    ```js
+    //search.js
+    resultLink.classList.add('search-result');
+    // resultLink.setAttribute('href', "https://" + doc.url);
+    // -> 2차수정) 디버깅 이후, https://https://로 시작하게 되서 다시 돌리기
+    resultLink.setAttribute('href', doc.url);
+    ```

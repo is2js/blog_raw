@@ -196,7 +196,9 @@ function initSearch() {
             resultLink.classList.add('search-result');
             // a태그에 http:// 등이 없어서, 상대주소로 걸려서  커스텀도메인 + 다시 또 풀경로가 상대주소처럼 붙음..
             // -> href에 https://를 명시해주면, 상대주소가 아니라 절대주소로 인식되어 그 주소로만 간다.
-            resultLink.setAttribute('href', "https://" + doc.url);
+            // resultLink.setAttribute('href', "https://" + doc.url);
+            // -> 2차수정) 디버깅 이후, https://https://로 시작하게 되서 다시 돌리기
+            resultLink.setAttribute('href', doc.url);
             //resultLink.setAttribute('target', "_blank");
 
             resultsListItem.appendChild(resultLink);

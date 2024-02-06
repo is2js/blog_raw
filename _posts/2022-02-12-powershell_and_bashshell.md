@@ -26,6 +26,17 @@ image: "images/posts/config.png"
 
   ![image-20210818232959450](https://raw.githubusercontent.com/is3js/screenshots/main/image-20210818232959450.png)
 
+### 자주쓰는 명령어 모으기(2024 ~ )
+1. 특정 port 확인 
+  ```shell
+  netstat -ano | select-string 8000
+  ```
+
+2. `taskkill /f /pid {pid}`특정 port 사용 pid 확인 후, pid 종료시키기
+  ```shell
+  taskkill /f /pid 2132
+  ```
+
 ### powershell 최신버전 설치
 
 - 링크 : https://docs.microsoft.com/ko-kr/powershell/scripting/install/installing-powershell-core-on-windows?view=powershell-7.1
