@@ -187,8 +187,16 @@ window.onload = wrap_img;
       </li>
     </ul>
   </li>
+  <li>과정에서 문제가 생겼는지 search 클릭시 https://https:// 2번 붙어서, <code class="language-plaintext highlighter-rouge">search.js</code> 수정
+    <div class="language-js highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="c1">//search.js</span>
+ <span class="nx">resultLink</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="dl">'</span><span class="s1">search-result</span><span class="dl">'</span><span class="p">);</span>
+ <span class="c1">// resultLink.setAttribute('href', "https://" + doc.url);</span>
+ <span class="c1">// -&gt; 2차수정) 디버깅 이후, https://https://로 시작하게 되서 다시 돌리기</span>
+ <span class="nx">resultLink</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="dl">'</span><span class="s1">href</span><span class="dl">'</span><span class="p">,</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+</code></pre></div>    </div>
+  </li>
 </ol>
-
 
   </div><a class="u-url" href="/fastpages/minima/2023/11/21/fastpages_css_broken_%EB%94%94%EB%B2%84%EA%B9%85_%EB%82%B4%EC%97%AD.html" hidden></a>
 </article>

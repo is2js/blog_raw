@@ -139,6 +139,7 @@ window.onload = wrap_img;
     <ul class="section-nav">
 <li class="toc-entry toc-h2"><a href="#개요">개요</a>
 <ul>
+<li class="toc-entry toc-h3"><a href="#자주쓰는-명령어-모으기2024--">자주쓰는 명령어 모으기(2024 ~ )</a></li>
 <li class="toc-entry toc-h3"><a href="#powershell-최신버전-설치">powershell 최신버전 설치</a></li>
 <li class="toc-entry toc-h3"><a href="#powershell-권한-처리-for-ide파이참에서-터미널-권한-안생기게">powershell 권한 처리 for IDE(파이참에서 터미널 권한 안생기게)</a>
 <ul>
@@ -277,6 +278,22 @@ window.onload = wrap_img;
     <p><img src="https://raw.githubusercontent.com/is3js/screenshots/main/image-20210818232959450.png" alt="image-20210818232959450"></p>
   </li>
 </ul>
+
+<h3 id="자주쓰는-명령어-모으기2024--">
+<a class="anchor" href="#%EC%9E%90%EC%A3%BC%EC%93%B0%EB%8A%94-%EB%AA%85%EB%A0%B9%EC%96%B4-%EB%AA%A8%EC%9C%BC%EA%B8%B02024--" aria-hidden="true"><span class="octicon octicon-link"></span></a>자주쓰는 명령어 모으기(2024 ~ )</h3>
+<ol>
+  <li>특정 port 확인
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  netstat <span class="nt">-ano</span> | <span class="k">select</span><span class="nt">-string</span> 8000
+</code></pre></div>    </div>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">taskkill /f /pid {pid}</code>특정 port 사용 pid 확인 후, pid 종료시키기
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  taskkill /f /pid 2132
+</code></pre></div>    </div>
+  </li>
+</ol>
 
 <h3 id="powershell-최신버전-설치">
 <a class="anchor" href="#powershell-%EC%B5%9C%EC%8B%A0%EB%B2%84%EC%A0%84-%EC%84%A4%EC%B9%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>powershell 최신버전 설치</h3>
